@@ -1,0 +1,179 @@
+syntax = "proto3";
+message CheckVersionReq {
+    int32 ClientVerion = 1;
+	string PackageName = 2;
+	string Channel     = 3;
+}
+
+message CheckVersionAck {
+	int32 RetCode 		= 1;
+    int32 ClientVerion  = 2;
+	string PackageName  = 3;
+}
+
+
+message AccountRegReq {
+    string AccountName = 1;
+	string Password    = 2;
+	string Channel     = 3;
+}
+
+message AccountRegAck {
+    int32   RetCode       = 1;
+	int64   AccountID     = 2;
+}
+
+message AccountLoginReq {
+    string AccountName = 1;
+	string Password    = 2;
+}
+
+message AccountLoginAck {
+	int32   RetCode   = 1;
+	int64   AccountID = 2;
+	int32   LastSvrID = 3;  //上次登录SvrID
+}
+
+
+message ClientServerListReq {
+	int64   AccountID     = 1;
+	string  Channel       = 2;
+	string  PackName      = 3;
+	int32   ClientVersion = 4;
+}
+
+
+message ClientServerNode {
+	int32 SvrID         = 1;
+	string SvrName      = 2;
+	uint32 SvrState     = 3;
+	uint32 SvrDefault   = 4;
+	int32 SvrOpenTime   = 5;
+}
+
+message ClientServerListAck {
+	int32   RetCode 					= 1;
+	repeated  ClientServerNode SvrNode 	= 2;
+}
+
+
+message RegToLoginSvrReq {
+    int32 ServerID = 1;
+	string ServerName = 2;
+}
+
+message RegToLoginSvrAck {
+    int32   RetCode       = 1;
+}
+
+message SelectServerReq {
+    int32 ServerID = 1;
+}
+
+message SelectServerAck {
+    int32   RetCode       = 1;
+	string  ServerAddr    = 2;
+	int32   ServerPort    = 3;
+	int32   LoginCode     = 4;
+}
+
+
+message RoleListNode {
+	int32   SvrID         = 1;
+	string  SvrName      = 2;
+	uint32  SvrState     = 3;
+	uint32  SvrDefault   = 4;
+	int32   SvrOpenTime   = 5;
+}
+
+message RoleListReq {
+	int64 	AccountID = 1;
+	int32   LoginCode = 2;
+}
+
+message RoleListAck {
+	int32   RetCode = 1;
+	repeated  RoleListNode RoleNode = 2;
+}
+
+
+message RoleCreateReq {
+    int64 AccountID = 1;
+	string Name = 2;
+	int32 RoleType = 3;
+}
+
+message RoleCreateAck {
+    int32   RetCode = 1;
+}
+
+
+message RoleDeleteReq {
+    int64 AccountID = 1;
+	int64 RoleID = 2;
+}
+
+message RoleDeleteAck {
+    int32   RetCode = 1;
+}
+
+message RoleLoginReq {
+    int64 AccountID = 1;
+	int64 RoleID = 2;
+	int64 LoginCode = 3;
+}
+
+message RoleLoginAck {
+    int32   RetCode = 1;
+	int64   AccountID = 2;
+}
+
+
+message RoleLogoutReq {
+    int64 AccountID = 1;
+	int64 RoleID = 2;
+}
+
+message RoleLogoutAck {
+    int32   RetCode = 1;
+}
+
+
+message RoleDisconnectReq {
+	int64 RoleID = 2;
+}
+
+message RoleDisconnectAck {
+    int32   RetCode = 1;
+}
+
+message EnterRoleDataReq {
+    int64  RoleID = 1;
+	string RoleName = 2;
+}
+
+message EnterRoleDataAck {
+    int32   RetCode = 1;
+}
+
+///创建场景
+message CreateNewSceneReq{
+	int32 SceneType = 1;
+	int32 CopyType =2;
+}
+
+///创建场景
+message CreateNewSceneAck{
+	int32 SceneType = 1;
+	int32 CopyType =2;
+}
+
+
+message TransRoleDataReq {
+    int64  RoleID = 1;
+	string RoleName = 2;
+}
+
+message TransRoleDataAck {
+    int32   RetCode = 1;
+}

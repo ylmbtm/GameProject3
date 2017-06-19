@@ -1,0 +1,9 @@
+
+
+message GetRoomDataReq {
+
+}
+
+message GetRoomDataResp {
+
+}

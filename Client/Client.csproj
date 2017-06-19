@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AA4DAE2-8849-566F-828A-676669329557}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityVersion>5.6.1f1</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VR">
+      <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>Assets\Plugins\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.SqliteClient">
+      <HintPath>Assets\Plugins\Mono.Data.SqliteClient.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Third\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Third\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro">
+      <HintPath>Assets\Third\TextMesh Pro\Plugins\TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-Editor">
+      <HintPath>Assets\Third\TextMesh Pro\Plugins\Editor\TextMeshPro-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Third\Zip\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="U3dClient.CSharp.csproj">
+      <Project>{FF079DF9-2117-DD70-30E6-CF05F46C3379}</Project>
+      <Name>U3dClient.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Third\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\ActiveAnimationEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\BMFontReader.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\ComponentSelector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\EventDelegateDrawer.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\EventDelegateEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\FreeType.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIContextMenu.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIEditorExtensions.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIEditorTools.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIHandles.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIHelp.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIJson.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUIMenu.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUISelectionTools.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUISettings.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUISnap.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\NGUITransformInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\PropertyBindingEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\PropertyReferenceDrawer.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\SpriteSelector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenAlphaEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenColorEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenFOVEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenHeightEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenOrthoSizeEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenPositionEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenRotationEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenScaleEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenTransformEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenVolumeEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TweenWidthEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\TypewriterEffectEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UI2DSpriteEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIAnchorEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIAtlasInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIAtlasMaker.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIBasicSpriteEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIButtonColorEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIButtonEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIButtonKeysEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIButtonMessageEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UICameraEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UICameraTool.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIColorPickerEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UICreateNewUIWizard.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UICreateWidgetWizard.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIDragObjectEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIDrawCallInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIDrawCallViewer.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIEventTriggerEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIFontInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIFontMaker.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIForwardEventsEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIGridEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIImageButtonInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIInputEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIKeyNavigationEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UILabelInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UILocalizeEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPanelInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPanelTool.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPlayAnimationEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPlayTweenEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPopupListInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIPrefabTool.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIProgressBarEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIRectEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIRootEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIScrollBarEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIScrollViewEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UISliderEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UISnapshotPointEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UISpriteAnimationInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UISpriteInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIStretchEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UITableEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UITextureInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UITexturePacker.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIToggleInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UITweenerEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Resources\Atlas\Atlas_Buff\Atlas_Buff.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Guide\Atlas_Guide.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Head\Atlas_Head.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Home\Atlas_Home.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Public1\Atlas_Public1.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Public2\Atlas_Public2.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Public3\Atlas_Public3.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Raid\Atlas_Raid.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Relics\Atlas_Relics.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_System\Atlas_System.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_Title\Atlas_Title.txt" />
+    <None Include="Assets\Resources\Atlas\Atlas_World\Atlas_World.txt" />
+    <None Include="Assets\Resources\CameraEffect\ScreenBlurMovie\ScreenBlurMovie.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenBlurRadial\ScreenBlurRadial.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenBlurRadialFast\ScreenBlurRadialFast.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenDistortionWaterDrop\ScreenDistortionWaterDrop.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenGrayScale\ScreenGrayScale.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenMotionEffect\ScreenMotionBlurEffect.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenOilPaintEffect\ScreenOilPaintEffect.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenPixelEffect\ScreenPixelEffect.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenRepidBlurEffect\ScreenRapidBlurEffect.shader" />
+    <None Include="Assets\Resources\CameraEffect\ScreenWaterDropEffect\ScreenWaterDropEffect.shader" />
+    <None Include="Assets\Resources\Shaders\BasicRimShader.shader" />
+    <None Include="Assets\Resources\Shaders\FXMaker_Mask Additive Tint.shader" />
+    <None Include="Assets\Resources\Shaders\FXMaker_Mask Alpha Blended Tint.shader" />
+    <None Include="Assets\Resources\Shaders\IceShaderFastSimleBackFace.shader" />
+    <None Include="Assets\Resources\Shaders\IceShaderFastSimple.shader" />
+    <None Include="Assets\Resources\Shaders\MADFINGER-Lightmap-Unlit-Wind.shader" />
+    <None Include="Assets\Resources\Shaders\MADFINGER-Unlit-Scroll2Layers-Mul-Sine.shader" />
+    <None Include="Assets\Resources\Shaders\Mobile-BumpLight.shader" />
+    <None Include="Assets\Resources\Shaders\Mobile-BumpLightRump.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Avatar AlphaVertex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Bloom.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Blur.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Cloud Blend_Mask.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Cloud Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Cloud GrayscaleToAlpha.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Color Add.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Color Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Color Blend_Alpha.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Color Blend_Late.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Color Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile DOF DepthOfField.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile DOF SeparableWeightedBlurDepthOfField.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Decal.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse DFace.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse(late).shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse_old.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Diffuse_old_nofog.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Add Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Add.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend Down.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend Up 1.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend Up.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend(Depth) 3041.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend(Depth) Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend(Depth).shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Dissolve Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile FogOfWar Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Gloss Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Hard Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile HeatDistortAndDissolve.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Illumin Diffuse .shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Illumin Diffuse Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Illumin Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Lightmap Alpha.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Lightmap.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Monster Transparent_VertLit.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Monster VertLit.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Multiply Vert_Forward.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle Grow Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle Grow.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd Diff Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd Diff.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd Diff_SingleFace Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd Diff_SingleFace.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleAdd.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleBlend Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particle ParticleBlend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particles AddNoMask Diff.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particles AddNoMask Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particles AddNoMask.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Particles BlendNoMask.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Rain.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile RainSplash.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Reflect Add.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Reflect Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile SceenWord_Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Screen Diffuse Full.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Screen Full Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Screen Full.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Screen UI.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Shadow Multiply.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Sky GrayscaleToAlpha.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Sky.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Snow.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning Cut_Add.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning Cut_Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning Cut_Blend_UV.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning Cut_Blend_UV_Mask.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning StroningAdd.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Stroning StroningLerp.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Texture Ainm.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Texture DiffuseBlend_UV.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Texture TextureAdd.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile TiltShiftHdrLensBlur.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Colored.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Cutout Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Depht.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Depht01.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Diffuse_NOFOG.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent Forward.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent TwoTextureAdd_NOFOG.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Transparent VertexDF.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Tree Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Tree Cut.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile UI Scall.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile UV Sine_Add Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile UV Sine_Add.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile UV Sine_Blend Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile UV Sine_Blend.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Unity Wind_Lightmap.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Decal.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Diffuse_DFace.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Diffuse_NOGOG.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Diffuse_Shadow.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit Diffuse_late.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit DirectLight.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit TwoTextureAdd_NOGOG.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile VertexLit_Color.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Water Diffuse.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Water Diffuse_Bump.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile Water HighMap.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile XRayAndBackLightVertex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile-Particle-Add Ex.shader" />
+    <None Include="Assets\Resources\Shaders\MyMobile-Particle-Add.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel1_T4M 2 Textures Auto BeastLM 2DrawCall.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel1_T4M 2 Textures ManualAdd BeastLM_1DC.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel1_T4M 2 Textures ManualAdd CustoLM 1DC.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_2TexturesUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_3TexturesUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_4TexturesUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_5TexturesUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_6TexturesUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_6TexturesUnlitNoLM.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 Textures Spec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 Textures Toon.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumpSpec Mobile.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumpSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumped DLM mobile.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumped DLM.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumped Mobile.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesBumped.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 TexturesUnified.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 2 Textures_Shadow.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 Textures Spec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 Textures Toon.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 TexturesBumpSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 TexturesBumped DLM.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 TexturesBumped Mobile.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 TexturesBumped.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 3 TexturesUnified.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 4 Textures Spec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 4 Textures Toon.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 4 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 4 TexturesBumped.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 4 TexturesUnified.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 5 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M 6 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel2_T4M World Projection Shader.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 2 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 2 TexturesBump.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 2 TexturesBumpSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 2 TexturesSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 3 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 3 TexturesBump.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 3 TexturesBumpSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 3 TexturesSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 4 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 4 TexturesBump.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 4 TexturesBumpSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 4 TexturesSpec.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 5 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\ShaderModel3_T4M 6 Textures.shader" />
+    <None Include="Assets\Resources\Shaders\SimpleTexture.shader" />
+    <None Include="Assets\Resources\Shaders\StroningCut.shader" />
+    <None Include="Assets\Resources\Shaders\SurfaceRimShader.shader" />
+    <None Include="Assets\Resources\Shaders\TextureSimple.shader" />
+    <None Include="Assets\Resources\Shaders\TextureSimpleRump.shader" />
+    <None Include="Assets\Resources\Shaders\TranspUnlit.shader" />
+    <None Include="Assets\Resources\Shaders\Unlit - Transparent Colored ImageEffect.shader" />
+    <None Include="Assets\Resources\Shaders\XRayAndBackLightVertex.shader" />
+    <None Include="Assets\Resources\Text\Actor\1.xml" />
+    <None Include="Assets\Resources\Text\Actor\2.xml" />
+    <None Include="Assets\Resources\Text\Actor\50001.xml" />
+    <None Include="Assets\Resources\Text\Actor\50002.xml" />
+    <None Include="Assets\Resources\Text\Actor\50003.xml" />
+    <None Include="Assets\Resources\Text\Actor\50004.xml" />
+    <None Include="Assets\Resources\Text\Actor\50005.xml" />
+    <None Include="Assets\Resources\Text\Actor\50006.xml" />
+    <None Include="Assets\Resources\Text\Actor\50007.xml" />
+    <None Include="Assets\Resources\Text\Actor\50008.xml" />
+    <None Include="Assets\Resources\Text\Actor\50009.xml" />
+    <None Include="Assets\Resources\Text\Actor\50010.xml" />
+    <None Include="Assets\Resources\Text\Actor\50011.xml" />
+    <None Include="Assets\Resources\Text\Actor\50012.xml" />
+    <None Include="Assets\Resources\Text\Actor\50013.xml" />
+    <None Include="Assets\Resources\Text\Actor\50014.xml" />
+    <None Include="Assets\Resources\Text\Actor\50015.xml" />
+    <None Include="Assets\Resources\Text\Actor\50016.xml" />
+    <None Include="Assets\Resources\Text\Actor\50017.xml" />
+    <None Include="Assets\Resources\Text\Actor\50018.xml" />
+    <None Include="Assets\Resources\Text\Actor\50019.xml" />
+    <None Include="Assets\Resources\Text\Actor\50020.xml" />
+    <None Include="Assets\Resources\Text\Actor\50021.xml" />
+    <None Include="Assets\Resources\Text\Actor\50022.xml" />
+    <None Include="Assets\Resources\Text\Actor\50023.xml" />
+    <None Include="Assets\Resources\Text\Actor\50024.xml" />
+    <None Include="Assets\Resources\Text\Actor\50025.xml" />
+    <None Include="Assets\Resources\Text\Actor\50026.xml" />
+    <None Include="Assets\Resources\Text\Actor\50027.xml" />
+    <None Include="Assets\Resources\Text\Actor\50028.xml" />
+    <None Include="Assets\Resources\Text\Actor\50029.xml" />
+    <None Include="Assets\Resources\Text\Actor\50030.xml" />
+    <None Include="Assets\Resources\Text\Actor\50031.xml" />
+    <None Include="Assets\Resources\Text\Actor\50032.xml" />
+    <None Include="Assets\Resources\Text\Actor\50033.xml" />
+    <None Include="Assets\Resources\Text\Actor\50034.xml" />
+    <None Include="Assets\Resources\Text\Actor\50035.xml" />
+    <None Include="Assets\Resources\Text\Actor\50036.xml" />
+    <None Include="Assets\Resources\Text\Actor\50037.xml" />
+    <None Include="Assets\Resources\Text\Actor\50038.xml" />
+    <None Include="Assets\Resources\Text\Actor\50039.xml" />
+    <None Include="Assets\Resources\Text\Actor\50040.xml" />
+    <None Include="Assets\Resources\Text\Actor\50041.xml" />
+    <None Include="Assets\Resources\Text\Actor\50042.xml" />
+    <None Include="Assets\Resources\Text\Actor\50043.xml" />
+    <None Include="Assets\Resources\Text\Actor\50044.xml" />
+    <None Include="Assets\Resources\Text\Actor\50045.xml" />
+    <None Include="Assets\Resources\Text\Actor\50046.xml" />
+    <None Include="Assets\Resources\Text\Actor\50047.xml" />
+    <None Include="Assets\Resources\Text\Actor\50048.xml" />
+    <None Include="Assets\Resources\Text\Actor\50049.xml" />
+    <None Include="Assets\Resources\Text\Actor\50050.xml" />
+    <None Include="Assets\Resources\Text\Actor\50051.xml" />
+    <None Include="Assets\Resources\Text\Actor\50052.xml" />
+    <None Include="Assets\Resources\Text\Actor\50053.xml" />
+    <None Include="Assets\Resources\Text\Actor\50054.xml" />
+    <None Include="Assets\Resources\Text\Actor\50055.xml" />
+    <None Include="Assets\Resources\Text\Actor\50056.xml" />
+    <None Include="Assets\Resources\Text\Actor\50057.xml" />
+    <None Include="Assets\Resources\Text\Actor\50058.xml" />
+    <None Include="Assets\Resources\Text\Actor\50059.xml" />
+    <None Include="Assets\Resources\Text\Actor\50060.xml" />
+    <None Include="Assets\Resources\Text\Actor\50061.xml" />
+    <None Include="Assets\Resources\Text\Actor\50062.xml" />
+    <None Include="Assets\Resources\Text\Actor\50063.xml" />
+    <None Include="Assets\Resources\Text\Actor\50064.xml" />
+    <None Include="Assets\Resources\Text\Actor\50065.xml" />
+    <None Include="Assets\Resources\Text\Actor\50066.xml" />
+    <None Include="Assets\Resources\Text\Actor\50067.xml" />
+    <None Include="Assets\Resources\Text\Actor\50068.xml" />
+    <None Include="Assets\Resources\Text\Actor\50069.xml" />
+    <None Include="Assets\Resources\Text\Actor\50070.xml" />
+    <None Include="Assets\Resources\Text\Actor\50071.xml" />
+    <None Include="Assets\Resources\Text\Actor\50072.xml" />
+    <None Include="Assets\Resources\Text\Actor\50073.xml" />
+    <None Include="Assets\Resources\Text\Actor\50074.xml" />
+    <None Include="Assets\Resources\Text\Actor\50075.xml" />
+    <None Include="Assets\Resources\Text\Buff\Buff.xml" />
+    <None Include="Assets\Resources\Text\Curve\Data_Curve.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Action.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Actor.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_ActorGroup.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_ActorModel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_ActorRace.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Adventure.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Award.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Buff.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_BuffAttr.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Copy.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Effect.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Equip.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipAdvance.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipAdvanceCost.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipStar.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipStrengthen.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipStrengthenLevel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_EquipSuit.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Fashion.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Gem.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_GemLevel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_GemSuit.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Item.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Mine.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Partner.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerAdvance.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerFetter.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerLevel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerStar.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerWake.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PartnerWash.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Pet.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_PetLevel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Property.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Quality.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Relics.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Role.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_RoleLevel.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Rune.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Scene.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Skill.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_SkillTalent.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Store.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_StoreType.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Task.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_Title.xml" />
+    <None Include="Assets\Resources\Text\Data\Data_World.xml" />
+    <None Include="Assets\Resources\Text\Local\Data_LocalString.xml" />
+    <None Include="Assets\Resources\Text\Map\10001.xml" />
+    <None Include="Assets\Resources\Text\Map\10015.xml" />
+    <None Include="Assets\Resources\Text\Map\3.xml" />
+    <None Include="Assets\Resources\Text\Map\4.xml" />
+    <None Include="Assets\Resources\Text\Map\6.xml" />
+    <None Include="Assets\Resources\Text\Name\RandomNames.txt" />
+    <None Include="Assets\Resources\Text\Skill\0.xml" />
+    <None Include="Assets\Resources\Text\Skill\1.xml" />
+    <None Include="Assets\Resources\Text\Skill\2.xml" />
+    <None Include="Assets\Resources\Text\Skill\3.xml" />
+    <None Include="Assets\Resources\Text\Skill\4.xml" />
+    <None Include="Assets\Resources\Text\Skill\50001.xml" />
+    <None Include="Assets\Resources\Text\Skill\50002.xml" />
+    <None Include="Assets\Resources\Text\Skill\50003.xml" />
+    <None Include="Assets\Resources\Text\Skill\50004.xml" />
+    <None Include="Assets\Resources\Text\Skill\50005.xml" />
+    <None Include="Assets\Resources\Text\Skill\50006.xml" />
+    <None Include="Assets\Resources\Text\Skill\50007.xml" />
+    <None Include="Assets\Resources\Text\Skill\50008.xml" />
+    <None Include="Assets\Resources\Text\Skill\50009.xml" />
+    <None Include="Assets\Resources\Text\Skill\50010.xml" />
+    <None Include="Assets\Resources\Text\Skill\50011.xml" />
+    <None Include="Assets\Resources\Text\Skill\50012.xml" />
+    <None Include="Assets\Resources\Text\Skill\50013.xml" />
+    <None Include="Assets\Resources\Text\Skill\50014.xml" />
+    <None Include="Assets\Resources\Text\Skill\50016.xml" />
+    <None Include="Assets\Resources\Text\Skill\50020.xml" />
+    <None Include="Assets\Resources\Text\Skill\50022.xml" />
+    <None Include="Assets\Resources\Text\Skill\50023.xml" />
+    <None Include="Assets\Resources\Text\Skill\90001.xml" />
+    <None Include="Assets\Resources\Text\Skill\90002.xml" />
+    <None Include="Assets\Resources\Text\Skill\90005.xml" />
+    <None Include="Assets\Resources\Text\Skill\90007.xml" />
+    <None Include="Assets\Resources\Text\Skill\90008.xml" />
+    <None Include="Assets\Resources\Text\Skill\90009.xml" />
+    <None Include="Assets\Resources\Text\Skill\90010.xml" />
+    <None Include="Assets\Resources\Text\Skill\90011.xml" />
+    <None Include="Assets\Resources\Text\Skill\90013.xml" />
+    <None Include="Assets\Resources\Text\Skill\90015.xml" />
+    <None Include="Assets\Resources\Text\Skill\90016.xml" />
+    <None Include="Assets\Resources\Text\Skill\90017.xml" />
+    <None Include="Assets\Resources\Text\Skill\90018.xml" />
+    <None Include="Assets\Resources\Text\Skill\90019.xml" />
+    <None Include="Assets\Resources\Text\Skill\90020.xml" />
+    <None Include="Assets\Resources\Text\Skill\90021.xml" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Models\Orc\Orc Skin.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Resources\Localization.txt" />
+    <None Include="Assets\Third\NGUI\Examples\Shaders\Refractive.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Shaders\Unlit - Additive Colored.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Shaders\Unlit - Depth.shader" />
+    <None Include="Assets\Third\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+    <None Include="Assets\Third\NGUI\ReadMe - 3.9.9.txt" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Text (TextureClip).shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Text.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Masked 3.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Masked.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
+    <None Include="Assets\Third\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Fonts\Anton OFL.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Fonts\Bangers - OFL.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Fonts\Oswald-Bold - OFL.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Third\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Third\protobuf-net\Web\TODO.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />
+</Project>

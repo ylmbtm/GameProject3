@@ -1,0 +1,1 @@
+@echo 清单资源上次更新时间为 %TIME%，更新位置为 %DATE% > .\Debug\mt.dep
