@@ -1,8 +1,8 @@
 ﻿#pragma once
 #ifndef __CLIENT_CONNECTOR_H__
 #define __CLIENT_CONNECTOR_H__
-#include "DataBuffer\DataBuffer.h"
 #include "GameDefine.h"
+#include "..\Src\Message\Msg_ID.pb.h"
 
 enum ConnectState
 {
@@ -40,8 +40,7 @@ public:
 
 	BOOL	SendData(char *pData, INT32 dwLen);
 
-	template <typename T>
-	BOOL	SendData(UINT16 wMsgID, T &msgData, UINT32 dwSceneID, UINT64 u64CharID);
+	BOOL	SendData(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT64 u64TargetID, UINT32 dwUserData);
 	
 	BOOL	Login(const char *pszAccountName, const char *pszPassword, BOOL bConnect = FALSE);
 
@@ -84,10 +83,6 @@ protected:
 
 	INT32				m_nDataLen;
 	CHAR				m_DataBuffer[CONST_BUFF_SIZE];
-
-	CDataBuffer<CONST_BUFF_SIZE>  m_ReadBuffer;
-
-	CDataBuffer<CONST_BUFF_SIZE>  m_WriteBuffer;
 	
 	std::vector<IMessageHandler*> m_vtMsgHandler;
 

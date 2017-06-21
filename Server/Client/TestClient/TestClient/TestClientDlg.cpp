@@ -5,8 +5,6 @@
 #include "stdafx.h"
 #include "TestClient.h"
 #include "TestClientDlg.h"
-#include "PacketDef/ClientPacket.h"
-#include "DataBuffer/BufferHelper.h"
 #include "CommandDef.h"
 #include "CommandHandler.h"
 #include "DlgRegister.h"

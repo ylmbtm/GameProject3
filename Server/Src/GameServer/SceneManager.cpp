@@ -47,11 +47,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene( UINT32 dwSceneType )
+BOOL CSceneManager::CreateScene( UINT32 dwSceneType, UINT32 dwLogicType )
 {
 	CScene *pScene = new CScene;
 
-	if(!pScene->Init(dwSceneID, -1000, 1000, -1000, 1000))
+	if(!pScene->Init(dwSceneType, dwLogicType))
 	{
 		ASSERT_FAIELD;
 
@@ -75,13 +75,9 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPack)
 		return FALSE;
 	}
 
-	switch(pNetPack->m_dwCmdID)
+	switch(pNetPack->dwMsgID)
 	{
-	case CMD_SVR_CREATE_SCENE_REQ:
-		{
-			OnCmdCreateSceneReq(pNetPack);
-		}
-		break;
+		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
 	default:
 		{
 			bHandled = FALSE;

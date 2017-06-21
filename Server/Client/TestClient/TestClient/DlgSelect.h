@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "afxcmn.h"
-#include "PacketDef\ClientPacket.h"
 #include "Resource.h"
 
 
@@ -26,16 +25,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	BOOL AddCharPickInfo(StCharPickInfo &PickInfo);
-
 	BOOL DelChar(UINT64 u64CharID);
 
 	BOOL RefreshListCtrl();
 
 public:
-
 	UINT32			m_nCount;
-	std::vector<StCharPickInfo>  m_CharInfoList;
 
 	CListCtrl m_CharList;
 	

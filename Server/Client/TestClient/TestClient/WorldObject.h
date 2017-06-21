@@ -1,16 +1,14 @@
 ﻿#ifndef _WORLD_OBJECT_H_
 #define _WORLD_OBJECT_H_
 #include "Utility/Position.h"
-#include "Object.h"
 
-class CWorldObject : public CGObject
+class CWorldObject 
 {
 public:
 	CWorldObject();
 
 	~CWorldObject();
 
-	virtual UINT32  ReadFromBuffer(CBufferHelper *pBufHelper);
 
 	CPosition&	GetPosition();
 

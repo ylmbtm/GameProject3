@@ -26,12 +26,7 @@ public:
 	CWorldObject();
 
 	~CWorldObject();
-
 public:
-	virtual BOOL	IsChanged();
-
-	virtual BOOL	ClearChangeFlag();
-
 	virtual BOOL    SetUpdate(UpdateStatusEnum UpdateStatus);
 
 	virtual UINT32	WriteToBuffer(UINT32 dwChangeFlag, UINT32 dwDest);
@@ -48,15 +43,11 @@ public:
 	VOID		SetOwnerScene(CScene *pScene);
 
 public:
-	//CNodeLink<CGrid, CWorldObject>	m_GridLink;
-
 	CWorldObject		*m_pGridNext;
 	CWorldObject		*m_pGridPrev;
 
 public:
-	CPosition	m_ObjectPos;
-
-	CScene		*m_pOwnerScene;		
+	CScene				*m_pOwnerScene;		
 
 public:
 	CPosition			m_UpdateObjPos;//己经同步出去的地址

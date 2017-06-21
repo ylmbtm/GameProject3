@@ -1,0 +1,17 @@
+﻿#ifndef _SCENELOGIC_TYPE_H_
+#define _SCENELOGIC_TYPE_H_
+
+
+enum SCENE_LOGIC_TYPE
+{
+	SLT_BEGIN = 0,	
+
+	SLT_NORMAL,				
+	
+	SLT_END
+};
+
+
+#endif //_SCENELOGIC_NONE_H_
+
+

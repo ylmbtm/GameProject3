@@ -19,11 +19,13 @@ CScene::~CScene()
 
 }
 
-BOOL CScene::Init(UINT32 dwSceneID, INT32 nLeft, INT32 nRight, INT32 nTop, INT32 nBottom)
+BOOL CScene::Init(UINT32 dwSceneType, UINT32 dwSceneID, UINT32 dwLogicType)
 {
 	m_dwSceneID = dwSceneID;
 
-	m_GridManager.Init(nLeft, nRight, nTop, nBottom);
+	m_dwSceneType = dwSceneType;
+
+	m_GridManager.Init(0, 0, 100, 100);
 
 	return TRUE;
 }
@@ -99,7 +101,7 @@ BOOL CScene::AddToMapPos( CWorldObject *pWorldObject, FLOAT x, FLOAT z )
 }
 
 
-BOOL CScene::OnMsgPlayerMove(NetPacket *pNetPack)
+BOOL CScene::OnMsgRoleAction(NetPacket *pNetPack)
 {
 	StCharMoveReq CharMoveReq;
 	CBufferHelper bh(FALSE, pNetPack->m_pDataBuffer);
@@ -143,6 +145,11 @@ BOOL CScene::OnMsgPlayerMove(NetPacket *pNetPack)
 	CLog::GetInstancePtr()->AddLog("响应客户端坐标请求[%lld], 坐标 x =%f, z=%f", pPlayerObj->GetObjectID(), pPlayerObj->m_ObjectPos.x, pPlayerObj->m_ObjectPos.z);
 
 	return TRUE;
+}
+
+BOOL CScene::OnMsgRoleAttack(NetPacket *pNetPacket)
+{
+
 }
 
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
@@ -454,6 +461,23 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	HandleUpdateList();
 	
 	return TRUE;
+}
+
+BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
+{
+	switch (dwLogicType)
+	{
+	case SLT_NORMAL:
+		m_pSceneLogic = new SceneLogic_Normal();
+		break;
+
+	default:
+		{
+			return false;
+		}
+	}
+
+	return (m_pSceneLogic != NULL);
 }
 
 BOOL CScene::AddToUpdateList( CWorldObject *pWorldObject )

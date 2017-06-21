@@ -1,8 +1,8 @@
 ﻿#ifndef _PLAYER_OBJECT_H_
 #define _PLAYER_OBJECT_H_
-#include "CharObject.h"
+#include "WorldObject.h"
 
-class CPlayerObject : public CCharObject
+class CPlayerObject : public CWorldObject
 {
 public:
 	CPlayerObject();

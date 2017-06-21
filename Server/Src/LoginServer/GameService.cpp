@@ -53,7 +53,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	ConnectToStatServer();
+	//ConnectToStatServer();
 
 	ConnectToAccountSvr();
 
@@ -110,7 +110,7 @@ BOOL CGameService::OnTimer(UINT32 dwUserData)
 
 	if(m_pStatSvrConn == NULL)
 	{
-		ConnectToStatServer();
+		//ConnectToStatServer();
 	}
 
 	return TRUE;
@@ -165,7 +165,7 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 	if(pConn == m_pStatSvrConn)
 	{
 		m_pStatSvrConn = NULL;
-		ConnectToStatServer();
+		//ConnectToStatServer();
 	}
 
 	return TRUE;

@@ -235,12 +235,10 @@ BOOL CConnection::ExtractBuffer()
 		/*
 		1.首先验证包的验证吗
 		2.包的长度
-		3.包的序号
-		pHeader->CheckCode = 0x88;//客户端
-		pHeader->CheckCoue = 0x99;//服务器
+		3.包的序号*/
 		if(pHeader->CheckCode == 0x88)
 		{
-			if(m_nCheckNo == 0)
+			/*if(m_nCheckNo == 0)
 			{
 				m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
 			}
@@ -253,12 +251,20 @@ BOOL CConnection::ExtractBuffer()
 				else
 				{
 					return FALSE;
-				}
+				}*/
+		}
+		else
+		{
+			return FALSE;
 		}
 
-		*/
-		//////////////////////////////////////////////////////////////////////////
 
+		if(pHeader->dwSize == 0)
+		{
+			return FALSE;
+		}
+
+		//////////////////////////////////////////////////////////////////////////
 		if((pHeader->dwSize > m_dwDataLen)  && (pHeader->dwSize < CONST_BUFF_SIZE))
 		{
 			break;
@@ -395,8 +401,6 @@ BOOL CConnection::Clear()
 
     m_bConnected = FALSE;
 
-    m_pDataHandler = NULL;
-
     m_dwDataLen = 0;
 
     m_dwIpAddr  = 0;
@@ -440,13 +444,16 @@ BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserD
 		return FALSE;
 	}
 
-
-
 	PacketHeader *pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	pHeader->CheckCode = 0x88;
 	pHeader->dwUserData = dwUserData;
 	pHeader->u64TargetID = u64TargetID;
 	pHeader->dwSize = dwLen + sizeof(PacketHeader);
 	pHeader->dwMsgID = dwMsgID;
+
+	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+
+	pDataBuffer->SetTotalLenth(pHeader->dwSize);
 
 	return SendBuffer(pDataBuffer);
 }
@@ -702,9 +709,10 @@ BOOL CConnectionMgr::DestroyAllConnection()
 
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
+	return TRUE;
 	UINT32 curTick = CommonFunc::GetTickCount();
 
-	for(int i =0; i < m_vtConnList.size(); i++)
+	for(int i = 1; i < m_vtConnList.size(); i++)
 	{
 		 CConnection *pTemp = m_vtConnList.at(i);
 		 if(!pTemp->IsConnectionOK())

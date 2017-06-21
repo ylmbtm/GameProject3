@@ -11,8 +11,6 @@ public:
 
 	~CCharObject();
 
-	virtual UINT32  ReadFromBuffer(CBufferHelper *pBufHelper);
-
 	char			m_szObjectName[MAX_NAME_LEN];
 	St_ObjectStatus m_ObjectStatus;
 };

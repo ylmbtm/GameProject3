@@ -204,6 +204,7 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
+	CLog::GetInstancePtr()->AddLog("CConnection::Close()%x!", this);
 	m_pDataHandler->OnCloseConnect(this);
 	m_hSocket.close();
     m_bConnected        = FALSE;

@@ -1,11 +1,11 @@
 ﻿#include "StdAfx.h"
 #include "ClientConnector.h"
 #include "CommandDef.h"
-#include "DataBuffer\BufferHelper.h"
-#include "PacketDef\ClientPacket.h"
 #include "Error.h"
 #include "ObjectID.h"
 #include "Utility\CommonSocket.h"
+#include "..\Src\Message\Msg_Login.pb.h"
+#include "PacketHeader.h"
 
 CClientConnector::CClientConnector(void)
 {
@@ -54,16 +54,21 @@ BOOL CClientConnector::SetClientID( UINT64 u64ClientID )
 	return TRUE;
 }
 
-template <typename T>
-BOOL CClientConnector::SendData(UINT16 dwMsgID, T &msgData, UINT32 dwSceneID, UINT64 u64CharID)
-{
-	CBufferHelper WriteHelper(TRUE, &m_WriteBuffer);
-	WriteHelper.BeginWrite(dwMsgID, dwSceneID, u64CharID);
-	WriteHelper.Write(msgData);
-	WriteHelper.EndWrite();
 
-	SendData(m_WriteBuffer.GetBuffer(), m_WriteBuffer.GetTotalLenth());
-	return TRUE;
+BOOL CClientConnector::SendData(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT64 u64TargetID, UINT32 dwUserData)
+{
+	char szBuff[10240] = {0};
+
+	PacketHeader* pHeader = (PacketHeader*)szBuff;
+
+	pHeader->CheckCode = 0x88;
+	pHeader->dwMsgID = dwMsgID;
+	pHeader->u64TargetID = u64TargetID;
+	pHeader->dwUserData = dwUserData;
+
+	pdata.SerializePartialToArray(szBuff+28, pdata.ByteSize());
+
+	return SendData( szBuff, pdata.ByteSize());
 }
 
 BOOL CClientConnector::SendData( char *pData, INT32 dwLen )
@@ -125,10 +130,11 @@ BOOL CClientConnector::Login(const char *pszAccountName, const char *pszPassword
 		}
 	}
 
-	StCharLoginReq CharLoginReq;
-	strncpy(CharLoginReq.szAccountName, pszAccountName, 32);
-	strncpy(CharLoginReq.szPassword, pszPassword, 32);
-	SendData(CMD_CHAR_LOGIN_REQ, CharLoginReq, 0, 0);
+	AccountLoginReq Req;
+	Req.set_accountname(pszAccountName);
+	Req.set_password(pszPassword);
+	
+	SendData(MSG_ACCOUNT_LOGIN_REQ,Req, 0, 0);
 
 	return TRUE;
 }

@@ -185,6 +185,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 						{
 							//收数据失败，基本就是连接己断开
 							pConnection->Close();
+							CLog::GetInstancePtr()->AddLog("收到的数据格式错误%x!", pConnection);
 						}
 					}
 				}

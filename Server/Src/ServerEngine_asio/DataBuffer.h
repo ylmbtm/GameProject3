@@ -89,7 +89,7 @@ public:
 
 	CHAR* GetData()
 	{
-		return m_Buffer + 21;
+		return m_Buffer + HEADER_LEN;
 	}
 
 	UINT32 GetTotalLenth()
@@ -99,7 +99,7 @@ public:
 
 	UINT32 GetBodyLenth()
 	{
-		return m_nDataLen-21;
+		return m_nDataLen-HEADER_LEN;
 	}
 
 	VOID SetTotalLenth(UINT32 nPos)
