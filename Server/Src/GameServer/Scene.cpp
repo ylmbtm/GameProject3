@@ -152,10 +152,6 @@ BOOL CScene::OnMsgRoleAttack(NetPacket *pNetPacket)
 
 }
 
-BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
-{
-	
-}
 
 BOOL CScene::SendNewObjectToGrids(CWorldObject *pWorldObject, INT32 Grids[9])
 {

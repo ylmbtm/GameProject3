@@ -83,6 +83,7 @@ build/
 *.manifest
 *.exe
 *.manifest.res
+*.exp
 
 # Visual C++ cache files
 ipch/
@@ -246,3 +247,7 @@ client/Assets/Third/NGUI/Examples
 proto/proto-gen-cpp
 proto/proto-gen-cs
 proto/proto-gen-lua
+*.exp
+*.unsuccessfulbuild
+*.exp
+*.cc

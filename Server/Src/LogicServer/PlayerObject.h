@@ -16,6 +16,10 @@ public:
 	//  反初始化玩家对家
 	BOOL		Uninit();
 
+	BOOL		CreateAllModule();
+
+	BOOL		DestroyAllModule();
+
 public:
 	UINT64		GetObjectID();
 
@@ -27,7 +31,7 @@ public:
 	UINT32		m_dwFeature;
 	UINT32      m_dwLevel;
 
-
+	std::vector<CModuleBase*> m_MoudleList;
 };
 
 

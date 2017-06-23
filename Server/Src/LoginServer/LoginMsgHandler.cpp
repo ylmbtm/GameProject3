@@ -202,8 +202,8 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	ASSERT(nConnID != 0);
 
 	Ack.set_retcode(E_SUCCESSED);
-	Ack.set_serveraddr("11111111");
-	Ack.set_serverport(1);
-	Ack.set_logincode(1);
+	Ack.set_serveraddr("127.0.0.1");
+	Ack.set_serverport(9876);
+	Ack.set_logincode(12345678);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->u64TargetID, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
 }

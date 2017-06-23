@@ -35,15 +35,6 @@ BOOL CPlayerObject::Uninit()
 }
 
 
-BOOL CPlayerObject::CreateAllModule()
-{
-
-}
-
-BOOL CPlayerObject::DestroyAllModule()
-{
-
-}
 
 
 UINT64 CPlayerObject::GetObjectID()

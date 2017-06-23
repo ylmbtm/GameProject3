@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "PlayerManager.h"
 
+
+
 CPlayerManager* CPlayerManager::GetInstancePtr()
 {
 	static CPlayerManager _PlayerManager;

@@ -1,12 +1,12 @@
-﻿#ifndef __BAG_SYSTEM_H__
-#define __BAG_SYSTEM_H__
+﻿#ifndef __BAG_MODULE_H__
+#define __BAG_MODULE_H__
 
-class CBagSystem
+class CBagModule : public CModuleBase
 {
 public:
-	CBagSystem();
+	CBagModule();
 
-	~CBagSystem();
+	~CBagModule();
 
 public:
 	virtual BOOL	IsChanged();
@@ -22,4 +22,4 @@ public:
 
 };
 
-#endif //__BAG_SYSTEM_H__
+#endif //__BAG_MODULE_H__

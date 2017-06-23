@@ -13,16 +13,16 @@ public:
 
 	BOOL Uninit();
 
-	UINT32 GetMaxAccountID();
+	UINT64 GetMaxAccountID();
 
-	BOOL CreateAccount(const char *szAccount, const char *szPassword);
+	BOOL CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel);
 
-	UINT32 VerifyAccount(const char *szAccount, const char *szPassword);
+	UINT64 VerifyAccount(const char *szAccount, const char *szPassword);
 
-	UINT32 GetAccountID(const char *szAccount);
+	UINT64 GetAccountID(const char *szAccount);
 
 	CppSQLite3DB	m_DBConnection;
 
-	UINT32			m_dwMaxAccountID;
+	UINT64			m_64MaxAccountID;
 };
 #endif
