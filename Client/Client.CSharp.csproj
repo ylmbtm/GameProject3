@@ -17,8 +17,7 @@
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -591,6 +590,7 @@
     <Compile Include="Assets\Scripts\NLE\Interface\INSequencer.cs" />
     <Compile Include="Assets\Scripts\Net\Core\NetworkClient.cs" />
     <Compile Include="Assets\Scripts\Net\Core\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\Net\Core\PakcetHeader.cs" />
     <Compile Include="Assets\Scripts\Net\Message\MessageCenter.cs" />
     <Compile Include="Assets\Scripts\Net\Message\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Net\Message\MessagePackType.cs" />

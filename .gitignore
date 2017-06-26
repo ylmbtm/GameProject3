@@ -237,21 +237,21 @@ project/Server/ServerEngine/Debug/ServerEngine.lastbuildstate
 
 
 #u3d tempfile
+Client/Assets/Resources
+Client/library
+Client/obj
+Client/ProjectSettings
+Client/Temp
+Client/Assets/Third/NGUI/Examples
+Client/Assets/AmplifyShaderEditor
+Client/Assets/UDT
+Client/Assets/UnityVS
+Client/Assets/T4M
+Client/Assets/Flux
+Client/Assets/FORGE3D
+Client/Assets/Third
+Client/Assets/StreamingAssets
 *.meta
-client/Assets/Resources
-client/library
-client/obj
-client/ProjectSetting
-client/Temp
-client/Assets/Third/NGUI/Examples
-client/Assets/AmplifyShaderEditor
-client/Assets/UDT
-client/Assets/UnityVS
-client/Assets/T4M
-client/Assets/Flux
-client/Assets/FORGE3D
-client/Assets/Third
-client/Assets/StreamingAssets
 *.fbx
 *.mat
 *.tga
@@ -273,9 +273,13 @@ client/Assets/StreamingAssets
 *.zip
 *.mask
 
+
+
 #proto files
 proto/proto-gen-cpp
 proto/proto-gen-cs
 proto/proto-gen-lua
 *.unsuccessfulbuild
 *.cc
+*.dll
+*.asset

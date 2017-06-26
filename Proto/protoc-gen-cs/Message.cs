@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 // Generated from: proto_raw/Msg_ID.proto
-namespace proto_raw.Msg_ID
+namespace Protocol
 {
     [global::ProtoBuf.ProtoContract(Name=@"MessageID")]
     public enum MessageID
@@ -23,11 +23,8 @@ namespace proto_raw.Msg_ID
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_CONNECT_SUCCESS", Value=2)]
       MSG_CONNECT_SUCCESS = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CONNECT_FAIL", Value=3)]
-      MSG_CONNECT_FAIL = 3,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_DISCONNECT", Value=4)]
-      MSG_DISCONNECT = 4,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_DISCONNECT_NTY", Value=3)]
+      MSG_DISCONNECT_NTY = 3,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGINSVR_MSGID_BEGIN", Value=1000000)]
       MSG_LOGINSVR_MSGID_BEGIN = 1000000,
@@ -50,26 +47,35 @@ namespace proto_raw.Msg_ID
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACCOUNT_LOGIN_ACK", Value=1000006)]
       MSG_ACCOUNT_LOGIN_ACK = 1000006,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SERVER_LIST_REQ", Value=1000007)]
-      MSG_SERVER_LIST_REQ = 1000007,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACCOUNT_LOGINREG_REQ", Value=1000007)]
+      MSG_ACCOUNT_LOGINREG_REQ = 1000007,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SERVER_LIST_ACK", Value=1000008)]
-      MSG_SERVER_LIST_ACK = 1000008,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACCOUNT_LOGINREG_ACK", Value=1000008)]
+      MSG_ACCOUNT_LOGINREG_ACK = 1000008,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SELECT_SERVER_REQ", Value=1000009)]
-      MSG_SELECT_SERVER_REQ = 1000009,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SERVER_LIST_REQ", Value=1000009)]
+      MSG_SERVER_LIST_REQ = 1000009,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SELECT_SERVER_ACK", Value=1000010)]
-      MSG_SELECT_SERVER_ACK = 1000010,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SERVER_LIST_ACK", Value=1000010)]
+      MSG_SERVER_LIST_ACK = 1000010,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGIC_REGTO_LOGIN_REQ", Value=1000011)]
-      MSG_LOGIC_REGTO_LOGIN_REQ = 1000011,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SELECT_SERVER_REQ", Value=1000011)]
+      MSG_SELECT_SERVER_REQ = 1000011,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGIC_REGTO_LOGIN_ACK", Value=1000012)]
-      MSG_LOGIC_REGTO_LOGIN_ACK = 1000012,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SELECT_SERVER_ACK", Value=1000012)]
+      MSG_SELECT_SERVER_ACK = 1000012,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAMESVR_MSGID_BEGIN", Value=2000000)]
-      MSG_GAMESVR_MSGID_BEGIN = 2000000,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGIC_REGTO_LOGIN_REQ", Value=1000013)]
+      MSG_LOGIC_REGTO_LOGIN_REQ = 1000013,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGIC_REGTO_LOGIN_ACK", Value=1000014)]
+      MSG_LOGIC_REGTO_LOGIN_ACK = 1000014,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGINSVR_MSGID_END", Value=1999999)]
+      MSG_LOGINSVR_MSGID_END = 1999999,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGICSVR_MSGID_BEGIN", Value=2000000)]
+      MSG_LOGICSVR_MSGID_BEGIN = 2000000,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_LIST_REQ", Value=2000001)]
       MSG_ROLE_LIST_REQ = 2000001,
@@ -104,73 +110,82 @@ namespace proto_raw.Msg_ID
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_DATA_UPDATE", Value=2000011)]
       MSG_DATA_UPDATE = 2000011,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAME_REG_LOGIC_REQ", Value=2000012)]
+      MSG_GAME_REG_LOGIC_REQ = 2000012,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAME_REG_LOGIC_ACK", Value=2000013)]
+      MSG_GAME_REG_LOGIC_ACK = 2000013,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LOGICSVR_MSGID_END", Value=2999999)]
+      MSG_LOGICSVR_MSGID_END = 2999999,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SCENESVR_MSGID_BEGIN", Value=3000000)]
       MSG_SCENESVR_MSGID_BEGIN = 3000000,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CAN_ENTER_HOME_SCENE", Value=3000001)]
-      MSG_CAN_ENTER_HOME_SCENE = 3000001,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CREATE_SCENE_REQ", Value=3000001)]
+      MSG_CREATE_SCENE_REQ = 3000001,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_HOME_SCENE_REQ", Value=3000002)]
-      MSG_ENTER_HOME_SCENE_REQ = 3000002,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CREATE_SCENE_ACK", Value=3000002)]
+      MSG_CREATE_SCENE_ACK = 3000002,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_HOME_SCENE_ACK", Value=3000003)]
-      MSG_ENTER_HOME_SCENE_ACK = 3000003,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_DELETE_SCENE_REQ", Value=3000003)]
+      MSG_DELETE_SCENE_REQ = 3000003,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_HOME_SCENE_NTY", Value=3000004)]
-      MSG_ENTER_HOME_SCENE_NTY = 3000004,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_DELETE_SCENE_ACK", Value=3000004)]
+      MSG_DELETE_SCENE_ACK = 3000004,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_HOME_SCENE_REQ", Value=3000005)]
-      MSG_LEAVE_HOME_SCENE_REQ = 3000005,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SCENE_DESTROY_REQ", Value=3000005)]
+      MSG_SCENE_DESTROY_REQ = 3000005,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_HOME_SCENE_ACK", Value=3000006)]
-      MSG_LEAVE_HOME_SCENE_ACK = 3000006,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SCENE_DESTROY_ACK", Value=3000006)]
+      MSG_SCENE_DESTROY_ACK = 3000006,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_HOME_SCENE_NTY", Value=3000007)]
-      MSG_LEAVE_HOME_SCENE_NTY = 3000007,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_TRANS_ROLE_DATA_REQ", Value=3000007)]
+      MSG_TRANS_ROLE_DATA_REQ = 3000007,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_COPYSVR_MSGID_BEGIN", Value=4000000)]
-      MSG_COPYSVR_MSGID_BEGIN = 4000000,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_TRANS_ROLE_DATA_ACK", Value=3000008)]
+      MSG_TRANS_ROLE_DATA_ACK = 3000008,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CAN_ENTER_COPY", Value=4000001)]
-      MSG_CAN_ENTER_COPY = 4000001,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_NOTIFY_ROLE_ENTER_REQ", Value=3000009)]
+      MSG_NOTIFY_ROLE_ENTER_REQ = 3000009,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_COPY_REQ", Value=4000002)]
-      MSG_ENTER_COPY_REQ = 4000002,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_NOTIFY_ROLE_ENTER_ACK", Value=3000010)]
+      MSG_NOTIFY_ROLE_ENTER_ACK = 3000010,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_COPY_ACK", Value=4000003)]
-      MSG_ENTER_COPY_ACK = 4000003,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ENTER_SCENE_REQ", Value=3000011)]
+      MSG_ROLE_ENTER_SCENE_REQ = 3000011,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ENTER_COPY_NTY", Value=4000004)]
-      MSG_ENTER_COPY_NTY = 4000004,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ENTER_SCENE_ACK", Value=3000012)]
+      MSG_ROLE_ENTER_SCENE_ACK = 3000012,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_COPY_REQ", Value=4000005)]
-      MSG_LEAVE_COPY_REQ = 4000005,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_OTHER_ENTER_SCENE_REQ", Value=3000013)]
+      MSG_OTHER_ENTER_SCENE_REQ = 3000013,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_COPY_ACK", Value=4000006)]
-      MSG_LEAVE_COPY_ACK = 4000006,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_OTHER_ENTER_SCENE_ACK", Value=3000014)]
+      MSG_OTHER_ENTER_SCENE_ACK = 3000014,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_LEAVE_COPY_NTY", Value=4000007)]
-      MSG_LEAVE_COPY_NTY = 4000007,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_LEAVE_SCENE_REQ", Value=3000015)]
+      MSG_ROLE_LEAVE_SCENE_REQ = 3000015,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ACTION_REQ", Value=4000008)]
-      MSG_ROLE_ACTION_REQ = 4000008,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_LEAVE_SCENE_ACK", Value=3000016)]
+      MSG_ROLE_LEAVE_SCENE_ACK = 3000016,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ACTION_ACK", Value=4000009)]
-      MSG_ROLE_ACTION_ACK = 4000009,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_OTHER_LEAVE_SCENE_ACK", Value=3000017)]
+      MSG_OTHER_LEAVE_SCENE_ACK = 3000017,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ACTION_NTY", Value=4000010)]
-      MSG_ROLE_ACTION_NTY = 4000010,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_MOVE_REQ", Value=3000018)]
+      MSG_ROLE_MOVE_REQ = 3000018,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ATTACK_REQ", Value=4000011)]
-      MSG_ROLE_ATTACK_REQ = 4000011,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_SKILL_REQ", Value=3000019)]
+      MSG_ROLE_SKILL_REQ = 3000019,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ATTACK_ACK", Value=4000012)]
-      MSG_ROLE_ATTACK_ACK = 4000012
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_SCENESVR_MSGID_END", Value=3999999)]
+      MSG_SCENESVR_MSGID_END = 3999999
     }
   
 }
 // Generated from: proto_raw/Msg_Login.proto
-namespace proto_raw.Msg_Login
+namespace Protocol
 {
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CheckVersionReq")]
   public partial class CheckVersionReq : global::ProtoBuf.IExtensible
@@ -193,10 +208,10 @@ namespace proto_raw.Msg_Login
       get { return _PackageName; }
       set { _PackageName = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -261,10 +276,10 @@ namespace proto_raw.Msg_Login
       get { return _Password; }
       set { _Password = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -373,10 +388,10 @@ namespace proto_raw.Msg_Login
       get { return _AccountID; }
       set { _AccountID = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -636,8 +651,16 @@ namespace proto_raw.Msg_Login
   {
     public RoleListReq() {}
     
+    private long _AccountID = default(long);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long AccountID
+    {
+      get { return _AccountID; }
+      set { _AccountID = value; }
+    }
     private int _LoginCode = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int LoginCode
     {
@@ -674,6 +697,102 @@ namespace proto_raw.Msg_Login
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleCreateReq")]
+  public partial class RoleCreateReq : global::ProtoBuf.IExtensible
+  {
+    public RoleCreateReq() {}
+    
+    private long _AccountID = default(long);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long AccountID
+    {
+      get { return _AccountID; }
+      set { _AccountID = value; }
+    }
+    private string _Name = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string Name
+    {
+      get { return _Name; }
+      set { _Name = value; }
+    }
+    private int _RoleType = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int RoleType
+    {
+      get { return _RoleType; }
+      set { _RoleType = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleCreateAck")]
+  public partial class RoleCreateAck : global::ProtoBuf.IExtensible
+  {
+    public RoleCreateAck() {}
+    
+    private int _RetCode = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int RetCode
+    {
+      get { return _RetCode; }
+      set { _RetCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleDeleteReq")]
+  public partial class RoleDeleteReq : global::ProtoBuf.IExtensible
+  {
+    public RoleDeleteReq() {}
+    
+    private long _AccountID = default(long);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long AccountID
+    {
+      get { return _AccountID; }
+      set { _AccountID = value; }
+    }
+    private long _RoleID = default(long);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long RoleID
+    {
+      get { return _RoleID; }
+      set { _RoleID = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleDeleteAck")]
+  public partial class RoleDeleteAck : global::ProtoBuf.IExtensible
+  {
+    public RoleDeleteAck() {}
+    
+    private int _RetCode = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int RetCode
+    {
+      get { return _RetCode; }
+      set { _RetCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleLoginReq")]
   public partial class RoleLoginReq : global::ProtoBuf.IExtensible
   {
@@ -687,8 +806,16 @@ namespace proto_raw.Msg_Login
       get { return _AccountID; }
       set { _AccountID = value; }
     }
+    private long _RoleID = default(long);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long RoleID
+    {
+      get { return _RoleID; }
+      set { _RoleID = value; }
+    }
     private long _LoginCode = default(long);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(long))]
     public long LoginCode
     {
@@ -713,23 +840,95 @@ namespace proto_raw.Msg_Login
       get { return _RetCode; }
       set { _RetCode = value; }
     }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleLogoutReq")]
+  public partial class RoleLogoutReq : global::ProtoBuf.IExtensible
+  {
+    public RoleLogoutReq() {}
+    
     private long _AccountID = default(long);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(long))]
     public long AccountID
     {
       get { return _AccountID; }
       set { _AccountID = value; }
     }
+    private long _RoleID = default(long);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long RoleID
+    {
+      get { return _RoleID; }
+      set { _RoleID = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterSceneDataReq")]
-  public partial class EnterSceneDataReq : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleLogoutAck")]
+  public partial class RoleLogoutAck : global::ProtoBuf.IExtensible
   {
-    public EnterSceneDataReq() {}
+    public RoleLogoutAck() {}
+    
+    private int _RetCode = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int RetCode
+    {
+      get { return _RetCode; }
+      set { _RetCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleDisconnectReq")]
+  public partial class RoleDisconnectReq : global::ProtoBuf.IExtensible
+  {
+    public RoleDisconnectReq() {}
+    
+    private long _RoleID = default(long);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long RoleID
+    {
+      get { return _RoleID; }
+      set { _RoleID = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleDisconnectAck")]
+  public partial class RoleDisconnectAck : global::ProtoBuf.IExtensible
+  {
+    public RoleDisconnectAck() {}
+    
+    private int _RetCode = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int RetCode
+    {
+      get { return _RetCode; }
+      set { _RetCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterRoleDataReq")]
+  public partial class EnterRoleDataReq : global::ProtoBuf.IExtensible
+  {
+    public EnterRoleDataReq() {}
     
     private long _RoleID = default(long);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -752,10 +951,10 @@ namespace proto_raw.Msg_Login
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterSceneDataAck")]
-  public partial class EnterSceneDataAck : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterRoleDataAck")]
+  public partial class EnterRoleDataAck : global::ProtoBuf.IExtensible
   {
-    public EnterSceneDataAck() {}
+    public EnterRoleDataAck() {}
     
     private int _RetCode = default(int);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -765,23 +964,67 @@ namespace proto_raw.Msg_Login
       get { return _RetCode; }
       set { _RetCode = value; }
     }
-    private long _AccountID = default(long);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(long))]
-    public long AccountID
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CreateNewSceneReq")]
+  public partial class CreateNewSceneReq : global::ProtoBuf.IExtensible
+  {
+    public CreateNewSceneReq() {}
+    
+    private int _SceneType = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"SceneType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int SceneType
     {
-      get { return _AccountID; }
-      set { _AccountID = value; }
+      get { return _SceneType; }
+      set { _SceneType = value; }
+    }
+    private int _CopyType = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"CopyType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int CopyType
+    {
+      get { return _CopyType; }
+      set { _CopyType = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterCopyDataReq")]
-  public partial class EnterCopyDataReq : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CreateNewSceneAck")]
+  public partial class CreateNewSceneAck : global::ProtoBuf.IExtensible
   {
-    public EnterCopyDataReq() {}
+    public CreateNewSceneAck() {}
+    
+    private int _SceneType = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"SceneType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int SceneType
+    {
+      get { return _SceneType; }
+      set { _SceneType = value; }
+    }
+    private int _CopyType = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"CopyType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int CopyType
+    {
+      get { return _CopyType; }
+      set { _CopyType = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TransRoleDataReq")]
+  public partial class TransRoleDataReq : global::ProtoBuf.IExtensible
+  {
+    public TransRoleDataReq() {}
     
     private long _RoleID = default(long);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -804,10 +1047,10 @@ namespace proto_raw.Msg_Login
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"EnterCopyDataAck")]
-  public partial class EnterCopyDataAck : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TransRoleDataAck")]
+  public partial class TransRoleDataAck : global::ProtoBuf.IExtensible
   {
-    public EnterCopyDataAck() {}
+    public TransRoleDataAck() {}
     
     private int _RetCode = default(int);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"RetCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -817,17 +1060,21 @@ namespace proto_raw.Msg_Login
       get { return _RetCode; }
       set { _RetCode = value; }
     }
-    private long _AccountID = default(long);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(long))]
-    public long AccountID
-    {
-      get { return _AccountID; }
-      set { _AccountID = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
+  
+}
+// Generated from: proto_raw/Msg_RetCode.proto
+namespace Protocol
+{
+    [global::ProtoBuf.ProtoContract(Name=@"MessageRetCode")]
+    public enum MessageRetCode
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MRC_SUCCESS", Value=0)]
+      MRC_SUCCESS = 0
+    }
   
 }

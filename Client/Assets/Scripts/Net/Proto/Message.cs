@@ -173,245 +173,14 @@ namespace Protocol
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_OTHER_LEAVE_SCENE_ACK", Value=3000017)]
       MSG_OTHER_LEAVE_SCENE_ACK = 3000017,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ACTION_REQ", Value=3000018)]
-      MSG_ROLE_ACTION_REQ = 3000018,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_MOVE_REQ", Value=3000018)]
+      MSG_ROLE_MOVE_REQ = 3000018,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ACTION_ACK", Value=3000019)]
-      MSG_ROLE_ACTION_ACK = 3000019,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ATTACK_REQ", Value=3000020)]
-      MSG_ROLE_ATTACK_REQ = 3000020,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_ATTACK_ACK", Value=3000021)]
-      MSG_ROLE_ATTACK_ACK = 3000021,
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ROLE_SKILL_REQ", Value=3000019)]
+      MSG_ROLE_SKILL_REQ = 3000019,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SCENESVR_MSGID_END", Value=3999999)]
-      MSG_SCENESVR_MSGID_END = 3999999,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CONNECT_FAIL", Value=4443)]
-      MSG_CONNECT_FAIL = 4443,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_DISCONNECT", Value=4444)]
-      MSG_DISCONNECT = 4444,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_NORESPONSE", Value=4445)]
-      MSG_NORESPONSE = 4445,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_LOGIN", Value=1001)]
-      MSG_REQ_LOGIN = 1001,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_LOGIN", Value=1002)]
-      MSG_ACK_LOGIN = 1002,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_LOGINSERVER", Value=1003)]
-      MSG_REQ_LOGINSERVER = 1003,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_LOGINSERVER", Value=1004)]
-      MSG_ACK_LOGINSERVER = 1004,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_GETSERVERLIST", Value=1005)]
-      MSG_REQ_GETSERVERLIST = 1005,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_GETSERVERLIST", Value=1006)]
-      MSG_ACK_GETSERVERLIST = 1006,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_CREATEROLE", Value=1007)]
-      MSG_REQ_CREATEROLE = 1007,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_CREATEROLE", Value=1008)]
-      MSG_ACK_CREATEROLE = 1008,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ENTERGAME", Value=1009)]
-      MSG_REQ_ENTERGAME = 1009,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ENTERGAME", Value=1010)]
-      MSG_ACK_ENTERGAME = 1010,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_REGISTER", Value=1011)]
-      MSG_REQ_REGISTER = 1011,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_REGISTER", Value=1012)]
-      MSG_ACK_REGISTER = 1012,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_SORTBAG", Value=1101)]
-      MSG_REQ_SORTBAG = 1101,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_SORTBAG", Value=1102)]
-      MSG_ACK_SORTBAG = 1102,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_USEITEM", Value=1103)]
-      MSG_REQ_USEITEM = 1103,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_USEITEM", Value=1104)]
-      MSG_ACK_USEITEM = 1104,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_DRESS_EQUIP", Value=1105)]
-      MSG_REQ_DRESS_EQUIP = 1105,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_DRESS_EQUIP", Value=1106)]
-      MSG_ACK_DRESS_EQUIP = 1106,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UNLOAD_EQUIP", Value=1107)]
-      MSG_REQ_UNLOAD_EQUIP = 1107,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UNLOAD_EQUIP", Value=1108)]
-      MSG_ACK_UNLOAD_EQUIP = 1108,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_DRESS_GEM", Value=1109)]
-      MSG_REQ_DRESS_GEM = 1109,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_DRESS_GEM", Value=1110)]
-      MSG_ACK_DRESS_GEM = 1110,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UNLOAD_GEM", Value=1111)]
-      MSG_REQ_UNLOAD_GEM = 1111,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UNLOAD_GEM", Value=1112)]
-      MSG_ACK_UNLOAD_GEM = 1112,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_COMPOSE_CHIP", Value=1113)]
-      MSG_REQ_COMPOSE_CHIP = 1113,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_COMPOSE_CHIP", Value=1114)]
-      MSG_ACK_COMPOSE_CHIP = 1114,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_STRENGTHEN_EQUIP", Value=1115)]
-      MSG_REQ_STRENGTHEN_EQUIP = 1115,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_STRENGTHEN_EQUIP", Value=1116)]
-      MSG_ACK_STRENGTHEN_EQUIP = 1116,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ADVANCE_EQUIP", Value=1117)]
-      MSG_REQ_ADVANCE_EQUIP = 1117,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ADVANCE_EQUIP", Value=1118)]
-      MSG_ACK_ADVANCE_EQUIP = 1118,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UPSTAR_EQUIP", Value=1119)]
-      MSG_REQ_UPSTAR_EQUIP = 1119,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UPSTAR_EQUIP", Value=1120)]
-      MSG_ACK_UPSTAR_EQUIP = 1120,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_STRENGTHEN_GEM", Value=1121)]
-      MSG_REQ_STRENGTHEN_GEM = 1121,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_STRENGTHEN_GEM", Value=1122)]
-      MSG_ACK_STRENGTHEN_GEM = 1122,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ONEKEYTODRESSGEM", Value=1151)]
-      MSG_REQ_ONEKEYTODRESSGEM = 1151,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ONEKEYTODRESSGEM", Value=1152)]
-      MSG_ACK_ONEKEYTODRESSGEM = 1152,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ONEKEYTOUNLOADGEM", Value=1153)]
-      MSG_REQ_ONEKEYTOUNLOADGEM = 1153,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ONEKEYTOUNLOADGEM", Value=1154)]
-      MSG_ACK_ONEKEYTOUNLOADGEM = 1154,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_GET_CHAPTERAWARD", Value=1201)]
-      MSG_REQ_GET_CHAPTERAWARD = 1201,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_GET_CHAPTERAWARD", Value=1202)]
-      MSG_ACK_GET_CHAPTERAWARD = 1202,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_BATTLE_CHECK", Value=1203)]
-      MSG_REQ_BATTLE_CHECK = 1203,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_BATTLE_CHECK", Value=1204)]
-      MSG_ACK_BATTLE_CHECK = 1204,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_PASSCOPY", Value=1205)]
-      MSG_REQ_PASSCOPY = 1205,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_PASSCOPY", Value=1206)]
-      MSG_ACK_PASSCOPY = 1206,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_SETMOUNT", Value=1301)]
-      MSG_REQ_SETMOUNT = 1301,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_SETMOUNT", Value=1302)]
-      MSG_ACK_SETMOUNT = 1302,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_CHARGE_RELICS", Value=1401)]
-      MSG_REQ_CHARGE_RELICS = 1401,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_CHARGE_RELICS", Value=1402)]
-      MSG_ACK_CHARGE_RELICS = 1402,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UPGRADE_RELICS", Value=1403)]
-      MSG_REQ_UPGRADE_RELICS = 1403,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UPGRADE_RELICS", Value=1404)]
-      MSG_ACK_UPGRADE_RELICS = 1404,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_BATTLE_RELICS", Value=1405)]
-      MSG_REQ_BATTLE_RELICS = 1405,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_BATTLE_RELICS", Value=1406)]
-      MSG_ACK_BATTLE_RELICS = 1406,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UNLOAD_RELICS", Value=1407)]
-      MSG_REQ_UNLOAD_RELICS = 1407,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UNLOAD_RELICS", Value=1408)]
-      MSG_ACK_UNLOAD_RELICS = 1408,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_BUY_STORE", Value=1501)]
-      MSG_REQ_BUY_STORE = 1501,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_BUY_STORE", Value=1502)]
-      MSG_ACK_BUY_STORE = 1502,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UPGRADE_PET", Value=1601)]
-      MSG_REQ_UPGRADE_PET = 1601,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UPGRADE_PET", Value=1602)]
-      MSG_ACK_UPGRADE_PET = 1602,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_BATTLE_PET", Value=1603)]
-      MSG_REQ_BATTLE_PET = 1603,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_BATTLE_PET", Value=1604)]
-      MSG_ACK_BATTLE_PET = 1604,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UNLOAD_PET", Value=1605)]
-      MSG_REQ_UNLOAD_PET = 1605,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UNLOAD_PET", Value=1606)]
-      MSG_ACK_UNLOAD_PET = 1606,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_CHANGE_PARTNER", Value=1607)]
-      MSG_REQ_CHANGE_PARTNER = 1607,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_CHANGE_PARTNER", Value=1608)]
-      MSG_ACK_CHANGE_PARTNER = 1608,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ADVANVE_PARTNER", Value=1609)]
-      MSG_REQ_ADVANVE_PARTNER = 1609,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ADVANVE_PARTNER", Value=1610)]
-      MSG_ACK_ADVANVE_PARTNER = 1610,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_UPGRADE_PARTNER", Value=1611)]
-      MSG_REQ_UPGRADE_PARTNER = 1611,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_UPGRADE_PARTNER", Value=1612)]
-      MSG_ACK_UPGRADE_PARTNER = 1612,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_SUBMIT_TASK", Value=1613)]
-      MSG_REQ_SUBMIT_TASK = 1613,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_SUBMIT_TASK", Value=1614)]
-      MSG_ACK_SUBMIT_TASK = 1614,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_REQ_ADDHERO_EXP", Value=2001)]
-      MSG_REQ_ADDHERO_EXP = 2001,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACK_ADDHERO_EXP", Value=2002)]
-      MSG_ACK_ADDHERO_EXP = 2002
+      MSG_SCENESVR_MSGID_END = 3999999
     }
   
 }
@@ -439,10 +208,10 @@ namespace Protocol
       get { return _PackageName; }
       set { _PackageName = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -507,10 +276,10 @@ namespace Protocol
       get { return _Password; }
       set { _Password = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -619,10 +388,10 @@ namespace Protocol
       get { return _AccountID; }
       set { _AccountID = value; }
     }
-    private string _Channel = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string Channel
+    private int _Channel = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"Channel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int Channel
     {
       get { return _Channel; }
       set { _Channel = value; }
@@ -1071,14 +840,6 @@ namespace Protocol
       get { return _RetCode; }
       set { _RetCode = value; }
     }
-    private long _AccountID = default(long);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"AccountID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(long))]
-    public long AccountID
-    {
-      get { return _AccountID; }
-      set { _AccountID = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1303,5 +1064,17 @@ namespace Protocol
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
+  
+}
+// Generated from: proto_raw/Msg_RetCode.proto
+namespace Protocol
+{
+    [global::ProtoBuf.ProtoContract(Name=@"MessageRetCode")]
+    public enum MessageRetCode
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MRC_SUCCESS", Value=0)]
+      MRC_SUCCESS = 0
+    }
   
 }

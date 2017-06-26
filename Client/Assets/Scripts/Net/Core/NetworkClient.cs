@@ -20,7 +20,7 @@ public class NetworkClient
     private int m_DataLen = 0;
 
     private byte[] m_RecvBuffer = new byte[8192];
-    private byte[] m_DataBuffer = new byte[8192];
+    private byte[] m_DataBuffer = new byte[16384];
 
     private EventWaitHandle mAllDone;
 
@@ -95,30 +95,12 @@ public class NetworkClient
         }
     }
 
-    void OnAsyncRead(IAsyncResult ar)
+    bool MakeRealPacket()
     {
-        NetworkStream stream = (NetworkStream)ar.AsyncState;
-        m_RecvLen = stream.EndRead(ar);
-
         if (m_DataLen < PacketHeaderSize)
         {
-            if (m_RecvLen <= 0)
-            {
-                return ;
-            }
-
-            Array.Copy(m_RecvBuffer, 0, m_DataBuffer, m_DataLen, m_RecvLen);
-
-            m_DataLen += m_RecvLen;
-
-            m_RecvLen = 0;
+            return false;
         }
-
-        if (m_DataLen < PacketHeaderSize)
-        {
-            return ;
-        }
-
 
         Byte CheckCode = m_DataBuffer[0];
 
@@ -127,7 +109,7 @@ public class NetworkClient
         if (nPacketSize > m_DataLen)
         {
             //暂时这样处理
-            return ;
+            return false;
         }
 
         byte[] realPacket = new byte[nPacketSize];
@@ -139,6 +121,26 @@ public class NetworkClient
         m_DataLen = m_DataLen - nPacketSize;
 
         NetworkManager.Recv(this, realPacket);
+
+        return true;
+    }
+
+    void OnAsyncRead(IAsyncResult ar)
+    {
+        NetworkStream stream = (NetworkStream)ar.AsyncState;
+        m_RecvLen = stream.EndRead(ar);
+        if (m_RecvLen <= 0)
+        {
+            return;
+        }
+
+        Array.Copy(m_RecvBuffer, 0, m_DataBuffer, m_DataLen, m_RecvLen);
+
+        m_DataLen += m_RecvLen;
+
+        m_RecvLen = 0;
+
+        while(MakeRealPacket());
 
         mAllDone.Set();
     }

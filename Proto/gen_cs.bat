@@ -4,4 +4,6 @@ cd ..
 call gen_cs_real.bat
 del gen_cs_real.bat
 
+xcopy  .\protoc-gen-cs\*.* F:\GameProject\Client\Assets\Scripts\Net\Proto\ /S /C /Y
+
 pause
