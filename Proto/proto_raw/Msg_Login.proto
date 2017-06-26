@@ -2,7 +2,7 @@ syntax = "proto3";
 message CheckVersionReq {
     int32 ClientVerion = 1;
 	string PackageName = 2;
-	string Channel     = 3;
+	int32 Channel     = 3;
 }
 
 message CheckVersionAck {
@@ -15,7 +15,7 @@ message CheckVersionAck {
 message AccountRegReq {
     string AccountName = 1;
 	string Password    = 2;
-	string Channel     = 3;
+	int32 Channel     = 3;
 }
 
 message AccountRegAck {
@@ -37,18 +37,18 @@ message AccountLoginAck {
 
 message ClientServerListReq {
 	int64   AccountID     = 1;
-	string  Channel       = 2;
+	int32   Channel       = 2;
 	string  PackName      = 3;
 	int32   ClientVersion = 4;
 }
 
 
 message ClientServerNode {
-	int32 SvrID         = 1;
+	int32  SvrID         = 1;
 	string SvrName      = 2;
 	uint32 SvrState     = 3;
 	uint32 SvrDefault   = 4;
-	int32 SvrOpenTime   = 5;
+	int32  SvrOpenTime   = 5;
 }
 
 message ClientServerListAck {
@@ -58,7 +58,7 @@ message ClientServerListAck {
 
 
 message RegToLoginSvrReq {
-    int32 ServerID = 1;
+    int32  ServerID = 1;
 	string ServerName = 2;
 }
 
@@ -125,7 +125,6 @@ message RoleLoginReq {
 
 message RoleLoginAck {
     int32   RetCode = 1;
-	int64   AccountID = 2;
 }
 
 

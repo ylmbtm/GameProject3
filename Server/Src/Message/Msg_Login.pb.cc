@@ -576,17 +576,17 @@ void AddDescriptorsImpl() {
   static const char descriptor[] = {
       "\n\017Msg_Login.proto\"M\n\017CheckVersionReq\022\024\n\014"
       "ClientVerion\030\001 \001(\005\022\023\n\013PackageName\030\002 \001(\t\022"
-      "\017\n\007Channel\030\003 \001(\t\"M\n\017CheckVersionAck\022\017\n\007R"
+      "\017\n\007Channel\030\003 \001(\005\"M\n\017CheckVersionAck\022\017\n\007R"
       "etCode\030\001 \001(\005\022\024\n\014ClientVerion\030\002 \001(\005\022\023\n\013Pa"
       "ckageName\030\003 \001(\t\"G\n\rAccountRegReq\022\023\n\013Acco"
       "untName\030\001 \001(\t\022\020\n\010Password\030\002 \001(\t\022\017\n\007Chann"
-      "el\030\003 \001(\t\"3\n\rAccountRegAck\022\017\n\007RetCode\030\001 \001"
+      "el\030\003 \001(\005\"3\n\rAccountRegAck\022\017\n\007RetCode\030\001 \001"
       "(\005\022\021\n\tAccountID\030\002 \001(\003\"8\n\017AccountLoginReq"
       "\022\023\n\013AccountName\030\001 \001(\t\022\020\n\010Password\030\002 \001(\t\""
       "H\n\017AccountLoginAck\022\017\n\007RetCode\030\001 \001(\005\022\021\n\tA"
       "ccountID\030\002 \001(\003\022\021\n\tLastSvrID\030\003 \001(\005\"b\n\023Cli"
       "entServerListReq\022\021\n\tAccountID\030\001 \001(\003\022\017\n\007C"
-      "hannel\030\002 \001(\t\022\020\n\010PackName\030\003 \001(\t\022\025\n\rClient"
+      "hannel\030\002 \001(\005\022\020\n\010PackName\030\003 \001(\t\022\025\n\rClient"
       "Version\030\004 \001(\005\"m\n\020ClientServerNode\022\r\n\005Svr"
       "ID\030\001 \001(\005\022\017\n\007SvrName\030\002 \001(\t\022\020\n\010SvrState\030\003 "
       "\001(\r\022\022\n\nSvrDefault\030\004 \001(\r\022\023\n\013SvrOpenTime\030\005"
@@ -670,18 +670,16 @@ CheckVersionReq::CheckVersionReq(const CheckVersionReq& from)
   if (from.packagename().size() > 0) {
     packagename_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.packagename_);
   }
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.channel().size() > 0) {
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
-  }
-  clientverion_ = from.clientverion_;
+  ::memcpy(&clientverion_, &from.clientverion_,
+    reinterpret_cast<char*>(&channel_) -
+    reinterpret_cast<char*>(&clientverion_) + sizeof(channel_));
   // @@protoc_insertion_point(copy_constructor:CheckVersionReq)
 }
 
 void CheckVersionReq::SharedCtor() {
   packagename_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  clientverion_ = 0;
+  ::memset(&clientverion_, 0, reinterpret_cast<char*>(&channel_) -
+    reinterpret_cast<char*>(&clientverion_) + sizeof(channel_));
   _cached_size_ = 0;
 }
 
@@ -692,7 +690,6 @@ CheckVersionReq::~CheckVersionReq() {
 
 void CheckVersionReq::SharedDtor() {
   packagename_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void CheckVersionReq::SetCachedSize(int size) const {
@@ -721,8 +718,8 @@ CheckVersionReq* CheckVersionReq::New(::google::protobuf::Arena* arena) const {
 void CheckVersionReq::Clear() {
 // @@protoc_insertion_point(message_clear_start:CheckVersionReq)
   packagename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  clientverion_ = 0;
+  ::memset(&clientverion_, 0, reinterpret_cast<char*>(&channel_) -
+    reinterpret_cast<char*>(&clientverion_) + sizeof(channel_));
 }
 
 bool CheckVersionReq::MergePartialFromCodedStream(
@@ -765,16 +762,14 @@ bool CheckVersionReq::MergePartialFromCodedStream(
         break;
       }
 
-      // string Channel = 3;
+      // int32 Channel = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_channel()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->channel().data(), this->channel().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "CheckVersionReq.Channel"));
+            static_cast< ::google::protobuf::uint8>(24u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &channel_)));
         } else {
           goto handle_unusual;
         }
@@ -823,14 +818,9 @@ void CheckVersionReq::SerializeWithCachedSizes(
       2, this->packagename(), output);
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "CheckVersionReq.Channel");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->channel(), output);
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->channel(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:CheckVersionReq)
@@ -858,15 +848,9 @@ void CheckVersionReq::SerializeWithCachedSizes(
         2, this->packagename(), target);
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "CheckVersionReq.Channel");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->channel(), target);
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->channel(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:CheckVersionReq)
@@ -884,18 +868,18 @@ size_t CheckVersionReq::ByteSizeLong() const {
         this->packagename());
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->channel());
-  }
-
   // int32 ClientVerion = 1;
   if (this->clientverion() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->clientverion());
+  }
+
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->channel());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -931,12 +915,11 @@ void CheckVersionReq::MergeFrom(const CheckVersionReq& from) {
 
     packagename_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.packagename_);
   }
-  if (from.channel().size() > 0) {
-
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
-  }
   if (from.clientverion() != 0) {
     set_clientverion(from.clientverion());
+  }
+  if (from.channel() != 0) {
+    set_channel(from.channel());
   }
 }
 
@@ -964,8 +947,8 @@ void CheckVersionReq::Swap(CheckVersionReq* other) {
 }
 void CheckVersionReq::InternalSwap(CheckVersionReq* other) {
   packagename_.Swap(&other->packagename_);
-  channel_.Swap(&other->channel_);
   std::swap(clientverion_, other->clientverion_);
+  std::swap(channel_, other->channel_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -1044,57 +1027,18 @@ void CheckVersionReq::set_allocated_packagename(::std::string* packagename) {
   // @@protoc_insertion_point(field_set_allocated:CheckVersionReq.PackageName)
 }
 
-// string Channel = 3;
+// int32 Channel = 3;
 void CheckVersionReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-const ::std::string& CheckVersionReq::channel() const {
+::google::protobuf::int32 CheckVersionReq::channel() const {
   // @@protoc_insertion_point(field_get:CheckVersionReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-void CheckVersionReq::set_channel(const ::std::string& value) {
+void CheckVersionReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:CheckVersionReq.Channel)
-}
-#if LANG_CXX11
-void CheckVersionReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:CheckVersionReq.Channel)
-}
-#endif
-void CheckVersionReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:CheckVersionReq.Channel)
-}
-void CheckVersionReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:CheckVersionReq.Channel)
-}
-::std::string* CheckVersionReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:CheckVersionReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* CheckVersionReq::release_channel() {
-  // @@protoc_insertion_point(field_release:CheckVersionReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void CheckVersionReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:CheckVersionReq.Channel)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1526,17 +1470,14 @@ AccountRegReq::AccountRegReq(const AccountRegReq& from)
   if (from.password().size() > 0) {
     password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
   }
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.channel().size() > 0) {
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
-  }
+  channel_ = from.channel_;
   // @@protoc_insertion_point(copy_constructor:AccountRegReq)
 }
 
 void AccountRegReq::SharedCtor() {
   accountname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
   _cached_size_ = 0;
 }
 
@@ -1548,7 +1489,6 @@ AccountRegReq::~AccountRegReq() {
 void AccountRegReq::SharedDtor() {
   accountname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void AccountRegReq::SetCachedSize(int size) const {
@@ -1578,7 +1518,7 @@ void AccountRegReq::Clear() {
 // @@protoc_insertion_point(message_clear_start:AccountRegReq)
   accountname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
 
 bool AccountRegReq::MergePartialFromCodedStream(
@@ -1623,16 +1563,14 @@ bool AccountRegReq::MergePartialFromCodedStream(
         break;
       }
 
-      // string Channel = 3;
+      // int32 Channel = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_channel()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->channel().data(), this->channel().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "AccountRegReq.Channel"));
+            static_cast< ::google::protobuf::uint8>(24u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &channel_)));
         } else {
           goto handle_unusual;
         }
@@ -1686,14 +1624,9 @@ void AccountRegReq::SerializeWithCachedSizes(
       2, this->password(), output);
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "AccountRegReq.Channel");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->channel(), output);
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->channel(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:AccountRegReq)
@@ -1727,15 +1660,9 @@ void AccountRegReq::SerializeWithCachedSizes(
         2, this->password(), target);
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "AccountRegReq.Channel");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->channel(), target);
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->channel(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:AccountRegReq)
@@ -1760,10 +1687,10 @@ size_t AccountRegReq::ByteSizeLong() const {
         this->password());
   }
 
-  // string Channel = 3;
-  if (this->channel().size() > 0) {
+  // int32 Channel = 3;
+  if (this->channel() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->channel());
   }
 
@@ -1804,9 +1731,8 @@ void AccountRegReq::MergeFrom(const AccountRegReq& from) {
 
     password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
   }
-  if (from.channel().size() > 0) {
-
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
+  if (from.channel() != 0) {
+    set_channel(from.channel());
   }
 }
 
@@ -1835,7 +1761,7 @@ void AccountRegReq::Swap(AccountRegReq* other) {
 void AccountRegReq::InternalSwap(AccountRegReq* other) {
   accountname_.Swap(&other->accountname_);
   password_.Swap(&other->password_);
-  channel_.Swap(&other->channel_);
+  std::swap(channel_, other->channel_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -1953,57 +1879,18 @@ void AccountRegReq::set_allocated_password(::std::string* password) {
   // @@protoc_insertion_point(field_set_allocated:AccountRegReq.Password)
 }
 
-// string Channel = 3;
+// int32 Channel = 3;
 void AccountRegReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-const ::std::string& AccountRegReq::channel() const {
+::google::protobuf::int32 AccountRegReq::channel() const {
   // @@protoc_insertion_point(field_get:AccountRegReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-void AccountRegReq::set_channel(const ::std::string& value) {
+void AccountRegReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:AccountRegReq.Channel)
-}
-#if LANG_CXX11
-void AccountRegReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:AccountRegReq.Channel)
-}
-#endif
-void AccountRegReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:AccountRegReq.Channel)
-}
-void AccountRegReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:AccountRegReq.Channel)
-}
-::std::string* AccountRegReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:AccountRegReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* AccountRegReq::release_channel() {
-  // @@protoc_insertion_point(field_release:AccountRegReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void AccountRegReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:AccountRegReq.Channel)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -3057,10 +2944,6 @@ ClientServerListReq::ClientServerListReq(const ClientServerListReq& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.channel().size() > 0) {
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
-  }
   packname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.packname().size() > 0) {
     packname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.packname_);
@@ -3072,7 +2955,6 @@ ClientServerListReq::ClientServerListReq(const ClientServerListReq& from)
 }
 
 void ClientServerListReq::SharedCtor() {
-  channel_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   packname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&accountid_, 0, reinterpret_cast<char*>(&clientversion_) -
     reinterpret_cast<char*>(&accountid_) + sizeof(clientversion_));
@@ -3085,7 +2967,6 @@ ClientServerListReq::~ClientServerListReq() {
 }
 
 void ClientServerListReq::SharedDtor() {
-  channel_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   packname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -3114,7 +2995,6 @@ ClientServerListReq* ClientServerListReq::New(::google::protobuf::Arena* arena) 
 
 void ClientServerListReq::Clear() {
 // @@protoc_insertion_point(message_clear_start:ClientServerListReq)
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   packname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&accountid_, 0, reinterpret_cast<char*>(&clientversion_) -
     reinterpret_cast<char*>(&accountid_) + sizeof(clientversion_));
@@ -3144,16 +3024,14 @@ bool ClientServerListReq::MergePartialFromCodedStream(
         break;
       }
 
-      // string Channel = 2;
+      // int32 Channel = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_channel()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->channel().data(), this->channel().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ClientServerListReq.Channel"));
+            static_cast< ::google::protobuf::uint8>(16u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &channel_)));
         } else {
           goto handle_unusual;
         }
@@ -3222,14 +3100,9 @@ void ClientServerListReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->accountid(), output);
   }
 
-  // string Channel = 2;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ClientServerListReq.Channel");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->channel(), output);
+  // int32 Channel = 2;
+  if (this->channel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->channel(), output);
   }
 
   // string PackName = 3;
@@ -3261,15 +3134,9 @@ void ClientServerListReq::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->accountid(), target);
   }
 
-  // string Channel = 2;
-  if (this->channel().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->channel().data(), this->channel().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ClientServerListReq.Channel");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->channel(), target);
+  // int32 Channel = 2;
+  if (this->channel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->channel(), target);
   }
 
   // string PackName = 3;
@@ -3296,13 +3163,6 @@ size_t ClientServerListReq::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:ClientServerListReq)
   size_t total_size = 0;
 
-  // string Channel = 2;
-  if (this->channel().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->channel());
-  }
-
   // string PackName = 3;
   if (this->packname().size() > 0) {
     total_size += 1 +
@@ -3315,6 +3175,13 @@ size_t ClientServerListReq::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int64Size(
         this->accountid());
+  }
+
+  // int32 Channel = 2;
+  if (this->channel() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->channel());
   }
 
   // int32 ClientVersion = 4;
@@ -3353,16 +3220,15 @@ void ClientServerListReq::MergeFrom(const ClientServerListReq& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.channel().size() > 0) {
-
-    channel_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.channel_);
-  }
   if (from.packname().size() > 0) {
 
     packname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.packname_);
   }
   if (from.accountid() != 0) {
     set_accountid(from.accountid());
+  }
+  if (from.channel() != 0) {
+    set_channel(from.channel());
   }
   if (from.clientversion() != 0) {
     set_clientversion(from.clientversion());
@@ -3392,9 +3258,9 @@ void ClientServerListReq::Swap(ClientServerListReq* other) {
   InternalSwap(other);
 }
 void ClientServerListReq::InternalSwap(ClientServerListReq* other) {
-  channel_.Swap(&other->channel_);
   packname_.Swap(&other->packname_);
   std::swap(accountid_, other->accountid_);
+  std::swap(channel_, other->channel_);
   std::swap(clientversion_, other->clientversion_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -3421,57 +3287,18 @@ void ClientServerListReq::set_accountid(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:ClientServerListReq.AccountID)
 }
 
-// string Channel = 2;
+// int32 Channel = 2;
 void ClientServerListReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-const ::std::string& ClientServerListReq::channel() const {
+::google::protobuf::int32 ClientServerListReq::channel() const {
   // @@protoc_insertion_point(field_get:ClientServerListReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-void ClientServerListReq::set_channel(const ::std::string& value) {
+void ClientServerListReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:ClientServerListReq.Channel)
-}
-#if LANG_CXX11
-void ClientServerListReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ClientServerListReq.Channel)
-}
-#endif
-void ClientServerListReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ClientServerListReq.Channel)
-}
-void ClientServerListReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ClientServerListReq.Channel)
-}
-::std::string* ClientServerListReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:ClientServerListReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* ClientServerListReq::release_channel() {
-  // @@protoc_insertion_point(field_release:ClientServerListReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void ClientServerListReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:ClientServerListReq.Channel)
 }
 
 // string PackName = 3;

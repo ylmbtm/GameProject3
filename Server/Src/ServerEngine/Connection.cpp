@@ -178,8 +178,6 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 	return ;
 }
 
-
-
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
 	ASSERT(m_dwConnID != 0);

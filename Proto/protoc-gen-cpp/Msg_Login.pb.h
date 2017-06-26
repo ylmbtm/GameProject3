@@ -221,33 +221,25 @@ class CheckVersionReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_packagename();
   void set_allocated_packagename(::std::string* packagename);
 
-  // string Channel = 3;
-  void clear_channel();
-  static const int kChannelFieldNumber = 3;
-  const ::std::string& channel() const;
-  void set_channel(const ::std::string& value);
-  #if LANG_CXX11
-  void set_channel(::std::string&& value);
-  #endif
-  void set_channel(const char* value);
-  void set_channel(const char* value, size_t size);
-  ::std::string* mutable_channel();
-  ::std::string* release_channel();
-  void set_allocated_channel(::std::string* channel);
-
   // int32 ClientVerion = 1;
   void clear_clientverion();
   static const int kClientVerionFieldNumber = 1;
   ::google::protobuf::int32 clientverion() const;
   void set_clientverion(::google::protobuf::int32 value);
 
+  // int32 Channel = 3;
+  void clear_channel();
+  static const int kChannelFieldNumber = 3;
+  ::google::protobuf::int32 channel() const;
+  void set_channel(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:CheckVersionReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr packagename_;
-  ::google::protobuf::internal::ArenaStringPtr channel_;
   ::google::protobuf::int32 clientverion_;
+  ::google::protobuf::int32 channel_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -447,19 +439,11 @@ class AccountRegReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_password();
   void set_allocated_password(::std::string* password);
 
-  // string Channel = 3;
+  // int32 Channel = 3;
   void clear_channel();
   static const int kChannelFieldNumber = 3;
-  const ::std::string& channel() const;
-  void set_channel(const ::std::string& value);
-  #if LANG_CXX11
-  void set_channel(::std::string&& value);
-  #endif
-  void set_channel(const char* value);
-  void set_channel(const char* value, size_t size);
-  ::std::string* mutable_channel();
-  ::std::string* release_channel();
-  void set_allocated_channel(::std::string* channel);
+  ::google::protobuf::int32 channel() const;
+  void set_channel(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:AccountRegReq)
  private:
@@ -467,7 +451,7 @@ class AccountRegReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr accountname_;
   ::google::protobuf::internal::ArenaStringPtr password_;
-  ::google::protobuf::internal::ArenaStringPtr channel_;
+  ::google::protobuf::int32 channel_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -821,20 +805,6 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
 
   // accessors -------------------------------------------------------
 
-  // string Channel = 2;
-  void clear_channel();
-  static const int kChannelFieldNumber = 2;
-  const ::std::string& channel() const;
-  void set_channel(const ::std::string& value);
-  #if LANG_CXX11
-  void set_channel(::std::string&& value);
-  #endif
-  void set_channel(const char* value);
-  void set_channel(const char* value, size_t size);
-  ::std::string* mutable_channel();
-  ::std::string* release_channel();
-  void set_allocated_channel(::std::string* channel);
-
   // string PackName = 3;
   void clear_packname();
   static const int kPackNameFieldNumber = 3;
@@ -855,6 +825,12 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
   ::google::protobuf::int64 accountid() const;
   void set_accountid(::google::protobuf::int64 value);
 
+  // int32 Channel = 2;
+  void clear_channel();
+  static const int kChannelFieldNumber = 2;
+  ::google::protobuf::int32 channel() const;
+  void set_channel(::google::protobuf::int32 value);
+
   // int32 ClientVersion = 4;
   void clear_clientversion();
   static const int kClientVersionFieldNumber = 4;
@@ -865,9 +841,9 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr channel_;
   ::google::protobuf::internal::ArenaStringPtr packname_;
   ::google::protobuf::int64 accountid_;
+  ::google::protobuf::int32 channel_;
   ::google::protobuf::int32 clientversion_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -3197,57 +3173,18 @@ inline void CheckVersionReq::set_allocated_packagename(::std::string* packagenam
   // @@protoc_insertion_point(field_set_allocated:CheckVersionReq.PackageName)
 }
 
-// string Channel = 3;
+// int32 Channel = 3;
 inline void CheckVersionReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-inline const ::std::string& CheckVersionReq::channel() const {
+inline ::google::protobuf::int32 CheckVersionReq::channel() const {
   // @@protoc_insertion_point(field_get:CheckVersionReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-inline void CheckVersionReq::set_channel(const ::std::string& value) {
+inline void CheckVersionReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:CheckVersionReq.Channel)
-}
-#if LANG_CXX11
-inline void CheckVersionReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:CheckVersionReq.Channel)
-}
-#endif
-inline void CheckVersionReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:CheckVersionReq.Channel)
-}
-inline void CheckVersionReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:CheckVersionReq.Channel)
-}
-inline ::std::string* CheckVersionReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:CheckVersionReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* CheckVersionReq::release_channel() {
-  // @@protoc_insertion_point(field_release:CheckVersionReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void CheckVersionReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:CheckVersionReq.Channel)
 }
 
 // -------------------------------------------------------------------
@@ -3445,57 +3382,18 @@ inline void AccountRegReq::set_allocated_password(::std::string* password) {
   // @@protoc_insertion_point(field_set_allocated:AccountRegReq.Password)
 }
 
-// string Channel = 3;
+// int32 Channel = 3;
 inline void AccountRegReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-inline const ::std::string& AccountRegReq::channel() const {
+inline ::google::protobuf::int32 AccountRegReq::channel() const {
   // @@protoc_insertion_point(field_get:AccountRegReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-inline void AccountRegReq::set_channel(const ::std::string& value) {
+inline void AccountRegReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:AccountRegReq.Channel)
-}
-#if LANG_CXX11
-inline void AccountRegReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:AccountRegReq.Channel)
-}
-#endif
-inline void AccountRegReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:AccountRegReq.Channel)
-}
-inline void AccountRegReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:AccountRegReq.Channel)
-}
-inline ::std::string* AccountRegReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:AccountRegReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* AccountRegReq::release_channel() {
-  // @@protoc_insertion_point(field_release:AccountRegReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void AccountRegReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:AccountRegReq.Channel)
 }
 
 // -------------------------------------------------------------------
@@ -3704,57 +3602,18 @@ inline void ClientServerListReq::set_accountid(::google::protobuf::int64 value) 
   // @@protoc_insertion_point(field_set:ClientServerListReq.AccountID)
 }
 
-// string Channel = 2;
+// int32 Channel = 2;
 inline void ClientServerListReq::clear_channel() {
-  channel_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  channel_ = 0;
 }
-inline const ::std::string& ClientServerListReq::channel() const {
+inline ::google::protobuf::int32 ClientServerListReq::channel() const {
   // @@protoc_insertion_point(field_get:ClientServerListReq.Channel)
-  return channel_.GetNoArena();
+  return channel_;
 }
-inline void ClientServerListReq::set_channel(const ::std::string& value) {
+inline void ClientServerListReq::set_channel(::google::protobuf::int32 value) {
   
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  channel_ = value;
   // @@protoc_insertion_point(field_set:ClientServerListReq.Channel)
-}
-#if LANG_CXX11
-inline void ClientServerListReq::set_channel(::std::string&& value) {
-  
-  channel_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ClientServerListReq.Channel)
-}
-#endif
-inline void ClientServerListReq::set_channel(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ClientServerListReq.Channel)
-}
-inline void ClientServerListReq::set_channel(const char* value, size_t size) {
-  
-  channel_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ClientServerListReq.Channel)
-}
-inline ::std::string* ClientServerListReq::mutable_channel() {
-  
-  // @@protoc_insertion_point(field_mutable:ClientServerListReq.Channel)
-  return channel_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* ClientServerListReq::release_channel() {
-  // @@protoc_insertion_point(field_release:ClientServerListReq.Channel)
-  
-  return channel_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void ClientServerListReq::set_allocated_channel(::std::string* channel) {
-  if (channel != NULL) {
-    
-  } else {
-    
-  }
-  channel_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channel);
-  // @@protoc_insertion_point(field_set_allocated:ClientServerListReq.Channel)
 }
 
 // string PackName = 3;
