@@ -32,3 +32,16 @@ BOOL CDBProcManager::Uninit()
 
 
 
+BOOL CDBProcManager::CreateRole(UINT64 u64ID, UINT64 u64AccountID, char *pszName, INT32 nRoleType, INT32 nLevel)
+{
+	CHAR szSql[MAX_SQL_LEN];
+
+	sprintf(szSql, "insert into player(id, account_id, name, roletype, level) values('%lld','%lld', '%s','%d','%d')",u64ID, u64AccountID, pszName, nRoleType, nLevel);
+
+	if(m_DBConnection.execDML(szSql) <= 0)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}

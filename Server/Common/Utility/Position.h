@@ -9,6 +9,7 @@ public:
 		x = 0.0f;
 		y = 0.0f;
 		z = 0.0f;
+		d = 0.0f;
 	}
 
 	~CPosition(void)
@@ -18,7 +19,7 @@ public:
 
 public:
 
-	FLOAT x, y, z;
+	FLOAT x, y, z, d;
 
 };
 

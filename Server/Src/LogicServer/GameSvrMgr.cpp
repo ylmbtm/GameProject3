@@ -2,6 +2,9 @@
 #include "GameSvrMgr.h"
 #include "CommandDef.h"
 #include "../LogicServer/GameService.h"
+#include "../Message/Msg_Login.pb.h"
+#include "PacketHeader.h"
+#include "../Message/Msg_ID.pb.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -11,16 +14,21 @@ CGameSvrMgr::~CGameSvrMgr(void)
 {
 }
 
-UINT32 CGameSvrMgr::GetServerIDBySceneID( UINT32 dwSceneID )
+CGameSvrMgr* CGameSvrMgr::GetInstancePtr()
 {
-	return 101;
+	static CGameSvrMgr _PlayerManager;
+
+	return &_PlayerManager;
 }
 
-BOOL CGameSvrMgr::CreateScene( UINT32 dwMapID, UINT32 CreateParam )
-{
-	// 选择一个最可用的服务器
-	UINT32 dwSceneID = MakeNewSceneID(dwMapID);
 
+UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyID)
+{
+	return 1;
+}
+
+BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
+{
 	//选择一个可用的副本服务器
 	UINT32 dwServerID = GetFreeGameServerID();
 	if(dwServerID == INVALIDE_SERVERID)
@@ -31,7 +39,7 @@ BOOL CGameSvrMgr::CreateScene( UINT32 dwMapID, UINT32 CreateParam )
 	}
 
 	//向副本服务器发送创建副本的消息
-	if(SendCreateSceneCmd(dwServerID, dwSceneID, CreateParam))
+	if(SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
 	{
 		//发送创建副本的消息失败
 
@@ -43,15 +51,46 @@ BOOL CGameSvrMgr::CreateScene( UINT32 dwMapID, UINT32 CreateParam )
 	return TRUE;
 }
 
-BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwSceneID, UINT32 CreateParam )
+BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam )
 {
+	CreateNewSceneReq Req;
+	Req.set_copytype(dwCopyType);
+	Req.set_createparam(CreateParam);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req);
+	return TRUE;
+}
+
+
+UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
+{
+	return 0;
+}
+
+BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID)
+{
+	dwServerID = 1;
+	dwCopyID = 1;
+	dwConnID = GetConnIDBySvrID(dwServerID);
+	return TRUE;
+}
+
+BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
+{
+	GmsvrRegToLogicReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->dwUserData != 0);
+
+	//m_mapGameSvr.insert(std::make_pair(Req.serverid(),))
 	
 	return TRUE;
 }
 
-UINT32 CGameSvrMgr::MakeNewSceneID( UINT32 dwMapID )
+BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 {
-	return dwMapID + 1000;
+
+
+	return TRUE;
 }
 
 UINT32 CGameSvrMgr::GetFreeGameServerID()

@@ -1,8 +1,10 @@
 ﻿#ifndef _SCENE_H_
 #define _SCENE_H_
-#include "GameObject/PlayerObject.h"
+#include "GameObject/SceneObject.h"
 #include "GameObject/WorldObject.h"
 #include "GridManager.h"
+#include "SceneLogic/SceneLogic_Base.h"
+#include "GameObject/SceneObjectMgr.h"
 
 class CScene
 {
@@ -13,7 +15,7 @@ public:
 
 	BOOL	DispatchPacket(NetPacket *pNetPack);
 
-	BOOL	Init(UINT32 dwSceneType, UINT32 dwSceneID, UINT32 dwLogicType);
+	BOOL	Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType);
 
 	BOOL	Uninit();
 
@@ -31,7 +33,7 @@ public:
 
 	BOOL	HandleUpdateObject(CWorldObject *pWorldObject);
 	
-	UINT32	GetSceneID(){ return m_dwSceneID; }
+	UINT32	GetCopyID(){ return m_dwCopyID; }
 
 	BOOL    OnUpdate( UINT32 dwTick );
 
@@ -39,13 +41,13 @@ public:
 
 	BOOL	SendNewObjectToGrids(CWorldObject *pWorldObject, INT32 Grids[9]);
 
-	BOOL	SendNewGridsToObject(INT32 Grids[9], CPlayerObject *pPlayerObj);
+	BOOL	SendNewGridsToObject(INT32 Grids[9], CSceneObject *pSceneObj);
 
 	BOOL	SendUpdateObjectToGrids(CWorldObject *pWorldObj, INT32 Grids[9]);
 
 	BOOL	SendRemoveObjectToGrids(UINT64 u64RoleID, INT32 Grids[9]);
 
-	BOOL	SendRemoveGridsToPlayer(INT32 Grids[9], CPlayerObject *pPlayerObj);
+	BOOL	SendRemoveGridsToPlayer(INT32 Grids[9], CSceneObject *pSceneObj);
 
 	BOOL	SendUpdateObjectToMyself(CWorldObject *pWorldObj);
 
@@ -56,12 +58,12 @@ public:
 	
 
 protected:
-	UINT32							m_dwSceneID;
-	UINT32							m_dwSceneType;
+	UINT32							m_dwCopyID;
+	UINT32							m_dwCopyType;
 
 	SceneLogicBase					*m_pSceneLogic;
 
-	CPlayerObjectMgr				m_PlayerObjectMgr;		//玩家管理器
+	CSceneObjectMgr					m_SceneObjectMgr;		//玩家管理器
 
 	CGridManager					m_GridManager;			//地图格子管理器
 
@@ -70,16 +72,11 @@ protected:
 	//*********************消息处理定义开始******************************
 public:
 	BOOL OnMsgTransRoleDataReq(NetPacket *pNetPacket);
-	BOOL OnMsgLeaveGameReq(NetPacket *pNetPacket);
-	BOOL OnMsgRoleAction(NetPacket *pNetPacket);
+	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
+	BOOL OnMsgLeaveSceneReq(NetPacket *pNetPacket);
+	BOOL OnMsgRoleMoveReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleAttack(NetPacket *pNetPacket);
-	
-	
 	//*********************消息处理定义结束******************************
-
-
-
-	
 };
 
 #endif //_MAP_H_

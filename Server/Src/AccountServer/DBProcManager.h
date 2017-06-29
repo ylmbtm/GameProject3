@@ -15,7 +15,7 @@ public:
 
 	UINT64 GetMaxAccountID();
 
-	BOOL CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel);
+	BOOL CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel, UINT32 dwCreateTime);
 
 	UINT64 VerifyAccount(const char *szAccount, const char *szPassword);
 

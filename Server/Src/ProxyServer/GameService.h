@@ -26,6 +26,8 @@ public:
 	BOOL		DispatchPacket( NetPacket *pNetPacket);
 
 	UINT32		GetLogicConnID();
+
+	BOOL		ConnectToLogicSvr();
 public:
 
 public:

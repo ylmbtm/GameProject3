@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "GameDefine.h"
-#include "Error.h"
 #include "DBMsgHandler.h"
 #include "Utility/Log/Log.h"
 #include "Utility/CommonFunc.h"
@@ -78,6 +77,8 @@ BOOL CDBMsgHandler::OnUpdate(UINT32 dwTick)
 
 BOOL CDBMsgHandler::OnThreadBegin()
 {
+	m_DBProcManager.Init();
+	/*
 	m_DBConnection.Init();
 
 	m_DBConnection.Connect("127.0.0.1","root","123456", "db_log", 3306);
@@ -144,11 +145,25 @@ BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	RoleListAck Ack;
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }
 
 BOOL CDBMsgHandler::OnMsgCreateRoleReq(NetPacket *pPacket)
 {
+	RoleCreateReq  Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->dwUserData != 0);
+
+	m_DBProcManager.CreateRole(Req.roleid(), Req.accountid(), (char*)Req.name().c_str(), Req.roletype(), 1);
+
+	RoleCreateAck Ack;
+	Ack.set_accountid(Req.accountid());
+	Ack.set_roleid(Req.roleid());
+	Ack.set_roletype(Req.roletype());
+	Ack.set_name(Req.name());
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_CREATE_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
+
 	return TRUE;
 }
 
@@ -163,9 +178,8 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-
 	RoleLoginAck Ack;
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 }
 
 

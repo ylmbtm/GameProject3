@@ -13,19 +13,21 @@ public:
 
 	~CSceneManager();
 
-	BOOL		Init(UINT32 dwReserved);
+	BOOL		Init(BOOL bMainLand);
 
 	BOOL		Uninit();
 public:
-	BOOL		CreateScene(UINT32 dwSceneType, UINT32 dwLogicType);
+	BOOL		CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType);
 
 	CScene*		GetSceneByID(UINT32 dwSceneID);
 
-	BOOL		LoadDefaultScene();
+	BOOL		LoadMainScene();
 
 	BOOL        DispatchPacket(NetPacket *pNetPack);
 
 	BOOL		OnUpdate( UINT32 dwTick );
+
+	UINT32      MakeCopyID(UINT32 dwCopyType);
 
 	//*********************消息处理定义开始******************************
 public:
@@ -36,6 +38,7 @@ public:
 
 protected:
 	SceneMap	m_mapSceneList;
+	UINT32      m_MaxCopyBaseID;
 };
 
 #endif //_SCENE_MANAGER_H_

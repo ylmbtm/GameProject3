@@ -608,7 +608,6 @@
     <Compile Include="Assets\Scripts\Net\Proto\MessagePet.cs" />
     <Compile Include="Assets\Scripts\Net\Proto\MessagePlayer.cs" />
     <Compile Include="Assets\Scripts\Net\Proto\MessageRelics.cs" />
-    <Compile Include="Assets\Scripts\Net\Proto\MessageRetCode.cs" />
     <Compile Include="Assets\Scripts\Net\Proto\MessageStore.cs" />
     <Compile Include="Assets\Scripts\Net\Proto\MessageTask.cs" />
     <Compile Include="Assets\Scripts\Play\ACT\ActBuff.cs" />
@@ -991,6 +990,7 @@
     <Compile Include="Assets\Third\NGUI\Scripts\Tweening\TweenVolume.cs" />
     <Compile Include="Assets\Third\NGUI\Scripts\Tweening\TweenWidth.cs" />
     <Compile Include="Assets\Third\NGUI\Scripts\Tweening\UITweener.cs" />
+    <Compile Include="Assets\Third\NGUI\Scripts\UI\LabelSetting.cs" />
     <Compile Include="Assets\Third\NGUI\Scripts\UI\UI2DSprite.cs" />
     <Compile Include="Assets\Third\NGUI\Scripts\UI\UI2DSpriteAnimation.cs" />
     <Compile Include="Assets\Third\NGUI\Scripts\UI\UIAnchor.cs" />

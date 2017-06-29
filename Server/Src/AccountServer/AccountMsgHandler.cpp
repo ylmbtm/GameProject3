@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "GameDefine.h"
-#include "Error.h"
 #include "AccountMsgHandler.h"
 #include "Utility/Log/Log.h"
 #include "Utility/CommonFunc.h"
@@ -11,6 +10,7 @@
 #include "Utility/CommonSocket.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 
 
@@ -67,45 +67,45 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 
 	PacketHeader *pHeader = (PacketHeader *) pPacket->m_pDataBuffer->GetBuffer();
 
-	ASSERT(pHeader->u64TargetID != 0);
+	ASSERT(pHeader->dwUserData != 0);
 
 	AccountRegAck Ack;
 
 	CAccountObject *pAccount = m_AccountManager.GetAccountObjectByName(Req.accountname());
 	if(pAccount != NULL)
 	{
-		Ack.set_retcode(E_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, pHeader->u64TargetID, 0, Ack);
+		Ack.set_retcode(MRC_FAILED);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
 	UINT64 u64ID = m_DBProcManager.GetAccountID(Req.accountname().c_str());
 	if (u64ID != 0)
 	{
-		Ack.set_retcode(E_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, pHeader->u64TargetID, 0, Ack);
+		Ack.set_retcode(MRC_FAILED);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 	
 	pAccount = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 	if(pAccount == NULL)
 	{
-		Ack.set_retcode(E_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, pHeader->u64TargetID, 0, Ack);
+		Ack.set_retcode(MRC_FAILED);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return FALSE;
 	}
 
-	if(m_DBProcManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel))
+	if(m_DBProcManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime))
 	{ 
-		Ack.set_retcode(E_SUCCESSED);
+		Ack.set_retcode(MRC_SUCCESSED);
 	}
 	else
 	{
 		//Ack.set_retcode(E_FAILED);
 	}
 
-	Ack.set_retcode(E_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, pHeader->u64TargetID, 0, Ack);
+	Ack.set_retcode(MRC_SUCCESSED);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 	
 	return TRUE;
 }
@@ -116,7 +116,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
 	PacketHeader *pHeader = (PacketHeader *) pPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->u64TargetID != 0);
+	ASSERT(pHeader->dwUserData != 0);
 
 
 	AccountLoginAck Ack;
@@ -127,8 +127,8 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 		{
 			Ack.set_lastsvrid(pAccObj->m_dwLastSvrID);
 			Ack.set_accountid(pAccObj->m_ID);
-			Ack.set_retcode(E_SUCCESSED);
-			ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, pHeader->u64TargetID, 0, Ack);
+			Ack.set_retcode(MRC_SUCCESSED);
+			ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 			return TRUE;
 		}
 	}
@@ -136,19 +136,19 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 	UINT64 u64AccountID = m_DBProcManager.VerifyAccount(Req.accountname().c_str(), Req.password().c_str());
 	if(u64AccountID == 0)
 	{
-		Ack.set_retcode(E_FAILED);
+		Ack.set_retcode(MRC_FAILED);
 	}
 	else
 	{
 		m_AccountManager.AddAccountObject(u64AccountID, Req.accountname().c_str(), Req.password().c_str(), 0);
-		Ack.set_retcode(E_SUCCESSED);
+		Ack.set_retcode(MRC_SUCCESSED);
 	}
 
 
 	Ack.set_lastsvrid(1);
 	Ack.set_accountid(u64AccountID);
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, pHeader->u64TargetID, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 
 	return TRUE;
 }

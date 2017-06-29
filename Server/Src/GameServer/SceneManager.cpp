@@ -6,7 +6,9 @@
 #include "Utility/CommonEvent.h"
 #include "PacketHeader.h"
 #include "GameService.h"
-#include "Error.h"
+#include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 
 
@@ -30,14 +32,19 @@ CSceneManager::~CSceneManager()
 	}
 }
 
-BOOL CSceneManager::Init(UINT32 dwReserved)
+BOOL CSceneManager::Init(BOOL bMainLand)
 {
-	if(!LoadDefaultScene())
+	if(bMainLand)
 	{
-		ASSERT_FAIELD;
-		return FALSE;
+		if(!LoadMainScene())
+		{
+			ASSERT_FAIELD;
+			return FALSE;
+		}
 	}
 
+
+	m_MaxCopyBaseID = 1;
 
 	return TRUE;
 }
@@ -47,11 +54,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene( UINT32 dwSceneType, UINT32 dwLogicType )
+BOOL CSceneManager::CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
 {
 	CScene *pScene = new CScene;
 
-	if(!pScene->Init(dwSceneType, dwLogicType))
+	if(!pScene->Init(dwCopyType, dwCopyID, dwLogicType))
 	{
 		ASSERT_FAIELD;
 
@@ -60,22 +67,22 @@ BOOL CSceneManager::CreateScene( UINT32 dwSceneType, UINT32 dwLogicType )
 		return FALSE;
 	}
 
-	m_mapSceneList.insert(std::make_pair(dwSceneID, pScene));
+	m_mapSceneList.insert(std::make_pair(dwCopyID, pScene));
 
 	return TRUE;
 }
 
-BOOL CSceneManager::DispatchPacket(NetPacket *pNetPack)
+BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 {
 	BOOL bHandled = TRUE;
-	PacketHeader *pPacketHeader = (PacketHeader *)pNetPack->m_pDataBuffer->GetBuffer();
+	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
 	if(pPacketHeader == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	switch(pNetPack->dwMsgID)
+	switch(pNetPacket->m_dwMsgID)
 	{
 		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
 	default:
@@ -90,8 +97,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPack)
 		return TRUE;
 	}
 
-
-	CScene *pScene = GetSceneByID(pPacketHeader->dwSceneID);
+	CScene *pScene = GetSceneByID(pPacketHeader->dwUserData);
 	if(pScene == NULL)
 	{
 		ASSERT_FAIELD;
@@ -99,7 +105,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPack)
 		return FALSE;
 	}
 
-	pScene->DispatchPacket(pNetPack);
+	pScene->DispatchPacket(pNetPacket);
 		
 	return TRUE;
 }
@@ -127,58 +133,69 @@ BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 	return TRUE;
 }
 
-BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPack)
+UINT32 CSceneManager::MakeCopyID(UINT32 dwCopyType)
 {
-	StSvrCreateSceneReq CreateSceneReq;
-	CBufferHelper bh(FALSE, pNetPack->m_pDataBuffer);
-	bh.Read(CreateSceneReq);
+	m_MaxCopyBaseID += 1;
 
-	StSvrCreateSceneAck CreateSceneAck;
-	CreateSceneAck.dwCreateParam = CreateSceneReq.CreateParam;
-	CreateSceneAck.dwSceneID = CreateSceneReq.dwSceneID;
-	CreateSceneAck.dwServerID = 1;
+	return CGameService::GetInstancePtr()->GetServerID()<<24|m_MaxCopyBaseID;
+}
 
-	if (!CreateScene(CreateSceneReq.dwSceneID))
+BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
+{
+	CreateNewSceneReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CreateNewSceneAck Ack;
+	Ack.set_createparam(Req.createparam());
+	UINT32 dwNewCopyID = MakeCopyID(Req.copytype());
+	Ack.set_copyid(dwNewCopyID);
+	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+	if (!CreateScene(Req.copytype(), dwNewCopyID, 1))
 	{
 		ASSERT_FAIELD;
 
-		CreateSceneAck.dwAckCode = E_FAILED;
+		Ack.set_retcode(MRC_FAILED);
 	}
 	else
 	{
-		CreateSceneAck.dwAckCode = E_SUCCESSED;
+		Ack.set_retcode(MRC_SUCCESSED);
 	}
 	
-	CBufferHelper WriteHelper(TRUE, 1024);
-	WriteHelper.BeginWrite(CMD_SVR_CREATE_SCENE_ACK, 0, 0);
-	WriteHelper.Write(CreateSceneAck);
-	WriteHelper.EndWrite();
-
-	ServiceBase::GetInstancePtr()->SendCmdToConnection(pNetPack->m_pConnect->GetConnectionID(), WriteHelper.GetDataBuffer());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_pConnect->GetConnectionID(), MSG_CREATE_SCENE_ACK, 0, 0, Ack);
 
 	return TRUE;
 }
 
-BOOL CSceneManager::LoadDefaultScene()
+BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(12))
+	if(!CreateScene(1, MakeCopyID(1), 1))
 	{
 		ASSERT_FAIELD;
 
 		return FALSE;
 	}
 
-	/*StSvrCreateSceneAck CreateSceneAck;
-	CreateSceneAck.dwCreateParam = 0;
-	CreateSceneAck.dwSceneID = 12;
-	CreateSceneAck.dwServerID= CGameService::GetInstancePtr()->GetServerID();
+	if(!CreateScene(1, MakeCopyID(1), 1))
+	{
+		ASSERT_FAIELD;
 
-	CBufferHelper WriteHelper(TRUE, 1024);
-	WriteHelper.BeginWrite(CMD_SVR_CREATE_SCENE_ACK , 0, 0);
-	WriteHelper.Write(CreateSceneAck);
-	WriteHelper.EndWrite();
+		return FALSE;
+	}
 
-	ServiceBase::GetInstancePtr()->SendCmdToConnection(CGameService::GetInstancePtr()->m_dwWorldServerID, &m_WriteBuffer);*/
+	if(!CreateScene(1, MakeCopyID(1), 1))
+	{
+		ASSERT_FAIELD;
+
+		return FALSE;
+	}
+
+	if(!CreateScene(1, MakeCopyID(1), 1))
+	{
+		ASSERT_FAIELD;
+
+		return FALSE;
+	}
 
 	return TRUE;
 }

@@ -46,19 +46,19 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 	{
 	case MSG_ROLE_LIST_REQ:
 		{
-			pPacketHeader->u64TargetID = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_LIST_ACK:
 		{
-			RelayToConnect(pPacketHeader->u64TargetID, pNetPacket->m_pDataBuffer);
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_CREATE_REQ:
 		{
-			pPacketHeader->u64TargetID = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -70,7 +70,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_DELETE_REQ:
 		{
-			pPacketHeader->u64TargetID = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -82,7 +82,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_LOGIN_REQ:
 		{
-			pPacketHeader->u64TargetID = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}

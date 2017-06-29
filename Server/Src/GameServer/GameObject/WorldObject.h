@@ -33,6 +33,10 @@ public:
 
 	virtual UINT32  ReadFromBuffer(UINT32 dwChangeFlag);
 
+	virtual UINT64  GetObjectID();
+
+	virtual UINT32  GetObjectType();
+
 public:
 	CPosition&	GetPosition();
 
@@ -50,6 +54,7 @@ public:
 	CScene				*m_pOwnerScene;		
 
 public:
+	CPosition			m_ObjectPos;
 	CPosition			m_UpdateObjPos;//己经同步出去的地址
 	UpdateStatusEnum	m_UpdateStatus;
 	UpdateStatusEnum	GetUpdateStatus();

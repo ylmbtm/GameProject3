@@ -133,6 +133,17 @@ public class NetworkManager : GTSingleton<NetworkManager>
         }
     }
 
+    public IEnumerator WatiConnctOK()  
+    {
+        while (!mClient.IsConnectOK())
+        {
+            yield return 0;
+        }
+   
+        Debug.Log("connect is Ok!");  
+    }  
+
+
     static void Send(MessageSend msg)
     {
         msg.Client.Send(msg.Bytes);

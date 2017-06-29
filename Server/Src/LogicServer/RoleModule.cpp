@@ -1,26 +1,42 @@
 ﻿#include "stdafx.h"
-#include "BagSystem.h"
+#include "RoleModule.h"
 
+CRoleModule::CRoleModule()
+{
 
-BOOL CBagSystem::IsChanged()
+}
+
+CRoleModule::~CRoleModule()
+{
+
+}
+
+BOOL CRoleModule::OnCreate()
 {
 	return TRUE;
 }
 
-BOOL CBagSystem::ClearChangeFlag()
+BOOL CRoleModule::OnDestroy()
 {
-
 	return TRUE;
 }
 
-
-UINT32 CBagSystem::WriteToBuffer( CBufferHelper *pBufHelper, UINT32 dwChangeFlag, UINT32 dwDest )
+BOOL CRoleModule::OnLogin()
 {
-
-	return 0;
+	return TRUE;
 }
 
-UINT32 CBagSystem::ReadFromBuffer( CBufferHelper *pBufHelper, UINT32 dwChangeFlag )
+BOOL CRoleModule::OnLogout()
 {
-	return 0;
+	return TRUE;
+}
+
+BOOL CRoleModule::OnNewDay()
+{
+	return TRUE;
+}
+
+BOOL CRoleModule::OnLoadData()
+{
+	return TRUE;
 }

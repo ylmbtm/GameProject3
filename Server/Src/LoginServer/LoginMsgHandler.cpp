@@ -9,8 +9,8 @@
 #include "GameService.h"
 #include "Utility/CommonSocket.h"
 #include "PacketHeader.h"
-#include "Error.h"
 #include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 
 
@@ -75,7 +75,7 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
 	CheckVersionAck Ack;
-	Ack.set_retcode(E_SUCCESSED);
+	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_CHECK_VERSION_ACK, 0, 0, Ack);
 }
 
@@ -88,7 +88,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket )
 	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
 	ASSERT(nConnID != 0);
 
-	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, nConnID, 0, Req);
+	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
@@ -100,7 +100,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
 	ASSERT(nConnID != 0);
 
-	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, nConnID, 0, Req);
+	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
 }
 
 
@@ -150,7 +150,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket *pPacket)
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, nConnID, 0, Req);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req);
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket *pPacket )
@@ -159,7 +159,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket *pPacket )
 	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pHeader->u64TargetID;
+	UINT32 nConnID = pHeader->dwUserData;
 	ASSERT(nConnID != 0);
 	
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_REG_ACK, 0, 0, Ack);
@@ -173,8 +173,14 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pHeader->u64TargetID;
+	UINT32 nConnID = pHeader->dwUserData;
 	ASSERT(nConnID != 0);
+
+	if(Ack.lastsvrid() == 0)
+	{
+		Ack.set_lastsvrid(1);
+		Ack.set_lastsvrname("天龙八部");
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_LOGIN_ACK, 0, 0, Ack);
 }
@@ -188,7 +194,7 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket *pPacket)
 	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_pConnect->GetConnectionID(), Req.serverid());
 
 	RegToLoginSvrAck Ack;
-	Ack.set_retcode(E_SUCCESSED);
+	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
 }
 
@@ -201,9 +207,9 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
 	ASSERT(nConnID != 0);
 
-	Ack.set_retcode(E_SUCCESSED);
+	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_serveraddr("127.0.0.1");
 	Ack.set_serverport(9876);
 	Ack.set_logincode(12345678);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->u64TargetID, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
 }

@@ -3,6 +3,13 @@
 #include "GameDefine.h"
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
+#include "ModuleBase.h"
+
+enum MouduleType
+{
+	MT_ROLE,
+	MT_END
+};
 
 class CPlayerObject
 {
@@ -16,21 +23,45 @@ public:
 	//  反初始化玩家对家
 	BOOL		Uninit();
 
-	BOOL		CreateAllModule();
+	virtual BOOL OnCreate(UINT64 u64RoleID);
 
-	BOOL		DestroyAllModule();
+	virtual BOOL OnDestroy(UINT64 u64RoleID);
+
+	virtual BOOL OnLogin(UINT64 u64RoleID);
+
+	virtual BOOL OnLogout(UINT64 u64RoleID);
+
+	virtual BOOL OnNewDay();
+
+	virtual BOOL OnLoadData(UINT64 u64RoleID);
+
+	virtual BOOL DispatchPacket(NetPacket *pNetPack);
+
+	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+
+
+	//模块函数
+	BOOL			CreateAllModule();
+	BOOL			DestroyAllModule();
+	BOOL			OnModuleFnished();
+	BOOL			IsAllModuleOK();
+	BOOL			OnAllModuleOK();
+	template <typename T>
+	T*	GetModuleByType(int nType)
+	{
+		if(nType >= m_MoudleList.size())
+		{
+			return NULL;
+		}
+
+		return (T*)m_MoudleList.at(nType);
+	}
 
 public:
-	UINT64		GetObjectID();
-
+	UINT64			GetObjectID();
 public:
-	UINT64		m_u64ObjectID;
-	CHAR		m_szObjectName[MAX_NAME_LEN];
-	UINT32		m_dwSceneID;
-	CPosition	m_ObjectPos;
-	UINT32		m_dwFeature;
-	UINT32      m_dwLevel;
-
+	UINT64		m_u64ID;
+	UINT32      m_dwProxyConnID;
 	std::vector<CModuleBase*> m_MoudleList;
 };
 

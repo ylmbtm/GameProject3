@@ -1,6 +1,6 @@
 ﻿#ifndef __ROLE_MODULE_H__
 #define __ROLE_MODULE_H__
-
+#include "ModuleBase.h"
 class CRoleModule : public CModuleBase
 {
 public:
@@ -9,37 +9,19 @@ public:
 	~CRoleModule();
 
 public:
-	virtual BOOL OnCreate()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreate();
 
-	virtual BOOL OnDestroy()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnDestroy();
 
-	virtual BOOL OnLogin()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLogin();
 
-	virtual BOOL OnLogout()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLogout();
 
-	virtual BOOL OnNewDay()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnNewDay();
 
-	virtual BOOL OnLoadData()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLoadData();
+
 public:
-
 	UINT64 m_u64ID;  //角色ID
 	std::string m_strName;
 	UINT64 m_u64AccountID; //账号ID
@@ -48,7 +30,6 @@ public:
 	UINT64 m_Money[10];
 	UINT64 m_dwExp;
 	UINT32 m_dwLangID; //语言ID
-
 };
 
 #endif //__ROLE_MODULE_H__

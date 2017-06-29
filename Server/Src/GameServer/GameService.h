@@ -12,7 +12,7 @@ private:
 public:
 	static CGameService* GetInstancePtr();
 
-	BOOL		Init();
+	BOOL		Init(UINT32 dwServerID, UINT32 dwPort);
 
 	BOOL		Uninit();
 
@@ -28,11 +28,22 @@ public:
 
 	UINT32		GetLogicConnID();
 
+	UINT32      GetProxyConnID();
+
 	BOOL		ConnectToLogicSvr();
+
+	BOOL		ConnectToProxySvr();
+
+	BOOL		RegisterToLoginSvr();
+
+	UINT32      GetServerID();
 protected:
 	CSceneManager		m_SceneManager;
 
-	UINT32		m_dwLogicConnID;
+	UINT32				m_dwLogicConnID;
+	UINT32              m_dwProxyConnID;
+
+	UINT32				m_dwServerID;
 };
 
 #endif

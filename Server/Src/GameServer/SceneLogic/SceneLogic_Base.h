@@ -19,37 +19,37 @@ public:
 public:
 	virtual BOOL OnCreatePlayer()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL OnCreateMonster()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL OnCreatePet()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL OnPlayerDie()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL OnMonsterDie()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL OnPetDie()
 	{
-
+		return TRUE;
 	}
 
 	virtual BOOL Update()
 	{
-
+		return TRUE;
 	}
 
 public:

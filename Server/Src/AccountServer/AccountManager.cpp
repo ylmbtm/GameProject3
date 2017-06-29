@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
+#include "Utility\CommonFunc.h"
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -37,6 +38,8 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 	pObj->m_strPassword = strPwd;
 	pObj->m_ID = m_u64MaxID;
 	pObj->m_dwChannel = dwChannel;
+	pObj->m_dwCreateTime = CommonFunc::GetCurrTime();
+
 
 	return pObj;
 }

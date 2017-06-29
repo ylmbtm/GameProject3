@@ -1,24 +1,38 @@
 #ifndef __GAME_SVR_MGR__
 #define __GAME_SVR_MGR__
 
+struct GameSvrInfo
+{
+	UINT32 dwSvrID;
+	UINT32 dwConnID;
+};
+
 class CGameSvrMgr
 {
-public:
+private:
 	CGameSvrMgr(void);
-	virtual ~CGameSvrMgr(void);
+	~CGameSvrMgr(void);
 public:
-	
+	static CGameSvrMgr* GetInstancePtr();
 public:
-	UINT32	GetServerIDBySceneID(UINT32 dwSceneID);
-
-	UINT32	MakeNewSceneID(UINT32 dwMapID);
+	UINT32	GetServerIDByCopyID(UINT32 dwCopyID);
 
 	UINT32	GetFreeGameServerID();
 
-	BOOL	CreateScene(UINT32 dwMapID, UINT32 CreateParam);
+	BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam);
 
-	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwSceneID, UINT32 CreateParam);
+	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam);
 
+	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
+
+	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID);
+public:
+	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);
+
+	BOOL	OnCloseConnect(UINT32 dwConnID);
+
+public:
+	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID到信息
 };
 
 #endif

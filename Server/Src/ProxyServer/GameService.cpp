@@ -80,7 +80,7 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 	{
 	default:
 		{
-
+			m_ProxyMsgHandler.DispatchPacket(pNetPacket);
 		}
 		break;
 	}
@@ -91,6 +91,22 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 UINT32 CGameService::GetLogicConnID()
 {
 	return m_dwLogicConnID;
+}
+
+BOOL CGameService::ConnectToLogicSvr()
+{
+	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
+	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
+	CConnection *pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
+	if(pConn == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+	m_dwLogicConnID = pConn->GetConnectionID();
+
+	return TRUE;
 }
 
 BOOL CGameService::Uninit()

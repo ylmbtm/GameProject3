@@ -13,9 +13,8 @@ public:
 
 	BOOL Uninit();
 
-	UINT64 GetCharID(char *szCharName);
+	BOOL CreateRole(UINT64 u64ID, UINT64 u64AccountID, char *pszName, INT32 nRoleType, INT32 nLevel);
 
-	UINT64 GenarateCharID(UINT32 dwAccountID);
 
 	CppSQLite3DB	m_DBConnection;
 };

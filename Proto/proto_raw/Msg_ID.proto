@@ -42,21 +42,22 @@ enum MessageID {
 	MSG_ROLE_DELETE_REQ          = 2000005;   //登录请法度
     MSG_ROLE_DELETE_ACK          = 2000006;   //登录成功  返回基本模块的数据, 包括基本类的数据
 	
-    MSG_ROLE_LOGIN_REQ          = 2000007;   //登录请法度
-    MSG_ROLE_LOGIN_ACK          = 2000008;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_LOGIN_REQ           = 2000007;   //登录请法度
+    MSG_ROLE_LOGIN_ACK           = 2000008;   //登录成功  返回基本模块的数据, 包括基本类的数据
 	
 	MSG_ROLE_LOGOUT_REQ          = 2000009;   //登录请法度
     MSG_ROLE_LOGOUT_ACK          = 2000010;   //登录成功  返回基本模块的数据, 包括基本类的数据
 	
-	MSG_DATA_UPDATE				= 2000011;
+	MSG_DATA_UPDATE				 = 2000011;
 	
-	MSG_GAME_REG_LOGIC_REQ      = 2000012;
-	MSG_GAME_REG_LOGIC_ACK      = 2000013;
+	MSG_GAME_REG_LOGIC_REQ       = 2000012;
+	MSG_GAME_REG_LOGIC_ACK       = 2000013;
+
+	MSG_NOTIFY_INTO_SCENE        = 2000014;
+
+	MSG_GMSVR_REGTO_LOGIC_REQ    = 2000015;
 	
-	
-	
-	
-	MSG_LOGICSVR_MSGID_END     = 2999999;
+	MSG_LOGICSVR_MSGID_END       = 2999999;
 	//========================SceneSVR=======================
 	MSG_SCENESVR_MSGID_BEGIN    = 3000000;
 	MSG_CREATE_SCENE_REQ 		= 3000001;
@@ -67,17 +68,116 @@ enum MessageID {
 	MSG_SCENE_DESTROY_ACK 		= 3000006;
 	MSG_TRANS_ROLE_DATA_REQ     = 3000007;
 	MSG_TRANS_ROLE_DATA_ACK     = 3000008;
+
 	MSG_NOTIFY_ROLE_ENTER_REQ   = 3000009;
 	MSG_NOTIFY_ROLE_ENTER_ACK   = 3000010;
-	MSG_ROLE_ENTER_SCENE_REQ 	= 3000011;
-	MSG_ROLE_ENTER_SCENE_ACK 	= 3000012; //发送自己的数据
-	MSG_OTHER_ENTER_SCENE_REQ 	= 3000013;
-	MSG_OTHER_ENTER_SCENE_ACK 	= 3000014;
-	MSG_ROLE_LEAVE_SCENE_REQ	= 3000015;
-	MSG_ROLE_LEAVE_SCENE_ACK	= 3000016;
-	MSG_OTHER_LEAVE_SCENE_ACK 	= 3000017;
+	MSG_ENTER_SCENE_REQ 		= 3000011;
+	MSG_ENTER_SCENE_ACK 		= 3000012; //发送自己的数据
+	MSG_LEAVE_SCENE_REQ			= 3000013;
+	MSG_LEAVE_SCENE_ACK			= 3000014;
+	MSG_NEARBY_ADD_NTY 			= 3000015;
+	MSG_NEARBY_DEL_NTY 			= 3000016;
+	MSG_NEARBY_UPDATE_NTY 		= 3000017;
 	MSG_ROLE_MOVE_REQ 			= 3000018;
 	MSG_ROLE_SKILL_REQ 			= 3000019;
 	MSG_SCENESVR_MSGID_END 		= 3999999;
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////
+	/////////////////////////////
+	//////////////////////////////////////
+	MSG_REQ_LOGIN               = 1001;     
+    MSG_ACK_LOGIN               = 1002; 
+    MSG_REQ_LOGINSERVER         = 1003;     
+    MSG_ACK_LOGINSERVER         = 1004; 
+    MSG_REQ_GETSERVERLIST       = 1005;     
+    MSG_ACK_GETSERVERLIST       = 1006;    
+    MSG_REQ_CREATEROLE          = 1007;     
+    MSG_ACK_CREATEROLE          = 1008; 
+    MSG_REQ_ENTERGAME           = 1009;
+    MSG_ACK_ENTERGAME           = 1010;
+    MSG_REQ_REGISTER            = 1011;     
+    MSG_ACK_REGISTER            = 1012;
+
+    MSG_REQ_SORTBAG             = 1101;//整理背包
+    MSG_ACK_SORTBAG             = 1102;//整理背包
+    MSG_REQ_USEITEM             = 1103;//使用物品
+    MSG_ACK_USEITEM             = 1104;//使用物品
+    MSG_REQ_DRESS_EQUIP         = 1105;//穿装备
+    MSG_ACK_DRESS_EQUIP         = 1106;//穿装备
+    MSG_REQ_UNLOAD_EQUIP        = 1107;//卸装备
+    MSG_ACK_UNLOAD_EQUIP        = 1108;//卸装备
+    MSG_REQ_DRESS_GEM           = 1109;//镶嵌宝石
+    MSG_ACK_DRESS_GEM           = 1110;//镶嵌宝石
+    MSG_REQ_UNLOAD_GEM          = 1111;//卸下宝石
+    MSG_ACK_UNLOAD_GEM          = 1112;//卸下宝石
+    MSG_REQ_COMPOSE_CHIP        = 1113;//合成碎片
+    MSG_ACK_COMPOSE_CHIP        = 1114;//合成碎片
+
+
+    MSG_REQ_STRENGTHEN_EQUIP    = 1115;//强化装备
+    MSG_ACK_STRENGTHEN_EQUIP    = 1116;//强化装备
+    MSG_REQ_ADVANCE_EQUIP       = 1117;//进阶装备
+    MSG_ACK_ADVANCE_EQUIP       = 1118;//进阶装备
+    MSG_REQ_UPSTAR_EQUIP        = 1119;//升星装备
+    MSG_ACK_UPSTAR_EQUIP        = 1120;//升星装备
+    MSG_REQ_STRENGTHEN_GEM      = 1121;//强化宝石
+    MSG_ACK_STRENGTHEN_GEM      = 1122;//强化宝石
+
+    MSG_REQ_ONEKEYTODRESSGEM    = 1151;//镶嵌宝石
+    MSG_ACK_ONEKEYTODRESSGEM    = 1152;//镶嵌宝石
+    MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//镶嵌宝石
+    MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//镶嵌宝石
+
+    MSG_REQ_GET_CHAPTERAWARD    = 1201;//领取章节奖励
+    MSG_ACK_GET_CHAPTERAWARD    = 1202;//领取章节奖励
+    MSG_REQ_BATTLE_CHECK        = 1203;//战前检查
+    MSG_ACK_BATTLE_CHECK        = 1204;//战前检查
+    MSG_REQ_PASSCOPY            = 1205;//通关
+    MSG_ACK_PASSCOPY            = 1206;//通关
+
+    MSG_REQ_SETMOUNT            = 1301;//坐骑上阵
+    MSG_ACK_SETMOUNT            = 1302;//坐骑上阵
+
+    MSG_REQ_CHARGE_RELICS       = 1401;//神器充能
+    MSG_ACK_CHARGE_RELICS       = 1402;//神器充能
+    MSG_REQ_UPGRADE_RELICS      = 1403;//神器升级
+    MSG_ACK_UPGRADE_RELICS      = 1404;//神器升级
+    MSG_REQ_BATTLE_RELICS       = 1405;//神器上阵
+    MSG_ACK_BATTLE_RELICS       = 1406;//神器上阵
+    MSG_REQ_UNLOAD_RELICS       = 1407;//神器卸下
+    MSG_ACK_UNLOAD_RELICS       = 1408;//神器卸下
+
+    MSG_REQ_BUY_STORE           = 1501;//购买商店物品
+    MSG_ACK_BUY_STORE           = 1502;//购买商店物品
+
+    MSG_REQ_UPGRADE_PET         = 1601;//更换宠物
+    MSG_ACK_UPGRADE_PET         = 1602;//更换宠物
+
+    MSG_REQ_BATTLE_PET          = 1603;//进阶宠物
+    MSG_ACK_BATTLE_PET          = 1604;//进阶宠物
+
+    MSG_REQ_UNLOAD_PET          = 1605;//升级宠物
+    MSG_ACK_UNLOAD_PET          = 1606;//升级宠物
+
+    MSG_REQ_CHANGE_PARTNER      = 1607;//升级伙伴 
+    MSG_ACK_CHANGE_PARTNER      = 1608;//升级伙伴 
+
+    MSG_REQ_ADVANVE_PARTNER     = 1609;//上阵伙伴
+    MSG_ACK_ADVANVE_PARTNER     = 1610;//上阵伙伴
+
+    MSG_REQ_UPGRADE_PARTNER     = 1611;//收回伙伴
+    MSG_ACK_UPGRADE_PARTNER     = 1612;//收回伙伴
+
+    MSG_REQ_SUBMIT_TASK         = 1613;//提交日常任务
+    MSG_ACK_SUBMIT_TASK         = 1614;//提交日常任务
+
+    MSG_REQ_ADDHERO_EXP         = 2001;//增加经验
+    MSG_ACK_ADDHERO_EXP         = 2002;//增加经验
 }
 

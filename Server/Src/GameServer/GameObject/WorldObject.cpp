@@ -41,18 +41,6 @@ VOID CWorldObject::SetPosition( FLOAT x, FLOAT y, FLOAT z )
 	return ;
 }
 
-BOOL CWorldObject::IsChanged()
-{
-
-	return TRUE;
-}
-
-BOOL CWorldObject::ClearChangeFlag()
-{
-
-	return TRUE;
-}
-
 BOOL CWorldObject::SetUpdate(UpdateStatusEnum UpdateStatus)
 {
 	if(m_pOwnerScene != NULL)
@@ -85,6 +73,16 @@ UINT32 CWorldObject::ReadFromBuffer( UINT32 dwChangeFlag )
 	UINT32 dwSize = 0;	
 
 	return dwSize;
+}
+
+UINT64 CWorldObject::GetObjectID()
+{
+	return 0;
+}
+
+UINT32 CWorldObject::GetObjectType()
+{
+	return 0;
 }
 
 CScene* CWorldObject::GetOwnerScene()

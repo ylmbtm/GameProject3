@@ -9,23 +9,30 @@ public class LoginCtrl :  ICtrl
 {
     public void AddListener()
     {
-        NetworkManager.AddListener(MessageID.MSG_ACK_REGISTER,      OnAck_Register);
-        NetworkManager.AddListener(MessageID.MSG_ACCOUNT_LOGIN_ACK, OnAck_Login);
-        NetworkManager.AddListener(MessageID.MSG_ACK_LOGINSERVER,   OnAck_LoginGame);
-        NetworkManager.AddListener(MessageID.MSG_ACK_GETSERVERLIST, OnAck_GetServerList);
+        NetworkManager.AddListener(MessageID.MSG_ACCOUNT_REG_ACK,   OnAck_Register);
+        NetworkManager.AddListener(MessageID.MSG_ACCOUNT_LOGIN_ACK, OnAck_AccountLogin);
         NetworkManager.AddListener(MessageID.MSG_SELECT_SERVER_ACK, OnAck_SelectServer);
-        NetworkManager.AddListener(MessageID.MSG_ACK_ENTERGAME,     OnAck_EnterGame);
-        NetworkManager.AddListener(MessageID.MSG_ACK_CREATEROLE,    OnAck_CreateRole);
+        NetworkManager.AddListener(MessageID.MSG_ROLE_LIST_ACK,     OnAck_RoleList);
+        NetworkManager.AddListener(MessageID.MSG_SERVER_LIST_ACK,   OnAck_GetServerList);
+        NetworkManager.AddListener(MessageID.MSG_ROLE_CREATE_ACK,   OnAck_CreateRole);
+        NetworkManager.AddListener(MessageID.MSG_ROLE_LOGIN_ACK,    OnAck_EnterGame);
+
+        NetworkManager.AddListener(MessageID.MSG_NOTIFY_INTO_SCENE, OnAck_NotifyIntoScene);
+        NetworkManager.AddListener(MessageID.MSG_ENTER_SCENE_ACK,   OnAck_EnterScene);
+        
     }
 
     public void DelListener()
     {
-        NetworkManager.DelListener(MessageID.MSG_ACK_REGISTER, OnAck_Register);
-        NetworkManager.DelListener(MessageID.MSG_ACK_LOGIN, OnAck_Login);
-        NetworkManager.DelListener(MessageID.MSG_ACK_LOGINSERVER, OnAck_LoginGame);
-        NetworkManager.DelListener(MessageID.MSG_ACK_GETSERVERLIST, OnAck_GetServerList);
-        NetworkManager.DelListener(MessageID.MSG_ACK_ENTERGAME, OnAck_EnterGame);
-        NetworkManager.DelListener(MessageID.MSG_ACK_CREATEROLE, OnAck_CreateRole);
+        NetworkManager.DelListener(MessageID.MSG_ACCOUNT_REG_ACK,   OnAck_Register);
+        NetworkManager.DelListener(MessageID.MSG_ACCOUNT_LOGIN_ACK, OnAck_AccountLogin);
+        NetworkManager.DelListener(MessageID.MSG_SELECT_SERVER_ACK, OnAck_SelectServer);
+        NetworkManager.DelListener(MessageID.MSG_ROLE_LIST_ACK,     OnAck_RoleList);
+        NetworkManager.DelListener(MessageID.MSG_SERVER_LIST_ACK,   OnAck_GetServerList);
+        NetworkManager.DelListener(MessageID.MSG_ROLE_CREATE_ACK,   OnAck_CreateRole);
+        NetworkManager.DelListener(MessageID.MSG_ROLE_LOGIN_ACK,    OnAck_EnterGame);
+        NetworkManager.DelListener(MessageID.MSG_NOTIFY_INTO_SCENE, OnAck_NotifyIntoScene);
+        NetworkManager.DelListener(MessageID.MSG_ENTER_SCENE_ACK,   OnAck_EnterScene);
     }
 
     private void OnAck_CreateRole(MessageRecv obj )
@@ -42,36 +49,48 @@ public class LoginCtrl :  ICtrl
         System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
         AckEnterGame ack = Serializer.Deserialize<AckEnterGame>(ms);
         GTLauncher.CurPlayerID = ack.Player.Id;
-
         GTEventCenter.FireEvent(GTEventID.TYPE_ENTERGAME_CALLBACK);
         GTLauncher.Instance.LoadScene(GTLauncher.LAST_CITY_ID);
     }
 
     private void OnAck_GetServerList(MessageRecv obj )
     {
-
+        System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
+        ms.Seek(28, SeekOrigin.Begin);
+        ClientServerListAck ack = Serializer.Deserialize<ClientServerListAck>(ms);
     }
 
-    private void OnAck_LoginGame(MessageRecv obj )
+    private void OnAck_RoleList(MessageRecv obj)
     {
         System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
-        AckLoginGame ack = Serializer.Deserialize<AckLoginGame>(ms);
-
+        RoleListAck ack = Serializer.Deserialize<RoleListAck>(ms);
         GTEventCenter.FireEvent(GTEventID.TYPE_LOGINGAME_CALLBACK);
-        GTLauncher.Instance.LoadScene(GTSceneKey.SCENE_Role);
+
+        if(ack.RoleNode.Count<=0)
+        {
+            GTLauncher.Instance.LoadScene(GTSceneKey.SCENE_Role);
+        }
+        else
+        {
+            RoleLoginReq req = new RoleLoginReq();
+            req.AccountID = LoginService.Instance.m_CurAccountID;
+            req.RoleID = ack.RoleNode[0].ID;
+            req.LoginCode = LoginService.Instance.m_LoginCode;
+            NetworkManager.Instance.Send(MessageID.MSG_ROLE_LOGIN_REQ, req, 0, 0);
+        }
     }
 
-    private void OnAck_Login(MessageRecv obj )
+    private void OnAck_AccountLogin(MessageRecv obj )
     {
         System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
         ms.Seek(28, SeekOrigin.Begin);
         AccountLoginAck ack = Serializer.Deserialize<AccountLoginAck>(ms);
-        GTEventCenter.FireEvent(GTEventID.TYPE_LOGIN_CALLBACK);
+        
+        LoginService.Instance.m_CurServerID = ack.LastSvrID;
+        LoginService.Instance.m_CurAccountID = ack.AccountID;
+        LoginService.Instance.m_CurServerName = ack.LastSvrName;
 
-        SelectServerReq Req = new SelectServerReq();
-        Req.ServerID = 201;
-        NetworkManager.Instance.Send<SelectServerReq>(MessageID.MSG_SELECT_SERVER_REQ, Req, 0, 0);
-
+        GTEventCenter.FireEvent(GTEventID.TYPE_ACCLOGIN_CALLBACK);
     }
 
     private void OnAck_Register(MessageRecv obj )
@@ -86,12 +105,41 @@ public class LoginCtrl :  ICtrl
         SelectServerAck ack = Serializer.Deserialize<SelectServerAck>(ms);
         NetworkManager.Instance.Close();
         NetworkManager.Instance.Start(ack.ServerAddr, ack.ServerPort);
+        //等待连接游戏服务器
+        //
 
-        RoleLoginReq Req = new RoleLoginReq();
-        Req.AccountID = 1;
-        Req.RoleID = 100000001;
-        Req.LoginCode = 1111111;
-        NetworkManager.Instance.Send<RoleLoginReq>(MessageID.MSG_ROLE_LOGIN_REQ, Req, 0, 0);
+        NetworkManager.Instance.WatiConnctOK();
+
+        //连接上服务器之后，请求角色列表
+        RoleListReq Req = new RoleListReq();
+        Req.AccountID = LoginService.Instance.m_CurAccountID;
+        Req.LoginCode = ack.LoginCode;
+        NetworkManager.Instance.Send<RoleListReq>(MessageID.MSG_ROLE_LIST_REQ, Req, 0, 0);
     }
+
+
+    private void OnAck_NotifyIntoScene(MessageRecv obj)
+    {
+        System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
+        ms.Seek(28, SeekOrigin.Begin);
+        NotifyIntoScene ack = Serializer.Deserialize<NotifyIntoScene>(ms);
+
+        EnterSceneReq req = new EnterSceneReq();
+        req.SceneID = ack.SceneID;
+        req.RoleID = ack.RoleID;
+        NetworkManager.Instance.Send<EnterSceneReq>(MessageID.MSG_ENTER_SCENE_REQ, req, (UInt64)ack.SceneID, (UInt32)ack.ServerID);
+    }
+
+    private void OnAck_EnterScene(MessageRecv obj)
+    {
+        System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
+        ms.Seek(28, SeekOrigin.Begin);
+        EnterSceneAck ack = Serializer.Deserialize<EnterSceneAck>(ms);
+
+        //GTLauncher.CurPlayerID = ack.Player.Id;
+        ///GTEventCenter.FireEvent(GTEventID.TYPE_ENTERGAME_CALLBACK);
+        //GTLauncher.Instance.LoadScene(GTLauncher.LAST_CITY_ID);
+    }
+    
     
 }

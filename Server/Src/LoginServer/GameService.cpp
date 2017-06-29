@@ -53,7 +53,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	//ConnectToStatServer();
+	//ConnectToLogServer();
 
 	ConnectToAccountSvr();
 
@@ -86,47 +86,44 @@ BOOL CGameService::Run()
 
 BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,const google::protobuf::Message& pdata)
 {
-	if(m_pAccountSvrConn == NULL || !m_pAccountSvrConn->IsConnectionOK())
+	if(m_dwAccountConnID == 0)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	char szBuff[10240] = {0};
-
-	pdata.SerializePartialToArray(szBuff, pdata.ByteSize());
-
-	m_pAccountSvrConn->SendMessage(dwMsgID, u64TargetID, dwUserData, szBuff, pdata.ByteSize());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData,pdata);
 
 	return TRUE;
 }
 
 BOOL CGameService::OnTimer(UINT32 dwUserData)
 {
-	if(m_pAccountSvrConn == NULL)
+	if(m_dwAccountConnID == 0)
 	{
 		ConnectToAccountSvr();
 	}
 
-	if(m_pStatSvrConn == NULL)
+	if(m_dwLogSvrConnID == 0)
 	{
-		//ConnectToStatServer();
+		//ConnectToLogServer();
 	}
 
 	return TRUE;
 }
 
-BOOL CGameService::ConnectToStatServer()
+BOOL CGameService::ConnectToLogServer()
 {
 	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("stat_svr_port");
 	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("stat_svr_ip");
-	m_pStatSvrConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
-	if(m_pStatSvrConn == NULL)
+	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
+	if(pConnection == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
+	m_dwLogSvrConnID = pConnection->GetConnectionID();
 	return TRUE;
 }
 
@@ -134,13 +131,14 @@ BOOL CGameService::ConnectToAccountSvr()
 {
 	UINT32 nAccountPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");
 	std::string strAccountIp = CConfigFile::GetInstancePtr()->GetStringValue("account_svr_ip");
-	m_pAccountSvrConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strAccountIp, nAccountPort);
-	if(m_pAccountSvrConn == NULL)
+	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strAccountIp, nAccountPort);
+	if(pConnection == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
+	m_dwAccountConnID = pConnection->GetConnectionID();
 	return TRUE;
 }
 
@@ -156,16 +154,16 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
 	CLog::GetInstancePtr()->AddLog("断开连接!");
 
-	if(pConn == m_pAccountSvrConn)
+	if(pConn->GetConnectionID() == m_dwAccountConnID)
 	{
-		m_pAccountSvrConn = NULL;
+		m_dwAccountConnID = 0;
 		ConnectToAccountSvr();
 	}
 
-	if(pConn == m_pStatSvrConn)
+	if(pConn->GetConnectionID() == m_dwLogSvrConnID)
 	{
-		m_pStatSvrConn = NULL;
-		//ConnectToStatServer();
+		m_dwLogSvrConnID = 0;
+		//ConnectToLogServer();
 	}
 
 	return TRUE;

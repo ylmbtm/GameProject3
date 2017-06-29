@@ -20,22 +20,22 @@ echo. ¨U                                  ¨U
 echo. ¨U     7.ÍË³öÃüÁî´°¿Ú               ¨U
 echo. ¨^¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨a
 echo.             
-set DebugDir=%cd%\Server\Debug\
-set ReleaseDir=%cd%\Server\Release\
+set DebugDir=%cd%\Src\Debug\
+set ReleaseDir=%cd%\Src\Release\
 set ClientDir=%cd%\Client\TestClient\Debug\
 set PressDir=%cd%\Client\\PressureTest\Debug\
 :cho
 set choice=
 set /p choice=          ÇëÑ¡Ôñ:
 IF NOT "%choice%"=="" SET choice=%choice:~0,1%
-if /i "%choice%"=="1" start /D %DebugDir% /MIN %DebugDir%LoginServer.exe & start /D %DebugDir% /MIN %DebugDir%ProxyServer.exe & start /D %DebugDir% /MIN %DebugDir%DBServer.exe & start /D %DebugDir% /MIN %DebugDir%GameServer.exe & start /D %DebugDir% /MIN %DebugDir%StatisticsServer.exe & start /D %DebugDir% /MIN %DebugDir%WorldServer.exe
-if /i "%choice%"=="2" start /D %ReleaseDir% /MIN %ReleaseDir%LoginServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%ProxyServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%DBServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%GameServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%StatisticsServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%WorldServer.exe
-if /i "%choice%"=="3" taskkill /im LoginServer.exe & taskkill /im ProxyServer.exe & taskkill /im DBServer.exe & taskkill /im GameServer.exe & taskkill /im StatisticsServer.exe & taskkill /im WorldServer.exe & taskkill /im TestClient.exe & taskkill /im PressureTest.exe
+if /i "%choice%"=="1" start /D %DebugDir% /MIN %DebugDir%LoginServer.exe & start /D %DebugDir% /MIN %DebugDir%ProxyServer.exe &  start /D %DebugDir% /MIN %DebugDir%DBServer.exe &  start /D %DebugDir% /MIN %DebugDir%GameServer.exe &  start /D %DebugDir% /MIN%DebugDir%LogServer.exe &  start /D %DebugDir% /MIN %DebugDir%LogicServer.exe & start /D %DebugDir% /MIN %DebugDir%AccountServer.exe
+if /i "%choice%"=="2" start /D %ReleaseDir% /MIN %ReleaseDir%LoginServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%ProxyServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%DBServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%GameServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%LogServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%LogicServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%AccountServer.exe
+if /i "%choice%"=="3" taskkill /im LoginServer.exe & taskkill /im ProxyServer.exe & taskkill /im DBServer.exe & taskkill /im GameServer.exe & taskkill /im LogServer.exe & taskkill /im LogicServer.exe & taskkill /im TestClient.exe & taskkill /im PressureTest.exe & taskkill /im AccountServer.exe
 if /i "%choice%"=="4" start /D %ClientDir% %ClientDir%TestClient.exe
 if /i "%choice%"=="5" cls & goto start
 if /i "%choice%"=="6" start /D %PressDir% %PressDir%PressureTest.exe
 if /i "%choice%"=="7" exit
-if /i "%choice%"=="8" type %DebugDir%GameServer.ini & type %DebugDir%LoginServer.ini & type %DebugDir%ProxyServer.ini & type %DebugDir%CenterServer.ini & type %DebugDir%DBServer.ini
+if /i "%choice%"=="8" type %DebugDir%ServerCfg.ini
 echo.
 goto cho
 

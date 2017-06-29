@@ -6,7 +6,7 @@ public enum GTEventID : ushort
     TYPE_CONNECT_FAIL        = 1001,   //连接失败  
 
     TYPE_REGISTER_CALLBACK   = 1051,   //注册回调            
-    TYPE_LOGIN_CALLBACK      = 1052,   //登陆回调 
+    TYPE_ACCLOGIN_CALLBACK      = 1052,   //登陆回调 
     TYPE_CREATEROLE_CALLBACK = 1053,   //创建角色
     TYPE_LOGINGAME_CALLBACK  = 1054,   //登陆游戏服回调
     TYPE_ENTERGAME_CALLBACK  = 1055,   //进入游戏

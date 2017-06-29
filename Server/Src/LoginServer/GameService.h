@@ -30,7 +30,7 @@ public:
 
 	BOOL		OnTimer(UINT32 dwUserData);
 
-	BOOL	    ConnectToStatServer();
+	BOOL	    ConnectToLogServer();
 
 	BOOL		ConnectToAccountSvr();
 
@@ -38,8 +38,8 @@ public:
 	CLoginMsgHandler	m_LoginMsgHandler;
 
 
-	CConnection        *m_pStatSvrConn;
-	CConnection        *m_pAccountSvrConn;
+	UINT32              m_dwLogSvrConnID;
+	UINT32              m_dwAccountConnID;
 };
 
 #endif

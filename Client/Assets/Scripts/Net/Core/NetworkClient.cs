@@ -40,7 +40,7 @@ public class NetworkClient
     {
         if(mIsConnect==false)
         {
-            OnError(MessageRetCode.TYPE_DISCONNECT);
+            OnError(MessageRetCode.MRC_DISCONNECT);
             return;
         }
         try
@@ -62,12 +62,12 @@ public class NetworkClient
     {
         if (mTcp.Client == null)
         {
-            OnError(MessageRetCode.TYPE_DISCONNECT);
+            OnError(MessageRetCode.MRC_DISCONNECT);
             return;
         }
         if (!mTcp.Client.Connected)
         {
-            OnError(MessageRetCode.TYPE_DISCONNECT);
+            OnError(MessageRetCode.MRC_DISCONNECT);
             return;
         }
         mIsConnect = true;
@@ -83,7 +83,7 @@ public class NetworkClient
             Thread.Sleep(20);
             if (mTcp == null || mTcp.Connected == false)
             {
-                OnError(MessageRetCode.TYPE_DISCONNECT);
+                OnError(MessageRetCode.MRC_DISCONNECT);
                 return;
             }
             NetworkStream stream = mTcp.GetStream();
@@ -147,7 +147,7 @@ public class NetworkClient
 
     void OnError(MessageRetCode retCode)
     {
-        if(retCode == MessageRetCode.TYPE_OK)
+        if (retCode == MessageRetCode.MRC_SUCCESS)
         {
             return;
         }
@@ -168,6 +168,11 @@ public class NetworkClient
             mTcp.Close();
         }
         mTcp = null;
+    }
+
+    public bool IsConnectOK()
+    {
+        return mIsConnect;
     }
 
 }

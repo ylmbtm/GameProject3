@@ -1,45 +1,81 @@
 ﻿#include "stdafx.h"
+#include "ModuleBase.h"
 #include "PlayerObject.h"
 
-CPlayerObject::CPlayerObject()
+
+
+
+
+
+
+
+
+CModuleBase::CModuleBase()
 {
-	
+
 }
 
-CPlayerObject::~CPlayerObject()
+CModuleBase::~CModuleBase()
 {
 
 }
 
-BOOL CPlayerObject::Init()
+BOOL CModuleBase::OnCreate(UINT64 u64RoleID)
 {
-	memset(m_szObjectName, 0, MAX_NAME_LEN);
-	m_u64ObjectID = 0;
+	return TRUE;
+}
 
-	m_ObjectPos.x = 0;
-	m_ObjectPos.y = 0;
-	m_ObjectPos.z = 0;
+BOOL CModuleBase::OnDestroy(UINT64 u64RoleID)
+{
+	return TRUE;
+}
 
-	m_dwFeature = 0;
-	m_dwLevel   = 0;
+BOOL CModuleBase::OnLogin(UINT64 u64RoleID)
+{
+	return TRUE;
+}
 
-	
+BOOL CModuleBase::OnLogout(UINT64 u64RoleID)
+{
+	return TRUE;
+}
+
+BOOL CModuleBase::OnNewDay()
+{
+	return TRUE;
+}
+
+BOOL CModuleBase::OnLoadData(UINT64 u64RoleID)
+{
+	return TRUE;
+}
+
+BOOL CModuleBase::IsDataOK()
+{
+	return m_bIsDataOK;
+}
+
+BOOL CModuleBase::SetDataOK(BOOL bOK)
+{
+	m_bIsDataOK = bOK;
+
+	m_pOwnPlayer->OnModuleFnished();
 
 	return TRUE;
 }
 
-BOOL CPlayerObject::Uninit()
+BOOL CModuleBase::DispatchPacket(NetPacket *pNetPack)
 {
-
 	return TRUE;
 }
 
-
-
-
-UINT64 CPlayerObject::GetObjectID()
+BOOL CModuleBase::SetOwner(CPlayerObject *pOwner)
 {
-	return m_u64ObjectID;
+	m_pOwnPlayer = pOwner;
+	return TRUE;
 }
 
-
+CPlayerObject* CModuleBase::GetOwner()
+{
+	return m_pOwnPlayer;
+}

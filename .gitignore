@@ -230,7 +230,6 @@ project/Lua/Release/LuaProject.lib
 project/Server/ServerEngine/Debug/ServerEngine.lastbuildstate
 *.lib
 *.lib
-*.vcxproj
 *.filters
 *.lastbuildstate
 *.rc
@@ -239,6 +238,7 @@ project/Server/ServerEngine/Debug/ServerEngine.lastbuildstate
 #u3d tempfile
 Client/Assets/Resources
 Client/library
+Client/obj
 Client/obj
 Client/ProjectSettings
 Client/Temp

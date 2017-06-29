@@ -6,6 +6,8 @@
 template <int SIZE>
 class  CBufferManager;
 
+#define HEADER_LEN 28
+
 template <int SIZE = 1024>
 class CDataBuffer : public IDataBuffer
 {

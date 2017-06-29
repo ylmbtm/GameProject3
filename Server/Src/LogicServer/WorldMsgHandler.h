@@ -30,11 +30,9 @@ public:
 	BOOL OnMsgRoleLoginReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLoginAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLogoutReq(NetPacket *pNetPacket);
+	BOOL OnMsgTransRoleDataAck(NetPacket *pNetPacket);
 
 	//*********************消息处理定义结束******************************
-
-	CGameSvrMgr			m_GameSvrMgr;
-
 	CPlayerManager    m_PlayerManager;
 };
 

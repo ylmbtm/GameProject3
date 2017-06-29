@@ -30,7 +30,7 @@ BOOL CDBProcManager::Uninit()
 	return TRUE;
 }
 
-BOOL CDBProcManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel)
+BOOL CDBProcManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel, UINT32 dwCreateTime)
 {
 	if(0 != GetAccountID(szAccount))
 	{
@@ -39,7 +39,7 @@ BOOL CDBProcManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, c
 
     CHAR szSql[MAX_SQL_LEN];
 
-	sprintf(szSql, "insert into account(id, name, password, channel) values('%d','%s','%s', '%d')", u64AccountID, szAccount, szPassword, dwChannel);
+	sprintf(szSql, "insert into account(id, name, password, channel, createtime) values('%lld','%s','%s', '%d', '%d')", u64AccountID, szAccount, szPassword, dwChannel, dwCreateTime);
 
 	if(m_DBConnection.execDML(szSql) > 0)
 	{

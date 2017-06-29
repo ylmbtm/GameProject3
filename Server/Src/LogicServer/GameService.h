@@ -26,25 +26,26 @@ public:
 
 	BOOL        SendCmdToDBConnection(IDataBuffer *pBuffer);
 
-	BOOL	    ConnectToStatServer();
+	BOOL	    ConnectToLogServer();
 
 	BOOL		ConnectToLoginSvr();
 
 	BOOL		ConnectToDBSvr();
 
-	BOOL		ConnectToProxySvr();
-
 	BOOL		RegisterToLoginSvr();
 
 	BOOL		OnTimer(UINT32 dwUserData);
 
+	UINT32      GetDBConnID();
+
+	UINT32      GetLoginConnID();
+
 public:
 	CWorldMsgHandler		m_WorldMsgHandler;
 
-	CConnection*			m_pStatSvrConn;
-	CConnection*			m_pLoginSvrConn;
-	CConnection*			m_pDBServerConn;
-	CConnection*			m_pProxySvrConn;
+	UINT32			m_dwLogConnID;
+	UINT32			m_dwLoginConnID;
+	UINT32			m_dwDBConnID;
 };
 
 #endif

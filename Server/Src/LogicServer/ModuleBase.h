@@ -4,6 +4,8 @@
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
 
+class CPlayerObject;
+
 class CModuleBase
 {
 public:
@@ -11,56 +13,27 @@ public:
 
 	~CModuleBase();
 
-	virtual BOOL OnCreate(UINT64 u64RoleID)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreate(UINT64 u64RoleID);
 
-	virtual BOOL OnDestroy(UINT64 u64RoleID)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnDestroy(UINT64 u64RoleID);
 
-	virtual BOOL OnLogin(UINT64 u64RoleID)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLogin(UINT64 u64RoleID);
 
-	virtual BOOL OnLogout(UINT64 u64RoleID)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLogout(UINT64 u64RoleID);
 
-	virtual BOOL OnNewDay()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnNewDay();
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnLoadData(UINT64 u64RoleID);
 
-	virtual BOOL IsDataOK()
-	{
-		return m_bIsDataOK;
-	}
+	virtual BOOL IsDataOK();
 
-	virtual BOOL SetDataOK(BOOL bOK)
-	{
-		m_bIsDataOK = bOK;
-		return TRUE;
-	}
+	virtual BOOL SetDataOK(BOOL bOK);
 
-	BOOL SetOwner(CPlayerObject *pOwner)
-	{
-		m_pOwnPlayer = pOwner;
-	}
+	virtual BOOL DispatchPacket(NetPacket *pNetPack);
 
-	CPlayerObject* GetOwner()
-	{
-		return m_pOwnPlayer;
-	}
+	BOOL SetOwner(CPlayerObject *pOwner);
+
+	CPlayerObject* GetOwner();
 
 public:
 	CPlayerObject *m_pOwnPlayer;

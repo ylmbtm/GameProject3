@@ -1,25 +1,18 @@
-﻿#ifndef __EQUIPMENT_SYSTEM_H__
-#define __EQUIPMENT_SYSTEM_H__
+﻿#ifndef __EQUIPMENT_MODULE_H__
+#define __EQUIPMENT_MODULE_H__
 
-class CEquipmentSystem
+class CEquipModule
 {
 public:
-	CEquipmentSystem();
+	CEquipModule();
 
-	~CEquipmentSystem();
+	~CEquipModule();
 
 public:
-	virtual BOOL	IsChanged();
-
-	virtual BOOL	ClearChangeFlag();
-
-	virtual UINT32	WriteToBuffer(CBufferHelper *pBufHelper, UINT32 dwChangeFlag, UINT32 dwDest);
-
-	virtual UINT32  ReadFromBuffer(CBufferHelper *pBufHelper, UINT32 dwChangeFlag);
 
 public:
 
 
 };
 
-#endif //__EQUIPMENT_SYSTEM_H__
+#endif //__EQUIPMENT_MODULE_H__
