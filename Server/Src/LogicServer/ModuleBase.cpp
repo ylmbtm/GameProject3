@@ -2,52 +2,14 @@
 #include "ModuleBase.h"
 #include "PlayerObject.h"
 
-
-
-
-
-
-
-
-
-CModuleBase::CModuleBase()
+CModuleBase::CModuleBase(CPlayerObject *pOwner)
 {
-
+	m_pOwnPlayer = pOwner;
 }
 
 CModuleBase::~CModuleBase()
 {
 
-}
-
-BOOL CModuleBase::OnCreate(UINT64 u64RoleID)
-{
-	return TRUE;
-}
-
-BOOL CModuleBase::OnDestroy(UINT64 u64RoleID)
-{
-	return TRUE;
-}
-
-BOOL CModuleBase::OnLogin(UINT64 u64RoleID)
-{
-	return TRUE;
-}
-
-BOOL CModuleBase::OnLogout(UINT64 u64RoleID)
-{
-	return TRUE;
-}
-
-BOOL CModuleBase::OnNewDay()
-{
-	return TRUE;
-}
-
-BOOL CModuleBase::OnLoadData(UINT64 u64RoleID)
-{
-	return TRUE;
 }
 
 BOOL CModuleBase::IsDataOK()

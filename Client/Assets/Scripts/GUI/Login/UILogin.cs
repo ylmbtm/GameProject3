@@ -42,7 +42,7 @@ public class UILogin : GTWindow
         m_AccountInput = transform.Find("UI_Account_Login/Account").GetComponent<UIInput>();
         m_PasswordInput = transform.Find("UI_Account_Login/Password").GetComponent<UIInput>();
         m_PasswordInput2 = transform.Find("UI_Account_Login/Password2").GetComponent<UIInput>();
-        transform.Find("UI_Account_Login/Password2").gameObject.SetActive(false);
+        //transform.Find("UI_Account_Login/Password2").gameObject.SetActive(false);
         transform.Find("UI_Account_Login").gameObject.SetActive(true);
     }
 
@@ -135,7 +135,7 @@ public class UILogin : GTWindow
     {
         transform.Find("UI_Account_Login").gameObject.SetActive(false);
         transform.Find("UI_Role_Login").gameObject.SetActive(true);
-        mCurServerName.text = "UI_Role_Login";//LoginService.Instance.m_CurServerName;
+        mCurServerName.text = LoginService.Instance.m_CurServerName;
     }
 
     private void OnRecvLoginGame()

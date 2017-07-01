@@ -40,6 +40,8 @@ public:
 
 	UINT32      GetLoginConnID();
 
+	UINT32      GetServerID();
+
 public:
 	CWorldMsgHandler		m_WorldMsgHandler;
 

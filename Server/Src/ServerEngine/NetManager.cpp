@@ -741,6 +741,8 @@ Th_RetName _NetEventThread( void *pParam )
 
 	CLog::GetInstancePtr()->AddLog("网络事件处理线程退出!");
 
+	CommonThreadFunc::ExitThread();
+
 	return Th_RetValue;
 }
 
@@ -751,6 +753,8 @@ Th_RetName _NetListenThread( void *pParam )
 	pNetManager->WorkThread_Listen();
 
 	CLog::GetInstancePtr()->AddLog("监听线程退出!");
+
+	CommonThreadFunc::ExitThread();
 
 	return Th_RetValue;
 }
@@ -763,5 +767,7 @@ Th_RetName _NetEventDispatchThread(void *pParam )
 
 	CLog::GetInstancePtr()->AddLog("事件分发线程退出!");
 	
+	CommonThreadFunc::ExitThread();
+
 	return Th_RetValue;
 }

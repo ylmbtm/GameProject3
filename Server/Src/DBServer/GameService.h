@@ -2,6 +2,7 @@
 #define _GAME_SERVICE_H_
 #include "ServiceBase.h"
 #include "DBMsgHandler.h"
+#include "DBWriterManager.h"
 class CConnection;
 
 #define DB_THREAD_NUM 10
@@ -30,6 +31,8 @@ public:
 
 public:
 	CDBMsgHandler		m_DBMsgHandler;
+
+	CDBWriterManager    m_DBWriterManger;     
 };
 
 #endif

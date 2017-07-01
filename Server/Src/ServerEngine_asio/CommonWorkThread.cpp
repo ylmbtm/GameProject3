@@ -79,45 +79,19 @@ BOOL CCommonWorkThread::ProcessTimeEvent()
 
 BOOL CCommonWorkThread::ProcessMessage()
 {
-	MsgItem msg;
+	NetPacket *pPacket;
 
-	while(m_MessageQueue.pop(msg))
+	while(m_MessageQueue.pop(pPacket))
 	{
-		if(msg.pDataBuffer == NULL)
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
-
-		ASSERT(msg.u64ConnID != 0);
-
-		PacketHeader *pPacketHeader = (PacketHeader *)(msg.pDataBuffer->GetBuffer());
-
-		m_pCommandHandler->OnCommandHandle(pPacketHeader->dwMsgID, msg.u64ConnID, msg.pDataBuffer);
-
-		msg.pDataBuffer->Release();
+		m_pCommandHandler->DispatchPacket(pPacket);
 	}
 
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer)
+BOOL CCommonWorkThread::AddMessage(NetPacket *pNetPacket)
 {
-	ASSERT(u64ConnID != 0);
-	IDataBuffer *pRecvBuffer = pDataBuffer;
-	/*
-	IDataBuffer *pRecvBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pDataBuffer->GetTotalLenth());
-	if(pRecvBuffer == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
-
-	pRecvBuffer->CopyFrom(pDataBuffer);
-	*/
-
-	m_MessageQueue.push(MsgItem(u64ConnID, pRecvBuffer));
+	m_MessageQueue.push(pNetPacket);
 
 	return TRUE;
 }

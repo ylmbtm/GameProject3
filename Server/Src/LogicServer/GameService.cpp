@@ -8,6 +8,7 @@
 #include "Utility/CommonThreadFunc.h"
 #include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
+#include "DataPool.h"
 
 CGameService::CGameService(void)
 {
@@ -43,8 +44,8 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("world_svr_port");
-	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("world_svr_max_con");
+	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
+	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
 		ASSERT_FAIELD;
@@ -56,6 +57,10 @@ BOOL CGameService::Init()
 	ConnectToLogServer();
 
 	ConnectToLoginSvr();
+
+	ConnectToDBSvr();
+
+	CreateDataPool();
 
 	m_WorldMsgHandler.Init(0);
 
@@ -142,7 +147,7 @@ BOOL CGameService::RegisterToLoginSvr()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("新连接来到!");
+	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 
 	if(pConn->GetConnectionID() == m_dwLoginConnID)
 	{
@@ -221,4 +226,9 @@ UINT32 CGameService::GetDBConnID()
 UINT32 CGameService::GetLoginConnID()
 {
 	return m_dwLoginConnID;
+}
+
+UINT32 CGameService::GetServerID()
+{
+	return CConfigFile::GetInstancePtr()->GetIntValue("domainid");
 }

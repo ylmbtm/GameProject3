@@ -24,7 +24,6 @@ public:
 	BOOL OnMsgRoleListReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleListAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleCreateReq(NetPacket *pNetPacket);
-	BOOL OnMsgRoleCreateAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleDeleteReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleDeleteAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLoginReq(NetPacket *pNetPacket);

@@ -147,7 +147,7 @@ public class NetworkClient
 
     void OnError(MessageRetCode retCode)
     {
-        if (retCode == MessageRetCode.MRC_SUCCESS)
+        if (retCode == MessageRetCode.MRC_SUCCESSED)
         {
             return;
         }

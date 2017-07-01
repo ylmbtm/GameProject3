@@ -30,11 +30,13 @@ BOOL CDBMsgHandler::Init(UINT32 dwReserved)
 {
 	if(!CCommonMsgHandler::Init(dwReserved))
 	{
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	if(!m_DBProcManager.Init())
+	if(!m_DBManager.Init())
 	{
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -45,8 +47,6 @@ BOOL CDBMsgHandler::Uninit()
 {
 	CCommonMsgHandler::Uninit();
 
-	m_DBProcManager.Uninit();
-
 	return TRUE;
 }
 
@@ -56,8 +56,6 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 		PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_CREATE_REQ,		OnMsgCreateRoleReq);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_DELETE_REQ,		OnMsgDeleteRoleReq);
 		PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
 	default:
 		{
@@ -77,7 +75,10 @@ BOOL CDBMsgHandler::OnUpdate(UINT32 dwTick)
 
 BOOL CDBMsgHandler::OnThreadBegin()
 {
-	m_DBProcManager.Init();
+	if(!m_DBManager.Init())
+	{
+		return FALSE;
+	}
 	/*
 	m_DBConnection.Init();
 
@@ -128,8 +129,7 @@ BOOL CDBMsgHandler::OnThreadBegin()
 
 BOOL CDBMsgHandler::OnThreadEnd()
 {
-	m_DBConnection.Uninit();
-
+	m_DBManager.Uninit();
 	return TRUE;
 }
 
@@ -146,30 +146,6 @@ BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket *pPacket)
 
 	RoleListAck Ack;
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
-}
-
-BOOL CDBMsgHandler::OnMsgCreateRoleReq(NetPacket *pPacket)
-{
-	RoleCreateReq  Req;
-	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->dwUserData != 0);
-
-	m_DBProcManager.CreateRole(Req.roleid(), Req.accountid(), (char*)Req.name().c_str(), Req.roletype(), 1);
-
-	RoleCreateAck Ack;
-	Ack.set_accountid(Req.accountid());
-	Ack.set_roleid(Req.roleid());
-	Ack.set_roletype(Req.roletype());
-	Ack.set_name(Req.name());
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(),  MSG_ROLE_CREATE_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
-
-	return TRUE;
-}
-
-BOOL CDBMsgHandler::OnMsgDeleteRoleReq(NetPacket *pPacket)
-{
-	return TRUE;
 }
 
 BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket *pPacket)

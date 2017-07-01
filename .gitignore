@@ -283,3 +283,4 @@ proto/proto-gen-lua
 *.cc
 *.dll
 *.asset
+*.exp

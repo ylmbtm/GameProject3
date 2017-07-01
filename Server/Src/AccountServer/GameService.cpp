@@ -63,7 +63,7 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("新连接来到!");
+	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 

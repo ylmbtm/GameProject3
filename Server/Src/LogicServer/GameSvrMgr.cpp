@@ -79,9 +79,15 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 	GmsvrRegToLogicReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->dwUserData != 0);
 
-	//m_mapGameSvr.insert(std::make_pair(Req.serverid(),))
+	std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.find(Req.serverid());
+	if(itor != m_mapGameSvr.end())
+	{
+		itor->second.dwConnID = pNetPacket->m_pConnect->GetConnectionID();
+		itor->second.dwSvrID = Req.serverid();
+	}
+
+	m_mapGameSvr.insert(std::make_pair(Req.serverid(),GameSvrInfo(Req.serverid(), pNetPacket->m_pConnect->GetConnectionID())));
 	
 	return TRUE;
 }

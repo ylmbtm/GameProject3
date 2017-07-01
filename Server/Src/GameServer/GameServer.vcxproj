@@ -131,7 +131,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameObject\SceneObject.h" />
     <ClInclude Include="GameObject\WorldObject.h" />
-    <ClInclude Include="..\..\Common\Error.h" />
     <ClInclude Include="..\..\Common\GameDefine.h" />
     <ClInclude Include="..\..\Common\GameStruct.h" />
     <ClInclude Include="..\..\Common\ObjectID.h" />

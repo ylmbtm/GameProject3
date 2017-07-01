@@ -24,7 +24,7 @@ public:
 	static CPlayerManager* GetInstancePtr();
 
 public:
-	CPlayerObject*		CreatePlayer(UINT64 u64RoleID, UINT32 RoleType, string RoleName);
+	CPlayerObject*		CreatePlayer(UINT64 u64RoleID);
 
 	CPlayerObject*		GetPlayer(UINT64 u64RoleID);
 

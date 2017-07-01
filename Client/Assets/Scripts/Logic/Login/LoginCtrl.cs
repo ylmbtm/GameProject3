@@ -125,9 +125,8 @@ public class LoginCtrl :  ICtrl
         NotifyIntoScene ack = Serializer.Deserialize<NotifyIntoScene>(ms);
 
         EnterSceneReq req = new EnterSceneReq();
-        req.SceneID = ack.SceneID;
         req.RoleID = ack.RoleID;
-        NetworkManager.Instance.Send<EnterSceneReq>(MessageID.MSG_ENTER_SCENE_REQ, req, (UInt64)ack.SceneID, (UInt32)ack.ServerID);
+        NetworkManager.Instance.Send<EnterSceneReq>(MessageID.MSG_ENTER_SCENE_REQ, req, (UInt64)ack.CopyID, (UInt32)ack.ServerID);
     }
 
     private void OnAck_EnterScene(MessageRecv obj)

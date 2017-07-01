@@ -1,18 +1,18 @@
 ﻿#include "stdafx.h"
-#include "DBProcManager.h"
+#include "DBManager.h"
 #include "Utility/CommonFunc.h"
 #include "ObjectID.h"
 
 
-CDBProcManager::CDBProcManager(void)
+CDBManager::CDBManager(void)
 {
 }
 
-CDBProcManager::~CDBProcManager(void)
+CDBManager::~CDBManager(void)
 {
 }
 
-BOOL CDBProcManager::Init()
+BOOL CDBManager::Init()
 {
 	std::string strCurDir = CommonFunc::GetCurrentDir();
 	strCurDir+= "\\AccountData.db";
@@ -23,14 +23,14 @@ BOOL CDBProcManager::Init()
 
 }
 
-BOOL CDBProcManager::Uninit()
+BOOL CDBManager::Uninit()
 {
 	m_DBConnection.close();
 
 	return TRUE;
 }
 
-BOOL CDBProcManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel, UINT32 dwCreateTime)
+BOOL CDBManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel, UINT32 dwCreateTime)
 {
 	if(0 != GetAccountID(szAccount))
 	{
@@ -50,7 +50,7 @@ BOOL CDBProcManager::CreateAccount(UINT64 u64AccountID, const char *szAccount, c
 }
 
 
-UINT64 CDBProcManager::VerifyAccount( const char *szAccount, const char *szPassword )
+UINT64 CDBManager::VerifyAccount( const char *szAccount, const char *szPassword )
 {
     CHAR szSql[MAX_SQL_LEN];
 
@@ -66,7 +66,7 @@ UINT64 CDBProcManager::VerifyAccount( const char *szAccount, const char *szPassw
 	return 0;
 }
 
-UINT64 CDBProcManager::GetAccountID( const char *szAccount )
+UINT64 CDBManager::GetAccountID( const char *szAccount )
 {
     CHAR szSql[MAX_SQL_LEN];
 

@@ -3,17 +3,16 @@
 
 #include "Sqlite/CppSQLite3.h"
 
-class CDBProcManager
+class CDBManager
 {
 public:
-	CDBProcManager(void);
-	~CDBProcManager(void);
+	CDBManager(void);
+	~CDBManager(void);
 
 	BOOL Init();
 
 	BOOL Uninit();
 
-	UINT64 GetMaxAccountID();
 
 	BOOL CreateAccount(UINT64 u64AccountID, const char *szAccount, const char *szPassword, UINT32 dwChannel, UINT32 dwCreateTime);
 
@@ -22,7 +21,5 @@ public:
 	UINT64 GetAccountID(const char *szAccount);
 
 	CppSQLite3DB	m_DBConnection;
-
-	UINT64			m_64MaxAccountID;
 };
 #endif

@@ -36,7 +36,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-----------");
+	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-ServerID:%d--Port:%d--------",dwServerID, dwPort);
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
@@ -69,7 +69,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("新连接来到!");
+	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
@@ -81,18 +81,19 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
-
 	if(m_dwLogicConnID == pConn->GetConnectionID())
 	{
 		m_dwLogicConnID = 0;
 		ConnectToLogicSvr();
+
+		CLog::GetInstancePtr()->AddLog("与逻辑服断开连接!");
 	}
 
 	if(m_dwProxyConnID == pConn->GetConnectionID())
 	{
 		m_dwProxyConnID = NULL;
 		ConnectToProxySvr();
+		CLog::GetInstancePtr()->AddLog("与代理服断开连接!");
 	}
 
 	return TRUE;

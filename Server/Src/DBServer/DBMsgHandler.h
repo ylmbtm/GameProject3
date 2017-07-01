@@ -1,10 +1,7 @@
 ﻿#ifndef _DB_MSG_HANDLER_H_
 #define _DB_MSG_HANDLER_H_
 #include "CommonMsgHandler.h"
-#include "DBProcManager.h"
-#include "DBConnection.h"
-#include "DBStoredProcMgr.h"
-
+#include "DBManager.h"
 
 class CDBMsgHandler : public CCommonMsgHandler
 {
@@ -29,20 +26,12 @@ public:
 	//*********************消息处理定义开始******************************
 public:
 	BOOL OnMsgRoleListReq(NetPacket *pPacket);
-	BOOL OnMsgCreateRoleReq(NetPacket *pPacket);
-	BOOL OnMsgDeleteRoleReq(NetPacket *pPacket);
 	BOOL OnMsgRoleLoginReq(NetPacket *pPacket);
-	
 	//*********************消息处理定义结束******************************
 
 public:
-	//真实的mysql
-	CDBConnection   m_DBConnection;
-
-	CDBStoredProcedureMgr m_DBProceduceMgr;
-
 	//数据库定义
-	CDBProcManager   m_DBProcManager;
+	CDBManager   m_DBManager;
 };
 
 #endif //_DB_MSG_HANDLER_H_

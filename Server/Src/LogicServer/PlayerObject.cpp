@@ -36,9 +36,14 @@ BOOL CPlayerObject::Uninit()
 
 BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(std::vector<CModuleBase*>::iterator itor = ++m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
 	{
 		CModuleBase *pBase = *itor;
+		if(pBase == NULL)
+		{
+			ASSERT_FAIELD;
+		}
+
 		pBase->OnCreate(u64RoleID);
 	}
 	return TRUE;
@@ -86,7 +91,7 @@ BOOL CPlayerObject::OnNewDay()
 
 BOOL CPlayerObject::OnLoadData(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(std::vector<CModuleBase*>::iterator itor = ++m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
 	{
 		CModuleBase *pBase = *itor;
 		pBase->OnLoadData(u64RoleID);
@@ -116,7 +121,7 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 BOOL CPlayerObject::CreateAllModule()
 {
 	m_MoudleList.resize(MT_END);
-	m_MoudleList[MT_ROLE] = new CRoleModule();
+	m_MoudleList[MT_ROLE] = new CRoleModule(this);
 
 	return TRUE;
 }
@@ -144,16 +149,16 @@ BOOL CPlayerObject::OnModuleFnished()
 	    ///发玩家自己的数据给玩家
 		///发视野里的玩家给玩家
 
-		CRoleModule *pModule = GetModuleByType<CRoleModule>(MT_ROLE);
+		CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
 		RoleLoginAck Ack;
 
 		SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
 
 		TransRoleDataReq Req;
 		Req.set_roleid(m_u64ID);
-		Req.set_roletype(pModule->m_RoleType);
-		Req.set_level(pModule->m_dwLevel);
-		Req.set_rolename(pModule->m_strName);
+		//Req.set_roletype(pModule->m_RoleType);
+		//Req.set_level(pModule->m_dwLevel);
+		//Req.set_rolename(pModule->m_strName);
 
 		UINT32 dwSvrID, dwConnID, dwCopyID;
 
@@ -186,6 +191,16 @@ BOOL CPlayerObject::OnAllModuleOK()
 	return TRUE;
 }
 
+
+CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
+{
+	if(MType >= m_MoudleList.size())
+	{
+		return NULL;
+	}
+
+	return m_MoudleList.at(MType);
+}
 
 UINT64 CPlayerObject::GetObjectID()
 {

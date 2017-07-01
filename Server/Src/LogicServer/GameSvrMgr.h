@@ -3,6 +3,11 @@
 
 struct GameSvrInfo
 {
+	GameSvrInfo(UINT32 svrID, UINT32 conID)
+	{
+		dwSvrID = svrID;
+		dwConnID = conID;
+	}
 	UINT32 dwSvrID;
 	UINT32 dwConnID;
 };
@@ -32,7 +37,7 @@ public:
 	BOOL	OnCloseConnect(UINT32 dwConnID);
 
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID到信息
+	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID--信息
 };
 
 #endif

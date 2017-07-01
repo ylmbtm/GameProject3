@@ -59,18 +59,26 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	ConnectToLogicSvr();
+
 	return TRUE;
 }
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("新连接来到!");
+	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
 	CLog::GetInstancePtr()->AddLog("断开连接!");
+	if(pConn->GetConnectionID() == m_dwLogicConnID)
+	{
+		m_dwLogicConnID = 0;
+		ConnectToLogicSvr();
+	}
+
 	return TRUE;
 }
 

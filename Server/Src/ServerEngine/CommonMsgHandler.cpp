@@ -27,23 +27,15 @@ BOOL CCommonMsgHandler::Uninit()
 	return TRUE;
 }
 
-BOOL CCommonMsgHandler::OnMessageHandle( UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer *pDataBuffer)
+BOOL CCommonMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 {
-	OnMsgDefaultHandle(dwMsgID, u64ConnID, pDataBuffer);
+	ASSERT_FAIELD;
 	return TRUE;
 }
 
-BOOL CCommonMsgHandler::AddMessage( UINT64 u64ConnID, IDataBuffer *pDataBuffer )
+BOOL CCommonMsgHandler::AddMessage(NetPacket *pNetPacket)
 {
-	return m_WorkThread.AddMessage(u64ConnID, pDataBuffer);
-}
-
-
-
-BOOL CCommonMsgHandler::OnMsgDefaultHandle(UINT16 wCommandID, UINT64 u64ConnID, IDataBuffer *pDataBuffer)
-{
-
-	return TRUE;
+	return m_WorkThread.AddMessage(pNetPacket);
 }
 
 BOOL CCommonMsgHandler::OnUpdate( UINT32 dwTick )

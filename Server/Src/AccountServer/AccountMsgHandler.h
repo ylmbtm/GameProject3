@@ -1,7 +1,7 @@
 ﻿#ifndef _ACCOUNT_MSG_HANDLER_H_
 #define _ACCOUNT_MSG_HANDLER_H_
 
-#include "DBProcManager.h"
+#include "DBManager.h"
 #include "AccountManager.h"
 class CAccountMsgHandler
 {
@@ -27,7 +27,7 @@ public:
 public:
 
 	//数据库定义
-	CDBProcManager   m_DBProcManager;
+	CDBManager   m_DBManager;
 
 	CAccountObjectMgr m_AccountManager;
 };

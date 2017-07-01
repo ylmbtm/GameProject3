@@ -53,6 +53,10 @@ BOOL CGameService::Init()
 	}
 
 	m_DBMsgHandler.Init(0);
+
+	m_DBWriterManger.Init();
+
+	
 	
 
 	return TRUE;
@@ -62,7 +66,7 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("新连接来到!");
+	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 
@@ -78,7 +82,7 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 	{
 	default:
 		{
-			m_DBMsgHandler.AddMessage(pNetPacket->m_pConnect->GetConnectionID(), pNetPacket->m_pDataBuffer);
+			m_DBMsgHandler.AddMessage(pNetPacket);
 		}
 		break;
 	}

@@ -101,7 +101,7 @@
     <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="AccountMsgHandler.cpp" />
     <ClCompile Include="AccountServer.cpp" />
-    <ClCompile Include="DBProcManager.cpp" />
+    <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -113,7 +113,7 @@
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
     <ClInclude Include="AccountManager.h" />
     <ClInclude Include="AccountMsgHandler.h" />
-    <ClInclude Include="DBProcManager.h" />
+    <ClInclude Include="DBManager.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />

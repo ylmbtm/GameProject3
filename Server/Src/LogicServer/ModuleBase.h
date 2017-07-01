@@ -9,21 +9,21 @@ class CPlayerObject;
 class CModuleBase
 {
 public:
-	CModuleBase();
+	CModuleBase(CPlayerObject *pOwner);
 
 	~CModuleBase();
 
-	virtual BOOL OnCreate(UINT64 u64RoleID);
+	virtual BOOL OnCreate(UINT64 u64RoleID) = 0;
 
-	virtual BOOL OnDestroy(UINT64 u64RoleID);
+	virtual BOOL OnDestroy(UINT64 u64RoleID) = 0;
 
-	virtual BOOL OnLogin(UINT64 u64RoleID);
+	virtual BOOL OnLogin(UINT64 u64RoleID) = 0;
 
-	virtual BOOL OnLogout(UINT64 u64RoleID);
+	virtual BOOL OnLogout(UINT64 u64RoleID) = 0;
 
-	virtual BOOL OnNewDay();
+	virtual BOOL OnNewDay() = 0;
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID);
+	virtual BOOL OnLoadData(UINT64 u64RoleID) = 0;
 
 	virtual BOOL IsDataOK();
 

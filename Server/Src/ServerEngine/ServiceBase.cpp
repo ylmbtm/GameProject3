@@ -44,6 +44,12 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 		return FALSE;
 	}
 
+	if((nPortNum <= 0)||(nMaxConn <= 0))
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
 	m_pPacketDispatcher = pDispather;
 
 	if (!CNetManager::GetInstancePtr()->Start(nPortNum, nMaxConn, this))
@@ -116,6 +122,12 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 
  CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
 {
+	if(strIpAddr.empty()||sPort <= 0)
+	{
+		ASSERT_FAIELD;
+		return NULL;
+	}
+
 	return CNetManager::GetInstancePtr()->ConnectToOtherSvrEx(strIpAddr, sPort);
 }
 

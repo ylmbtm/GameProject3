@@ -1,35 +1,32 @@
 ﻿#ifndef __ROLE_MODULE_H__
 #define __ROLE_MODULE_H__
 #include "ModuleBase.h"
+#include "DataPool.h"
+#include "..\ServerData\serverStruct.h"
+
 class CRoleModule : public CModuleBase
 {
 public:
-	CRoleModule();
+	CRoleModule(CPlayerObject *pOwner);
 
 	~CRoleModule();
 
 public:
-	virtual BOOL OnCreate();
+	virtual BOOL OnCreate(UINT64 u64RoleID);
+	BOOL OnCreate(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel);
 
-	virtual BOOL OnDestroy();
+	virtual BOOL OnDestroy(UINT64 u64RoleID);
 
-	virtual BOOL OnLogin();
+	virtual BOOL OnLogin(UINT64 u64RoleID);
 
-	virtual BOOL OnLogout();
+	virtual BOOL OnLogout(UINT64 u64RoleID);
 
 	virtual BOOL OnNewDay();
 
-	virtual BOOL OnLoadData();
-
+	virtual BOOL OnLoadData(UINT64 u64RoleID);
 public:
-	UINT64 m_u64ID;  //角色ID
-	std::string m_strName;
-	UINT64 m_u64AccountID; //账号ID
-	UINT32 m_RoleType; //角色类型
-	UINT32 m_dwLevel;
-	UINT64 m_Money[10];
-	UINT64 m_dwExp;
-	UINT32 m_dwLangID; //语言ID
+
+	RoleDataObject  *m_pRoleDataObject;
 };
 
 #endif //__ROLE_MODULE_H__

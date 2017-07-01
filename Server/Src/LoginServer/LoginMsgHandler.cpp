@@ -176,10 +176,10 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 	UINT32 nConnID = pHeader->dwUserData;
 	ASSERT(nConnID != 0);
 
-	if(Ack.lastsvrid() == 0)
+	//if(Ack.lastsvrid() == 0)
 	{
-		Ack.set_lastsvrid(1);
-		Ack.set_lastsvrname("天龙八部");
+		Ack.set_lastsvrid(201);
+		Ack.set_lastsvrname("TestServer1");
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_LOGIN_ACK, 0, 0, Ack);

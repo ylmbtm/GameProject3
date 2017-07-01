@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 {
 	if(argc < 3)
 	{
-		printf("not enought param!!!");
+		printf("not enought param!!! num:%d", argc);
 		getchar();
 		return 0;
 	}

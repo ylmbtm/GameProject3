@@ -27,13 +27,15 @@ CAccountMsgHandler::~CAccountMsgHandler()
 
 BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
-	m_DBProcManager.Init();
+	m_DBManager.Init();
 
 	return TRUE;
 }
 
 BOOL CAccountMsgHandler::Uninit()
 {
+	m_DBManager.Uninit();
+
 	return TRUE;
 }
 
@@ -79,7 +81,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 		return TRUE;
 	}
 
-	UINT64 u64ID = m_DBProcManager.GetAccountID(Req.accountname().c_str());
+	UINT64 u64ID = m_DBManager.GetAccountID(Req.accountname().c_str());
 	if (u64ID != 0)
 	{
 		Ack.set_retcode(MRC_FAILED);
@@ -95,7 +97,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 		return FALSE;
 	}
 
-	if(m_DBProcManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime))
+	if(m_DBManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime))
 	{ 
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
@@ -133,7 +135,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 		}
 	}
 
-	UINT64 u64AccountID = m_DBProcManager.VerifyAccount(Req.accountname().c_str(), Req.password().c_str());
+	UINT64 u64AccountID = m_DBManager.VerifyAccount(Req.accountname().c_str(), Req.password().c_str());
 	if(u64AccountID == 0)
 	{
 		Ack.set_retcode(MRC_FAILED);

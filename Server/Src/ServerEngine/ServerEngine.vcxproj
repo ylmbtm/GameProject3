@@ -89,6 +89,7 @@
     <ClCompile Include="DataBuffer.cpp" />
     <ClCompile Include="NetManager.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
+    <ClCompile Include="SharedMemory.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -111,6 +112,7 @@
     <ClInclude Include="NetManager.h" />
     <ClInclude Include="ServerEngine.h" />
     <ClInclude Include="ServiceBase.h" />
+    <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="..\..\Common\Utility\Log\Log.h" />

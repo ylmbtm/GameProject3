@@ -69,12 +69,11 @@ public class LoginService : GTSingleton<LoginService>
         NetworkManager.Instance.Send(MessageID.MSG_ROLE_LOGIN_REQ, req, 0, 0);
     }
 
-    public void TryEnterScene(UInt64 roleID, UInt32 SceneID, Int32 ServerID)
+    public void TryEnterScene(UInt64 roleID, UInt32 CopyID, Int32 ServerID)
     {
         EnterSceneReq req = new EnterSceneReq();
-        req.SceneID = SceneID;
         req.RoleID = roleID;
-        NetworkManager.Instance.Send(MessageID.MSG_ENTER_SCENE_REQ, req, (UInt64)SceneID, (UInt32)ServerID);
+        NetworkManager.Instance.Send(MessageID.MSG_ENTER_SCENE_REQ, req, (UInt64)CopyID, (UInt32)ServerID);
     }
 
     public void TrySelectServer(Int32 ServerID)

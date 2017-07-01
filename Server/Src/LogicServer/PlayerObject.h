@@ -46,16 +46,7 @@ public:
 	BOOL			OnModuleFnished();
 	BOOL			IsAllModuleOK();
 	BOOL			OnAllModuleOK();
-	template <typename T>
-	T*	GetModuleByType(int nType)
-	{
-		if(nType >= m_MoudleList.size())
-		{
-			return NULL;
-		}
-
-		return (T*)m_MoudleList.at(nType);
-	}
+	CModuleBase*	GetModuleByType(MouduleType MType);
 
 public:
 	UINT64			GetObjectID();
