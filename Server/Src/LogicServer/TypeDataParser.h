@@ -29,12 +29,10 @@ class CGloalData
 {
 public:
     CGloalData();
-	~CGloalData();
-public:
-	static CGloalData* GetInstancePtr();
+
 	//读表基础方法
     BOOL InitDataParser();
-	BOOL ReadTypeData(); 
+	BOOL ReadAllData(); 
 	std::vector<DataFuncNode> m_vtDataFuncList;
 
 
