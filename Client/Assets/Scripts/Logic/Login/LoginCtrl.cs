@@ -63,21 +63,29 @@ public class LoginCtrl :  ICtrl
     private void OnAck_RoleList(MessageRecv obj)
     {
         System.IO.MemoryStream ms = new System.IO.MemoryStream(obj.Data);
+        ms.Seek(28, SeekOrigin.Begin);
         RoleListAck ack = Serializer.Deserialize<RoleListAck>(ms);
         GTEventCenter.FireEvent(GTEventID.TYPE_LOGINGAME_CALLBACK);
 
-        if(ack.RoleNode.Count<=0)
-        {
-            GTLauncher.Instance.LoadScene(GTSceneKey.SCENE_Role);
-        }
-        else
-        {
-            RoleLoginReq req = new RoleLoginReq();
-            req.AccountID = LoginService.Instance.m_CurAccountID;
-            req.RoleID = ack.RoleNode[0].ID;
-            req.LoginCode = LoginService.Instance.m_LoginCode;
-            NetworkManager.Instance.Send(MessageID.MSG_ROLE_LOGIN_REQ, req, 0, 0);
-        }
+        //if(ack.RoleNode.Count<=0)
+        //{
+        //    GTLauncher.Instance.LoadScene(GTSceneKey.SCENE_Role);
+        //}
+        //else
+        //{
+        //    RoleLoginReq req = new RoleLoginReq();
+        //    req.AccountID = LoginService.Instance.m_CurAccountID;
+        //    req.RoleID = ack.RoleNode[0].ID;
+        //    req.LoginCode = LoginService.Instance.m_LoginCode;
+        //    NetworkManager.Instance.Send(MessageID.MSG_ROLE_LOGIN_REQ, req, 0, 0);
+        //}
+
+
+        RoleCreateReq Req = new RoleCreateReq();
+        Req.AccountID = LoginService.Instance.m_CurAccountID;
+        Req.Name = "zhangming";
+        Req.RoleType = 1;
+        NetworkManager.Instance.Send(MessageID.MSG_ROLE_CREATE_REQ, Req, 0, 0);
     }
 
     private void OnAck_AccountLogin(MessageRecv obj )

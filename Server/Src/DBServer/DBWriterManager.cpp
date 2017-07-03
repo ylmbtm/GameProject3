@@ -31,7 +31,7 @@ BOOL CDBWriterManager::Uninit()
 
 void CDBWriterManager::WriteWork()
 {
-	m_pRoleDataWriter->saveModifyToDB(NULL);
+	m_pRoleDataWriter->saveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

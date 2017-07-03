@@ -77,7 +77,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	if(pAccount != NULL)
 	{
 		Ack.set_retcode(MRC_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
@@ -85,7 +85,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	if (u64ID != 0)
 	{
 		Ack.set_retcode(MRC_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 	
@@ -93,7 +93,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	if(pAccount == NULL)
 	{
 		Ack.set_retcode(MRC_FAILED);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return FALSE;
 	}
 
@@ -107,7 +107,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	}
 
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 	
 	return TRUE;
 }
@@ -130,7 +130,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 			Ack.set_lastsvrid(pAccObj->m_dwLastSvrID);
 			Ack.set_accountid(pAccObj->m_ID);
 			Ack.set_retcode(MRC_SUCCESSED);
-			ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
+			ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 			return TRUE;
 		}
 	}
@@ -150,7 +150,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 	Ack.set_lastsvrid(1);
 	Ack.set_accountid(u64AccountID);
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 
 	return TRUE;
 }

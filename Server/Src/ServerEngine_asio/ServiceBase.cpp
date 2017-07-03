@@ -180,16 +180,14 @@ BOOL ServiceBase::Update()
 {
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
-	NetPacket item;
 	//处理新连接的通知
 	CConnection *pConnection = NULL;
 	while(m_NewConList.pop(pConnection))
 	{
-		item.m_pDataBuffer = NULL;
-		item.m_pConnect = pConnection;
 		m_pPacketDispatcher->OnNewConnect(pConnection);
 	}
-
+	
+	NetPacket item;
 	while(m_DataQueue.pop(item))
 	{
 		UINT32 dwTick = GetTickCount();
@@ -199,14 +197,14 @@ BOOL ServiceBase::Update()
 		{
 			CLog::GetInstancePtr()->AddLog("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
 		}
+
+		item.m_pDataBuffer->Release();
 	}
 
 	//处理断开的连接
 	while(m_CloseConList.pop(pConnection))
 	{
 		//发送通知
-		item.m_pDataBuffer = NULL;
-		item.m_pConnect = pConnection;
 		m_pPacketDispatcher->OnCloseConnect(pConnection);
 		//发送通知
 		CConnectionMgr::GetInstancePtr()->DeleteConnection(pConnection);

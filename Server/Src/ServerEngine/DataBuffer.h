@@ -29,13 +29,14 @@ public:
 
 	bool AddRef()
 	{
+		m_pManager->m_CritSec.Lock();
 		m_dwRefCount++;
 
-		if(m_dwRefCount >= 2)
-		{
-			ASSERT_FAIELD;
-		}
-
+		//if(m_dwRefCount >= 2)
+		//{
+		//	ASSERT_FAIELD;
+		//}
+		m_pManager->m_CritSec.Unlock();
 		return true;
 	}
 

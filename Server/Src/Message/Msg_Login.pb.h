@@ -2011,12 +2011,6 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 accountid() const;
   void set_accountid(::google::protobuf::uint64 value);
 
-  // uint64 RoleID = 2;
-  void clear_roleid();
-  static const int kRoleIDFieldNumber = 2;
-  ::google::protobuf::uint64 roleid() const;
-  void set_roleid(::google::protobuf::uint64 value);
-
   // int32 RoleType = 4;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 4;
@@ -2029,7 +2023,6 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 accountid_;
-  ::google::protobuf::uint64 roleid_;
   ::google::protobuf::int32 roletype_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -5580,20 +5573,6 @@ inline void RoleCreateReq::set_accountid(::google::protobuf::uint64 value) {
   
   accountid_ = value;
   // @@protoc_insertion_point(field_set:RoleCreateReq.AccountID)
-}
-
-// uint64 RoleID = 2;
-inline void RoleCreateReq::clear_roleid() {
-  roleid_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 RoleCreateReq::roleid() const {
-  // @@protoc_insertion_point(field_get:RoleCreateReq.RoleID)
-  return roleid_;
-}
-inline void RoleCreateReq::set_roleid(::google::protobuf::uint64 value) {
-  
-  roleid_ = value;
-  // @@protoc_insertion_point(field_set:RoleCreateReq.RoleID)
 }
 
 // string Name = 3;

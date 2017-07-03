@@ -7,6 +7,20 @@
 
 Th_RetName _CommonWorkThread( void *pParam );
 
+struct MsgItem
+{
+	MsgItem(UINT64 _u64ConnID = 0, IDataBuffer *pBuffer = NULL)
+	{
+		u64ConnID = _u64ConnID;
+
+		pDataBuffer = pBuffer;
+	}
+
+	UINT64		u64ConnID;
+
+	IDataBuffer *pDataBuffer;
+};
+
 class CCommonWorkThread
 {
 public:
@@ -24,7 +38,7 @@ public:
 
 	BOOL			ProcessMessage();
 
-	BOOL			AddMessage(NetPacket *pNetPacket);
+	BOOL			AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer);
 
 	BOOL			SetCommandHandler(IThreadCommandHandler *pCommandHandler);
 
@@ -39,7 +53,7 @@ protected:
 
 	IThreadCommandHandler	*m_pCommandHandler;
 
-	ArrayLockFreeQueue<NetPacket*>   m_MessageQueue;
+	ArrayLockFreeQueue<MsgItem>   m_MessageQueue;
 
 	UINT32					m_dwLastTick;
 

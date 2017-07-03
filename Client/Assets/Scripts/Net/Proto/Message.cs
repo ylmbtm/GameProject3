@@ -976,14 +976,6 @@ namespace Protocol
       get { return _AccountID; }
       set { _AccountID = value; }
     }
-    private ulong _RoleID = default(ulong);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(ulong))]
-    public ulong RoleID
-    {
-      get { return _RoleID; }
-      set { _RoleID = value; }
-    }
     private string _Name = "";
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue("")]

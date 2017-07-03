@@ -76,7 +76,7 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket *pPacket)
 
 	CheckVersionAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_CHECK_VERSION_ACK, 0, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket )
@@ -85,7 +85,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket )
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 	
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
@@ -97,7 +97,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
@@ -110,7 +110,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginRegReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGINREG_REQ, nConnID, 0, Req);
@@ -125,13 +125,13 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 
 	ClientServerListAck Ack;
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_SERVER_LIST_ACK, 0, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
 }
 
 BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket *pPacket)
@@ -140,7 +140,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 	UINT32 SvrConnID =m_LogicSvrMgr.GetLogicConnID(Req.serverid());
@@ -189,13 +189,12 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket *pPacket)
 {
 	RegToLoginSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	pPacket->m_pConnect->SetConnectionData(Req.serverid());
 
-	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_pConnect->GetConnectionID(), Req.serverid());
+	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid());
 
 	RegToLoginSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_pConnect->GetConnectionID(), MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
 }
 
 BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
@@ -204,7 +203,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_pConnect->GetConnectionID();
+	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
 	Ack.set_retcode(MRC_SUCCESSED);

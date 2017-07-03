@@ -83,11 +83,11 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 	std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.find(Req.serverid());
 	if(itor != m_mapGameSvr.end())
 	{
-		itor->second.dwConnID = pNetPacket->m_pConnect->GetConnectionID();
+		itor->second.dwConnID = pNetPacket->m_dwConnID;
 		itor->second.dwSvrID = Req.serverid();
 	}
 
-	m_mapGameSvr.insert(std::make_pair(Req.serverid(),GameSvrInfo(Req.serverid(), pNetPacket->m_pConnect->GetConnectionID())));
+	m_mapGameSvr.insert(std::make_pair(Req.serverid(),GameSvrInfo(Req.serverid(), pNetPacket->m_dwConnID)));
 	
 	return TRUE;
 }

@@ -10,7 +10,7 @@ public:
 
 	~CCommonMsgHandler();
 
-	BOOL DispatchPacket(NetPacket *pNetPacket);
+	BOOL OnMessageHandle(UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer *pDataBuffer);
 
 	BOOL OnUpdate(UINT32 dwTick);
 
@@ -18,14 +18,17 @@ public:
 
 	BOOL Uninit();
 
-	BOOL AddMessage(NetPacket *pNetPacket);
+	BOOL AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer);
 
 	BOOL OnThreadBegin(){return TRUE;}
 
 	BOOL OnThreadEnd(){return TRUE;}
 	
+
 protected:
 	CCommonWorkThread				m_WorkThread;
+
+	CDataBuffer<CONST_BUFF_SIZE>	m_WriteBuffer;
 
 	//*********************消息处理定义开始******************************
 public:

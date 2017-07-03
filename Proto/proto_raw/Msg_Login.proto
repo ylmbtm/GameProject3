@@ -107,7 +107,6 @@ message RoleListAck {
 
 message RoleCreateReq {
     uint64 AccountID = 1;
-	uint64 RoleID = 2;
 	string Name = 3;
 	int32  RoleType = 4;
 }

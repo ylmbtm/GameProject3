@@ -235,7 +235,7 @@ public:
 	{
 		m_MemoryPool = NULL;
 		m_moduleName = modulename;
-		m_count = 1000;
+		m_count = 1024;
 	}
 	~DataWriter()
 	{

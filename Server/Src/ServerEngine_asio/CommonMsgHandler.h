@@ -10,7 +10,7 @@ public:
 
 	~CCommonMsgHandler();
 
-	BOOL DispatchPacket(NetPacket *pNetPacket);
+	BOOL OnMessageHandle(UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer *pDataBuffer);
 
 	BOOL OnUpdate(UINT32 dwTick);
 
@@ -18,7 +18,7 @@ public:
 
 	BOOL Uninit();
 
-	BOOL AddMessage(NetPacket *pNetPacket);
+	BOOL AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer);
 
 	BOOL OnThreadBegin(){return TRUE;}
 

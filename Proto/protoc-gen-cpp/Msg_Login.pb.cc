@@ -312,7 +312,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoleCreateReq, accountid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoleCreateReq, roleid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoleCreateReq, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoleCreateReq, roletype_),
   ~0u,  // no _has_bits_
@@ -526,30 +525,30 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 123, -1, sizeof(RoleListReq)},
   { 130, -1, sizeof(RoleListAck)},
   { 137, -1, sizeof(RoleCreateReq)},
-  { 146, -1, sizeof(RoleCreateAck)},
-  { 156, -1, sizeof(RoleDeleteReq)},
-  { 163, -1, sizeof(RoleDeleteAck)},
-  { 169, -1, sizeof(RoleLoginReq)},
-  { 177, -1, sizeof(RoleLoginAck)},
-  { 189, -1, sizeof(RoleLogoutReq)},
-  { 196, -1, sizeof(RoleLogoutAck)},
-  { 202, -1, sizeof(RoleDisconnectReq)},
-  { 208, -1, sizeof(RoleDisconnectAck)},
-  { 214, -1, sizeof(RoleMoveReq)},
-  { 224, -1, sizeof(RoleMoveAck)},
-  { 230, -1, sizeof(CreateNewSceneReq)},
-  { 237, -1, sizeof(CreateNewSceneAck)},
-  { 247, -1, sizeof(EnterSceneReq)},
-  { 256, -1, sizeof(EnterSceneAck)},
-  { 264, -1, sizeof(LeaveSceneReq)},
-  { 271, -1, sizeof(LeaveSceneAck)},
-  { 277, -1, sizeof(TransRoleDataReq)},
-  { 286, -1, sizeof(TransRoleDataAck)},
-  { 296, -1, sizeof(NotifyIntoScene)},
-  { 305, -1, sizeof(NearByRoleItem)},
-  { 314, -1, sizeof(NearByAddNty)},
-  { 320, -1, sizeof(NearByDelNty)},
-  { 326, -1, sizeof(NearByUpdateNty)},
+  { 145, -1, sizeof(RoleCreateAck)},
+  { 155, -1, sizeof(RoleDeleteReq)},
+  { 162, -1, sizeof(RoleDeleteAck)},
+  { 168, -1, sizeof(RoleLoginReq)},
+  { 176, -1, sizeof(RoleLoginAck)},
+  { 188, -1, sizeof(RoleLogoutReq)},
+  { 195, -1, sizeof(RoleLogoutAck)},
+  { 201, -1, sizeof(RoleDisconnectReq)},
+  { 207, -1, sizeof(RoleDisconnectAck)},
+  { 213, -1, sizeof(RoleMoveReq)},
+  { 223, -1, sizeof(RoleMoveAck)},
+  { 229, -1, sizeof(CreateNewSceneReq)},
+  { 236, -1, sizeof(CreateNewSceneAck)},
+  { 246, -1, sizeof(EnterSceneReq)},
+  { 255, -1, sizeof(EnterSceneAck)},
+  { 263, -1, sizeof(LeaveSceneReq)},
+  { 270, -1, sizeof(LeaveSceneAck)},
+  { 276, -1, sizeof(TransRoleDataReq)},
+  { 285, -1, sizeof(TransRoleDataAck)},
+  { 295, -1, sizeof(NotifyIntoScene)},
+  { 304, -1, sizeof(NearByRoleItem)},
+  { 313, -1, sizeof(NearByAddNty)},
+  { 319, -1, sizeof(NearByDelNty)},
+  { 325, -1, sizeof(NearByUpdateNty)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -797,52 +796,51 @@ void AddDescriptorsImpl() {
       "(\005\022\013\n\003Exp\030\005 \001(\004\"3\n\013RoleListReq\022\021\n\tAccoun"
       "tID\030\001 \001(\004\022\021\n\tLoginCode\030\002 \001(\005\"\?\n\013RoleList"
       "Ack\022\017\n\007RetCode\030\001 \001(\r\022\037\n\010RoleNode\030\002 \003(\0132\r"
-      ".RoleListNode\"R\n\rRoleCreateReq\022\021\n\tAccoun"
-      "tID\030\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\022\014\n\004Name\030\003 \001(\t\022"
-      "\020\n\010RoleType\030\004 \001(\005\"c\n\rRoleCreateAck\022\017\n\007Re"
+      ".RoleListNode\"B\n\rRoleCreateReq\022\021\n\tAccoun"
+      "tID\030\001 \001(\004\022\014\n\004Name\030\003 \001(\t\022\020\n\010RoleType\030\004 \001("
+      "\005\"c\n\rRoleCreateAck\022\017\n\007RetCode\030\001 \001(\r\022\021\n\tA"
+      "ccountID\030\002 \001(\004\022\016\n\006RoleID\030\003 \001(\004\022\014\n\004Name\030\004"
+      " \001(\t\022\020\n\010RoleType\030\005 \001(\005\"2\n\rRoleDeleteReq\022"
+      "\021\n\tAccountID\030\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\" \n\rRo"
+      "leDeleteAck\022\017\n\007RetCode\030\001 \001(\r\"D\n\014RoleLogi"
+      "nReq\022\021\n\tAccountID\030\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\022"
+      "\021\n\tLoginCode\030\003 \001(\005\"~\n\014RoleLoginAck\022\017\n\007Re"
       "tCode\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022\016\n\006RoleID"
-      "\030\003 \001(\004\022\014\n\004Name\030\004 \001(\t\022\020\n\010RoleType\030\005 \001(\005\"2"
-      "\n\rRoleDeleteReq\022\021\n\tAccountID\030\001 \001(\004\022\016\n\006Ro"
-      "leID\030\002 \001(\004\" \n\rRoleDeleteAck\022\017\n\007RetCode\030\001"
-      " \001(\r\"D\n\014RoleLoginReq\022\021\n\tAccountID\030\001 \001(\004\022"
-      "\016\n\006RoleID\030\002 \001(\004\022\021\n\tLoginCode\030\003 \001(\005\"~\n\014Ro"
-      "leLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\021\n\tAccountID"
-      "\030\002 \001(\004\022\016\n\006RoleID\030\003 \001(\004\022\020\n\010RoleType\030\004 \001(\005"
-      "\022\r\n\005Level\030\005 \001(\005\022\013\n\003Exp\030\006 \001(\004\022\014\n\004Name\030\007 \001"
-      "(\t\"2\n\rRoleLogoutReq\022\021\n\tAccountID\030\001 \001(\004\022\016"
-      "\n\006RoleID\030\002 \001(\004\" \n\rRoleLogoutAck\022\017\n\007RetCo"
-      "de\030\001 \001(\r\"#\n\021RoleDisconnectReq\022\016\n\006RoleID\030"
-      "\002 \001(\004\"$\n\021RoleDisconnectAck\022\017\n\007RetCode\030\001 "
-      "\001(\r\"I\n\013RoleMoveReq\022\016\n\006RoleID\030\001 \001(\004\022\t\n\001x\030"
-      "\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\t\n\001d\030\005 \001(\002\"\036"
-      "\n\013RoleMoveAck\022\017\n\007RetCode\030\001 \001(\r\":\n\021Create"
-      "NewSceneReq\022\020\n\010CopyType\030\001 \001(\r\022\023\n\013CreateP"
-      "aram\030\003 \001(\004\"m\n\021CreateNewSceneAck\022\017\n\007RetCo"
-      "de\030\001 \001(\r\022\020\n\010CopyType\030\002 \001(\r\022\016\n\006CopyID\030\003 \001"
-      "(\r\022\023\n\013CreateParam\030\004 \001(\004\022\020\n\010ServerID\030\005 \001("
-      "\r\"R\n\rEnterSceneReq\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010Ro"
-      "leName\030\002 \001(\t\022\020\n\010RoleType\030\003 \001(\005\022\r\n\005Level\030"
-      "\004 \001(\005\"B\n\rEnterSceneAck\022\017\n\007RetCode\030\001 \001(\r\022"
-      "\020\n\010CopyType\030\002 \001(\r\022\016\n\006CopyID\030\003 \001(\r\"/\n\rLea"
-      "veSceneReq\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006Reason\030\002 \001"
-      "(\005\" \n\rLeaveSceneAck\022\017\n\007RetCode\030\001 \001(\r\"U\n\020"
-      "TransRoleDataReq\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010Role"
-      "Name\030\002 \001(\t\022\020\n\010RoleType\030\003 \001(\005\022\r\n\005Level\030\004 "
-      "\001(\005\"g\n\020TransRoleDataAck\022\017\n\007RetCode\030\001 \001(\r"
-      "\022\016\n\006RoleID\030\002 \001(\004\022\020\n\010CopyType\030\003 \001(\r\022\016\n\006Co"
-      "pyID\030\004 \001(\r\022\020\n\010ServerID\030\005 \001(\r\"U\n\017NotifyIn"
-      "toScene\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010CopyType\030\002 \001("
-      "\005\022\016\n\006CopyID\030\003 \001(\r\022\020\n\010ServerID\030\004 \001(\005\"O\n\016N"
-      "earByRoleItem\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010RoleTyp"
-      "e\030\002 \001(\005\022\r\n\005Level\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\"1\n\014"
-      "NearByAddNty\022!\n\010RoleList\030\001 \003(\0132\017.NearByR"
-      "oleItem\" \n\014NearByDelNty\022\020\n\010RoleList\030\001 \003("
-      "\004\"P\n\017NearByUpdateNty\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010"
-      "RoleType\030\002 \001(\005\022\r\n\005Level\030\003 \001(\005\022\014\n\004Name\030\004 "
-      "\001(\tb\006proto3"
+      "\030\003 \001(\004\022\020\n\010RoleType\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022"
+      "\013\n\003Exp\030\006 \001(\004\022\014\n\004Name\030\007 \001(\t\"2\n\rRoleLogout"
+      "Req\022\021\n\tAccountID\030\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\" "
+      "\n\rRoleLogoutAck\022\017\n\007RetCode\030\001 \001(\r\"#\n\021Role"
+      "DisconnectReq\022\016\n\006RoleID\030\002 \001(\004\"$\n\021RoleDis"
+      "connectAck\022\017\n\007RetCode\030\001 \001(\r\"I\n\013RoleMoveR"
+      "eq\022\016\n\006RoleID\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002"
+      "\022\t\n\001z\030\004 \001(\002\022\t\n\001d\030\005 \001(\002\"\036\n\013RoleMoveAck\022\017\n"
+      "\007RetCode\030\001 \001(\r\":\n\021CreateNewSceneReq\022\020\n\010C"
+      "opyType\030\001 \001(\r\022\023\n\013CreateParam\030\003 \001(\004\"m\n\021Cr"
+      "eateNewSceneAck\022\017\n\007RetCode\030\001 \001(\r\022\020\n\010Copy"
+      "Type\030\002 \001(\r\022\016\n\006CopyID\030\003 \001(\r\022\023\n\013CreatePara"
+      "m\030\004 \001(\004\022\020\n\010ServerID\030\005 \001(\r\"R\n\rEnterSceneR"
+      "eq\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010RoleName\030\002 \001(\t\022\020\n\010"
+      "RoleType\030\003 \001(\005\022\r\n\005Level\030\004 \001(\005\"B\n\rEnterSc"
+      "eneAck\022\017\n\007RetCode\030\001 \001(\r\022\020\n\010CopyType\030\002 \001("
+      "\r\022\016\n\006CopyID\030\003 \001(\r\"/\n\rLeaveSceneReq\022\016\n\006Ro"
+      "leID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rLeaveScene"
+      "Ack\022\017\n\007RetCode\030\001 \001(\r\"U\n\020TransRoleDataReq"
+      "\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010RoleName\030\002 \001(\t\022\020\n\010Ro"
+      "leType\030\003 \001(\005\022\r\n\005Level\030\004 \001(\005\"g\n\020TransRole"
+      "DataAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006RoleID\030\002 \001(\004"
+      "\022\020\n\010CopyType\030\003 \001(\r\022\016\n\006CopyID\030\004 \001(\r\022\020\n\010Se"
+      "rverID\030\005 \001(\r\"U\n\017NotifyIntoScene\022\016\n\006RoleI"
+      "D\030\001 \001(\004\022\020\n\010CopyType\030\002 \001(\005\022\016\n\006CopyID\030\003 \001("
+      "\r\022\020\n\010ServerID\030\004 \001(\005\"O\n\016NearByRoleItem\022\016\n"
+      "\006RoleID\030\001 \001(\004\022\020\n\010RoleType\030\002 \001(\005\022\r\n\005Level"
+      "\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\"1\n\014NearByAddNty\022!\n\010"
+      "RoleList\030\001 \003(\0132\017.NearByRoleItem\" \n\014NearB"
+      "yDelNty\022\020\n\010RoleList\030\001 \003(\004\"P\n\017NearByUpdat"
+      "eNty\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010RoleType\030\002 \001(\005\022\r"
+      "\n\005Level\030\003 \001(\005\022\014\n\004Name\030\004 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2931);
+      descriptor, 2915);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Login.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -7323,7 +7321,6 @@ RoleListAck::rolenode() const {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RoleCreateReq::kAccountIDFieldNumber;
-const int RoleCreateReq::kRoleIDFieldNumber;
 const int RoleCreateReq::kNameFieldNumber;
 const int RoleCreateReq::kRoleTypeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -7421,20 +7418,6 @@ bool RoleCreateReq::MergePartialFromCodedStream(
         break;
       }
 
-      // uint64 RoleID = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &roleid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // string Name = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -7497,11 +7480,6 @@ void RoleCreateReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->accountid(), output);
   }
 
-  // uint64 RoleID = 2;
-  if (this->roleid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->roleid(), output);
-  }
-
   // string Name = 3;
   if (this->name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -7529,11 +7507,6 @@ void RoleCreateReq::SerializeWithCachedSizes(
   // uint64 AccountID = 1;
   if (this->accountid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->accountid(), target);
-  }
-
-  // uint64 RoleID = 2;
-  if (this->roleid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->roleid(), target);
   }
 
   // string Name = 3;
@@ -7572,13 +7545,6 @@ size_t RoleCreateReq::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->accountid());
-  }
-
-  // uint64 RoleID = 2;
-  if (this->roleid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->roleid());
   }
 
   // int32 RoleType = 4;
@@ -7624,9 +7590,6 @@ void RoleCreateReq::MergeFrom(const RoleCreateReq& from) {
   if (from.accountid() != 0) {
     set_accountid(from.accountid());
   }
-  if (from.roleid() != 0) {
-    set_roleid(from.roleid());
-  }
   if (from.roletype() != 0) {
     set_roletype(from.roletype());
   }
@@ -7657,7 +7620,6 @@ void RoleCreateReq::Swap(RoleCreateReq* other) {
 void RoleCreateReq::InternalSwap(RoleCreateReq* other) {
   name_.Swap(&other->name_);
   std::swap(accountid_, other->accountid_);
-  std::swap(roleid_, other->roleid_);
   std::swap(roletype_, other->roletype_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -7682,20 +7644,6 @@ void RoleCreateReq::set_accountid(::google::protobuf::uint64 value) {
   
   accountid_ = value;
   // @@protoc_insertion_point(field_set:RoleCreateReq.AccountID)
-}
-
-// uint64 RoleID = 2;
-void RoleCreateReq::clear_roleid() {
-  roleid_ = GOOGLE_ULONGLONG(0);
-}
-::google::protobuf::uint64 RoleCreateReq::roleid() const {
-  // @@protoc_insertion_point(field_get:RoleCreateReq.RoleID)
-  return roleid_;
-}
-void RoleCreateReq::set_roleid(::google::protobuf::uint64 value) {
-  
-  roleid_ = value;
-  // @@protoc_insertion_point(field_set:RoleCreateReq.RoleID)
 }
 
 // string Name = 3;

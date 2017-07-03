@@ -4,6 +4,7 @@
 #include "DBConnection.h"
 #include "DBStoredProcMgr.h"
 #include "../ServerData/serverStruct.h"
+#include "../Message/Msg_Login.pb.h"
 
 class CDBManager : public IDataBase
 {
@@ -17,6 +18,8 @@ public:
 	BOOL Uninit();
 
 	BOOL Execut(std::string sql);
+
+	BOOL  GetRoleList(UINT64 u64AccountID, RoleListAck &Ack);
 
 	CppSQLite3DB	m_DBConnection;
 	//真实的mysql

@@ -82,7 +82,7 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 	{
 	default:
 		{
-			m_DBMsgHandler.AddMessage(pNetPacket);
+			m_DBMsgHandler.DispatchPacket(pNetPacket);
 		}
 		break;
 	}

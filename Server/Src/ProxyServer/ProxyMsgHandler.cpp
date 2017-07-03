@@ -46,7 +46,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 	{
 	case MSG_ROLE_LIST_REQ:
 		{
-			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -58,7 +58,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_CREATE_REQ:
 		{
-			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -70,7 +70,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_DELETE_REQ:
 		{
-			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -82,7 +82,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_LOGIN_REQ:
 		{
-			pPacketHeader->dwUserData = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -94,7 +94,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_LOGOUT_REQ:
 		{
-			pPacketHeader->u64TargetID = pNetPacket->m_pConnect->GetConnectionID();
+			pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -175,6 +175,7 @@ BOOL CProxyMsgHandler::RelayToGameServer( CProxyPlayer *pClientObj, IDataBuffer 
 
 BOOL CProxyMsgHandler::RelayToLogicServer(IDataBuffer *pBuffer )
 {
+	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(CGameService::GetInstancePtr()->GetLogicConnID(), pBuffer))
 	{
 		ASSERT_FAIELD;
@@ -194,6 +195,7 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 		return FALSE;
 	}
 
+	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetClientConnID(), pBuffer))
 	{
 		ASSERT_FAIELD;
@@ -206,6 +208,7 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 
 BOOL CProxyMsgHandler::RelayToConnect(UINT32 dwConnID, IDataBuffer *pBuffer)
 {
+	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(dwConnID, pBuffer))
 	{
 		ASSERT_FAIELD;

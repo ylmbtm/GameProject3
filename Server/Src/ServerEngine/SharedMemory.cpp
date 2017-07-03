@@ -77,27 +77,29 @@ BOOL SharedMemoryBase::newPage()
 {
 	unsigned int size = m_countperPage*(m_space);
 	std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
-	try
-	{
-		shareMemoryPage newpage;
 
-		//newpage.m_shm = new shared_memory_object(boost::interprocess::create_only, pagename.c_str(), boost::interprocess::read_write, size);
-		newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE, 0, size, pagename.c_str());
-		//newpage.m_pregion = new boost::interprocess::mapped_region(*newpage.m_shm, boost::interprocess::read_write);
-		//newpage.m_pdata = static_cast<char*>(newpage.m_pregion->get_address());
-		newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ|FILE_MAP_WRITE,0,0,0);
-		newpage.m_pBlock = (_SMBlock*)(newpage.m_pdata + m_rawblockSize*m_countperPage);
-		//初始化所有内存,先设定页码和总数
-		m_pageCount++;
-		m_count += m_countperPage;
-		initpage(newpage);
-		m_ShareMemoryPageMapping.push_back(newpage);
-		return true;
-	}
-	catch (...)
+	shareMemoryPage newpage;
+
+	newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE, 0, size, pagename.c_str());
+	if(newpage.m_shm == NULL)
 	{
-		return false;
+		ASSERT_FAIELD;
+		return FALSE;
 	}
+
+	newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ|FILE_MAP_WRITE,0,0,0);
+	if(newpage.m_pdata == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+	newpage.m_pBlock = (_SMBlock*)(newpage.m_pdata + m_rawblockSize*m_countperPage);
+	m_pageCount++;
+	m_count += m_countperPage;
+	initpage(newpage);
+	m_ShareMemoryPageMapping.push_back(newpage);
+	return TRUE;
 }
 
 
@@ -108,7 +110,6 @@ void SharedMemoryBase::initpage(shareMemoryPage& rPage)
 	size = m_countperPage * m_rawblockSize;
 	char* pdata = rPage.m_pdata;
 	memset(pdata, 0, size);
-
 
 	//设置防护区域
 	for (INT32 i = 0; i != m_countperPage; ++i)
@@ -171,7 +172,6 @@ BOOL SharedMemoryBase::isFirstCreated()
 
 void SharedMemoryBase::importOtherPage()
 {
-
 	while (1)
 	{
 		std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
@@ -371,7 +371,6 @@ void SharedMemoryBase::processCleanDirtyData()
 
 ShareObject* SharedMemoryBase::newOjbect(BOOL isNewBlock/*=false*/)
 {
-
 	///如果未分配内存没有了,则开始处理脏数据
 	if (m_mapFreeSMBlock.size() == 0)
 	{

@@ -625,7 +625,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_copyid(m_dwCopyID);
 	Ack.set_copytype(m_dwCopyType);
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_pConnect->GetConnectionID(), MSG_ENTER_SCENE_ACK, Req.roleid(), 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ENTER_SCENE_ACK, Req.roleid(), 0, Ack);
 	return TRUE;
 }
 

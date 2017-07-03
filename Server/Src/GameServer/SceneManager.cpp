@@ -162,7 +162,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
 	
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_pConnect->GetConnectionID(), MSG_CREATE_SCENE_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_CREATE_SCENE_ACK, 0, 0, Ack);
 
 	return TRUE;
 }

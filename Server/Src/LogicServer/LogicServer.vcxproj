@@ -107,10 +107,12 @@
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="RoleModule.cpp" />
+    <ClCompile Include="SimpleMananger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TypeDataParser.cpp" />
     <ClCompile Include="WorldMsgHandler.cpp" />
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
@@ -127,7 +129,9 @@
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="RoleModule.h" />
+    <ClInclude Include="SimpleMananger.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TypeDataParser.h" />
     <ClInclude Include="WorldMsgHandler.h" />
   </ItemGroup>
   <ItemGroup>

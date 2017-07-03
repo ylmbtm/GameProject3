@@ -24,6 +24,8 @@ BOOL CPlayerObject::Init()
 
 	m_dwProxyConnID = 0;
 
+	CreateAllModule();
+
 	return TRUE;
 }
 
@@ -36,14 +38,9 @@ BOOL CPlayerObject::Uninit()
 
 BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = ++m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE+1; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
-		if(pBase == NULL)
-		{
-			ASSERT_FAIELD;
-		}
-
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnCreate(u64RoleID);
 	}
 	return TRUE;
@@ -51,9 +48,9 @@ BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 
 BOOL CPlayerObject::OnDestroy(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnDestroy(u64RoleID);
 	}
 	return TRUE;
@@ -61,9 +58,9 @@ BOOL CPlayerObject::OnDestroy(UINT64 u64RoleID)
 
 BOOL CPlayerObject::OnLogin(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnLogin(u64RoleID);
 	}
 	return TRUE;
@@ -71,9 +68,9 @@ BOOL CPlayerObject::OnLogin(UINT64 u64RoleID)
 
 BOOL CPlayerObject::OnLogout(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnLogout(u64RoleID);
 	}
 	return TRUE;
@@ -81,9 +78,9 @@ BOOL CPlayerObject::OnLogout(UINT64 u64RoleID)
 
 BOOL CPlayerObject::OnNewDay()
 {
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnNewDay();
 	}
 	return TRUE;
@@ -91,9 +88,9 @@ BOOL CPlayerObject::OnNewDay()
 
 BOOL CPlayerObject::OnLoadData(UINT64 u64RoleID)
 {
-	for(std::vector<CModuleBase*>::iterator itor = ++m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	for(int i = MT_ROLE+1; i< MT_END; i++)
 	{
-		CModuleBase *pBase = *itor;
+		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnLoadData(u64RoleID);
 	}
 
@@ -120,7 +117,7 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 
 BOOL CPlayerObject::CreateAllModule()
 {
-	m_MoudleList.resize(MT_END);
+	m_MoudleList.assign(MT_END, NULL);
 	m_MoudleList[MT_ROLE] = new CRoleModule(this);
 
 	return TRUE;

@@ -81,4 +81,3 @@ UINT64 CDBManager::GetAccountID( const char *szAccount )
 
 	return 0;
 }
-
