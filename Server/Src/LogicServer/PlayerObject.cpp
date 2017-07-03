@@ -7,6 +7,7 @@
 #include "..\Message\Msg_ID.pb.h"
 #include "GameSvrMgr.h"
 #include "..\GameServer\GameService.h"
+#include "..\Message\Msg_RetCode.pb.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -31,6 +32,7 @@ BOOL CPlayerObject::Init()
 
 BOOL CPlayerObject::Uninit()
 {
+	DestroyAllModule();
 
 	return TRUE;
 }
@@ -38,7 +40,7 @@ BOOL CPlayerObject::Uninit()
 
 BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 {
-	for(int i = MT_ROLE+1; i< MT_END; i++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnCreate(u64RoleID);
@@ -88,7 +90,7 @@ BOOL CPlayerObject::OnNewDay()
 
 BOOL CPlayerObject::OnLoadData(UINT64 u64RoleID)
 {
-	for(int i = MT_ROLE+1; i< MT_END; i++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
 		pBase->OnLoadData(u64RoleID);
@@ -103,11 +105,7 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 	{
 	default:
 		{
-			PacketHeader* pHeader = (PacketHeader*)pNetPack->m_pDataBuffer->GetBuffer();
-
-			CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
-
-			pPlayer->DispatchPacket(pNetPack);
+			break;
 		}
 		break;
 	}
@@ -117,14 +115,21 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 
 BOOL CPlayerObject::CreateAllModule()
 {
-	m_MoudleList.assign(MT_END, NULL);
-	m_MoudleList[MT_ROLE] = new CRoleModule(this);
+	m_MoudleList.push_back(new CRoleModule(this));
 
 	return TRUE;
 }
 
 BOOL CPlayerObject::DestroyAllModule()
 {
+	for(int i = MT_ROLE+1; i< MT_END; i++)
+	{
+		CModuleBase *pBase = m_MoudleList.at(i);
+		pBase->OnDestroy(m_u64ID);
+		delete pBase;
+	}
+
+	m_MoudleList.clear();
 	return TRUE;
 }
 
@@ -132,6 +137,8 @@ BOOL CPlayerObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message
 {
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), 0, pdata);
 }
+
+
 
 
 BOOL CPlayerObject::OnModuleFnished()
@@ -182,12 +189,37 @@ BOOL CPlayerObject::IsAllModuleOK()
 
 BOOL CPlayerObject::OnAllModuleOK()
 {
+	RoleLoginAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_ROLE_LOGIN_ACK, 0, m_dwRoleConnID, Ack);
 
-
+	SendToScene(1,1);
 
 	return TRUE;
 }
 
+
+BOOL CPlayerObject::SendToScene(UINT32 dwCopyID,UINT32 dwSvrID)
+{
+	TransRoleDataReq Req;
+	Req.set_roleid(m_u64ID);
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, 0, Req);
+
+	return TRUE;
+}
+
+BOOL CPlayerObject::SetAllModuleOK()
+{
+	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
+	{
+		CModuleBase *pBase = *itor;
+
+		pBase->m_bIsDataOK = TRUE;
+	}
+
+	return TRUE;
+}
 
 CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
 {

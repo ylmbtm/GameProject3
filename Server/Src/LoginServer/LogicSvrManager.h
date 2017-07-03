@@ -25,5 +25,7 @@ public:
 	BOOL UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 
 	UINT32 GetLogicConnID(UINT32 dwServerID);
+
+	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
 };
 

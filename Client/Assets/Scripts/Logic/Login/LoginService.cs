@@ -37,7 +37,7 @@ public class LoginService : GTSingleton<LoginService>
         NetworkManager.Instance.Send(MessageID.MSG_SERVER_LIST_REQ, Req, 0, 0);
     }
 
-    public void TryCreateRole(string name, int roletype)
+    public void TryCreateRole(string name, uint roletype)
     {
         if (string.IsNullOrEmpty(name))
         {

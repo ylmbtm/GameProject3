@@ -40,7 +40,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 	pObj->m_dwChannel = dwChannel;
 	pObj->m_dwCreateTime = CommonFunc::GetCurrTime();
 
-
+	m_mapNameObj.insert(std::make_pair(strName, pObj));
 	return pObj;
 }
 

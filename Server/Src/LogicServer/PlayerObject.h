@@ -39,6 +39,8 @@ public:
 
 	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
+	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwSvrID);
+
 
 	//模块函数
 	BOOL			CreateAllModule();
@@ -46,6 +48,7 @@ public:
 	BOOL			OnModuleFnished();
 	BOOL			IsAllModuleOK();
 	BOOL			OnAllModuleOK();
+	BOOL			SetAllModuleOK();
 	CModuleBase*	GetModuleByType(MouduleType MType);
 
 public:
@@ -53,6 +56,7 @@ public:
 public:
 	UINT64		m_u64ID;
 	UINT32      m_dwProxyConnID;
+	UINT32      m_dwRoleConnID;
 	std::vector<CModuleBase*> m_MoudleList;
 };
 

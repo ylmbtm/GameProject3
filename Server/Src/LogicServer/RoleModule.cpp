@@ -14,16 +14,16 @@ CRoleModule::~CRoleModule()
 BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 {
 	//RoleModule比较特殊，这个函数不实现
-	ASSERT_FAIELD;
 	return TRUE;
 }
 
-BOOL CRoleModule::OnCreate(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel)
+BOOL CRoleModule::SetBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel)
 {
 	m_pRoleDataObject = g_pRoleDataObjectPool->newOjbect(TRUE);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_u64ID = u64RoleID;
-	//m_pRoleObject->m_data.m_szName = NULL;
+	m_pRoleDataObject->m_u64AccountID = u64AccountID;
+	strcpy_s(m_pRoleDataObject->m_szName, 255, Name.c_str());
 	m_pRoleDataObject->m_dwLangID = 1;
 	m_pRoleDataObject->m_RoleType = 1;
 	m_pRoleDataObject->unlock();
@@ -52,7 +52,6 @@ BOOL CRoleModule::OnNewDay()
 
 BOOL CRoleModule::OnLoadData(UINT64 u64RoleID)
 {
-	//RoleModule比较特殊，这个函数不实现
-	ASSERT_FAIELD;
+	SetDataOK(TRUE);
 	return TRUE;
 }

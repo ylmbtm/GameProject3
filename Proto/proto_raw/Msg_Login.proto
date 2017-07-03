@@ -1,20 +1,20 @@
 syntax = "proto3";
 message CheckVersionReq {
-    int32 ClientVerion = 1;
+    int32  ClientVerion = 1;
 	string PackageName = 2;
-	int32 Channel     = 3;
+	int32  Channel     = 3;
 }
 
 message CheckVersionAck {
 	uint32 RetCode 		= 1;
-    int32 ClientVerion  = 2;
+    int32  ClientVerion  = 2;
 	string PackageName  = 3;
 }
 
 message AccountRegReq {
     string AccountName = 1;
 	string Password    = 2;
-	int32 Channel     = 3;
+	int32  Channel     = 3;
 }
 
 message AccountRegAck {
@@ -81,12 +81,13 @@ message SelectServerReq {
 
 message SelectServerAck {
     uint32   RetCode       = 1;
-	string  ServerAddr    = 2;
-	int32   ServerPort    = 3;
-	int32   LoginCode     = 4;
+	uint32   ServerID      = 2;
+	string   ServerAddr    = 3;
+	int32    ServerPort    = 4;
+	int32    LoginCode     = 5;
 }
 
-message RoleListNode {
+message RoleItem {
 	uint64  ID         = 1;
 	string  Name       = 2;
 	int32   RoleType   = 3;
@@ -101,22 +102,22 @@ message RoleListReq {
 
 message RoleListAck {
 	uint32   RetCode = 1;
-	repeated  RoleListNode RoleNode = 2;
+	repeated  RoleItem RoleList = 2;
 }
 
 
 message RoleCreateReq {
     uint64 AccountID = 1;
 	string Name = 3;
-	int32  RoleType = 4;
+	uint32  RoleType = 4;
 }
 
 message RoleCreateAck {
     uint32   RetCode = 1;
-	uint64 AccountID = 2;
-	uint64 RoleID = 3;
-	string Name = 4;
-	int32  RoleType = 5;
+	uint64	 AccountID = 2;
+	uint64   RoleID = 3;
+	string   Name = 4;
+	uint32    RoleType = 5;
 }
 
 
@@ -139,7 +140,7 @@ message RoleLoginAck {
     uint32   RetCode = 1;
 	uint64  AccountID = 2;
 	uint64  RoleID = 3;
-	int32   RoleType = 4;
+	uint32   RoleType = 4;
 	int32   Level = 5;
 	uint64  Exp = 6;
 	string  Name = 7;
@@ -196,15 +197,15 @@ message CreateNewSceneAck{
 
 message EnterSceneReq {
     uint64  RoleID = 1;
-	string  RoleName = 2;
-	int32   RoleType = 3;
-	int32   Level = 4;
 }
 
 message EnterSceneAck {
     uint32   RetCode = 1;
 	uint32   CopyType = 2;
 	uint32   CopyID = 3;
+	uint64   RoleID = 4;
+	string   RoleName = 5;
+	uint32   RoleType = 6;
 }
 
 message LeaveSceneReq {
@@ -221,7 +222,7 @@ message LeaveSceneAck {
 message TransRoleDataReq {
     uint64  RoleID = 1;
 	string  RoleName = 2;
-	int32   RoleType = 3;
+	uint32   RoleType = 3;
 	int32   Level = 4;
 }
 
@@ -243,7 +244,7 @@ message NotifyIntoScene {
 
 message NearByRoleItem {
 	uint64 RoleID = 1;
-	int32  RoleType = 2;
+	uint32  RoleType = 2;
 	int32  Level = 3;
 	string Name = 4;
 	
@@ -261,7 +262,7 @@ message NearByDelNty {
 
 message NearByUpdateNty {
     uint64 RoleID = 1;
-	int32  RoleType = 2;
+	uint32  RoleType = 2;
 	int32  Level = 3;
 	string Name = 4;
 }

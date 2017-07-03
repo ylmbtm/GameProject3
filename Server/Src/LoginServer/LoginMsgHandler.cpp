@@ -88,7 +88,8 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket )
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
-	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
@@ -100,7 +101,9 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
-	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
+
+	return TRUE;
 }
 
 
@@ -113,8 +116,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginRegReq(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
-	return CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGINREG_REQ, nConnID, 0, Req);
-
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGINREG_REQ, nConnID, 0, Req);
 
 	return TRUE;
 }
@@ -150,7 +152,9 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket *pPacket)
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req);
+
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket *pPacket )
@@ -162,7 +166,9 @@ BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket *pPacket )
 	UINT32 nConnID = pHeader->dwUserData;
 	ASSERT(nConnID != 0);
 	
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_REG_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_REG_ACK, 0, 0, Ack);
+
+	return TRUE;
 }
 
 
@@ -176,7 +182,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 	UINT32 nConnID = pHeader->dwUserData;
 	ASSERT(nConnID != 0);
 
-	//if(Ack.lastsvrid() == 0)
+	if(Ack.lastsvrid() == 0)
 	{
 		Ack.set_lastsvrid(201);
 		Ack.set_lastsvrname("TestServer1");
@@ -206,9 +212,19 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
-	Ack.set_retcode(MRC_SUCCESSED);
+	LogicServerNode *pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.serverid());
+	if(pNode == NULL)
+	{
+		ASSERT_FAIELD;
+		return TRUE;
+	}
+
+	//Ack.set_serveraddr(pNode->strIpAddr);
+	//Ack.set_serverport(pNode->dwPort);
+
 	Ack.set_serveraddr("127.0.0.1");
 	Ack.set_serverport(9876);
-	Ack.set_logincode(12345678);
+
+	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
 }

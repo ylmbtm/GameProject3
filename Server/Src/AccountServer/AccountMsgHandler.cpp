@@ -103,10 +103,9 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	}
 	else
 	{
-		//Ack.set_retcode(E_FAILED);
+		Ack.set_retcode(MRC_FAILED);
 	}
 
-	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 	
 	return TRUE;
@@ -147,10 +146,9 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 	}
 
 
-	Ack.set_lastsvrid(1);
+	Ack.set_lastsvrid(201);
 	Ack.set_accountid(u64AccountID);
-
+	Ack.set_lastsvrname("Test_Server_1");
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
-
 	return TRUE;
 }

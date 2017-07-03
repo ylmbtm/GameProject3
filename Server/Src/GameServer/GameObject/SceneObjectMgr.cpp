@@ -2,7 +2,7 @@
 #include "SceneObjectMgr.h"
 
 
-BOOL CSceneObjectMgr::AddPlayer( CSceneObject *pObject )
+BOOL CSceneObjectMgr::AddObject( CSceneObject *pObject )
 {
 	insert(std::make_pair(pObject->GetObjectID(), pObject));
 
@@ -20,7 +20,7 @@ CSceneObject* CSceneObjectMgr::GetSceneObject( UINT64 ObjectID )
 	return NULL;
 }
 
-BOOL CSceneObjectMgr::RemovePlayer( UINT64 ObjectID )
+BOOL CSceneObjectMgr::RemoveObject( UINT64 ObjectID )
 {
 	if(GetSceneObject(ObjectID) == NULL)
 	{

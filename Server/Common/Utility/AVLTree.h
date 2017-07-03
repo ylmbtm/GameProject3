@@ -5,7 +5,7 @@
 template<typename TKey, typename TValue>
 class TreeNode
 {
-private:
+public:
     TreeNode():m_pLeft(NULL),m_pRight(NULL),m_nHeight(0)
 	{
 	}
@@ -279,6 +279,7 @@ bool AVLTree<TKey, TValue>::AllocBufferNode(int nSize)
 
 	for(int i = 0; i < nSize; i++)
 	{
+		pNode = new(pNode)TNodeType();
 		pNode->m_Key = i;
 
 		if(m_pFreeHead == NULL)

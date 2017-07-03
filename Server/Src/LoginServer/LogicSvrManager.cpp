@@ -50,3 +50,14 @@ UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 
 	return pNode->dwConnID;
 }
+
+LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
+{
+	LogicServerNode *pNode = GetByKey(dwServerID);
+	if(pNode == NULL)
+	{
+		return 0;
+	}
+
+	return pNode;
+}

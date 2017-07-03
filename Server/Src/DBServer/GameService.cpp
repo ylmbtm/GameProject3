@@ -1,5 +1,4 @@
 ﻿#include "stdafx.h"
-#include "ObjectID.h"
 #include "GameService.h"
 #include "CommandDef.h"
 #include "Utility/Log/Log.h"

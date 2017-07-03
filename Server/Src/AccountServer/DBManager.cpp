@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "DBManager.h"
 #include "Utility/CommonFunc.h"
-#include "ObjectID.h"
-
 
 CDBManager::CDBManager(void)
 {

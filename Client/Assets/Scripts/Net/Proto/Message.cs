@@ -7,6 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+// Generated from: proto_raw/Game_Define.proto
+namespace Protocol
+{
+    [global::ProtoBuf.ProtoContract(Name=@"OBJECT_TYPE")]
+    public enum OBJECT_TYPE
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"OT_NONE", Value=0)]
+      OT_NONE = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"OT_PLAYER", Value=1)]
+      OT_PLAYER = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"OT_MONSTER", Value=2)]
+      OT_MONSTER = 2
+    }
+  
+}
 // Generated from: proto_raw/Msg_ID.proto
 namespace Protocol
 {
@@ -833,8 +851,16 @@ namespace Protocol
       get { return _RetCode; }
       set { _RetCode = value; }
     }
+    private uint _ServerID = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"ServerID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint ServerID
+    {
+      get { return _ServerID; }
+      set { _ServerID = value; }
+    }
     private string _ServerAddr = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"ServerAddr", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ServerAddr", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue("")]
     public string ServerAddr
     {
@@ -842,7 +868,7 @@ namespace Protocol
       set { _ServerAddr = value; }
     }
     private int _ServerPort = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ServerPort", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"ServerPort", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int ServerPort
     {
@@ -850,7 +876,7 @@ namespace Protocol
       set { _ServerPort = value; }
     }
     private int _LoginCode = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"LoginCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int LoginCode
     {
@@ -862,10 +888,10 @@ namespace Protocol
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleListNode")]
-  public partial class RoleListNode : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RoleItem")]
+  public partial class RoleItem : global::ProtoBuf.IExtensible
   {
-    public RoleListNode() {}
+    public RoleItem() {}
     
     private ulong _ID = default(ulong);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"ID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -951,11 +977,11 @@ namespace Protocol
       get { return _RetCode; }
       set { _RetCode = value; }
     }
-    private readonly global::System.Collections.Generic.List<RoleListNode> _RoleNode = new global::System.Collections.Generic.List<RoleListNode>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"RoleNode", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<RoleListNode> RoleNode
+    private readonly global::System.Collections.Generic.List<RoleItem> _RoleList = new global::System.Collections.Generic.List<RoleItem>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"RoleList", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<RoleItem> RoleList
     {
-      get { return _RoleNode; }
+      get { return _RoleList; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -984,10 +1010,10 @@ namespace Protocol
       get { return _Name; }
       set { _Name = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }
@@ -1034,10 +1060,10 @@ namespace Protocol
       get { return _Name; }
       set { _Name = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }
@@ -1154,10 +1180,10 @@ namespace Protocol
       get { return _RoleID; }
       set { _RoleID = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }
@@ -1428,30 +1454,6 @@ namespace Protocol
       get { return _RoleID; }
       set { _RoleID = value; }
     }
-    private string _RoleName = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleName", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
-    public string RoleName
-    {
-      get { return _RoleName; }
-      set { _RoleName = value; }
-    }
-    private int _RoleType = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
-    {
-      get { return _RoleType; }
-      set { _RoleType = value; }
-    }
-    private int _Level = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Level", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int Level
-    {
-      get { return _Level; }
-      set { _Level = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1485,6 +1487,30 @@ namespace Protocol
     {
       get { return _CopyID; }
       set { _CopyID = value; }
+    }
+    private ulong _RoleID = default(ulong);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"RoleID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(ulong))]
+    public ulong RoleID
+    {
+      get { return _RoleID; }
+      set { _RoleID = value; }
+    }
+    private string _RoleName = "";
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"RoleName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string RoleName
+    {
+      get { return _RoleName; }
+      set { _RoleName = value; }
+    }
+    private uint _RoleType = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
+    {
+      get { return _RoleType; }
+      set { _RoleType = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1556,10 +1582,10 @@ namespace Protocol
       get { return _RoleName; }
       set { _RoleName = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }
@@ -1682,10 +1708,10 @@ namespace Protocol
       get { return _RoleID; }
       set { _RoleID = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }
@@ -1758,10 +1784,10 @@ namespace Protocol
       get { return _RoleID; }
       set { _RoleID = value; }
     }
-    private int _RoleType = default(int);
+    private uint _RoleType = default(uint);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"RoleType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int RoleType
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint RoleType
     {
       get { return _RoleType; }
       set { _RoleType = value; }

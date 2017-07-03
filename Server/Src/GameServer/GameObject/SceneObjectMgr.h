@@ -17,9 +17,9 @@ public:
 	}
 
 public:
-	BOOL			AddPlayer(CSceneObject *pObject);
+	BOOL			AddObject(CSceneObject *pObject);
 
-	BOOL			RemovePlayer(UINT64 ObjectID);
+	BOOL			RemoveObject(UINT64 ObjectID);
 
 	CSceneObject*   GetSceneObject(UINT64 ObjectID);
 };

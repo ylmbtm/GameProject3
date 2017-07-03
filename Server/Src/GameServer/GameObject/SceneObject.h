@@ -9,16 +9,23 @@ public:
 
 	~CSceneObject();
 public:
-	virtual UINT32	WriteToBuffer( UINT32 dwChangeFlag, UINT32 dwDest);
 
-	virtual UINT32  ReadFromBuffer(UINT32 dwChangeFlag);
-
-	BOOL  SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL			SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 public:
 	BOOL			OnUpdate(UINT32 dwTick);
 
 public:
 	BOOL            StartSkill();
+
+
+public:
+	//对象成员
+	UINT64 m_uID;			//ID
+	UINT32 m_dwType;		//对象Type 1:玩家，2: 3:
+	UINT32 m_dwObjType;		//对象实例type
+	std::string m_strName;
+
+
 
 };
 

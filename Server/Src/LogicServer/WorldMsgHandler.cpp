@@ -84,6 +84,8 @@ BOOL CWorldMsgHandler::OnMsgSelectServerReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ASSERT(pHeader->dwUserData != 0);
 	SelectServerAck Ack;
+	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+	Ack.set_logincode(12345678);
 	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
 }
@@ -94,7 +96,8 @@ BOOL CWorldMsgHandler::OnMsgRoleListReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ASSERT(pHeader->dwUserData != 0);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+	return TRUE;
 }
 
 BOOL CWorldMsgHandler::OnMsgRoleListAck(NetPacket *pNetPacket)
@@ -117,13 +120,24 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket *pNetPacket)
 	//检验名字是否可用
 
 	UINT64 u64RoleID = CSimpleManager::GetInstancePtr()->MakeNewRoleID();
-
+	CSimpleInfo *pSimpleInfo = CSimpleManager::GetInstancePtr()->CreateSimpleInfo(u64RoleID, Req.accountid(), Req.name(), Req.roletype());
+	if(pSimpleInfo == NULL)
+	{
+		ASSERT_FAIELD;
+		return TRUE;
+	}
 	CPlayerObject *pPlayer  = CPlayerManager::GetInstancePtr()->CreatePlayer(u64RoleID);
 	ASSERT(pPlayer->Init());
 	CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
-	pRoleModule->OnCreate(u64RoleID, Req.name(), Req.roletype(), Req.accountid(), 1);
+	pRoleModule->SetBaseData(u64RoleID, Req.name(), Req.roletype(), Req.accountid(), 1);
 	pPlayer->OnCreate(u64RoleID);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_CREATE_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+	pPlayer->SetAllModuleOK();
+	RoleCreateAck Ack;
+	Ack.set_accountid(Req.accountid());
+	Ack.set_roleid(u64RoleID);
+	Ack.set_roletype(Req.roletype());
+	Ack.set_name(Req.name());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID,  MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Req);
 	return TRUE;
 }
 
@@ -167,15 +181,20 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginAck(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ASSERT(pHeader->dwUserData != 0);
 
-	CPlayerObject *pObj = CPlayerManager::GetInstancePtr()->CreatePlayer(Ack.roleid());
-	pObj->Init();
-	pObj->OnLoadData(Ack.roleid());
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->CreatePlayer(Ack.roleid());
+	pPlayer->Init();
+
+	CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
+	pRoleModule->SetBaseData(Ack.roleid(), Ack.name(), Ack.roletype(), Ack.accountid(), 1);
+	pPlayer->OnLoadData(Ack.roleid());
+	pPlayer->m_dwProxyConnID = pHeader->u64TargetID;
+	pPlayer->m_dwRoleConnID = pHeader->dwUserData;
 	//TransRoleDataReq Req;
 	//Req.set_roleid(pHeader->u64TargetID);
 	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_pConnect->GetConnectionID(), MSG_TRANS_ROLE_DATA_REQ, pHeader->u64TargetID, 0, Req);
-	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->u64TargetID, MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 
+	//Ack.set_retcode(MRC_SUCCESSED);
+	//return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->u64TargetID, MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 	return TRUE;
 }
 
@@ -216,7 +235,6 @@ BOOL CWorldMsgHandler::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
 	NotifyIntoScene Nty;
 	Nty.set_copytype(Ack.copytype());
 	Nty.set_copyid(Ack.copyid());
-
 	pPlayer->SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty);
 
 	return TRUE;

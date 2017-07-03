@@ -70,21 +70,6 @@ BOOL CSceneObject::StartSkill()
 // }
 
 
-
-
-UINT32 CSceneObject::WriteToBuffer( UINT32 dwChangeFlag, UINT32 dwDest )
-{
-	UINT32 dwSize = 0;
-
-	return dwSize;
-}
-
-UINT32 CSceneObject::ReadFromBuffer(UINT32 dwChangeFlag)
-{
-	UINT32 dwSize = 0;
-	return dwSize;
-}
-
 BOOL CSceneObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetProxyConnID(), dwMsgID, GetObjectID(), 0, pdata);

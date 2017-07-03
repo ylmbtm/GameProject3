@@ -48,6 +48,8 @@ public:
 
     UINT64 MakeNewRoleID();
 
+	CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwRoleType);
+
 public:
     std::map<UINT64, CSimpleInfo*> m_mapID2Simple;
     std::map<std::string, UINT64>  m_mapName2ID;

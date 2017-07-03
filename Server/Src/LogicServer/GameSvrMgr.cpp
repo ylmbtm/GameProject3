@@ -74,6 +74,19 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 	return TRUE;
 }
 
+
+BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID)
+{
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uID);
+	if(pPlayer == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+
+}
+
 BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 {
 	GmsvrRegToLogicReq Req;

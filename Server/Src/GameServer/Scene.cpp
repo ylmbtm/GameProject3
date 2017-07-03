@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "GameDefine.h"
-#include "ObjectID.h"
 #include "GameService.h"
 #include "Scene.h"
 #include "PacketHeader.h"
@@ -14,6 +13,7 @@
 #include "SceneLogic/SceneLogic_Type.h"
 #include "SceneLogic/SceneLogic_Normal.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Game_Define.pb.h"
 CScene::CScene()
 {
 	
@@ -185,7 +185,7 @@ BOOL CScene::SendNewObjectToGrids(CWorldObject *pWorldObject, INT32 Grids[9])
 			//开始发送给所有的玩家
 			if(pIterObj->GetObjectID() != pWorldObject->GetObjectID())
 			{
-				if(pIterObj->GetObjectType() == OT_Player)
+				if(pIterObj->GetObjectType() == OT_PLAYER)
 				{
 					CSceneObject *pSceneObj = (CSceneObject*)pIterObj;
 					pSceneObj->SendProtoBuf(MSG_NEARBY_ADD_NTY, Nty);
@@ -277,7 +277,7 @@ BOOL CScene::SendUpdateObjectToGrids(CWorldObject *pWorldObj, INT32 Grids[9] )
 			//开始发送给所有的玩家
 			if(pIterObj->GetObjectID() != pWorldObj->GetObjectID())
 			{
-				if(pIterObj->GetObjectType() == OT_Player)
+				if(pIterObj->GetObjectType() == OT_PLAYER)
 				{
 					CSceneObject *pSceneObject = (CSceneObject*)pIterObj;
 					pSceneObject->SendProtoBuf(MSG_NEARBY_UPDATE_NTY, Nty);
@@ -402,7 +402,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 	RemoveFromMap(pSceneObject);
 
-	m_SceneObjectMgr.RemovePlayer(pSceneObject->GetObjectID());
+	m_SceneObjectMgr.RemoveObject(pSceneObject->GetObjectID());
 
 	return TRUE;
 }
@@ -510,7 +510,7 @@ BOOL CScene::HandleUpdateObject(CWorldObject *pWorldObject)
 
 		SendNewObjectToGrids(pWorldObject, Grids);
 
-		if(pWorldObject->GetObjectType() == OT_Player)
+		if(pWorldObject->GetObjectType() == OT_PLAYER)
 		{
 			SendNewGridsToObject(Grids, (CSceneObject*)pWorldObject);
 		}
@@ -527,7 +527,7 @@ BOOL CScene::HandleUpdateObject(CWorldObject *pWorldObject)
 
 		SendRemoveObjectToGrids(pWorldObject->GetObjectID(), Grids);
 
-		if(pWorldObject->GetObjectType() == OT_Player)
+		if(pWorldObject->GetObjectType() == OT_PLAYER)
 		{
 			delete (CSceneObject*)pWorldObject;
 		}
@@ -600,18 +600,21 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 
 	//根据数据创建宠物，英雄
 	CSceneObject *pSceneObject = new CSceneObject;
-	m_SceneObjectMgr.AddPlayer(pSceneObject);
-	if(AddToMap(pSceneObject))
-	{
+	pSceneObject->m_dwType = OT_PLAYER;
+	pSceneObject->m_dwObjType = Req.roletype();
+	pSceneObject->m_strName = Req.rolename();
+	m_SceneObjectMgr.AddObject(pSceneObject);
+	//if(AddToMap(pSceneObject))
+	//{
 		TransRoleDataAck Ack;
 		Ack.set_retcode(MRC_SUCCESSED);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
-	}
-	else
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	//}
+	//else
+	//{
+	////	ASSERT_FAIELD;
+//		return TRUE;
+	//}
 
 	return TRUE;
 }
@@ -621,11 +624,26 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	EnterSceneReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject *pSceneObj = m_SceneObjectMgr.GetSceneObject(Req.roleid());
+	if(pSceneObj == NULL)
+	{
+		ASSERT_FAIELD;
+		return TRUE;
+	}
+
+	//发比较全的自己的信息
 	EnterSceneAck Ack;
 	Ack.set_copyid(m_dwCopyID);
 	Ack.set_copytype(m_dwCopyType);
+	Ack.set_roleid(Req.roleid());
+	Ack.set_rolename(pSceneObj->m_strName);
+	Ack.set_roletype(pSceneObj->m_dwObjType);
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ENTER_SCENE_ACK, Req.roleid(), 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ENTER_SCENE_ACK, Req.roleid(), pHeader->dwUserData, Ack);
+
+	AddToMap(pSceneObj);
+
 	return TRUE;
 }
 

@@ -21,6 +21,8 @@ public:
 
 	BOOL  GetRoleList(UINT64 u64AccountID, RoleListAck &Ack);
 
+	BOOL  GetRoleData(UINT64 u64ID, RoleLoginAck &Ack);
+
 	CppSQLite3DB	m_DBConnection;
 	//真实的mysql
 	//CDBConnection   m_DBConnection;

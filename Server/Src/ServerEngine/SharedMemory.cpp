@@ -177,7 +177,7 @@ void SharedMemoryBase::importOtherPage()
 		std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
 	
 		shareMemoryPage page;
-		page.m_shm = OpenFileMapping(FILE_MAP_READ, FALSE, pagename.c_str());
+		page.m_shm = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, pagename.c_str());
 		if(page.m_shm == NULL)
 		{
 			break;
@@ -235,20 +235,22 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 	std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(0);
 	
 	shareMemoryPage firstpage;
-	firstpage.m_shm =OpenFileMapping(FILE_MAP_READ, FALSE, pagename.c_str());
+	firstpage.m_shm =OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, pagename.c_str());
 	if(firstpage.m_shm != NULL)
 	{
 		firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm,FILE_MAP_READ|FILE_MAP_WRITE, 0, 0, 0);
-		///如果原来就已经存过，初始化数据
-		///找到头数据块的头
-		//#ifdef SHARED_BLOCK_CHECK
-		//		firstpage.m_pBlock=(_SMBlock*)(firstpage.m_pdata+(m_rawblockSize+BLOCK_FLAG_SIZE)*m_countperPage);
-		//#else
-		firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize*m_countperPage);
-		//#endif
-		m_ShareMemoryPageMapping.push_back(firstpage);
-		importOtherPage();
-		isempty = false;
+		if(firstpage.m_pdata != NULL)
+		{
+			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize*m_countperPage);
+			m_ShareMemoryPageMapping.push_back(firstpage);
+			importOtherPage();
+			isempty = false;
+		}
+		else
+		{
+			UINT32 dwError = GetLastError();
+			printf("---error---:%d", dwError);
+		}
 	}
 	else
 	{
@@ -268,6 +270,7 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 			//#endif
 			///清空所有内存;
 			memset(firstpage.m_pdata, 0, size);
+			initpage(firstpage);
 			m_ShareMemoryPageMapping.push_back(firstpage);
 		}
 
@@ -317,19 +320,7 @@ ShareObject* SharedMemoryBase::getObjectByRawindex(unsigned int index)
 		unsigned int whichpage = index / m_countperPage;
 		unsigned int pageindex = index%m_countperPage;
 		shareMemoryPage &page = m_ShareMemoryPageMapping[whichpage];
-		//#ifdef SHARED_BLOCK_CHECK
-		//		char* pblockdata = page.m_pdata+(m_rawblockSize+BLOCK_FLAG_SIZE)*pageindex;
-		//if(*pblockdata != SHARED_BLOCK_FLAG)
-		//{
-		//打印错误信息
-		//	return NULL;
-		//}
-
-		//跳开保护字
-		//		return reinterpret_cast<ShareObject*>(pblockdata+1);
-		//#else
 		return reinterpret_cast<ShareObject*>(page.m_pdata + m_rawblockSize*pageindex);
-		//#endif
 	}
 	else
 	{

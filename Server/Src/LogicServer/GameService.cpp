@@ -10,6 +10,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
 #include "TypeDataParser.h"
+#include "SimpleMananger.h"
 
 CGameService::CGameService(void)
 {
@@ -56,6 +57,8 @@ BOOL CGameService::Init()
 	}
 
 	CGloalData::GetInstancePtr()->ReadTypeData();
+
+	CSimpleManager::GetInstancePtr()->LoadSimpleData();
 
 	ConnectToLogServer();
 

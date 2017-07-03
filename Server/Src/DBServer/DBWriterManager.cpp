@@ -13,7 +13,7 @@ CDBWriterManager::~CDBWriterManager()
 
 BOOL CDBWriterManager::Init()
 {
-	m_pRoleDataWriter = new DataWriter<RoleDataObject>("role");
+	m_pRoleDataWriter = new DataWriter<RoleDataObject>("Role");
 
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
@@ -49,7 +49,7 @@ Th_RetName _DBWriteThread(void *pParam)
 	{
 		pDBWriterManager->WriteWork();
 
-		CommonThreadFunc::Sleep(100000); //ÐÝÏ¢10Ãë
+		CommonThreadFunc::Sleep(10000); //ÐÝÏ¢10Ãë
 	}
 	pDBWriterManager->Uninit();
 	CommonThreadFunc::ExitThread();

@@ -72,9 +72,7 @@ BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	RoleListAck Ack;
-
 	m_DBManager.GetRoleList(Req.accountid(), Ack);
-
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }
 
@@ -85,6 +83,7 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	RoleLoginAck Ack;
+	m_DBManager.GetRoleData(Req.roleid(), Ack);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }
 

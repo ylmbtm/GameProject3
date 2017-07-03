@@ -13,8 +13,7 @@ public:
 
 public:
 	virtual BOOL OnCreate(UINT64 u64RoleID);
-	BOOL OnCreate(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel);
-
+	
 	virtual BOOL OnDestroy(UINT64 u64RoleID);
 
 	virtual BOOL OnLogin(UINT64 u64RoleID);
@@ -24,6 +23,8 @@ public:
 	virtual BOOL OnNewDay();
 
 	virtual BOOL OnLoadData(UINT64 u64RoleID);
+
+	BOOL SetBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel);
 public:
 
 	RoleDataObject  *m_pRoleDataObject;

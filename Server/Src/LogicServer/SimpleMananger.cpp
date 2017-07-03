@@ -25,6 +25,7 @@ BOOL CSimpleManager::LoadSimpleData()
     m_u64MaxID = CGameService::GetInstancePtr()->GetServerID();
     m_u64MaxID = m_u64MaxID << 32 +1;
 
+
 	return TRUE;
 }
 
@@ -161,4 +162,19 @@ UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )
 UINT64 CSimpleManager::MakeNewRoleID()
 {
     return m_u64MaxID++;
+}
+
+CSimpleInfo* CSimpleManager::CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwRoleType)
+{
+	CSimpleInfo *pInfo = new CSimpleInfo();
+	pInfo->u64RoleID = u64ID;
+	pInfo->u64AccountID = u64AccID;
+	pInfo->Name = strName;
+	pInfo->dwRoleType = dwRoleType;
+	pInfo->IsOnline = TRUE;
+
+	m_mapID2Simple.insert(std::make_pair(u64ID, pInfo));
+	m_mapName2ID.insert(std::make_pair(strName, u64ID));
+
+	return pInfo;
 }

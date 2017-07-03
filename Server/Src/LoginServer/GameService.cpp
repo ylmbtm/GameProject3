@@ -92,7 +92,11 @@ BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID
 		return FALSE;
 	}
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData,pdata);
+	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData,pdata))
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
 
 	return TRUE;
 }

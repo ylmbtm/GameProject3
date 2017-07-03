@@ -1,0 +1,7 @@
+syntax = "proto3";
+enum OBJECT_TYPE {
+	OT_NONE = 0;
+	OT_PLAYER = 1;
+	OT_MONSTER= 2;
+}
+

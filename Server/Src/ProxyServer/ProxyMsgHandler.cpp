@@ -7,7 +7,6 @@
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "Utility/CommonSocket.h"
-#include "ObjectID.h"
 #include "StaticPlayerMgr.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Login.pb.h"
@@ -65,7 +64,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_CREATE_ACK:
 		{
-			RelayToConnect(pPacketHeader->u64TargetID, pNetPacket->m_pDataBuffer);
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_DELETE_REQ:
@@ -77,7 +76,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_DELETE_ACK:
 		{
-			RelayToConnect(pPacketHeader->u64TargetID, pNetPacket->m_pDataBuffer);
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_LOGIN_REQ:
@@ -89,7 +88,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_LOGIN_ACK:
 		{
-			RelayToConnect(pPacketHeader->u64TargetID, pNetPacket->m_pDataBuffer);
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_LOGOUT_REQ:
@@ -101,7 +100,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		break;
 	case MSG_ROLE_LOGOUT_ACK:
 		{
-			RelayToConnect(pPacketHeader->u64TargetID, pNetPacket->m_pDataBuffer);
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 	default:

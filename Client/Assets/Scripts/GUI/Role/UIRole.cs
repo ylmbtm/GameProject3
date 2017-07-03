@@ -96,7 +96,7 @@ public class UIRole : GTWindow
         GTAudioManager.Instance.PlayEffectAudio(GTAudioKey.SOUND_UI_CLICK);
         string name = iptHeroName.value.Trim();
         int id = mRoleDBList[mRoleIndex];
-        LoginService.Instance.TryCreateRole(name, id);
+        LoginService.Instance.TryCreateRole(name, (uint)id);
     }
 
     private void OnEnterGameClick(GameObject go)
