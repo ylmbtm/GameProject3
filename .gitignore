@@ -81,7 +81,6 @@ build/
 *.deb
 *.dep
 *.manifest
-*.exe
 *.manifest.res
 *.exp
 
@@ -220,8 +219,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-*.exe
-
 *.res
 *.ib_tag
 project/Lua/Debug/LuaProjectd.lib
@@ -284,3 +281,7 @@ proto/proto-gen-lua
 *.dll
 *.asset
 *.exp
+Client/Assets/Scripts/CSharp.exe
+Client/Assets/Scripts/Play/ACT/CSharp.exe
+Proto/protoc-gen-lua/protoc.exe
+Server/Client/TestClient/Debug/TestClient.exe
