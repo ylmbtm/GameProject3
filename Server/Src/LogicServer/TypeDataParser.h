@@ -27,12 +27,13 @@ struct DataFuncNode
 
 class CGloalData
 {
-public:
     CGloalData();
-
+	~CGloalData();
+public:
+	static CGloalData* GetInstancePtr();
 	//读表基础方法
     BOOL InitDataParser();
-	BOOL ReadAllData(); 
+	BOOL ReadTypeData(); 
 	std::vector<DataFuncNode> m_vtDataFuncList;
 
 
