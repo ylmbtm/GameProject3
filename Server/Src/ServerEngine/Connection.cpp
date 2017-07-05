@@ -399,6 +399,8 @@ BOOL CConnection::Clear()
 
     m_bConnected = FALSE;
 
+	m_dwConnData = 0;
+
     m_dwDataLen = 0;
 
     m_dwIpAddr  = 0;

@@ -29,6 +29,11 @@ BOOL ClassName##::OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHe
 	return TRUE;\
 }
 
+
+#define PROCESS_MESSAGE_ITEM_CLIENT(wCommandID, Func) \
+		case wCommandID:{\
+		Func(dwMsgID, PacketBuf, BufLen);}break;
+
 #endif /* __MSG_DEFINE_H__ */
 
 

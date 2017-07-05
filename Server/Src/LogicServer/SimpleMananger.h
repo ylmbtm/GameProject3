@@ -44,6 +44,8 @@ public:
 
     BOOL Set_GuildID(UINT64 u64ID, UINT32 guildid);
 
+	BOOL CheckNameExist(std::string strName);
+
     UINT32 Get_GuildID(UINT64 u64ID);
 
     UINT64 MakeNewRoleID();

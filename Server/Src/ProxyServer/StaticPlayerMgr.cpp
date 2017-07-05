@@ -6,9 +6,9 @@ CProxyPlayer::~CProxyPlayer()
 
 }
 
-UINT64 CProxyPlayer::GetGameSvrConnID()
+UINT64 CProxyPlayer::GetGameSvrID()
 {
-	return m_GameSvrConnID;
+	return m_dwGameSvrID;
 }
 
 UINT64 CProxyPlayer::GetCharID()
@@ -16,14 +16,14 @@ UINT64 CProxyPlayer::GetCharID()
 	return m_u64RoleID;
 }
 
-UINT32 CProxyPlayer::GetClientConnID()
+UINT32 CProxyPlayer::GetConnID()
 {
-	return m_dwClientConnID;
+	return m_dwConnID;
 }
 
-VOID CProxyPlayer::SetGameSvrConnID( UINT64 u64ConnID )
+VOID CProxyPlayer::SetGameSvrID(UINT32 dwSvrID )
 {
-	m_GameSvrConnID = u64ConnID;
+	m_dwGameSvrID = dwSvrID;
 }
 
 

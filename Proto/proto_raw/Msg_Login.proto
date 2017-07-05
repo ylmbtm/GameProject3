@@ -2,7 +2,7 @@ syntax = "proto3";
 message CheckVersionReq {
     int32  ClientVerion = 1;
 	string PackageName = 2;
-	int32  Channel     = 3;
+	uint32  Channel     = 3;
 }
 
 message CheckVersionAck {
@@ -14,12 +14,12 @@ message CheckVersionAck {
 message AccountRegReq {
     string AccountName = 1;
 	string Password    = 2;
-	int32  Channel     = 3;
+	uint32  Channel     = 3;
 }
 
 message AccountRegAck {
     uint32   RetCode       = 1;
-	uint64   AccountID     = 2;
+	uint64   AccountID     = 2; //账号ID
 }
 
 message AccountLoginReq {
@@ -30,16 +30,16 @@ message AccountLoginReq {
 message AccountLoginAck {
 	uint32   RetCode   = 1;
 	uint64   AccountID = 2;
-	int32   LastSvrID = 3;  //上次登录SvrID
-	string  LastSvrName = 4;
+	int32    LastSvrID = 3;  //上次登录SvrID
+	string   LastSvrName = 4;
 }
 
 
 message ClientServerListReq {
 	uint64   AccountID     = 1;
-	int32   Channel       = 2;
-	string  PackName      = 3;
-	int32   ClientVersion = 4;
+	uint32   Channel       = 2; //渠道包
+	string   PackName      = 3; //包名
+	int32    ClientVersion = 4; //客户端版本号
 }
 
 
@@ -57,23 +57,14 @@ message ClientServerListAck {
 }
 
 
-message RegToLoginSvrReq {
+message SvrRegToSvrReq {
     int32  ServerID = 1;
 	string ServerName = 2;
 }
 
-message RegToLoginSvrAck {
+message SvrRegToSvrAck {
     uint32   RetCode       = 1;
 }
-
-message GmsvrRegToLogicReq {
-    int32  ServerID = 1;
-}
-
-message GmsvrRegToLogicAck {
-    uint32   RetCode       = 1;
-}
-
 
 message SelectServerReq {
     int32 ServerID = 1;
@@ -138,12 +129,12 @@ message RoleLoginReq {
 
 message RoleLoginAck {
     uint32   RetCode = 1;
-	uint64  AccountID = 2;
-	uint64  RoleID = 3;
+	uint64   AccountID = 2;
+	uint64   RoleID = 3;
 	uint32   RoleType = 4;
-	int32   Level = 5;
-	uint64  Exp = 6;
-	string  Name = 7;
+	int32    Level = 5;
+	uint64   Exp = 6;
+	string   Name = 7;
 }
 
 
@@ -165,7 +156,29 @@ message RoleDisconnectAck {
     uint32   RetCode = 1;
 }
 
+message RoleSkillReq {
+	uint64 AttackerID = 1;
+	uint32 SkillID = 2;
+	float  sx = 3;
+	float  sz = 4;
+	float  dx = 5;
+	float  dz = 6;
+	repeated uint64 DamagerID = 7; 
+}
+
+
 message RoleMoveReq {
+    uint64  RoleID = 1;
+	float   x = 2;
+	float   y = 3;
+	float   z = 4;
+	float   d = 5;
+	float   v = 6;
+}
+
+
+
+message RoleMoveNty {
     uint64  RoleID = 1;
 	float   x = 2;
 	float   y = 3;
@@ -173,8 +186,25 @@ message RoleMoveReq {
 	float   d = 5;
 }
 
+
+//只做自己发包的确认包用
 message RoleMoveAck {
     uint32   RetCode = 1;
+}
+
+
+message RoleChangeNotify{
+	uint64   ObjectID = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float d = 5;
+	uint32 hp = 6;
+	uint32 mp = 7;
+	uint32 hpmax = 8;
+	uint32 mpmax = 9;
+	
+	
 }
 
 ///创建场景
@@ -197,6 +227,8 @@ message CreateNewSceneAck{
 
 message EnterSceneReq {
     uint64  RoleID = 1;
+	uint32  ServerID = 2; //场景服ID
+	uint32  CopyID  = 3;  //副本实例ID
 }
 
 message EnterSceneAck {
@@ -249,7 +281,6 @@ message NearByRoleItem {
 	string Name = 4;
 	
 }
-
 
 message NearByAddNty {
   repeated NearByRoleItem RoleList = 1;

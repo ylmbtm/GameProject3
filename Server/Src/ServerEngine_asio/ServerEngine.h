@@ -9,7 +9,7 @@
 #include <set>
 #include <algorithm>
 
-#define ASSERT_FAIELD (assert(false))
+#include "CheckMacroDefine.h"
 
 #include "Platform.h"
 

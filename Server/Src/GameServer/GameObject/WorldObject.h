@@ -29,10 +29,6 @@ public:
 public:
 	virtual BOOL    SetUpdate(UpdateStatusEnum UpdateStatus);
 
-	virtual UINT32	WriteToBuffer(UINT32 dwChangeFlag, UINT32 dwDest);
-
-	virtual UINT32  ReadFromBuffer(UINT32 dwChangeFlag);
-
 	virtual UINT64  GetObjectID();
 
 	virtual UINT32  GetObjectType();

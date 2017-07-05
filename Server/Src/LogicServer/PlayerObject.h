@@ -41,6 +41,7 @@ public:
 
 	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwSvrID);
 
+	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 
 	//模块函数
 	BOOL			CreateAllModule();
@@ -56,7 +57,7 @@ public:
 public:
 	UINT64		m_u64ID;
 	UINT32      m_dwProxyConnID;
-	UINT32      m_dwRoleConnID;
+	UINT32      m_dwClientConnID;
 	std::vector<CModuleBase*> m_MoudleList;
 };
 

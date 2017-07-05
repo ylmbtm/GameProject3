@@ -16,25 +16,25 @@ enum LineState
 class  CProxyPlayer
 {
 public:
-	CProxyPlayer():m_u64RoleID(0),m_GameSvrConnID(0){}
+	CProxyPlayer():m_u64RoleID(0),m_dwGameSvrID(0){}
 
 	~CProxyPlayer();
 
 public:
-	UINT64	GetGameSvrConnID();
+	UINT64	GetGameSvrID();
 
-	VOID	SetGameSvrConnID(UINT64 u64ConnID);
+	VOID	SetGameSvrID(UINT32 dwSvrID);
 
 	UINT64	GetCharID();
 
-	UINT32  GetClientConnID();
+	UINT32  GetConnID();
 
 public:
 	UINT64	m_u64RoleID;
 
-	UINT64	m_GameSvrConnID;
+	UINT32	m_dwGameSvrID;
 
-	UINT32  m_dwClientConnID;
+	UINT32  m_dwConnID;
 
 	UINT32  m_CharState;
 };

@@ -135,7 +135,7 @@ BOOL CPlayerObject::DestroyAllModule()
 
 BOOL CPlayerObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), 0, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
 }
 
 
@@ -191,7 +191,7 @@ BOOL CPlayerObject::OnAllModuleOK()
 {
 	RoleLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_ROLE_LOGIN_ACK, 0, m_dwRoleConnID, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_ROLE_LOGIN_ACK, 0, m_dwClientConnID, Ack);
 
 	SendToScene(1,1);
 
@@ -205,6 +205,14 @@ BOOL CPlayerObject::SendToScene(UINT32 dwCopyID,UINT32 dwSvrID)
 	Req.set_roleid(m_u64ID);
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, 0, Req);
+
+	return TRUE;
+}
+
+BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
+{
+	m_dwProxyConnID = dwProxyID;
+	m_dwClientConnID = dwClientID;
 
 	return TRUE;
 }

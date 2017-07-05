@@ -78,6 +78,7 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 		ConnectToLogicSvr();
 	}
 
+
 	return TRUE;
 }
 

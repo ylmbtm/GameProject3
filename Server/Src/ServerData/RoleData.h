@@ -36,5 +36,35 @@ struct RoleDataObject : public ShareObject
 };
 
 
+struct CopyDataObject : public ShareObject
+{
+	CopyDataObject()
+	{
+		UINT64 m_u64ID = 0;
+		UINT32 m_dwChaper = 0;
+		UINT32 m_dwCopyType = 0;
+		UINT32 m_dwBattleTimes = 0;
+		UINT32 m_dwResetTimes = 0;
+		UINT32 m_dwStar = 0;
+	}
+
+	UINT64 m_u64ID;			//½ÇÉ«ID
+	UINT32 m_dwChaper;
+	UINT32 m_dwCopyType;
+	UINT32 m_dwBattleTimes;
+	UINT32 m_dwResetTimes;
+	UINT32 m_dwStar;
+
+	BOOL Save(IDataBase *pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDataBase *pDB)
+	{
+		return TRUE;
+	}
+};
+
 
 #endif //__SERVER_STRUCT_H__

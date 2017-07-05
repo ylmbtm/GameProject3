@@ -211,16 +211,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure *pDBStoredProcedure)
     return TRUE;
 }
 
-// int CDBConnection::ExecuteEx(CDBStoredProcedure *pDBStoredProcedure)
-// {
-// 	//if (mysql_real_query(m_pMySql, pDBStoredProcedure->m_strSql.c_str(), pDBStoredProcedure->m_strSql.size()) == 0)
-// 	//{
-// 	//	pDBStoredProcedure->m_DBRecordSet.m_pResult = mysql_store_result(m_pMySql);
-// 	//}
-// 
-// 	return 0;
-// }
-
 // query.
 BOOL CDBConnection::Query(CDBStoredProcedure *pDBStoredProcedure)
 {

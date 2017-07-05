@@ -64,6 +64,8 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
 	ConnectToLogicSvr();
 
+	ConnectToProxySvr();
+
 	return TRUE;
 }
 
@@ -73,9 +75,13 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
-		RegisterToLoginSvr();
+		RegisterToLogicSvr();
 	}
-
+	if(pConn->GetConnectionID() == m_dwProxyConnID)
+	{
+		RegisterToProxySvr();
+	}
+	
 	return TRUE;
 }
 
@@ -121,9 +127,14 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
+	UINT32 dwTickCount = 0;
 	while(TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();
+
+		dwTickCount = CommonFunc::GetTickCount();
+
+		m_SceneManager.OnUpdate(dwTickCount);
 
 		CommonThreadFunc::Sleep(1);
 	}
@@ -137,7 +148,6 @@ BOOL CGameService::SetLogicConnID( UINT32 dwConnID )
 
 	return TRUE;
 }
-
 
 UINT32 CGameService::GetLogicConnID()
 {
@@ -181,13 +191,18 @@ BOOL CGameService::ConnectToProxySvr()
 	return TRUE;
 }
 
-BOOL CGameService::RegisterToLoginSvr()
+BOOL CGameService::RegisterToLogicSvr()
 {
-	GmsvrRegToLogicReq Req;
-
+	SvrRegToSvrReq Req;
 	Req.set_serverid(m_dwServerID);
-
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLogicConnID, MSG_GMSVR_REGTO_LOGIC_REQ, 0, 0, Req);
+}
+
+BOOL CGameService::RegisterToProxySvr()
+{
+	SvrRegToSvrReq Req;
+	Req.set_serverid(m_dwServerID);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_GASVR_REGTO_PROXY_REQ, 0, 0, Req);
 }
 
 UINT32 CGameService::GetServerID()

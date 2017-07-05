@@ -17,7 +17,7 @@ public:
 public:
 	BOOL            StartSkill();
 
-
+	BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 public:
 	//对象成员
 	UINT64 m_uID;			//ID
@@ -25,7 +25,8 @@ public:
 	UINT32 m_dwObjType;		//对象实例type
 	std::string m_strName;
 
-
+	UINT32      m_dwProxyConnID;
+	UINT32      m_dwClientConnID;
 
 };
 

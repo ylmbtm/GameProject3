@@ -1,6 +1,8 @@
 #include <stdafx.h>
 #include "SimpleMananger.h"
 #include "..\GameServer\GameService.h"
+#include "Sqlite\CppSQLite3.h"
+#include "Utility\CommonFunc.h"
 
 CSimpleManager::CSimpleManager()
 {
@@ -25,6 +27,33 @@ BOOL CSimpleManager::LoadSimpleData()
     m_u64MaxID = CGameService::GetInstancePtr()->GetServerID();
     m_u64MaxID = m_u64MaxID << 32 +1;
 
+	CppSQLite3DB	DBConnection; 
+	try
+	{
+		std::string strCurDir = CommonFunc::GetCurrentDir();
+		strCurDir+= "\\GameData.db";
+		DBConnection.open(strCurDir.c_str());
+	}
+	catch(CppSQLite3Exception& e)  
+	{  
+		printf("%s",e.errorMessage());  
+		return FALSE;
+	}  
+
+	CppSQLite3Query TableNames = DBConnection.execQuery("SELECT * FROM player");
+	while(!TableNames.eof())
+	{
+		CSimpleInfo *pInfo = CreateSimpleInfo(TableNames.getInt64Field("id"),
+			TableNames.getInt64Field("account_id"), TableNames.getStringField("name"), TableNames.getInt64Field("roletype"));
+
+		if(pInfo->u64RoleID > m_u64MaxID)
+		{
+			m_u64MaxID = pInfo->u64RoleID;
+		}
+
+		TableNames.nextRow();
+	}
+	//DBConnection.close();
 
 	return TRUE;
 }
@@ -147,6 +176,17 @@ BOOL CSimpleManager::Set_GuildID( UINT64 u64ID, UINT32 guildid )
     pInfo->dwGuildID = guildid;
 
     return TRUE;
+}
+
+BOOL CSimpleManager::CheckNameExist(std::string strName)
+{
+	std::map<std::string, UINT64>::iterator itor = m_mapName2ID.find(strName);
+	if(itor != m_mapName2ID.end())
+	{
+		return TRUE;
+	}
+	
+	return FALSE;
 }
 
 UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )

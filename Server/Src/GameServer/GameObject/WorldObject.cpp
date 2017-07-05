@@ -61,20 +61,6 @@ BOOL CWorldObject::SetUpdate(UpdateStatusEnum UpdateStatus)
 	return TRUE;
 }
 
-UINT32 CWorldObject::WriteToBuffer( UINT32 dwChangeFlag, UINT32 dwDest )
-{
-	UINT32 dwSize = 0;
-
-	return dwSize;
-}
-
-UINT32 CWorldObject::ReadFromBuffer( UINT32 dwChangeFlag )
-{
-	UINT32 dwSize = 0;	
-
-	return dwSize;
-}
-
 UINT64 CWorldObject::GetObjectID()
 {
 	return 0;

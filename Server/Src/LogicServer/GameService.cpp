@@ -143,8 +143,7 @@ BOOL CGameService::ConnectToDBSvr()
 
 BOOL CGameService::RegisterToLoginSvr()
 {
-	RegToLoginSvrReq Req;
-
+	SvrRegToSvrReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("domainid");
 	Req.set_serverid(dwServerID);
 

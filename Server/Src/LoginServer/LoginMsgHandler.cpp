@@ -193,12 +193,12 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 
 BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket *pPacket)
 {
-	RegToLoginSvrReq Req;
+	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
 	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid());
 
-	RegToLoginSvrAck Ack;
+	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
 }

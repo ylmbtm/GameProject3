@@ -34,8 +34,8 @@ public:
 
 	BOOL		ConnectToProxySvr();
 
-	BOOL		RegisterToLoginSvr();
-
+	BOOL		RegisterToLogicSvr();
+	BOOL		RegisterToProxySvr();
 	UINT32      GetServerID();
 protected:
 	CSceneManager		m_SceneManager;

@@ -89,7 +89,7 @@ BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID)
 
 BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 {
-	GmsvrRegToLogicReq Req;
+	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 

@@ -17,8 +17,7 @@
 #include <assert.h>
 #include <set>
 
-#define ASSERT_FAIELD (assert(false))
-#define ASSERT(x)     (assert(x))
+#include "CheckMacroDefine.h"
 
 #include "Platform.h"
 

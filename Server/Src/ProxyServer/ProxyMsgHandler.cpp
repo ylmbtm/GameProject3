@@ -10,6 +10,7 @@
 #include "StaticPlayerMgr.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 
 CProxyMsgHandler::CProxyMsgHandler()
@@ -43,82 +44,86 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 
 	switch(pNetPacket->m_dwMsgID)
 	{
+	PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_REQ,			OnMsgGameSvrRegister);
+
 	case MSG_ROLE_LIST_REQ:
+	case MSG_ROLE_CREATE_REQ:
+	case MSG_ROLE_DELETE_REQ:
+	case MSG_ROLE_LOGIN_REQ:
+	case MSG_ROLE_LOGOUT_REQ:
 		{
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
-
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
 		break;
 	case MSG_ROLE_LIST_ACK:
-		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-		}
-		break;
-	case MSG_ROLE_CREATE_REQ:
-		{
-			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
-
-			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-		}
-		break;
 	case MSG_ROLE_CREATE_ACK:
-		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-		}
-		break;
-	case MSG_ROLE_DELETE_REQ:
-		{
-			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
-
-			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-		}
-		break;
 	case MSG_ROLE_DELETE_ACK:
-		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-		}
-		break;
-	case MSG_ROLE_LOGIN_REQ:
-		{
-			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
-
-			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-		}
-		break;
 	case MSG_ROLE_LOGIN_ACK:
 		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-		}
-		break;
-	case MSG_ROLE_LOGOUT_REQ:
-		{
-			pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
+			CConnection *pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+			if(pConnection == NULL)
+			{
+				ASSERT_FAIELD;
+				return TRUE;
+			}
 
-			RelayToLogicServer(pNetPacket->m_pDataBuffer);
+			pConnection->SetConnectionData(pPacketHeader->u64TargetID);
 		}
-		break;
 	case MSG_ROLE_LOGOUT_ACK:
 		{
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
+
+	case MSG_ENTER_SCENE_REQ:
+		{
+			//创建proxyplayer对象
+			OnMsgEnterSceneReq(pNetPacket);
+		}
 	default:
 		{
 			if((pPacketHeader->dwMsgID >= MSG_LOGICSVR_MSGID_BEGIN)&&(pPacketHeader->dwMsgID <= MSG_LOGICSVR_MSGID_END))
 			{
-				RelayToLogicServer(pNetPacket->m_pDataBuffer);
+				if(pNetPacket->m_dwConnID == CGameService::GetInstancePtr()->GetLogicConnID())
+				{
+					RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
+				}
+				else
+				{
+					RelayToLogicServer(pNetPacket->m_pDataBuffer);
+				}
 			}
 			else if((pPacketHeader->dwMsgID >= MSG_SCENESVR_MSGID_BEGIN)&&(pPacketHeader->dwMsgID <= MSG_SCENESVR_MSGID_END))
 			{
+				if(IsServerConnID(pNetPacket->m_dwConnID))
+				{
+					RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
+				}
+				else
+				{
+					CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pPacketHeader->u64TargetID);
+					if(pPlayer == NULL)
+					{
+						ASSERT_FAIELD;
+						return TRUE;
+					}
 
+					UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
+					if(dwConnID == 0)
+					{
+						ASSERT_FAIELD;
+						return TRUE;
+					}
+
+					RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
+				}
 			}
 		}
 	}
 
 	return TRUE;
 }
-
 
 BOOL CProxyMsgHandler::OnNewConnect(CConnection *pConn)
 {
@@ -132,23 +137,33 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 		return TRUE;
 	}
 
-	CProxyPlayer *pStaticPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
-	if(pStaticPlayer == NULL)
+	RoleDisconnectReq Req;
+	Req.set_roleid(pConn->GetConnectionData());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, 0, 0,  Req);
+	
+	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
+	if(pPlayer == NULL)
 	{
-		CLog::GetInstancePtr()->AddLog("收到连接断开的事件， 但没有玩家连接数据!!!!!!");
 		return TRUE;
 	}
 
-	if(pStaticPlayer->m_CharState == LS_OffLine)
+	if(pPlayer->m_CharState == LS_OffLine)
 	{
 		ASSERT_FAIELD;
 		return TRUE;
 	}
 
-	RoleDisconnectReq Req;
-	Req.set_roleid(pConn->GetConnectionData());
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(),MSG_DISCONNECT_NTY, 0, 0,  Req);
-	pStaticPlayer->m_CharState = LS_OffLine;
+	pPlayer->m_CharState = LS_OffLine;
+
+	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
+	if(dwConnID == 0)
+	{
+		ASSERT_FAIELD;
+		return TRUE;
+	}
+
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, 0, 0,  Req);
+
 	return TRUE;
 }
 
@@ -195,7 +210,7 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 	}
 
 	pBuffer->AddRef();
-	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetClientConnID(), pBuffer))
+	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetConnID(), pBuffer))
 	{
 		ASSERT_FAIELD;
 
@@ -215,5 +230,72 @@ BOOL CProxyMsgHandler::RelayToConnect(UINT32 dwConnID, IDataBuffer *pBuffer)
 		return FALSE;
 	}
 
+	return TRUE;
+}
+
+UINT32 CProxyMsgHandler::GetGameSvrConnID(UINT32 dwSvrID)
+{
+	std::map<UINT32,UINT32>::iterator itor = m_mapSvrIDtoConnID.find(dwSvrID);
+	if(itor != m_mapSvrIDtoConnID.end())
+	{
+		return itor->second;
+	}
+
+	return 0;
+}
+
+BOOL CProxyMsgHandler::IsServerConnID(UINT32 dwConnID)
+{
+	if(dwConnID == CGameService::GetInstancePtr()->GetLogicConnID())
+	{
+		return TRUE;
+	}
+
+	for(std::map<UINT32,UINT32>::iterator itor = m_mapSvrIDtoConnID.begin(); itor != m_mapSvrIDtoConnID.end(); itor++)
+	{
+		if(itor->second == dwConnID)
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+BOOL CProxyMsgHandler::OnMsgGameSvrRegister(NetPacket *pPacket)
+{
+	SvrRegToSvrReq Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+
+	m_mapSvrIDtoConnID.insert(std::make_pair(Req.serverid(), pPacket->m_dwConnID));
+
+	SvrRegToSvrAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_GASVR_REGTO_PROXY_ACK, 0, 0, Ack);
+
+	return TRUE;
+}
+
+BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
+{
+	EnterSceneReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
+	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
+
+	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
+	if(pPlayer != NULL)
+	{
+		pPlayer->SetGameSvrID(Req.serverid());
+	}
+	else
+	{
+		pPlayer = CProxyPlayerMgr::GetInstancePtr()->CreateProxyPlayer(Req.roleid());
+		pPlayer->SetGameSvrID(Req.serverid());
+	}
+
+	
 	return TRUE;
 }

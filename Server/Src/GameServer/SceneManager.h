@@ -33,7 +33,6 @@ public:
 public:
 	BOOL OnMsgCreateSceneReq(NetPacket *pNetPack);
 
-
 	//*********************消息处理定义结束******************************
 
 protected:

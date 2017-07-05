@@ -100,8 +100,6 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 	CScene *pScene = GetSceneByID(pPacketHeader->dwUserData);
 	if(pScene == NULL)
 	{
-		ASSERT_FAIELD;
-
 		return FALSE;
 	}
 
@@ -146,11 +144,13 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
+	UINT32 dwNewCopyID = MakeCopyID(Req.copytype());
+
 	CreateNewSceneAck Ack;
 	Ack.set_createparam(Req.createparam());
-	UINT32 dwNewCopyID = MakeCopyID(Req.copytype());
 	Ack.set_copyid(dwNewCopyID);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+
 	if (!CreateScene(Req.copytype(), dwNewCopyID, 1))
 	{
 		ASSERT_FAIELD;

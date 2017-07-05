@@ -163,7 +163,6 @@ BOOL CScene::SendNewObjectToGrids(CWorldObject *pWorldObject, INT32 Grids[9])
 	//先把玩家的完整包组装好
 	NearByAddNty Nty;
 
-
 	//pWorldObject->WriteToBuffer(&WriteHelper, UPDATE_FLAG_CREATE, UPDATE_TO_OTHERS);
 
 	//变化包组装完成
@@ -632,6 +631,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 		return TRUE;
 	}
 
+	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
+
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
 	Ack.set_copyid(m_dwCopyID);
@@ -642,6 +643,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ENTER_SCENE_ACK, Req.roleid(), pHeader->dwUserData, Ack);
 
+	//添加到地图上
 	AddToMap(pSceneObj);
 
 	return TRUE;

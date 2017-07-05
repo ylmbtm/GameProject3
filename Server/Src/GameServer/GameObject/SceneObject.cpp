@@ -61,6 +61,14 @@ BOOL CSceneObject::StartSkill()
 	return TRUE;
 }
 
+BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
+{
+	m_dwProxyConnID = dwProxyID;
+	m_dwClientConnID = dwClientID;
+
+	return TRUE;
+}
+
 // BOOL CPlayerObject::AttackEvent()
 // {
 // 	UINT32  SkillID;
@@ -72,7 +80,7 @@ BOOL CSceneObject::StartSkill()
 
 BOOL CSceneObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetProxyConnID(), dwMsgID, GetObjectID(), 0, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
 }
 
 BOOL CSceneObject::OnUpdate( UINT32 dwTick )

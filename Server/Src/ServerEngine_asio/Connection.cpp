@@ -272,6 +272,8 @@ BOOL CConnection::Clear()
 
     m_pDataHandler = NULL;
 
+	m_dwConnData = 0;
+
     m_dwDataLen = 0;
 
     m_dwIpAddr  = 0;

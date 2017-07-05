@@ -69,12 +69,6 @@ extern EnterSceneAckDefaultTypeInternal _EnterSceneAck_default_instance_;
 class EnterSceneReq;
 class EnterSceneReqDefaultTypeInternal;
 extern EnterSceneReqDefaultTypeInternal _EnterSceneReq_default_instance_;
-class GmsvrRegToLogicAck;
-class GmsvrRegToLogicAckDefaultTypeInternal;
-extern GmsvrRegToLogicAckDefaultTypeInternal _GmsvrRegToLogicAck_default_instance_;
-class GmsvrRegToLogicReq;
-class GmsvrRegToLogicReqDefaultTypeInternal;
-extern GmsvrRegToLogicReqDefaultTypeInternal _GmsvrRegToLogicReq_default_instance_;
 class LeaveSceneAck;
 class LeaveSceneAckDefaultTypeInternal;
 extern LeaveSceneAckDefaultTypeInternal _LeaveSceneAck_default_instance_;
@@ -96,12 +90,9 @@ extern NearByUpdateNtyDefaultTypeInternal _NearByUpdateNty_default_instance_;
 class NotifyIntoScene;
 class NotifyIntoSceneDefaultTypeInternal;
 extern NotifyIntoSceneDefaultTypeInternal _NotifyIntoScene_default_instance_;
-class RegToLoginSvrAck;
-class RegToLoginSvrAckDefaultTypeInternal;
-extern RegToLoginSvrAckDefaultTypeInternal _RegToLoginSvrAck_default_instance_;
-class RegToLoginSvrReq;
-class RegToLoginSvrReqDefaultTypeInternal;
-extern RegToLoginSvrReqDefaultTypeInternal _RegToLoginSvrReq_default_instance_;
+class RoleChangeNotify;
+class RoleChangeNotifyDefaultTypeInternal;
+extern RoleChangeNotifyDefaultTypeInternal _RoleChangeNotify_default_instance_;
 class RoleCreateAck;
 class RoleCreateAckDefaultTypeInternal;
 extern RoleCreateAckDefaultTypeInternal _RoleCreateAck_default_instance_;
@@ -120,12 +111,12 @@ extern RoleDisconnectAckDefaultTypeInternal _RoleDisconnectAck_default_instance_
 class RoleDisconnectReq;
 class RoleDisconnectReqDefaultTypeInternal;
 extern RoleDisconnectReqDefaultTypeInternal _RoleDisconnectReq_default_instance_;
+class RoleItem;
+class RoleItemDefaultTypeInternal;
+extern RoleItemDefaultTypeInternal _RoleItem_default_instance_;
 class RoleListAck;
 class RoleListAckDefaultTypeInternal;
 extern RoleListAckDefaultTypeInternal _RoleListAck_default_instance_;
-class RoleListNode;
-class RoleListNodeDefaultTypeInternal;
-extern RoleListNodeDefaultTypeInternal _RoleListNode_default_instance_;
 class RoleListReq;
 class RoleListReqDefaultTypeInternal;
 extern RoleListReqDefaultTypeInternal _RoleListReq_default_instance_;
@@ -144,15 +135,27 @@ extern RoleLogoutReqDefaultTypeInternal _RoleLogoutReq_default_instance_;
 class RoleMoveAck;
 class RoleMoveAckDefaultTypeInternal;
 extern RoleMoveAckDefaultTypeInternal _RoleMoveAck_default_instance_;
+class RoleMoveNty;
+class RoleMoveNtyDefaultTypeInternal;
+extern RoleMoveNtyDefaultTypeInternal _RoleMoveNty_default_instance_;
 class RoleMoveReq;
 class RoleMoveReqDefaultTypeInternal;
 extern RoleMoveReqDefaultTypeInternal _RoleMoveReq_default_instance_;
+class RoleSkillReq;
+class RoleSkillReqDefaultTypeInternal;
+extern RoleSkillReqDefaultTypeInternal _RoleSkillReq_default_instance_;
 class SelectServerAck;
 class SelectServerAckDefaultTypeInternal;
 extern SelectServerAckDefaultTypeInternal _SelectServerAck_default_instance_;
 class SelectServerReq;
 class SelectServerReqDefaultTypeInternal;
 extern SelectServerReqDefaultTypeInternal _SelectServerReq_default_instance_;
+class SvrRegToSvrAck;
+class SvrRegToSvrAckDefaultTypeInternal;
+extern SvrRegToSvrAckDefaultTypeInternal _SvrRegToSvrAck_default_instance_;
+class SvrRegToSvrReq;
+class SvrRegToSvrReqDefaultTypeInternal;
+extern SvrRegToSvrReqDefaultTypeInternal _SvrRegToSvrReq_default_instance_;
 class TransRoleDataAck;
 class TransRoleDataAckDefaultTypeInternal;
 extern TransRoleDataAckDefaultTypeInternal _TransRoleDataAck_default_instance_;
@@ -260,11 +263,11 @@ class CheckVersionReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 clientverion() const;
   void set_clientverion(::google::protobuf::int32 value);
 
-  // int32 Channel = 3;
+  // uint32 Channel = 3;
   void clear_channel();
   static const int kChannelFieldNumber = 3;
-  ::google::protobuf::int32 channel() const;
-  void set_channel(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 channel() const;
+  void set_channel(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:CheckVersionReq)
  private:
@@ -272,7 +275,7 @@ class CheckVersionReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr packagename_;
   ::google::protobuf::int32 clientverion_;
-  ::google::protobuf::int32 channel_;
+  ::google::protobuf::uint32 channel_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -472,11 +475,11 @@ class AccountRegReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_password();
   void set_allocated_password(::std::string* password);
 
-  // int32 Channel = 3;
+  // uint32 Channel = 3;
   void clear_channel();
   static const int kChannelFieldNumber = 3;
-  ::google::protobuf::int32 channel() const;
-  void set_channel(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 channel() const;
+  void set_channel(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:AccountRegReq)
  private:
@@ -484,7 +487,7 @@ class AccountRegReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr accountname_;
   ::google::protobuf::internal::ArenaStringPtr password_;
-  ::google::protobuf::int32 channel_;
+  ::google::protobuf::uint32 channel_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -873,11 +876,11 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
   ::google::protobuf::uint64 accountid() const;
   void set_accountid(::google::protobuf::uint64 value);
 
-  // int32 Channel = 2;
+  // uint32 Channel = 2;
   void clear_channel();
   static const int kChannelFieldNumber = 2;
-  ::google::protobuf::int32 channel() const;
-  void set_channel(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 channel() const;
+  void set_channel(::google::protobuf::uint32 value);
 
   // int32 ClientVersion = 4;
   void clear_clientversion();
@@ -891,7 +894,7 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr packname_;
   ::google::protobuf::uint64 accountid_;
-  ::google::protobuf::int32 channel_;
+  ::google::protobuf::uint32 channel_;
   ::google::protobuf::int32 clientversion_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -1107,39 +1110,39 @@ class ClientServerListAck : public ::google::protobuf::Message /* @@protoc_inser
 };
 // -------------------------------------------------------------------
 
-class RegToLoginSvrReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RegToLoginSvrReq) */ {
+class SvrRegToSvrReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SvrRegToSvrReq) */ {
  public:
-  RegToLoginSvrReq();
-  virtual ~RegToLoginSvrReq();
+  SvrRegToSvrReq();
+  virtual ~SvrRegToSvrReq();
 
-  RegToLoginSvrReq(const RegToLoginSvrReq& from);
+  SvrRegToSvrReq(const SvrRegToSvrReq& from);
 
-  inline RegToLoginSvrReq& operator=(const RegToLoginSvrReq& from) {
+  inline SvrRegToSvrReq& operator=(const SvrRegToSvrReq& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const RegToLoginSvrReq& default_instance();
+  static const SvrRegToSvrReq& default_instance();
 
-  static inline const RegToLoginSvrReq* internal_default_instance() {
-    return reinterpret_cast<const RegToLoginSvrReq*>(
-               &_RegToLoginSvrReq_default_instance_);
+  static inline const SvrRegToSvrReq* internal_default_instance() {
+    return reinterpret_cast<const SvrRegToSvrReq*>(
+               &_SvrRegToSvrReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     9;
 
-  void Swap(RegToLoginSvrReq* other);
+  void Swap(SvrRegToSvrReq* other);
 
   // implements Message ----------------------------------------------
 
-  inline RegToLoginSvrReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SvrRegToSvrReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  RegToLoginSvrReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SvrRegToSvrReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const RegToLoginSvrReq& from);
-  void MergeFrom(const RegToLoginSvrReq& from);
+  void CopyFrom(const SvrRegToSvrReq& from);
+  void MergeFrom(const SvrRegToSvrReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -1155,7 +1158,7 @@ class RegToLoginSvrReq : public ::google::protobuf::Message /* @@protoc_insertio
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(RegToLoginSvrReq* other);
+  void InternalSwap(SvrRegToSvrReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1191,7 +1194,7 @@ class RegToLoginSvrReq : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 serverid() const;
   void set_serverid(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:RegToLoginSvrReq)
+  // @@protoc_insertion_point(class_scope:SvrRegToSvrReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1202,39 +1205,39 @@ class RegToLoginSvrReq : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class RegToLoginSvrAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RegToLoginSvrAck) */ {
+class SvrRegToSvrAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SvrRegToSvrAck) */ {
  public:
-  RegToLoginSvrAck();
-  virtual ~RegToLoginSvrAck();
+  SvrRegToSvrAck();
+  virtual ~SvrRegToSvrAck();
 
-  RegToLoginSvrAck(const RegToLoginSvrAck& from);
+  SvrRegToSvrAck(const SvrRegToSvrAck& from);
 
-  inline RegToLoginSvrAck& operator=(const RegToLoginSvrAck& from) {
+  inline SvrRegToSvrAck& operator=(const SvrRegToSvrAck& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const RegToLoginSvrAck& default_instance();
+  static const SvrRegToSvrAck& default_instance();
 
-  static inline const RegToLoginSvrAck* internal_default_instance() {
-    return reinterpret_cast<const RegToLoginSvrAck*>(
-               &_RegToLoginSvrAck_default_instance_);
+  static inline const SvrRegToSvrAck* internal_default_instance() {
+    return reinterpret_cast<const SvrRegToSvrAck*>(
+               &_SvrRegToSvrAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     10;
 
-  void Swap(RegToLoginSvrAck* other);
+  void Swap(SvrRegToSvrAck* other);
 
   // implements Message ----------------------------------------------
 
-  inline RegToLoginSvrAck* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SvrRegToSvrAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  RegToLoginSvrAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SvrRegToSvrAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const RegToLoginSvrAck& from);
-  void MergeFrom(const RegToLoginSvrAck& from);
+  void CopyFrom(const SvrRegToSvrAck& from);
+  void MergeFrom(const SvrRegToSvrAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -1250,7 +1253,7 @@ class RegToLoginSvrAck : public ::google::protobuf::Message /* @@protoc_insertio
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(RegToLoginSvrAck* other);
+  void InternalSwap(SvrRegToSvrAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1272,167 +1275,7 @@ class RegToLoginSvrAck : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:RegToLoginSvrAck)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 retcode_;
-  mutable int _cached_size_;
-  friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class GmsvrRegToLogicReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:GmsvrRegToLogicReq) */ {
- public:
-  GmsvrRegToLogicReq();
-  virtual ~GmsvrRegToLogicReq();
-
-  GmsvrRegToLogicReq(const GmsvrRegToLogicReq& from);
-
-  inline GmsvrRegToLogicReq& operator=(const GmsvrRegToLogicReq& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const GmsvrRegToLogicReq& default_instance();
-
-  static inline const GmsvrRegToLogicReq* internal_default_instance() {
-    return reinterpret_cast<const GmsvrRegToLogicReq*>(
-               &_GmsvrRegToLogicReq_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
-
-  void Swap(GmsvrRegToLogicReq* other);
-
-  // implements Message ----------------------------------------------
-
-  inline GmsvrRegToLogicReq* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  GmsvrRegToLogicReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const GmsvrRegToLogicReq& from);
-  void MergeFrom(const GmsvrRegToLogicReq& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(GmsvrRegToLogicReq* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int32 ServerID = 1;
-  void clear_serverid();
-  static const int kServerIDFieldNumber = 1;
-  ::google::protobuf::int32 serverid() const;
-  void set_serverid(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:GmsvrRegToLogicReq)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 serverid_;
-  mutable int _cached_size_;
-  friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class GmsvrRegToLogicAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:GmsvrRegToLogicAck) */ {
- public:
-  GmsvrRegToLogicAck();
-  virtual ~GmsvrRegToLogicAck();
-
-  GmsvrRegToLogicAck(const GmsvrRegToLogicAck& from);
-
-  inline GmsvrRegToLogicAck& operator=(const GmsvrRegToLogicAck& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const GmsvrRegToLogicAck& default_instance();
-
-  static inline const GmsvrRegToLogicAck* internal_default_instance() {
-    return reinterpret_cast<const GmsvrRegToLogicAck*>(
-               &_GmsvrRegToLogicAck_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
-
-  void Swap(GmsvrRegToLogicAck* other);
-
-  // implements Message ----------------------------------------------
-
-  inline GmsvrRegToLogicAck* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  GmsvrRegToLogicAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const GmsvrRegToLogicAck& from);
-  void MergeFrom(const GmsvrRegToLogicAck& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(GmsvrRegToLogicAck* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint32 RetCode = 1;
-  void clear_retcode();
-  static const int kRetCodeFieldNumber = 1;
-  ::google::protobuf::uint32 retcode() const;
-  void set_retcode(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:GmsvrRegToLogicAck)
+  // @@protoc_insertion_point(class_scope:SvrRegToSvrAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1462,7 +1305,7 @@ class SelectServerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SelectServerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    11;
 
   void Swap(SelectServerReq* other);
 
@@ -1542,7 +1385,7 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SelectServerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    12;
 
   void Swap(SelectServerAck* other);
 
@@ -1586,9 +1429,9 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // string ServerAddr = 2;
+  // string ServerAddr = 3;
   void clear_serveraddr();
-  static const int kServerAddrFieldNumber = 2;
+  static const int kServerAddrFieldNumber = 3;
   const ::std::string& serveraddr() const;
   void set_serveraddr(const ::std::string& value);
   #if LANG_CXX11
@@ -1606,15 +1449,21 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // int32 ServerPort = 3;
+  // uint32 ServerID = 2;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 2;
+  ::google::protobuf::uint32 serverid() const;
+  void set_serverid(::google::protobuf::uint32 value);
+
+  // int32 ServerPort = 4;
   void clear_serverport();
-  static const int kServerPortFieldNumber = 3;
+  static const int kServerPortFieldNumber = 4;
   ::google::protobuf::int32 serverport() const;
   void set_serverport(::google::protobuf::int32 value);
 
-  // int32 LoginCode = 4;
+  // int32 LoginCode = 5;
   void clear_logincode();
-  static const int kLoginCodeFieldNumber = 4;
+  static const int kLoginCodeFieldNumber = 5;
   ::google::protobuf::int32 logincode() const;
   void set_logincode(::google::protobuf::int32 value);
 
@@ -1624,6 +1473,7 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr serveraddr_;
   ::google::protobuf::uint32 retcode_;
+  ::google::protobuf::uint32 serverid_;
   ::google::protobuf::int32 serverport_;
   ::google::protobuf::int32 logincode_;
   mutable int _cached_size_;
@@ -1631,39 +1481,39 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class RoleListNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleListNode) */ {
+class RoleItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleItem) */ {
  public:
-  RoleListNode();
-  virtual ~RoleListNode();
+  RoleItem();
+  virtual ~RoleItem();
 
-  RoleListNode(const RoleListNode& from);
+  RoleItem(const RoleItem& from);
 
-  inline RoleListNode& operator=(const RoleListNode& from) {
+  inline RoleItem& operator=(const RoleItem& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const RoleListNode& default_instance();
+  static const RoleItem& default_instance();
 
-  static inline const RoleListNode* internal_default_instance() {
-    return reinterpret_cast<const RoleListNode*>(
-               &_RoleListNode_default_instance_);
+  static inline const RoleItem* internal_default_instance() {
+    return reinterpret_cast<const RoleItem*>(
+               &_RoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    13;
 
-  void Swap(RoleListNode* other);
+  void Swap(RoleItem* other);
 
   // implements Message ----------------------------------------------
 
-  inline RoleListNode* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline RoleItem* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  RoleListNode* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  RoleItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const RoleListNode& from);
-  void MergeFrom(const RoleListNode& from);
+  void CopyFrom(const RoleItem& from);
+  void MergeFrom(const RoleItem& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -1679,7 +1529,7 @@ class RoleListNode : public ::google::protobuf::Message /* @@protoc_insertion_po
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(RoleListNode* other);
+  void InternalSwap(RoleItem* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1733,7 +1583,7 @@ class RoleListNode : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::uint64 exp() const;
   void set_exp(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:RoleListNode)
+  // @@protoc_insertion_point(class_scope:RoleItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1767,7 +1617,7 @@ class RoleListReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoleListReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    14;
 
   void Swap(RoleListReq* other);
 
@@ -1854,7 +1704,7 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoleListAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    15;
 
   void Swap(RoleListAck* other);
 
@@ -1898,17 +1748,17 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated .RoleListNode RoleNode = 2;
-  int rolenode_size() const;
-  void clear_rolenode();
-  static const int kRoleNodeFieldNumber = 2;
-  const ::RoleListNode& rolenode(int index) const;
-  ::RoleListNode* mutable_rolenode(int index);
-  ::RoleListNode* add_rolenode();
-  ::google::protobuf::RepeatedPtrField< ::RoleListNode >*
-      mutable_rolenode();
-  const ::google::protobuf::RepeatedPtrField< ::RoleListNode >&
-      rolenode() const;
+  // repeated .RoleItem RoleList = 2;
+  int rolelist_size() const;
+  void clear_rolelist();
+  static const int kRoleListFieldNumber = 2;
+  const ::RoleItem& rolelist(int index) const;
+  ::RoleItem* mutable_rolelist(int index);
+  ::RoleItem* add_rolelist();
+  ::google::protobuf::RepeatedPtrField< ::RoleItem >*
+      mutable_rolelist();
+  const ::google::protobuf::RepeatedPtrField< ::RoleItem >&
+      rolelist() const;
 
   // uint32 RetCode = 1;
   void clear_retcode();
@@ -1920,7 +1770,7 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::RoleListNode > rolenode_;
+  ::google::protobuf::RepeatedPtrField< ::RoleItem > rolelist_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -1947,7 +1797,7 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleCreateReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    16;
 
   void Swap(RoleCreateReq* other);
 
@@ -2011,11 +1861,11 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 accountid() const;
   void set_accountid(::google::protobuf::uint64 value);
 
-  // int32 RoleType = 4;
+  // uint32 RoleType = 4;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 4;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:RoleCreateReq)
  private:
@@ -2023,7 +1873,7 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 accountid_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -2049,7 +1899,7 @@ class RoleCreateAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleCreateAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
+    17;
 
   void Swap(RoleCreateAck* other);
 
@@ -2125,11 +1975,11 @@ class RoleCreateAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // int32 RoleType = 5;
+  // uint32 RoleType = 5;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 5;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:RoleCreateAck)
  private:
@@ -2139,7 +1989,7 @@ class RoleCreateAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 retcode_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -2165,7 +2015,7 @@ class RoleDeleteReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleDeleteReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    20;
+    18;
 
   void Swap(RoleDeleteReq* other);
 
@@ -2252,7 +2102,7 @@ class RoleDeleteAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleDeleteAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    21;
+    19;
 
   void Swap(RoleDeleteAck* other);
 
@@ -2332,7 +2182,7 @@ class RoleLoginReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoleLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    22;
+    20;
 
   void Swap(RoleLoginReq* other);
 
@@ -2426,7 +2276,7 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoleLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    23;
+    21;
 
   void Swap(RoleLoginAck* other);
 
@@ -2496,11 +2346,11 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // int32 RoleType = 4;
+  // uint32 RoleType = 4;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 4;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // uint64 RoleID = 3;
   void clear_roleid();
@@ -2527,7 +2377,7 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint32 retcode_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint64 exp_;
   ::google::protobuf::int32 level_;
@@ -2556,7 +2406,7 @@ class RoleLogoutReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleLogoutReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    24;
+    22;
 
   void Swap(RoleLogoutReq* other);
 
@@ -2643,7 +2493,7 @@ class RoleLogoutAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleLogoutAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    25;
+    23;
 
   void Swap(RoleLogoutAck* other);
 
@@ -2723,7 +2573,7 @@ class RoleDisconnectReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_RoleDisconnectReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    26;
+    24;
 
   void Swap(RoleDisconnectReq* other);
 
@@ -2803,7 +2653,7 @@ class RoleDisconnectAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_RoleDisconnectAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    27;
+    25;
 
   void Swap(RoleDisconnectAck* other);
 
@@ -2863,6 +2713,135 @@ class RoleDisconnectAck : public ::google::protobuf::Message /* @@protoc_inserti
 };
 // -------------------------------------------------------------------
 
+class RoleSkillReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleSkillReq) */ {
+ public:
+  RoleSkillReq();
+  virtual ~RoleSkillReq();
+
+  RoleSkillReq(const RoleSkillReq& from);
+
+  inline RoleSkillReq& operator=(const RoleSkillReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RoleSkillReq& default_instance();
+
+  static inline const RoleSkillReq* internal_default_instance() {
+    return reinterpret_cast<const RoleSkillReq*>(
+               &_RoleSkillReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    26;
+
+  void Swap(RoleSkillReq* other);
+
+  // implements Message ----------------------------------------------
+
+  inline RoleSkillReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  RoleSkillReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const RoleSkillReq& from);
+  void MergeFrom(const RoleSkillReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(RoleSkillReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated uint64 DamagerID = 7;
+  int damagerid_size() const;
+  void clear_damagerid();
+  static const int kDamagerIDFieldNumber = 7;
+  ::google::protobuf::uint64 damagerid(int index) const;
+  void set_damagerid(int index, ::google::protobuf::uint64 value);
+  void add_damagerid(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      damagerid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_damagerid();
+
+  // uint64 AttackerID = 1;
+  void clear_attackerid();
+  static const int kAttackerIDFieldNumber = 1;
+  ::google::protobuf::uint64 attackerid() const;
+  void set_attackerid(::google::protobuf::uint64 value);
+
+  // uint32 SkillID = 2;
+  void clear_skillid();
+  static const int kSkillIDFieldNumber = 2;
+  ::google::protobuf::uint32 skillid() const;
+  void set_skillid(::google::protobuf::uint32 value);
+
+  // float sx = 3;
+  void clear_sx();
+  static const int kSxFieldNumber = 3;
+  float sx() const;
+  void set_sx(float value);
+
+  // float sz = 4;
+  void clear_sz();
+  static const int kSzFieldNumber = 4;
+  float sz() const;
+  void set_sz(float value);
+
+  // float dx = 5;
+  void clear_dx();
+  static const int kDxFieldNumber = 5;
+  float dx() const;
+  void set_dx(float value);
+
+  // float dz = 6;
+  void clear_dz();
+  static const int kDzFieldNumber = 6;
+  float dz() const;
+  void set_dz(float value);
+
+  // @@protoc_insertion_point(class_scope:RoleSkillReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > damagerid_;
+  mutable int _damagerid_cached_byte_size_;
+  ::google::protobuf::uint64 attackerid_;
+  ::google::protobuf::uint32 skillid_;
+  float sx_;
+  float sz_;
+  float dx_;
+  float dz_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class RoleMoveReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleMoveReq) */ {
  public:
   RoleMoveReq();
@@ -2883,7 +2862,7 @@ class RoleMoveReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoleMoveReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    28;
+    27;
 
   void Swap(RoleMoveReq* other);
 
@@ -2957,7 +2936,122 @@ class RoleMoveReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
   float d() const;
   void set_d(float value);
 
+  // float v = 6;
+  void clear_v();
+  static const int kVFieldNumber = 6;
+  float v() const;
+  void set_v(float value);
+
   // @@protoc_insertion_point(class_scope:RoleMoveReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  float x_;
+  float y_;
+  float z_;
+  float d_;
+  float v_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class RoleMoveNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleMoveNty) */ {
+ public:
+  RoleMoveNty();
+  virtual ~RoleMoveNty();
+
+  RoleMoveNty(const RoleMoveNty& from);
+
+  inline RoleMoveNty& operator=(const RoleMoveNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RoleMoveNty& default_instance();
+
+  static inline const RoleMoveNty* internal_default_instance() {
+    return reinterpret_cast<const RoleMoveNty*>(
+               &_RoleMoveNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    28;
+
+  void Swap(RoleMoveNty* other);
+
+  // implements Message ----------------------------------------------
+
+  inline RoleMoveNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  RoleMoveNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const RoleMoveNty& from);
+  void MergeFrom(const RoleMoveNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(RoleMoveNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // float x = 2;
+  void clear_x();
+  static const int kXFieldNumber = 2;
+  float x() const;
+  void set_x(float value);
+
+  // float y = 3;
+  void clear_y();
+  static const int kYFieldNumber = 3;
+  float y() const;
+  void set_y(float value);
+
+  // float z = 4;
+  void clear_z();
+  static const int kZFieldNumber = 4;
+  float z() const;
+  void set_z(float value);
+
+  // float d = 5;
+  void clear_d();
+  static const int kDFieldNumber = 5;
+  float d() const;
+  void set_d(float value);
+
+  // @@protoc_insertion_point(class_scope:RoleMoveNty)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -3051,6 +3145,142 @@ class RoleMoveAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
+class RoleChangeNotify : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:RoleChangeNotify) */ {
+ public:
+  RoleChangeNotify();
+  virtual ~RoleChangeNotify();
+
+  RoleChangeNotify(const RoleChangeNotify& from);
+
+  inline RoleChangeNotify& operator=(const RoleChangeNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RoleChangeNotify& default_instance();
+
+  static inline const RoleChangeNotify* internal_default_instance() {
+    return reinterpret_cast<const RoleChangeNotify*>(
+               &_RoleChangeNotify_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    30;
+
+  void Swap(RoleChangeNotify* other);
+
+  // implements Message ----------------------------------------------
+
+  inline RoleChangeNotify* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  RoleChangeNotify* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const RoleChangeNotify& from);
+  void MergeFrom(const RoleChangeNotify& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(RoleChangeNotify* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectID = 1;
+  void clear_objectid();
+  static const int kObjectIDFieldNumber = 1;
+  ::google::protobuf::uint64 objectid() const;
+  void set_objectid(::google::protobuf::uint64 value);
+
+  // float x = 2;
+  void clear_x();
+  static const int kXFieldNumber = 2;
+  float x() const;
+  void set_x(float value);
+
+  // float y = 3;
+  void clear_y();
+  static const int kYFieldNumber = 3;
+  float y() const;
+  void set_y(float value);
+
+  // float z = 4;
+  void clear_z();
+  static const int kZFieldNumber = 4;
+  float z() const;
+  void set_z(float value);
+
+  // float d = 5;
+  void clear_d();
+  static const int kDFieldNumber = 5;
+  float d() const;
+  void set_d(float value);
+
+  // uint32 hp = 6;
+  void clear_hp();
+  static const int kHpFieldNumber = 6;
+  ::google::protobuf::uint32 hp() const;
+  void set_hp(::google::protobuf::uint32 value);
+
+  // uint32 mp = 7;
+  void clear_mp();
+  static const int kMpFieldNumber = 7;
+  ::google::protobuf::uint32 mp() const;
+  void set_mp(::google::protobuf::uint32 value);
+
+  // uint32 hpmax = 8;
+  void clear_hpmax();
+  static const int kHpmaxFieldNumber = 8;
+  ::google::protobuf::uint32 hpmax() const;
+  void set_hpmax(::google::protobuf::uint32 value);
+
+  // uint32 mpmax = 9;
+  void clear_mpmax();
+  static const int kMpmaxFieldNumber = 9;
+  ::google::protobuf::uint32 mpmax() const;
+  void set_mpmax(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:RoleChangeNotify)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectid_;
+  float x_;
+  float y_;
+  float z_;
+  float d_;
+  ::google::protobuf::uint32 hp_;
+  ::google::protobuf::uint32 mp_;
+  ::google::protobuf::uint32 hpmax_;
+  ::google::protobuf::uint32 mpmax_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class CreateNewSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CreateNewSceneReq) */ {
  public:
   CreateNewSceneReq();
@@ -3071,7 +3301,7 @@ class CreateNewSceneReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_CreateNewSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    30;
+    31;
 
   void Swap(CreateNewSceneReq* other);
 
@@ -3158,7 +3388,7 @@ class CreateNewSceneAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_CreateNewSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    31;
+    32;
 
   void Swap(CreateNewSceneAck* other);
 
@@ -3266,7 +3496,7 @@ class EnterSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EnterSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    32;
+    33;
 
   void Swap(EnterSceneReq* other);
 
@@ -3310,46 +3540,31 @@ class EnterSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // string RoleName = 2;
-  void clear_rolename();
-  static const int kRoleNameFieldNumber = 2;
-  const ::std::string& rolename() const;
-  void set_rolename(const ::std::string& value);
-  #if LANG_CXX11
-  void set_rolename(::std::string&& value);
-  #endif
-  void set_rolename(const char* value);
-  void set_rolename(const char* value, size_t size);
-  ::std::string* mutable_rolename();
-  ::std::string* release_rolename();
-  void set_allocated_rolename(::std::string* rolename);
-
   // uint64 RoleID = 1;
   void clear_roleid();
   static const int kRoleIDFieldNumber = 1;
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
-  // int32 RoleType = 3;
-  void clear_roletype();
-  static const int kRoleTypeFieldNumber = 3;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  // uint32 ServerID = 2;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 2;
+  ::google::protobuf::uint32 serverid() const;
+  void set_serverid(::google::protobuf::uint32 value);
 
-  // int32 Level = 4;
-  void clear_level();
-  static const int kLevelFieldNumber = 4;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
+  // uint32 CopyID = 3;
+  void clear_copyid();
+  static const int kCopyIDFieldNumber = 3;
+  ::google::protobuf::uint32 copyid() const;
+  void set_copyid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:EnterSceneReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint64 roleid_;
-  ::google::protobuf::int32 roletype_;
-  ::google::protobuf::int32 level_;
+  ::google::protobuf::uint32 serverid_;
+  ::google::protobuf::uint32 copyid_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -3375,7 +3590,7 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EnterSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    33;
+    34;
 
   void Swap(EnterSceneAck* other);
 
@@ -3419,6 +3634,20 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // string RoleName = 5;
+  void clear_rolename();
+  static const int kRoleNameFieldNumber = 5;
+  const ::std::string& rolename() const;
+  void set_rolename(const ::std::string& value);
+  #if LANG_CXX11
+  void set_rolename(::std::string&& value);
+  #endif
+  void set_rolename(const char* value);
+  void set_rolename(const char* value, size_t size);
+  ::std::string* mutable_rolename();
+  ::std::string* release_rolename();
+  void set_allocated_rolename(::std::string* rolename);
+
   // uint32 RetCode = 1;
   void clear_retcode();
   static const int kRetCodeFieldNumber = 1;
@@ -3431,19 +3660,34 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint32 copytype() const;
   void set_copytype(::google::protobuf::uint32 value);
 
+  // uint64 RoleID = 4;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 4;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
   // uint32 CopyID = 3;
   void clear_copyid();
   static const int kCopyIDFieldNumber = 3;
   ::google::protobuf::uint32 copyid() const;
   void set_copyid(::google::protobuf::uint32 value);
 
+  // uint32 RoleType = 6;
+  void clear_roletype();
+  static const int kRoleTypeFieldNumber = 6;
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:EnterSceneAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint32 retcode_;
   ::google::protobuf::uint32 copytype_;
+  ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 copyid_;
+  ::google::protobuf::uint32 roletype_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
 };
@@ -3469,7 +3713,7 @@ class LeaveSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    34;
+    35;
 
   void Swap(LeaveSceneReq* other);
 
@@ -3556,7 +3800,7 @@ class LeaveSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    35;
+    36;
 
   void Swap(LeaveSceneAck* other);
 
@@ -3636,7 +3880,7 @@ class TransRoleDataReq : public ::google::protobuf::Message /* @@protoc_insertio
                &_TransRoleDataReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    36;
+    37;
 
   void Swap(TransRoleDataReq* other);
 
@@ -3700,11 +3944,11 @@ class TransRoleDataReq : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
-  // int32 RoleType = 3;
+  // uint32 RoleType = 3;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 3;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // int32 Level = 4;
   void clear_level();
@@ -3718,7 +3962,7 @@ class TransRoleDataReq : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint64 roleid_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   ::google::protobuf::int32 level_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -3745,7 +3989,7 @@ class TransRoleDataAck : public ::google::protobuf::Message /* @@protoc_insertio
                &_TransRoleDataAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    37;
+    38;
 
   void Swap(TransRoleDataAck* other);
 
@@ -3853,7 +4097,7 @@ class NotifyIntoScene : public ::google::protobuf::Message /* @@protoc_insertion
                &_NotifyIntoScene_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    38;
+    39;
 
   void Swap(NotifyIntoScene* other);
 
@@ -3954,7 +4198,7 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_NearByRoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    39;
+    40;
 
   void Swap(NearByRoleItem* other);
 
@@ -4018,11 +4262,11 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
-  // int32 RoleType = 2;
+  // uint32 RoleType = 2;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 2;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // int32 Level = 3;
   void clear_level();
@@ -4036,7 +4280,7 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 roleid_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   ::google::protobuf::int32 level_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -4063,7 +4307,7 @@ class NearByAddNty : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_NearByAddNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    40;
+    41;
 
   void Swap(NearByAddNty* other);
 
@@ -4149,7 +4393,7 @@ class NearByDelNty : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_NearByDelNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    41;
+    42;
 
   void Swap(NearByDelNty* other);
 
@@ -4236,7 +4480,7 @@ class NearByUpdateNty : public ::google::protobuf::Message /* @@protoc_insertion
                &_NearByUpdateNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    42;
+    43;
 
   void Swap(NearByUpdateNty* other);
 
@@ -4300,11 +4544,11 @@ class NearByUpdateNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
-  // int32 RoleType = 2;
+  // uint32 RoleType = 2;
   void clear_roletype();
   static const int kRoleTypeFieldNumber = 2;
-  ::google::protobuf::int32 roletype() const;
-  void set_roletype(::google::protobuf::int32 value);
+  ::google::protobuf::uint32 roletype() const;
+  void set_roletype(::google::protobuf::uint32 value);
 
   // int32 Level = 3;
   void clear_level();
@@ -4318,7 +4562,7 @@ class NearByUpdateNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 roleid_;
-  ::google::protobuf::int32 roletype_;
+  ::google::protobuf::uint32 roletype_;
   ::google::protobuf::int32 level_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLogin_2eproto::TableStruct;
@@ -4398,15 +4642,15 @@ inline void CheckVersionReq::set_allocated_packagename(::std::string* packagenam
   // @@protoc_insertion_point(field_set_allocated:CheckVersionReq.PackageName)
 }
 
-// int32 Channel = 3;
+// uint32 Channel = 3;
 inline void CheckVersionReq::clear_channel() {
-  channel_ = 0;
+  channel_ = 0u;
 }
-inline ::google::protobuf::int32 CheckVersionReq::channel() const {
+inline ::google::protobuf::uint32 CheckVersionReq::channel() const {
   // @@protoc_insertion_point(field_get:CheckVersionReq.Channel)
   return channel_;
 }
-inline void CheckVersionReq::set_channel(::google::protobuf::int32 value) {
+inline void CheckVersionReq::set_channel(::google::protobuf::uint32 value) {
   
   channel_ = value;
   // @@protoc_insertion_point(field_set:CheckVersionReq.Channel)
@@ -4607,15 +4851,15 @@ inline void AccountRegReq::set_allocated_password(::std::string* password) {
   // @@protoc_insertion_point(field_set_allocated:AccountRegReq.Password)
 }
 
-// int32 Channel = 3;
+// uint32 Channel = 3;
 inline void AccountRegReq::clear_channel() {
-  channel_ = 0;
+  channel_ = 0u;
 }
-inline ::google::protobuf::int32 AccountRegReq::channel() const {
+inline ::google::protobuf::uint32 AccountRegReq::channel() const {
   // @@protoc_insertion_point(field_get:AccountRegReq.Channel)
   return channel_;
 }
-inline void AccountRegReq::set_channel(::google::protobuf::int32 value) {
+inline void AccountRegReq::set_channel(::google::protobuf::uint32 value) {
   
   channel_ = value;
   // @@protoc_insertion_point(field_set:AccountRegReq.Channel)
@@ -4880,15 +5124,15 @@ inline void ClientServerListReq::set_accountid(::google::protobuf::uint64 value)
   // @@protoc_insertion_point(field_set:ClientServerListReq.AccountID)
 }
 
-// int32 Channel = 2;
+// uint32 Channel = 2;
 inline void ClientServerListReq::clear_channel() {
-  channel_ = 0;
+  channel_ = 0u;
 }
-inline ::google::protobuf::int32 ClientServerListReq::channel() const {
+inline ::google::protobuf::uint32 ClientServerListReq::channel() const {
   // @@protoc_insertion_point(field_get:ClientServerListReq.Channel)
   return channel_;
 }
-inline void ClientServerListReq::set_channel(::google::protobuf::int32 value) {
+inline void ClientServerListReq::set_channel(::google::protobuf::uint32 value) {
   
   channel_ = value;
   // @@protoc_insertion_point(field_set:ClientServerListReq.Channel)
@@ -5124,127 +5368,91 @@ ClientServerListAck::svrnode() const {
 
 // -------------------------------------------------------------------
 
-// RegToLoginSvrReq
+// SvrRegToSvrReq
 
 // int32 ServerID = 1;
-inline void RegToLoginSvrReq::clear_serverid() {
+inline void SvrRegToSvrReq::clear_serverid() {
   serverid_ = 0;
 }
-inline ::google::protobuf::int32 RegToLoginSvrReq::serverid() const {
-  // @@protoc_insertion_point(field_get:RegToLoginSvrReq.ServerID)
+inline ::google::protobuf::int32 SvrRegToSvrReq::serverid() const {
+  // @@protoc_insertion_point(field_get:SvrRegToSvrReq.ServerID)
   return serverid_;
 }
-inline void RegToLoginSvrReq::set_serverid(::google::protobuf::int32 value) {
+inline void SvrRegToSvrReq::set_serverid(::google::protobuf::int32 value) {
   
   serverid_ = value;
-  // @@protoc_insertion_point(field_set:RegToLoginSvrReq.ServerID)
+  // @@protoc_insertion_point(field_set:SvrRegToSvrReq.ServerID)
 }
 
 // string ServerName = 2;
-inline void RegToLoginSvrReq::clear_servername() {
+inline void SvrRegToSvrReq::clear_servername() {
   servername_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& RegToLoginSvrReq::servername() const {
-  // @@protoc_insertion_point(field_get:RegToLoginSvrReq.ServerName)
+inline const ::std::string& SvrRegToSvrReq::servername() const {
+  // @@protoc_insertion_point(field_get:SvrRegToSvrReq.ServerName)
   return servername_.GetNoArena();
 }
-inline void RegToLoginSvrReq::set_servername(const ::std::string& value) {
+inline void SvrRegToSvrReq::set_servername(const ::std::string& value) {
   
   servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_set:SvrRegToSvrReq.ServerName)
 }
 #if LANG_CXX11
-inline void RegToLoginSvrReq::set_servername(::std::string&& value) {
+inline void SvrRegToSvrReq::set_servername(::std::string&& value) {
   
   servername_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_set_rvalue:SvrRegToSvrReq.ServerName)
 }
 #endif
-inline void RegToLoginSvrReq::set_servername(const char* value) {
+inline void SvrRegToSvrReq::set_servername(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_set_char:SvrRegToSvrReq.ServerName)
 }
-inline void RegToLoginSvrReq::set_servername(const char* value, size_t size) {
+inline void SvrRegToSvrReq::set_servername(const char* value, size_t size) {
   
   servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_set_pointer:SvrRegToSvrReq.ServerName)
 }
-inline ::std::string* RegToLoginSvrReq::mutable_servername() {
+inline ::std::string* SvrRegToSvrReq::mutable_servername() {
   
-  // @@protoc_insertion_point(field_mutable:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_mutable:SvrRegToSvrReq.ServerName)
   return servername_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* RegToLoginSvrReq::release_servername() {
-  // @@protoc_insertion_point(field_release:RegToLoginSvrReq.ServerName)
+inline ::std::string* SvrRegToSvrReq::release_servername() {
+  // @@protoc_insertion_point(field_release:SvrRegToSvrReq.ServerName)
   
   return servername_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void RegToLoginSvrReq::set_allocated_servername(::std::string* servername) {
+inline void SvrRegToSvrReq::set_allocated_servername(::std::string* servername) {
   if (servername != NULL) {
     
   } else {
     
   }
   servername_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), servername);
-  // @@protoc_insertion_point(field_set_allocated:RegToLoginSvrReq.ServerName)
+  // @@protoc_insertion_point(field_set_allocated:SvrRegToSvrReq.ServerName)
 }
 
 // -------------------------------------------------------------------
 
-// RegToLoginSvrAck
+// SvrRegToSvrAck
 
 // uint32 RetCode = 1;
-inline void RegToLoginSvrAck::clear_retcode() {
+inline void SvrRegToSvrAck::clear_retcode() {
   retcode_ = 0u;
 }
-inline ::google::protobuf::uint32 RegToLoginSvrAck::retcode() const {
-  // @@protoc_insertion_point(field_get:RegToLoginSvrAck.RetCode)
+inline ::google::protobuf::uint32 SvrRegToSvrAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SvrRegToSvrAck.RetCode)
   return retcode_;
 }
-inline void RegToLoginSvrAck::set_retcode(::google::protobuf::uint32 value) {
+inline void SvrRegToSvrAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
-  // @@protoc_insertion_point(field_set:RegToLoginSvrAck.RetCode)
-}
-
-// -------------------------------------------------------------------
-
-// GmsvrRegToLogicReq
-
-// int32 ServerID = 1;
-inline void GmsvrRegToLogicReq::clear_serverid() {
-  serverid_ = 0;
-}
-inline ::google::protobuf::int32 GmsvrRegToLogicReq::serverid() const {
-  // @@protoc_insertion_point(field_get:GmsvrRegToLogicReq.ServerID)
-  return serverid_;
-}
-inline void GmsvrRegToLogicReq::set_serverid(::google::protobuf::int32 value) {
-  
-  serverid_ = value;
-  // @@protoc_insertion_point(field_set:GmsvrRegToLogicReq.ServerID)
-}
-
-// -------------------------------------------------------------------
-
-// GmsvrRegToLogicAck
-
-// uint32 RetCode = 1;
-inline void GmsvrRegToLogicAck::clear_retcode() {
-  retcode_ = 0u;
-}
-inline ::google::protobuf::uint32 GmsvrRegToLogicAck::retcode() const {
-  // @@protoc_insertion_point(field_get:GmsvrRegToLogicAck.RetCode)
-  return retcode_;
-}
-inline void GmsvrRegToLogicAck::set_retcode(::google::protobuf::uint32 value) {
-  
-  retcode_ = value;
-  // @@protoc_insertion_point(field_set:GmsvrRegToLogicAck.RetCode)
+  // @@protoc_insertion_point(field_set:SvrRegToSvrAck.RetCode)
 }
 
 // -------------------------------------------------------------------
@@ -5283,7 +5491,21 @@ inline void SelectServerAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:SelectServerAck.RetCode)
 }
 
-// string ServerAddr = 2;
+// uint32 ServerID = 2;
+inline void SelectServerAck::clear_serverid() {
+  serverid_ = 0u;
+}
+inline ::google::protobuf::uint32 SelectServerAck::serverid() const {
+  // @@protoc_insertion_point(field_get:SelectServerAck.ServerID)
+  return serverid_;
+}
+inline void SelectServerAck::set_serverid(::google::protobuf::uint32 value) {
+  
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:SelectServerAck.ServerID)
+}
+
+// string ServerAddr = 3;
 inline void SelectServerAck::clear_serveraddr() {
   serveraddr_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5336,7 +5558,7 @@ inline void SelectServerAck::set_allocated_serveraddr(::std::string* serveraddr)
   // @@protoc_insertion_point(field_set_allocated:SelectServerAck.ServerAddr)
 }
 
-// int32 ServerPort = 3;
+// int32 ServerPort = 4;
 inline void SelectServerAck::clear_serverport() {
   serverport_ = 0;
 }
@@ -5350,7 +5572,7 @@ inline void SelectServerAck::set_serverport(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:SelectServerAck.ServerPort)
 }
 
-// int32 LoginCode = 4;
+// int32 LoginCode = 5;
 inline void SelectServerAck::clear_logincode() {
   logincode_ = 0;
 }
@@ -5366,115 +5588,115 @@ inline void SelectServerAck::set_logincode(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// RoleListNode
+// RoleItem
 
 // uint64 ID = 1;
-inline void RoleListNode::clear_id() {
+inline void RoleItem::clear_id() {
   id_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 RoleListNode::id() const {
-  // @@protoc_insertion_point(field_get:RoleListNode.ID)
+inline ::google::protobuf::uint64 RoleItem::id() const {
+  // @@protoc_insertion_point(field_get:RoleItem.ID)
   return id_;
 }
-inline void RoleListNode::set_id(::google::protobuf::uint64 value) {
+inline void RoleItem::set_id(::google::protobuf::uint64 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:RoleListNode.ID)
+  // @@protoc_insertion_point(field_set:RoleItem.ID)
 }
 
 // string Name = 2;
-inline void RoleListNode::clear_name() {
+inline void RoleItem::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& RoleListNode::name() const {
-  // @@protoc_insertion_point(field_get:RoleListNode.Name)
+inline const ::std::string& RoleItem::name() const {
+  // @@protoc_insertion_point(field_get:RoleItem.Name)
   return name_.GetNoArena();
 }
-inline void RoleListNode::set_name(const ::std::string& value) {
+inline void RoleItem::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:RoleListNode.Name)
+  // @@protoc_insertion_point(field_set:RoleItem.Name)
 }
 #if LANG_CXX11
-inline void RoleListNode::set_name(::std::string&& value) {
+inline void RoleItem::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:RoleListNode.Name)
+  // @@protoc_insertion_point(field_set_rvalue:RoleItem.Name)
 }
 #endif
-inline void RoleListNode::set_name(const char* value) {
+inline void RoleItem::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:RoleListNode.Name)
+  // @@protoc_insertion_point(field_set_char:RoleItem.Name)
 }
-inline void RoleListNode::set_name(const char* value, size_t size) {
+inline void RoleItem::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:RoleListNode.Name)
+  // @@protoc_insertion_point(field_set_pointer:RoleItem.Name)
 }
-inline ::std::string* RoleListNode::mutable_name() {
+inline ::std::string* RoleItem::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:RoleListNode.Name)
+  // @@protoc_insertion_point(field_mutable:RoleItem.Name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* RoleListNode::release_name() {
-  // @@protoc_insertion_point(field_release:RoleListNode.Name)
+inline ::std::string* RoleItem::release_name() {
+  // @@protoc_insertion_point(field_release:RoleItem.Name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void RoleListNode::set_allocated_name(::std::string* name) {
+inline void RoleItem::set_allocated_name(::std::string* name) {
   if (name != NULL) {
     
   } else {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:RoleListNode.Name)
+  // @@protoc_insertion_point(field_set_allocated:RoleItem.Name)
 }
 
 // int32 RoleType = 3;
-inline void RoleListNode::clear_roletype() {
+inline void RoleItem::clear_roletype() {
   roletype_ = 0;
 }
-inline ::google::protobuf::int32 RoleListNode::roletype() const {
-  // @@protoc_insertion_point(field_get:RoleListNode.RoleType)
+inline ::google::protobuf::int32 RoleItem::roletype() const {
+  // @@protoc_insertion_point(field_get:RoleItem.RoleType)
   return roletype_;
 }
-inline void RoleListNode::set_roletype(::google::protobuf::int32 value) {
+inline void RoleItem::set_roletype(::google::protobuf::int32 value) {
   
   roletype_ = value;
-  // @@protoc_insertion_point(field_set:RoleListNode.RoleType)
+  // @@protoc_insertion_point(field_set:RoleItem.RoleType)
 }
 
 // int32 Level = 4;
-inline void RoleListNode::clear_level() {
+inline void RoleItem::clear_level() {
   level_ = 0;
 }
-inline ::google::protobuf::int32 RoleListNode::level() const {
-  // @@protoc_insertion_point(field_get:RoleListNode.Level)
+inline ::google::protobuf::int32 RoleItem::level() const {
+  // @@protoc_insertion_point(field_get:RoleItem.Level)
   return level_;
 }
-inline void RoleListNode::set_level(::google::protobuf::int32 value) {
+inline void RoleItem::set_level(::google::protobuf::int32 value) {
   
   level_ = value;
-  // @@protoc_insertion_point(field_set:RoleListNode.Level)
+  // @@protoc_insertion_point(field_set:RoleItem.Level)
 }
 
 // uint64 Exp = 5;
-inline void RoleListNode::clear_exp() {
+inline void RoleItem::clear_exp() {
   exp_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 RoleListNode::exp() const {
-  // @@protoc_insertion_point(field_get:RoleListNode.Exp)
+inline ::google::protobuf::uint64 RoleItem::exp() const {
+  // @@protoc_insertion_point(field_get:RoleItem.Exp)
   return exp_;
 }
-inline void RoleListNode::set_exp(::google::protobuf::uint64 value) {
+inline void RoleItem::set_exp(::google::protobuf::uint64 value) {
   
   exp_ = value;
-  // @@protoc_insertion_point(field_set:RoleListNode.Exp)
+  // @@protoc_insertion_point(field_set:RoleItem.Exp)
 }
 
 // -------------------------------------------------------------------
@@ -5527,34 +5749,34 @@ inline void RoleListAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:RoleListAck.RetCode)
 }
 
-// repeated .RoleListNode RoleNode = 2;
-inline int RoleListAck::rolenode_size() const {
-  return rolenode_.size();
+// repeated .RoleItem RoleList = 2;
+inline int RoleListAck::rolelist_size() const {
+  return rolelist_.size();
 }
-inline void RoleListAck::clear_rolenode() {
-  rolenode_.Clear();
+inline void RoleListAck::clear_rolelist() {
+  rolelist_.Clear();
 }
-inline const ::RoleListNode& RoleListAck::rolenode(int index) const {
-  // @@protoc_insertion_point(field_get:RoleListAck.RoleNode)
-  return rolenode_.Get(index);
+inline const ::RoleItem& RoleListAck::rolelist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleListAck.RoleList)
+  return rolelist_.Get(index);
 }
-inline ::RoleListNode* RoleListAck::mutable_rolenode(int index) {
-  // @@protoc_insertion_point(field_mutable:RoleListAck.RoleNode)
-  return rolenode_.Mutable(index);
+inline ::RoleItem* RoleListAck::mutable_rolelist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleListAck.RoleList)
+  return rolelist_.Mutable(index);
 }
-inline ::RoleListNode* RoleListAck::add_rolenode() {
-  // @@protoc_insertion_point(field_add:RoleListAck.RoleNode)
-  return rolenode_.Add();
+inline ::RoleItem* RoleListAck::add_rolelist() {
+  // @@protoc_insertion_point(field_add:RoleListAck.RoleList)
+  return rolelist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::RoleListNode >*
-RoleListAck::mutable_rolenode() {
-  // @@protoc_insertion_point(field_mutable_list:RoleListAck.RoleNode)
-  return &rolenode_;
+inline ::google::protobuf::RepeatedPtrField< ::RoleItem >*
+RoleListAck::mutable_rolelist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleListAck.RoleList)
+  return &rolelist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::RoleListNode >&
-RoleListAck::rolenode() const {
-  // @@protoc_insertion_point(field_list:RoleListAck.RoleNode)
-  return rolenode_;
+inline const ::google::protobuf::RepeatedPtrField< ::RoleItem >&
+RoleListAck::rolelist() const {
+  // @@protoc_insertion_point(field_list:RoleListAck.RoleList)
+  return rolelist_;
 }
 
 // -------------------------------------------------------------------
@@ -5628,15 +5850,15 @@ inline void RoleCreateReq::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:RoleCreateReq.Name)
 }
 
-// int32 RoleType = 4;
+// uint32 RoleType = 4;
 inline void RoleCreateReq::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 RoleCreateReq::roletype() const {
+inline ::google::protobuf::uint32 RoleCreateReq::roletype() const {
   // @@protoc_insertion_point(field_get:RoleCreateReq.RoleType)
   return roletype_;
 }
-inline void RoleCreateReq::set_roletype(::google::protobuf::int32 value) {
+inline void RoleCreateReq::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:RoleCreateReq.RoleType)
@@ -5741,15 +5963,15 @@ inline void RoleCreateAck::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:RoleCreateAck.Name)
 }
 
-// int32 RoleType = 5;
+// uint32 RoleType = 5;
 inline void RoleCreateAck::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 RoleCreateAck::roletype() const {
+inline ::google::protobuf::uint32 RoleCreateAck::roletype() const {
   // @@protoc_insertion_point(field_get:RoleCreateAck.RoleType)
   return roletype_;
 }
-inline void RoleCreateAck::set_roletype(::google::protobuf::int32 value) {
+inline void RoleCreateAck::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:RoleCreateAck.RoleType)
@@ -5897,15 +6119,15 @@ inline void RoleLoginAck::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:RoleLoginAck.RoleID)
 }
 
-// int32 RoleType = 4;
+// uint32 RoleType = 4;
 inline void RoleLoginAck::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 RoleLoginAck::roletype() const {
+inline ::google::protobuf::uint32 RoleLoginAck::roletype() const {
   // @@protoc_insertion_point(field_get:RoleLoginAck.RoleType)
   return roletype_;
 }
-inline void RoleLoginAck::set_roletype(::google::protobuf::int32 value) {
+inline void RoleLoginAck::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:RoleLoginAck.RoleType)
@@ -6080,6 +6302,124 @@ inline void RoleDisconnectAck::set_retcode(::google::protobuf::uint32 value) {
 
 // -------------------------------------------------------------------
 
+// RoleSkillReq
+
+// uint64 AttackerID = 1;
+inline void RoleSkillReq::clear_attackerid() {
+  attackerid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 RoleSkillReq::attackerid() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.AttackerID)
+  return attackerid_;
+}
+inline void RoleSkillReq::set_attackerid(::google::protobuf::uint64 value) {
+  
+  attackerid_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.AttackerID)
+}
+
+// uint32 SkillID = 2;
+inline void RoleSkillReq::clear_skillid() {
+  skillid_ = 0u;
+}
+inline ::google::protobuf::uint32 RoleSkillReq::skillid() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.SkillID)
+  return skillid_;
+}
+inline void RoleSkillReq::set_skillid(::google::protobuf::uint32 value) {
+  
+  skillid_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.SkillID)
+}
+
+// float sx = 3;
+inline void RoleSkillReq::clear_sx() {
+  sx_ = 0;
+}
+inline float RoleSkillReq::sx() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.sx)
+  return sx_;
+}
+inline void RoleSkillReq::set_sx(float value) {
+  
+  sx_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.sx)
+}
+
+// float sz = 4;
+inline void RoleSkillReq::clear_sz() {
+  sz_ = 0;
+}
+inline float RoleSkillReq::sz() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.sz)
+  return sz_;
+}
+inline void RoleSkillReq::set_sz(float value) {
+  
+  sz_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.sz)
+}
+
+// float dx = 5;
+inline void RoleSkillReq::clear_dx() {
+  dx_ = 0;
+}
+inline float RoleSkillReq::dx() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.dx)
+  return dx_;
+}
+inline void RoleSkillReq::set_dx(float value) {
+  
+  dx_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.dx)
+}
+
+// float dz = 6;
+inline void RoleSkillReq::clear_dz() {
+  dz_ = 0;
+}
+inline float RoleSkillReq::dz() const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.dz)
+  return dz_;
+}
+inline void RoleSkillReq::set_dz(float value) {
+  
+  dz_ = value;
+  // @@protoc_insertion_point(field_set:RoleSkillReq.dz)
+}
+
+// repeated uint64 DamagerID = 7;
+inline int RoleSkillReq::damagerid_size() const {
+  return damagerid_.size();
+}
+inline void RoleSkillReq::clear_damagerid() {
+  damagerid_.Clear();
+}
+inline ::google::protobuf::uint64 RoleSkillReq::damagerid(int index) const {
+  // @@protoc_insertion_point(field_get:RoleSkillReq.DamagerID)
+  return damagerid_.Get(index);
+}
+inline void RoleSkillReq::set_damagerid(int index, ::google::protobuf::uint64 value) {
+  damagerid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:RoleSkillReq.DamagerID)
+}
+inline void RoleSkillReq::add_damagerid(::google::protobuf::uint64 value) {
+  damagerid_.Add(value);
+  // @@protoc_insertion_point(field_add:RoleSkillReq.DamagerID)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+RoleSkillReq::damagerid() const {
+  // @@protoc_insertion_point(field_list:RoleSkillReq.DamagerID)
+  return damagerid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+RoleSkillReq::mutable_damagerid() {
+  // @@protoc_insertion_point(field_mutable_list:RoleSkillReq.DamagerID)
+  return &damagerid_;
+}
+
+// -------------------------------------------------------------------
+
 // RoleMoveReq
 
 // uint64 RoleID = 1;
@@ -6152,6 +6492,94 @@ inline void RoleMoveReq::set_d(float value) {
   // @@protoc_insertion_point(field_set:RoleMoveReq.d)
 }
 
+// float v = 6;
+inline void RoleMoveReq::clear_v() {
+  v_ = 0;
+}
+inline float RoleMoveReq::v() const {
+  // @@protoc_insertion_point(field_get:RoleMoveReq.v)
+  return v_;
+}
+inline void RoleMoveReq::set_v(float value) {
+  
+  v_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveReq.v)
+}
+
+// -------------------------------------------------------------------
+
+// RoleMoveNty
+
+// uint64 RoleID = 1;
+inline void RoleMoveNty::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 RoleMoveNty::roleid() const {
+  // @@protoc_insertion_point(field_get:RoleMoveNty.RoleID)
+  return roleid_;
+}
+inline void RoleMoveNty::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveNty.RoleID)
+}
+
+// float x = 2;
+inline void RoleMoveNty::clear_x() {
+  x_ = 0;
+}
+inline float RoleMoveNty::x() const {
+  // @@protoc_insertion_point(field_get:RoleMoveNty.x)
+  return x_;
+}
+inline void RoleMoveNty::set_x(float value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveNty.x)
+}
+
+// float y = 3;
+inline void RoleMoveNty::clear_y() {
+  y_ = 0;
+}
+inline float RoleMoveNty::y() const {
+  // @@protoc_insertion_point(field_get:RoleMoveNty.y)
+  return y_;
+}
+inline void RoleMoveNty::set_y(float value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveNty.y)
+}
+
+// float z = 4;
+inline void RoleMoveNty::clear_z() {
+  z_ = 0;
+}
+inline float RoleMoveNty::z() const {
+  // @@protoc_insertion_point(field_get:RoleMoveNty.z)
+  return z_;
+}
+inline void RoleMoveNty::set_z(float value) {
+  
+  z_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveNty.z)
+}
+
+// float d = 5;
+inline void RoleMoveNty::clear_d() {
+  d_ = 0;
+}
+inline float RoleMoveNty::d() const {
+  // @@protoc_insertion_point(field_get:RoleMoveNty.d)
+  return d_;
+}
+inline void RoleMoveNty::set_d(float value) {
+  
+  d_ = value;
+  // @@protoc_insertion_point(field_set:RoleMoveNty.d)
+}
+
 // -------------------------------------------------------------------
 
 // RoleMoveAck
@@ -6168,6 +6596,136 @@ inline void RoleMoveAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
   // @@protoc_insertion_point(field_set:RoleMoveAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// RoleChangeNotify
+
+// uint64 ObjectID = 1;
+inline void RoleChangeNotify::clear_objectid() {
+  objectid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 RoleChangeNotify::objectid() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.ObjectID)
+  return objectid_;
+}
+inline void RoleChangeNotify::set_objectid(::google::protobuf::uint64 value) {
+  
+  objectid_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.ObjectID)
+}
+
+// float x = 2;
+inline void RoleChangeNotify::clear_x() {
+  x_ = 0;
+}
+inline float RoleChangeNotify::x() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.x)
+  return x_;
+}
+inline void RoleChangeNotify::set_x(float value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.x)
+}
+
+// float y = 3;
+inline void RoleChangeNotify::clear_y() {
+  y_ = 0;
+}
+inline float RoleChangeNotify::y() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.y)
+  return y_;
+}
+inline void RoleChangeNotify::set_y(float value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.y)
+}
+
+// float z = 4;
+inline void RoleChangeNotify::clear_z() {
+  z_ = 0;
+}
+inline float RoleChangeNotify::z() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.z)
+  return z_;
+}
+inline void RoleChangeNotify::set_z(float value) {
+  
+  z_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.z)
+}
+
+// float d = 5;
+inline void RoleChangeNotify::clear_d() {
+  d_ = 0;
+}
+inline float RoleChangeNotify::d() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.d)
+  return d_;
+}
+inline void RoleChangeNotify::set_d(float value) {
+  
+  d_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.d)
+}
+
+// uint32 hp = 6;
+inline void RoleChangeNotify::clear_hp() {
+  hp_ = 0u;
+}
+inline ::google::protobuf::uint32 RoleChangeNotify::hp() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.hp)
+  return hp_;
+}
+inline void RoleChangeNotify::set_hp(::google::protobuf::uint32 value) {
+  
+  hp_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.hp)
+}
+
+// uint32 mp = 7;
+inline void RoleChangeNotify::clear_mp() {
+  mp_ = 0u;
+}
+inline ::google::protobuf::uint32 RoleChangeNotify::mp() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.mp)
+  return mp_;
+}
+inline void RoleChangeNotify::set_mp(::google::protobuf::uint32 value) {
+  
+  mp_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.mp)
+}
+
+// uint32 hpmax = 8;
+inline void RoleChangeNotify::clear_hpmax() {
+  hpmax_ = 0u;
+}
+inline ::google::protobuf::uint32 RoleChangeNotify::hpmax() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.hpmax)
+  return hpmax_;
+}
+inline void RoleChangeNotify::set_hpmax(::google::protobuf::uint32 value) {
+  
+  hpmax_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.hpmax)
+}
+
+// uint32 mpmax = 9;
+inline void RoleChangeNotify::clear_mpmax() {
+  mpmax_ = 0u;
+}
+inline ::google::protobuf::uint32 RoleChangeNotify::mpmax() const {
+  // @@protoc_insertion_point(field_get:RoleChangeNotify.mpmax)
+  return mpmax_;
+}
+inline void RoleChangeNotify::set_mpmax(::google::protobuf::uint32 value) {
+  
+  mpmax_ = value;
+  // @@protoc_insertion_point(field_set:RoleChangeNotify.mpmax)
 }
 
 // -------------------------------------------------------------------
@@ -6294,85 +6852,32 @@ inline void EnterSceneReq::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:EnterSceneReq.RoleID)
 }
 
-// string RoleName = 2;
-inline void EnterSceneReq::clear_rolename() {
-  rolename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// uint32 ServerID = 2;
+inline void EnterSceneReq::clear_serverid() {
+  serverid_ = 0u;
 }
-inline const ::std::string& EnterSceneReq::rolename() const {
-  // @@protoc_insertion_point(field_get:EnterSceneReq.RoleName)
-  return rolename_.GetNoArena();
+inline ::google::protobuf::uint32 EnterSceneReq::serverid() const {
+  // @@protoc_insertion_point(field_get:EnterSceneReq.ServerID)
+  return serverid_;
 }
-inline void EnterSceneReq::set_rolename(const ::std::string& value) {
+inline void EnterSceneReq::set_serverid(::google::protobuf::uint32 value) {
   
-  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:EnterSceneReq.RoleName)
-}
-#if LANG_CXX11
-inline void EnterSceneReq::set_rolename(::std::string&& value) {
-  
-  rolename_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:EnterSceneReq.RoleName)
-}
-#endif
-inline void EnterSceneReq::set_rolename(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:EnterSceneReq.RoleName)
-}
-inline void EnterSceneReq::set_rolename(const char* value, size_t size) {
-  
-  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:EnterSceneReq.RoleName)
-}
-inline ::std::string* EnterSceneReq::mutable_rolename() {
-  
-  // @@protoc_insertion_point(field_mutable:EnterSceneReq.RoleName)
-  return rolename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* EnterSceneReq::release_rolename() {
-  // @@protoc_insertion_point(field_release:EnterSceneReq.RoleName)
-  
-  return rolename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void EnterSceneReq::set_allocated_rolename(::std::string* rolename) {
-  if (rolename != NULL) {
-    
-  } else {
-    
-  }
-  rolename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), rolename);
-  // @@protoc_insertion_point(field_set_allocated:EnterSceneReq.RoleName)
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:EnterSceneReq.ServerID)
 }
 
-// int32 RoleType = 3;
-inline void EnterSceneReq::clear_roletype() {
-  roletype_ = 0;
+// uint32 CopyID = 3;
+inline void EnterSceneReq::clear_copyid() {
+  copyid_ = 0u;
 }
-inline ::google::protobuf::int32 EnterSceneReq::roletype() const {
-  // @@protoc_insertion_point(field_get:EnterSceneReq.RoleType)
-  return roletype_;
+inline ::google::protobuf::uint32 EnterSceneReq::copyid() const {
+  // @@protoc_insertion_point(field_get:EnterSceneReq.CopyID)
+  return copyid_;
 }
-inline void EnterSceneReq::set_roletype(::google::protobuf::int32 value) {
+inline void EnterSceneReq::set_copyid(::google::protobuf::uint32 value) {
   
-  roletype_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneReq.RoleType)
-}
-
-// int32 Level = 4;
-inline void EnterSceneReq::clear_level() {
-  level_ = 0;
-}
-inline ::google::protobuf::int32 EnterSceneReq::level() const {
-  // @@protoc_insertion_point(field_get:EnterSceneReq.Level)
-  return level_;
-}
-inline void EnterSceneReq::set_level(::google::protobuf::int32 value) {
-  
-  level_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneReq.Level)
+  copyid_ = value;
+  // @@protoc_insertion_point(field_set:EnterSceneReq.CopyID)
 }
 
 // -------------------------------------------------------------------
@@ -6419,6 +6924,87 @@ inline void EnterSceneAck::set_copyid(::google::protobuf::uint32 value) {
   
   copyid_ = value;
   // @@protoc_insertion_point(field_set:EnterSceneAck.CopyID)
+}
+
+// uint64 RoleID = 4;
+inline void EnterSceneAck::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 EnterSceneAck::roleid() const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.RoleID)
+  return roleid_;
+}
+inline void EnterSceneAck::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:EnterSceneAck.RoleID)
+}
+
+// string RoleName = 5;
+inline void EnterSceneAck::clear_rolename() {
+  rolename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& EnterSceneAck::rolename() const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.RoleName)
+  return rolename_.GetNoArena();
+}
+inline void EnterSceneAck::set_rolename(const ::std::string& value) {
+  
+  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:EnterSceneAck.RoleName)
+}
+#if LANG_CXX11
+inline void EnterSceneAck::set_rolename(::std::string&& value) {
+  
+  rolename_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:EnterSceneAck.RoleName)
+}
+#endif
+inline void EnterSceneAck::set_rolename(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:EnterSceneAck.RoleName)
+}
+inline void EnterSceneAck::set_rolename(const char* value, size_t size) {
+  
+  rolename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:EnterSceneAck.RoleName)
+}
+inline ::std::string* EnterSceneAck::mutable_rolename() {
+  
+  // @@protoc_insertion_point(field_mutable:EnterSceneAck.RoleName)
+  return rolename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* EnterSceneAck::release_rolename() {
+  // @@protoc_insertion_point(field_release:EnterSceneAck.RoleName)
+  
+  return rolename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void EnterSceneAck::set_allocated_rolename(::std::string* rolename) {
+  if (rolename != NULL) {
+    
+  } else {
+    
+  }
+  rolename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), rolename);
+  // @@protoc_insertion_point(field_set_allocated:EnterSceneAck.RoleName)
+}
+
+// uint32 RoleType = 6;
+inline void EnterSceneAck::clear_roletype() {
+  roletype_ = 0u;
+}
+inline ::google::protobuf::uint32 EnterSceneAck::roletype() const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.RoleType)
+  return roletype_;
+}
+inline void EnterSceneAck::set_roletype(::google::protobuf::uint32 value) {
+  
+  roletype_ = value;
+  // @@protoc_insertion_point(field_set:EnterSceneAck.RoleType)
 }
 
 // -------------------------------------------------------------------
@@ -6542,15 +7128,15 @@ inline void TransRoleDataReq::set_allocated_rolename(::std::string* rolename) {
   // @@protoc_insertion_point(field_set_allocated:TransRoleDataReq.RoleName)
 }
 
-// int32 RoleType = 3;
+// uint32 RoleType = 3;
 inline void TransRoleDataReq::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 TransRoleDataReq::roletype() const {
+inline ::google::protobuf::uint32 TransRoleDataReq::roletype() const {
   // @@protoc_insertion_point(field_get:TransRoleDataReq.RoleType)
   return roletype_;
 }
-inline void TransRoleDataReq::set_roletype(::google::protobuf::int32 value) {
+inline void TransRoleDataReq::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:TransRoleDataReq.RoleType)
@@ -6722,15 +7308,15 @@ inline void NearByRoleItem::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NearByRoleItem.RoleID)
 }
 
-// int32 RoleType = 2;
+// uint32 RoleType = 2;
 inline void NearByRoleItem::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 NearByRoleItem::roletype() const {
+inline ::google::protobuf::uint32 NearByRoleItem::roletype() const {
   // @@protoc_insertion_point(field_get:NearByRoleItem.RoleType)
   return roletype_;
 }
-inline void NearByRoleItem::set_roletype(::google::protobuf::int32 value) {
+inline void NearByRoleItem::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:NearByRoleItem.RoleType)
@@ -6889,15 +7475,15 @@ inline void NearByUpdateNty::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NearByUpdateNty.RoleID)
 }
 
-// int32 RoleType = 2;
+// uint32 RoleType = 2;
 inline void NearByUpdateNty::clear_roletype() {
-  roletype_ = 0;
+  roletype_ = 0u;
 }
-inline ::google::protobuf::int32 NearByUpdateNty::roletype() const {
+inline ::google::protobuf::uint32 NearByUpdateNty::roletype() const {
   // @@protoc_insertion_point(field_get:NearByUpdateNty.RoleType)
   return roletype_;
 }
-inline void NearByUpdateNty::set_roletype(::google::protobuf::int32 value) {
+inline void NearByUpdateNty::set_roletype(::google::protobuf::uint32 value) {
   
   roletype_ = value;
   // @@protoc_insertion_point(field_set:NearByUpdateNty.RoleType)
@@ -6971,6 +7557,8 @@ inline void NearByUpdateNty::set_allocated_name(::std::string* name) {
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
