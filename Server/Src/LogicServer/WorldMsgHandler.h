@@ -30,7 +30,10 @@ public:
 	BOOL OnMsgRoleLoginAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLogoutReq(NetPacket *pNetPacket);
 	BOOL OnMsgTransRoleDataAck(NetPacket *pNetPacket);
-
+	BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
+	BOOL OnMsgCreateSceneAck(NetPacket *pNetPacket);
+	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
+	BOOL OnMsgCopyBattleReq(NetPacket *pNetPacket);
 	//*********************消息处理定义结束******************************
 	CPlayerManager    m_PlayerManager;
 };

@@ -130,8 +130,19 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket *pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ASSERT(nConnID != 0);
 
-
 	ClientServerListAck Ack;
+
+	LogicSvrManager::TNodeTypePtr pNode = m_LogicSvrMgr.MoveFirst();
+	while(pNode != NULL)
+	{
+		LogicServerNode *pTempNode = pNode->GetValue();
+		if(pTempNode == NULL)
+		{
+			ASSERT_FAIELD;
+		}
+
+		ClientServerNode *pClientNode =  Ack.add_svrnode();
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
 }

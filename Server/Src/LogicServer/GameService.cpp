@@ -170,34 +170,48 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 	{
 		m_dwLoginConnID = 0;
 		ConnectToLoginSvr();
+		return TRUE;
 	}
 
 	if(m_dwLogConnID == pConn->GetConnectionID())
 	{
 		m_dwLogConnID = NULL;
 		ConnectToLogServer();
+		return TRUE;
 	}
 
 	if(m_dwDBConnID == pConn->GetConnectionID())
 	{
 		m_dwDBConnID = NULL;
 		ConnectToDBSvr();
+		return TRUE;
 	}
 
-
 	CGameSvrMgr::GetInstancePtr()->OnCloseConnect(pConn->GetConnectionID());
+
 	return TRUE;
 }
 
 BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
+	//switch(pNetPacket->m_dwMsgID)
+	//{
+	//default:
+	//	{
+	//		m_WorldMsgHandler.DispatchPacket(pNetPacket);
+	//	}
+	//	break;
+	//}
+
+
+	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
-	default:
-		{
-			m_WorldMsgHandler.DispatchPacket(pNetPacket);
-		}
-		break;
+		return TRUE;
+	}
+
+	if(m_WorldMsgHandler.DispatchPacket(pNetPacket))
+	{
+		return TRUE;
 	}
 
 	return TRUE;

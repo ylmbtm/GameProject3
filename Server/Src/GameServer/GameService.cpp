@@ -55,7 +55,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	if(!m_SceneManager.Init(0))
+	if(!m_SceneManager.Init(TRUE))
 	{
 		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("启动场景管理器失败!");
@@ -76,10 +76,15 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
 		RegisterToLogicSvr();
+
+		//m_SceneManager.SendCopyReport();
+
+		return TRUE;
 	}
 	if(pConn->GetConnectionID() == m_dwProxyConnID)
 	{
 		RegisterToProxySvr();
+		return TRUE;
 	}
 	
 	return TRUE;

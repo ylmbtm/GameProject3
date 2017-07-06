@@ -20,6 +20,9 @@ private:
 public:
 	static CGameSvrMgr* GetInstancePtr();
 public:
+
+	BOOL	DispatchPacket( NetPacket *pNetPacket);
+
 	UINT32	GetServerIDByCopyID(UINT32 dwCopyID);
 
 	UINT32	GetFreeGameServerID();
@@ -34,12 +37,14 @@ public:
 
 	BOOL    SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID);
 public:
-	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);
-
 	BOOL	OnCloseConnect(UINT32 dwConnID);
+	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);
+	//BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
+	
+	
 
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID--信息
+	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->信息
 };
 
 #endif

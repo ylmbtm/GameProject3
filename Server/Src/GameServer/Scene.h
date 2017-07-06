@@ -34,6 +34,7 @@ public:
 	BOOL	HandleUpdateObject(CWorldObject *pWorldObject);
 	
 	UINT32	GetCopyID(){ return m_dwCopyID; }
+	UINT32  GetCopyType() { return m_dwCopyType; }
 
 	BOOL    OnUpdate( UINT32 dwTick );
 
@@ -52,14 +53,18 @@ public:
 	BOOL	SendUpdateObjectToMyself(CWorldObject *pWorldObj);
 
 public:
+	BOOL	IsCopyOver();
+	BOOL    IsFinished();
+public:
 	BOOL	SetSceneMapCoords( INT32 nLeft, INT32 nRight, INT32 nTop, INT32 nBottom );
 
 public:
-	
+	BOOL							m_bOver;   //标示副本己经结束，结算己经完成,可以销毁
+	BOOL							m_bFinished; //标标副本己经完成，还示结算
 
 protected:
-	UINT32							m_dwCopyID;
-	UINT32							m_dwCopyType;
+	UINT32							m_dwCopyID;		//当前副本实例ID
+	UINT32							m_dwCopyType;   //当前副本TYPE
 
 	SceneLogicBase					*m_pSceneLogic;
 

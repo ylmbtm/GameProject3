@@ -29,9 +29,12 @@ public:
 
 	UINT32      MakeCopyID(UINT32 dwCopyType);
 
+	BOOL		SendCopyReport();
+
 	//*********************消息处理定义开始******************************
 public:
 	BOOL OnMsgCreateSceneReq(NetPacket *pNetPack);
+
 
 	//*********************消息处理定义结束******************************
 

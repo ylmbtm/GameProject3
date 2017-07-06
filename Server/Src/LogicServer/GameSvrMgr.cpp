@@ -5,6 +5,7 @@
 #include "../Message/Msg_Login.pb.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
+#include "Utility/Log/Log.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -21,6 +22,22 @@ CGameSvrMgr* CGameSvrMgr::GetInstancePtr()
 	return &_PlayerManager;
 }
 
+
+BOOL CGameSvrMgr::DispatchPacket(NetPacket *pNetPacket)
+{
+	switch(pNetPacket->m_dwMsgID)
+	{
+		PROCESS_MESSAGE_ITEM(MSG_GMSVR_REGTO_LOGIC_REQ,		OnMsgGameSvrRegister);
+		//PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
+	default:
+		{
+			return FALSE;
+		}
+		break;
+	}
+
+	return TRUE;
+}
 
 UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyID)
 {
@@ -104,6 +121,11 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 	
 	return TRUE;
 }
+
+// BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket *pNetPacket)
+// {
+// 
+// }
 
 BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 {

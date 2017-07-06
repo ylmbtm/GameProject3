@@ -121,11 +121,22 @@ CScene* CSceneManager::GetSceneByID( UINT32 dwSceneID )
 
 BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 {
-	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); ++itor)
+	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
 	{
 		CScene *pScene = itor->second;
 
 		pScene->OnUpdate(dwTick);
+
+		if(pScene->IsCopyOver())
+		{
+			pScene->Uninit();
+			delete pScene;
+			itor = m_mapSceneList.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
 	}
 
 	return TRUE;
@@ -136,6 +147,30 @@ UINT32 CSceneManager::MakeCopyID(UINT32 dwCopyType)
 	m_MaxCopyBaseID += 1;
 
 	return CGameService::GetInstancePtr()->GetServerID()<<24|m_MaxCopyBaseID;
+}
+
+BOOL CSceneManager::SendCopyReport()
+{
+	CopyReportReq Req;
+
+	Req.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+
+	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); itor++)
+	{
+		CScene *pScene = itor->second;
+		if(pScene == NULL)
+		{
+			ASSERT_FAIELD;
+		}
+
+		CopyItem *pItem = Req.add_copylist();
+		pItem->set_copyid(pScene->GetCopyID());
+		pItem->set_copytype(pScene->GetCopyType());
+	}
+
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
+
+	return TRUE;
 }
 
 BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
@@ -176,26 +211,26 @@ BOOL CSceneManager::LoadMainScene()
 		return FALSE;
 	}
 
-	if(!CreateScene(1, MakeCopyID(1), 1))
-	{
-		ASSERT_FAIELD;
+	//if(!CreateScene(1, MakeCopyID(1), 1))
+	//{
+	//	ASSERT_FAIELD;
 
-		return FALSE;
-	}
+	//	return FALSE;
+	//}
 
-	if(!CreateScene(1, MakeCopyID(1), 1))
-	{
-		ASSERT_FAIELD;
+	//if(!CreateScene(1, MakeCopyID(1), 1))
+	//{
+	//	ASSERT_FAIELD;
 
-		return FALSE;
-	}
+	//	return FALSE;
+	//}
 
-	if(!CreateScene(1, MakeCopyID(1), 1))
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	//if(!CreateScene(1, MakeCopyID(1), 1))
+	//{
+	//	ASSERT_FAIELD;
+	//
+	//	return FALSE;
+	//}
 
 	return TRUE;
 }

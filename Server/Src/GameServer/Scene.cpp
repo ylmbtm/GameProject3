@@ -30,6 +30,8 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
 
 	m_dwCopyType = dwCopyType;
 
+	m_bOver = FALSE;
+
 	CreateSceneLogic(dwLogicType);
 
 	m_GridManager.Init(0, 0, 100, 100);
@@ -588,6 +590,16 @@ BOOL CScene::SendUpdateObjectToMyself( CWorldObject *pWorldObj )
 	//ServiceBase::GetInstancePtr()->SendCmdToConnection(pPlayerObject->GetConnectID(), &m_WriteBuffer);
 
 	return TRUE;
+}
+
+BOOL CScene::IsCopyOver()
+{
+	return m_bOver;
+}
+
+BOOL CScene::IsFinished()
+{
+	return m_bFinished;
 }
 
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)

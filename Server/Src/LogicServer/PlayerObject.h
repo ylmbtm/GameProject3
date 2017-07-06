@@ -11,6 +11,13 @@ enum MouduleType
 	MT_END
 };
 
+
+enum Copy_State
+{
+	CS_START,
+	CS_FINISHED
+};
+
 class CPlayerObject
 {
 public:
@@ -39,7 +46,10 @@ public:
 
 	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
+public: //全部是操作方法
 	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwSvrID);
+	BOOL	SendNotifyIntoScene(UINT32 dwCopyID,  UINT32 dwCopyType,UINT32 dwSvrID);
+	BOOL	SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID);
 
 	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 
@@ -55,10 +65,17 @@ public:
 public:
 	UINT64			GetObjectID();
 public:
-	UINT64		m_u64ID;
-	UINT32      m_dwProxyConnID;
-	UINT32      m_dwClientConnID;
+	UINT64			m_u64ID;
+	UINT32			m_dwProxyConnID;
+	UINT32			m_dwClientConnID;
 	std::vector<CModuleBase*> m_MoudleList;
+
+public:
+	UINT32      m_dwCopyID;     //当前的副本ID
+	UINT32      m_dwToCopyID;   //正在前往的副本ID
+	UINT32      m_dwCopyType;   //当前的副本类型
+	Copy_State  m_CopyState;    //副本状态
+	UINT32      m_dwServerID;   //副本服务器的ID
 };
 
 

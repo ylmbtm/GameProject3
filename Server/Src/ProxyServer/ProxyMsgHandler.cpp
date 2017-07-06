@@ -296,6 +296,7 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 		pPlayer->SetGameSvrID(Req.serverid());
 	}
 
-	
+	RelayToLogicServer(pNetPacket->m_pDataBuffer);
+
 	return TRUE;
 }

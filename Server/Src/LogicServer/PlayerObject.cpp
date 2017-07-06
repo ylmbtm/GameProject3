@@ -160,9 +160,9 @@ BOOL CPlayerObject::OnModuleFnished()
 
 		TransRoleDataReq Req;
 		Req.set_roleid(m_u64ID);
-		//Req.set_roletype(pModule->m_RoleType);
-		//Req.set_level(pModule->m_dwLevel);
-		//Req.set_rolename(pModule->m_strName);
+		Req.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
+		Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
+		Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
 
 		UINT32 dwSvrID, dwConnID, dwCopyID;
 
@@ -206,6 +206,22 @@ BOOL CPlayerObject::SendToScene(UINT32 dwCopyID,UINT32 dwSvrID)
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, 0, Req);
 
+	return TRUE;
+}
+
+BOOL CPlayerObject::SendNotifyIntoScene(UINT32 dwCopyID, UINT32 dwCopyType, UINT32 dwSvrID)
+{
+	NotifyIntoScene Nty;
+	Nty.set_copytype(dwCopyType);
+	Nty.set_copyid(dwCopyID);
+	Nty.set_serverid(dwSvrID);
+	SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty);
+
+	return TRUE;
+}
+
+BOOL CPlayerObject::SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID)
+{
 	return TRUE;
 }
 

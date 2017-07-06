@@ -32,6 +32,10 @@ BOOL CRoleModule::SetBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwRoleT
 
 BOOL CRoleModule::OnDestroy(UINT64 u64RoleID)
 {
+	m_pRoleDataObject->release();
+
+	m_pRoleDataObject = NULL;
+
 	return TRUE;
 }
 

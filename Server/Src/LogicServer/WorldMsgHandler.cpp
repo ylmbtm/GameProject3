@@ -50,9 +50,7 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,		OnMsgRoleLoginAck);
 		PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,		OnMsgRoleLogoutReq);
 		PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_ACK,	OnMsgTransRoleDataAck);
-	case MSG_GMSVR_REGTO_LOGIC_REQ:
-		CGameSvrMgr::GetInstancePtr()->OnMsgGameSvrRegister(pNetPacket);
-		break;
+		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 	case MSG_LOGIC_REGTO_LOGIN_ACK:
 		{
 			break;
@@ -225,10 +223,91 @@ BOOL CWorldMsgHandler::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
 		return FALSE;
 	}
 	
-	NotifyIntoScene Nty;
-	Nty.set_copytype(Ack.copytype());
-	Nty.set_copyid(Ack.copyid());
-	pPlayer->SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty);
+	pPlayer->SendNotifyIntoScene(Ack.copyid(), Ack.copytype(), Ack.serverid());
+
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket *pNetPacket)
+{
+	RoleDisconnectReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->u64TargetID != 0);
+
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+	if(pPlayer == NULL)
+	{
+		return FALSE;
+	}
+
+
+
+
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgCreateSceneAck(NetPacket *pNetPacket)
+{
+	CreateNewSceneAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->u64TargetID != 0);
+
+	//通知玩家可以进入
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
+	if(pPlayer == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+	pPlayer->SendToScene(Ack.copyid(), Ack.serverid());
+	pPlayer->m_CopyState = CS_START;
+	pPlayer->m_dwToCopyID = Ack.copyid();
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
+{
+	EnterSceneReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->u64TargetID != 0);
+
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+	if(pPlayer->m_dwToCopyID != Req.copyid())
+	{
+		ASSERT_FAIELD;
+	}
+
+	//如果原来在主城副本，需要通知离开
+	if(pPlayer->m_dwCopyID == 1)
+	{
+		pPlayer->SendLeaveScene(1,1);
+	}
+	
+	pPlayer->m_dwCopyID = Req.copyid();
+	pPlayer->m_dwToCopyID = 0;
+	pPlayer->m_CopyState = CS_FINISHED;
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgCopyBattleReq(NetPacket *pNetPacket)
+{
+	CopyBattleReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ASSERT(pHeader->u64TargetID != 0);
+
+
+	//创建副本
+	BOOL bRet = CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid());
+	if(!bRet)
+	{
+		ASSERT_FAIELD;
+		return TRUE;
+	}
 
 	return TRUE;
 }
