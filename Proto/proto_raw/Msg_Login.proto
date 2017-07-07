@@ -240,6 +240,28 @@ message EnterSceneAck {
 	uint32   RoleType = 6;
 }
 
+message CopyBattleReq {
+    uint64  RoleID = 1;
+	uint32  CopyType  = 2;  //副本类型
+}
+
+message CopyBattleAck {
+    uint32   RetCode = 1;
+}
+
+
+message AbortCopyReq {
+    uint64  RoleID = 1;
+	uint32  CopyType  = 2;  //副本类型
+	uint32  CopyID = 3;
+	uint32  ServerID = 4;
+}
+
+message AbortCopyAck {
+    uint32   RetCode = 1;
+}
+
+
 message LeaveSceneReq {
     uint64  RoleID = 1;
 	int32   Reason = 2;
@@ -290,10 +312,20 @@ message NearByDelNty {
   repeated uint64 RoleList = 1;
 }
 
-
 message NearByUpdateNty {
     uint64 RoleID = 1;
 	uint32  RoleType = 2;
 	int32  Level = 3;
 	string Name = 4;
+}
+
+message CopyItem {
+    uint32  CopyID =   1;
+	uint32  CopyType = 2;
+}
+
+
+message CopyReportReq {
+	uint32 ServerID = 1;
+	repeated CopyItem CopyList = 2;
 }

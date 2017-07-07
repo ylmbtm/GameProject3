@@ -103,7 +103,6 @@
     <ClCompile Include="GameObject\SceneObjectMgr.cpp" />
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="GameService.cpp" />
-    <ClCompile Include="GlobalData.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -121,7 +120,6 @@
   <ItemGroup>
     <ClInclude Include="GameObject\SceneObjectMgr.h" />
     <ClInclude Include="GameService.h" />
-    <ClInclude Include="GlobalData.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="..\..\Common\Utility\Position.h" />

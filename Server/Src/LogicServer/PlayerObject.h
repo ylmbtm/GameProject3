@@ -74,8 +74,8 @@ public:
 	UINT32      m_dwCopyID;     //当前的副本ID
 	UINT32      m_dwToCopyID;   //正在前往的副本ID
 	UINT32      m_dwCopyType;   //当前的副本类型
+	UINT32      m_dwCopySvrID;   //副本服务器的ID
 	Copy_State  m_CopyState;    //副本状态
-	UINT32      m_dwServerID;   //副本服务器的ID
 };
 
 

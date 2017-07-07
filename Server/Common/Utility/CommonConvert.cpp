@@ -12,7 +12,27 @@ INT32 CommonConvert::StringToInt(char *pStr)
 	return atoi(pStr);
 }
 
+INT32 CommonConvert::StringToInt(const char *pStr)
+{
+	if(pStr == NULL)
+	{
+		return 0;
+	}
+
+	return atoi(pStr);
+}
+
 FLOAT  CommonConvert::StringToFloat(char *pStr)
+{
+	if(pStr == NULL)
+	{
+		return 0;
+	}
+
+	return (FLOAT)atof(pStr);
+}
+
+FLOAT  CommonConvert::StringToFloat(const char *pStr)
 {
 	if(pStr == NULL)
 	{

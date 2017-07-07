@@ -9,7 +9,7 @@
 #include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
-#include "TypeDataParser.h"
+#include "ConfigData.h"
 #include "SimpleMananger.h"
 
 CGameService::CGameService(void)
@@ -56,7 +56,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CGloalData::GetInstancePtr()->ReadTypeData();
+	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
 
 	CSimpleManager::GetInstancePtr()->LoadSimpleData();
 

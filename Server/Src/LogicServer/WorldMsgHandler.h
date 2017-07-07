@@ -34,6 +34,7 @@ public:
 	BOOL OnMsgCreateSceneAck(NetPacket *pNetPacket);
 	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
 	BOOL OnMsgCopyBattleReq(NetPacket *pNetPacket);
+	BOOL OnMsgAbortCopyReq(NetPacket *pNetPacket);
 	//*********************消息处理定义结束******************************
 	CPlayerManager    m_PlayerManager;
 };

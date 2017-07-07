@@ -4,9 +4,10 @@
 namespace CommonConvert
 {
 	INT32 StringToInt(char *pStr);
+	INT32 StringToInt(const char *pStr);
 
 	FLOAT StringToFloat(char *pStr);
-	
+	FLOAT StringToFloat(const char *pStr);
 	std::string IntToString(INT32 nValue);
 	
 	//浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入

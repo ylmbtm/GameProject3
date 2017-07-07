@@ -59,7 +59,6 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	if(SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
 	{
 		//发送创建副本的消息失败
-
 		ASSERT_FAIELD;
 
 		return FALSE;
@@ -73,14 +72,24 @@ BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyType, UINT
 	CreateNewSceneReq Req;
 	Req.set_copytype(dwCopyType);
 	Req.set_createparam(CreateParam);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req);
+	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req))
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
 	return TRUE;
 }
 
 
 UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
 {
-	return 0;
+	std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.find(dwServerID);
+	if(itor == m_mapGameSvr.end())
+	{
+		return 0;
+	}
+
+	return itor->second.dwConnID;
 }
 
 BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID)

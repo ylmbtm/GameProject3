@@ -36,6 +36,7 @@ public:
 	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID);
 
 	BOOL    SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID);
+
 public:
 	BOOL	OnCloseConnect(UINT32 dwConnID);
 	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);

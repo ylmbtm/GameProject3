@@ -142,6 +142,8 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket *pPacket)
 		}
 
 		ClientServerNode *pClientNode =  Ack.add_svrnode();
+		pClientNode->set_svrid(201);
+		pClientNode->set_svrname("天龙八部");
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
@@ -196,7 +198,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 	if(Ack.lastsvrid() == 0)
 	{
 		Ack.set_lastsvrid(201);
-		Ack.set_lastsvrname("TestServer1");
+		Ack.set_lastsvrname("天龙八部");
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_LOGIN_ACK, 0, 0, Ack);

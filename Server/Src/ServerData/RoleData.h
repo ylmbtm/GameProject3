@@ -13,10 +13,11 @@ struct RoleDataObject : public ShareObject
 	UINT64 m_u64AccountID;	//账号ID
 	CHAR   m_szName[255];	//角色名
 	UINT32 m_RoleType;		//角色类型
-	UINT32 m_dwLevel;
-	UINT64 m_Money[10];
-	UINT64 m_dwExp;
+	UINT32 m_dwLevel;		//等级
+	UINT64 m_Money[10];		//所有的货币
+	UINT64 m_dwExp;			//经验
 	UINT32 m_dwLangID;		//语言ID
+	UINT64 m_u64Fight;      //战力
 
 	BOOL Save(IDataBase *pDB)
 	{
@@ -31,6 +32,11 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Delete(IDataBase *pDB)
 	{
+		char szSql[1024];
+		sprintf(szSql, "update player set delete = %d");
+
+		pDB->Execut(szSql);
+
 		return TRUE;
 	}
 };

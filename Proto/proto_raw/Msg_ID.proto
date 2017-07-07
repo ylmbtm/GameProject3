@@ -33,8 +33,8 @@ enum MessageID {
 	MSG_LOGINSVR_MSGID_END     = 1999999;
 	//========================LogicSVR=======================
 	MSG_LOGICSVR_MSGID_BEGIN     = 2000000;
-	MSG_ROLE_LIST_REQ			= 2000001;
-	MSG_ROLE_LIST_ACK			= 2000002;
+	MSG_ROLE_LIST_REQ			 = 2000001;
+	MSG_ROLE_LIST_ACK			 = 2000002;
 
 	MSG_ROLE_CREATE_REQ          = 2000003;   //登录请法度
     MSG_ROLE_CREATE_ACK          = 2000004;   //登录成功  返回基本模块的数据, 包括基本类的数据
@@ -56,6 +56,10 @@ enum MessageID {
 	MSG_NOTIFY_INTO_SCENE        = 2000014;
 
 	MSG_GMSVR_REGTO_LOGIC_REQ    = 2000015;
+
+	MSG_COPYINFO_REPORT_REQ     =  2000016;
+	MSG_COPY_BATTLE_REQ          = 2000017;
+	MSG_COPY_ABORT_REQ			 = 2000018;		//请求中止副本
 	
 	MSG_LOGICSVR_MSGID_END       = 2999999;
 	//========================SceneSVR=======================
@@ -68,7 +72,6 @@ enum MessageID {
 	MSG_SCENE_DESTROY_ACK 		= 3000006;
 	MSG_TRANS_ROLE_DATA_REQ     = 3000007;
 	MSG_TRANS_ROLE_DATA_ACK     = 3000008;
-
 	MSG_NOTIFY_ROLE_ENTER_REQ   = 3000009;
 	MSG_NOTIFY_ROLE_ENTER_ACK   = 3000010;
 	MSG_ENTER_SCENE_REQ 		= 3000011;
@@ -80,18 +83,16 @@ enum MessageID {
 	MSG_NEARBY_UPDATE_NTY 		= 3000017;
 	MSG_ROLE_MOVE_REQ 			= 3000018;
 	MSG_ROLE_SKILL_REQ 			= 3000019;
-	MSG_GASVR_REGTO_PROXY_REQ   = 3000020;
-	MSG_GASVR_REGTO_PROXY_ACK   = 3000021;
+
 	
 	MSG_SCENESVR_MSGID_END 		= 3999999;
-	 
+	//========================ProxySVR=======================
+	MSG_PROXYSVR_MSGID_BEGIN    = 4000000;
+	MSG_GASVR_REGTO_PROXY_REQ   = 4000001;
+	MSG_GASVR_REGTO_PROXY_ACK   = 4000002;
 	
 	
-	
-	
-	
-	
-	
+	MSG_PROXYSVR_MSGID_END 		= 4999999;
 	///////////////////////////////////////
 	/////////////////////////////
 	//////////////////////////////////////
