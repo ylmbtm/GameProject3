@@ -71,7 +71,7 @@ BOOL CConnection::DoReceive()
 {
 	WSABUF  DataBuf;
 
-	DataBuf.len = CONST_BUFF_SIZE - m_dwDataLen;
+	DataBuf.len = RECV_BUF_SIZE - m_dwDataLen;
 	DataBuf.buf = m_pRecvBuf + m_dwDataLen;
 
 	DWORD dwRecvBytes = 0, dwFlags = 0;
@@ -263,7 +263,7 @@ BOOL CConnection::ExtractBuffer()
 		}
 
 		//////////////////////////////////////////////////////////////////////////
-		if((pHeader->dwSize > m_dwDataLen)  && (pHeader->dwSize < CONST_BUFF_SIZE))
+		if((pHeader->dwSize > m_dwDataLen)  && (pHeader->dwSize < RECV_BUF_SIZE))
 		{
 			break;
 		}
@@ -479,7 +479,7 @@ BOOL CConnection::DoSend()
 	{
 		IDataBuffer *pDataBuffer = (IDataBuffer *)m_SendBuffList[i];
 
-		if((nSendSize + pDataBuffer->GetTotalLenth())>CONST_BUFF_SIZE)
+		if((nSendSize + pDataBuffer->GetTotalLenth())>RECV_BUF_SIZE)
 		{
 			break;
 		}
@@ -496,7 +496,7 @@ BOOL CConnection::DoSend()
 	}
 	else
 	{
-		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(CONST_BUFF_SIZE);
+		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
 		int nCurPos = 0;
 		for(int i = 0; i < nSendCount; i++)
 		{

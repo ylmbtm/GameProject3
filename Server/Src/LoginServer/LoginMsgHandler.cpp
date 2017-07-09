@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "../Message/Msg_ID.pb.h"
 #include "CommandDef.h"
-#include "GameDefine.h"
 #include "LoginMsgHandler.h"
 #include "Utility/Log/Log.h"
 #include "Utility/CommonFunc.h"
@@ -86,7 +85,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket )
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 	
 	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
 	return TRUE;
@@ -99,7 +98,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
 
@@ -114,7 +113,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginRegReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGINREG_REQ, nConnID, 0, Req);
 
@@ -127,24 +126,20 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
-
 	ClientServerListAck Ack;
-
-	LogicSvrManager::TNodeTypePtr pNode = m_LogicSvrMgr.MoveFirst();
-	while(pNode != NULL)
-	{
-		LogicServerNode *pTempNode = pNode->GetValue();
-		if(pTempNode == NULL)
-		{
-			ASSERT_FAIELD;
-		}
+	//LogicSvrManager::TNodeTypePtr pNode = m_LogicSvrMgr.MoveFirst();
+	//while(pNode != NULL)
+	//{
+	//	LogicServerNode *pTempNode = pNode->GetValue();
+	//	if(pTempNode == NULL)
+	//	{
+	//		ASSERT_FAIELD;
+	//	}
 
 		ClientServerNode *pClientNode =  Ack.add_svrnode();
 		pClientNode->set_svrid(201);
 		pClientNode->set_svrname("天龙八部");
-	}
+	//}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
 }

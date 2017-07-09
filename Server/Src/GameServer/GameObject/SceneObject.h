@@ -1,8 +1,19 @@
 ﻿#ifndef _SCENE_OBJECT_H_
 #define _SCENE_OBJECT_H_
-#include "WorldObject.h"
+#include "Utility/Position.h"
+#include "../Message/Msg_Move.pb.h"
 
-class CSceneObject : public CWorldObject
+enum  OBJECT_STATE
+{
+    BS_Static = 1,  ///停
+    BS_Walk = 2,    ///移动
+    BS_DIE = 3,   ///死亡
+};
+
+
+
+class CScene;
+class CSceneObject
 {
 public:
 	CSceneObject();
@@ -11,22 +22,52 @@ public:
 public:
 
 	BOOL			SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
-public:
+    BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 	BOOL			OnUpdate(UINT32 dwTick);
 
 public:
-	BOOL            StartSkill();
+    UINT32          GetHp();
+    VOID            AddHp(UINT32 dwValue);
+    VOID            SubHp(UINT32 dwValue);
 
-	BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
+    UINT64          GetObjectID();
+
+    BOOL            IsEnterCopy();
+    BOOL            IsDie();
+
+    BOOL            SaveNewObject(ObjectNewNty &Nty);
+    BOOL            SaveUpdateObject(ObjectUpdateNty &Nty);
+
+    VOID            SetChanged();
+
 public:
 	//对象成员
-	UINT64 m_uID;			//ID
-	UINT32 m_dwType;		//对象Type 1:玩家，2: 3:
-	UINT32 m_dwObjType;		//对象实例type
-	std::string m_strName;
+    //////////////////////////////////////////////////////////
+	UINT64          m_uID;			    //ID
+	UINT32          m_dwType;		    //对象Type 1:玩家，2: 3:
+	UINT32          m_dwObjType;		//对象实例type,玩家就是职业，怪就是怪的静态ID
+	std::string     m_strName;          //对象的名字
+    
+    //对象的连接情况，仅玩家有效
+    ////////////////////////////////////////////////////////////////
+	UINT32          m_dwProxyConnID;
+	UINT32          m_dwClientConnID;
 
-	UINT32      m_dwProxyConnID;
-	UINT32      m_dwClientConnID;
+
+    //对象的基本信息
+     ////////////////////////////////////////////////////////////////
+    CPosition		m_Pos;    //对象的位置方向等信息
+    UINT32          m_dwObjState;  //对象当前的状态
+    UINT32          m_dwHp;   //对象的当前血量
+    UINT32          m_dwProperty[11]; //11个属性的数值
+
+
+
+    //对象的一些标记
+    CScene			*m_pScene;		
+    BOOL            m_bEnter;  //玩家是否己经进入副本
+    BOOL            m_bChanged;
+    
 
 };
 

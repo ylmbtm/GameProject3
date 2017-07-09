@@ -28,7 +28,7 @@ public:
 protected:
 	CCommonWorkThread				m_WorkThread;
 
-	CDataBuffer<CONST_BUFF_SIZE>	m_WriteBuffer;
+	CDataBuffer<8192>	m_WriteBuffer;
 
 	//*********************消息处理定义开始******************************
 public:

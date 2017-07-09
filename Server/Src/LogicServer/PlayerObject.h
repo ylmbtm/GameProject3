@@ -1,6 +1,5 @@
 ﻿#ifndef __WS_PLAYER_OBJECT_H__
 #define __WS_PLAYER_OBJECT_H__
-#include "GameDefine.h"
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
 #include "ModuleBase.h"
@@ -32,11 +31,11 @@ public:
 
 	virtual BOOL OnCreate(UINT64 u64RoleID);
 
-	virtual BOOL OnDestroy(UINT64 u64RoleID);
+	virtual BOOL OnDestroy();
 
-	virtual BOOL OnLogin(UINT64 u64RoleID);
+	virtual BOOL OnLogin();
 
-	virtual BOOL OnLogout(UINT64 u64RoleID);
+	virtual BOOL OnLogout();
 
 	virtual BOOL OnNewDay();
 

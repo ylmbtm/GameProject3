@@ -100,11 +100,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GameObject\SceneObjectMgr.cpp" />
+    <ClCompile Include="..\Message\Msg_Move.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="GameService.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp" />
@@ -115,13 +116,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameObject\SceneObject.cpp" />
-    <ClCompile Include="GameObject\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameObject\SceneObjectMgr.h" />
+    <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameService.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="GridManager.h" />
     <ClInclude Include="..\..\Common\Utility\Position.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
@@ -131,7 +129,6 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameObject\SceneObject.h" />
-    <ClInclude Include="GameObject\WorldObject.h" />
     <ClInclude Include="..\..\Common\GameDefine.h" />
     <ClInclude Include="..\..\Common\GameStruct.h" />
     <ClInclude Include="..\..\Common\ObjectID.h" />

@@ -8,6 +8,8 @@
 #define  NET_MSG_SEND				2
 #define  NET_MSG_CONNECT			3
 
+#define RECV_BUF_SIZE               8192
+
 #define Hash_Map                    std::map
 
 struct NetIoOperatorData
@@ -80,7 +82,7 @@ public:
 	UINT32						m_dwIpAddr;
 
 	UINT32						m_dwDataLen;
-	CHAR						m_pRecvBuf[CONST_BUFF_SIZE];
+	CHAR						m_pRecvBuf[RECV_BUF_SIZE];
 	CHAR						*m_pBufPos;
 
 	IDataBuffer					*m_pCurRecvBuffer;

@@ -28,7 +28,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkPath("");
 
-	if(!CLog::GetInstancePtr()->StartLog("StatisticsServer", "log"))
+	if(!CLog::GetInstancePtr()->StartLog("LogServer", "log"))
 	{
 		ASSERT_FAIELD;
 		return FALSE;

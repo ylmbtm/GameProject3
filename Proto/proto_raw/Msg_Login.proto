@@ -1,19 +1,19 @@
 syntax = "proto3";
 message CheckVersionReq {
     int32  ClientVerion = 1;
-	string PackageName = 2;
+	string PackageName  = 2;
 	uint32  Channel     = 3;
 }
 
 message CheckVersionAck {
-	uint32 RetCode 		= 1;
+	uint32 RetCode 		 = 1;
     int32  ClientVerion  = 2;
-	string PackageName  = 3;
+	string PackageName   = 3;
 }
 
 message AccountRegReq {
-    string AccountName = 1;
-	string Password    = 2;
+    string  AccountName = 1;
+	string  Password    = 2;
 	uint32  Channel     = 3;
 }
 
@@ -82,8 +82,7 @@ message RoleItem {
 	uint64  ID         = 1;
 	string  Name       = 2;
 	int32   RoleType   = 3;
-	int32   Level  = 4;
-	uint64  Exp = 5;
+	int32   Level		= 4;
 }
 
 message RoleListReq {
@@ -99,8 +98,8 @@ message RoleListAck {
 
 message RoleCreateReq {
     uint64 AccountID = 1;
-	string Name = 3;
-	uint32  RoleType = 4;
+	string Name = 2;
+	uint32  RoleType = 3;
 }
 
 message RoleCreateAck {
@@ -108,7 +107,7 @@ message RoleCreateAck {
 	uint64	 AccountID = 2;
 	uint64   RoleID = 3;
 	string   Name = 4;
-	uint32    RoleType = 5;
+	uint32   RoleType = 5;
 }
 
 
@@ -167,45 +166,6 @@ message RoleSkillReq {
 }
 
 
-message RoleMoveReq {
-    uint64  RoleID = 1;
-	float   x = 2;
-	float   y = 3;
-	float   z = 4;
-	float   d = 5;
-	float   v = 6;
-}
-
-
-
-message RoleMoveNty {
-    uint64  RoleID = 1;
-	float   x = 2;
-	float   y = 3;
-	float   z = 4;
-	float   d = 5;
-}
-
-
-//只做自己发包的确认包用
-message RoleMoveAck {
-    uint32   RetCode = 1;
-}
-
-
-message RoleChangeNotify{
-	uint64   ObjectID = 1;
-	float x = 2;
-	float y = 3;
-	float z = 4;
-	float d = 5;
-	uint32 hp = 6;
-	uint32 mp = 7;
-	uint32 hpmax = 8;
-	uint32 mpmax = 9;
-	
-	
-}
 
 ///创建场景
 message CreateNewSceneReq{
@@ -220,7 +180,6 @@ message CreateNewSceneAck{
 	uint32  CopyID      = 3;
 	uint64  CreateParam = 4;
 	uint32  ServerID    = 5;
-
 }
 
 ////
@@ -302,21 +261,6 @@ message NearByRoleItem {
 	int32  Level = 3;
 	string Name = 4;
 	
-}
-
-message NearByAddNty {
-  repeated NearByRoleItem RoleList = 1;
-}
-
-message NearByDelNty {
-  repeated uint64 RoleList = 1;
-}
-
-message NearByUpdateNty {
-    uint64 RoleID = 1;
-	uint32  RoleType = 2;
-	int32  Level = 3;
-	string Name = 4;
 }
 
 message CopyItem {

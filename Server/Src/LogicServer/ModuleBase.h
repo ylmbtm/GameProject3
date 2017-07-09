@@ -1,6 +1,5 @@
 ﻿#ifndef __CMODULE_BASE_H__
 #define __CMODULE_BASE_H__
-#include "GameDefine.h"
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
 
@@ -15,11 +14,11 @@ public:
 
 	virtual BOOL OnCreate(UINT64 u64RoleID) = 0;
 
-	virtual BOOL OnDestroy(UINT64 u64RoleID) = 0;
+	virtual BOOL OnDestroy() = 0;
 
-	virtual BOOL OnLogin(UINT64 u64RoleID) = 0;
+	virtual BOOL OnLogin() = 0;
 
-	virtual BOOL OnLogout(UINT64 u64RoleID) = 0;
+	virtual BOOL OnLogout() = 0;
 
 	virtual BOOL OnNewDay() = 0;
 

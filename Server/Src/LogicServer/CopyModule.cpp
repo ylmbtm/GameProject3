@@ -18,17 +18,17 @@ BOOL CCopyModule::OnCreate(UINT64 u64RoleID)
 }
 
 
-BOOL CCopyModule::OnDestroy(UINT64 u64RoleID)
+BOOL CCopyModule::OnDestroy()
 {
 	return TRUE;
 }
 
-BOOL CCopyModule::OnLogin(UINT64 u64RoleID)
+BOOL CCopyModule::OnLogin()
 {
 	return TRUE;
 }
 
-BOOL CCopyModule::OnLogout(UINT64 u64RoleID)
+BOOL CCopyModule::OnLogout()
 {
 	return TRUE;
 }

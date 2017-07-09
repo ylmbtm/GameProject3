@@ -4,6 +4,13 @@
 
 CSceneObject::CSceneObject()
 {
+    m_dwProxyConnID = 0;
+    m_dwObjState = 0;
+    m_dwHp = 0;
+    m_dwClientConnID = 0;
+    m_uID = 0;
+    m_bEnter = FALSE;
+    m_bChanged = FALSE;
 }
 
 CSceneObject::~CSceneObject()
@@ -11,8 +18,8 @@ CSceneObject::~CSceneObject()
 
 }
 
-BOOL CSceneObject::StartSkill()
-{
+//BOOL CSceneObject::StartSkill()
+//{
 	//UINT32 SkillID;
 	//UINT32 targets[1];
 	//BOOL bKill;
@@ -58,8 +65,8 @@ BOOL CSceneObject::StartSkill()
 	2. 不能移动。
 	*/
 
-	return TRUE;
-}
+	//return TRUE;
+//}
 
 BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 {
@@ -87,5 +94,73 @@ BOOL CSceneObject::OnUpdate( UINT32 dwTick )
 {
 
 	return TRUE;
+}
+
+UINT32 CSceneObject::GetHp()
+{
+    return m_dwHp;
+}
+
+VOID CSceneObject::AddHp( UINT32 dwValue )
+{
+    m_dwHp += dwValue;
+}
+
+VOID CSceneObject::SubHp( UINT32 dwValue )
+{
+    if(m_dwHp <= dwValue)
+    {
+        m_dwHp = 0;
+    }
+
+    m_dwHp -= dwValue;
+}
+
+UINT64 CSceneObject::GetObjectID()
+{
+    return m_uID;
+}
+
+BOOL CSceneObject::IsEnterCopy()
+{
+    return m_bEnter;
+}
+
+BOOL CSceneObject::SaveNewObject( ObjectNewNty &Nty )
+{
+    return TRUE;
+}
+
+BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
+{
+    if(!m_bChanged)
+    {
+        return TRUE;
+    }
+
+    ObjectUpdate *pUpdate = Nty.add_updatelist();
+    pUpdate->set_roleid(m_uID);
+    pUpdate->set_x(m_Pos.x);
+    pUpdate->set_z(m_Pos.z);
+    pUpdate->set_d(m_Pos.d);
+    pUpdate->set_y(m_Pos.y);
+    pUpdate->set_objstate(m_dwObjState);
+
+    return TRUE;
+}
+
+BOOL CSceneObject::IsDie()
+{
+    if(m_dwHp <= 0)
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+VOID CSceneObject::SetChanged()
+{
+    m_bChanged = TRUE;
 }
 

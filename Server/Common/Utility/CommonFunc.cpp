@@ -18,23 +18,23 @@ UINT32 CommonFunc::GetProcessorNum()
 
 std::string CommonFunc::GetCurrentDir()
 {
-	char szPath[MAX_PATH_LEN];
+	char szPath[1024];
 
 #ifdef WIN32
-	_getcwd(szPath, MAX_PATH_LEN);
+	_getcwd(szPath, 1024);
 #else
-	getcwd(szPath, MAX_PATH_LEN);
+	getcwd(szPath, 1024);
 #endif
 	return std::string(szPath);
 }
 
 std::string CommonFunc::GetCurrentExeDir()
 {
-	char szPath[MAX_PATH_LEN];
+	char szPath[1024];
 
 #ifdef WIN32
-	ZeroMemory(szPath, MAX_PATH_LEN);
-	GetModuleFileName(NULL, szPath, MAX_PATH_LEN);
+	ZeroMemory(szPath, 1024);
+	GetModuleFileName(NULL, szPath, 1024);
 	char *p = strrchr(szPath, '\\');
 	*p = 0;
 #else

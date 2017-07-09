@@ -3,6 +3,7 @@
 #include "..\GameServer\GameService.h"
 #include "Sqlite\CppSQLite3.h"
 #include "Utility\CommonFunc.h"
+#include "Utility\Log\Log.h"
 
 CSimpleManager::CSimpleManager()
 {
@@ -36,7 +37,7 @@ BOOL CSimpleManager::LoadSimpleData()
 	}
 	catch(CppSQLite3Exception& e)  
 	{  
-		printf("%s",e.errorMessage());  
+		LOG_ERROR;
 		return FALSE;
 	}  
 
@@ -53,6 +54,8 @@ BOOL CSimpleManager::LoadSimpleData()
 
 		TableNames.nextRow();
 	}
+
+    m_u64MaxID+=1;
 	//DBConnection.close();
 
 	return TRUE;
@@ -201,6 +204,7 @@ UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )
 
 UINT64 CSimpleManager::MakeNewRoleID()
 {
+    CLog::GetInstancePtr()->LogError(" CSimpleManager::MakeNewRoleID:%lld", m_u64MaxID);
     return m_u64MaxID++;
 }
 

@@ -8,6 +8,7 @@
 #include "GameSvrMgr.h"
 #include "..\GameServer\GameService.h"
 #include "..\Message\Msg_RetCode.pb.h"
+#include "Utility\Log\Log.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -22,12 +23,10 @@ CPlayerObject::~CPlayerObject()
 BOOL CPlayerObject::Init()
 {
 	m_u64ID = 0;
-
 	m_dwProxyConnID = 0;
+    m_dwClientConnID = 0;
 
-	CreateAllModule();
-
-	return TRUE;
+	return CreateAllModule();
 }
 
 BOOL CPlayerObject::Uninit()
@@ -48,32 +47,32 @@ BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 	return TRUE;
 }
 
-BOOL CPlayerObject::OnDestroy(UINT64 u64RoleID)
+BOOL CPlayerObject::OnDestroy()
 {
 	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
-		pBase->OnDestroy(u64RoleID);
+		pBase->OnDestroy();
 	}
 	return TRUE;
 }
 
-BOOL CPlayerObject::OnLogin(UINT64 u64RoleID)
+BOOL CPlayerObject::OnLogin()
 {
 	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
-		pBase->OnLogin(u64RoleID);
+		pBase->OnLogin();
 	}
 	return TRUE;
 }
 
-BOOL CPlayerObject::OnLogout(UINT64 u64RoleID)
+BOOL CPlayerObject::OnLogout()
 {
 	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
-		pBase->OnLogout(u64RoleID);
+		pBase->OnLogout();
 	}
 	return TRUE;
 }
@@ -122,10 +121,16 @@ BOOL CPlayerObject::CreateAllModule()
 
 BOOL CPlayerObject::DestroyAllModule()
 {
-	for(int i = MT_ROLE+1; i< MT_END; i++)
+	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
-		pBase->OnDestroy(m_u64ID);
+        if(pBase == NULL)
+        {
+            LOG_ERROR;
+            continue;
+        }
+
+		pBase->OnDestroy();
 		delete pBase;
 	}
 
@@ -137,9 +142,6 @@ BOOL CPlayerObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message
 {
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
 }
-
-
-
 
 BOOL CPlayerObject::OnModuleFnished()
 {
@@ -238,6 +240,11 @@ BOOL CPlayerObject::SetAllModuleOK()
 	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
 	{
 		CModuleBase *pBase = *itor;
+        if(pBase == NULL)
+        {
+            LOG_ERROR;
+            continue;
+        }
 
 		pBase->m_bIsDataOK = TRUE;
 	}
@@ -249,6 +256,7 @@ CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
 {
 	if(MType >= m_MoudleList.size())
 	{
+        LOG_ERROR
 		return NULL;
 	}
 

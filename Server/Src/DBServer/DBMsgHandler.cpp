@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
-#include "GameDefine.h"
 #include "DBMsgHandler.h"
 #include "Utility/Log/Log.h"
 #include "Utility/CommonFunc.h"

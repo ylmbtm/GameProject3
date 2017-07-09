@@ -14,11 +14,11 @@ public:
 public:
 	virtual BOOL OnCreate(UINT64 u64RoleID);
 	
-	virtual BOOL OnDestroy(UINT64 u64RoleID);
+	virtual BOOL OnDestroy();
 
-	virtual BOOL OnLogin(UINT64 u64RoleID);
+	virtual BOOL OnLogin();
 
-	virtual BOOL OnLogout(UINT64 u64RoleID);
+	virtual BOOL OnLogout();
 
 	virtual BOOL OnNewDay();
 

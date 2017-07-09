@@ -2,7 +2,6 @@
 #define __PLATFORM_H__
 
 #include "TypeDef.h"
-#include "GameDefine.h"
 #include <errno.h>
 
 #ifdef WIN32

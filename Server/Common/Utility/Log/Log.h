@@ -46,5 +46,23 @@ protected:
 	INT32				m_LogLevel;
 };
 
+#define LOG_ERROR  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);
+
+#define ERROR_RETURN_TRUE(P) \
+    if(P == FALSE)\
+    {\
+        CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+        ASSERT_FAIELD; \
+        return TRUE;	\
+    }
+
+
+#define ERROR_RETURN_FALSE(P) \
+    if(P == FALSE)\
+    {\
+        CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+        ASSERT_FAIELD; \
+        return TRUE;	\
+    }
 
 #endif

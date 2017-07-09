@@ -48,7 +48,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 {
 	//选择一个可用的副本服务器
 	UINT32 dwServerID = GetFreeGameServerID();
-	if(dwServerID == INVALIDE_SERVERID)
+	if(dwServerID == 0)
 	{
 		ASSERT_FAIELD;
 		//没有找到可用的场景服务器，或者说没有找到可用的副本服务器
@@ -110,7 +110,9 @@ BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID)
 		return FALSE;
 	}
 
+    pPlayer->SendToScene(dwCopyID, dwSvrID);
 
+    return TRUE;
 }
 
 BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)

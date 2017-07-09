@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
-#include "GameDefine.h"
 #include "AccountMsgHandler.h"
 #include "Utility/Log/Log.h"
 #include "Utility/CommonFunc.h"
@@ -69,7 +68,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 
 	PacketHeader *pHeader = (PacketHeader *) pPacket->m_pDataBuffer->GetBuffer();
 
-	ASSERT(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	AccountRegAck Ack;
 
@@ -117,7 +116,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
 	PacketHeader *pHeader = (PacketHeader *) pPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 
 	AccountLoginAck Ack;
