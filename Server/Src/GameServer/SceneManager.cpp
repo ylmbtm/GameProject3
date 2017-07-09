@@ -76,11 +76,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 {
 	BOOL bHandled = TRUE;
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
-	if(pPacketHeader == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_TRUE(pPacketHeader != NULL);
 
 	switch(pNetPacket->m_dwMsgID)
 	{
@@ -158,10 +154,7 @@ BOOL CSceneManager::SendCopyReport()
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); itor++)
 	{
 		CScene *pScene = itor->second;
-		if(pScene == NULL)
-		{
-			ASSERT_FAIELD;
-		}
+		ERROR_RETURN_FALSE(pScene != NULL);
 
 		CopyItem *pItem = Req.add_copylist();
 		pItem->set_copyid(pScene->GetCopyID());
@@ -210,27 +203,6 @@ BOOL CSceneManager::LoadMainScene()
 
 		return FALSE;
 	}
-
-	//if(!CreateScene(1, MakeCopyID(1), 1))
-	//{
-	//	ASSERT_FAIELD;
-
-	//	return FALSE;
-	//}
-
-	//if(!CreateScene(1, MakeCopyID(1), 1))
-	//{
-	//	ASSERT_FAIELD;
-
-	//	return FALSE;
-	//}
-
-	//if(!CreateScene(1, MakeCopyID(1), 1))
-	//{
-	//	ASSERT_FAIELD;
-	//
-	//	return FALSE;
-	//}
 
 	return TRUE;
 }

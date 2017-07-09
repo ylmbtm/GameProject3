@@ -151,14 +151,10 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	UINT32 SvrConnID =m_LogicSvrMgr.GetLogicConnID(Req.serverid());
-	if(SvrConnID == 0)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+    ERROR_RETURN_TRUE(SvrConnID != 0);
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req);
 
@@ -172,7 +168,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket *pPacket )
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pHeader->dwUserData;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 	
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_REG_ACK, 0, 0, Ack);
 
@@ -188,7 +184,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket *pPacket )
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pHeader->dwUserData;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	if(Ack.lastsvrid() == 0)
 	{
@@ -218,14 +214,10 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nConnID = pPacket->m_dwConnID;
-	ASSERT(nConnID != 0);
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	LogicServerNode *pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.serverid());
-	if(pNode == NULL)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(pNode!= NULL);
 
 	//Ack.set_serveraddr(pNode->strIpAddr);
 	//Ack.set_serverport(pNode->dwPort);

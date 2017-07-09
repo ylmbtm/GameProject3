@@ -66,7 +66,7 @@ BOOL CNetManager::WorkThread_Listen()
 		CConnection *pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			CLog::GetInstancePtr()->AddLog("新连接,提交数据请求!");
+			//CLog::GetInstancePtr()->AddLog("新连接,提交数据请求!");
 
 			pConnection->SetConnectionOK(TRUE);
 
@@ -214,7 +214,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				{
 					if(bRetValue)
 					{
-						CLog::GetInstancePtr()->AddLog("连接其它服务器成功!");
+						//CLog::GetInstancePtr()->AddLog("连接其它服务器成功!");
 
 						pConnection->SetConnectionOK(TRUE);
 						m_pBufferHandler->OnNewConnect(pConnection);
@@ -226,7 +226,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					}
 					else
 					{
-						CLog::GetInstancePtr()->AddLog("连接其它服务器失败!");
+						//CLog::GetInstancePtr()->AddLog("连接其它服务器失败!");
 						pConnection->SetConnectionOK(FALSE);
 
 						pConnection->Close();
@@ -686,31 +686,17 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 
 BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char *pData ,UINT32 dwLen)
 {
-	if(dwConnID == 0)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(dwConnID != 0);
 	CConnection *pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
-	ASSERT(pConn != NULL);
-	
+	ERROR_RETURN_FALSE(pConn != NULL);
 	return pConn->SendMessage(dwMsgID, u64TargetID, dwUserData, pData, dwLen);
 }
 
 BOOL CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer *pBuffer)
 {
-	if(dwConnID == 0)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(dwConnID != 0);
 	CConnection *pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
-	ASSERT(pConn != NULL);
-
+	ERROR_RETURN_FALSE(pConn != NULL);
 	return pConn->SendBuffer(pBuffer);
 }
 

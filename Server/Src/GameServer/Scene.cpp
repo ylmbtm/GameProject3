@@ -58,12 +58,8 @@ BOOL CScene::Uninit()
 BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 {
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
-	if(pPacketHeader == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
+	ERROR_RETURN_TRUE(pPacketHeader != NULL);
+	
 	switch(pPacketHeader->dwMsgID)
 	{
 		PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_REQ,   OnMsgTransRoleDataReq);
@@ -89,11 +85,8 @@ BOOL CScene::OnMsgRoleMoveReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	
 	CSceneObject *pSceneObj = GetPlayer(Req.roleid());
-	if(pSceneObj == NULL)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(pSceneObj != NULL);
+	
     pSceneObj->m_dwObjState =  Req.objstate();
     pSceneObj->m_Pos.x = Req.x();
     pSceneObj->m_Pos.y = Req.y();
@@ -122,11 +115,7 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
         CSceneObject *pOther = itor->second;
-        if(pOther == NULL)
-        {
-            ASSERT_FAIELD;
-            return FALSE;
-        }
+        ERROR_RETURN_FALSE(pOther != NULL)
         
         if(!pOther->IsEnterCopy())
         {
@@ -151,11 +140,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	CSceneObject *pSceneObject = GetPlayer(Req.roleid());
-	if(pSceneObject == NULL)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(pSceneObject != NULL);
 
     BroadRemoveObject(pSceneObject);
 
@@ -222,7 +207,7 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	TransRoleDataReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->u64TargetID != 0);
+	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	//根据数据创建宠物，英雄
 	CSceneObject *pSceneObject = new CSceneObject;
@@ -248,11 +233,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	CSceneObject *pSceneObj = GetPlayer(Req.roleid());
-	if(pSceneObj == NULL)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(pSceneObj != NULL);
 
 	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
 
@@ -291,11 +272,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
         CSceneObject *pOther = itor->second;
-        if(pOther == NULL)
-        {
-            ASSERT_FAIELD;
-            return FALSE;
-        }
+        ERROR_RETURN_FALSE(pOther != NULL);
 
         if(pOther->GetObjectID() == pSceneObject->GetObjectID())
         {
@@ -318,11 +295,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
         CSceneObject *pOther = itor->second;
-        if(pOther == NULL)
-        {
-            ASSERT_FAIELD;
-            return FALSE;
-        }
+        ERROR_RETURN_FALSE(pOther != NULL);
 
         if(pOther->GetObjectID() == pSceneObject->GetObjectID())
         {
@@ -353,11 +326,7 @@ CSceneObject* CScene::GetPlayer( UINT64 uID )
 
 BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
 {
-    if(pSceneObject == NULL)
-    {
-        ASSERT_FAIELD;
-        return FALSE;
-    }
+    ERROR_RETURN_FALSE(pSceneObject != NULL);
 
     m_PlayerMap.insert(std::make_pair(pSceneObject->GetObjectID(), pSceneObject));
 

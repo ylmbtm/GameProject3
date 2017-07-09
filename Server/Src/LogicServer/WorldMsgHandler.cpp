@@ -61,11 +61,7 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 			PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 			
 			CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
-			if(pPlayer == NULL)
-			{
-				ASSERT_FAIELD;
-			}
-
+			ERROR_RETURN_FALSE(pPlayer != NULL);
 			pPlayer->DispatchPacket(pNetPacket);
 		}
 		break;
@@ -81,7 +77,7 @@ BOOL CWorldMsgHandler::OnMsgSelectServerReq(NetPacket *pNetPacket)
 	SelectServerReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	SelectServerAck Ack;
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_logincode(12345678);
@@ -104,7 +100,7 @@ BOOL CWorldMsgHandler::OnMsgRoleListAck(NetPacket *pNetPacket)
 	RoleListAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ASSERT(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->u64TargetID,  MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
 }
 
@@ -168,7 +164,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	if(pPlayer == NULL)
 	{
-        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(), MSG_ROLE_LOGIN_REQ, 0, pHeader->dwUserData, Req);
+        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(), MSG_ROLE_LOGIN_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
         return TRUE;
 	}
 
@@ -176,10 +172,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket *pNetPacket)
 
     pPlayer->OnLogin();
 
-	RoleLoginAck Ack;
-	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LOGIN_ACK, pNetPacket->m_dwConnID, pHeader->dwUserData, Ack);
-
+    pPlayer->SendRoleLoginAck();
 	return TRUE;
 }
 
@@ -206,14 +199,8 @@ BOOL CWorldMsgHandler::OnMsgRoleLogoutReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	CPlayerManager::GetInstancePtr()->DeletePlayer(Req.roleid());
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-	if(pPlayer == NULL)
-	{
-        ASSERT_FAIELD;
-        return TRUE;
-	}
-
+	ERROR_RETURN_TRUE(pPlayer != NULL);
     pPlayer->OnLogout();
-
 	RoleLogoutAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LOGOUT_ACK, 0, pHeader->dwUserData, Ack);
@@ -228,11 +215,8 @@ BOOL CWorldMsgHandler::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.roleid());
-	if(pPlayer == NULL)
-	{
-		return FALSE;
-	}
-	
+    ERROR_RETURN_FALSE(pPlayer != NULL);
+
 	pPlayer->SendNotifyIntoScene(Ack.copyid(), Ack.copytype(), Ack.serverid());
 
 	return TRUE;
@@ -322,22 +306,12 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-	if(pPlayer == NULL)
-	{
-		return TRUE;
-	}
-
-	if(pPlayer->m_dwCopyID != Req.copyid())
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
-
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+	ERROR_RETURN_TRUE(pPlayer->m_dwCopyID != Req.copyid());
+	
 	LeaveSceneReq LeaveReq;
 	LeaveReq.set_roleid(Req.roleid());
-
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(pPlayer->m_dwCopySvrID), MSG_LEAVE_SCENE_REQ, Req.roleid(), 0, LeaveReq);
-
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToScene(Req.roleid(), 1, 1);
 
 	return TRUE;

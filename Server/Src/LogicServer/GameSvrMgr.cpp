@@ -104,14 +104,10 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID)
 {
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uID);
-	if(pPlayer == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
-    pPlayer->SendToScene(dwCopyID, dwSvrID);
-
+    ERROR_RETURN_FALSE(pPlayer != NULL);
+    UINT32 dwConnID = GetConnIDBySvrID(dwSvrID);
+    ERROR_RETURN_FALSE(dwConnID != 0);
+    ERROR_RETURN_FALSE(pPlayer->SendToScene(dwCopyID, dwConnID));
     return TRUE;
 }
 

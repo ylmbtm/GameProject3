@@ -46,9 +46,10 @@ public:
 	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 public: //全部是操作方法
-	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwSvrID);
+	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwConnID);
 	BOOL	SendNotifyIntoScene(UINT32 dwCopyID,  UINT32 dwCopyType,UINT32 dwSvrID);
 	BOOL	SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID);
+    BOOL    SendRoleLoginAck();
 
 	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 

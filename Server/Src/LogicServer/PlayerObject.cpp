@@ -155,21 +155,7 @@ BOOL CPlayerObject::OnModuleFnished()
 	    ///发玩家自己的数据给玩家
 		///发视野里的玩家给玩家
 
-		CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
-		RoleLoginAck Ack;
-
-		SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
-
-		TransRoleDataReq Req;
-		Req.set_roleid(m_u64ID);
-		Req.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
-		Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
-		Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
-
-		UINT32 dwSvrID, dwConnID, dwCopyID;
-
-		CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, 0, dwCopyID, Req);
+        OnAllModuleOK();
 	}
 
 	return TRUE;
@@ -191,23 +177,27 @@ BOOL CPlayerObject::IsAllModuleOK()
 
 BOOL CPlayerObject::OnAllModuleOK()
 {
-	RoleLoginAck Ack;
-	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_ROLE_LOGIN_ACK, 0, m_dwClientConnID, Ack);
+    SendRoleLoginAck();
 
-	SendToScene(1,1);
+    UINT32 dwSvrID, dwConnID, dwCopyID;
+
+    CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
+
+    SendToScene(dwCopyID, dwConnID);
 
 	return TRUE;
 }
 
 
-BOOL CPlayerObject::SendToScene(UINT32 dwCopyID,UINT32 dwSvrID)
+BOOL CPlayerObject::SendToScene(UINT32 dwCopyID, UINT32 dwConnID)
 {
-	TransRoleDataReq Req;
-	Req.set_roleid(m_u64ID);
-	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, 0, Req);
-
+    CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
+    TransRoleDataReq Req;
+    Req.set_roleid(m_u64ID);
+    Req.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
+    Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
+    Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, dwCopyID, Req);
 	return TRUE;
 }
 
@@ -217,8 +207,7 @@ BOOL CPlayerObject::SendNotifyIntoScene(UINT32 dwCopyID, UINT32 dwCopyType, UINT
 	Nty.set_copytype(dwCopyType);
 	Nty.set_copyid(dwCopyID);
 	Nty.set_serverid(dwSvrID);
-	SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty);
-
+	ERROR_RETURN_FALSE(SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty));
 	return TRUE;
 }
 
@@ -266,6 +255,20 @@ CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
 UINT64 CPlayerObject::GetObjectID()
 {
 	return m_u64ID;
+}
+
+BOOL CPlayerObject::SendRoleLoginAck()
+{
+    CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
+    RoleLoginAck Ack;
+    Ack.set_retcode(MRC_SUCCESSED);
+    Ack.set_accountid(pModule->m_pRoleDataObject->m_u64AccountID);
+    Ack.set_roleid(m_u64ID);
+    Ack.set_name(pModule->m_pRoleDataObject->m_szName);
+    Ack.set_level(1);
+    Ack.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
+    ERROR_RETURN_FALSE(SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack));
+    return TRUE;
 }
 
 
