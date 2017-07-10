@@ -20,9 +20,9 @@ CPlayerObject::~CPlayerObject()
 
 }
 
-BOOL CPlayerObject::Init()
+BOOL CPlayerObject::Init(UINT64 u64ID)
 {
-	m_u64ID = 0;
+	m_u64ID = u64ID;
 	m_dwProxyConnID = 0;
     m_dwClientConnID = 0;
 
@@ -155,6 +155,7 @@ BOOL CPlayerObject::OnModuleFnished()
 	    ///发玩家自己的数据给玩家
 		///发视野里的玩家给玩家
 
+		CLog::GetInstancePtr()->AddLog("===========OnAllModuleFinished=============");
         OnAllModuleOK();
 	}
 

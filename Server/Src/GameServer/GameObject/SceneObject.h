@@ -33,6 +33,7 @@ public:
     UINT64          GetObjectID();
 
     BOOL            IsEnterCopy();
+	VOID			SetEnterCopy();
     BOOL            IsDie();
 
     BOOL            SaveNewObject(ObjectNewNty &Nty);

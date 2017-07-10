@@ -217,6 +217,10 @@ BOOL CConnection::ExtractBuffer()
 				m_dwDataLen -= m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
 				m_pBufPos += m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurBufferSize);
+				if(m_pCurRecvBuffer->GetRef() > 1)
+				{
+					ASSERT_FAIELD;
+				}
 				m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, this);
 				m_pCurRecvBuffer = NULL;
 			}
@@ -280,6 +284,11 @@ BOOL CConnection::ExtractBuffer()
 
 			pDataBuffer->SetTotalLenth(pHeader->dwSize);
 
+			if(pDataBuffer->GetRef() > 1)
+			{
+				ASSERT_FAIELD;
+			}
+
 			m_pDataHandler->OnDataHandle(pDataBuffer, this);
 		}
 		else
@@ -315,6 +324,7 @@ BOOL CConnection::Close()
     m_hSocket           = INVALID_SOCKET;
     m_bConnected        = FALSE;
     m_dwDataLen         = 0;
+	m_IsSending			= FALSE;
 
 	return TRUE;
 }
@@ -526,6 +536,8 @@ BOOL CConnection::DoSend()
 			CLog::GetInstancePtr()->AddLog("发送线程:直接发送功数据%d!", dwSendBytes);
 		}
 
+		m_IsSending = TRUE;
+
 	}
 	else if( nRet == -1 ) //发送出错
 	{
@@ -534,6 +546,7 @@ BOOL CConnection::DoSend()
 		{
 			Close();
 			pSendBuffer->Release();
+			m_IsSending = FALSE;
 			CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
 		}
 	}
@@ -550,8 +563,11 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
+	m_IsSending = TRUE;
+
 	if(m_SendBuffList.empty())
 	{
+		m_IsSending = FALSE;
 		return FALSE;
 	}
 
@@ -562,7 +578,7 @@ BOOL CConnection::DoSend()
 	{
 		IDataBuffer *pDataBuffer = (IDataBuffer *)m_SendBuffList[i];
 
-		if((nSendSize + pDataBuffer->GetTotalLenth())>CONST_BUFF_SIZE)
+		if((nSendSize + pDataBuffer->GetTotalLenth())>RECV_BUF_SIZE)
 		{
 			break;
 		}
@@ -579,7 +595,7 @@ BOOL CConnection::DoSend()
 	}
 	else
 	{
-		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(CONST_BUFF_SIZE);
+		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
 		int nCurPos = 0;
 		for(int i = 0; i < nSendCount; i++)
 		{
@@ -600,16 +616,19 @@ BOOL CConnection::DoSend()
 	if(nRet < 0)
 	{
 		int nErr = CommonSocket::GetSocketLastError();
-
 		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
+		pSendBuffer->Release();
+		m_IsSending = FALSE;
 	}
 	else if(nRet < pSendBuffer->GetTotalLenth())
 	{
 		CommonSocket::CloseSocket(m_hSocket);
-
 		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 缓冲区满了!");
+		pSendBuffer->Release();
+		m_IsSending = FALSE;
 	}
 
+	m_IsSending = TRUE;
 	return TRUE;
 }
 

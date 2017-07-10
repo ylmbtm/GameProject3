@@ -34,6 +34,8 @@ CSceneManager::~CSceneManager()
 
 BOOL CSceneManager::Init(BOOL bMainLand)
 {
+	m_MaxCopyBaseID = 1;
+
 	if(bMainLand)
 	{
 		if(!LoadMainScene())
@@ -42,9 +44,6 @@ BOOL CSceneManager::Init(BOOL bMainLand)
 			return FALSE;
 		}
 	}
-
-
-	m_MaxCopyBaseID = 1;
 
 	return TRUE;
 }
@@ -94,11 +93,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 	}
 
 	CScene *pScene = GetSceneByID(pPacketHeader->dwUserData);
-	if(pScene == NULL)
-	{
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(pScene != NULL);
 	pScene->DispatchPacket(pNetPacket);
 		
 	return TRUE;

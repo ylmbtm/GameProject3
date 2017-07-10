@@ -114,6 +114,7 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
+		PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgDefautReq)
 	default:
 		{
 			m_SceneManager.DispatchPacket(pNetPacket);
@@ -213,4 +214,9 @@ BOOL CGameService::RegisterToProxySvr()
 UINT32 CGameService::GetServerID()
 {
 	return m_dwServerID;
+}
+
+BOOL CGameService::OnMsgDefautReq(NetPacket *pNetPacket)
+{
+	return TRUE;
 }

@@ -44,6 +44,9 @@ protected:
 	UINT32              m_dwProxyConnID;
 
 	UINT32				m_dwServerID;
+
+public:
+	BOOL OnMsgDefautReq(NetPacket *pNetPacket);
 };
 
 #endif

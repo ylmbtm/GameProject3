@@ -208,12 +208,19 @@ BOOL ServiceBase::Update()
 	while(m_DataQueue.pop(item))
 	{
 		UINT32 dwTick = GetTickCount();
+		if(item.m_pDataBuffer->GetRef() > 1)
+		{
+			ASSERT_FAIELD;
+		}
+
 		m_pPacketDispatcher->DispatchPacket(&item);
 
 		if((GetTickCount() - dwTick) >10)
 		{
 			CLog::GetInstancePtr()->AddLog("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
 		}
+
+		item.m_pDataBuffer->Release();
 	}
 
 	//处理断开的连接

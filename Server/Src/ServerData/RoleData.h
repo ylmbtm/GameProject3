@@ -15,12 +15,13 @@ struct RoleDataObject : public ShareObject
 	UINT32 m_RoleType;		//角色类型
 	UINT32 m_dwLevel;		//等级
 	UINT64 m_Money[10];		//所有的货币
+	UINT64 m_Action[10];		//所有的体力
 	UINT64 m_dwExp;			//经验
 	UINT32 m_dwLangID;		//语言ID
 	UINT64 m_u64Fight;      //战力
 
 	BOOL Save(IDataBase *pDB)
-	{
+	{ 
 		char szSql[1024];
 		sprintf(szSql, "REPLACE INTO player (id, account_id, name, roletype,level, exp, langid) VALUES(%lld, %lld, '%s', %d, %d, %lld,%d);", \
 			m_u64ID, m_u64AccountID, m_szName, m_RoleType, m_dwLevel, m_dwExp, m_dwLangID);

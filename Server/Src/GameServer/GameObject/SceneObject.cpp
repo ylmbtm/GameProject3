@@ -126,6 +126,11 @@ BOOL CSceneObject::IsEnterCopy()
     return m_bEnter;
 }
 
+VOID CSceneObject::SetEnterCopy()
+{
+	m_bEnter = TRUE;
+}
+
 BOOL CSceneObject::SaveNewObject( ObjectNewNty &Nty )
 {
     return TRUE;

@@ -53,6 +53,7 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_COPY_ABORT_REQ,		OnMsgAbortCopyReq);
 		
 	case MSG_LOGIC_REGTO_LOGIN_ACK:
+	case MSG_ENTER_SCENE_REQ:
 		{
 			break;
 		}
@@ -124,7 +125,7 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pSimpleInfo != NULL);
 	CPlayerObject *pPlayer  = CPlayerManager::GetInstancePtr()->CreatePlayer(u64RoleID);
     ERROR_RETURN_TRUE(pPlayer != NULL);
-	ERROR_RETURN_TRUE(pPlayer->Init());
+	ERROR_RETURN_TRUE(pPlayer->Init(u64RoleID));
 	CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
 	pRoleModule->SetBaseData(u64RoleID, Req.name(), Req.roletype(), Req.accountid(), 1);
 	pPlayer->OnCreate(u64RoleID);
@@ -183,7 +184,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginAck(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->CreatePlayer(Ack.roleid());
-	pPlayer->Init();
+	pPlayer->Init(Ack.roleid());
 	pPlayer->SetConnectID(pHeader->u64TargetID, pHeader->dwUserData);
 	CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
 	pRoleModule->SetBaseData(Ack.roleid(), Ack.name(), Ack.roletype(), Ack.accountid(), 1);
@@ -231,8 +232,6 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
     ERROR_RETURN_TRUE(pPlayer != NULL);
-
-
 
 
 	return TRUE;

@@ -27,15 +27,15 @@ public:
 
 	}
 
+	INT32 GetRef()
+	{
+		return m_dwRefCount;
+	}
+
 	bool AddRef()
 	{
 		m_pManager->m_CritSec.Lock();
 		m_dwRefCount++;
-
-		//if(m_dwRefCount >= 2)
-		//{
-		//	ASSERT_FAIELD;
-		//}
 		m_pManager->m_CritSec.Unlock();
 		return true;
 	}
@@ -44,9 +44,7 @@ public:
 	{
 		ASSERT(m_pManager != NULL);
 		m_pManager->m_CritSec.Lock();
-
 		m_dwRefCount--;
-
 		if(m_dwRefCount < 0)
 		{
 			ASSERT_FAIELD;
@@ -173,6 +171,51 @@ public:
 
 	}
 
+	BOOL DeallocDataBuff()
+	{
+		ASSERT(m_pManager != NULL);
+		m_dwRefCount--;
+
+		if(m_dwRefCount < 0)
+		{
+			ASSERT_FAIELD;
+		}
+
+		if(m_dwRefCount <= 0)
+		{
+			//首先从己用中删除
+			if(m_pManager->m_pUsedList == this)
+			{
+				//自己是首结点
+				m_pManager->m_pUsedList = m_pNext;
+				if(m_pManager->m_pUsedList != NULL)
+				{
+					m_pManager->m_pUsedList->m_pPrev = NULL;
+				}
+			}
+			else
+			{
+				ASSERT(m_pPrev != NULL);
+				m_pPrev->m_pNext = m_pNext;
+				if(m_pNext != NULL)
+				{
+					m_pNext->m_pPrev = m_pPrev;
+				}
+			}
+
+			//再把自己加到己用中
+			m_pNext = m_pManager->m_pFreeList;
+			m_pPrev = NULL;
+			m_pManager->m_pFreeList = this;
+
+			if(m_pNext != NULL)
+			{
+				m_pNext->m_pPrev = this;
+			}
+		}
+		return true;
+	}
+
 	IDataBuffer* AllocDataBuff()
 	{
 		m_CritSec.Lock();
@@ -215,6 +258,11 @@ public:
 		}
 
 		m_CritSec.Unlock();
+
+		if(pDataBuffer->GetRef() != 1)
+		{
+			ASSERT_FAIELD;
+		}
 
 		return pDataBuffer;
 	}

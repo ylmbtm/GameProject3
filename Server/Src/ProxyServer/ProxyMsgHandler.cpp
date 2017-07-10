@@ -81,6 +81,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 			//创建proxyplayer对象
 			OnMsgEnterSceneReq(pNetPacket);
 		}
+		break;
 	default:
 		{
 			if((pPacketHeader->dwMsgID >= MSG_LOGICSVR_MSGID_BEGIN)&&(pPacketHeader->dwMsgID <= MSG_LOGICSVR_MSGID_END))
@@ -283,20 +284,22 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	if(pPlayer != NULL)
 	{
-		pPlayer->SetGameSvrID(Req.serverid());
+		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID);
 	}
 	else
 	{
 		pPlayer = CProxyPlayerMgr::GetInstancePtr()->CreateProxyPlayer(Req.roleid());
-		pPlayer->SetGameSvrID(Req.serverid());
+		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID);
 	}
 
+	UINT32 dwConnID = GetGameSvrConnID(pPacketHeader->u64TargetID);
+	ERROR_RETURN_TRUE(dwConnID != 0)
+	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
+	RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
 	RelayToLogicServer(pNetPacket->m_pDataBuffer);
-
 	return TRUE;
 }

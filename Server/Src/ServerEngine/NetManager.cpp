@@ -198,6 +198,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				if(pConnection != NULL)
 				{
 					pConnection->m_CritSecSendList.Lock();
+					pConnection->m_IsSending = FALSE;
 					pConnection->DoSend();
 					pConnection->m_CritSecSendList.Unlock();
 				}
@@ -486,6 +487,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 		{
 			pConnection->m_IoOverlapSend.pDataBuffer->Release();
 			pConnection->m_CritSecSendList.Lock();
+			pConnection->m_IsSending = FALSE;
 			pConnection->DoSend();
 			pConnection->m_CritSecSendList.Unlock();
 

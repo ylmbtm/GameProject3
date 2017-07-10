@@ -11,7 +11,6 @@ CPlayerManager* CPlayerManager::GetInstancePtr()
 CPlayerObject* CPlayerManager::CreatePlayer(UINT64 u64RoleID)
 {
 	CPlayerObject * pPlayer = CreatePlayerByID(u64RoleID);
-
 	return pPlayer;
 }
 

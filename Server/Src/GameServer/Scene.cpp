@@ -69,7 +69,7 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		
 		default:
 		{
-			
+			return FALSE;
 		}
 		break;
 	}
@@ -165,6 +165,11 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
         CSceneObject *pObj = itor->second;
         ASSERT(pObj != NULL);
 
+		if(!pObj->IsEnterCopy())
+		{
+			continue;
+		}
+
         pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
     }
 
@@ -209,6 +214,9 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
+	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
+	ERROR_RETURN_FALSE(pObject == NULL);
+
 	//根据数据创建宠物，英雄
 	CSceneObject *pSceneObject = new CSceneObject;
 	pSceneObject->m_dwType = OT_PLAYER;
@@ -220,6 +228,10 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
     //有的副本不需要等人齐，有人就可以进
 
 	TransRoleDataAck Ack;
+	Ack.set_copyid(m_dwCopyID);
+	Ack.set_copytype(m_dwCopyType);
+	Ack.set_roleid(pHeader->u64TargetID);
+	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
 
@@ -236,6 +248,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
 
 	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
+	pSceneObj->SetEnterCopy();
 
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
@@ -245,7 +258,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_rolename(pSceneObj->m_strName);
 	Ack.set_roletype(pSceneObj->m_dwObjType);
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ENTER_SCENE_ACK, Req.roleid(), pHeader->dwUserData, Ack);
+
+	pSceneObj->SendProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 
     SendAllNewObjectToPlayer(pSceneObj);
 
