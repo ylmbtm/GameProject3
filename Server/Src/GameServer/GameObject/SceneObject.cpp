@@ -121,6 +121,11 @@ UINT64 CSceneObject::GetObjectID()
     return m_uID;
 }
 
+BOOL CSceneObject::IsConnected()
+{
+	return (m_dwClientConnID != 0)&&(m_dwProxyConnID != 0);
+}
+
 BOOL CSceneObject::IsEnterCopy()
 {
     return m_bEnter;
@@ -144,11 +149,11 @@ BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
     }
 
     ObjectUpdate *pUpdate = Nty.add_updatelist();
-    pUpdate->set_roleid(m_uID);
-    pUpdate->set_x(m_Pos.x);
-    pUpdate->set_z(m_Pos.z);
-    pUpdate->set_d(m_Pos.d);
-    pUpdate->set_y(m_Pos.y);
+    pUpdate->set_objectid(m_uID);
+    pUpdate->set_x(x);
+    pUpdate->set_z(z);
+    pUpdate->set_vx(vx);
+    pUpdate->set_vz(vz);
     pUpdate->set_objstate(m_dwObjState);
 
     return TRUE;

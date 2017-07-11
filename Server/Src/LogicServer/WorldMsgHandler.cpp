@@ -173,7 +173,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket *pNetPacket)
 
     pPlayer->OnLogin();
 
-    pPlayer->SendRoleLoginAck();
+	pPlayer->OnAllModuleOK();
 	return TRUE;
 }
 

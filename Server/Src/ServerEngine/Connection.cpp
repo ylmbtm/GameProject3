@@ -409,6 +409,8 @@ BOOL CConnection::Clear()
 
     m_bConnected = FALSE;
 
+	m_dwConnID = 0;
+
 	m_dwConnData = 0;
 
     m_dwDataLen = 0;
@@ -670,13 +672,21 @@ CConnection* CConnectionMgr::CreateConnection()
 
 CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 {
-    if(dwConnID >= m_vtConnList.size())
+	UINT32 dwIndex = dwConnID % m_vtConnList.size();
+
+    if(dwIndex >= m_vtConnList.size())
     {
         ASSERT_FAIELD;
         return NULL;
     }
 
-    return m_vtConnList.at(dwConnID);
+	CConnection *pConnect = m_vtConnList.at(dwIndex);
+	if(pConnect->GetConnectionID() != dwConnID)
+	{
+		return NULL;
+	}
+
+    return pConnect;
 }
 
 
@@ -702,7 +712,13 @@ VOID CConnectionMgr::DeleteConnection( CConnection *pConnection )
 
     m_pFreeConnRoot = pConnection;
 
+	UINT32 dwConnID = pConnection->GetConnectionID();
+
 	pConnection->Clear();
+
+	dwConnID += m_vtConnList.size();
+
+	pConnection->SetConnectionID(dwConnID);
 
 	return ;
 }

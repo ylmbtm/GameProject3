@@ -66,7 +66,7 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_ROLE_MOVE_REQ,			OnMsgRoleMoveReq);
-		
+		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 		default:
 		{
 			return FALSE;
@@ -84,26 +84,42 @@ BOOL CScene::OnMsgRoleMoveReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	
-	CSceneObject *pSceneObj = GetPlayer(Req.roleid());
+	CSceneObject *pSceneObj = GetPlayer(Req.objectid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
 	
     pSceneObj->m_dwObjState =  Req.objstate();
-    pSceneObj->m_Pos.x = Req.x();
-    pSceneObj->m_Pos.y = Req.y();
-    pSceneObj->m_Pos.z = Req.z();
-    pSceneObj->m_Pos.d = Req.d();
+    pSceneObj->x = Req.x();
+    pSceneObj->z = Req.z();
+    pSceneObj->vx = Req.vx();
+    pSceneObj->vz = Req.vz();
     pSceneObj->SetChanged();
 
-	CLog::GetInstancePtr()->AddLog("响应客户端坐标请求[%lld], 坐标 x =%f, z=%f", pSceneObj->GetObjectID(), pSceneObj->m_Pos.x, pSceneObj->m_Pos.z);
+	CLog::GetInstancePtr()->AddLog("响应客户端坐标请求[%lld], 坐标 x =%f, z=%f", pSceneObj->GetObjectID(), pSceneObj->x, pSceneObj->z);
 
 	return TRUE;
 }
 
 BOOL CScene::OnMsgRoleAttack(NetPacket *pNetPacket)
 {
+
+
 	return TRUE;
 }
 
+
+BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
+{
+	RoleDisconnectReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
+	CSceneObject *pPlayer = GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+	pPlayer->SetConnectID(0, 0);
+
+	return TRUE;
+}
 
 BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
 {
@@ -117,7 +133,7 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
         CSceneObject *pOther = itor->second;
         ERROR_RETURN_FALSE(pOther != NULL)
         
-        if(!pOther->IsEnterCopy())
+        if(!pOther->IsConnected())
         {
             continue;
         }
@@ -160,18 +176,21 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
         pObj->SaveUpdateObject(Nty);
     }
 
-    for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-    {
-        CSceneObject *pObj = itor->second;
-        ASSERT(pObj != NULL);
-
-		if(!pObj->IsEnterCopy())
+	//if(Nty.updatelist_size() <= 0)
+	{
+		for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 		{
-			continue;
-		}
+			CSceneObject *pObj = itor->second;
+			ASSERT(pObj != NULL);
 
-        pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
-    }
+			if(!pObj->IsConnected())
+			{
+				continue;
+			}
+
+			pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
+		}
+	}
 
 	
 	return TRUE;
@@ -316,7 +335,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
             continue;
         }
 
-        if(!pOther->IsEnterCopy())
+        if(!pOther->IsConnected())
         {
             continue;
         }
@@ -351,3 +370,8 @@ BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
 
 
 
+CSceneObject* CScene::GetSceneObject(UINT64 uID)
+{
+
+	return NULL;
+}

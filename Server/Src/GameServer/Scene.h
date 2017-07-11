@@ -33,6 +33,8 @@ public:
     CSceneObject* GetPlayer(UINT64 uID);
     BOOL          AddPlayer(CSceneObject *pSceneObject);
 
+	CSceneObject* GetSceneObject(UINT64 uID);
+
 
 
 public:
@@ -58,7 +60,7 @@ public:
 	BOOL OnMsgLeaveSceneReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleMoveReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleAttack(NetPacket *pNetPacket);
-    
+    BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
     //*********************消息处理定义结束******************************
 };
 

@@ -23,11 +23,13 @@ public:
 public:
 	UINT64	GetGameSvrID();
 
-	VOID	SetGameSvrID(UINT32 dwSvrID);
+	VOID	SetGameSvrID(UINT32 dwSvrID, UINT32 dwCopyID);
 
 	UINT64	GetCharID();
 
 	UINT32  GetConnID();
+
+	UINT32  GetCopyID();
 
 public:
 	UINT64	m_u64RoleID;
@@ -37,6 +39,8 @@ public:
 	UINT32  m_dwConnID;
 
 	UINT32  m_CharState;
+
+	UINT32  m_dwCopyID;
 };
 
 class CProxyPlayerMgr : public AVLTree<UINT64, CProxyPlayer>

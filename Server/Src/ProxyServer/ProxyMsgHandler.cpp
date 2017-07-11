@@ -163,7 +163,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 		return TRUE;
 	}
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, 0, 0,  Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyID(),  Req);
 
 	return TRUE;
 }
@@ -193,8 +193,6 @@ BOOL CProxyMsgHandler::RelayToLogicServer(IDataBuffer *pBuffer )
 	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(CGameService::GetInstancePtr()->GetLogicConnID(), pBuffer))
 	{
-		ASSERT_FAIELD;
-
 		return FALSE;
 	}
 
@@ -213,8 +211,6 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetConnID(), pBuffer))
 	{
-		ASSERT_FAIELD;
-
 		return FALSE;
 	}
 
@@ -226,8 +222,6 @@ BOOL CProxyMsgHandler::RelayToConnect(UINT32 dwConnID, IDataBuffer *pBuffer)
 	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(dwConnID, pBuffer))
 	{
-		ASSERT_FAIELD;
-
 		return FALSE;
 	}
 
@@ -288,12 +282,12 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	if(pPlayer != NULL)
 	{
-		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID);
+		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID, Req.copyid());
 	}
 	else
 	{
 		pPlayer = CProxyPlayerMgr::GetInstancePtr()->CreateProxyPlayer(Req.roleid());
-		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID);
+		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID, Req.copyid());
 	}
 
 	UINT32 dwConnID = GetGameSvrConnID(pPacketHeader->u64TargetID);

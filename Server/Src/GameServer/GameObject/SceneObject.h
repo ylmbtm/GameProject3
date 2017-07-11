@@ -32,6 +32,8 @@ public:
 
     UINT64          GetObjectID();
 
+	BOOL			IsConnected();
+
     BOOL            IsEnterCopy();
 	VOID			SetEnterCopy();
     BOOL            IsDie();
@@ -57,17 +59,18 @@ public:
 
     //对象的基本信息
      ////////////////////////////////////////////////////////////////
-    CPosition		m_Pos;    //对象的位置方向等信息
-    UINT32          m_dwObjState;  //对象当前的状态
-    UINT32          m_dwHp;   //对象的当前血量
+	FLOAT			x, z;			//对象坐标
+	FLOAT           vx,vz;			//对象方向
+    UINT32          m_dwObjState;	//对象当前的状态
+    UINT32          m_dwHp;			//对象的当前血量
     UINT32          m_dwProperty[11]; //11个属性的数值
 
 
 
     //对象的一些标记
-    CScene			*m_pScene;		
-    BOOL            m_bEnter;  //玩家是否己经进入副本
-    BOOL            m_bChanged;
+    CScene			*m_pScene;  //所在场景
+    BOOL            m_bEnter;   //玩家是否己经进入副本
+    BOOL            m_bChanged; //玩家状态是否发生改变
     
 
 };
