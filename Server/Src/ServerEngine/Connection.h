@@ -75,7 +75,7 @@ public:
 	NetIoOperatorData			m_IoOverlapSend;
 
     UINT32                      m_dwConnID;
-	UINT32                      m_dwConnData;
+	UINT64                      m_u64ConnData;
 
 	IDataHandler				*m_pDataHandler;
 

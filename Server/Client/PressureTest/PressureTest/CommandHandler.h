@@ -7,11 +7,19 @@
 #include "ClientConnector\ClientConnector.h"
 
 #define ST_NONE			0
-#define ST_Logining		1
-#define ST_Logined		2
-#define ST_Entering		3
-#define ST_EnterGame	4
-#define ST_Disconnected 5
+#define ST_Register		1
+#define ST_RegisterOK   2
+#define ST_Login		3
+#define ST_LoginOK		4
+#define ST_Entering		5
+#define ST_EnterOK		6
+#define ST_SelectSvr	5
+#define ST_SelectSvrOK	6
+#define ST_RoleList		7
+#define ST_RoleListOk	8
+#define ST_EnterScene	9
+#define ST_EnterSceneOK	10
+#define ST_Disconnected 11
 
 
 class CClientCmdHandler : public IMessageHandler
@@ -22,35 +30,44 @@ public:
 	~CClientCmdHandler(void);
 
 
-	BOOL OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
 	BOOL OnUpdate(UINT32 dwTick);
 
-	BOOL SendNewAccountReq(LPCTSTR szAccountName, LPCTSTR szPassword);
-	BOOL SendNewCharReq(UINT32 dwAccountID,LPCTSTR szCharName, UINT32 dwFeature);
-	BOOL SendDelCharReq(UINT32 dwAccountID,UINT64 dwCharID);
-	BOOL SendPickCharReq(UINT64 u64CharID);
+
+	BOOL SendNewAccountReq(std::string szAccountName, std::string szPassword);
+	BOOL SendAccountLoginReq(std::string szAccountName, std::string szPassword);
+	BOOL SendSelectSvrReq(UINT32 dwSvrID);
+	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwRoleType);
+	BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 dwCharID);
 	BOOL SendLeaveGameReq(UINT64 u64CharID);
-	BOOL SendMoveReq( FLOAT x, FLOAT y, FLOAT z, UINT16 nDir );
+	BOOL SendRoleLoginReq(UINT64 u64CharID);
+	BOOL SendMoveReq(FLOAT x, FLOAT y, FLOAT z, UINT16 nDir);
+	BOOL SendRoleListReq();
+	BOOL SendCopyBattleReq();
+
 
 	//*********************消息处理定义开始******************************
 public:
-	BOOL OnCmdLoginGameAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdEnterGameAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL OnCmdNewAccountAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgSelectServerAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	
 
-	BOOL OnCmdNewAccountAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNewCharAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdDelCharAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
 
 
 	//CMD_CHAR_NEARBY_ADD,			//添加周围的对象
 	//CMD_CHAR_NEARBY_UPDATE,		//更新周围的对象
 	//CMD_CHAR_NEARBY_REMOVE,		//删除周围的对象
 
-	BOOL OnCmdNearByAdd(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNearByUpdate(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNearByRemove(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdUpdateMyself(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL OnCmdNearByAdd(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNearByUpdate(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNearByRemove(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdUpdateMyself(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	
 	//*********************消息处理定义结束******************************
 
@@ -62,6 +79,9 @@ public:
 
 	CClientConnector	m_ClientConnector;
 
+	BOOL				m_bLoginOK;
+
+	UINT64				m_dwAccountID;
 	UINT32				m_dwHostState;
 
 	std::string         m_strAccountName;
@@ -70,6 +90,10 @@ public:
 
 	FLOAT               m_x;
 	FLOAT				m_y;
+
+	UINT32				m_dwCopySvrID;
+	UINT32				m_dwCopyID;
+	UINT32				m_dwCopyType;
 
 public:
 	VOID  MoveHost();

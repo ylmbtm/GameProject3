@@ -65,19 +65,20 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	//CLog::GetInstancePtr()->AddLog("新连接来到!");
+	m_ProxyMsgHandler.OnNewConnect(pConn);
+
 	return TRUE;
 }
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
 		m_dwLogicConnID = 0;
 		ConnectToLogicSvr();
 	}
 
+	m_ProxyMsgHandler.OnCloseConnect(pConn);
 
 	return TRUE;
 }

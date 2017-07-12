@@ -147,14 +147,6 @@ BOOL CPlayerObject::OnModuleFnished()
 {
 	if(IsAllModuleOK())
 	{
-		///发送玩家登录返回的消息
-		///将玩家的数据传到主场景
-		///收到通知进入的消息
-		///通知客户端进入
-		///客户端发进入副本的请求
-	    ///发玩家自己的数据给玩家
-		///发视野里的玩家给玩家
-
 		CLog::GetInstancePtr()->AddLog("===========OnAllModuleFinished=============");
         OnAllModuleOK();
 	}
@@ -178,20 +170,28 @@ BOOL CPlayerObject::IsAllModuleOK()
 
 BOOL CPlayerObject::OnAllModuleOK()
 {
+	///发送玩家登录返回的消息
+	///将玩家的数据传到主场景
+	///收到通知进入的消息
+	///通知客户端进入
+	///客户端发进入副本的请求
+	///发玩家自己的数据给玩家
+	///发视野里的玩家给玩家
+	ERROR_RETURN_FALSE(m_u64ID != 0);
     SendRoleLoginAck();
-
     UINT32 dwSvrID, dwConnID, dwCopyID;
-
     CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
-
+	ERROR_RETURN_FALSE(dwSvrID == 1);
+	ERROR_RETURN_FALSE(dwConnID != 0);
+	ERROR_RETURN_FALSE(dwCopyID != 0);
     SendToScene(dwCopyID, dwConnID);
-
 	return TRUE;
 }
 
-
 BOOL CPlayerObject::SendToScene(UINT32 dwCopyID, UINT32 dwConnID)
 {
+	ERROR_RETURN_FALSE(dwCopyID != 0);
+	ERROR_RETURN_FALSE(dwConnID != 0);
     CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
     TransRoleDataReq Req;
     Req.set_roleid(m_u64ID);
@@ -204,10 +204,16 @@ BOOL CPlayerObject::SendToScene(UINT32 dwCopyID, UINT32 dwConnID)
 
 BOOL CPlayerObject::SendNotifyIntoScene(UINT32 dwCopyID, UINT32 dwCopyType, UINT32 dwSvrID)
 {
+	ERROR_RETURN_FALSE(dwCopyID != 0);
+	ERROR_RETURN_FALSE(dwCopyType != 0);
+	ERROR_RETURN_FALSE(dwSvrID != 0);
+
 	NotifyIntoScene Nty;
 	Nty.set_copytype(dwCopyType);
 	Nty.set_copyid(dwCopyID);
 	Nty.set_serverid(dwSvrID);
+	Nty.set_roleid(m_u64ID);
+	ERROR_RETURN_FALSE(m_u64ID != 0);
 	ERROR_RETURN_FALSE(SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty));
 	return TRUE;
 }
@@ -268,7 +274,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
     Ack.set_name(pModule->m_pRoleDataObject->m_szName);
     Ack.set_level(1);
     Ack.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
-    ERROR_RETURN_FALSE(SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack));
+    SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
     return TRUE;
 }
 

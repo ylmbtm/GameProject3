@@ -1,8 +1,6 @@
 ﻿#include "StdAfx.h"
 #include "ClientConnector.h"
 #include "CommandDef.h"
-#include "Error.h"
-#include "ObjectID.h"
 #include "Utility\CommonSocket.h"
 #include "..\Src\Message\Msg_Login.pb.h"
 #include "PacketHeader.h"
@@ -11,7 +9,10 @@ CClientConnector::CClientConnector(void)
 {
 	m_hSocket		= INVALID_SOCKET;
 
-	m_nDataLen		= 0;
+	m_nDataLen = 0;
+	m_PacketLen = 0;
+	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
+	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
 
 	m_ConnectState	= Not_Connect;
 
@@ -28,7 +29,10 @@ CClientConnector::~CClientConnector(void)
 
 	m_hSocket		= INVALID_SOCKET;
 
-	m_nDataLen		= 0;
+	m_nDataLen = 0;
+	m_PacketLen = 0;
+	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
+	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
 
 	CommonSocket::UninitNetwork();
 }
@@ -65,10 +69,11 @@ BOOL CClientConnector::SendData(UINT32 dwMsgID, const google::protobuf::Message&
 	pHeader->dwMsgID = dwMsgID;
 	pHeader->u64TargetID = u64TargetID;
 	pHeader->dwUserData = dwUserData;
+	pHeader->dwSize = 28 + pdata.ByteSize();
 
 	pdata.SerializePartialToArray(szBuff+28, pdata.ByteSize());
 
-	return SendData( szBuff, pdata.ByteSize());
+	return SendData( szBuff, pdata.ByteSize() + 28);
 }
 
 BOOL CClientConnector::SendData( char *pData, INT32 dwLen )
@@ -79,7 +84,7 @@ BOOL CClientConnector::SendData( char *pData, INT32 dwLen )
 		return FALSE;
 	}
 
-	if((m_ConnectState != Succ_Connect)&&(m_ConnectState != Raw_Connect))
+	if(m_ConnectState != Succ_Connect)
 	{
 		return FALSE;
 	}
@@ -106,13 +111,8 @@ BOOL CClientConnector::SendData( char *pData, INT32 dwLen )
 	return TRUE;
 }
 
-BOOL CClientConnector::Login(const char *pszAccountName, const char *pszPassword, BOOL bConnect)
+BOOL CClientConnector::ConnectLoginSvr(BOOL bConnect)
 {
-	if((pszPassword == NULL)||(pszAccountName == NULL))
-	{
-		return FALSE;
-	}
-
 	if(bConnect)
 	{
 		if(m_strLoginIp.empty())
@@ -130,11 +130,7 @@ BOOL CClientConnector::Login(const char *pszAccountName, const char *pszPassword
 		}
 	}
 
-	AccountLoginReq Req;
-	Req.set_accountname(pszAccountName);
-	Req.set_password(pszPassword);
-	
-	SendData(MSG_ACCOUNT_LOGIN_REQ,Req, 0, 0);
+
 
 	return TRUE;
 }
@@ -181,11 +177,6 @@ BOOL CClientConnector::Render()
 		return FALSE;
 	}
 
-	if(m_ConnectState == Raw_Connect)
-	{
-
-	}
-
 	ReceiveData();
 	
 	while(ProcessData());
@@ -194,74 +185,23 @@ BOOL CClientConnector::Render()
 
 }
 
-BOOL CClientConnector::OnCommandHandle( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
 {
-	switch(wCommandID)
+	switch(dwMsgID)
 	{
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_PICK_CHAR_ACK,	OnCmdPickCharAck);
-
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_HEART_BEAT_ACK,	OnCmdHearBeatAck);
-
 	default:
 		{
 			for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
 			{
 				IMessageHandler *pHandler = *itor;
 
-				if(pHandler->OnCommandHandle(wCommandID, u64ConnID, pBufferHelper))
+				if(pHandler->DispatchPacket(dwMsgID, PacketBuf, BufLen))
 				{
 					break;
 				}
 			}
 		}
 		break;
-	}
-
-	return TRUE;
-}
-
-
-BOOL CClientConnector::OnCmdConnectNotify(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper)
-{
-		StCharEnterGameReq CharEnterGameReq;
-
-		CharEnterGameReq.u64CharID = m_u64ClientID;
-
-		CharEnterGameReq.dwIdentifyCode = m_dwIdentifyCode;
-
-		CHECK_PAYER_ID(m_u64ClientID);
-
-		CBufferHelper WriteHelper(TRUE, 1024);
-
-		WriteHelper.BeginWrite(CMD_CHAR_ENTER_GAME_REQ,0,  CharEnterGameReq.u64CharID);
-
-		WriteHelper.Write(CharEnterGameReq);
-
-		WriteHelper.EndWrite();
-
-		SendData(m_WriteBuffer.GetBuffer(),m_WriteBuffer.GetTotalLenth());
-	
-	return 0;
-}
-
-IDataBuffer* CClientConnector::GetWriteBuffer()
-{
-	return &m_WriteBuffer;
-}
-
-BOOL CClientConnector::OnCmdPickCharAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
-{
-	StCharPickCharAck CharPickCharAck;
-	pBufferHelper->Read(CharPickCharAck);
-
-	CHECK_PAYER_ID(CharPickCharAck.u64CharID);
-
-	if(CharPickCharAck.nRetCode == E_SUCCESSED)
-	{
-		DisConnect();
-		m_u64ClientID = CharPickCharAck.u64CharID;
-		m_dwIdentifyCode = CharPickCharAck.dwIdentifyCode;
-		ConnectToServer(CharPickCharAck.szProxyIpAddr, CharPickCharAck.nProxyPort);
 	}
 
 	return TRUE;
@@ -302,7 +242,7 @@ BOOL CClientConnector::ConnectToServer( std::string strIpAddr, UINT16 sPort )
 
 	CommonSocket::SetSocketUnblock(m_hSocket);
 
-	SetConnectState(Raw_Connect);
+	SetConnectState(Succ_Connect);
 
 	return TRUE;
 }
@@ -315,25 +255,17 @@ BOOL CClientConnector::DisConnect()
 
 	m_ConnectState = Not_Connect;
 
+	m_nDataLen = 0;
+	m_PacketLen = 0;
+	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
+	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
 	return TRUE;
 }
 
 
 void CClientConnector::SetConnectState( ConnectState val )
 {
-	if(val == Not_Connect)
-	{
-		printf("设置未连接!\n");
-	}
-	else if(val == Start_Connect)
-	{
-		printf("设置开始连接!\n");
-	}
-	else if(val == Raw_Connect)
-	{
-		printf("设置己完成原始连接!\n");
-	}
-	else if(val == Succ_Connect)
+	if(val == Succ_Connect)
 	{
 		printf("设置连接成功!\n");
 	}
@@ -377,6 +309,8 @@ BOOL CClientConnector::ReceiveData()
 	else
 	{
 		m_nDataLen += nReadLen;
+
+		printf("================recv data : %d!\n", nReadLen);
 	}
 
 	return TRUE;
@@ -391,7 +325,7 @@ BOOL CClientConnector::ProcessData()
 	}
 
 	PacketHeader *pHeader = (PacketHeader *)m_DataBuffer;
-	if(pHeader->CheckCode != 0xff)
+	if(pHeader->CheckCode != 0x88)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -408,52 +342,23 @@ BOOL CClientConnector::ProcessData()
 		return FALSE;
 	}
 
-	UINT32 dwCheckCode = *(UINT32*)(m_DataBuffer+pHeader->dwSize-4);
-	if(dwCheckCode != 0x11111111)
-	{
-		ASSERT_FAIELD;
-	}
-
-	memcpy(m_ReadBuffer.GetBuffer(), m_DataBuffer, pHeader->dwSize);
-
-	m_ReadBuffer.SetTotalLenth(pHeader->dwSize);
-
+	memcpy(m_PackBuffer, m_DataBuffer, pHeader->dwSize);
+	m_PacketLen = pHeader->dwSize;
 	m_nDataLen -= pHeader->dwSize;
 
 	if(m_nDataLen > 0)
 	{
 		memmove(m_DataBuffer, m_DataBuffer+pHeader->dwSize, m_nDataLen);
 	}
-	else if(m_nDataLen == 0)
-	{
-		printf("直接处理完了一缓冲数据!\n");
-	}
-	else
+	else if(m_nDataLen < 0)
 	{
 		ASSERT_FAIELD;
 	}
 
-	CBufferHelper BufferReader(FALSE, &m_ReadBuffer);
-	if(!BufferReader.BeginRead())
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	PacketHeader *pMsgHeader = (PacketHeader *)m_PackBuffer;
 
-	if((pHeader->wCommandID > CMD_BEGIN_TAG)&&(pHeader->wCommandID < CMD_END_TAG))
-	{
-		OnCommandHandle(pHeader->wCommandID, 0, &BufferReader);
-	}
-	else
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	DispatchPacket(pMsgHeader->dwMsgID, m_PackBuffer + 28, m_PacketLen - 28);
 
-	
-
-	
-	
 	return TRUE;
 }
 
@@ -462,19 +367,6 @@ UINT32 CClientConnector::GetServerTime()
 	UINT32 dwTick = ::GetTickCount();
 
 	return m_dwServerTime + (m_dwServerTick - dwTick)/1000;
-}
-
-BOOL CClientConnector::OnCmdHearBeatAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
-{
-	StCharHeartBeatAck CharHeartBeatAck;
-	pBufferHelper->Read(CharHeartBeatAck);
-
-	UINT32 dwTick = ::GetTickCount();
-
-	m_dwServerTime = CharHeartBeatAck.dwServerTime + (dwTick - CharHeartBeatAck.dwReqTimestamp) /1000;
-	m_dwServerTick = dwTick;
-
-	return TRUE;
 }
 
 BOOL CClientConnector::SetLoginServerAddr( std::string strIpAddr, UINT16 sPort )

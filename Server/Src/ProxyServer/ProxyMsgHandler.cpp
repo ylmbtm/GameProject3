@@ -59,6 +59,11 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 	case MSG_ROLE_LIST_ACK:
 	case MSG_ROLE_CREATE_ACK:
 	case MSG_ROLE_DELETE_ACK:
+	case MSG_ROLE_LOGOUT_ACK:
+		{
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
+		}
+		break;
 	case MSG_ROLE_LOGIN_ACK:
 		{
 			CConnection *pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
@@ -67,15 +72,11 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 				ASSERT_FAIELD;
 				return TRUE;
 			}
-
+			printf("pPacketHeader->u64TargetID:%lld", pPacketHeader->u64TargetID);
 			pConnection->SetConnectionData(pPacketHeader->u64TargetID);
-		}
-	case MSG_ROLE_LOGOUT_ACK:
-		{
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
-
 	case MSG_ENTER_SCENE_REQ:
 		{
 			//创建proxyplayer对象
@@ -140,7 +141,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 
 	RoleDisconnectReq Req;
 	Req.set_roleid(pConn->GetConnectionData());
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, 0, 0,  Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, pConn->GetConnectionData(), 0,  Req);
 	
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
 	if(pPlayer == NULL)
@@ -157,14 +158,8 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 	pPlayer->m_CharState = LS_OffLine;
 
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
-	if(dwConnID == 0)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
-
+	ERROR_RETURN_TRUE(dwConnID != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyID(),  Req);
-
 	return TRUE;
 }
 

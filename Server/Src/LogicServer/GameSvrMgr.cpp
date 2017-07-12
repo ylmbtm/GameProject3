@@ -28,6 +28,7 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket *pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 		PROCESS_MESSAGE_ITEM(MSG_GMSVR_REGTO_LOGIC_REQ,		OnMsgGameSvrRegister);
+		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_ACK,			OnMsgCreateSceneAck);
 		//PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
 	default:
 		{
@@ -134,6 +135,23 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 // 
 // }
 
+BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
+{
+	CreateNewSceneAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
+	//通知玩家可以进入
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	pPlayer->SendToScene(Ack.copyid(), Ack.serverid());
+	pPlayer->m_CopyState = CS_START;
+	pPlayer->m_dwToCopyID = Ack.copyid();
+	return TRUE;
+}
+
 BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 {
 
@@ -143,5 +161,16 @@ BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 
 UINT32 CGameSvrMgr::GetFreeGameServerID()
 {
-	return 0;
+	UINT32 dwMax = 100000;
+	UINT32 dwSvrID = 0;
+	for(std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.begin(); itor != m_mapGameSvr.end(); itor++)
+	{
+		if(itor->second.dwLoad > dwMax)
+		{
+			dwSvrID = itor->second.dwSvrID;
+			dwMax = itor->second.dwLoad;
+		}
+	}
+	
+	return dwSvrID;
 }

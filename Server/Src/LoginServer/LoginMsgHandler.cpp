@@ -204,7 +204,8 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket *pPacket)
 
 	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
@@ -226,5 +227,6 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 	Ack.set_serverport(9876);
 
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
+	return TRUE;
 }

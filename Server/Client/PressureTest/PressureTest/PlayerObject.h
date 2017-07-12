@@ -10,7 +10,9 @@ public:
 
 	~CPlayerObject();
 
-	virtual UINT32  ReadFromBuffer(CBufferHelper *pBufHelper);
+	UINT64			GetObjectID();
+
+	UINT64 m_u64ID;
 };
 
 
@@ -28,13 +30,14 @@ public:
 
 	}
 
-
 public:
 	BOOL			AddPlayer(CPlayerObject *pObject);
 
 	BOOL			RemovePlayer(UINT64 ObjectID);
 
 	CPlayerObject*	GetPlayer(UINT64 ObjectID);
+
+	
 };
 
 #endif //_PLAYER_OBJECT_H_

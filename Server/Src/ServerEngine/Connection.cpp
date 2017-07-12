@@ -29,7 +29,7 @@ CConnection::CConnection()
 
 	m_bConnected		= FALSE;
 
-	m_dwConnData        = 0;
+	m_u64ConnData        = 0;
 
 	m_dwConnID          = 0;
 
@@ -50,7 +50,7 @@ CConnection::~CConnection(void)
 
 	m_dwDataLen			= 0;
 
-	m_dwConnData        = 0;
+	m_u64ConnData        = 0;
 
 	m_dwConnID          = 0;
 
@@ -164,7 +164,7 @@ UINT32 CConnection::GetConnectionID()
 
 UINT64 CConnection::GetConnectionData()
 {
-	return m_dwConnData;
+	return m_u64ConnData;
 }
 
 void CConnection::SetConnectionID( UINT32 dwConnID )
@@ -181,8 +181,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
 	ASSERT(m_dwConnID != 0);
-
-	m_dwConnData = dwData;
+	m_u64ConnData = dwData;
 
 	return ;
 }
@@ -411,7 +410,7 @@ BOOL CConnection::Clear()
 
 	m_dwConnID = 0;
 
-	m_dwConnData = 0;
+	m_u64ConnData = 0;
 
     m_dwDataLen = 0;
 
@@ -442,7 +441,7 @@ BOOL CConnection::Clear()
 BOOL CConnection::SendBuffer(IDataBuffer *pBuff)
 {
 	CAutoLock Lock(&m_CritSecSendList);
-	m_SendBuffList.push_back(pBuff);
+	m_SendBuffList.push_back(pBuff);;
 	DoSend();
 	return TRUE;
 }
@@ -524,11 +523,9 @@ BOOL CConnection::DoSend()
 	WSABUF  DataBuf;
 	DataBuf.len = pSendBuffer->GetTotalLenth();
 	DataBuf.buf = pSendBuffer->GetBuffer();
-
 	m_IoOverlapSend.Clear();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendBuffer;
-
 	DWORD dwSendBytes = 0;
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
 	if(nRet == 0) //发送成功

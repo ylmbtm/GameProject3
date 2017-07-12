@@ -10,6 +10,7 @@ struct GameSvrInfo
 	}
 	UINT32 dwSvrID;
 	UINT32 dwConnID;
+	UINT32 dwLoad;		//负载值
 };
 
 class CGameSvrMgr
@@ -40,12 +41,13 @@ public:
 public:
 	BOOL	OnCloseConnect(UINT32 dwConnID);
 	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);
+	BOOL	OnMsgCreateSceneAck(NetPacket *pNetPacket);
 	//BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
 	
 	
 
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->信息
+	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->副本服务器信息
 };
 
 #endif

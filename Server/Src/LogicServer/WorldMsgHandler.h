@@ -31,7 +31,6 @@ public:
 	BOOL OnMsgRoleLogoutReq(NetPacket *pNetPacket);
 	BOOL OnMsgTransRoleDataAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
-	BOOL OnMsgCreateSceneAck(NetPacket *pNetPacket);
 	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
 	BOOL OnMsgCopyBattleReq(NetPacket *pNetPacket);
 	BOOL OnMsgAbortCopyReq(NetPacket *pNetPacket);

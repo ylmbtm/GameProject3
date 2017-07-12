@@ -1,21 +1,21 @@
 ﻿#pragma once
 #ifndef __CLIENT_CONNECTOR_H__
 #define __CLIENT_CONNECTOR_H__
-#include "GameDefine.h"
 #include "..\Src\Message\Msg_ID.pb.h"
 
 enum ConnectState
 {
 	Not_Connect,	//无连接
 	Start_Connect,
-	Raw_Connect,
 	Succ_Connect
 };
 
 
+#define CONST_BUFF_SIZE 8192
+
 struct IMessageHandler
 {
-	virtual BOOL OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper) = 0;
+	virtual BOOL DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen) = 0;
 };
 
 class CClientConnector : public IMessageHandler
@@ -42,15 +42,13 @@ public:
 
 	BOOL	SendData(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT64 u64TargetID, UINT32 dwUserData);
 	
-	BOOL	Login(const char *pszAccountName, const char *pszPassword, BOOL bConnect = FALSE);
+	BOOL	ConnectLoginSvr(BOOL bConnect = FALSE);
 
 	BOOL	RegisterMsgHandler(IMessageHandler *pMsgHandler);
 
 	BOOL	UnregisterMsgHandler(IMessageHandler *pMsgHandler);
 
 	BOOL	Render();
-	
-	IDataBuffer* GetWriteBuffer();
 
 	UINT32  GetServerTime();
 	
@@ -64,15 +62,9 @@ protected:
 	BOOL	ProcessData();
 
 	//以下是内部的消息处理
-	BOOL	OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL	DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
 	BOOL	OnUpdate(UINT32 dwTick){return TRUE;};
-
-	BOOL	OnCmdConnectNotify(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-
-	BOOL	OnCmdPickCharAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper );
-
-	BOOL	OnCmdHearBeatAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper );
 protected:
 	UINT64				m_u64ClientID;
 	UINT32				m_dwIdentifyCode;
@@ -83,6 +75,9 @@ protected:
 
 	INT32				m_nDataLen;
 	CHAR				m_DataBuffer[CONST_BUFF_SIZE];
+
+	INT32               m_PacketLen;
+	CHAR				m_PackBuffer[CONST_BUFF_SIZE];
 	
 	std::vector<IMessageHandler*> m_vtMsgHandler;
 

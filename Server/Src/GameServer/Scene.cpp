@@ -232,15 +232,15 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-
+	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roleid());
 	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
 	ERROR_RETURN_FALSE(pObject == NULL);
-
 	//根据数据创建宠物，英雄
 	CSceneObject *pSceneObject = new CSceneObject;
 	pSceneObject->m_dwType = OT_PLAYER;
 	pSceneObject->m_dwObjType = Req.roletype();
 	pSceneObject->m_strName = Req.rolename();
+	pSceneObject->m_uID = pHeader->u64TargetID;
 	AddPlayer(pSceneObject);
 
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
@@ -252,8 +252,13 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	Ack.set_roleid(pHeader->u64TargetID);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
 
+	ERROR_RETURN_FALSE(m_dwCopyID != 0);
+	ERROR_RETURN_FALSE(m_dwCopyType != 0);
+	ERROR_RETURN_FALSE(pHeader->u64TargetID != 0);
+	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
+
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
 	return TRUE;
 }
 
@@ -279,11 +284,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_retcode(MRC_SUCCESSED);
 
 	pSceneObj->SendProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
-
     SendAllNewObjectToPlayer(pSceneObj);
-
     BroadNewObject(pSceneObj);
-
 	return TRUE;
 }
 
@@ -360,6 +362,8 @@ CSceneObject* CScene::GetPlayer( UINT64 uID )
 BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
 {
     ERROR_RETURN_FALSE(pSceneObject != NULL);
+
+	ERROR_RETURN_FALSE(pSceneObject->GetObjectID() != 0);
 
     m_PlayerMap.insert(std::make_pair(pSceneObject->GetObjectID(), pSceneObject));
 

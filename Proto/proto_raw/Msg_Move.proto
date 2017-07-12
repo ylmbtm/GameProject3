@@ -1,38 +1,36 @@
 syntax = "proto3";
 
 message ObjectMoveReq {
-    uint64  RoleID = 1;
-	uint32  ObjState =2;
+    uint64  ObjectID = 1;
+	uint32  ObjState = 2;
 	float   x = 3;
-	float   y = 4;
-	float   z = 5;
-	float   d = 6;
+	float   z = 4;
+	float   vx = 5;
+	float   vz = 6;
 }
 
 message ObjectUpdate {
-    uint64  RoleID = 1;
+    uint64  ObjectID = 1;
 	uint32  ObjState =2;
 	float   x = 3;
-	float   y = 4;
-	float   z = 5;
-	float   d = 6;
-	uint32 hp = 7;
-	uint32 mp = 8;
-	uint32 hpmax = 9;
-	uint32 mpmax = 10;
+	float   z = 4;
+	float   vx = 5;
+	float   vz = 6;
+	uint32  hp = 7;
+	uint32  mp = 8;
+	uint32  hpmax = 9;
+	uint32  mpmax = 10;
 }
 
 message ObjectUpdateNty {
    repeated ObjectUpdate UpdateList = 1;
 }
 
-
 message ObjectNew {
-	uint64 RoleID = 1;
-	uint32  RoleType = 2;
+	uint64 ObjectID = 1;
+	uint32 ObjectType = 2;
 	int32  Level = 3;
 	string Name = 4;
-	
 }
 
 message ObjectNewNty {

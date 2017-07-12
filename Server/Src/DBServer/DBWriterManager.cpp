@@ -49,7 +49,7 @@ Th_RetName _DBWriteThread(void *pParam)
 	{
 		pDBWriterManager->WriteWork();
 
-		CommonThreadFunc::Sleep(10000); //ÐÝÏ¢10Ãë
+		CommonThreadFunc::Sleep(1); //ÐÝÏ¢10Ãë
 	}
 	pDBWriterManager->Uninit();
 	CommonThreadFunc::ExitThread();

@@ -214,9 +214,14 @@ BOOL CWorldMsgHandler::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-
+	ERROR_RETURN_TRUE(pHeader->u64TargetID == Ack.roleid());
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.roleid());
     ERROR_RETURN_FALSE(pPlayer != NULL);
+
+
+	ERROR_RETURN_TRUE(Ack.copyid() != 0);
+	ERROR_RETURN_TRUE(Ack.copytype() != 0);
+	ERROR_RETURN_TRUE(Ack.serverid() != 0);
 
 	pPlayer->SendNotifyIntoScene(Ack.copyid(), Ack.copytype(), Ack.serverid());
 
@@ -237,22 +242,7 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgCreateSceneAck(NetPacket *pNetPacket)
-{
-	CreateNewSceneAck Ack;
-	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
-	//通知玩家可以进入
-	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
-	ERROR_RETURN_TRUE(pPlayer != NULL);
-
-	pPlayer->SendToScene(Ack.copyid(), Ack.serverid());
-	pPlayer->m_CopyState = CS_START;
-	pPlayer->m_dwToCopyID = Ack.copyid();
-	return TRUE;
-}
 
 BOOL CWorldMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 {
@@ -285,15 +275,8 @@ BOOL CWorldMsgHandler::OnMsgCopyBattleReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-
 	//创建副本
-	BOOL bRet = CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid());
-	if(!bRet)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
-
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid()));
 	return TRUE;
 }
 

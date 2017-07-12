@@ -1,4 +1,4 @@
-start LogServer.exe
+rem start LogServer.exe
 start AccountServer.exe
 start LoginServer.exe
 start DBServer.exe
