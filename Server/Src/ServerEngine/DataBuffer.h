@@ -52,6 +52,7 @@ public:
 
 		if(m_dwRefCount <= 0)
 		{
+            m_nDataLen = 0;
 			//首先从己用中删除
 			if(m_pManager->m_pUsedList == this)
 			{

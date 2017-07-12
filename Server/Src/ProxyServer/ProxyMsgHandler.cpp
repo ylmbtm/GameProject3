@@ -72,7 +72,6 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 				ASSERT_FAIELD;
 				return TRUE;
 			}
-			printf("pPacketHeader->u64TargetID:%lld", pPacketHeader->u64TargetID);
 			pConnection->SetConnectionData(pPacketHeader->u64TargetID);
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}

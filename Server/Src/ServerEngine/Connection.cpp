@@ -262,26 +262,29 @@ BOOL CConnection::ExtractBuffer()
 
 		if(pHeader->dwSize == 0)
 		{
+            ASSERT_FAIELD;
 			return FALSE;
 		}
 
+        UINT32 dwPacketSize = pHeader->dwSize;
+
 		//////////////////////////////////////////////////////////////////////////
-		if((pHeader->dwSize > m_dwDataLen)  && (pHeader->dwSize < RECV_BUF_SIZE))
+		if((dwPacketSize > m_dwDataLen)  && (dwPacketSize < RECV_BUF_SIZE))
 		{
 			break;
 		}
 
-		if (pHeader->dwSize <= m_dwDataLen)
+		if (dwPacketSize <= m_dwDataLen)
 		{
-			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pHeader->dwSize);
+			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 
-			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, pHeader->dwSize);
+			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, dwPacketSize);
 
-			m_dwDataLen -= pHeader->dwSize;
+			m_dwDataLen -= dwPacketSize;
 
-			m_pBufPos += pHeader->dwSize;
+			m_pBufPos += dwPacketSize;
 
-			pDataBuffer->SetTotalLenth(pHeader->dwSize);
+			pDataBuffer->SetTotalLenth(dwPacketSize);
 
 			if(pDataBuffer->GetRef() > 1)
 			{
@@ -292,14 +295,14 @@ BOOL CConnection::ExtractBuffer()
 		}
 		else
 		{
-			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pHeader->dwSize);
+			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_dwDataLen);
 
 			pDataBuffer->SetTotalLenth(m_dwDataLen);
 			m_dwDataLen = 0;
 			m_pBufPos = m_pRecvBuf;
 			m_pCurRecvBuffer = pDataBuffer;
-			m_pCurBufferSize = pHeader->dwSize;
+			m_pCurBufferSize = dwPacketSize;
 		}
 	}
 
@@ -461,6 +464,7 @@ BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserD
 	pHeader->u64TargetID = u64TargetID;
 	pHeader->dwSize = dwLen + sizeof(PacketHeader);
 	pHeader->dwMsgID = dwMsgID;
+    pHeader->dwPacketNo=1;
 
 	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
 
@@ -478,10 +482,14 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
+   
+
 	if(m_SendBuffList.empty())
 	{
 		return FALSE;
 	}
+
+    m_IsSending = TRUE;
 
 	IDataBuffer *pSendBuffer = NULL;
 	int nSendCount = 0;
@@ -520,12 +528,14 @@ BOOL CConnection::DoSend()
 		m_SendBuffList.erase(m_SendBuffList.begin(), m_SendBuffList.begin() + nSendCount);
 	}
 
+    
 	WSABUF  DataBuf;
 	DataBuf.len = pSendBuffer->GetTotalLenth();
 	DataBuf.buf = pSendBuffer->GetBuffer();
 	m_IoOverlapSend.Clear();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendBuffer;
+
 	DWORD dwSendBytes = 0;
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
 	if(nRet == 0) //发送成功
@@ -534,9 +544,6 @@ BOOL CConnection::DoSend()
 		{
 			CLog::GetInstancePtr()->AddLog("发送线程:直接发送功数据%d!", dwSendBytes);
 		}
-
-		m_IsSending = TRUE;
-
 	}
 	else if( nRet == -1 ) //发送出错
 	{
@@ -544,7 +551,6 @@ BOOL CConnection::DoSend()
 		if(errCode != ERROR_IO_PENDING)
 		{
 			Close();
-			pSendBuffer->Release();
 			m_IsSending = FALSE;
 			CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
 		}
