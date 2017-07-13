@@ -29,9 +29,7 @@ public:
 	BOOL OnMsgRoleLoginReq(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLoginAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleLogoutReq(NetPacket *pNetPacket);
-	BOOL OnMsgTransRoleDataAck(NetPacket *pNetPacket);
 	BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
-	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
 	BOOL OnMsgMainCopyReq(NetPacket *pNetPacket);
 	BOOL OnMsgAbortCopyReq(NetPacket *pNetPacket);
 	//*********************消息处理定义结束******************************

@@ -29,6 +29,8 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket *pNetPacket)
 	{
 		PROCESS_MESSAGE_ITEM(MSG_GMSVR_REGTO_LOGIC_REQ,		OnMsgGameSvrRegister);
 		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_ACK,			OnMsgCreateSceneAck);
+        PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_ACK,	    OnMsgTransRoleDataAck);
+        PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		    OnMsgEnterSceneReq);
 		//PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
 	default:
 		{
@@ -100,13 +102,19 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 }
 
 
-BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID)
+BOOL CGameSvrMgr::SendPlayerToCopy( UINT64 u64RoleID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID )
 {
-	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uID);
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64RoleID);
     ERROR_RETURN_FALSE(pPlayer != NULL);
     UINT32 dwConnID = GetConnIDBySvrID(dwSvrID);
     ERROR_RETURN_FALSE(dwConnID != 0);
-    ERROR_RETURN_FALSE(pPlayer->SendToCopy(dwCopyType, dwCopyID, dwConnID));
+    ERROR_RETURN_FALSE(dwCopyID != 0);
+    TransRoleDataReq Req;
+    ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
+    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64RoleID, dwCopyID, Req);
+    pPlayer->m_CopyState = CS_START;
+    pPlayer->m_dwToCopyID = dwCopyID;
+    pPlayer->m_dwToCopyType = dwCopyType;
     return TRUE;
 }
 
@@ -146,10 +154,50 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 	//通知玩家可以进入
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
-
-	pPlayer->SendToCopy(Ack.copytype(), Ack.copyid(), pNetPacket->m_dwConnID);
-	
+    ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Ack.createparam(), Ack.copytype(), Ack.copyid(), Ack.serverid()));
 	return TRUE;
+}
+
+BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
+{
+    TransRoleDataAck Ack;
+    Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+    ERROR_RETURN_TRUE(pHeader->u64TargetID == Ack.roleid());
+    CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.roleid());
+    ERROR_RETURN_FALSE(pPlayer != NULL);
+    ERROR_RETURN_TRUE(Ack.copyid() != 0);
+    ERROR_RETURN_TRUE(Ack.copytype() != 0);
+    ERROR_RETURN_TRUE(Ack.serverid() != 0);
+    pPlayer->SendIntoSceneNotify(Ack.copyid(), Ack.copytype(), Ack.serverid());
+    return TRUE;
+}
+
+BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket *pNetPacket)
+{
+    EnterSceneReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
+    CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+    if(pPlayer->m_dwToCopyID != Req.copyid())
+    {
+        ASSERT_FAIELD;
+    }
+
+    //如果原来在主城副本，需要通知离开
+    if(pPlayer->m_dwCopyType == 1)
+    {
+        pPlayer->SendLeaveScene(pPlayer->m_dwCopyID,pPlayer->m_dwCopySvrID);
+    }
+
+    pPlayer->m_dwCopyID = Req.copyid();
+    pPlayer->m_dwCopySvrID = Req.serverid();
+    pPlayer->m_dwToCopyID = 0;
+    pPlayer->m_CopyState = CS_FINISHED;
+    return TRUE;
 }
 
 BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)

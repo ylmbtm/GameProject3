@@ -6,7 +6,7 @@ CProxyPlayer::~CProxyPlayer()
 
 }
 
-UINT64 CProxyPlayer::GetGameSvrID()
+UINT32 CProxyPlayer::GetGameSvrID()
 {
 	return m_dwGameSvrID;
 }

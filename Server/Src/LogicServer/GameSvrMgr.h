@@ -28,20 +28,19 @@ public:
 
 	UINT32	GetFreeGameServerID();
 
-	BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam);
-
 	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam);
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
 	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID);
-
-	BOOL    SendPlayerToScene(UINT64 uID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID);
-
+    BOOL    SendPlayerToCopy(UINT64 u64RoleID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID);
+    BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam);
 public:
 	BOOL	OnCloseConnect(UINT32 dwConnID);
-	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket);
-	BOOL	OnMsgCreateSceneAck(NetPacket *pNetPacket);
+	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket); //响应副本服务器注册
+	BOOL	OnMsgCreateSceneAck(NetPacket *pNetPacket);  //响应创建副本成功
+    BOOL    OnMsgTransRoleDataAck(NetPacket *pNetPacket);//响应角色数据传输成功
+    BOOL    OnMsgEnterSceneReq(NetPacket *pNetPacket);
 	//BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
 	
 	

@@ -177,24 +177,7 @@ BOOL CPlayerObject::OnAllModuleOK()
 	ERROR_RETURN_FALSE(dwSvrID == 1);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ERROR_RETURN_FALSE(dwCopyID != 0);
-    SendToCopy(1, dwCopyID, dwConnID);
-	return TRUE;
-}
-
-BOOL CPlayerObject::SendToCopy(UINT32 dwCopyType, UINT32 dwCopyID,UINT32 dwConnID)
-{
-	ERROR_RETURN_FALSE(dwCopyID != 0);
-	ERROR_RETURN_FALSE(dwConnID != 0);
-    CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
-    TransRoleDataReq Req;
-    Req.set_roleid(m_u64ID);
-    Req.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
-    Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
-    Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, dwCopyID, Req);
-	m_CopyState = CS_START;
-	m_dwToCopyID = dwCopyID;
-	m_dwToCopyType = dwCopyType;
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 1, dwCopyID, dwSvrID);
 	return TRUE;
 }
 
@@ -203,7 +186,6 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT
 	ERROR_RETURN_FALSE(dwCopyID != 0);
 	ERROR_RETURN_FALSE(dwCopyType != 0);
 	ERROR_RETURN_FALSE(dwSvrID != 0);
-
 	NotifyIntoScene Nty;
 	Nty.set_copytype(dwCopyType);
 	Nty.set_copyid(dwCopyID);
@@ -216,6 +198,9 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT
 
 BOOL CPlayerObject::SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID)
 {
+    LeaveSceneReq LeaveReq;
+    LeaveReq.set_roleid(m_u64ID);
+    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID), MSG_LEAVE_SCENE_REQ, m_u64ID, dwCopyID, LeaveReq);
 	return TRUE;
 }
 
@@ -271,6 +256,17 @@ BOOL CPlayerObject::SendRoleLoginAck()
     Ack.set_level(1);
     Ack.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
     SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
+    return TRUE;
+}
+
+BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
+{
+    CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
+    Req.set_roleid(m_u64ID);
+    Req.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
+    Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
+    Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
+
     return TRUE;
 }
 

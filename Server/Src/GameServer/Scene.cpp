@@ -169,30 +169,9 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
-    ObjectUpdateNty Nty;
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-    {
-        CSceneObject *pObj = itor->second;
-        ASSERT(pObj != NULL);
+    SyncObjectState(); //同步所有对象的状态
 
-        pObj->SaveUpdateObject(Nty);
-    }
-
-	if(Nty.updatelist_size() <= 0)
-	{
-		for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-		{
-			CSceneObject *pObj = itor->second;
-			ASSERT(pObj != NULL);
-
-			if(!pObj->IsConnected())
-			{
-				continue;
-			}
-
-			pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
-		}
-	}
+    m_pSceneLogic->Update();
 
 	return TRUE;
 }
@@ -416,4 +395,42 @@ CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {
 
 	return NULL;
+}
+
+BOOL CScene::SyncObjectState()
+{
+    ObjectUpdateNty Nty;
+    for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+    {
+        CSceneObject *pObj = itor->second;
+        ASSERT(pObj != NULL);
+
+        pObj->SaveUpdateObject(Nty);
+    }
+
+    if(Nty.updatelist_size() <= 0)
+    {
+        for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+        {
+            CSceneObject *pObj = itor->second;
+            ASSERT(pObj != NULL);
+
+            if(!pObj->IsConnected())
+            {
+                continue;
+            }
+
+            pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
+        }
+    }
+
+    return TRUE;
+}
+
+BOOL CScene::ReportCopyResult()
+{
+    for(std::map<UINT64)
+    {
+        //遍历所有的结果，把每个人收益情况整理好，发出结果。
+    }
 }

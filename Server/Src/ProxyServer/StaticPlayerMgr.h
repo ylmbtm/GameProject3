@@ -21,7 +21,7 @@ public:
 	~CProxyPlayer();
 
 public:
-	UINT64	GetGameSvrID();
+	UINT32	GetGameSvrID();
 
 	VOID	SetGameSvrID(UINT32 dwSvrID, UINT32 dwCopyID);
 

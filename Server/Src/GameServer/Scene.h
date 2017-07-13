@@ -32,6 +32,10 @@ public:
 
 	BOOL	SendAllNewObjectToPlayer(CSceneObject *pSceneObject);
 
+    BOOL    SyncObjectState();
+
+    BOOL    ReportCopyResult();
+
     CSceneObject* GetPlayer(UINT64 uID);
     BOOL          AddPlayer(CSceneObject *pSceneObject);
 	VOID		  DeletePlayer(UINT64 uID);
@@ -46,8 +50,8 @@ public:
 	BOOL    IsFinished();
 
 public:
-	BOOL							m_bOver;   //标示副本己经结束，结算己经完成,可以销毁
-	BOOL							m_bFinished; //标标副本己经完成，还示结算
+	BOOL							m_bOver;        //标示副本己经结束，结算己经完成,可以销毁
+	BOOL							m_bFinished;    //标标副本己经完成，还示结算
 protected:
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
