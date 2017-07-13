@@ -56,7 +56,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	}
 
 	//向副本服务器发送创建副本的消息
-	if(SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
+	if(!SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
 	{
 		//发送创建副本的消息失败
 		CLog::GetInstancePtr()->LogError("发送创建副本的消息失败");
@@ -137,8 +137,6 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 {
 	CreateNewSceneAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	//if(Ack.copytype() == 1)
 	//{
@@ -149,7 +147,7 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	pPlayer->SendToCopy(Ack.copytype(), Ack.copyid(), Ack.serverid());
+	pPlayer->SendToCopy(Ack.copytype(), Ack.copyid(), pNetPacket->m_dwConnID);
 	
 	return TRUE;
 }

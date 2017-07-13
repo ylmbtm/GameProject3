@@ -41,12 +41,12 @@ void CLog::AddLog( char* lpszFormat,... )
 
 	m_LogCount++;
 
-	if(m_LogCount >= 10)
-	{
+	//if(m_LogCount >= 10)
+	//{
 		fflush(m_pLogFile);
 
-		m_LogCount = 0;
-	}
+	//	m_LogCount = 0;
+	//}
 
 	
 }
