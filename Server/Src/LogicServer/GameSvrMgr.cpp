@@ -51,8 +51,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	UINT32 dwServerID = GetFreeGameServerID();
 	if(dwServerID == 0)
 	{
-		ASSERT_FAIELD;
-		//没有找到可用的场景服务器，或者说没有找到可用的副本服务器
+		CLog::GetInstancePtr()->LogError("没有找到可用的场景服务器，或者说没有找到可用的副本服务器");
 		return FALSE;
 	}
 
@@ -60,8 +59,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	if(SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
 	{
 		//发送创建副本的消息失败
-		ASSERT_FAIELD;
-
+		CLog::GetInstancePtr()->LogError("发送创建副本的消息失败");
 		return FALSE;
 	}
 
@@ -102,13 +100,13 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 }
 
 
-BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyID, UINT32 dwSvrID)
+BOOL CGameSvrMgr::SendPlayerToScene(UINT64 uID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID)
 {
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uID);
     ERROR_RETURN_FALSE(pPlayer != NULL);
     UINT32 dwConnID = GetConnIDBySvrID(dwSvrID);
     ERROR_RETURN_FALSE(dwConnID != 0);
-    ERROR_RETURN_FALSE(pPlayer->SendToScene(dwCopyID, dwConnID));
+    ERROR_RETURN_FALSE(pPlayer->SendToCopy(dwCopyType, dwCopyID, dwConnID));
     return TRUE;
 }
 
@@ -142,13 +140,17 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
+	//if(Ack.copytype() == 1)
+	//{
+
+	//}
+
 	//通知玩家可以进入
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	pPlayer->SendToScene(Ack.copyid(), Ack.serverid());
-	pPlayer->m_CopyState = CS_START;
-	pPlayer->m_dwToCopyID = Ack.copyid();
+	pPlayer->SendToCopy(Ack.copytype(), Ack.copyid(), Ack.serverid());
+	
 	return TRUE;
 }
 

@@ -31,7 +31,7 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
 	m_dwCopyType = dwCopyType;
 
 	m_bOver = FALSE;
-
+	m_dwLogicType = dwLogicType;
 	CreateSceneLogic(dwLogicType);
 
 	return TRUE;
@@ -52,6 +52,9 @@ BOOL CScene::Uninit()
         delete pObj;
     }
     m_MonsterMap.clear();
+
+	DestroySceneLogic(m_dwLogicType);
+
 	return TRUE;
 }
 
@@ -157,9 +160,8 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 	CSceneObject *pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
-
     BroadRemoveObject(pSceneObject);
-
+	DeletePlayer(Req.roleid());
 	return TRUE;
 }
 
@@ -176,7 +178,7 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
         pObj->SaveUpdateObject(Nty);
     }
 
-	//if(Nty.updatelist_size() <= 0)
+	if(Nty.updatelist_size() <= 0)
 	{
 		for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 		{
@@ -192,7 +194,6 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 		}
 	}
 
-	
 	return TRUE;
 }
 
@@ -215,6 +216,25 @@ BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
 
 
 
+
+BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
+{
+	switch (dwLogicType)
+	{
+	case SLT_NORMAL:
+		{
+			SceneLogic_Normal* pTemp = (SceneLogic_Normal*)m_pSceneLogic;
+			delete pTemp;
+		}
+		break;
+	default:
+		{
+			return false;
+		}
+	}
+
+	return (m_pSceneLogic != NULL);
+}
 
 BOOL CScene::IsCopyOver()
 {
@@ -242,6 +262,8 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	pSceneObject->m_strName = Req.rolename();
 	pSceneObject->m_uID = pHeader->u64TargetID;
 	AddPlayer(pSceneObject);
+
+	m_pSceneLogic->OnCreatePlayer(pSceneObject);
 
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
     //有的副本不需要等人齐，有人就可以进
@@ -273,6 +295,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 
 	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
 	pSceneObj->SetEnterCopy();
+	m_pSceneLogic->OnPlayerEnter(pSceneObj);
 
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
@@ -373,6 +396,21 @@ BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
 
 
 
+
+VOID CScene::DeletePlayer(UINT64 uID)
+{
+	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
+	if(itor != m_PlayerMap.end())
+	{
+		m_PlayerMap.erase(itor);
+	}
+	else
+	{
+		CLog::GetInstancePtr()->LogError("Error CScene::DeletePlayer cannot find player id:%d", uID);
+	}
+	
+	return ;
+}
 
 CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {

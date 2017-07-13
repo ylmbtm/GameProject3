@@ -51,6 +51,8 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_ACK,	OnMsgTransRoleDataAck);
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 		PROCESS_MESSAGE_ITEM(MSG_COPY_ABORT_REQ,		OnMsgAbortCopyReq);
+		PROCESS_MESSAGE_ITEM(MSG_MAIN_COPY_REQ,			OnMsgMainCopyReq);
+		
 		
 	case MSG_LOGIC_REGTO_LOGIN_ACK:
 	case MSG_ENTER_SCENE_REQ:
@@ -218,13 +220,10 @@ BOOL CWorldMsgHandler::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.roleid());
     ERROR_RETURN_FALSE(pPlayer != NULL);
 
-
 	ERROR_RETURN_TRUE(Ack.copyid() != 0);
 	ERROR_RETURN_TRUE(Ack.copytype() != 0);
 	ERROR_RETURN_TRUE(Ack.serverid() != 0);
-
-	pPlayer->SendNotifyIntoScene(Ack.copyid(), Ack.copytype(), Ack.serverid());
-
+	pPlayer->SendIntoSceneNotify(Ack.copyid(), Ack.copytype(), Ack.serverid());
 	return TRUE;
 }
 
@@ -264,17 +263,19 @@ BOOL CWorldMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	}
 	
 	pPlayer->m_dwCopyID = Req.copyid();
+	pPlayer->m_dwCopySvrID = Req.serverid();
 	pPlayer->m_dwToCopyID = 0;
 	pPlayer->m_CopyState = CS_FINISHED;
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgCopyBattleReq(NetPacket *pNetPacket)
+BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket *pNetPacket)
 {
-	CopyBattleReq Req;
+	MainCopyReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
 	//创建副本
 	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid()));
 	return TRUE;
@@ -285,7 +286,6 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	AbortCopyReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
@@ -294,7 +294,7 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	LeaveSceneReq LeaveReq;
 	LeaveReq.set_roleid(Req.roleid());
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(pPlayer->m_dwCopySvrID), MSG_LEAVE_SCENE_REQ, Req.roleid(), 0, LeaveReq);
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToScene(Req.roleid(), 1, 1);
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToScene(Req.roleid(),1, 1, 1);
 
 	return TRUE;
 }

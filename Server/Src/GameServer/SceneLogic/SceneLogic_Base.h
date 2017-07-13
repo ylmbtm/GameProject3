@@ -1,7 +1,7 @@
 ﻿#ifndef _SCENELOGIC_BASE_H_
 #define _SCENELOGIC_BASE_H_
 class CScene;
-
+class CSceneObject;
 
 
 class SceneLogicBase
@@ -17,32 +17,37 @@ public:
 		
 	}
 public:
-	virtual BOOL OnCreatePlayer()
+	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer)
 	{
 		return TRUE;
 	}
 
-	virtual BOOL OnCreateMonster()
+	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer)
 	{
 		return TRUE;
 	}
 
-	virtual BOOL OnCreatePet()
+	virtual BOOL OnCreateMonster(CSceneObject *pMonster)
 	{
 		return TRUE;
 	}
 
-	virtual BOOL OnPlayerDie()
+	virtual BOOL OnCreatePet(CSceneObject *pPet)
 	{
 		return TRUE;
 	}
 
-	virtual BOOL OnMonsterDie()
+	virtual BOOL OnPlayerDie(CSceneObject *pPlayer)
 	{
 		return TRUE;
 	}
 
-	virtual BOOL OnPetDie()
+	virtual BOOL OnMonsterDie(CSceneObject *pMonster)
+	{
+		return TRUE;
+	}
+
+	virtual BOOL OnPetDie(CSceneObject *pPet)
 	{
 		return TRUE;
 	}

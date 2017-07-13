@@ -146,7 +146,6 @@ message RoleLogoutAck {
     uint32   RetCode = 1;
 }
 
-
 message RoleDisconnectReq {
 	uint64 RoleID = 2;
 }
@@ -165,11 +164,10 @@ message RoleSkillReq {
 	repeated uint64 DamagerID = 7; 
 }
 
-
-
 ///创建场景
 message CreateNewSceneReq{
 	uint32 CopyType = 1;
+	uint32 BattleType = 2;
 	uint64 CreateParam = 3;
 }
 
@@ -180,6 +178,7 @@ message CreateNewSceneAck{
 	uint32  CopyID      = 3;
 	uint64  CreateParam = 4;
 	uint32  ServerID    = 5;
+	uint32  BattleType  = 6;
 }
 
 ////
@@ -199,15 +198,19 @@ message EnterSceneAck {
 	uint32   RoleType = 6;
 }
 
-message CopyBattleReq {
+message MainCopyReq {
     uint64  RoleID = 1;
 	uint32  CopyType  = 2;  //副本类型
 }
 
-message CopyBattleAck {
+message MainCopyAck {
     uint32   RetCode = 1;
 }
 
+message CopyResultNotify {
+    uint64  RoleID = 1;
+	uint32  CopyType  = 2;  //副本类型
+}
 
 message AbortCopyReq {
     uint64  RoleID = 1;
@@ -229,24 +232,25 @@ message LeaveSceneReq {
 message LeaveSceneAck {
     uint32   RetCode = 1;
 }
-
 ///
 
 message TransRoleDataReq {
     uint64  RoleID = 1;
 	string  RoleName = 2;
-	uint32   RoleType = 3;
+	uint32  RoleType = 3;
 	int32   Level = 4;
+
+	//以下很重要。
+	uint32  Camp = 5;//战场中的阵营
 }
 
 message TransRoleDataAck {
     uint32   RetCode = 1;
-	uint64  RoleID = 2;
+	uint64   RoleID = 2;
 	uint32   CopyType = 3;
 	uint32   CopyID = 4;
 	uint32   ServerID = 5;
 }
-
 
 message NotifyIntoScene {
     uint64  RoleID = 1;

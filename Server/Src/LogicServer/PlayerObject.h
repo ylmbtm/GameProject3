@@ -46,8 +46,8 @@ public:
 	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 public: //全部是操作方法
-	BOOL    SendToScene(UINT32 dwCopyID,UINT32 dwConnID);
-	BOOL	SendNotifyIntoScene(UINT32 dwCopyID,  UINT32 dwCopyType,UINT32 dwSvrID);
+	BOOL SendToCopy(UINT32 dwCopyType, UINT32 dwCopyID,UINT32 dwConnID);
+	BOOL SendIntoSceneNotify(UINT32 dwCopyID,  UINT32 dwCopyType,UINT32 dwSvrID);
 	BOOL	SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID);
     BOOL    SendRoleLoginAck();
 
@@ -72,9 +72,12 @@ public:
 
 public:
 	UINT32      m_dwCopyID;     //当前的副本ID
-	UINT32      m_dwToCopyID;   //正在前往的副本ID
 	UINT32      m_dwCopyType;   //当前的副本类型
-	UINT32      m_dwCopySvrID;   //副本服务器的ID
+	UINT32      m_dwCopySvrID;  //副本服务器的ID
+
+	UINT32      m_dwToCopyID;   //正在前往的副本ID
+	UINT32      m_dwToCopyType;   //正在前往的副本ID
+
 	Copy_State  m_CopyState;    //副本状态
 };
 

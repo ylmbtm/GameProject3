@@ -170,13 +170,6 @@ BOOL CPlayerObject::IsAllModuleOK()
 
 BOOL CPlayerObject::OnAllModuleOK()
 {
-	///发送玩家登录返回的消息
-	///将玩家的数据传到主场景
-	///收到通知进入的消息
-	///通知客户端进入
-	///客户端发进入副本的请求
-	///发玩家自己的数据给玩家
-	///发视野里的玩家给玩家
 	ERROR_RETURN_FALSE(m_u64ID != 0);
     SendRoleLoginAck();
     UINT32 dwSvrID, dwConnID, dwCopyID;
@@ -184,11 +177,11 @@ BOOL CPlayerObject::OnAllModuleOK()
 	ERROR_RETURN_FALSE(dwSvrID == 1);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ERROR_RETURN_FALSE(dwCopyID != 0);
-    SendToScene(dwCopyID, dwConnID);
+    SendToCopy(1, dwCopyID, dwConnID);
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendToScene(UINT32 dwCopyID, UINT32 dwConnID)
+BOOL CPlayerObject::SendToCopy(UINT32 dwCopyType, UINT32 dwCopyID,UINT32 dwConnID)
 {
 	ERROR_RETURN_FALSE(dwCopyID != 0);
 	ERROR_RETURN_FALSE(dwConnID != 0);
@@ -199,10 +192,13 @@ BOOL CPlayerObject::SendToScene(UINT32 dwCopyID, UINT32 dwConnID)
     Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
     Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, m_u64ID, dwCopyID, Req);
+	m_CopyState = CS_START;
+	m_dwToCopyID = dwCopyID;
+	m_dwToCopyType = dwCopyType;
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendNotifyIntoScene(UINT32 dwCopyID, UINT32 dwCopyType, UINT32 dwSvrID)
+BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT32 dwSvrID)
 {
 	ERROR_RETURN_FALSE(dwCopyID != 0);
 	ERROR_RETURN_FALSE(dwCopyType != 0);

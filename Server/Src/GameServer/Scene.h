@@ -24,6 +24,8 @@ public:
 
 	BOOL	CreateSceneLogic(UINT32 dwLogicType);
 
+	BOOL    DestroySceneLogic(UINT32 dwLogicType);
+
     BOOL    BroadNewObject(CSceneObject *pSceneObject);
 
     BOOL    BroadRemoveObject(CSceneObject *pSceneObject);
@@ -32,10 +34,12 @@ public:
 
     CSceneObject* GetPlayer(UINT64 uID);
     BOOL          AddPlayer(CSceneObject *pSceneObject);
+	VOID		  DeletePlayer(UINT64 uID);
 
 	CSceneObject* GetSceneObject(UINT64 uID);
 
-
+	//////////////////////////////////////////////////////////////////////////
+	//专门事件
 
 public:
 	BOOL	IsCopyOver();
@@ -47,6 +51,7 @@ public:
 protected:
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
+	UINT32							m_dwLogicType;  //逻辑类型
 
 	SceneLogicBase					*m_pSceneLogic;
 
