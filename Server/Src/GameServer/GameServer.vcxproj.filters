@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{8122e15e-269c-4a57-905e-b9c18d3c82c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scenelogic">
+      <UniqueIdentifier>{4c2736fc-4016-4f7c-90ff-cf96be839041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneObject">
+      <UniqueIdentifier>{5f4e542f-0878-4371-b9fd-ea2b921e1e64}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameService.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_None.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_Base.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_Normal.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SceneObject.cpp">
+      <Filter>SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Move.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterCreator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameService.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Utility\Position.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\TypeDef.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_None.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Base.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Type.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Normal.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SceneObject.h">
+      <Filter>SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Move.pb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterCreator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

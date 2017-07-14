@@ -36,6 +36,11 @@ BOOL CClientCmdHandler::DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 Bu
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LIST_ACK,			OnMsgRoleListAck);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_NOTIFY_INTO_SCENE,		OnMsgNotifyIntoScene);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_CREATE_ACK,		OnMsgCreateRoleAck);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_NEW_NTY,			OnMsgObjectNewNty);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_UPDATE_NTY,		OnMsgObjectUpdateNty);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTY,		OnMsgObjectRemoveNty);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ENTER_SCENE_ACK,		OnCmdEnterSceneAck);
+		
 		
 		//PROCESS_MESSAGE_ITEM(CMD_CHAR_ENTER_GAME_ACK,	        OnCmdEnterGameAck)
 
@@ -157,11 +162,21 @@ BOOL CClientCmdHandler::OnCmdNearByRemove( UINT32 dwMsgID, CHAR *PacketBuf, INT3
 BOOL CClientCmdHandler::OnCmdEnterSceneAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
 	EnterSceneAck Ack;
+	Ack.ParsePartialFromArray(PacketBuf, BufLen);
+	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 
-
-	
 	m_dwHostState = ST_EnterSceneOK;
+
+	if(Ack.copytype() == 1)
+	{
+		SendMainCopyReq();
+	}
+	else
+	{
+		SendAbortCopyReq();
+	}
 	
+
 	return TRUE;
 }
 
@@ -178,6 +193,21 @@ BOOL CClientCmdHandler::OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, IN
 	m_dwCopyType = Nty.copytype();
 	m_dwCopyID = Nty.copyid();
 	m_ClientConnector.SendData(MSG_ENTER_SCENE_REQ, Req, Nty.serverid(), Nty.copyid());
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+{
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::OnMsgObjectUpdateNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+{
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+{
 	return TRUE;
 }
 
@@ -241,7 +271,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		}
 		else
 		{
-			MoveHost();
+			//MoveHost();
 		}
 	}
 
@@ -408,13 +438,11 @@ VOID CClientCmdHandler::MoveHost()
 {
 	ObjectMoveReq Req;
 	Req.set_objectid(m_RoleIDList[0]);
-	m_ClientConnector.SendData(MSG_ROLE_MOVE_REQ, Req, 0, 0);
+	m_ClientConnector.SendData(MSG_ROLE_MOVE_REQ, Req, m_RoleIDList[0], m_dwCopyID);
 }
 
-BOOL CClientCmdHandler::SendLeaveGameReq( UINT64 u64CharID )
+BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )
 {
-
-
 	return TRUE;
 }
 
@@ -428,13 +456,8 @@ BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
 
 BOOL CClientCmdHandler::SendMoveReq( FLOAT x, FLOAT y, FLOAT z, UINT16 nDir)
 {
-
-
 	return TRUE;
 }
-
-
-
 
 BOOL CClientCmdHandler::SendRoleListReq()
 {
@@ -445,11 +468,20 @@ BOOL CClientCmdHandler::SendRoleListReq()
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::SendCopyBattleReq()
+BOOL CClientCmdHandler::SendMainCopyReq()
 {
-	CopyBattleReq Req;
+	MainCopyReq Req;
 	Req.set_copytype(rand()%100);
 	Req.set_roleid(m_RoleIDList[0]);
-	m_ClientConnector.SendData(MSG_COPY_BATTLE_REQ, Req, 0, 0);
+	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::SendAbortCopyReq()
+{
+	AbortCopyReq Req;
+	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_copyid(m_dwCopyID);
+	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;
 }

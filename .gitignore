@@ -230,7 +230,6 @@ project/Lua/Release/LuaProject.lib
 project/Server/ServerEngine/Debug/ServerEngine.lastbuildstate
 *.lib
 *.lib
-*.filters
 *.lastbuildstate
 *.rc
 

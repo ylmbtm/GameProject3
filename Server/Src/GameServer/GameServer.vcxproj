@@ -106,6 +106,7 @@
     </ClCompile>
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="GameService.cpp" />
+    <ClCompile Include="MonsterCreator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="..\..\Common\Utility\Position.h" />
+    <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />
@@ -129,9 +131,6 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameObject\SceneObject.h" />
-    <ClInclude Include="..\..\Common\GameDefine.h" />
-    <ClInclude Include="..\..\Common\GameStruct.h" />
-    <ClInclude Include="..\..\Common\ObjectID.h" />
     <ClInclude Include="..\..\Common\TypeDef.h" />
   </ItemGroup>
   <ItemGroup>

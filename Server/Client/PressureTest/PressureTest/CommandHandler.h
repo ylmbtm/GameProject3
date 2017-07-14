@@ -40,11 +40,12 @@ public:
 	BOOL SendSelectSvrReq(UINT32 dwSvrID);
 	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwRoleType);
 	BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 dwCharID);
-	BOOL SendLeaveGameReq(UINT64 u64CharID);
+	BOOL SendRoleLogoutReq(UINT64 u64CharID);
 	BOOL SendRoleLoginReq(UINT64 u64CharID);
 	BOOL SendMoveReq(FLOAT x, FLOAT y, FLOAT z, UINT16 nDir);
 	BOOL SendRoleListReq();
-	BOOL SendCopyBattleReq();
+	BOOL SendMainCopyReq();
+	BOOL SendAbortCopyReq();
 
 
 	//*********************消息处理定义开始******************************
@@ -56,7 +57,9 @@ public:
 	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	
+	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectUpdateNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
 
 

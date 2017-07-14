@@ -1,59 +1,31 @@
 ﻿#ifndef _SCENELOGIC_NORMAL_H_
 #define _SCENELOGIC_NORMAL_H_
-class CScene;
-
-
+#include "SceneLogic_Base.h"
 
 class SceneLogic_Normal : public SceneLogicBase
 {
 public:
-	SceneLogic_Normal()
-	{
-		
-	}
+	SceneLogic_Normal(CScene *pScene);
 	
-	~SceneLogic_Normal()
-	{
-		
-	}
+	~SceneLogic_Normal();
 public:
-	virtual BOOL OnCreatePlayer()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer);
 
-	virtual BOOL OnCreateMonster()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
 
-	virtual BOOL OnCreatePet()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
 
-	virtual BOOL OnPlayerDie()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreateMonster(CSceneObject *pMonster);
 
-	virtual BOOL OnMonsterDie()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreatePet(CSceneObject *pPet);
 
-	virtual BOOL OnPetDie()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerDie();
 
-	virtual BOOL Update()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnMonsterDie();
 
-public:
-	CScene *m_pScene;
+	virtual BOOL OnPetDie();
+
+	virtual BOOL Update(UINT32 dwTick);
 
 };
 

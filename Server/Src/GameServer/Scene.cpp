@@ -14,9 +14,15 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "../Message/Msg_Move.pb.h"
+#include "MonsterCreator.h"
 CScene::CScene()
 {
-	
+	m_bFinished = FALSE; //标标副本己经完成，还示结算
+	m_dwCopyID = 0;		//当前副本实例ID
+	m_dwCopyType = 0;   //当前副本TYPE
+	m_dwLogicType = 0;  //逻辑类型
+	m_pSceneLogic = NULL;
+
 }
 
 CScene::~CScene()
@@ -30,9 +36,14 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
 
 	m_dwCopyType = dwCopyType;
 
-	m_bOver = FALSE;
+	m_bFinished = FALSE;
+
 	m_dwLogicType = dwLogicType;
+
 	CreateSceneLogic(dwLogicType);
+
+	m_pMonsterCreator = new MonsterCreator(this);
+
 
 	return TRUE;
 }
@@ -52,6 +63,8 @@ BOOL CScene::Uninit()
         delete pObj;
     }
     m_MonsterMap.clear();
+
+	delete m_pMonsterCreator;
 
 	DestroySceneLogic(m_dwLogicType);
 
@@ -160,8 +173,12 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 	CSceneObject *pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
-    BroadRemoveObject(pSceneObject);
-	DeletePlayer(Req.roleid());
+
+	if(m_pSceneLogic->OnPlayerLeave(pSceneObject))
+	{
+		BroadRemoveObject(pSceneObject);
+		DeletePlayer(Req.roleid());
+	}
 	return TRUE;
 }
 
@@ -169,9 +186,16 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
+	if(IsFinished()) //己经结束不再处理
+	{
+		return TRUE;
+	}
+
     SyncObjectState(); //同步所有对象的状态
 
-    m_pSceneLogic->Update();
+	m_pMonsterCreator->OnUpdate(dwTick);
+
+    m_pSceneLogic->Update(dwTick);
 
 	return TRUE;
 }
@@ -181,7 +205,7 @@ BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
 	switch (dwLogicType)
 	{
 	case SLT_NORMAL:
-		m_pSceneLogic = new SceneLogic_Normal();
+		m_pSceneLogic = new SceneLogic_Normal(this);
 		break;
 
 	default:
@@ -192,9 +216,6 @@ BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
 
 	return (m_pSceneLogic != NULL);
 }
-
-
-
 
 BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
 {
@@ -215,14 +236,15 @@ BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
 	return (m_pSceneLogic != NULL);
 }
 
-BOOL CScene::IsCopyOver()
-{
-	return m_bOver;
-}
 
 BOOL CScene::IsFinished()
 {
 	return m_bFinished;
+}
+
+VOID CScene::SetFinished()
+{
+	m_bFinished = TRUE;
 }
 
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
@@ -233,16 +255,22 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roleid());
 	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
-	ERROR_RETURN_FALSE(pObject == NULL);
+	if(pObject == NULL)
+	{
+		pObject = new CSceneObject;
+		pObject->m_dwType = OT_PLAYER;
+		pObject->m_dwObjType = Req.roletype();
+		pObject->m_strName = Req.rolename();
+		pObject->m_uID = pHeader->u64TargetID;
+		AddPlayer(pObject);
+	}
 	//根据数据创建宠物，英雄
-	CSceneObject *pSceneObject = new CSceneObject;
-	pSceneObject->m_dwType = OT_PLAYER;
-	pSceneObject->m_dwObjType = Req.roletype();
-	pSceneObject->m_strName = Req.rolename();
-	pSceneObject->m_uID = pHeader->u64TargetID;
-	AddPlayer(pSceneObject);
+	pObject->m_dwType = OT_PLAYER;
+	pObject->m_dwObjType = Req.roletype();
+	pObject->m_strName = Req.rolename();
+	pObject->m_uID = pHeader->u64TargetID;
 
-	m_pSceneLogic->OnCreatePlayer(pSceneObject);
+	m_pSceneLogic->OnCreatePlayer(pObject);
 
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
     //有的副本不需要等人齐，有人就可以进
@@ -322,6 +350,11 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
     pSceneObject->SendProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
 
     return TRUE;
+}
+
+BOOL CScene::GetPlayerCount()
+{
+	return m_PlayerMap.size();
 }
 
 BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
@@ -427,10 +460,3 @@ BOOL CScene::SyncObjectState()
     return TRUE;
 }
 
-BOOL CScene::ReportCopyResult()
-{
-    for(std::map<UINT64)
-    {
-        //遍历所有的结果，把每个人收益情况整理好，发出结果。
-    }
-}

@@ -3,6 +3,9 @@
 #include "GameObject/SceneObject.h"
 #include "SceneLogic/SceneLogic_Base.h"
 
+
+class MonsterCreator;
+
 class CScene
 {
 public:
@@ -33,8 +36,7 @@ public:
 	BOOL	SendAllNewObjectToPlayer(CSceneObject *pSceneObject);
 
     BOOL    SyncObjectState();
-
-    BOOL    ReportCopyResult();
+	BOOL	GetPlayerCount();
 
     CSceneObject* GetPlayer(UINT64 uID);
     BOOL          AddPlayer(CSceneObject *pSceneObject);
@@ -46,18 +48,17 @@ public:
 	//专门事件
 
 public:
-	BOOL	IsCopyOver();
-	BOOL    IsFinished();
-
+	BOOL		IsFinished();
+	VOID		SetFinished();
 public:
-	BOOL							m_bOver;        //标示副本己经结束，结算己经完成,可以销毁
-	BOOL							m_bFinished;    //标标副本己经完成，还示结算
+	BOOL							m_bFinished; //标标副本己经完成，还示结算
 protected:
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型
 
 	SceneLogicBase					*m_pSceneLogic;
+	MonsterCreator					*m_pMonsterCreator;
 
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
     std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器

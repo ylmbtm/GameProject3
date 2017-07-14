@@ -118,12 +118,7 @@ BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 
 		pScene->OnUpdate(dwTick);
 
-        if(pScene->IsFinished())
-        {
-            pScene->ReportCopyResult();
-        }
-
-		if(pScene->IsCopyOver())
+		if(pScene->IsFinished())
 		{
 			pScene->Uninit();
 			delete pScene;

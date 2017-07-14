@@ -7,55 +7,31 @@ class CSceneObject;
 class SceneLogicBase
 {
 public:
-	SceneLogicBase()
-	{
-		
-	}
+	SceneLogicBase(CScene *pScene);
 	
-	~SceneLogicBase()
-	{
-		
-	}
+	~SceneLogicBase();
 public:
-	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer);
 
-	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
 
-	virtual BOOL OnCreateMonster(CSceneObject *pMonster)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
 
-	virtual BOOL OnCreatePet(CSceneObject *pPet)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreateMonster(CSceneObject *pMonster);
 
-	virtual BOOL OnPlayerDie(CSceneObject *pPlayer)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnCreatePet(CSceneObject *pPet);
 
-	virtual BOOL OnMonsterDie(CSceneObject *pMonster)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPlayerDie(CSceneObject *pPlayer);
 
-	virtual BOOL OnPetDie(CSceneObject *pPet)
-	{
-		return TRUE;
-	}
+	virtual BOOL OnMonsterDie(CSceneObject *pMonster);
 
-	virtual BOOL Update()
-	{
-		return TRUE;
-	}
+	virtual BOOL OnPetDie(CSceneObject *pPet);
+
+	virtual BOOL Update(UINT32 dwTick);
+
+	virtual BOOL OnTimeUP();
+
+	CScene*  GetScene();
 
 public:
 	CScene *m_pScene;
