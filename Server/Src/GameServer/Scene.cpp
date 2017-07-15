@@ -17,11 +17,12 @@
 #include "MonsterCreator.h"
 CScene::CScene()
 {
-	m_bFinished = FALSE; //标标副本己经完成，还示结算
 	m_dwCopyID = 0;		//当前副本实例ID
 	m_dwCopyType = 0;   //当前副本TYPE
 	m_dwLogicType = 0;  //逻辑类型
 	m_pSceneLogic = NULL;
+	m_dwPlayerNum = 0;
+	m_dwLoginNum = 0;
 
 }
 
@@ -30,17 +31,19 @@ CScene::~CScene()
 
 }
 
-BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
+BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum)
 {
 	m_dwCopyID = dwCopyID;
 
 	m_dwCopyType = dwCopyType;
 
-	m_bFinished = FALSE;
-
 	m_dwLogicType = dwLogicType;
 
 	CreateSceneLogic(dwLogicType);
+
+	m_dwPlayerNum  = dwPlayerNum;
+
+	m_dwLoginNum = 0;
 
 	m_pMonsterCreator = new MonsterCreator(this);
 
@@ -186,14 +189,24 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
-	if(IsFinished()) //己经结束不再处理
+	if(m_pSceneLogic->IsFinished()) //己经结束不再处理
 	{
 		return TRUE;
 	}
 
     SyncObjectState(); //同步所有对象的状态
 
-	m_pMonsterCreator->OnUpdate(dwTick);
+	//如果playerNum 不等于0， 表示有人数要求, 0表示无人数要求
+	/*if(m_dwPlayerNum != 0) 
+	{
+		if(m_dwPlayerNum == m_PlayerMap.size())
+	}*/
+
+
+	if(IsPlayerDataReady())
+	{
+		m_pMonsterCreator->OnUpdate(dwTick);
+	}
 
     m_pSceneLogic->Update(dwTick);
 
@@ -236,17 +249,6 @@ BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
 	return (m_pSceneLogic != NULL);
 }
 
-
-BOOL CScene::IsFinished()
-{
-	return m_bFinished;
-}
-
-VOID CScene::SetFinished()
-{
-	m_bFinished = TRUE;
-}
-
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 {
 	TransRoleDataReq Req;
@@ -270,7 +272,7 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	pObject->m_strName = Req.rolename();
 	pObject->m_uID = pHeader->u64TargetID;
 
-	m_pSceneLogic->OnCreatePlayer(pObject);
+	m_pSceneLogic->OnObjectCreate(pObject);
 
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
     //有的副本不需要等人齐，有人就可以进
@@ -303,6 +305,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
 	pSceneObj->SetEnterCopy();
 	m_pSceneLogic->OnPlayerEnter(pSceneObj);
+
+	m_dwLoginNum ++;
 
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
@@ -428,6 +432,40 @@ CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {
 
 	return NULL;
+}
+
+BOOL CScene::IsFinished()
+{
+	return m_pSceneLogic->IsFinished();
+}
+
+BOOL CScene::IsPlayerDataReady()
+{
+	if(m_PlayerMap.size() == m_dwPlayerNum)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+BOOL CScene::IsPlayerLoginReady()
+{
+	if(!IsPlayerDataReady())
+	{
+		return FALSE;
+	}
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pObj = itor->second;
+		if(!pObj->IsEnterCopy())
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 
 BOOL CScene::SyncObjectState()

@@ -6,6 +6,7 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "Utility/Log/Log.h"
+#include "ConfigData.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -47,7 +48,7 @@ UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyID)
 	return 1;
 }
 
-BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
+BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )
 {
 	//选择一个可用的副本服务器
 	UINT32 dwServerID = GetFreeGameServerID();
@@ -58,7 +59,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	}
 
 	//向副本服务器发送创建副本的消息
-	if(!SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam))
+	if(!SendCreateSceneCmd(dwServerID, dwCopyType, CreateParam, dwPlayerNum))
 	{
 		//发送创建副本的消息失败
 		CLog::GetInstancePtr()->LogError("发送创建副本的消息失败");
@@ -68,11 +69,14 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam)
 	return TRUE;
 }
 
-BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam )
+
+BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )
 {
 	CreateNewSceneReq Req;
 	Req.set_copytype(dwCopyType);
 	Req.set_createparam(CreateParam);
+	Req.set_logictype(1);
+	Req.set_playernum(dwPlayerNum);
 	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req))
 	{
 		ASSERT_FAIELD;
@@ -145,16 +149,34 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 {
 	CreateNewSceneAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-
-	//if(Ack.copytype() == 1)
+	ERROR_RETURN_TRUE(Ack.copytype() != 0);
+	ERROR_RETURN_TRUE(Ack.copyid() != 0);
+	ERROR_RETURN_TRUE(Ack.serverid() != 0);
+	ERROR_RETURN_TRUE(Ack.createparam() != 0);
+	ERROR_RETURN_TRUE(Ack.playernum() != 0);
+	ERROR_RETURN_TRUE(Ack.logictype() != 0);
+	//StCopyBase *pCopyBase = CConfigData::GetInstancePtr()->GetCopyBaseInfo(Ack.copytype());
+	//switch(pCopyBase->dwLogicType)
 	//{
+	//case 1:
+		{
+			OnCreateMainCopy(Ack);
+		}
 
+	//default:
+	//	{
+	//		break;
+	//	}
 	//}
+	
+	return TRUE;
+}
 
-	//通知玩家可以进入
+BOOL CGameSvrMgr::OnCreateMainCopy(CreateNewSceneAck &Ack)
+{
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
-	ERROR_RETURN_TRUE(pPlayer != NULL);
-    ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Ack.createparam(), Ack.copytype(), Ack.copyid(), Ack.serverid()));
+	ERROR_RETURN_FALSE(pPlayer != NULL);
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Ack.createparam(), Ack.copytype(), Ack.copyid(), Ack.serverid()));
 	return TRUE;
 }
 

@@ -228,7 +228,7 @@ BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	//创建副本
-	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid()));
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid(), 1));
 	return TRUE;
 }
 

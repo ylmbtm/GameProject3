@@ -86,6 +86,7 @@
     <ClCompile Include="CommonMsgHandler.cpp" />
     <ClCompile Include="CommonWorkThread.cpp" />
     <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="CrashReport.cpp" />
     <ClCompile Include="DataBuffer.cpp" />
     <ClCompile Include="NetManager.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="CommonMsgHandler.h" />
     <ClInclude Include="CommonWorkThread.h" />
     <ClInclude Include="Connection.h" />
+    <ClInclude Include="CrashReport.h" />
     <ClInclude Include="DataBuffer.h" />
     <ClInclude Include="EventFuncManager.h" />
     <ClInclude Include="NetManager.h" />

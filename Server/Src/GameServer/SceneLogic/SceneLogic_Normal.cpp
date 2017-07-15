@@ -3,6 +3,7 @@
 #include "..\GameObject\SceneObject.h"
 #include "..\Scene.h"
 #include "..\ServerData\ServerDefine.h"
+#include "..\Message\Game_Define.pb.h"
 
 SceneLogic_Normal::SceneLogic_Normal(CScene *pScene):SceneLogicBase(pScene)
 {
@@ -14,12 +15,28 @@ SceneLogic_Normal::~SceneLogic_Normal()
 
 }
 
-BOOL SceneLogic_Normal::OnCreatePlayer(CSceneObject *pPlayer)
+BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
 {
 	//玩家数据传过来了。
+	if(pObject->GetType() == OT_PLAYER)
+	{
+		return TRUE;
+	}
 
 	return TRUE;
 }
+
+BOOL SceneLogic_Normal::OnObjectDie(CSceneObject *pObject)
+{
+	if(pObject->GetType() == OT_PLAYER)
+	{
+		m_bFinished = TRUE;
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
 
 BOOL SceneLogic_Normal::OnPlayerEnter(CSceneObject *pPlayer)
 {
@@ -38,34 +55,11 @@ BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject *pPlayer)
 	pPlayer->m_dwResult = CR_LOST;
 
 	//发送战斗结果
-	m_pScene->SetFinished();
+	m_bFinished = TRUE;
 	return FALSE;
 }
 
-BOOL SceneLogic_Normal::OnCreateMonster(CSceneObject *pMonster)
-{
-	return TRUE;
-}
 
-BOOL SceneLogic_Normal::OnCreatePet(CSceneObject *pPet)
-{
-	return TRUE;
-}
-
-BOOL SceneLogic_Normal::OnPlayerDie()
-{
-	return TRUE;
-}
-
-BOOL SceneLogic_Normal::OnMonsterDie()
-{
-	return TRUE;
-}
-
-BOOL SceneLogic_Normal::OnPetDie()
-{
-	return TRUE;
-}
 
 BOOL SceneLogic_Normal::Update(UINT32 dwTick)
 {

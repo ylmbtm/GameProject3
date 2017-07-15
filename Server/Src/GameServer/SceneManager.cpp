@@ -53,11 +53,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType)
+BOOL CSceneManager::CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType, UINT32 dwPlayerNum)
 {
 	CScene *pScene = new CScene;
 
-	if(!pScene->Init(dwCopyType, dwCopyID, dwLogicType))
+	if(!pScene->Init(dwCopyType, dwCopyID, dwLogicType, dwPlayerNum))
 	{
 		ASSERT_FAIELD;
 
@@ -167,6 +167,9 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
+	ERROR_RETURN_TRUE(Req.copytype() != 0);
+	ERROR_RETURN_TRUE(Req.createparam() != 0);
+
 	UINT32 dwNewCopyID = MakeCopyID(Req.copytype());
 
 	CreateNewSceneAck Ack;
@@ -174,7 +177,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	Ack.set_copyid(dwNewCopyID);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 
-	if (!CreateScene(Req.copytype(), dwNewCopyID, 1))
+	if (!CreateScene(Req.copytype(), dwNewCopyID, Req.logictype(), Req.playernum()))
 	{
 		ASSERT_FAIELD;
 
@@ -192,7 +195,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(1, MakeCopyID(1), 1))
+	if(!CreateScene(1, MakeCopyID(1), 1, 0))
 	{
 		ASSERT_FAIELD;
 

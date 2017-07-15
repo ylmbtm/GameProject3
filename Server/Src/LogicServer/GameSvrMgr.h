@@ -1,3 +1,4 @@
+#include "..\Message\Msg_Login.pb.h"
 #ifndef __GAME_SVR_MGR__
 #define __GAME_SVR_MGR__
 
@@ -28,13 +29,19 @@ public:
 
 	UINT32	GetFreeGameServerID();
 
-	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam);
+	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
 	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID);
     BOOL    SendPlayerToCopy(UINT64 u64RoleID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID);
-    BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam);
+    BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum );
+
+
+public:
+	BOOL	OnCreateMainCopy(CreateNewSceneAck &Ack);
+
+
 public:
 	BOOL	OnCloseConnect(UINT32 dwConnID);
 	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket); //响应副本服务器注册

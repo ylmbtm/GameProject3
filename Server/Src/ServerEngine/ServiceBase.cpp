@@ -208,11 +208,6 @@ BOOL ServiceBase::Update()
 	while(m_DataQueue.pop(item))
 	{
 		UINT32 dwTick = GetTickCount();
-		if(item.m_pDataBuffer->GetRef() > 1)
-		{
-			ASSERT_FAIELD;
-		}
-
 		m_pPacketDispatcher->DispatchPacket(&item);
 
 		if((GetTickCount() - dwTick) >10)

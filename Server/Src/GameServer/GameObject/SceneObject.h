@@ -5,12 +5,10 @@
 
 enum  OBJECT_STATE
 {
-    BS_Static = 1,  ///停
-    BS_Walk = 2,    ///移动
-    BS_DIE = 3,   ///死亡
+	BS_Static = 1,  ///停
+	BS_Walk = 2,    ///移动
+	BS_DIE = 3,   ///死亡
 };
-
-
 
 class CScene;
 class CSceneObject
@@ -31,10 +29,11 @@ public:
     VOID            SubHp(UINT32 dwValue);
 
     UINT64          GetObjectID();
+	UINT32			GetType();
 
 	BOOL			IsConnected();
 
-    BOOL            IsEnterCopy();
+	BOOL            IsEnterCopy();
 	VOID			SetEnterCopy();
     BOOL            IsDie();
 

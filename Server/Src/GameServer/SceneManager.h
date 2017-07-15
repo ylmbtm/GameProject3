@@ -17,7 +17,7 @@ public:
 
 	BOOL		Uninit();
 public:
-	BOOL		CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType);
+	BOOL		CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType, UINT32 dwPlayerNum);
 
 	CScene*		GetSceneByID(UINT32 dwSceneID);
 

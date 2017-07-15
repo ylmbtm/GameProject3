@@ -471,7 +471,7 @@ BOOL CClientCmdHandler::SendRoleListReq()
 BOOL CClientCmdHandler::SendMainCopyReq()
 {
 	MainCopyReq Req;
-	Req.set_copytype(rand()%100);
+	Req.set_copytype(rand()%100+1);
 	Req.set_roleid(m_RoleIDList[0]);
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;

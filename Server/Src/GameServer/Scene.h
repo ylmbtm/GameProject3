@@ -15,7 +15,7 @@ public:
 
 	BOOL	DispatchPacket(NetPacket *pNetPack);
 
-	BOOL	Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType);
+	BOOL	Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum);
 
 	BOOL	Uninit();
 	
@@ -49,10 +49,12 @@ public:
 
 public:
 	BOOL		IsFinished();
-	VOID		SetFinished();
-public:
-	BOOL							m_bFinished; //标标副本己经完成，还示结算
+	BOOL		IsPlayerDataReady();
+	BOOL		IsPlayerLoginReady();
+
 protected:
+	UINT32							m_dwPlayerNum; //副本需要进入的人数
+	UINT32							m_dwLoginNum;  //登录副本的人数
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型

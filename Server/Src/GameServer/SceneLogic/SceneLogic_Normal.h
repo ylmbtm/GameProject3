@@ -9,21 +9,13 @@ public:
 	
 	~SceneLogic_Normal();
 public:
-	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer);
+	virtual BOOL OnObjectCreate(CSceneObject *pPlayer);
+
+	virtual BOOL OnObjectDie(CSceneObject *pPlayer);
 
 	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
 
 	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
-
-	virtual BOOL OnCreateMonster(CSceneObject *pMonster);
-
-	virtual BOOL OnCreatePet(CSceneObject *pPet);
-
-	virtual BOOL OnPlayerDie();
-
-	virtual BOOL OnMonsterDie();
-
-	virtual BOOL OnPetDie();
 
 	virtual BOOL Update(UINT32 dwTick);
 

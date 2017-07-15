@@ -38,8 +38,6 @@ public:
 
 	UINT32  m_dwConnID;
 
-	UINT32  m_CharState;
-
 	UINT32  m_dwCopyID;
 };
 

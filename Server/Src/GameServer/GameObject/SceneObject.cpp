@@ -121,6 +121,11 @@ UINT64 CSceneObject::GetObjectID()
     return m_uID;
 }
 
+UINT32 CSceneObject::GetType()
+{
+	return m_dwType;
+}
+
 BOOL CSceneObject::IsConnected()
 {
 	return (m_dwClientConnID != 0)&&(m_dwProxyConnID != 0);

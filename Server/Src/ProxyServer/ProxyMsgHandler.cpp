@@ -148,13 +148,6 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 		return TRUE;
 	}
 
-	if(pPlayer->m_CharState == LS_OffLine)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
-
-	pPlayer->m_CharState = LS_OffLine;
 
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
 	ERROR_RETURN_TRUE(dwConnID != 0);
@@ -170,14 +163,6 @@ BOOL CProxyMsgHandler::RelayToGameServer( CProxyPlayer *pClientObj, IDataBuffer 
 
 		return FALSE;
 	}
-
-	if(pClientObj->m_CharState == LS_OffLine)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
-
 
 	return TRUE;
 }

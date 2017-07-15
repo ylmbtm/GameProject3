@@ -167,8 +167,9 @@ message RoleSkillReq {
 ///创建场景
 message CreateNewSceneReq{
 	uint32 CopyType = 1;
-	uint32 BattleType = 2;
-	uint64 CreateParam = 3;
+	uint32 LogicType = 2;
+	uint32 PlayerNum = 3;
+	uint64 CreateParam = 4;
 }
 
 ///创建场景
@@ -178,7 +179,8 @@ message CreateNewSceneAck{
 	uint32  CopyID      = 3;
 	uint64  CreateParam = 4;
 	uint32  ServerID    = 5;
-	uint32  BattleType  = 6;
+	uint32  LogicType   = 6;
+	uint32 PlayerNum	= 7;
 }
 
 ////

@@ -11,30 +11,31 @@ public:
 	
 	~SceneLogicBase();
 public:
-	virtual BOOL OnCreatePlayer(CSceneObject *pPlayer);
+	virtual BOOL OnObjectCreate(CSceneObject *pObject);
+
+	virtual BOOL OnObjectDie(CSceneObject *pObject);
 
 	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
 
 	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
 
-	virtual BOOL OnCreateMonster(CSceneObject *pMonster);
-
-	virtual BOOL OnCreatePet(CSceneObject *pPet);
-
-	virtual BOOL OnPlayerDie(CSceneObject *pPlayer);
-
-	virtual BOOL OnMonsterDie(CSceneObject *pMonster);
-
-	virtual BOOL OnPetDie(CSceneObject *pPet);
-
 	virtual BOOL Update(UINT32 dwTick);
 
 	virtual BOOL OnTimeUP();
+
+	virtual BOOL IsFinished();
+
+	virtual BOOL SetEndTime(UINT32 dwTime);
 
 	CScene*  GetScene();
 
 public:
 	CScene *m_pScene;
+
+public:
+	BOOL m_bFinished;
+
+	UINT32 m_dwEndTime;
 
 };
 
