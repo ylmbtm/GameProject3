@@ -1,4 +1,4 @@
-#ifndef __ROLE_DATA_OBJECT_H__
+ï»¿#ifndef __ROLE_DATA_OBJECT_H__
 #define __ROLE_DATA_OBJECT_H__
 
 #include "serverStruct.h"
@@ -9,16 +9,19 @@ struct RoleDataObject : public ShareObject
 		
 	}
 	
-	UINT64 m_u64ID;			//½ÇÉ«ID
-	UINT64 m_u64AccountID;	//ÕËºÅID
-	CHAR   m_szName[255];	//½ÇÉ«Ãû
-	UINT32 m_RoleType;		//½ÇÉ«ÀàĞÍ
-	UINT32 m_dwLevel;		//µÈ¼¶
-	UINT64 m_Money[10];		//ËùÓĞµÄ»õ±Ò
-	UINT64 m_Action[10];		//ËùÓĞµÄÌåÁ¦
-	UINT64 m_dwExp;			//¾­Ñé
-	UINT32 m_dwLangID;		//ÓïÑÔID
-	UINT64 m_u64Fight;      //Õ½Á¦
+	UINT64 m_u64ID;			//è§’è‰²ID
+	UINT64 m_u64AccountID;	//è´¦å·ID
+	CHAR   m_szName[255];	//è§’è‰²å
+	UINT32 m_RoleType;		//è§’è‰²ç±»å‹
+	UINT32 m_dwLevel;		//ç­‰çº§
+	UINT64 m_Money[10];		//æ‰€æœ‰çš„è´§å¸
+	UINT64 m_Action[10];	//æ‰€æœ‰çš„ä½“åŠ›
+    UINT64 m_Actime[10];    //ä½“åŠ›æ¢å¤æ—¶é—´
+	UINT64 m_dwExp;			//ç»éªŒ
+	UINT32 m_dwLangID;		//è¯­è¨€ID
+	UINT64 m_u64Fight;      //æˆ˜åŠ›
+    UINT32 m_dwVipLvl;      //VIPç­‰çº§
+    UINT32 m_dwVipExp;      //VIPç»éªŒ
 
 	BOOL Save(IDataBase *pDB)
 	{ 
@@ -55,7 +58,7 @@ struct CopyDataObject : public ShareObject
 		UINT32 m_dwStar = 0;
 	}
 
-	UINT64 m_u64ID;			//½ÇÉ«ID
+	UINT64 m_u64ID;			//è§’è‰²ID
 	UINT32 m_dwChaper;
 	UINT32 m_dwCopyType;
 	UINT32 m_dwBattleTimes;

@@ -430,7 +430,17 @@ VOID CScene::DeletePlayer(UINT64 uID)
 
 CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {
-
+   std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
+   if(itor != m_PlayerMap.end())
+   {
+       return itor->second;
+   }
+    
+   itor = m_MonsterMap.find(uID);
+   if(itor != m_MonsterMap.end())
+   {
+       return itor->second;
+   }
 	return NULL;
 }
 
@@ -495,6 +505,11 @@ BOOL CScene::SyncObjectState()
         }
     }
 
+    return TRUE;
+}
+
+BOOL CScene::GenMonster( UINT32 dwMonsterID )
+{
     return TRUE;
 }
 

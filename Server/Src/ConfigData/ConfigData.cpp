@@ -1,4 +1,4 @@
-#include <stdafx.h>
+﻿#include <stdafx.h>
 #include "ConfigData.h"
 #include "Utility\CommonConvert.h"
 
@@ -80,7 +80,11 @@ BOOL CConfigData::ReadCopyBase(CppSQLite3Query &QueryData)
 	while(QueryData.eof())
 	{
 		StCopyBase stValue;
-		stValue.dwTypeID = QueryData.getIntField("id");
+		stValue.dwTypeID = QueryData.getIntField("Id");
+        stValue.dwBattleTimes = QueryData.getIntField("Id"); 
+        stValue.dwCostActID = QueryData.getIntField("Id");
+        stValue.dwCostActNum = QueryData.getIntField("Id");
+        stValue.dwLogicType = QueryData.getIntField("Id");
 
 		m_mapCopybase.insert(std::make_pair(stValue.dwTypeID, stValue));
 		
@@ -107,11 +111,40 @@ BOOL CConfigData::ReadLanguage(CppSQLite3Query &QueryData)
 	{
 		StLocalString stValue;
 		stValue.dwID = QueryData.getIntField("id");
-
+        stValue.Language[0] = QueryData.getIntField("lang0");
+        stValue.Language[1] = QueryData.getIntField("lang1");
+        stValue.Language[2] = QueryData.getIntField("lang2");
+        stValue.Language[3] = QueryData.getIntField("lang3");
+        stValue.Language[4] = QueryData.getIntField("lang4");
+        stValue.Language[5] = QueryData.getIntField("lang5");
+        stValue.Language[6] = QueryData.getIntField("lang6");
+        stValue.Language[7] = QueryData.getIntField("lang7");
+        stValue.Language[8] = QueryData.getIntField("lang8");
+        stValue.Language[9] = QueryData.getIntField("lang9");
+        stValue.Language[10] = QueryData.getIntField("lang10");
+        stValue.Language[11] = QueryData.getIntField("lang11");
+        stValue.Language[12] = QueryData.getIntField("lang12");
+        stValue.Language[13] = QueryData.getIntField("lang13");
+        stValue.Language[14] = QueryData.getIntField("lang14");
 		m_mapLocalString.insert(std::make_pair(stValue.dwID, stValue));
-
 		QueryData.nextRow();
 	}
 
 	return TRUE;
+}
+
+std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
+{
+    if((dwLang < 0)||(dwLang > 14))
+    {
+        return m_strNull;
+    }
+
+    std::map<UINT32, StLocalString>::iterator itor = m_mapLocalString.find(dwID);
+    if(itor != m_mapLocalString.end())
+    {
+        return itor->second.Language[dwLang];
+    }
+
+    return m_strNull;
 }

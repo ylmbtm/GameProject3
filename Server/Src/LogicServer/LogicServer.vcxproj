@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
+    <ClCompile Include="..\ConfigData\ConfigData.cpp" />
     <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -116,12 +117,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ConfigData.cpp" />
     <ClCompile Include="WorldMsgHandler.cpp" />
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
+    <ClInclude Include="..\ConfigData\ConfigData.h" />
+    <ClInclude Include="..\ConfigData\ConfigStruct.h" />
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
@@ -137,7 +139,6 @@
     <ClInclude Include="RoleModule.h" />
     <ClInclude Include="SimpleMananger.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="ConfigData.h" />
     <ClInclude Include="WorldMsgHandler.h" />
   </ItemGroup>
   <ItemGroup>

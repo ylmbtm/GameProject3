@@ -6,7 +6,6 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "Utility/Log/Log.h"
-#include "ConfigData.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {

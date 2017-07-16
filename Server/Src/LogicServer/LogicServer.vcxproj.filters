@@ -16,6 +16,9 @@
     <Filter Include="ServerData">
       <UniqueIdentifier>{913de128-cbda-4ce2-9716-099610d60508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ConfigData">
+      <UniqueIdentifier>{aa905f56-049e-445f-a450-395241343af6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -66,8 +69,8 @@
     <ClCompile Include="CopyModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigData.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="..\ConfigData\ConfigData.cpp">
+      <Filter>ConfigData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,8 +125,11 @@
     <ClInclude Include="CopyModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigData.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\ConfigData\ConfigData.h">
+      <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConfigData\ConfigStruct.h">
+      <Filter>ConfigData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

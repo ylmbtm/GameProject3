@@ -66,5 +66,11 @@ protected:
     }
 
 
+#define FALSE_CONTINUE(P) \
+    if(P == FALSE)\
+{\
+    continue; \
+}
+
 
 #endif

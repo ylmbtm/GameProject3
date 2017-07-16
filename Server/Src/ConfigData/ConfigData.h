@@ -1,4 +1,4 @@
-#ifndef __TYPE_DATA_PARSER_H__
+ï»¿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
 #include "Sqlite\CppSQLite3.h"
 #include "..\ConfigData\ConfigStruct.h"
@@ -28,25 +28,28 @@ public:
 	BOOL ReadConfigData(std::string strDbFile); 
 
 public:
-	//»ù±¾ÅäÖÆ±äÁ¿
+	//åŸºæœ¬é…åˆ¶å˜é‡
 	///////////////////////////////////////////////
 	BOOL ReadConstantValue(CppSQLite3Query &QueryData);
 	StConstantValue m_ConstantValue;
 
-	//½ÇÉ«
+	//è§’è‰²
 	///////////////////////////////////////////////
     BOOL ReadRoleType(CppSQLite3Query &QueryData);
 	
-	//¸±±¾
+	//å‰¯æœ¬
 	///////////////////////////////////////////////
+    std::map<UINT32, StCopyBase> m_mapCopybase; 
 	BOOL ReadCopyBase(CppSQLite3Query &QueryData);
-	std::map<UINT32, StCopyBase> m_mapCopybase; 
 	StCopyBase* GetCopyBaseInfo(UINT32 dwCopyType);
 
-	//ÓïÑÔÅäÖÆ±í
+	//è¯­è¨€é…åˆ¶è¡¨
 	///////////////////////////////////////////////
+    std::string m_strNull;
+    std::map<UINT32, StLocalString> m_mapLocalString;
 	BOOL ReadLanguage(CppSQLite3Query &QueryData);
-	std::map<UINT32, StLocalString> m_mapLocalString;
+    std::string& GetLanguageText(UINT32 dwID, UINT32 dwLang);
+	
 	
 	
 	

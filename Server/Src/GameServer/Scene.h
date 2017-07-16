@@ -13,39 +13,39 @@ public:
 
 	~CScene();
 
-	BOOL	DispatchPacket(NetPacket *pNetPack);
+	BOOL	        DispatchPacket(NetPacket *pNetPack);
 
-	BOOL	Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum);
+	BOOL	        Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum);
 
-	BOOL	Uninit();
+	BOOL	        Uninit();
 	
-	UINT32	GetCopyID();
+	UINT32	        GetCopyID();
 
-	UINT32  GetCopyType();
+	UINT32          GetCopyType();
 
-	BOOL    OnUpdate( UINT32 dwTick );
+	BOOL            OnUpdate( UINT32 dwTick );
 
-	BOOL	CreateSceneLogic(UINT32 dwLogicType);
+	BOOL	        CreateSceneLogic(UINT32 dwLogicType);
 
-	BOOL    DestroySceneLogic(UINT32 dwLogicType);
+	BOOL            DestroySceneLogic(UINT32 dwLogicType);
 
-    BOOL    BroadNewObject(CSceneObject *pSceneObject);
+    BOOL            BroadNewObject(CSceneObject *pSceneObject);
 
-    BOOL    BroadRemoveObject(CSceneObject *pSceneObject);
+    BOOL            BroadRemoveObject(CSceneObject *pSceneObject);
 
-	BOOL	SendAllNewObjectToPlayer(CSceneObject *pSceneObject);
+	BOOL	        SendAllNewObjectToPlayer(CSceneObject *pSceneObject);
 
-    BOOL    SyncObjectState();
-	BOOL	GetPlayerCount();
+    BOOL            SyncObjectState();
+	BOOL	        GetPlayerCount();
 
-    CSceneObject* GetPlayer(UINT64 uID);
-    BOOL          AddPlayer(CSceneObject *pSceneObject);
-	VOID		  DeletePlayer(UINT64 uID);
-
-	CSceneObject* GetSceneObject(UINT64 uID);
+    CSceneObject*   GetPlayer(UINT64 uID);
+    BOOL            AddPlayer(CSceneObject *pSceneObject);
+	VOID		    DeletePlayer(UINT64 uID);
+	CSceneObject*   GetSceneObject(UINT64 uID);
 
 	//////////////////////////////////////////////////////////////////////////
-	//专门事件
+	//创建对象
+    BOOL            GenMonster(UINT32 dwMonsterID);
 
 public:
 	BOOL		IsFinished();

@@ -9,8 +9,8 @@
 #include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
-#include "ConfigData.h"
 #include "SimpleMananger.h"
+#include "../GameServer/ConfigData.h"
 
 CGameService::CGameService(void)
 {

@@ -31,7 +31,7 @@ public:
 
 	BOOL			    ReleasePlayer(UINT64 u64RoleID);
 
-	BOOL				DeletePlayer(UINT32 u64RoleID);
+	BOOL				DeletePlayer(UINT64 u64RoleID);
 
 
 

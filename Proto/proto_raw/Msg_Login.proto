@@ -154,15 +154,6 @@ message RoleDisconnectAck {
     uint32   RetCode = 1;
 }
 
-message RoleSkillReq {
-	uint64 AttackerID = 1;
-	uint32 SkillID = 2;
-	float  sx = 3;
-	float  sz = 4;
-	float  dx = 5;
-	float  dz = 6;
-	repeated uint64 DamagerID = 7; 
-}
 
 ///创建场景
 message CreateNewSceneReq{
@@ -184,7 +175,6 @@ message CreateNewSceneAck{
 }
 
 ////
-
 message EnterSceneReq {
     uint64  RoleID = 1;
 	uint32  ServerID = 2; //场景服ID
@@ -195,9 +185,19 @@ message EnterSceneAck {
     uint32   RetCode = 1;
 	uint32   CopyType = 2;
 	uint32   CopyID = 3;
+	//以下是主角创建需要信息
 	uint64   RoleID = 4;
-	string   RoleName = 5;
 	uint32   RoleType = 6;
+	string   RoleName = 5;
+	float	 x = 3;
+	float    z = 4;
+	float    vx = 5;
+	float    vz = 6;
+	uint32   hp = 7;
+	uint32   mp = 8;
+	uint32   hpmax = 9;
+	uint32   mpmax = 10;
+	repeated uint32 equip; //装备
 }
 
 message MainCopyReq {
