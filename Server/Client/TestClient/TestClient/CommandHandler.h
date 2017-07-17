@@ -17,7 +17,7 @@ private:
 public:
 	static CClientCmdHandler* GetInstancePtr();
 
-	BOOL OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
 	BOOL OnUpdate(UINT32 dwTick);
 
@@ -25,29 +25,29 @@ public:
 	BOOL SendNewAccountReq(LPCTSTR szAccountName, LPCTSTR szPassword);
 	BOOL SendNewCharReq(UINT32 dwAccountID,LPCTSTR szCharName, UINT32 dwFeature);
 	BOOL SendDelCharReq(UINT32 dwAccountID,UINT64 dwCharID);
-	BOOL SendPickCharReq(UINT64 u64CharID);
 	BOOL SendLeaveGameReq(UINT64 u64CharID);
+	BOOL SendRoleLoginReq(UINT64 u64CharID);
 	BOOL SendMoveReq(FLOAT x, FLOAT y, FLOAT z, UINT16 nDir);
 
 
 	//*********************消息处理定义开始******************************
 public:
-	BOOL OnCmdLoginGameAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdEnterGameAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgSelectServerAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdEnterGameAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNewAccountAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
-	BOOL OnCmdNewAccountAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNewCharAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdDelCharAck(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
 
 
 	//CMD_CHAR_NEARBY_ADD,			//添加周围的对象
 	//CMD_CHAR_NEARBY_UPDATE,		//更新周围的对象
 	//CMD_CHAR_NEARBY_REMOVE,		//删除周围的对象
 
-	BOOL OnCmdNearByAdd(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNearByUpdate(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdNearByRemove(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
-	BOOL OnCmdUpdateMyself(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper);
+	BOOL OnCmdNearByAdd(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNearByUpdate(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNearByRemove(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdUpdateMyself(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	
 	//*********************消息处理定义结束******************************
 

@@ -13,13 +13,6 @@ CPlayerObject::~CPlayerObject()
 
 }
 
-UINT32 CPlayerObject::ReadFromBuffer( CBufferHelper *pBufHelper )
-{
-	UINT32 dwSize = 0;
-	dwSize += CCharObject::ReadFromBuffer(pBufHelper);
-
-	return dwSize;
-}
 
 
 BOOL CPlayerObjectMgr::AddPlayer( CPlayerObject *pObject )

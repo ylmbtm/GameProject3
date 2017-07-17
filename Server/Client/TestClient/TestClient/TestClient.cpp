@@ -6,10 +6,6 @@
 #include "TestClient.h"
 #include "TestClientDlg.h"
 #include "CommandHandler.h"
-#include "DataBuffer\BufferHelper.h"
-#include "PacketDef\CommonPacket.h"
-#include "PacketDef\ClientPacket.h"
-#include "ObjectID.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

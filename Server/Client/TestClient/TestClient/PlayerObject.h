@@ -9,8 +9,6 @@ public:
 	CPlayerObject();
 
 	~CPlayerObject();
-
-	virtual UINT32  ReadFromBuffer(CBufferHelper *pBufHelper);
 };
 
 

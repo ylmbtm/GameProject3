@@ -33,3 +33,7 @@ VOID CWorldObject::SetPosition( FLOAT x, FLOAT y, FLOAT z )
 }
 
 
+UINT64 CWorldObject::GetObjectID()
+{
+	return 0;
+}

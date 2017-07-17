@@ -3,6 +3,14 @@
 #include "Resource.h"
 
 
+struct RoleNode 
+{
+	UINT64 m_u64ID;
+	UINT32 m_dwRoleType;
+	std::string Name;
+	UINT32 dwLevel;
+};
+
 // CDlgSelect 对话框
 
 class CDlgSelect : public CDialog
@@ -24,15 +32,18 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
+	
 public:
 	BOOL DelChar(UINT64 u64CharID);
-
+	BOOL AddCharPickInfo( RoleNode &Node );
 	BOOL RefreshListCtrl();
 
 public:
 	UINT32			m_nCount;
 
 	CListCtrl m_CharList;
+
+	std::vector<RoleNode> m_vtRoleList;
 	
 	afx_msg void OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 };

@@ -14,6 +14,8 @@ public:
 
 	VOID		SetPosition(FLOAT x, FLOAT y, FLOAT z);
 
+	UINT64      GetObjectID();
+
 public:
 
 	CPosition  m_ObjectPos;

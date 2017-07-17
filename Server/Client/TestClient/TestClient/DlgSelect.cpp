@@ -46,9 +46,7 @@ BOOL CDlgSelect::OnInitDialog()
 
 	m_CharList.InsertColumn(0, "角色名", LVCFMT_LEFT, 100);
 	m_CharList.InsertColumn(1, "等级", LVCFMT_LEFT, 100);
-	m_CharList.InsertColumn(2, "性别", LVCFMT_LEFT, 100);
 	m_CharList.InsertColumn(3, "职业", LVCFMT_LEFT, 100);
-	m_CharList.InsertColumn(4, "脸型", LVCFMT_LEFT, 100);
 
 	RefreshListCtrl();
 
@@ -65,15 +63,13 @@ void CDlgSelect::OnBnClickedOk()
 
 	int SelData = m_CharList.GetItemData(nIndex);
 
-	CClientCmdHandler::GetInstancePtr()->SendPickCharReq(m_CharInfoList[SelData].u64CharID);
+	CClientCmdHandler::GetInstancePtr()->SendRoleLoginReq(m_vtRoleList[SelData].m_u64ID);
 
 	OnOK();
 }
 
 void CDlgSelect::OnBnClickedBtnNewChar()
 {
-	
-
 	CDlgCreate DlgCreate;
 
 	DlgCreate.DoModal();
@@ -81,14 +77,14 @@ void CDlgSelect::OnBnClickedBtnNewChar()
 	OnOK();
 }
 
-BOOL CDlgSelect::AddCharPickInfo( StCharPickInfo &PickInfo )
+BOOL CDlgSelect::AddCharPickInfo( RoleNode &Node )
 {
 	if(m_nCount >= 4)
 	{
 		return FALSE;
 	}
 
-	m_CharInfoList.push_back(PickInfo);
+	m_vtRoleList.push_back(Node);
 
 	m_nCount++;
 
@@ -101,27 +97,12 @@ BOOL CDlgSelect::RefreshListCtrl()
 
 	CHAR szValue[64]={0};
 	int i = 0;
-	for(std::vector<StCharPickInfo>::iterator itor = m_CharInfoList.begin(); itor != m_CharInfoList.end(); itor++)
+	for(std::vector<RoleNode>::iterator itor = m_vtRoleList.begin(); itor != m_vtRoleList.end(); itor++)
 	{
 		sprintf(szValue, "%d", itor->dwLevel);
-		m_CharList.InsertItem(i, itor->szCharName);
+		m_CharList.InsertItem(i, itor->Name.c_str());
 		m_CharList.SetItemText(i, 1, szValue);
-		St_CharFeature stCharFeature;
-		stCharFeature.dwValues = itor->dwFeature;
-		m_CharList.SetItemText(i, 2, stCharFeature.Sex == 1 ?"男" :"女");
-		if(stCharFeature.Career == 1)
-		{
-			m_CharList.SetItemText(i, 3,"战士");
-		}
-		else if(stCharFeature.Career == 1)
-		{
-			m_CharList.SetItemText(i, 3,"法师");
-		}
-		else if(stCharFeature.Career == 1)
-		{
-			m_CharList.SetItemText(i, 3,"道士");
-		}
-
+		m_CharList.SetItemText(i, 3,"战士");
 		m_CharList.SetItemData(i, i);
 		i++;
 	}
@@ -149,9 +130,8 @@ void CDlgSelect::OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	int nValue = Menu.TrackPopupMenu(TPM_LEFTALIGN|TPM_RETURNCMD, pt.x, pt.y, this);
 	if(nValue == 101 )
 	{
-		StCharPickInfo &Info = m_CharInfoList[pNMItemActivate->iItem];
+		//StCharPickInfo &Info = m_CharInfoList[pNMItemActivate->iItem];
 
-		CClientCmdHandler::GetInstancePtr()->SendDelCharReq(CClientCmdHandler::GetInstancePtr()->m_dwAccountID, Info.u64CharID);
 		
 		OnOK();
 	}
@@ -163,16 +143,3 @@ void CDlgSelect::OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-BOOL CDlgSelect::DelChar( UINT64 u64CharID )
-{
-	for(std::vector<StCharPickInfo>::iterator itor = m_CharInfoList.begin(); itor != m_CharInfoList.end(); ++itor)
-	{
-		if(itor->u64CharID = u64CharID)
-		{
-			m_CharInfoList.erase(itor);
-			break;
-		}
-	}
-
-	return TRUE;
-}

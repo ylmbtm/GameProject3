@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 #include "CommandHandler.h"
-#include "PacketDef/ServerPacket.h"
-#include "DataBuffer/BufferHelper.h"
-#include "PacketDef/ClientPacket.h"
 #include "resource.h"
 #include "TestClientDlg.h"
-#include "DataBuffer/BufferHelper.h"
 #include "DlgSelect.h"
-#include "Error.h"
-#include "ObjectID.h"
+#include "..\Src\Message\Msg_ID.pb.h"
+#include "..\Src\Message\Msg_RetCode.pb.h"
+#include "Utility\Log\Log.h"
+#include "..\Src\Message\Msg_Login.pb.h"
+#include "PacketHeader.h"
+
 
 CClientCmdHandler::CClientCmdHandler(void)
 {
@@ -30,21 +30,22 @@ CClientCmdHandler* CClientCmdHandler::GetInstancePtr()
 	return &_Handler;
 }
 
-BOOL CClientCmdHandler::OnCommandHandle( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::DispatchPacket( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 { 
 	BOOL bHandled = TRUE;
-	switch(wCommandID)
+	switch(dwMsgID)
 	{
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_LOGIN_ACK,		OnCmdLoginGameAck);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_NEW_CHAR_ACK,	OnCmdNewCharAck);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_DEL_CHAR_ACK,	OnCmdDelCharAck);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_NEW_ACCOUNT_ACK,OnCmdNewAccountAck);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_ENTER_GAME_ACK,	OnCmdEnterGameAck)
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ACCOUNT_LOGIN_ACK,		OnMsgAccountLoginAck);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_SELECT_SERVER_ACK,      OnMsgSelectServerAck);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ACCOUNT_REG_ACK,		OnCmdNewAccountAck);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LIST_ACK,			OnMsgRoleListAck);
+		
+		//PROCESS_MESSAGE_ITEM(CMD_CHAR_ENTER_GAME_ACK,	        OnCmdEnterGameAck)
 
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_NEARBY_ADD,		OnCmdNearByAdd);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_NEARBY_UPDATE,	OnCmdNearByUpdate);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_NEARBY_REMOVE,	OnCmdNearByRemove);
-		PROCESS_COMMAND_ITEM_T(CMD_CHAR_UPDATE_MYSELF,	OnCmdUpdateMyself);
+		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_ADD,		OnCmdNearByAdd);
+		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_UPDATE,	OnCmdNearByUpdate);
+		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_REMOVE,	OnCmdNearByRemove);
+		//PROCESS_MESSAGE_ITEM(CMD_CHAR_UPDATE_MYSELF,	OnCmdUpdateMyself);
 
 	default:
 		{
@@ -56,123 +57,123 @@ BOOL CClientCmdHandler::OnCommandHandle( UINT16 wCommandID, UINT64 u64ConnID, CB
 	return bHandled;
 }
 
-BOOL CClientCmdHandler::OnCmdNearByAdd( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnCmdNearByAdd( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
-	UINT32 dwCount = 0;
-	pBufferHelper->Read(dwCount);
-
-	printf("BEGIN---添加角色消息，添加人数:%d\n", dwCount);
-	
-	for(UINT32 i = 0; i < dwCount; i++)
-	{
-		CString strText;
-
-		UINT8 type = 0;
-
-		pBufferHelper->Read(type);
-
-		if(type != 1)
-		{
-			continue;
-		}
-
-		CPlayerObject *pObject = new CPlayerObject;
-
-		pObject->ReadFromBuffer(pBufferHelper);
-
-		m_PlayerObjMgr.insert(std::make_pair(pObject->GetObjectID(), pObject));
-
-		printf("添加角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
-
-	}
-
-	printf("END---添加角色消息\n");
-
-
-	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
+// 	UINT32 dwCount = 0;
+// 	pBufferHelper->Read(dwCount);
+// 
+// 	printf("BEGIN---添加角色消息，添加人数:%d\n", dwCount);
+// 	
+// 	for(UINT32 i = 0; i < dwCount; i++)
+// 	{
+// 		CString strText;
+// 
+// 		UINT8 type = 0;
+// 
+// 		pBufferHelper->Read(type);
+// 
+// 		if(type != 1)
+// 		{
+// 			continue;
+// 		}
+// 
+// 		CPlayerObject *pObject = new CPlayerObject;
+// 
+// 		pObject->ReadFromBuffer(pBufferHelper);
+// 
+// 		m_PlayerObjMgr.insert(std::make_pair(pObject->GetObjectID(), pObject));
+// 
+// 		printf("添加角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
+// 
+// 	}
+// 
+// 	printf("END---添加角色消息\n");
+// 
+// 
+// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
 
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::OnCmdNearByUpdate( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnCmdNearByUpdate( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
-	UINT32 dwCount = 0;
-	pBufferHelper->Read(dwCount);
-
-	for(UINT32 i = 0; i < dwCount; i++)
-	{
-		UINT64 u64CharID = 0;
-
-		pBufferHelper->Read(u64CharID);
-
-		CPlayerObject *pObject = m_PlayerObjMgr.GetPlayer(u64CharID);
-		if(pObject != NULL)
-		{
-			pObject->ReadFromBuffer(pBufferHelper);
-
-			printf("更新角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
-		}
-		else
-		{
-			ASSERT_FAIELD;
-		}
-	}
-
-	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
+// 	UINT32 dwCount = 0;
+// 	pBufferHelper->Read(dwCount);
+// 
+// 	for(UINT32 i = 0; i < dwCount; i++)
+// 	{
+// 		UINT64 u64CharID = 0;
+// 
+// 		pBufferHelper->Read(u64CharID);
+// 
+// 		CPlayerObject *pObject = m_PlayerObjMgr.GetPlayer(u64CharID);
+// 		if(pObject != NULL)
+// 		{
+// 			pObject->ReadFromBuffer(pBufferHelper);
+// 
+// 			printf("更新角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
+// 		}
+// 		else
+// 		{
+// 			ASSERT_FAIELD;
+// 		}
+// 	}
+// 
+// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
 
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::OnCmdNearByRemove( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnCmdNearByRemove( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
-	UINT32 dwCount = 0;
-	pBufferHelper->Read(dwCount);
-
-	printf("BEGIN---删除角色消息，预计删除人数:%d, 现在人数:%d", dwCount, m_PlayerObjMgr.size());
-
-	for(UINT32 i = 0; i < dwCount; i++)
-	{
-		UINT64 u64CharID = 0;
-
-		pBufferHelper->Read(u64CharID);
-
-		CPlayerObject *pObj = m_PlayerObjMgr.GetPlayer(u64CharID);
-		if(pObj == NULL)
-		{
-			ASSERT_FAIELD;
-			return 0;
-		}
-
-		m_PlayerObjMgr.RemovePlayer(u64CharID);
-
-		delete pObj;
-	}
-
-	printf("END---删除角色消息\n");
-
-
-	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
+// 	UINT32 dwCount = 0;
+// 	pBufferHelper->Read(dwCount);
+// 
+// 	printf("BEGIN---删除角色消息，预计删除人数:%d, 现在人数:%d", dwCount, m_PlayerObjMgr.size());
+// 
+// 	for(UINT32 i = 0; i < dwCount; i++)
+// 	{
+// 		UINT64 u64CharID = 0;
+// 
+// 		pBufferHelper->Read(u64CharID);
+// 
+// 		CPlayerObject *pObj = m_PlayerObjMgr.GetPlayer(u64CharID);
+// 		if(pObj == NULL)
+// 		{
+// 			ASSERT_FAIELD;
+// 			return 0;
+// 		}
+// 
+// 		m_PlayerObjMgr.RemovePlayer(u64CharID);
+// 
+// 		delete pObj;
+// 	}
+// 
+// 	printf("END---删除角色消息\n");
+// 
+// 
+// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
 
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::OnCmdEnterGameAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnCmdEnterGameAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
-	StCharEnterGameAck CharEnterGameAck;
-
-	pBufferHelper->Read(CharEnterGameAck);
-
-	m_HostPlayer.ReadFromBuffer(pBufferHelper);
-
-	CHECK_PAYER_ID(m_HostPlayer.GetObjectID());
-
-	printf("登录成功!");
-
-	m_bLoginOK = TRUE;
-
-	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
-
-	((CTestClientDlg*)AfxGetMainWnd())->SetWindowText((LPCTSTR)m_HostPlayer.m_szObjectName);
+// 	StCharEnterGameAck CharEnterGameAck;
+// 
+// 	pBufferHelper->Read(CharEnterGameAck);
+// 
+// 	m_HostPlayer.ReadFromBuffer(pBufferHelper);
+// 
+// 	CHECK_PAYER_ID(m_HostPlayer.GetObjectID());
+// 
+// 	printf("登录成功!");
+// 
+// 	m_bLoginOK = TRUE;
+// 
+// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
+// 
+// 	((CTestClientDlg*)AfxGetMainWnd())->SetWindowText((LPCTSTR)m_HostPlayer.m_szObjectName);
 
 	return TRUE;
 }
@@ -186,205 +187,181 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 BOOL CClientCmdHandler::SendNewAccountReq( LPCTSTR szAccountName, LPCTSTR szPassword )
 {
-	StCharNewAccountReq CharNewAccountReq;
-	strncpy(CharNewAccountReq.szAccountName, szAccountName, 32);
-	strncpy(CharNewAccountReq.szPassword, szPassword, 32);
-
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
-
-	WriteHelper.BeginWrite(CMD_CHAR_NEW_ACCOUNT_REQ, 0, 0);
-
-	WriteHelper.Write(CharNewAccountReq);
-
-	WriteHelper.EndWrite();
-
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
+// 	StCharNewAccountReq CharNewAccountReq;
+// 	strncpy(CharNewAccountReq.szAccountName, szAccountName, 32);
+// 	strncpy(CharNewAccountReq.szPassword, szPassword, 32);
+// 
+// 	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
+// 
+// 	WriteHelper.BeginWrite(CMD_CHAR_NEW_ACCOUNT_REQ, 0, 0);
+// 
+// 	WriteHelper.Write(CharNewAccountReq);
+// 
+// 	WriteHelper.EndWrite();
+// 
+// 	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
 
 	return TRUE;
 }
 
 
 
-BOOL CClientCmdHandler::OnCmdLoginGameAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
 {
-	StCharLoginAck MsgLoginAck;
+	AccountLoginAck Ack;
+	Ack.ParsePartialFromArray(PacketBuf, BufLen);
+	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 
-	pBufferHelper->Read(MsgLoginAck);
-
-	if(MsgLoginAck.nRetCode == E_FAILED)
+	if(Ack.retcode() == MRC_FAILED)
 	{
 		MessageBox(NULL, "登录失败! 密码或账号不对!!","提示", MB_OK);
 	}
 	else
 	{
-		m_dwAccountID = MsgLoginAck.dwAccountID;
-		m_DlgSelect.m_nCount = MsgLoginAck.nCount;
-		for(int i = 0; i < MsgLoginAck.nCount; i++)
-		{
-			m_DlgSelect.m_CharInfoList.push_back(MsgLoginAck.CharPickInfo[i]);
-		}
-		
-		m_DlgSelect.DoModal();
+		m_dwAccountID = Ack.accountid();
 	}
 
+	SelectServerReq Req;
+	Req.set_serverid(201);
+	m_ClientConnector.SendData(MSG_SELECT_SERVER_REQ, Req, 0, 0);
 	return TRUE;
 }
 
 
-BOOL CClientCmdHandler::SendPickCharReq( UINT64 u64CharID )
+BOOL CClientCmdHandler::OnMsgSelectServerAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
 {
-	StCharPickCharReq CharPickCharReq;
-	CharPickCharReq.u64CharID = u64CharID;
+	SelectServerAck Ack;
+	Ack.ParsePartialFromArray(PacketBuf, BufLen);
+	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
+	m_ClientConnector.DisConnect();
+	m_ClientConnector.ConnectToServer(Ack.serveraddr(), Ack.serverport());
 
-	CHECK_PAYER_ID(u64CharID);
+	RoleListReq Req;
+	Req.set_accountid(m_dwAccountID);
+	Req.set_logincode(12345678);
+	m_ClientConnector.SendData(MSG_ROLE_LIST_REQ, Req, 0, 0);
+	return TRUE;
+}
 
-	WriteHelper.BeginWrite(CMD_CHAR_PICK_CHAR_REQ, 0, 0);
+BOOL CClientCmdHandler::OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+{
+	RoleListAck Ack;
+	Ack.ParsePartialFromArray(PacketBuf, BufLen);
+	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 
-	WriteHelper.Write(CharPickCharReq);
-
-	WriteHelper.EndWrite();
-
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
+	for( int i =0 ; i < Ack.rolelist_size(); i++)
+	{
+		RoleNode tNode;
+		tNode.dwLevel = 0;
+		tNode.Name = Ack.rolelist(i).name();
+		tNode.m_dwRoleType = Ack.rolelist(i).roletype();
+		tNode.m_u64ID = Ack.rolelist(i).id();
+		m_DlgSelect.AddCharPickInfo(tNode);
+	}
+	
+	m_DlgSelect.DoModal();
 
 	return TRUE;
 }
 
-
-BOOL CClientCmdHandler::OnCmdNewAccountAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+BOOL CClientCmdHandler::OnCmdNewAccountAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
 {
-	StCharNewAccountAck CharNewAccountAck;
-	pBufferHelper->Read(CharNewAccountAck);
-	if(CharNewAccountAck.nRetCode == E_SUCCESSED)
-	{
-		MessageBox(NULL,"注册账号成功!", "提示", MB_OK);
-	}
-	else
-	{
-		MessageBox(NULL,"注册账号失败!", "提示", MB_OK);
-	}
-
 	return TRUE;
 }
 
 BOOL CClientCmdHandler::SendNewCharReq( UINT32 dwAccountID , LPCTSTR szCharName, UINT32 dwFeature)
 {
-	StCharNewCharReq CharNewCharReq;
-	CharNewCharReq.dwFeature = dwFeature;
-	CharNewCharReq.dwAccountID = dwAccountID;
-	strncpy(CharNewCharReq.szCharName, szCharName, 32);
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
-
-	WriteHelper.BeginWrite(CMD_CHAR_NEW_CHAR_REQ, 0, 0);
-
-	WriteHelper.Write(CharNewCharReq);
-
-	WriteHelper.EndWrite();
-
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
 
 	return TRUE;
 }
 
 
-BOOL CClientCmdHandler::OnCmdNewCharAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
-{
-	StCharNewCharAck CharNewCharAck;
-	pBufferHelper->Read(CharNewCharAck);
-
-	CHECK_PAYER_ID(CharNewCharAck.CharPickInfo.u64CharID);
-
-
-	m_DlgSelect.AddCharPickInfo(CharNewCharAck.CharPickInfo);
-
-	m_DlgSelect.DoModal();
-
-	return TRUE;
-}
+// BOOL CClientCmdHandler::OnCmdNewCharAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
+// {
+// 	//m_DlgSelect.AddCharPickInfo(CharNewCharAck.CharPickInfo);
+// 
+// 	//m_DlgSelect.DoModal();
+// 
+// 	return TRUE;
+// }
 
 BOOL CClientCmdHandler::SendDelCharReq( UINT32 dwAccountID,UINT64 dwCharID )
 {
-	StCharDelCharReq CharDelCharReq;
-	CharDelCharReq.dwAccountID = dwAccountID;
-	CharDelCharReq.u64CharID    = dwCharID;
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
-
-	CHECK_PAYER_ID(dwCharID);
-
-	WriteHelper.BeginWrite(CMD_CHAR_DEL_CHAR_REQ, 0, 0);
-
-	WriteHelper.Write(CharDelCharReq);
-
-	WriteHelper.EndWrite();
-
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
 
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::OnCmdDelCharAck( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
+// BOOL CClientCmdHandler::OnCmdDelCharAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
+// {
+// // 	StCharDelCharAck CharDelCharAck;
+// // 	pBufferHelper->Read(CharDelCharAck);
+// // 
+// // 	if(CharDelCharAck.nRetCode == E_SUCCESSED)
+// // 	{
+// // 		m_DlgSelect.DelChar(CharDelCharAck.u64CharID);
+// // 	}
+// 
+// 	m_DlgSelect.DoModal();
+// 
+// 	return TRUE;
+// }
+
+BOOL CClientCmdHandler::OnCmdUpdateMyself( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
-	StCharDelCharAck CharDelCharAck;
-	pBufferHelper->Read(CharDelCharAck);
-
-	if(CharDelCharAck.nRetCode == E_SUCCESSED)
-	{
-		m_DlgSelect.DelChar(CharDelCharAck.u64CharID);
-	}
-
-	m_DlgSelect.DoModal();
-
-	return TRUE;
-}
-
-BOOL CClientCmdHandler::OnCmdUpdateMyself( UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper )
-{
-	pBufferHelper->ReadCheckBufferCode();
-	m_HostPlayer.ReadFromBuffer(pBufferHelper);
-	pBufferHelper->ReadCheckBufferCode();
-	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
+	//pBufferHelper->ReadCheckBufferCode();
+	//m_HostPlayer.ReadFromBuffer(pBufferHelper);
+	//pBufferHelper->ReadCheckBufferCode();
+	//((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
 	return TRUE;
 }
 
 BOOL CClientCmdHandler::SendLeaveGameReq( UINT64 u64CharID )
 {
-	StCharLeaveGameReq CharLeaveGameReq;
+	//StCharLeaveGameReq CharLeaveGameReq;
 
-	CharLeaveGameReq.dwLeaveReason = LGR_Quit;
+	//CharLeaveGameReq.dwLeaveReason = LGR_Quit;
 
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
+	//CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
 
-	WriteHelper.BeginWrite(CMD_CHAR_LEAVE_GAME_REQ, 0, u64CharID);
+	//WriteHelper.BeginWrite(CMD_CHAR_LEAVE_GAME_REQ, 0, u64CharID);
 
-	WriteHelper.Write(CharLeaveGameReq);
+	//WriteHelper.Write(CharLeaveGameReq);
 
-	WriteHelper.EndWrite();
+	//WriteHelper.EndWrite();
 
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
+	//m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
 
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
+{
+	RoleLoginReq Req;
+	Req.set_roleid(u64CharID);
+	m_ClientConnector.SendData(MSG_ROLE_LOGIN_REQ, Req, 0, 0);
 	return TRUE;
 }
 
 BOOL CClientCmdHandler::SendMoveReq( FLOAT x, FLOAT y, FLOAT z, UINT16 nDir)
 {
-	StCharMoveReq _MoveGs;
-	_MoveGs.x = x;
-	_MoveGs.y = y;
-	_MoveGs.z = z;
-	_MoveGs.sDir = nDir;
+	//StCharMoveReq _MoveGs;
+	//_MoveGs.x = x;
+	//_MoveGs.y = y;
+	//_MoveGs.z = z;
+	//_MoveGs.sDir = nDir;
 
-	CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
+	//CBufferHelper WriteHelper(TRUE, m_ClientConnector.GetWriteBuffer());
 
-	WriteHelper.BeginWrite(CMD_CHAR_MOVE_REQ, 12, m_HostPlayer.GetObjectID());
-
-	WriteHelper.Write(_MoveGs);
-
-	WriteHelper.EndWrite();
-
-	CHECK_PAYER_ID(m_HostPlayer.GetObjectID());
-
-	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
+	//WriteHelper.BeginWrite(CMD_CHAR_MOVE_REQ, 12, m_HostPlayer.GetObjectID());
+// 
+// 	WriteHelper.Write(_MoveGs);
+// 
+// 	WriteHelper.EndWrite();
+// 
+// 	CHECK_PAYER_ID(m_HostPlayer.GetObjectID());
+// 
+// 	m_ClientConnector.SendData(m_ClientConnector.GetWriteBuffer()->GetBuffer(), m_ClientConnector.GetWriteBuffer()->GetTotalLenth());
 
 	return TRUE;
 }

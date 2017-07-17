@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{34b43593-ae4e-4cbf-a7e3-a4aa69a5faf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ClientConnector">
+      <UniqueIdentifier>{ff835590-9ea1-4641-8290-9aff78837055}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CharObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCreate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLogin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgRegister.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelect.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestClient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestClientDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Utility\CommonSocket.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp">
+      <Filter>ClientConnector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\Message\Msg_ID.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\Message\Msg_Login.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CharObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCreate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLogin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgRegister.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Utility\Position.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TestClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TestClientDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Utility\CommonSocket.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h">
+      <Filter>ClientConnector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\Message\Msg_ID.pb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\Message\Msg_Login.pb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\TestClient.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\TestClient.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TestClient.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
