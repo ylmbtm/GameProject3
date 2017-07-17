@@ -16,6 +16,7 @@ struct StCopyBase
 
 	}
 	UINT32 dwTypeID;
+	UINT32 dwLogicType;
 };
 
 

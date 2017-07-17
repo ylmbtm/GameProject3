@@ -32,13 +32,19 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer *pDataBuffer , CConnection *pConnection)
 {
 	PacketHeader *pHeader = (PacketHeader *)pDataBuffer->GetBuffer();
-	m_DataQueue.push(NetPacket(pConnection, pDataBuffer,pHeader->dwMsgID));
+	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID));
 	return TRUE;
 }
 
 BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher *pDispather)
 {
 	if (pDispather == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+	if((nPortNum <= 0)||(nMaxConn <= 0))
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -114,6 +120,17 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 	 return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
  }
 
+ CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+{
+	if(strIpAddr.empty()||sPort <= 0)
+	{
+		ASSERT_FAIELD;
+		return NULL;
+	}
+
+	return CNetManager::GetInstancePtr()->ConnectToOtherSvr(strIpAddr, sPort);
+}
+
 BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
 {
 	if(pConnection->GetConnectionID() == 0)
@@ -186,7 +203,7 @@ BOOL ServiceBase::Update()
 	{
 		m_pPacketDispatcher->OnNewConnect(pConnection);
 	}
-	
+
 	NetPacket item;
 	while(m_DataQueue.pop(item))
 	{

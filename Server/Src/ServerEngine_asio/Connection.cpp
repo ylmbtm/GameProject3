@@ -17,7 +17,7 @@ CConnection::CConnection(boost::asio::io_service &ioservice):m_hSocket(ioservice
 
 	m_bConnected		= FALSE;
 
-	m_dwConnData        = 0;
+	m_u64ConnData        = 0;
 
 	m_dwConnID          = 0;
 
@@ -36,7 +36,7 @@ CConnection::~CConnection(void)
 
 	m_dwDataLen			= 0;
 
-	m_dwConnData        = 0;
+	m_u64ConnData        = 0;
 
 	m_dwConnID          = 0;
 

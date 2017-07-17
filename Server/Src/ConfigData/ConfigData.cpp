@@ -81,9 +81,9 @@ BOOL CConfigData::ReadCopyBase(CppSQLite3Query &QueryData)
 	{
 		StCopyBase stValue;
 		stValue.dwTypeID = QueryData.getIntField("Id");
-        stValue.dwBattleTimes = QueryData.getIntField("Id"); 
-        stValue.dwCostActID = QueryData.getIntField("Id");
-        stValue.dwCostActNum = QueryData.getIntField("Id");
+		/*   stValue.dwBattleTimes = QueryData.getIntField("Id"); 
+		stValue.dwCostActID = QueryData.getIntField("Id");
+		stValue.dwCostActNum = QueryData.getIntField("Id");*/
         stValue.dwLogicType = QueryData.getIntField("Id");
 
 		m_mapCopybase.insert(std::make_pair(stValue.dwTypeID, stValue));

@@ -3,11 +3,14 @@
 
 #include "stdafx.h"
 #include "GameService.h"
+#include "CrashReport.h"
 
 #pragma comment(lib, "ServerEngine.lib")
 
 int main(int argc, char* argv[])
 {
+	SetCrashReport();
+
 	CGameService::GetInstancePtr()->Init();
 
 	CGameService::GetInstancePtr()->Run();

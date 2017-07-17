@@ -17,10 +17,13 @@ namespace CommonFunc
 
 	BOOL			CreateDir(std::string &strDir);
 
+	//获取当前的秒数
 	UINT32			GetCurrTime();
 
+	//获取当前0点的秒数
 	UINT32			GetDayTime();
 
+	//获取一个由年月日组合的一个唯一值
 	UINT32			GetCurrDate();
 
 	UINT32			GetTickCount();

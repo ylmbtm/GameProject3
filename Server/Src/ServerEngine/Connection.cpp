@@ -216,10 +216,6 @@ BOOL CConnection::ExtractBuffer()
 				m_dwDataLen -= m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
 				m_pBufPos += m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurBufferSize);
-				if(m_pCurRecvBuffer->GetRef() > 1)
-				{
-					ASSERT_FAIELD;
-				}
 				m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, this);
 				m_pCurRecvBuffer = NULL;
 			}
@@ -285,11 +281,6 @@ BOOL CConnection::ExtractBuffer()
 			m_pBufPos += dwPacketSize;
 
 			pDataBuffer->SetTotalLenth(dwPacketSize);
-
-			if(pDataBuffer->GetRef() > 1)
-			{
-				ASSERT_FAIELD;
-			}
 
 			m_pDataHandler->OnDataHandle(pDataBuffer, this);
 		}
@@ -444,7 +435,7 @@ BOOL CConnection::Clear()
 BOOL CConnection::SendBuffer(IDataBuffer *pBuff)
 {
 	CAutoLock Lock(&m_CritSecSendList);
-	m_SendBuffList.push_back(pBuff);;
+	m_SendBuffList.push_back(pBuff);
 	DoSend();
 	return TRUE;
 }
@@ -481,8 +472,6 @@ BOOL CConnection::DoSend()
 	{
 		return FALSE;
 	}
-
-   
 
 	if(m_SendBuffList.empty())
 	{
@@ -568,13 +557,12 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	m_IsSending = TRUE;
-
 	if(m_SendBuffList.empty())
 	{
-		m_IsSending = FALSE;
 		return FALSE;
 	}
+
+	m_IsSending = TRUE;
 
 	IDataBuffer *pSendBuffer = NULL;
 	int nSendCount = 0;
@@ -632,8 +620,6 @@ BOOL CConnection::DoSend()
 		pSendBuffer->Release();
 		m_IsSending = FALSE;
 	}
-
-	m_IsSending = TRUE;
 	return TRUE;
 }
 

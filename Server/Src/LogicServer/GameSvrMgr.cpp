@@ -49,6 +49,9 @@ UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyID)
 
 BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )
 {
+	ERROR_RETURN_TRUE(dwCopyType != 0);
+	ERROR_RETURN_TRUE(CreateParam != 0);
+
 	//选择一个可用的副本服务器
 	UINT32 dwServerID = GetFreeGameServerID();
 	if(dwServerID == 0)
