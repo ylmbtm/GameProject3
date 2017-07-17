@@ -5,7 +5,7 @@
 enum SCENE_LOGIC_TYPE
 {
 	SLT_BEGIN = 0,	
-
+	SLT_CITY,
 	SLT_NORMAL,				
 	
 	SLT_END

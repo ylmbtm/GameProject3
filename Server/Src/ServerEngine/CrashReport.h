@@ -2,6 +2,6 @@
 #define _CRASH_REPORT_H_
 
 /*安放crash定位*/
-void SetCrashReport();
+void SetCrashReport(std::string strAppName);
 
 #endif

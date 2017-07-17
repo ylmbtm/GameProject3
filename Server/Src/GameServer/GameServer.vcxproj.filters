@@ -60,6 +60,9 @@
     <ClCompile Include="MonsterCreator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_City.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="MonsterCreator.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_City.h">
+      <Filter>scenelogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

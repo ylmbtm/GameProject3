@@ -60,6 +60,10 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 
 	CLog::GetInstancePtr()->AddLog("服务器启动成功!");
 
+	m_dwLastTick = 0;
+	m_dwPackNum = 0;
+	m_dwFps = 0;
+
 	return TRUE;
 }
 
@@ -195,6 +199,11 @@ CConnection* ServiceBase::GetConnectionByID( UINT32 dwConnID )
 
 BOOL ServiceBase::Update()
 {
+	if(m_dwLastTick == 0)
+	{
+		m_dwLastTick = CommonFunc::GetTickCount();
+	}
+
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
 	//处理新连接的通知
@@ -207,15 +216,27 @@ BOOL ServiceBase::Update()
 	NetPacket item;
 	while(m_DataQueue.pop(item))
 	{
-		UINT32 dwTick = GetTickCount();
+		//UINT32 dwTick = GetTickCount();
 		m_pPacketDispatcher->DispatchPacket(&item);
 
-		if((GetTickCount() - dwTick) >10)
-		{
-			CLog::GetInstancePtr()->AddLog("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
-		}
+		//if((GetTickCount() - dwTick) >10)
+		//{
+		//	CLog::GetInstancePtr()->AddLog("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
+		//}
 
 		item.m_pDataBuffer->Release();
+
+		m_dwPackNum += 1;
+	}
+
+	m_dwFps += 1;
+
+	if((CommonFunc::GetTickCount()-m_dwLastTick)>1000)
+	{
+		//CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
+		m_dwFps = 0;
+		m_dwPackNum = 0;
+		m_dwLastTick = CommonFunc::GetTickCount();
 	}
 
 	//处理断开的连接

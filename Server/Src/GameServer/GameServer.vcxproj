@@ -109,6 +109,7 @@
     <ClCompile Include="MonsterCreator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp" />
+    <ClCompile Include="SceneLogic\SceneLogic_City.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Normal.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
+    <ClInclude Include="SceneLogic\SceneLogic_City.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Normal.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Type.h" />

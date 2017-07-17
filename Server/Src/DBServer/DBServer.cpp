@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[])
 {
-	SetCrashReport();
+	SetCrashReport("DBServer");
 
 	CGameService::GetInstancePtr()->Init();
 

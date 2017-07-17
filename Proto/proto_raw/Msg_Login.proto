@@ -189,15 +189,15 @@ message EnterSceneAck {
 	uint64   RoleID = 4;
 	uint32   RoleType = 6;
 	string   RoleName = 5;
-	float	 x = 3;
-	float    z = 4;
-	float    vx = 5;
-	float    vz = 6;
-	uint32   hp = 7;
-	uint32   mp = 8;
-	uint32   hpmax = 9;
-	uint32   mpmax = 10;
-	repeated uint32 equip; //装备
+	float	 x = 7;
+	float    z = 8;
+	float    vx = 9;
+	float    vz = 10;
+	uint32   hp = 11;
+	uint32   mp = 12;
+	uint32   hpmax = 13;
+	uint32   mpmax = 14;
+	repeated uint32 equip = 15; //装备
 }
 
 message MainCopyReq {

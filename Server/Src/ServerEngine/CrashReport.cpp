@@ -16,6 +16,8 @@
 
 LPTOP_LEVEL_EXCEPTION_FILTER g_preFilter;
 
+std::string g_AppName;
+
 
 long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
 {
@@ -26,7 +28,7 @@ long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
 	pTime = localtime( &ctTime );
 	TCHAR tem[256];
 	memset(tem, 0, 256);
-	sprintf(tem, ("%s-%d-%d-%d_%d-%d-%d.dmp"), ("gameserver"),
+	sprintf(tem, ("%s-%d-%d-%d_%d-%d-%d.dmp"), g_AppName,
 	        1900 + pTime->tm_year, 1 + pTime->tm_mon, pTime->tm_mday, pTime->tm_hour, pTime->tm_min, pTime->tm_sec);
 
 	HANDLE hFile = ::CreateFile( tem, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -42,8 +44,9 @@ long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
-void  SetCrashReport()
+void  SetCrashReport(std::string strAppName)
 {
+	g_AppName = strAppName;
 	g_preFilter = SetUnhandledExceptionFilter(CrashCallBack);
 }
 #endif

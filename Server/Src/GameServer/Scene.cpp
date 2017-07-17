@@ -15,6 +15,8 @@
 #include "../Message/Game_Define.pb.h"
 #include "../Message/Msg_Move.pb.h"
 #include "MonsterCreator.h"
+#include "SceneLogic/SceneLogic_None.h"
+#include "SceneLogic/SceneLogic_City.h"
 CScene::CScene()
 {
 	m_dwCopyID = 0;		//当前副本实例ID
@@ -84,8 +86,10 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_REQ,   OnMsgTransRoleDataReq);
 		PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_MOVE_REQ,			OnMsgRoleMoveReq);
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
+		PROCESS_MESSAGE_ITEM(MSG_ROLE_MOVE_REQ,			OnMsgRoleMoveReq);
+		PROCESS_MESSAGE_ITEM(MSG_ROLE_SKILL_REQ,		OnMsgRoleSkillReq);
+		
 		default:
 		{
 			return FALSE;
@@ -103,23 +107,31 @@ BOOL CScene::OnMsgRoleMoveReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	
-	CSceneObject *pSceneObj = GetPlayer(Req.objectid());
-	ERROR_RETURN_TRUE(pSceneObj != NULL);
-	
-    pSceneObj->m_dwObjState =  Req.objstate();
-    pSceneObj->x = Req.x();
-    pSceneObj->z = Req.z();
-    pSceneObj->vx = Req.vx();
-    pSceneObj->vz = Req.vz();
-    pSceneObj->SetChanged();
+	for(int i = 0; i < Req.movelist_size(); i++)
+	{
+		const MoveItem &Item = Req.movelist(i);
+		CSceneObject *pSceneObj = GetPlayer(Item.objectid());
+		ERROR_RETURN_TRUE(pSceneObj != NULL);
 
-	CLog::GetInstancePtr()->AddLog("响应客户端坐标请求[%lld], 坐标 x =%f, z=%f", pSceneObj->GetObjectID(), pSceneObj->x, pSceneObj->z);
+		pSceneObj->m_dwObjState =  Item.movestate();
+		pSceneObj->x = Item.x();
+		pSceneObj->z = Item.z();
+		pSceneObj->vx = Item.vx();
+		pSceneObj->vz = Item.vz();
+		pSceneObj->SetChanged();
+	}
 
 	return TRUE;
 }
 
-BOOL CScene::OnMsgRoleAttack(NetPacket *pNetPacket)
+BOOL CScene::OnMsgRoleSkillReq(NetPacket *pNetPacket)
 {
+	RoleSkillReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+
+
 
 
 	return TRUE;
@@ -131,7 +143,6 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 	RoleDisconnectReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	CSceneObject *pPlayer = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
@@ -215,15 +226,19 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 
 BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
 {
+	ERROR_RETURN_FALSE(dwLogicType != 0);
 	switch (dwLogicType)
 	{
 	case SLT_NORMAL:
 		m_pSceneLogic = new SceneLogic_Normal(this);
 		break;
 
+	case SLT_CITY:
+		m_pSceneLogic = new SceneLogic_City(this);
+		break;
 	default:
 		{
-			return false;
+			m_pSceneLogic = new SceneLogic_None(this);
 		}
 	}
 
@@ -240,9 +255,16 @@ BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
 			delete pTemp;
 		}
 		break;
+	case SLT_CITY:
+		{
+			SceneLogic_City* pTemp = (SceneLogic_City*)m_pSceneLogic;
+			delete pTemp;
+		}
+		break;
 	default:
 		{
-			return false;
+			SceneLogic_None* pTemp = (SceneLogic_None*)m_pSceneLogic;
+			delete pTemp;
 		}
 	}
 

@@ -62,6 +62,12 @@ protected:
 	ArrayLockFreeQueue<NetPacket>      m_DataQueue;
 	ArrayLockFreeQueue<CConnection*>   m_NewConList;
 	ArrayLockFreeQueue<CConnection*>   m_CloseConList;
+
+
+	//以下用于统计
+	UINT32							   m_dwLastTick;
+	UINT32							   m_dwPackNum;
+	UINT32							   m_dwFps;
 };
 
 

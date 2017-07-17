@@ -1,35 +1,41 @@
 syntax = "proto3";
 
-message ObjectMoveReq {
-    uint64  ObjectID = 1;
-	uint32  ObjState = 2;
-	float   x = 3;
-	float   z = 4;
-	float   vx = 5;
-	float   vz = 6;
+message MoveItem {
+	uint64  ObjectID = 1;
+	uint32  Type = 2;
+	uint32  MoveState = 3;
+	float   x = 4;
+	float   z = 5;
+	float   vx = 6;
+	float   vz = 7;
 }
 
-message ObjectUpdate {
-    uint64  ObjectID = 1;
-	uint32  ObjState = 2;
-	float   x = 3;
-	float   z = 4;
-	float   vx = 5;
-	float   vz = 6;
-	uint32  hp = 7;
-	uint32  mp = 8;
-	uint32  hpmax = 9;
-	uint32  mpmax = 10;
+message ObjectMoveReq {
+    repeated MoveItem MoveList = 1;
+}
+
+message UpdateItem {
+	uint64  ObjectID = 1;
+	uint32  Type = 2;
+	uint32  MoveState = 3;
+	float   x = 4;
+	float   z = 5;
+	float   vx = 6;
+	float   vz = 7;
+	uint32  hp = 8;
+	uint32  mp = 9;
+	uint32  hpmax = 10;
+	uint32  mpmax = 11;
 }
 
 message ObjectUpdateNty {
-   repeated ObjectUpdate UpdateList = 1;
+   repeated UpdateItem UpdateList = 1;
 }
 
-message ObjectNew {
-	uint64 ObjectID = 1;  //实例ID
-	uint32 Type = 2;	  //类别
-	uint32 TypeID = 3;    //类型ID
+message NewItem {
+	uint64 ObjectID = 1;	//实例ID
+	uint32 Type = 2;	//类别
+	uint32 TypeID = 3;  //类型ID
 	string Name = 4;
 	int32  Level = 5;
 	float	 x = 6;
@@ -44,14 +50,14 @@ message ObjectNew {
 }
 
 message ObjectNewNty {
-  repeated ObjectNew NewList = 1;
+  repeated NewItem NewList = 1;
 }
 
 message ObjectRemoveNty {
   repeated uint64 RemoveList = 1;
 }
 
-message RoleSkillReq {
+message SkillItem {
 	uint64 AttackerID = 1;
 	uint32 SkillID = 2;
 	float  sx = 3;
@@ -59,4 +65,8 @@ message RoleSkillReq {
 	float  dx = 5;
 	float  dz = 6;
 	repeated uint64 DamagerID = 7; 
+}
+
+message RoleSkillReq {
+	repeated SkillItem SkillList = 1;
 }

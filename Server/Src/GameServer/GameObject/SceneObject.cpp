@@ -153,13 +153,13 @@ BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
         return TRUE;
     }
 
-    ObjectUpdate *pUpdate = Nty.add_updatelist();
+    UpdateItem *pUpdate = Nty.add_updatelist();
     pUpdate->set_objectid(m_uID);
     pUpdate->set_x(x);
     pUpdate->set_z(z);
     pUpdate->set_vx(vx);
     pUpdate->set_vz(vz);
-    pUpdate->set_objstate(m_dwObjState);
+    pUpdate->set_movestate(m_dwObjState);
 
     return TRUE;
 }
