@@ -169,7 +169,6 @@ BOOL CProxyMsgHandler::RelayToGameServer( CProxyPlayer *pClientObj, IDataBuffer 
 
 BOOL CProxyMsgHandler::RelayToLogicServer(IDataBuffer *pBuffer )
 {
-	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(CGameService::GetInstancePtr()->GetLogicConnID(), pBuffer))
 	{
 		return FALSE;
@@ -187,7 +186,6 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 		return FALSE;
 	}
 
-	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetConnID(), pBuffer))
 	{
 		return FALSE;
@@ -198,7 +196,6 @@ BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *
 
 BOOL CProxyMsgHandler::RelayToConnect(UINT32 dwConnID, IDataBuffer *pBuffer)
 {
-	pBuffer->AddRef();
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(dwConnID, pBuffer))
 	{
 		return FALSE;

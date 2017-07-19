@@ -138,9 +138,14 @@ BOOL CPlayerObject::DestroyAllModule()
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
+}
+
+BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen)
+{
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
 
 BOOL CPlayerObject::OnModuleFnished()
@@ -192,7 +197,7 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT
 	Nty.set_serverid(dwSvrID);
 	Nty.set_roleid(m_u64ID);
 	ERROR_RETURN_FALSE(m_u64ID != 0);
-	ERROR_RETURN_FALSE(SendProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty));
+	SendMsgProtoBuf(MSG_NOTIFY_INTO_SCENE, Nty);
 	return TRUE;
 }
 
@@ -255,7 +260,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
     Ack.set_name(pModule->m_pRoleDataObject->m_szName);
     Ack.set_level(1);
     Ack.set_roletype(pModule->m_pRoleDataObject->m_RoleType);
-    SendProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
+    SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
     return TRUE;
 }
 

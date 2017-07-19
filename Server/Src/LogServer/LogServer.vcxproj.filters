@@ -18,13 +18,13 @@
     <ClCompile Include="GameService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="StatisticsServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="StatMsgHandler.cpp">
+    <ClCompile Include="LogMsgHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\PacketDef\SvrReportPacket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StatMsgHandler.h">
+    <ClInclude Include="LogMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

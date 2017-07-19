@@ -717,6 +717,8 @@ BOOL CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer *pBuffer)
 		CLog::GetInstancePtr()->LogError("CNetManager::SendMsgBufByConnID FAILED, 连接己断开");
 		return FALSE;
 	}
+
+	pBuffer->AddRef();
 	return pConn->SendBuffer(pBuffer);
 }
 

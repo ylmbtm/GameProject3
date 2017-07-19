@@ -21,6 +21,22 @@ CBufferManagerAll* CBufferManagerAll::GetInstancePtr()
 
 IDataBuffer* CBufferManagerAll::AllocDataBuff( int nSize )
 {
+	if(nSize < 64)
+	{
+		return g_BufferManager64B.AllocDataBuff();
+	}
+	if(nSize < 128)
+	{
+		return g_BufferManager128B.AllocDataBuff();
+	}
+	if(nSize < 256)
+	{
+		return g_BufferManager256B.AllocDataBuff();
+	}
+	if(nSize < 512)
+	{
+		return g_BufferManager512B.AllocDataBuff();
+	}
 	if(nSize < 1024)
 	{
 		return g_BufferManager1K.AllocDataBuff();

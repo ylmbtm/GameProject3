@@ -517,7 +517,6 @@ BOOL CConnection::DoSend()
 		m_SendBuffList.erase(m_SendBuffList.begin(), m_SendBuffList.begin() + nSendCount);
 	}
 
-    
 	WSABUF  DataBuf;
 	DataBuf.len = pSendBuffer->GetTotalLenth();
 	DataBuf.buf = pSendBuffer->GetBuffer();

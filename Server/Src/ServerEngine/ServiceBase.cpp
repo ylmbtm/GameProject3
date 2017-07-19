@@ -32,7 +32,7 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer *pDataBuffer , CConnection *pConnection)
 {
 	PacketHeader *pHeader = (PacketHeader *)pDataBuffer->GetBuffer();
-	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID));
+	ERROR_RETURN_FALSE(m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID)));
 	return TRUE;
 }
 
@@ -233,7 +233,7 @@ BOOL ServiceBase::Update()
 
 	if((CommonFunc::GetTickCount()-m_dwLastTick)>1000)
 	{
-		//CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
+		CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
 		m_dwFps = 0;
 		m_dwPackNum = 0;
 		m_dwLastTick = CommonFunc::GetTickCount();

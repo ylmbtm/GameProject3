@@ -19,7 +19,8 @@ public:
 	~CSceneObject();
 public:
 
-	BOOL			SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL			SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL			SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen);
     BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 	BOOL			OnUpdate(UINT32 dwTick);
 

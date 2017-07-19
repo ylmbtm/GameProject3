@@ -437,7 +437,9 @@ BOOL CClientCmdHandler::OnCmdUpdateMyself( UINT32 dwMsgID, CHAR *PacketBuf, INT3
 VOID CClientCmdHandler::MoveHost()
 {
 	ObjectMoveReq Req;
-	Req.set_objectid(m_RoleIDList[0]);
+	MoveItem *pItem = Req.add_movelist();
+	pItem->set_objectid(m_RoleIDList[0]);
+	pItem->set_x(rand()%100);
 	m_ClientConnector.SendData(MSG_ROLE_MOVE_REQ, Req, m_RoleIDList[0], m_dwCopyID);
 }
 

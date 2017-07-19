@@ -2,13 +2,14 @@
 #define _DATA_BUFFER_H_
 #include "Utility/CritSec.h"
 #include "IBufferHandler.h"
+#include "Utility/Log/Log.h"
 
 template <int SIZE>
 class  CBufferManager;
 
 #define HEADER_LEN 28
 
-template <int SIZE = 1024>
+template <int SIZE>
 class CDataBuffer : public IDataBuffer
 {
 public:
@@ -44,13 +45,14 @@ public:
 	{
 		ASSERT(m_pManager != NULL);
 		m_pManager->m_CritSec.Lock();
+
 		m_dwRefCount--;
 		if(m_dwRefCount < 0)
 		{
 			ASSERT_FAIELD;
 		}
 
-		if(m_dwRefCount <= 0)
+		if(m_dwRefCount == 0)
 		{
             m_nDataLen = 0;
 			//首先从己用中删除
@@ -82,6 +84,9 @@ public:
 			{
 				m_pNext->m_pPrev = this;
 			}
+
+			m_pManager->m_dwBufferCount--;
+			//CLog::GetInstancePtr()->LogError("Release Count:%d, Buff:%x, size:%d", m_pManager->m_dwBufferCount, GetBuffer(), m_nBufSize);
 		}
 
 		m_pManager->m_CritSec.Unlock();
@@ -147,7 +152,7 @@ public:
 
 	CBufferManager<SIZE> *m_pManager;
 
-private:
+public:
 	INT32		m_dwRefCount;
 
 	UINT32		m_nBufSize;
@@ -165,6 +170,7 @@ public:
 	{
 		m_pUsedList = NULL;
 		m_pFreeList = NULL;
+		m_dwBufferCount = 0;
 	}
 
 	~CBufferManager()
@@ -172,61 +178,13 @@ public:
 
 	}
 
-	BOOL DeallocDataBuff()
-	{
-		ASSERT(m_pManager != NULL);
-		m_dwRefCount--;
-
-		if(m_dwRefCount < 0)
-		{
-			ASSERT_FAIELD;
-		}
-
-		if(m_dwRefCount <= 0)
-		{
-			//首先从己用中删除
-			if(m_pManager->m_pUsedList == this)
-			{
-				//自己是首结点
-				m_pManager->m_pUsedList = m_pNext;
-				if(m_pManager->m_pUsedList != NULL)
-				{
-					m_pManager->m_pUsedList->m_pPrev = NULL;
-				}
-			}
-			else
-			{
-				ASSERT(m_pPrev != NULL);
-				m_pPrev->m_pNext = m_pNext;
-				if(m_pNext != NULL)
-				{
-					m_pNext->m_pPrev = m_pPrev;
-				}
-			}
-
-			//再把自己加到己用中
-			m_pNext = m_pManager->m_pFreeList;
-			m_pPrev = NULL;
-			m_pManager->m_pFreeList = this;
-
-			if(m_pNext != NULL)
-			{
-				m_pNext->m_pPrev = this;
-			}
-		}
-		return true;
-	}
-
 	IDataBuffer* AllocDataBuff()
 	{
 		m_CritSec.Lock();
-
 		CDataBuffer<SIZE> *pDataBuffer = NULL;
-
 		if(m_pFreeList == NULL)
 		{
 			pDataBuffer = new CDataBuffer<SIZE>();
-			m_dwBufferCount += 1;
 			pDataBuffer->m_pManager = this;
 		}
 		else
@@ -244,7 +202,12 @@ public:
 			pDataBuffer->m_pPrev = NULL;
 		}
 
-		pDataBuffer->AddRef();
+		if(pDataBuffer->m_dwRefCount != 0)
+		{
+			ASSERT_FAIELD;
+		}
+		
+		pDataBuffer->m_dwRefCount = 1;
 
 		if(m_pUsedList == NULL)
 		{
@@ -258,13 +221,8 @@ public:
 			m_pUsedList = pDataBuffer;
 		}
 
+		m_dwBufferCount += 1;
 		m_CritSec.Unlock();
-
-		if(pDataBuffer->GetRef() != 1)
-		{
-			ASSERT_FAIELD;
-		}
-
 		return pDataBuffer;
 	}
 
@@ -286,7 +244,6 @@ public:
 			{
 				dwCount++;
 				ASSERT(dwCount<10);
-				printf("->%d", pBufferNode->m_dwBufferNo);
 				if(pBufferNode->m_pNext != NULL)
 				{
 					pBufferNode = pBufferNode->m_pNext;
@@ -301,7 +258,6 @@ public:
 			{
 				dwCount++;
 				ASSERT(dwCount<10);
-				printf("<-%d", pBufferNode->m_dwBufferNo);
 				pBufferNode = pBufferNode->m_pPrev;
 			}	
 		}
@@ -331,6 +287,7 @@ public:
 public:
 	IDataBuffer* AllocDataBuff(int nSize);
 
+	CBufferManager<64>    g_BufferManager64B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
 	CBufferManager<128>    g_BufferManager128B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
 	CBufferManager<256>    g_BufferManager256B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
 	CBufferManager<512>    g_BufferManager512B;		//管理1k的内存池，需要分配1k以下的内存从这里分配

@@ -105,20 +105,7 @@ BOOL CCommonWorkThread::AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer)
 {
 	ASSERT(u64ConnID != 0);
 	IDataBuffer *pRecvBuffer = pDataBuffer;
-	/*
-	IDataBuffer *pRecvBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pDataBuffer->GetTotalLenth());
-	if(pRecvBuffer == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
-
-	pRecvBuffer->CopyFrom(pDataBuffer);
-	*/
-
 	m_MessageQueue.push(MsgItem(u64ConnID, pRecvBuffer));
-
 	return TRUE;
 }
 

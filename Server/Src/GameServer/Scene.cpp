@@ -155,8 +155,10 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
 {
     //先把玩家的完整包组装好
     ObjectNewNty Nty;
-
     pSceneObject->SaveNewObject(Nty);
+
+	char szBuff[10240] = {0};
+	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
@@ -172,8 +174,8 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
         {
             continue;
         }
-        
-         pOther->SendProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
+
+		pOther->SendMsgRawData(MSG_OBJECT_NEW_NTY, szBuff, Nty.ByteSize());
     }
 
 	return TRUE;
@@ -339,7 +341,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_roletype(pSceneObj->m_dwObjType);
 	Ack.set_retcode(MRC_SUCCESSED);
 
-	pSceneObj->SendProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
+	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
     SendAllNewObjectToPlayer(pSceneObj);
     BroadNewObject(pSceneObj);
 	return TRUE;
@@ -373,7 +375,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
         pOther->SaveNewObject(Nty);
     }
 
-    pSceneObject->SendProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
+    pSceneObject->SendMsgProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
 
     return TRUE;
 }
@@ -387,6 +389,9 @@ BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
 {
     ObjectRemoveNty Nty;
     Nty.add_removelist(pSceneObject->GetObjectID());
+
+	char szBuff[10240] = {0};
+	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
@@ -403,7 +408,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
             continue;
         }
 
-        pOther->SendProtoBuf(MSG_OBJECT_REMOVE_NTY, Nty);
+		pOther->SendMsgRawData(MSG_OBJECT_REMOVE_NTY, szBuff, Nty.ByteSize());
     }
 
     return TRUE;
@@ -511,6 +516,9 @@ BOOL CScene::SyncObjectState()
         pObj->SaveUpdateObject(Nty);
     }
 
+	char szBuff[102400] = {0};
+	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
+
     if(Nty.updatelist_size() <= 0)
     {
         for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
@@ -523,7 +531,7 @@ BOOL CScene::SyncObjectState()
                 continue;
             }
 
-            pObj->SendProtoBuf(MSG_OBJECT_UPDATE_NTY, Nty);
+            pObj->SendMsgRawData(MSG_OBJECT_UPDATE_NTY, szBuff, Nty.ByteSize());
         }
     }
 

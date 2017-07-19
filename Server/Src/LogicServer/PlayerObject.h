@@ -44,8 +44,8 @@ public:
 
 	virtual BOOL DispatchPacket(NetPacket *pNetPack);
 
-	BOOL    SendProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
-
+	BOOL    SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL	SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen);
     BOOL    ToTransRoleData(TransRoleDataReq &Req);
 
 public: //全部是操作方法
