@@ -111,3 +111,10 @@ CScene* SceneLogicBase::GetScene()
 {
 	return m_pScene;
 }
+
+BOOL SceneLogicBase::SetFinished()
+{
+    m_bFinished = TRUE;
+
+    return TRUE;
+}

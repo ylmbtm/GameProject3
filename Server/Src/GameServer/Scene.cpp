@@ -40,10 +40,8 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 
 
 	m_dwLoginNum = 0;
 	m_dwStartTime = 0;
-
+    m_dwCreateTime = CommonFunc::GetCurrTime();
 	m_pMonsterCreator = new MonsterCreator(this);
-
-
 	return TRUE;
 }
 
@@ -216,6 +214,14 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	}
 
     m_pSceneLogic->Update(dwTick);
+
+    if(m_dwStartTime == 0)
+    {
+        if(CommonFunc::GetCurrTime() - m_dwCreateTime > 60)
+        {
+            m_pSceneLogic->SetFinished();
+        }
+    }
 
 	return TRUE;
 }
@@ -542,5 +548,21 @@ BOOL CScene::SyncObjectState()
 BOOL CScene::GenMonster( UINT32 dwMonsterID )
 {
     return TRUE;
+}
+
+CSceneObject* CScene::GetOwnPlayer()
+{
+    if((m_PlayerMap.size() < 1) ||(m_PlayerMap.size() > 1))
+    {
+        ASSERT_FAIELD;
+    }
+
+    std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin();
+    if(itor == m_PlayerMap.end())
+    {
+        return NULL;
+    }
+
+    return itor->second;
 }
 

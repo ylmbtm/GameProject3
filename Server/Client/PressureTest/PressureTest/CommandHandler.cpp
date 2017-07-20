@@ -390,7 +390,7 @@ BOOL CClientCmdHandler::OnCmdNewAccountAck( UINT32 dwMsgID, CHAR *PacketBuf, INT
 BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID , std::string strName, UINT32 dwRoleType)
 {
 	RoleCreateReq Req;
-	Req.set_accountid(dwAccountID);
+	Req.set_accountid(dwAccountID); 
 	Req.set_name(strName);
 	Req.set_roletype(dwRoleType);
 	m_ClientConnector.SendData(MSG_ROLE_CREATE_REQ, Req, 0, 0);

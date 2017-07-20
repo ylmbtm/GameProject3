@@ -43,6 +43,9 @@ public:
 	VOID		    DeletePlayer(UINT64 uID);
 	CSceneObject*   GetSceneObject(UINT64 uID);
 
+    //在单人PVE情况下，副本应该只有一个人
+    CSceneObject*   GetOwnPlayer();
+
 	//////////////////////////////////////////////////////////////////////////
 	//创建对象
     BOOL            GenMonster(UINT32 dwMonsterID);
@@ -54,12 +57,13 @@ public:
 	UINT32		GetStartTime();
 
 protected:
-	UINT32							m_dwPlayerNum; //副本需要进入的人数
-	UINT32							m_dwLoginNum;  //登录副本的人数
+	UINT32							m_dwPlayerNum;  //副本需要进入的人数
+	UINT32							m_dwLoginNum;   //登录副本的人数
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型
-	UINT32							m_dwStartTime;   //副本开始时间
+    UINT32                          m_dwCreateTime; //副本创建时间
+	UINT32							m_dwStartTime;  //副本开始时间
 
 	SceneLogicBase					*m_pSceneLogic;
 	MonsterCreator					*m_pMonsterCreator;
@@ -79,5 +83,6 @@ public:
 };
 
 #endif //_MAP_H_
+
 
 

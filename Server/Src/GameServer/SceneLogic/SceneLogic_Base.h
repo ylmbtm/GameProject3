@@ -34,6 +34,7 @@ public:
 
 	virtual BOOL OnTimeUP();
 
+    virtual BOOL SetFinished();
 	virtual BOOL IsFinished();
 
 	virtual BOOL SetLastTime(UINT32 dwTime);

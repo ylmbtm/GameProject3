@@ -15,8 +15,18 @@ struct StCopyBase
 	{
 
 	}
+
+    UINT32 GetKey()
+    {
+        return dwTypeID;
+    }
+
 	UINT32 dwTypeID;
-	UINT32 dwLogicType;
+    UINT32 dwLogicType;
+    UINT32 dwCostActID;
+    UINT32 dwCostActNum;
+    UINT32 dwAwardID;
+    UINT32 dwBattleTimes;
 };
 
 
@@ -27,7 +37,6 @@ struct StLocalString
 
 	}
 	UINT32  dwID;
-	std::string strID;
 	std::string Language[15];
 };
 

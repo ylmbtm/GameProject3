@@ -26,7 +26,7 @@ BOOL CSimpleManager::LoadSimpleData()
 {
     //以下是默认值
     m_u64MaxID = CGameService::GetInstancePtr()->GetServerID();
-    m_u64MaxID = m_u64MaxID << 32 +1;
+    m_u64MaxID = (m_u64MaxID << 32) +1;
 
 	CppSQLite3DB	DBConnection; 
 	try
@@ -37,7 +37,7 @@ BOOL CSimpleManager::LoadSimpleData()
 	}
 	catch(CppSQLite3Exception& e)  
 	{  
-		LOG_ERROR;
+        CLog::GetInstancePtr()->LogError("Error : File:%s",e.errorMessage());
 		return FALSE;
 	}  
 
