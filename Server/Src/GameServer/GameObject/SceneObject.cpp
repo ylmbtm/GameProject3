@@ -166,6 +166,8 @@ BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
     pUpdate->set_vz(vz);
     pUpdate->set_movestate(m_dwObjState);
 
+	m_bChanged = FALSE;
+
     return TRUE;
 }
 

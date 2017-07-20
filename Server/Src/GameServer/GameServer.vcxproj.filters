@@ -63,6 +63,9 @@
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp">
       <Filter>scenelogic</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogic\BattleResult.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -105,6 +108,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_City.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\BattleResult.h">
       <Filter>scenelogic</Filter>
     </ClInclude>
   </ItemGroup>

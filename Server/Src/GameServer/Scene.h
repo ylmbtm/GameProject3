@@ -51,6 +51,7 @@ public:
 	BOOL		IsFinished();
 	BOOL		IsPlayerDataReady();
 	BOOL		IsPlayerLoginReady();
+	UINT32		GetStartTime();
 
 protected:
 	UINT32							m_dwPlayerNum; //副本需要进入的人数
@@ -58,6 +59,7 @@ protected:
 	UINT32							m_dwCopyID;		//当前副本实例ID
 	UINT32							m_dwCopyType;   //当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型
+	UINT32							m_dwStartTime;   //副本开始时间
 
 	SceneLogicBase					*m_pSceneLogic;
 	MonsterCreator					*m_pMonsterCreator;

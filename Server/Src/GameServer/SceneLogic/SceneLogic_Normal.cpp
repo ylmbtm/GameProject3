@@ -66,5 +66,17 @@ BOOL SceneLogic_Normal::Update(UINT32 dwTick)
 	//判断当前战斗是不是结束
 	//哪边取得了胜利
 
+	if(BattleResultCheck())
+	{
+
+	}
+
+	return TRUE;
+}
+
+BOOL SceneLogic_Normal::OnTimeUP()
+{
+
+
 	return TRUE;
 }

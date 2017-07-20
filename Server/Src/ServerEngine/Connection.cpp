@@ -14,6 +14,7 @@ void NetIoOperatorData::Clear()
 #endif
 
 	dwCmdType = 0;
+	dwConnID = 0;
 
 	pDataBuffer = NULL;
 }
@@ -78,6 +79,7 @@ BOOL CConnection::DoReceive()
 
 	m_IoOverlapRecv.Clear();
 	m_IoOverlapRecv.dwCmdType = NET_MSG_RECV;
+	m_IoOverlapRecv.dwConnID = m_dwConnID;
 
 	int nRet = WSARecv(m_hSocket, &DataBuf, 1, &dwRecvBytes, &dwFlags, (LPOVERLAPPED)&m_IoOverlapRecv, NULL);
 	if(nRet != 0)
@@ -169,7 +171,6 @@ UINT64 CConnection::GetConnectionData()
 
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
-    ASSERT(m_dwConnID == 0);
     ASSERT(dwConnID != 0);
     ASSERT(!m_bConnected);
 
@@ -309,7 +310,7 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-    m_pDataHandler->OnCloseConnect(this);
+	m_bConnected        = FALSE;
 	CommonSocket::ShutDownSend(m_hSocket);
 	CommonSocket::ShutDownRecv(m_hSocket);
 	CommonSocket::CloseSocket(m_hSocket);
@@ -318,7 +319,7 @@ BOOL CConnection::Close()
     m_bConnected        = FALSE;
     m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-
+	m_pDataHandler->OnCloseConnect(this);
 	return TRUE;
 }
 
@@ -401,8 +402,6 @@ BOOL CConnection::Clear()
      m_hSocket = INVALID_SOCKET;
 
     m_bConnected = FALSE;
-
-	m_dwConnID = 0;
 
 	m_u64ConnData = 0;
 

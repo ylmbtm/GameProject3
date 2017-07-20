@@ -17,20 +17,13 @@
 #include "MonsterCreator.h"
 #include "SceneLogic/SceneLogic_None.h"
 #include "SceneLogic/SceneLogic_City.h"
+
 CScene::CScene()
 {
-	m_dwCopyID = 0;		//当前副本实例ID
-	m_dwCopyType = 0;   //当前副本TYPE
-	m_dwLogicType = 0;  //逻辑类型
-	m_pSceneLogic = NULL;
-	m_dwPlayerNum = 0;
-	m_dwLoginNum = 0;
-
 }
 
 CScene::~CScene()
 {
-
 }
 
 BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum)
@@ -46,6 +39,7 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 
 	m_dwPlayerNum  = dwPlayerNum;
 
 	m_dwLoginNum = 0;
+	m_dwStartTime = 0;
 
 	m_pMonsterCreator = new MonsterCreator(this);
 
@@ -344,6 +338,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
     SendAllNewObjectToPlayer(pSceneObj);
     BroadNewObject(pSceneObj);
+
+	m_dwStartTime = CommonFunc::GetCurrTime();
 	return TRUE;
 }
 
@@ -503,6 +499,11 @@ BOOL CScene::IsPlayerLoginReady()
 	}
 
 	return TRUE;
+}
+
+UINT32 CScene::GetStartTime()
+{
+	return m_dwStartTime;
 }
 
 BOOL CScene::SyncObjectState()

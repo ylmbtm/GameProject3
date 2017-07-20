@@ -177,15 +177,36 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					{
 						//说明对方己经关闭
 						CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接指针%x!", pConnection);
+						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+						{
+							ASSERT_FAIELD;
+						}
 						pConnection->Close();
 					}
 					else
 					{
-						if(!pConnection->HandleRecvEvent(dwNumOfByte))
+						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 						{
-							//收数据失败，基本就是连接己断开
-							pConnection->Close();
-							CLog::GetInstancePtr()->AddLog("收到的数据格式错误%x!", pConnection);
+							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+							break;
+						}
+
+						if(pConnection->IsConnectionOK())
+						{
+							if(!pConnection->HandleRecvEvent(dwNumOfByte))
+							{
+								//收数据失败，基本就是连接己断开
+								if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+								{
+									ASSERT_FAIELD;
+								}
+								pConnection->Close();
+								CLog::GetInstancePtr()->AddLog("收到的数据格式错误%x!", pConnection);
+							}
+						}
+						else
+						{
+							ASSERT_FAIELD;
 						}
 					}
 				}
@@ -229,7 +250,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					{
 						//CLog::GetInstancePtr()->AddLog("连接其它服务器失败!");
 						pConnection->SetConnectionOK(FALSE);
-
 						pConnection->Close();
 					}
 				}

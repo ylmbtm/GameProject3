@@ -18,6 +18,7 @@ struct NetIoOperatorData
 	OVERLAPPED		Overlap;
 #endif
 	UINT32			dwCmdType;
+	UINT32          dwConnID;
 
 	IDataBuffer		*pDataBuffer;
 

@@ -15,6 +15,8 @@
 ServiceBase::ServiceBase(void)
 {
 	m_pPacketDispatcher = NULL;
+	m_dwReadIndex = 0;
+	m_dwWriteIndex = 1;
 }
 
 ServiceBase::~ServiceBase(void)
@@ -32,7 +34,7 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer *pDataBuffer , CConnection *pConnection)
 {
 	PacketHeader *pHeader = (PacketHeader *)pDataBuffer->GetBuffer();
-	ERROR_RETURN_FALSE(m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID)));
+	ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex%2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID)));
 	return TRUE;
 }
 
@@ -144,6 +146,7 @@ BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
 	}
 
 	m_CloseConList.push(pConnection);
+	AtomicAdd(&m_dwWriteIndex, 1);
 	return TRUE;
 }
 
@@ -154,7 +157,9 @@ BOOL ServiceBase::OnNewConnect( CConnection *pConnection )
 		ASSERT_FAIELD;
 		return FALSE;
 	}
+
 	m_NewConList.push(pConnection);
+	AtomicAdd(&m_dwWriteIndex, 1);
 	return TRUE;
 }
 
@@ -214,7 +219,7 @@ BOOL ServiceBase::Update()
 	}
 
 	NetPacket item;
-	while(m_DataQueue.pop(item))
+	while(m_DataQueue[m_dwReadIndex].pop(item))
 	{
 		//UINT32 dwTick = GetTickCount();
 		m_pPacketDispatcher->DispatchPacket(&item);
@@ -249,6 +254,9 @@ BOOL ServiceBase::Update()
 	}
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
+
+	m_dwReadIndex = m_dwReadIndex + 1;
+	m_dwReadIndex = m_dwReadIndex % 2;
 
 	return TRUE;
 }

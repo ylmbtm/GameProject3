@@ -59,7 +59,9 @@ public:
 
 protected:
 	IPacketDispatcher				  *m_pPacketDispatcher;
-	ArrayLockFreeQueue<NetPacket>      m_DataQueue;
+	ArrayLockFreeQueue<NetPacket>      m_DataQueue[2];
+	UINT32							   m_dwReadIndex;
+	UINT32							   m_dwWriteIndex;
 	ArrayLockFreeQueue<CConnection*>   m_NewConList;
 	ArrayLockFreeQueue<CConnection*>   m_CloseConList;
 
