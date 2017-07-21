@@ -39,6 +39,8 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	CLog::GetInstancePtr()->AddLog("---------服务器开始启动--------");
+
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
 		ASSERT_FAIELD;
@@ -69,6 +71,8 @@ BOOL CGameService::Init()
 	CreateDataPool();
 
 	m_WorldMsgHandler.Init(0);
+
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 
 	return TRUE;
 }

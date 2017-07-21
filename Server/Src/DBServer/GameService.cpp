@@ -56,7 +56,7 @@ BOOL CGameService::Init()
 	m_DBWriterManger.Init();
 
 	
-	
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 
 	return TRUE;
 }
@@ -71,7 +71,6 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
 	return TRUE;
 }
 

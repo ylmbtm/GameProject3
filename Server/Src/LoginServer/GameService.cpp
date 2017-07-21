@@ -61,6 +61,8 @@ BOOL CGameService::Init()
 
 	TimerManager::GetInstancePtr()->AddDiffTimer(1, 1, &CGameService::OnTimer, this);
 
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+
 	return TRUE;
 }
 

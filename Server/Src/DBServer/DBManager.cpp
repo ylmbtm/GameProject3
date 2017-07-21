@@ -53,9 +53,9 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck &Ack)
 	while(!QueryRes.eof())  
 	{  
 		RoleItem *pNode = Ack.add_rolelist();
-		pNode->set_id(QueryRes.getInt64Field("id", 0));
+		pNode->set_roleid(QueryRes.getInt64Field("id", 0));
 		pNode->set_name(QueryRes.getStringField("name"));
-		pNode->set_roletype(QueryRes.getIntField("roletype", 0));
+		pNode->set_actorid(QueryRes.getIntField("roletype", 0));
 		pNode->set_level(QueryRes.getIntField("level", 0));
 		QueryRes.nextRow();
 	}  
@@ -76,7 +76,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, RoleLoginAck &Ack)
         Ack.set_retcode(MRC_SUCCESSED);
 		Ack.set_roleid(QueryRes.getInt64Field("id", 0));
 		Ack.set_name(QueryRes.getStringField("name"));
-		Ack.set_roletype(QueryRes.getIntField("roletype", 0));
+		Ack.set_actorid(QueryRes.getIntField("roletype", 0));
 		Ack.set_level(QueryRes.getIntField("level", 0));
 		Ack.set_exp(QueryRes.getInt64Field("exp", 0));
         Ack.set_accountid(QueryRes.getInt64Field("account_id", 0));

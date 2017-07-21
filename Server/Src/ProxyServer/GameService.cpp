@@ -60,6 +60,8 @@ BOOL CGameService::Init()
 
 	ConnectToLogicSvr();
 
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+
 	return TRUE;
 }
 

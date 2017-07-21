@@ -2,7 +2,7 @@ syntax = "proto3";
 
 message MoveItem {
 	uint64  ObjectID = 1;
-	uint32  Type = 2;
+	uint32  ObjType = 2;
 	uint32  MoveState = 3;
 	float   x = 4;
 	float   z = 5;
@@ -16,7 +16,7 @@ message ObjectMoveReq {
 
 message UpdateItem {
 	uint64  ObjectID = 1;
-	uint32  Type = 2;
+	uint32  ObjType = 2;
 	uint32  MoveState = 3;
 	float   x = 4;
 	float   z = 5;
@@ -34,8 +34,8 @@ message ObjectUpdateNty {
 
 message NewItem {
 	uint64 ObjectID = 1;	//实例ID
-	uint32 Type = 2;	//类别
-	uint32 TypeID = 3;  //类型ID
+	uint32 ObjType = 2;		//类别
+	uint32 ActorID = 3;		//类型ID
 	string Name = 4;
 	int32  Level = 5;
 	float	 x = 6;
@@ -58,13 +58,13 @@ message ObjectRemoveNty {
 }
 
 message SkillItem {
-	uint64 AttackerID = 1;
+	uint64 AttackerGuid = 1;
 	uint32 SkillID = 2;
 	float  sx = 3;
 	float  sz = 4;
 	float  dx = 5;
 	float  dz = 6;
-	repeated uint64 DamagerID = 7; 
+	repeated uint64 DamagerGuid = 7; 
 }
 
 message RoleSkillReq {

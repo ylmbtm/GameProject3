@@ -19,7 +19,7 @@ SceneLogic_Normal::~SceneLogic_Normal()
 BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
 {
 	//玩家数据传过来了。
-	if(pObject->GetType() == OT_PLAYER)
+	if(pObject->GetObjType() == OT_PLAYER)
 	{
 		return TRUE;
 	}
@@ -29,7 +29,7 @@ BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
 
 BOOL SceneLogic_Normal::OnObjectDie(CSceneObject *pObject)
 {
-	if(pObject->GetType() == OT_PLAYER)
+	if(pObject->GetObjType() == OT_PLAYER)
 	{
 		m_bFinished = TRUE;
 		return TRUE;

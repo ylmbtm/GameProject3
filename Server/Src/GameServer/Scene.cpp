@@ -39,6 +39,7 @@ BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 
 	m_dwStartTime	= 0;
     m_dwCreateTime	= CommonFunc::GetCurrTime();
 	m_pMonsterCreator = new MonsterCreator(this);
+	m_dwMaxGuid = 1;
 
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwLogicType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
@@ -163,7 +164,7 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
             continue;
         }
 
-        if(pOther->GetObjectID() == pSceneObject->GetObjectID())
+        if(pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
         {
             continue;
         }
@@ -283,18 +284,14 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
 	if(pObject == NULL)
 	{
-		pObject = new CSceneObject;
-		pObject->m_dwType = OT_PLAYER;
-		pObject->m_dwObjType = Req.roletype();
-		pObject->m_strName = Req.rolename();
-		pObject->m_uID = pHeader->u64TargetID;
+		pObject = new CSceneObject(pHeader->u64TargetID, Req.actorid(), OT_PLAYER, 2, (std::string &)Req.rolename());
 		AddPlayer(pObject);
 	}
 	//根据数据创建宠物，英雄
-	pObject->m_dwType = OT_PLAYER;
-	pObject->m_dwObjType = Req.roletype();
+	pObject->m_dwObjType = OT_PLAYER;
+	pObject->m_dwActorID = Req.actorid();
 	pObject->m_strName = Req.rolename();
-	pObject->m_uID = pHeader->u64TargetID;
+	pObject->m_uGuid = pHeader->u64TargetID;
 
 	m_pSceneLogic->OnObjectCreate(pObject);
 
@@ -338,7 +335,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	Ack.set_copytype(m_dwCopyType);
 	Ack.set_roleid(Req.roleid());
 	Ack.set_rolename(pSceneObj->m_strName);
-	Ack.set_roletype(pSceneObj->m_dwObjType);
+	Ack.set_actorid(pSceneObj->m_dwActorID);
 	Ack.set_retcode(MRC_SUCCESSED);
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
@@ -369,7 +366,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
         CSceneObject *pOther = itor->second;
         ERROR_RETURN_FALSE(pOther != NULL);
 
-        if(pOther->GetObjectID() == pSceneObject->GetObjectID())
+        if(pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
         {
             continue;
         }
@@ -390,7 +387,7 @@ BOOL CScene::GetPlayerCount()
 BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
 {
     ObjectRemoveNty Nty;
-    Nty.add_removelist(pSceneObject->GetObjectID());
+    Nty.add_removelist(pSceneObject->GetObjectGUID());
 
 	char szBuff[10240] = {0};
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
@@ -400,7 +397,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
         CSceneObject *pOther = itor->second;
         ERROR_RETURN_FALSE(pOther != NULL);
 
-        if(pOther->GetObjectID() == pSceneObject->GetObjectID())
+        if(pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
         {
             continue;
         }
@@ -431,9 +428,9 @@ BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
 {
     ERROR_RETURN_FALSE(pSceneObject != NULL);
 
-	ERROR_RETURN_FALSE(pSceneObject->GetObjectID() != 0);
+	ERROR_RETURN_FALSE(pSceneObject->GetObjectGUID() != 0);
 
-    m_PlayerMap.insert(std::make_pair(pSceneObject->GetObjectID(), pSceneObject));
+    m_PlayerMap.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
 
     return TRUE;
 }
@@ -550,8 +547,12 @@ BOOL CScene::SyncObjectState()
     return TRUE;
 }
 
-BOOL CScene::GenMonster( UINT32 dwMonsterID )
+BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
+	//StActorInfo *pActorInf = NULL;
+	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, "");
+	AddPlayer(pObject);
+	BroadNewObject(pObject);
     return TRUE;
 }
 

@@ -19,6 +19,8 @@ public:
 
     UINT32 m_dwTypeID; //怪物类型ID
     UINT32 m_dwType;   //怪物类别
+	UINT32 m_dwCount;
+	UINT32 m_dwCamp;
 };
 
 class MonsterWave 

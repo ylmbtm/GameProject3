@@ -2,15 +2,22 @@
 #include "SceneObject.h"
 #include "..\GameService.h"
 
-CSceneObject::CSceneObject()
+CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
     m_dwProxyConnID = 0;
+	m_dwClientConnID = 0;
     m_dwObjState = 0;
     m_dwHp = 0;
-    m_dwClientConnID = 0;
-    m_uID = 0;
-    m_bEnter = FALSE;
-    m_bChanged = FALSE;
+	m_dwMp = 0;
+	m_bEnter = FALSE;
+	m_bChanged = FALSE;
+
+
+    m_uGuid = uGuid;
+	m_dwActorID = dwActorID;
+	m_dwObjType = dwObjType;
+	m_dwCamp = dwCamp;
+	m_strName = strName;
 }
 
 CSceneObject::~CSceneObject()
@@ -87,12 +94,12 @@ BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 
 BOOL CSceneObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata);
 }
 
 BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
 
 BOOL CSceneObject::OnUpdate( UINT32 dwTick )
@@ -121,14 +128,19 @@ VOID CSceneObject::SubHp( UINT32 dwValue )
     m_dwHp -= dwValue;
 }
 
-UINT64 CSceneObject::GetObjectID()
+UINT64 CSceneObject::GetObjectGUID()
 {
-    return m_uID;
+    return m_uGuid;
 }
 
-UINT32 CSceneObject::GetType()
+UINT32 CSceneObject::GetActorID()
 {
-	return m_dwType;
+	return m_dwActorID;
+}
+
+UINT32 CSceneObject::GetObjType()
+{
+	return m_dwObjType;
 }
 
 BOOL CSceneObject::IsConnected()
@@ -159,7 +171,7 @@ BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
     }
 
     UpdateItem *pUpdate = Nty.add_updatelist();
-    pUpdate->set_objectid(m_uID);
+    pUpdate->set_objectid(m_uGuid);
     pUpdate->set_x(x);
     pUpdate->set_z(z);
     pUpdate->set_vx(vx);

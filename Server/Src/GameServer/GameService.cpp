@@ -65,7 +65,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	ConnectToLogicSvr();
 
 	ConnectToProxySvr();
-
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 	return TRUE;
 }
 

@@ -51,7 +51,7 @@ BOOL CGameService::Init()
 	}
 
 	m_StatMsgHandler.Init(0);
-
+	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 	return TRUE;
 }
 

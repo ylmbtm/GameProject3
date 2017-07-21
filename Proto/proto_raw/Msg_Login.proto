@@ -58,7 +58,7 @@ message ClientServerListAck {
 
 
 message SvrRegToSvrReq {
-    int32  ServerID = 1;
+    uint32  ServerID = 1;
 	string ServerName = 2;
 }
 
@@ -67,7 +67,7 @@ message SvrRegToSvrAck {
 }
 
 message SelectServerReq {
-    int32 ServerID = 1;
+    uint32 ServerID = 1;
 }
 
 message SelectServerAck {
@@ -79,10 +79,10 @@ message SelectServerAck {
 }
 
 message RoleItem {
-	uint64  ID         = 1;
-	string  Name       = 2;
-	int32   RoleType   = 3;
-	int32   Level		= 4;
+	uint64  RoleID         = 1;
+	string  Name			= 2;
+	uint32  ActorID			= 3;
+	int32   Level			= 4;
 }
 
 message RoleListReq {
@@ -99,7 +99,7 @@ message RoleListAck {
 message RoleCreateReq {
     uint64 AccountID = 1;
 	string Name = 2;
-	uint32  RoleType = 3;
+	uint32  ActorID = 3;
 }
 
 message RoleCreateAck {
@@ -107,7 +107,7 @@ message RoleCreateAck {
 	uint64	 AccountID = 2;
 	uint64   RoleID = 3;
 	string   Name = 4;
-	uint32   RoleType = 5;
+	uint32   ActorID = 5;
 }
 
 
@@ -130,7 +130,7 @@ message RoleLoginAck {
     uint32   RetCode = 1;
 	uint64   AccountID = 2;
 	uint64   RoleID = 3;
-	uint32   RoleType = 4;
+	uint32   ActorID = 4;
 	int32    Level = 5;
 	uint64   Exp = 6;
 	string   Name = 7;
@@ -187,7 +187,7 @@ message EnterSceneAck {
 	uint32   CopyID = 3;
 	//以下是主角创建需要信息
 	uint64   RoleID = 4;
-	uint32   RoleType = 6;
+	uint32   ActorID = 6;
 	string   RoleName = 5;
 	float	 x = 7;
 	float    z = 8;
@@ -239,7 +239,7 @@ message LeaveSceneAck {
 message TransRoleDataReq {
     uint64  RoleID = 1;
 	string  RoleName = 2;
-	uint32  RoleType = 3;
+	uint32  ActorID = 3;
 	int32   Level = 4;
 
 	//以下很重要。
@@ -255,17 +255,17 @@ message TransRoleDataAck {
 }
 
 message NotifyIntoScene {
-    uint64  RoleID = 1;
-	int32   CopyType = 2;
-	uint32  CopyID = 3;
-	int32   ServerID = 4;
+    uint64   RoleID = 1;
+	uint32   CopyType = 2;
+	uint32   CopyID = 3;
+	uint32   ServerID = 4;
 }
 
 message NearByRoleItem {
-	uint64 RoleID = 1;
-	uint32  RoleType = 2;
-	int32  Level = 3;
-	string Name = 4;
+	uint64  RoleID = 1;
+	uint32  ActorID = 2;
+	int32   Level = 3;
+	string  Name = 4;
 	
 }
 
