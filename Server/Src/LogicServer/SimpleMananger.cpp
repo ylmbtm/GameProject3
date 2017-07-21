@@ -208,13 +208,13 @@ UINT64 CSimpleManager::MakeNewRoleID()
     return m_u64MaxID++;
 }
 
-CSimpleInfo* CSimpleManager::CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwRoleType)
+CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwActorID )
 {
 	CSimpleInfo *pInfo = new CSimpleInfo();
 	pInfo->u64RoleID = u64ID;
 	pInfo->u64AccountID = u64AccID;
 	pInfo->Name = strName;
-	pInfo->dwRoleType = dwRoleType;
+	pInfo->dwActorID = dwActorID;
 	pInfo->IsOnline = TRUE;
 
 	m_mapID2Simple.insert(std::make_pair(u64ID, pInfo));

@@ -38,7 +38,7 @@ public:
 	BOOL SendNewAccountReq(std::string szAccountName, std::string szPassword);
 	BOOL SendAccountLoginReq(std::string szAccountName, std::string szPassword);
 	BOOL SendSelectSvrReq(UINT32 dwSvrID);
-	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwRoleType);
+	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwActorID);
 	BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 dwCharID);
 	BOOL SendRoleLogoutReq(UINT64 u64CharID);
 	BOOL SendRoleLoginReq(UINT64 u64CharID);

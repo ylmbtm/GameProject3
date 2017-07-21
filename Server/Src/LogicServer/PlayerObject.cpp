@@ -259,7 +259,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
     Ack.set_roleid(m_u64ID);
     Ack.set_name(pModule->m_pRoleDataObject->m_szName);
     Ack.set_level(1);
-    Ack.set_actorid(pModule->m_pRoleDataObject->m_RoleType);
+    Ack.set_actorid(pModule->m_pRoleDataObject->m_dwActorID);
     SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
     return TRUE;
 }
@@ -268,7 +268,7 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
 {
     CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
     Req.set_roleid(m_u64ID);
-    Req.set_actorid(pModule->m_pRoleDataObject->m_RoleType);
+    Req.set_actorid(pModule->m_pRoleDataObject->m_dwActorID);
     Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
     Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
 

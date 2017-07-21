@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
 #include "Utility\CommonFunc.h"
+#include "Sqlite\CppSQLite3.h"
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -14,6 +15,28 @@ CAccountObjectMgr::~CAccountObjectMgr()
 
 BOOL CAccountObjectMgr::InitManager()
 {
+
+    std::string strCurDir = CommonFunc::GetCurrentDir();
+    strCurDir+= "\\AccountData.db";
+
+    CppSQLite3DB DBConnection;
+    DBConnection.open(strCurDir.c_str());
+
+    CHAR szSql[MAX_SQL_LEN];
+
+    sprintf(szSql, "select * from account");
+
+    CppSQLite3Query QueryRes = DBConnection.execQuery(szSql);
+
+    while(!QueryRes.eof())  
+    {  
+        AddAccountObject(QueryRes.getInt64Field("id"),QueryRes.getStringField("name"),
+            QueryRes.getStringField("password"),
+            QueryRes.getIntField("channel"));
+
+       QueryRes.nextRow();
+    }  
+
 	return TRUE;
 }
 

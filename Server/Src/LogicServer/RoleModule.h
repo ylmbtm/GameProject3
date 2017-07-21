@@ -3,6 +3,7 @@
 #include "ModuleBase.h"
 #include "DataPool.h"
 #include "..\ServerData\serverStruct.h"
+#include "..\Message\Msg_Login.pb.h"
 
 class CRoleModule : public CModuleBase
 {
@@ -24,7 +25,9 @@ public:
 
 	virtual BOOL OnLoadData(UINT64 u64RoleID);
 
-	BOOL SetBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwRoleType, UINT64 u64AccountID, UINT32 dwChannel);
+    BOOL InitBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwActorID, UINT64 u64AccountID, UINT32 dwChannel);
+
+    BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 public:
 
 	RoleDataObject  *m_pRoleDataObject;

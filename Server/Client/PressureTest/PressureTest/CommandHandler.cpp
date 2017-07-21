@@ -356,7 +356,7 @@ BOOL CClientCmdHandler::OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 
 
 	for( int i =0 ; i < Ack.rolelist_size(); i++)
 	{
-		m_RoleIDList.push_back(Ack.rolelist(i).id());
+		m_RoleIDList.push_back(Ack.rolelist(i).roleid());
 		m_dwHostState = ST_RoleListOk;
 	}
 
@@ -387,12 +387,12 @@ BOOL CClientCmdHandler::OnCmdNewAccountAck( UINT32 dwMsgID, CHAR *PacketBuf, INT
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID , std::string strName, UINT32 dwRoleType)
+BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID , std::string strName, UINT32 dwActorID)
 {
 	RoleCreateReq Req;
 	Req.set_accountid(dwAccountID); 
 	Req.set_name(strName);
-	Req.set_roletype(dwRoleType);
+	Req.set_actorid(dwActorID);
 	m_ClientConnector.SendData(MSG_ROLE_CREATE_REQ, Req, 0, 0);
 	return TRUE;
 }

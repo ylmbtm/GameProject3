@@ -5,7 +5,7 @@ struct CSimpleInfo {
 	UINT64 u64RoleID;	
 	UINT64 u64AccountID;	
 	UINT32 dwGuildID;	
-	UINT32 dwRoleType;	
+	UINT32 dwActorID;	
 	std::string Name ;	
 	UINT32 dwLevel;	
 	UINT32 dwVipLevel;	
@@ -50,7 +50,7 @@ public:
 
     UINT64 MakeNewRoleID();
 
-	CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwRoleType);
+    CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwActorID);
 
 public:
     std::map<UINT64, CSimpleInfo*> m_mapID2Simple;

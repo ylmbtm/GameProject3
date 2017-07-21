@@ -28,6 +28,8 @@ BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
 	m_DBManager.Init();
 
+    m_AccountManager.InitManager();
+
 	return TRUE;
 }
 

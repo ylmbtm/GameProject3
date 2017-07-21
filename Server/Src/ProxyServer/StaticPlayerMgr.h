@@ -23,7 +23,7 @@ public:
 public:
 	UINT32	GetGameSvrID();
 
-	VOID	SetGameSvrID(UINT32 dwSvrID, UINT32 dwCopyID);
+    VOID    SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyID);
 
 	UINT64	GetCharID();
 

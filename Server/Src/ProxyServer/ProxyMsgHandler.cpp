@@ -258,12 +258,12 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	if(pPlayer != NULL)
 	{
-		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID, Req.copyid());
+		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyid());
 	}
 	else
 	{
 		pPlayer = CProxyPlayerMgr::GetInstancePtr()->CreateProxyPlayer(Req.roleid());
-		pPlayer->SetGameSvrID(pPacketHeader->u64TargetID, Req.copyid());
+		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyid());
 	}
 
 	UINT32 dwConnID = GetGameSvrConnID(pPacketHeader->u64TargetID);
