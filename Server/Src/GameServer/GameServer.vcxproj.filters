@@ -22,6 +22,9 @@
     <Filter Include="SceneObject">
       <UniqueIdentifier>{5f4e542f-0878-4371-b9fd-ea2b921e1e64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ConfigData">
+      <UniqueIdentifier>{0e358b5d-7aad-44d3-ae3b-39bf152f4c06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -67,6 +70,12 @@
       <Filter>scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="SceneXmlMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ConfigData\ConfigData.cpp">
+      <Filter>ConfigData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,6 +129,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SceneXmlMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConfigData\ConfigData.h">
+      <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConfigData\ConfigStruct.h">
+      <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

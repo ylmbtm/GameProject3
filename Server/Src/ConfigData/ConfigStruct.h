@@ -40,4 +40,15 @@ struct StLocalString
 	std::string Language[15];
 };
 
+
+struct StActor
+{
+	StActor()
+	{
+
+	}
+	UINT32  dwID;
+	std::string strName;
+};
+
 #endif //__CONFIG_STRUCT_H__

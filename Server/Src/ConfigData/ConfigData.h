@@ -35,7 +35,9 @@ public:
 
 	//角色
 	///////////////////////////////////////////////
-    BOOL ReadRoleType(CppSQLite3Query &QueryData);
+	std::map<UINT32, StActor> m_mapActor;
+    BOOL ReadActor(CppSQLite3Query &QueryData);
+	StActor* GetActorInfo(UINT32 dwActorID);
 	
 	//副本
 	///////////////////////////////////////////////

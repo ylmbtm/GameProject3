@@ -21,7 +21,7 @@ CConfigData* CConfigData::GetInstancePtr()
 
 BOOL CConfigData::InitDataReader()
 {
-	m_vtDataFuncList.push_back(DataFuncNode("sss", &CConfigData::ReadRoleType));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor", &CConfigData::ReadActor));
 	return TRUE;
 }
 
@@ -70,9 +70,28 @@ BOOL CConfigData::ReadConstantValue(CppSQLite3Query &QueryData)
 	return TRUE;
 }
 
-BOOL CConfigData::ReadRoleType(CppSQLite3Query &QueryData)
+BOOL CConfigData::ReadActor(CppSQLite3Query &QueryData)
 {
+	while(QueryData.eof())
+	{
+		StActor stValue;
+		stValue.dwID = QueryData.getIntField("Id");
+		m_mapActor.insert(std::make_pair(stValue.dwID, stValue));
+		QueryData.nextRow();
+	}
+
 	return TRUE;
+}
+
+StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
+{
+	std::map<UINT32, StActor>::iterator itor = m_mapActor.find(dwActorID);
+	if(itor != m_mapActor.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
 }
 
 BOOL CConfigData::ReadCopyBase(CppSQLite3Query &QueryData)

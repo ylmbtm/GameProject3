@@ -8,6 +8,7 @@
 #include "Utility/CommonThreadFunc.h"
 #include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../ConfigData/ConfigData.h"
 
 CGameService::CGameService(void)
 {
@@ -62,9 +63,11 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	ConnectToLogicSvr();
+	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
 
+	ConnectToLogicSvr();
 	ConnectToProxySvr();
+
 	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 	return TRUE;
 }

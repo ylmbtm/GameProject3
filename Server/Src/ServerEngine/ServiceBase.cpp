@@ -60,8 +60,6 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("服务器启动成功!");
-
 	m_dwLastTick = 0;
 	m_dwPackNum = 0;
 	m_dwFps = 0;
