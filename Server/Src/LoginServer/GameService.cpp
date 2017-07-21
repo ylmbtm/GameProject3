@@ -156,8 +156,6 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
-
 	if(pConn->GetConnectionID() == m_dwAccountConnID)
 	{
 		m_dwAccountConnID = 0;

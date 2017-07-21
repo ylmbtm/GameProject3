@@ -66,8 +66,6 @@ BOOL CNetManager::WorkThread_Listen()
 		CConnection *pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			//CLog::GetInstancePtr()->AddLog("新连接,提交数据请求!");
-
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);
@@ -176,10 +174,11 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					if(dwNumOfByte == 0)
 					{
 						//说明对方己经关闭
-						CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接指针%x!", pConnection);
+						CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接ID:%d!", pConnection->GetConnectionID());
 						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 						{
-							ASSERT_FAIELD;
+							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+							break;
 						}
 						pConnection->Close();
 					}
@@ -198,7 +197,8 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 								//收数据失败，基本就是连接己断开
 								if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 								{
-									ASSERT_FAIELD;
+									CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+									break;
 								}
 								pConnection->Close();
 								CLog::GetInstancePtr()->AddLog("收到的数据格式错误%x!", pConnection);
@@ -216,6 +216,13 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 			{
 				pIoPeratorData->pDataBuffer->Release();
 				CConnection *pConnection = (CConnection *)dwCompleteKey;
+				if((pConnection != NULL)&&(pConnection->GetConnectionID() != pIoPeratorData->dwConnID))
+				{
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND, 但连接己经被关闭重用了。");
+					break;
+				}
+
+
 				if(pConnection != NULL)
 				{
 					pConnection->m_CritSecSendList.Lock();
@@ -236,8 +243,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				{
 					if(bRetValue)
 					{
-						//CLog::GetInstancePtr()->AddLog("连接其它服务器成功!");
-
 						pConnection->SetConnectionOK(TRUE);
 						m_pBufferHandler->OnNewConnect(pConnection);
 
@@ -248,7 +253,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					}
 					else
 					{
-						//CLog::GetInstancePtr()->AddLog("连接其它服务器失败!");
 						pConnection->SetConnectionOK(FALSE);
 						pConnection->Close();
 					}
@@ -505,17 +509,14 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 		}
 		else if(_EventNode.dwEvent == EVENT_WRITE)
 		{
-			pConnection->m_IoOverlapSend.pDataBuffer->Release();
 			pConnection->m_CritSecSendList.Lock();
 			pConnection->m_IsSending = FALSE;
 			pConnection->DoSend();
-			pConnection->m_CritSecSendList.Unlock();
-
 			struct epoll_event EpollEvent;
 			EpollEvent.data.ptr= pConnection;
 			EpollEvent.events  = EPOLLOUT|EPOLLET;
-
 			epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(),  &EpollEvent);
+			pConnection->m_CritSecSendList.Unlock();
 		}
 	}
 

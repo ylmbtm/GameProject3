@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_None.h"
+#include "..\Scene.h"
+#include "Utility\CommonFunc.h"
 
 
 
@@ -36,5 +38,15 @@ BOOL SceneLogic_None::OnPlayerLeave(CSceneObject *pPlayer)
 
 BOOL SceneLogic_None::Update(UINT32 dwTick)
 {
+	SceneLogicBase::Update(dwTick);
+
+	if(m_pScene->GetStartTime() == 0)
+	{
+		if(CommonFunc::GetCurrTime() - m_pScene->GetCreateTime() > 60)
+		{
+			SetFinished();
+		}
+	}
+
 	return TRUE;
 }

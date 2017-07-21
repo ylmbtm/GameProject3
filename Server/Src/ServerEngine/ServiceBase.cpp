@@ -169,39 +169,6 @@ CConnection* ServiceBase::GetConnectionByID( UINT32 dwConnID )
 	return CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
 }
 
-// BOOL ServiceBase::Update()
-// {
-// 	NetPacket item;
-// 	//处理新连接的通知
-// 	CConnection *pConnection = NULL;
-// 	while(m_NewConList.pop(pConnection))
-// 	{
-// 		item.m_pDataBuffer = NULL;
-// 		item.m_pConnect = pConnection;
-// 		FireMessage(1, &item);
-// 	}
-// 
-// 	while(m_DataQueue.pop(item))
-// 	{
-// 		PacketHeader *pPacketHeader = (PacketHeader *)item.m_pDataBuffer->GetBuffer();
-// 
-// 		FireMessage(pPacketHeader->dwMsgID, &item);
-// 	}
-// 
-// 	//处理断开的连接
-// 	while(m_CloseConList.pop(pConnection))
-// 	{
-// 		//发送通知
-// 		item.m_pDataBuffer = NULL;
-// 		item.m_pConnect = pConnection;
-// 		FireMessage(2, &item);
-// 		//发送通知
-// 		CConnectionMgr::GetInstancePtr()->DeleteConnection(pConnection);
-// 	}
-// 
-// 	return TRUE;
-// }
-
 BOOL ServiceBase::Update()
 {
 	if(m_dwLastTick == 0)
@@ -238,7 +205,7 @@ BOOL ServiceBase::Update()
 
 	if((CommonFunc::GetTickCount()-m_dwLastTick)>1000)
 	{
-		CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
+		//CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
 		m_dwFps = 0;
 		m_dwPackNum = 0;
 		m_dwLastTick = CommonFunc::GetTickCount();

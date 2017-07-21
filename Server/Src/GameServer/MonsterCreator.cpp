@@ -15,6 +15,11 @@ MonsterCreator::~MonsterCreator()
 
 }
 
+BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char> *pNode)
+{
+	 return TRUE;
+}
+
 BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
 {
     if(m_bAllFinished)

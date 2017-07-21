@@ -58,13 +58,11 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
 	return TRUE;
 }
 

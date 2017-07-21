@@ -46,3 +46,8 @@ BOOL SceneLogic_City::Update(UINT32 dwTick)
 {
 	return TRUE;
 }
+
+BOOL SceneLogic_City::TimeUP()
+{
+	return TRUE;
+}

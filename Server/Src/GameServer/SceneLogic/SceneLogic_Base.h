@@ -1,5 +1,8 @@
 ﻿#ifndef _SCENELOGIC_BASE_H_
 #define _SCENELOGIC_BASE_H_
+
+#include "Utility\RapidXml\rapidxml.h"
+
 class CScene;
 class CSceneObject;
 
@@ -22,6 +25,8 @@ public:
 	
 	~SceneLogicBase();
 public:
+	virtual BOOL ReadFromXml(rapidxml::xml_node<char> *pNode);
+
 	virtual BOOL OnObjectCreate(CSceneObject *pObject);
 
 	virtual BOOL OnObjectDie(CSceneObject *pObject);
@@ -41,6 +46,8 @@ public:
 
 	//TRUE:表示己经决出胜负, FALSE没有决出胜负
 	virtual BOOL BattleResultCheck();
+
+	
 
 	CScene*  GetScene();
 

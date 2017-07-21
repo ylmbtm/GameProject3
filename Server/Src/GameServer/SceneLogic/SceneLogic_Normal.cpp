@@ -4,6 +4,7 @@
 #include "..\Scene.h"
 #include "..\ServerData\ServerDefine.h"
 #include "..\Message\Game_Define.pb.h"
+#include "Utility\CommonFunc.h"
 
 SceneLogic_Normal::SceneLogic_Normal(CScene *pScene):SceneLogicBase(pScene)
 {
@@ -63,6 +64,16 @@ BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject *pPlayer)
 
 BOOL SceneLogic_Normal::Update(UINT32 dwTick)
 {
+	SceneLogicBase::Update(dwTick);
+
+	if(m_pScene->GetStartTime() == 0)
+	{
+		if(CommonFunc::GetCurrTime() - m_pScene->GetCreateTime() > 60)
+		{
+			SetFinished();
+		}
+	}
+
 	//判断当前战斗是不是结束
 	//哪边取得了胜利
 

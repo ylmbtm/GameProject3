@@ -1,4 +1,5 @@
-﻿#ifndef _GAME_MONSTER_CREATOR_H_
+﻿#include "Utility\RapidXml\rapidxml.h"
+#ifndef _GAME_MONSTER_CREATOR_H_
 #define _GAME_MONSTER_CREATOR_H_
 
 class CScene;
@@ -53,6 +54,7 @@ public:
 	MonsterCreator(CScene *pScene);
 	~MonsterCreator();
 
+	BOOL ReadFromXml(rapidxml::xml_node<char> *pNode);
 
 	BOOL OnUpdate(UINT32 dwTick);
 

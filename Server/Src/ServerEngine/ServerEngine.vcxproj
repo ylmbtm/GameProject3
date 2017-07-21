@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\Utility\MemObjectPool.h" />
+    <ClInclude Include="..\..\Common\Utility\Rank.h" />
     <ClInclude Include="CommonMsgHandler.h" />
     <ClInclude Include="CommonWorkThread.h" />
     <ClInclude Include="Connection.h" />

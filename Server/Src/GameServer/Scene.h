@@ -50,11 +50,14 @@ public:
 	//创建对象
     BOOL            GenMonster(UINT32 dwMonsterID);
 
+	//解析场景配制文件
+	BOOL			ReadSceneXml();
 public:
 	BOOL		IsFinished();
 	BOOL		IsPlayerDataReady();
 	BOOL		IsPlayerLoginReady();
 	UINT32		GetStartTime();
+	UINT32      GetCreateTime();
 
 protected:
 	UINT32							m_dwPlayerNum;  //副本需要进入的人数
@@ -63,7 +66,8 @@ protected:
 	UINT32							m_dwCopyType;   //当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型
     UINT32                          m_dwCreateTime; //副本创建时间
-	UINT32							m_dwStartTime;  //副本开始时间
+	UINT32							m_dwStartTime;   //副本开始时间
+	UINT32							m_dwLastTick;
 
 	SceneLogicBase					*m_pSceneLogic;
 	MonsterCreator					*m_pMonsterCreator;
@@ -83,6 +87,5 @@ public:
 };
 
 #endif //_MAP_H_
-
 
 

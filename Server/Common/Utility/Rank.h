@@ -14,13 +14,11 @@ type TRankList []*TRankItem
 class TRanker 
 {
 public:
-	//show 显示的条数
-	//rank 总的排名条数
+	//show 显示的条数	dwTotal 总的排名条数
 	BOOL InitRanker(INT32 dwShow, INT32 dwTotal) {
 		m_dwShowNum = dwShow;
 		m_dwRankNum = dwTotal;
 	}
-
 
 	int SearchInsert(UINT64 RankValue) {
 		int nLen=m_vtRankList.size();
@@ -64,37 +62,37 @@ public:
 		INT32 nCount = m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount-1];
 		  if RankValue <= MinValue {
-			  return -1
+			  return -1;
 		  }
 
-	INT32 nTargetIndex := SearchInsert(RankValue);
+		INT32 nTargetIndex := SearchInsert(RankValue);
 
-	INT32 myIndex = nCount - 1;
-	for (INT32 i = nTargetIndex; i < nCount; i++) 
-	{
-		if (m_vtRankList[i].RankID == RankID || m_vtRankList[i].RankID == 0) 
+		INT32 myIndex = nCount - 1;
+		for (INT32 i = nTargetIndex; i < nCount; i++) 
 		{
-			m_vtRankList[i].RankValue = RankValue;
-			m_vtRankList[i].RankID = RankID;
-			myIndex = i
-				break
+			if (m_vtRankList[i].RankID == RankID || m_vtRankList[i].RankID == 0) 
+			{
+				m_vtRankList[i].RankValue = RankValue;
+				m_vtRankList[i].RankID = RankID;
+				myIndex = i;
+				break;
+			}
 		}
-	}
 
-		 if (myIndex == nTargetIndex)
-		 {
-			 return nTargetIndex;
-		 }
+		if (myIndex == nTargetIndex)
+		{
+			return nTargetIndex;
+		}
 
-		 for (INT32 i = myIndex; i > nTargetIndex; i--) 
-		 {
-			 m_vtRankList[i].RankID = m_vtRankList[i-1].RankID;
-			 m_vtRankList[i].RankValue = m_vtRankList[i-1].RankValue;
-		 }
+		for (INT32 i = myIndex; i > nTargetIndex; i--) 
+		{
+			m_vtRankList[i].RankID = m_vtRankList[i-1].RankID;
+			m_vtRankList[i].RankValue = m_vtRankList[i-1].RankValue;
+		}
 
-		 m_vtRankList[nTargetIndex].RankID = RankID;
-			 m_vtRankList[nTargetIndex].RankValue = RankValue;
-			 return nTargetIndex;
+		m_vtRankList[nTargetIndex].RankID = RankID;
+		m_vtRankList[nTargetIndex].RankValue = RankValue;
+		return nTargetIndex;
 	}
 
 	//战力排行榜专用, 其它的排行榜暂时不要用
@@ -107,12 +105,12 @@ public:
 	{
 		INT32 nCount = m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount-1].RankValue;
-		if RankValue <= MinValue 
+		if (RankValue <= MinValue) 
 		{
 			 return -1;
 		}
 
-		INT32 nTargetIndex := SearchInsert(RankValue);
+		INT32 nTargetIndex = SearchInsert(RankValue);
 		if (nTargetIndex == nCount) 
 		{
 			return -1;
@@ -122,11 +120,11 @@ public:
 		{
 			if (m_vtRankList[i].RankID == RankID) 
 			{
-				return i + 1
+				return i + 1;
 			}
 		}
 	
-		return -1
+		return -1;
 	}
 public:
 	INT32 m_dwShowNum;
@@ -134,15 +132,8 @@ public:
 	std::vector<TRankItem> m_vtRankList;
 };
 
-#endif // __DB_STORED_PROCEDURE__
+#endif // 
 
-
-
-
-
-
-
-//清空排行榜
 
 
 

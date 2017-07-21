@@ -19,6 +19,8 @@ public:
 
 	virtual BOOL Update(UINT32 dwTick);
 
+	virtual BOOL TimeUP();
+
 };
 
 #endif //_SCENELOGIC_CITY_H_

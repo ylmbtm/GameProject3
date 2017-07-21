@@ -4,6 +4,7 @@
 #include "..\Scene.h"
 
 
+
 SceneLogicBase::SceneLogicBase(CScene *pScene)
 {
 	m_pScene = pScene;
@@ -14,6 +15,11 @@ SceneLogicBase::SceneLogicBase(CScene *pScene)
 SceneLogicBase::~SceneLogicBase()
 {
 
+}
+
+BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
+{
+	return TRUE;
 }
 
 BOOL SceneLogicBase::OnObjectCreate(CSceneObject *pObject)

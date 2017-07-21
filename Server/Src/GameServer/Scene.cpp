@@ -17,6 +17,9 @@
 #include "MonsterCreator.h"
 #include "SceneLogic/SceneLogic_None.h"
 #include "SceneLogic/SceneLogic_City.h"
+#include "Utility/RapidXml//rapidxml.h"
+#include "SceneXmlMgr.h"
+#include "Utility/CommonConvert.h"
 
 CScene::CScene()
 {
@@ -28,20 +31,18 @@ CScene::~CScene()
 
 BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum)
 {
-	m_dwCopyID = dwCopyID;
-
-	m_dwCopyType = dwCopyType;
-
-	m_dwLogicType = dwLogicType;
-
-	CreateSceneLogic(dwLogicType);
-
-	m_dwPlayerNum  = dwPlayerNum;
-
-	m_dwLoginNum = 0;
-	m_dwStartTime = 0;
-    m_dwCreateTime = CommonFunc::GetCurrTime();
+	m_dwCopyID		= dwCopyID;
+	m_dwCopyType	= dwCopyType;
+	m_dwLogicType	= dwLogicType;
+	m_dwPlayerNum	= dwPlayerNum;
+	m_dwLoginNum	= 0;
+	m_dwStartTime	= 0;
+    m_dwCreateTime	= CommonFunc::GetCurrTime();
 	m_pMonsterCreator = new MonsterCreator(this);
+
+	ERROR_RETURN_FALSE(CreateSceneLogic(dwLogicType));
+	ERROR_RETURN_FALSE(ReadSceneXml());
+
 	return TRUE;
 }
 
@@ -63,7 +64,7 @@ BOOL CScene::Uninit()
 
 	delete m_pMonsterCreator;
 
-	DestroySceneLogic(m_dwLogicType);
+	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwLogicType));
 
 	return TRUE;
 }
@@ -194,6 +195,13 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
+	if((m_dwLastTick > dwTick)&&(m_dwLastTick - dwTick < 20))
+	{
+		return TRUE;
+	}
+	
+	m_dwLastTick = dwTick;
+
 	if(m_pSceneLogic->IsFinished()) //己经结束不再处理
 	{
 		return TRUE;
@@ -214,14 +222,6 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	}
 
     m_pSceneLogic->Update(dwTick);
-
-    if(m_dwStartTime == 0)
-    {
-        if(CommonFunc::GetCurrTime() - m_dwCreateTime > 60)
-        {
-            m_pSceneLogic->SetFinished();
-        }
-    }
 
 	return TRUE;
 }
@@ -326,7 +326,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	CSceneObject *pSceneObj = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
 
-	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, pHeader->u64TargetID);
+	pSceneObj->SetConnectID(pNetPacket->m_dwConnID, (UINT32)pHeader->u64TargetID);
 	pSceneObj->SetEnterCopy();
 	m_pSceneLogic->OnPlayerEnter(pSceneObj);
 
@@ -512,6 +512,11 @@ UINT32 CScene::GetStartTime()
 	return m_dwStartTime;
 }
 
+UINT32 CScene::GetCreateTime()
+{
+	return m_dwCreateTime;
+}
+
 BOOL CScene::SyncObjectState()
 {
     ObjectUpdateNty Nty;
@@ -526,7 +531,7 @@ BOOL CScene::SyncObjectState()
 	char szBuff[102400] = {0};
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
-    if(Nty.updatelist_size() <= 0)
+    if(Nty.updatelist_size() > 0)
     {
         for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
         {
@@ -548,6 +553,29 @@ BOOL CScene::SyncObjectState()
 BOOL CScene::GenMonster( UINT32 dwMonsterID )
 {
     return TRUE;
+}
+
+BOOL CScene::ReadSceneXml()
+{
+	return TRUE;
+	rapidxml::xml_document<char> *pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument("xxxx");
+	ERROR_RETURN_FALSE(pXmlDoc != NULL);
+
+	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Scene");
+	ERROR_RETURN_FALSE(pXmlRoot != NULL);
+	
+	auto pLogicNode = pXmlRoot->first_node("SceneLogic");
+	ERROR_RETURN_FALSE(pLogicNode != NULL);
+	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
+	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pLogicNode));
+
+
+	auto pCreatorNode = pXmlRoot->first_node("SceneCreator");
+	ERROR_RETURN_FALSE(pCreatorNode != NULL);
+	ERROR_RETURN_FALSE(m_pMonsterCreator != NULL);
+	ERROR_RETURN_FALSE(m_pMonsterCreator->ReadFromXml(pCreatorNode));
+
+	return TRUE;
 }
 
 CSceneObject* CScene::GetOwnPlayer()

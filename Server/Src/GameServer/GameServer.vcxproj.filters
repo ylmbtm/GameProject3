@@ -66,6 +66,9 @@
     <ClCompile Include="SceneLogic\BattleResult.cpp">
       <Filter>scenelogic</Filter>
     </ClCompile>
+    <ClCompile Include="SceneXmlMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -112,6 +115,12 @@
     </ClInclude>
     <ClInclude Include="SceneLogic\BattleResult.h">
       <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Utility\rapidxml.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneXmlMgr.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

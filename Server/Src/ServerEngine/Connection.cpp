@@ -522,6 +522,7 @@ BOOL CConnection::DoSend()
 	m_IoOverlapSend.Clear();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendBuffer;
+	m_IoOverlapSend.dwConnID = m_dwConnID;
 
 	DWORD dwSendBytes = 0;
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
@@ -603,19 +604,32 @@ BOOL CConnection::DoSend()
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendBuffer;
 
+
+	//木多库的处理方式
+	//返回值为正数， 分为完全发送，和部分发送，部分发送，用另一个缓冲区装着继续发送
+	//返回值为负数   错误码：
+	//
+	//if (errno != EWOULDBLOCK)
+	//{
+	//	//ERROR("TcpConnection sendInLoop");
+	//	if (errno == EPIPE || errno == ECONNRESET)
+	//	{
+	//		faultError = true;//这就是真实的错误了
+	//	}
+	//}
+
 	INT32 nRet = send(m_hSocket, pSendBuffer->GetBuffer(),pSendBuffer->GetTotalLenth(), 0);
+	pSendBuffer->Release();
 	if(nRet < 0)
 	{
 		int nErr = CommonSocket::GetSocketLastError();
 		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
-		pSendBuffer->Release();
 		m_IsSending = FALSE;
 	}
 	else if(nRet < pSendBuffer->GetTotalLenth())
 	{
 		CommonSocket::CloseSocket(m_hSocket);
 		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 缓冲区满了!");
-		pSendBuffer->Release();
 		m_IsSending = FALSE;
 	}
 	return TRUE;

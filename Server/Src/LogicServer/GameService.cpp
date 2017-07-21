@@ -152,8 +152,6 @@ BOOL CGameService::RegisterToLoginSvr()
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	//CLog::GetInstancePtr()->AddLog("新连接来到!");
-
 	if(pConn->GetConnectionID() == m_dwLoginConnID)
 	{
 		RegisterToLoginSvr();
@@ -164,8 +162,6 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 
 BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
-	CLog::GetInstancePtr()->AddLog("断开连接!");
-
 	if(m_dwLoginConnID == pConn->GetConnectionID())
 	{
 		m_dwLoginConnID = 0;
