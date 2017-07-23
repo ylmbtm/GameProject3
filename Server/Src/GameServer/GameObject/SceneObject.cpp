@@ -10,7 +10,6 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
     m_dwHp = 0;
 	m_dwMp = 0;
 	m_bEnter = FALSE;
-	m_bChanged = FALSE;
 
 
     m_uGuid = uGuid;
@@ -163,26 +162,6 @@ BOOL CSceneObject::SaveNewObject( ObjectNewNty &Nty )
     return TRUE;
 }
 
-BOOL CSceneObject::SaveUpdateObject( ObjectUpdateNty &Nty )
-{
-    if(!m_bChanged)
-    {
-        return TRUE;
-    }
-
-    UpdateItem *pUpdate = Nty.add_updatelist();
-    pUpdate->set_objectid(m_uGuid);
-    pUpdate->set_x(x);
-    pUpdate->set_z(z);
-    pUpdate->set_vx(vx);
-    pUpdate->set_vz(vz);
-    //pUpdate->set_actionid(m_dwObjState);
-
-	m_bChanged = FALSE;
-
-    return TRUE;
-}
-
 BOOL CSceneObject::IsDie()
 {
     if(m_dwHp <= 0)
@@ -193,8 +172,4 @@ BOOL CSceneObject::IsDie()
     return FALSE;
 }
 
-VOID CSceneObject::SetChanged()
-{
-    m_bChanged = TRUE;
-}
 

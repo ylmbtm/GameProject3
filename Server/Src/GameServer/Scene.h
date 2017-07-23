@@ -75,12 +75,12 @@ protected:
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
     std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
    
-    //ObjectMoveReq           Req;
-    //ObjectAttackReq         Req;
+    ObjectActionNty                  m_ObjectActionNty;
 
     //////////////////////////////////////////////////////////////////////////
     //攻击伤害计算
    
+    BOOL ProcessActionItem(const ActionItem &Item);
     BOOL SkillFight(CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject *pDefender);
 	
 	//*********************消息处理定义开始******************************
@@ -88,8 +88,7 @@ public:
 	BOOL OnMsgTransRoleDataReq(NetPacket *pNetPacket);
 	BOOL OnMsgEnterSceneReq(NetPacket *pNetPacket);
 	BOOL OnMsgLeaveSceneReq(NetPacket *pNetPacket);
-	BOOL OnMsgRoleMoveReq(NetPacket *pNetPacket);
-	BOOL OnMsgRoleSkillReq(NetPacket *pNetPacket);
+    BOOL OnMsgObjectActionReq(NetPacket *pNetPacket);
     BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
     //*********************消息处理定义结束******************************
 };

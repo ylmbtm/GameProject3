@@ -23,8 +23,6 @@ public:
     BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 	BOOL			OnUpdate(UINT32 dwTick);
 	BOOL            SaveNewObject(ObjectNewNty &Nty);
-	BOOL            SaveUpdateObject(ObjectUpdateNty &Nty);
-	VOID            SetChanged();
 public:
     UINT32          GetHp();
     VOID            AddHp(UINT32 dwValue);
@@ -67,7 +65,6 @@ public:
 	 //////////////////////////////////////////////////////////
     CScene			*m_pScene;  //所在场景
     BOOL            m_bEnter;   //玩家是否己经进入副本
-    BOOL            m_bChanged; //玩家状态是否发生改变
     
 	//对象的副要结果
 	////////////////////////////////////////////////////////////////
