@@ -35,7 +35,14 @@ BOOL CAccountObjectMgr::InitManager()
             QueryRes.getIntField("channel"));
 
        QueryRes.nextRow();
+
+       if(m_u64MaxID < QueryRes.getInt64Field("id"))
+       {
+           m_u64MaxID = QueryRes.getInt64Field("id");
+       }
     }  
+
+    m_u64MaxID += 1;
 
 	return TRUE;
 }

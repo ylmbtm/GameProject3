@@ -48,7 +48,7 @@ public:
 	//对象的基本信息
     //////////////////////////////////////////////////////////
 	UINT64          m_uGuid;			//实例ID, 对玩家是角色ID
-	UINT32          m_dwActorID;			//对象ID  
+	UINT32          m_dwActorID;		//对象ID  
 	UINT32          m_dwObjType;		//对象类型 玩家，宠物， NPC之类的
 	std::string     m_strName;          //对象的名字
     UINT32			m_dwCamp;			//阵营
@@ -58,6 +58,9 @@ public:
     UINT32          m_dwHp;				//对象当前血量
 	UINT32			m_dwMp;				//对象当前蓝量
     UINT32          m_dwProperty[15];	//15个属性的数值
+
+    UINT64          m_uHostGuid;        //主人的GUID
+    UINT64          m_uControlerID;     //控制权GUID
 
 
     //对象的一些标记

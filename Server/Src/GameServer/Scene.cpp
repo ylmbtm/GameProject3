@@ -125,6 +125,7 @@ BOOL CScene::OnMsgRoleSkillReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 
+    //
 
 
 
@@ -217,7 +218,7 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	}*/
 
 
-	if(IsPlayerDataReady())
+	if(IsAllDataReady())
 	{
 		m_pMonsterCreator->OnUpdate(dwTick);
 	}
@@ -475,7 +476,7 @@ BOOL CScene::IsFinished()
 	return m_pSceneLogic->IsFinished();
 }
 
-BOOL CScene::IsPlayerDataReady()
+BOOL CScene::IsAllDataReady()
 {
 	if(m_PlayerMap.size() == m_dwPlayerNum)
 	{
@@ -485,9 +486,9 @@ BOOL CScene::IsPlayerDataReady()
 	return FALSE;
 }
 
-BOOL CScene::IsPlayerLoginReady()
+BOOL CScene::IsAllLoginReady()
 {
-	if(!IsPlayerDataReady())
+	if(!IsAllDataReady())
 	{
 		return FALSE;
 	}
@@ -593,5 +594,63 @@ CSceneObject* CScene::GetOwnPlayer()
     }
 
     return itor->second;
+}
+
+BOOL CScene::SkillFight( CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject *pDefender )
+{
+    ERROR_RETURN_FALSE(pAttacker != NULL);
+    ERROR_RETURN_FALSE(pDefender != NULL);
+    ERROR_RETURN_FALSE(dwSkillID != 0);
+
+    UINT32 dwRandValue = CommonFunc::GetRandNum(1);
+    //先判断是否命中
+    if (dwRandValue > (800+pAttacker->m_dwProperty[8]-pDefender->m_dwProperty[7]) && dwRandValue > 500) 
+    {
+        //未命中
+        return TRUE;
+    }
+
+    //判断是否爆击
+    dwRandValue = CommonFunc::GetRandNum(1);
+    BOOL bCriticalHit = FALSE;
+    if (dwRandValue < (pAttacker->m_dwProperty[9]-pAttacker->m_dwProperty[10]) || dwRandValue < 10) 
+    {
+        bCriticalHit = TRUE;
+    } 
+
+    //var pSkillInfo = new(gamedata.ST_SkillInfo)
+    //    pSkillInfo.Hurts = make([]gamedata.ST_Hurts, 1, 1)
+    //    pSkillInfo.Hurts[0].Percent = 100
+    //   pSkillInfo.Hurts[0].Fixed = 0
+
+    //最终伤害加成
+    UINT32 dwFinalAdd = pAttacker->m_dwProperty[6] - pDefender->m_dwProperty[5] + 1000;
+
+    //伤害随机
+    UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1)%200;
+    //hurt := (pSkillInfo.Hurts[0].Percent*(pAttacker.CurProperty[pAttacker.AttackPID-1]-pDefender.CurProperty[pAttacker.AttackPID]) + pSkillInfo.Hurts[0].Fixed)
+    //UINT32 dwHurt := pAttacker->m_dwProperty[pAttacker.AttackPID-1] - pDefender->m_dwProperty[pAttacker.AttackPID]
+    UINT32 dwHurt = pAttacker->m_dwProperty[1] - pDefender->m_dwProperty[1];
+    if (dwHurt <= 0)
+    {
+        dwHurt = 1;
+    } 
+    else 
+    {
+        dwHurt = dwHurt * dwFightRand / 1000;
+        dwHurt = dwHurt * dwFinalAdd / 1000;
+        if (bCriticalHit) 
+        {
+            dwHurt = dwHurt * 15 / 10;
+        }
+    }
+
+    pDefender->m_dwHp -= dwHurt;
+    if (pDefender->m_dwHp <= 0) 
+    {
+        pDefender->m_dwHp = 0;
+    }
+
+    return TRUE;
 }
 

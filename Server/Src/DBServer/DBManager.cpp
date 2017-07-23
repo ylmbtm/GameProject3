@@ -55,7 +55,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck &Ack)
 		RoleItem *pNode = Ack.add_rolelist();
 		pNode->set_roleid(QueryRes.getInt64Field("id", 0));
 		pNode->set_name(QueryRes.getStringField("name"));
-		pNode->set_actorid(QueryRes.getIntField("roletype", 0));
+		pNode->set_actorid(QueryRes.getIntField("actorid", 0));
 		pNode->set_level(QueryRes.getIntField("level", 0));
 		QueryRes.nextRow();
 	}  
@@ -63,7 +63,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck &Ack)
 	return TRUE;
 }
 
-BOOL CDBManager::GetRoleData(UINT64 u64ID, RoleLoginAck &Ack)
+BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck &Ack)
 {
 	CHAR szSql[MAX_SQL_LEN];
 
@@ -76,7 +76,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, RoleLoginAck &Ack)
         Ack.set_retcode(MRC_SUCCESSED);
 		Ack.set_roleid(QueryRes.getInt64Field("id", 0));
 		Ack.set_name(QueryRes.getStringField("name"));
-		Ack.set_actorid(QueryRes.getIntField("roletype", 0));
+		Ack.set_actorid(QueryRes.getIntField("actorid", 0));
 		Ack.set_level(QueryRes.getIntField("level", 0));
 		Ack.set_exp(QueryRes.getInt64Field("exp", 0));
         Ack.set_accountid(QueryRes.getInt64Field("account_id", 0));

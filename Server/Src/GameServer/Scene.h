@@ -3,7 +3,6 @@
 #include "GameObject/SceneObject.h"
 #include "SceneLogic/SceneLogic_Base.h"
 
-
 class MonsterCreator;
 
 class CScene
@@ -54,8 +53,8 @@ public:
 	BOOL			ReadSceneXml();
 public:
 	BOOL			IsFinished();
-	BOOL			IsPlayerDataReady();
-	BOOL			IsPlayerLoginReady();
+    BOOL            IsAllDataReady();
+	BOOL			IsAllLoginReady();
 	UINT32			GetStartTime();
 	UINT32			GetCreateTime();
 
@@ -75,6 +74,14 @@ protected:
 
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
     std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
+   
+    //ObjectMoveReq           Req;
+    //ObjectAttackReq         Req;
+
+    //////////////////////////////////////////////////////////////////////////
+    //攻击伤害计算
+   
+    BOOL SkillFight(CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject *pDefender);
 	
 	//*********************消息处理定义开始******************************
 public:

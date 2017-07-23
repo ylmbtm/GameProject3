@@ -81,7 +81,7 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket *pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	RoleLoginAck Ack;
+	DBRoleLoginAck Ack;
 	m_DBManager.GetRoleData(Req.roleid(), Ack);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }

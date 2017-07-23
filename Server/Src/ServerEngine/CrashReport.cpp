@@ -21,7 +21,6 @@ std::string g_AppName;
 
 long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
 {
-	OutputDebugString("crash report : generate crash report!");
 	struct tm* pTime;
 	time_t ctTime;
 	time(&ctTime);

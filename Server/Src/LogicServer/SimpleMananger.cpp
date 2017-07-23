@@ -45,7 +45,7 @@ BOOL CSimpleManager::LoadSimpleData()
 	while(!TableNames.eof())
 	{
 		CSimpleInfo *pInfo = CreateSimpleInfo(TableNames.getInt64Field("id"),
-			TableNames.getInt64Field("account_id"), TableNames.getStringField("name"), TableNames.getIntField("roletype"));
+			TableNames.getInt64Field("account_id"), TableNames.getStringField("name"), TableNames.getIntField("actorid"));
 
 		if(pInfo->u64RoleID > m_u64MaxID)
 		{

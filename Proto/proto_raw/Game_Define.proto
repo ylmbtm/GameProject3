@@ -1,7 +1,14 @@
-syntax = "proto3";
+﻿syntax = "proto3";
 enum OBJECT_TYPE {
 	OT_NONE = 0;
 	OT_PLAYER = 1;
 	OT_MONSTER= 2;
 }
 
+enum ACTION_TYPE {
+    AT_NONE = 0;    //无动作
+	AT_MOVE = 1;    //移动
+	AT_DIR  = 2;    //改变方向
+
+
+}

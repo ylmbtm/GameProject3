@@ -77,6 +77,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	CAccountObject *pAccount = m_AccountManager.GetAccountObjectByName(Req.accountname());
 	if(pAccount != NULL)
 	{
+        CLog::GetInstancePtr()->LogError("Error:账号己存在1");
 		Ack.set_retcode(MRC_FAILED);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
@@ -85,6 +86,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	UINT64 u64ID = m_DBManager.GetAccountID(Req.accountname().c_str());
 	if (u64ID != 0)
 	{
+        CLog::GetInstancePtr()->LogError("Error:账号己存在2");
 		Ack.set_retcode(MRC_FAILED);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
@@ -93,6 +95,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 	pAccount = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 	if(pAccount == NULL)
 	{
+        CLog::GetInstancePtr()->LogError("Error:创建账号失败1");
 		Ack.set_retcode(MRC_FAILED);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return FALSE;
@@ -100,12 +103,15 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket *pPacket)
 
 	if(m_DBManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime))
 	{ 
+         CLog::GetInstancePtr()->LogError("Error:存数据库失败1");
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
 	else
 	{
 		Ack.set_retcode(MRC_FAILED);
 	}
+
+    Ack.set_accountid(pAccount->m_ID);
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 	
@@ -119,7 +125,6 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 
 	PacketHeader *pHeader = (PacketHeader *) pPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
-
 
 	AccountLoginAck Ack;
 	CAccountObject *pAccObj = m_AccountManager.GetAccountObjectByName(Req.accountname());
@@ -145,7 +150,6 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket *pPacket)
 		m_AccountManager.AddAccountObject(u64AccountID, Req.accountname().c_str(), Req.password().c_str(), 0);
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
-
 
 	Ack.set_lastsvrid(201);
 	Ack.set_accountid(u64AccountID);

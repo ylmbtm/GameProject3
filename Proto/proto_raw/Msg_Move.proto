@@ -15,9 +15,9 @@ message ObjectMoveReq {
 }
 
 message UpdateItem {
-	uint64  ObjectID = 1;
-	uint32  ObjType = 2;
-	uint32  MoveState = 3;
+	uint64  ObjectID  = 1;
+	uint32  ObjType   = 2;
+	uint32  ActionID  = 3;
 	float   x = 4;
 	float   z = 5;
 	float   vx = 6;
@@ -55,6 +55,24 @@ message ObjectNewNty {
 
 message ObjectRemoveNty {
   repeated uint64 RemoveList = 1;
+}
+
+message DefenderItem {
+ uint64 DGuid  = 1;
+  float x = 2;
+  float z = 3;
+  int32 chghp = 4;  
+}
+
+
+message AttackItem {
+  uint64 AGuid = 1;
+  uint32 SkillID = 2;
+  float  x = 3;
+  float  z = 4;
+  float  vx = 5;
+  float  vz = 6;
+  repeated DefenderItem DefenderList = 7;
 }
 
 message SkillItem {
