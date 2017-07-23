@@ -33,7 +33,7 @@ BOOL SceneLogic_None::OnPlayerEnter(CSceneObject *pPlayer)
 
 BOOL SceneLogic_None::OnPlayerLeave(CSceneObject *pPlayer)
 {
-	return TRUE;
+	return FALSE;
 }
 
 BOOL SceneLogic_None::Update(UINT32 dwTick)

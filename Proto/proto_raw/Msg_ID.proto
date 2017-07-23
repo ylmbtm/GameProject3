@@ -1,52 +1,52 @@
-syntax = "proto3";
+ï»¿syntax = "proto3";
 enum MessageID {
 
     MSG_BEGIN                   = 0;
     MSG_HEART                   = 1;
 
-    MSG_CONNECT_SUCCESS         = 2;    //Á¬½Ó³É¹¦
-    MSG_DISCONNECT_NTY          = 3;    //¶Ï¿ªÁ¬½Ó
+    MSG_CONNECT_SUCCESS         = 2;    //è¿žæŽ¥æˆåŠŸ
+    MSG_DISCONNECT_NTY          = 3;    //æ–­å¼€è¿žæŽ¥
 
 	//========================LoginSVR=======================
 	MSG_LOGINSVR_MSGID_BEGIN    = 1000000;
 	
-    MSG_CHECK_VERSION_REQ		= 1000001;    //°æ±¾ÑéÖ¤
-    MSG_CHECK_VERSION_ACK       = 1000002;    //°æ±¾·µ»Ø
+    MSG_CHECK_VERSION_REQ		= 1000001;    //ç‰ˆæœ¬éªŒè¯
+    MSG_CHECK_VERSION_ACK       = 1000002;    //ç‰ˆæœ¬è¿”å›ž
 
-    MSG_ACCOUNT_REG_REQ			= 1000003;    //×¢²áÕËºÅ
-    MSG_ACCOUNT_REG_ACK	        = 1000004;    //×¢²áÕËºÅ
+    MSG_ACCOUNT_REG_REQ			= 1000003;    //æ³¨å†Œè´¦å·
+    MSG_ACCOUNT_REG_ACK	        = 1000004;    //æ³¨å†Œè´¦å·
 
-    MSG_ACCOUNT_LOGIN_REQ       = 1000005;    //ÕËºÅµÇÂ¼
-    MSG_ACCOUNT_LOGIN_ACK		= 1000006;    //ÕËºÅµÇÂ¼
+    MSG_ACCOUNT_LOGIN_REQ       = 1000005;    //è´¦å·ç™»å½•
+    MSG_ACCOUNT_LOGIN_ACK		= 1000006;    //è´¦å·ç™»å½•
 	
-	MSG_ACCOUNT_LOGINREG_REQ    = 1000007;    //ÕËºÅµÇÂ¼
-    MSG_ACCOUNT_LOGINREG_ACK	= 1000008;    //ÕËºÅµÇÂ¼
+	MSG_ACCOUNT_LOGINREG_REQ    = 1000007;    //è´¦å·ç™»å½•
+    MSG_ACCOUNT_LOGINREG_ACK	= 1000008;    //è´¦å·ç™»å½•
 
-    MSG_SERVER_LIST_REQ	        = 1000009;	 //·þÎñÆ÷ÁÐ±íÇëÇó
-    MSG_SERVER_LIST_ACK	        = 1000010;   //·þÎñÆ÷ÁÐ±íµÄ·µ»Ø
+    MSG_SERVER_LIST_REQ	        = 1000009;	 //æœåŠ¡å™¨åˆ—è¡¨è¯·æ±‚
+    MSG_SERVER_LIST_ACK	        = 1000010;   //æœåŠ¡å™¨åˆ—è¡¨çš„è¿”å›ž
 	
-	MSG_SELECT_SERVER_REQ      = 1000011;	//·þÎñÆ÷ÁÐ±íÇëÇó
-	MSG_SELECT_SERVER_ACK      = 1000012;	//·þÎñÆ÷ÁÐ±íÇëÇó
+	MSG_SELECT_SERVER_REQ      = 1000011;	//æœåŠ¡å™¨åˆ—è¡¨è¯·æ±‚
+	MSG_SELECT_SERVER_ACK      = 1000012;	//æœåŠ¡å™¨åˆ—è¡¨è¯·æ±‚
 	
-	MSG_LOGIC_REGTO_LOGIN_REQ  = 1000013;	//·þÎñÆ÷ÁÐ±íÇëÇó
-	MSG_LOGIC_REGTO_LOGIN_ACK  = 1000014;	//·þÎñÆ÷ÁÐ±íÇëÇó
+	MSG_LOGIC_REGTO_LOGIN_REQ  = 1000013;	//æœåŠ¡å™¨åˆ—è¡¨è¯·æ±‚
+	MSG_LOGIC_REGTO_LOGIN_ACK  = 1000014;	//æœåŠ¡å™¨åˆ—è¡¨è¯·æ±‚
 	MSG_LOGINSVR_MSGID_END     = 1999999;
 	//========================LogicSVR=======================
 	MSG_LOGICSVR_MSGID_BEGIN     = 2000000;
 	MSG_ROLE_LIST_REQ			 = 2000001;
 	MSG_ROLE_LIST_ACK			 = 2000002;
 
-	MSG_ROLE_CREATE_REQ          = 2000003;   //µÇÂ¼Çë·¨¶È
-    MSG_ROLE_CREATE_ACK          = 2000004;   //µÇÂ¼³É¹¦  ·µ»Ø»ù±¾Ä£¿éµÄÊý¾Ý, °üÀ¨»ù±¾ÀàµÄÊý¾Ý
+	MSG_ROLE_CREATE_REQ          = 2000003;   //ç™»å½•è¯·æ³•åº¦
+    MSG_ROLE_CREATE_ACK          = 2000004;   //ç™»å½•æˆåŠŸ  è¿”å›žåŸºæœ¬æ¨¡å—çš„æ•°æ®, åŒ…æ‹¬åŸºæœ¬ç±»çš„æ•°æ®
 	
-	MSG_ROLE_DELETE_REQ          = 2000005;   //µÇÂ¼Çë·¨¶È
-    MSG_ROLE_DELETE_ACK          = 2000006;   //µÇÂ¼³É¹¦  ·µ»Ø»ù±¾Ä£¿éµÄÊý¾Ý, °üÀ¨»ù±¾ÀàµÄÊý¾Ý
+	MSG_ROLE_DELETE_REQ          = 2000005;   //ç™»å½•è¯·æ³•åº¦
+    MSG_ROLE_DELETE_ACK          = 2000006;   //ç™»å½•æˆåŠŸ  è¿”å›žåŸºæœ¬æ¨¡å—çš„æ•°æ®, åŒ…æ‹¬åŸºæœ¬ç±»çš„æ•°æ®
 	
-    MSG_ROLE_LOGIN_REQ           = 2000007;   //µÇÂ¼Çë·¨¶È
-    MSG_ROLE_LOGIN_ACK           = 2000008;   //µÇÂ¼³É¹¦  ·µ»Ø»ù±¾Ä£¿éµÄÊý¾Ý, °üÀ¨»ù±¾ÀàµÄÊý¾Ý
+    MSG_ROLE_LOGIN_REQ           = 2000007;   //ç™»å½•è¯·æ³•åº¦
+    MSG_ROLE_LOGIN_ACK           = 2000008;   //ç™»å½•æˆåŠŸ  è¿”å›žåŸºæœ¬æ¨¡å—çš„æ•°æ®, åŒ…æ‹¬åŸºæœ¬ç±»çš„æ•°æ®
 	
-	MSG_ROLE_LOGOUT_REQ          = 2000009;   //µÇÂ¼Çë·¨¶È
-    MSG_ROLE_LOGOUT_ACK          = 2000010;   //µÇÂ¼³É¹¦  ·µ»Ø»ù±¾Ä£¿éµÄÊý¾Ý, °üÀ¨»ù±¾ÀàµÄÊý¾Ý
+	MSG_ROLE_LOGOUT_REQ          = 2000009;   //ç™»å½•è¯·æ³•åº¦
+    MSG_ROLE_LOGOUT_ACK          = 2000010;   //ç™»å½•æˆåŠŸ  è¿”å›žåŸºæœ¬æ¨¡å—çš„æ•°æ®, åŒ…æ‹¬åŸºæœ¬ç±»çš„æ•°æ®
 	
 	MSG_DATA_UPDATE				 = 2000011;
 	
@@ -60,8 +60,12 @@ enum MessageID {
 	MSG_COPYINFO_REPORT_REQ     =  2000016;
 	MSG_MAIN_COPY_REQ			= 2000017;
 	MSG_MAIN_COPY_ACK			= 2000018;
-	MSG_COPY_ABORT_REQ			 = 2000019;		//ÇëÇóÖÐÖ¹¸±±¾
-	MSG_COPY_ABORT_ACK			 = 2000020;		//ÇëÇóÖÐÖ¹¸±±¾
+	MSG_COPY_ABORT_REQ			 = 2000019;		//è¯·æ±‚ä¸­æ­¢å‰¯æœ¬
+	MSG_COPY_ABORT_ACK			 = 2000020;		//è¯·æ±‚ä¸­æ­¢å‰¯æœ¬
+
+	MSG_BACK_TO_CITY_REQ         = 20000021;
+	MSG_BACK_T__CITY_ACK		 = 20000022;
+
 	MSG_LOGICSVR_MSGID_END       = 2999999;
 	//========================SceneSVR=======================
 	MSG_SCENESVR_MSGID_BEGIN    = 3000000;
@@ -76,7 +80,7 @@ enum MessageID {
 	MSG_NOTIFY_ROLE_ENTER_REQ   = 3000009;
 	MSG_NOTIFY_ROLE_ENTER_ACK   = 3000010;
 	MSG_ENTER_SCENE_REQ 		= 3000011;
-	MSG_ENTER_SCENE_ACK 		= 3000012; //·¢ËÍ×Ô¼ºµÄÊý¾Ý
+	MSG_ENTER_SCENE_ACK 		= 3000012; //å‘é€è‡ªå·±çš„æ•°æ®
 	MSG_LEAVE_SCENE_REQ			= 3000013;
 	MSG_LEAVE_SCENE_ACK			= 3000014;
 
@@ -112,80 +116,80 @@ enum MessageID {
     MSG_REQ_REGISTER            = 1011;     
     MSG_ACK_REGISTER            = 1012;
 
-    MSG_REQ_SORTBAG             = 1101;//ÕûÀí±³°ü
-    MSG_ACK_SORTBAG             = 1102;//ÕûÀí±³°ü
-    MSG_REQ_USEITEM             = 1103;//Ê¹ÓÃÎïÆ·
-    MSG_ACK_USEITEM             = 1104;//Ê¹ÓÃÎïÆ·
-    MSG_REQ_DRESS_EQUIP         = 1105;//´©×°±¸
-    MSG_ACK_DRESS_EQUIP         = 1106;//´©×°±¸
-    MSG_REQ_UNLOAD_EQUIP        = 1107;//Ð¶×°±¸
-    MSG_ACK_UNLOAD_EQUIP        = 1108;//Ð¶×°±¸
-    MSG_REQ_DRESS_GEM           = 1109;//ÏâÇ¶±¦Ê¯
-    MSG_ACK_DRESS_GEM           = 1110;//ÏâÇ¶±¦Ê¯
-    MSG_REQ_UNLOAD_GEM          = 1111;//Ð¶ÏÂ±¦Ê¯
-    MSG_ACK_UNLOAD_GEM          = 1112;//Ð¶ÏÂ±¦Ê¯
-    MSG_REQ_COMPOSE_CHIP        = 1113;//ºÏ³ÉËéÆ¬
-    MSG_ACK_COMPOSE_CHIP        = 1114;//ºÏ³ÉËéÆ¬
+    MSG_REQ_SORTBAG             = 1101;//æ•´ç†èƒŒåŒ…
+    MSG_ACK_SORTBAG             = 1102;//æ•´ç†èƒŒåŒ…
+    MSG_REQ_USEITEM             = 1103;//ä½¿ç”¨ç‰©å“
+    MSG_ACK_USEITEM             = 1104;//ä½¿ç”¨ç‰©å“
+    MSG_REQ_DRESS_EQUIP         = 1105;//ç©¿è£…å¤‡
+    MSG_ACK_DRESS_EQUIP         = 1106;//ç©¿è£…å¤‡
+    MSG_REQ_UNLOAD_EQUIP        = 1107;//å¸è£…å¤‡
+    MSG_ACK_UNLOAD_EQUIP        = 1108;//å¸è£…å¤‡
+    MSG_REQ_DRESS_GEM           = 1109;//é•¶åµŒå®çŸ³
+    MSG_ACK_DRESS_GEM           = 1110;//é•¶åµŒå®çŸ³
+    MSG_REQ_UNLOAD_GEM          = 1111;//å¸ä¸‹å®çŸ³
+    MSG_ACK_UNLOAD_GEM          = 1112;//å¸ä¸‹å®çŸ³
+    MSG_REQ_COMPOSE_CHIP        = 1113;//åˆæˆç¢Žç‰‡
+    MSG_ACK_COMPOSE_CHIP        = 1114;//åˆæˆç¢Žç‰‡
 
 
-    MSG_REQ_STRENGTHEN_EQUIP    = 1115;//Ç¿»¯×°±¸
-    MSG_ACK_STRENGTHEN_EQUIP    = 1116;//Ç¿»¯×°±¸
-    MSG_REQ_ADVANCE_EQUIP       = 1117;//½ø½××°±¸
-    MSG_ACK_ADVANCE_EQUIP       = 1118;//½ø½××°±¸
-    MSG_REQ_UPSTAR_EQUIP        = 1119;//ÉýÐÇ×°±¸
-    MSG_ACK_UPSTAR_EQUIP        = 1120;//ÉýÐÇ×°±¸
-    MSG_REQ_STRENGTHEN_GEM      = 1121;//Ç¿»¯±¦Ê¯
-    MSG_ACK_STRENGTHEN_GEM      = 1122;//Ç¿»¯±¦Ê¯
+    MSG_REQ_STRENGTHEN_EQUIP    = 1115;//å¼ºåŒ–è£…å¤‡
+    MSG_ACK_STRENGTHEN_EQUIP    = 1116;//å¼ºåŒ–è£…å¤‡
+    MSG_REQ_ADVANCE_EQUIP       = 1117;//è¿›é˜¶è£…å¤‡
+    MSG_ACK_ADVANCE_EQUIP       = 1118;//è¿›é˜¶è£…å¤‡
+    MSG_REQ_UPSTAR_EQUIP        = 1119;//å‡æ˜Ÿè£…å¤‡
+    MSG_ACK_UPSTAR_EQUIP        = 1120;//å‡æ˜Ÿè£…å¤‡
+    MSG_REQ_STRENGTHEN_GEM      = 1121;//å¼ºåŒ–å®çŸ³
+    MSG_ACK_STRENGTHEN_GEM      = 1122;//å¼ºåŒ–å®çŸ³
 
-    MSG_REQ_ONEKEYTODRESSGEM    = 1151;//ÏâÇ¶±¦Ê¯
-    MSG_ACK_ONEKEYTODRESSGEM    = 1152;//ÏâÇ¶±¦Ê¯
-    MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//ÏâÇ¶±¦Ê¯
-    MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//ÏâÇ¶±¦Ê¯
+    MSG_REQ_ONEKEYTODRESSGEM    = 1151;//é•¶åµŒå®çŸ³
+    MSG_ACK_ONEKEYTODRESSGEM    = 1152;//é•¶åµŒå®çŸ³
+    MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//é•¶åµŒå®çŸ³
+    MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//é•¶åµŒå®çŸ³
 
-    MSG_REQ_GET_CHAPTERAWARD    = 1201;//ÁìÈ¡ÕÂ½Ú½±Àø
-    MSG_ACK_GET_CHAPTERAWARD    = 1202;//ÁìÈ¡ÕÂ½Ú½±Àø
-    MSG_REQ_BATTLE_CHECK        = 1203;//Õ½Ç°¼ì²é
-    MSG_ACK_BATTLE_CHECK        = 1204;//Õ½Ç°¼ì²é
-    MSG_REQ_PASSCOPY            = 1205;//Í¨¹Ø
-    MSG_ACK_PASSCOPY            = 1206;//Í¨¹Ø
+    MSG_REQ_GET_CHAPTERAWARD    = 1201;//é¢†å–ç« èŠ‚å¥–åŠ±
+    MSG_ACK_GET_CHAPTERAWARD    = 1202;//é¢†å–ç« èŠ‚å¥–åŠ±
+    MSG_REQ_BATTLE_CHECK        = 1203;//æˆ˜å‰æ£€æŸ¥
+    MSG_ACK_BATTLE_CHECK        = 1204;//æˆ˜å‰æ£€æŸ¥
+    MSG_REQ_PASSCOPY            = 1205;//é€šå…³
+    MSG_ACK_PASSCOPY            = 1206;//é€šå…³
 
-    MSG_REQ_SETMOUNT            = 1301;//×øÆïÉÏÕó
-    MSG_ACK_SETMOUNT            = 1302;//×øÆïÉÏÕó
+    MSG_REQ_SETMOUNT            = 1301;//åéª‘ä¸Šé˜µ
+    MSG_ACK_SETMOUNT            = 1302;//åéª‘ä¸Šé˜µ
 
-    MSG_REQ_CHARGE_RELICS       = 1401;//ÉñÆ÷³äÄÜ
-    MSG_ACK_CHARGE_RELICS       = 1402;//ÉñÆ÷³äÄÜ
-    MSG_REQ_UPGRADE_RELICS      = 1403;//ÉñÆ÷Éý¼¶
-    MSG_ACK_UPGRADE_RELICS      = 1404;//ÉñÆ÷Éý¼¶
-    MSG_REQ_BATTLE_RELICS       = 1405;//ÉñÆ÷ÉÏÕó
-    MSG_ACK_BATTLE_RELICS       = 1406;//ÉñÆ÷ÉÏÕó
-    MSG_REQ_UNLOAD_RELICS       = 1407;//ÉñÆ÷Ð¶ÏÂ
-    MSG_ACK_UNLOAD_RELICS       = 1408;//ÉñÆ÷Ð¶ÏÂ
+    MSG_REQ_CHARGE_RELICS       = 1401;//ç¥žå™¨å……èƒ½
+    MSG_ACK_CHARGE_RELICS       = 1402;//ç¥žå™¨å……èƒ½
+    MSG_REQ_UPGRADE_RELICS      = 1403;//ç¥žå™¨å‡çº§
+    MSG_ACK_UPGRADE_RELICS      = 1404;//ç¥žå™¨å‡çº§
+    MSG_REQ_BATTLE_RELICS       = 1405;//ç¥žå™¨ä¸Šé˜µ
+    MSG_ACK_BATTLE_RELICS       = 1406;//ç¥žå™¨ä¸Šé˜µ
+    MSG_REQ_UNLOAD_RELICS       = 1407;//ç¥žå™¨å¸ä¸‹
+    MSG_ACK_UNLOAD_RELICS       = 1408;//ç¥žå™¨å¸ä¸‹
 
-    MSG_REQ_BUY_STORE           = 1501;//¹ºÂòÉÌµêÎïÆ·
-    MSG_ACK_BUY_STORE           = 1502;//¹ºÂòÉÌµêÎïÆ·
+    MSG_REQ_BUY_STORE           = 1501;//è´­ä¹°å•†åº—ç‰©å“
+    MSG_ACK_BUY_STORE           = 1502;//è´­ä¹°å•†åº—ç‰©å“
 
-    MSG_REQ_UPGRADE_PET         = 1601;//¸ü»»³èÎï
-    MSG_ACK_UPGRADE_PET         = 1602;//¸ü»»³èÎï
+    MSG_REQ_UPGRADE_PET         = 1601;//æ›´æ¢å® ç‰©
+    MSG_ACK_UPGRADE_PET         = 1602;//æ›´æ¢å® ç‰©
 
-    MSG_REQ_BATTLE_PET          = 1603;//½ø½×³èÎï
-    MSG_ACK_BATTLE_PET          = 1604;//½ø½×³èÎï
+    MSG_REQ_BATTLE_PET          = 1603;//è¿›é˜¶å® ç‰©
+    MSG_ACK_BATTLE_PET          = 1604;//è¿›é˜¶å® ç‰©
 
-    MSG_REQ_UNLOAD_PET          = 1605;//Éý¼¶³èÎï
-    MSG_ACK_UNLOAD_PET          = 1606;//Éý¼¶³èÎï
+    MSG_REQ_UNLOAD_PET          = 1605;//å‡çº§å® ç‰©
+    MSG_ACK_UNLOAD_PET          = 1606;//å‡çº§å® ç‰©
 
-    MSG_REQ_CHANGE_PARTNER      = 1607;//Éý¼¶»ï°é 
-    MSG_ACK_CHANGE_PARTNER      = 1608;//Éý¼¶»ï°é 
+    MSG_REQ_CHANGE_PARTNER      = 1607;//å‡çº§ä¼™ä¼´ 
+    MSG_ACK_CHANGE_PARTNER      = 1608;//å‡çº§ä¼™ä¼´ 
 
-    MSG_REQ_ADVANVE_PARTNER     = 1609;//ÉÏÕó»ï°é
-    MSG_ACK_ADVANVE_PARTNER     = 1610;//ÉÏÕó»ï°é
+    MSG_REQ_ADVANVE_PARTNER     = 1609;//ä¸Šé˜µä¼™ä¼´
+    MSG_ACK_ADVANVE_PARTNER     = 1610;//ä¸Šé˜µä¼™ä¼´
 
-    MSG_REQ_UPGRADE_PARTNER     = 1611;//ÊÕ»Ø»ï°é
-    MSG_ACK_UPGRADE_PARTNER     = 1612;//ÊÕ»Ø»ï°é
+    MSG_REQ_UPGRADE_PARTNER     = 1611;//æ”¶å›žä¼™ä¼´
+    MSG_ACK_UPGRADE_PARTNER     = 1612;//æ”¶å›žä¼™ä¼´
 
-    MSG_REQ_SUBMIT_TASK         = 1613;//Ìá½»ÈÕ³£ÈÎÎñ
-    MSG_ACK_SUBMIT_TASK         = 1614;//Ìá½»ÈÕ³£ÈÎÎñ
+    MSG_REQ_SUBMIT_TASK         = 1613;//æäº¤æ—¥å¸¸ä»»åŠ¡
+    MSG_ACK_SUBMIT_TASK         = 1614;//æäº¤æ—¥å¸¸ä»»åŠ¡
 
-    MSG_REQ_ADDHERO_EXP         = 2001;//Ôö¼Ó¾­Ñé
-    MSG_ACK_ADDHERO_EXP         = 2002;//Ôö¼Ó¾­Ñé
+    MSG_REQ_ADDHERO_EXP         = 2001;//å¢žåŠ ç»éªŒ
+    MSG_ACK_ADDHERO_EXP         = 2002;//å¢žåŠ ç»éªŒ
 }
 

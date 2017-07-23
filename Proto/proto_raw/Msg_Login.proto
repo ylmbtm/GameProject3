@@ -240,6 +240,16 @@ message AbortCopyAck {
 }
 
 
+message BackToCityReq {
+    uint64  RoleID = 1;
+}
+
+message BackToCityAck {
+    uint32   RetCode = 1;
+}
+
+
+
 message LeaveSceneReq {
     uint64  RoleID = 1;
 	int32   Reason = 2;

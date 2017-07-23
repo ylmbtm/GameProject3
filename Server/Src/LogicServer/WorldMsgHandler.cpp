@@ -51,6 +51,8 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 		PROCESS_MESSAGE_ITEM(MSG_COPY_ABORT_REQ,		OnMsgAbortCopyReq);
 		PROCESS_MESSAGE_ITEM(MSG_MAIN_COPY_REQ,			OnMsgMainCopyReq);
+        PROCESS_MESSAGE_ITEM(MSG_BACK_TO_CITY_REQ,		OnMsgBackToCityReq);
+        
 	
 	case MSG_LOGIC_REGTO_LOGIN_ACK:
 		break;
@@ -249,7 +251,26 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
     ERROR_RETURN_TRUE(dwSvrID != 0);
     ERROR_RETURN_TRUE(dwConnID != 0);
     ERROR_RETURN_TRUE(dwCopyID != 0);
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Req.roleid(),1, dwCopyID, dwSvrID);
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Req.roleid(), 6, dwCopyID, dwSvrID);
 
 	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket *pNetPacket )
+{
+    BackToCityReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+    CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+    ERROR_RETURN_TRUE(pPlayer != NULL);
+
+    UINT32 dwSvrID, dwConnID, dwCopyID;
+    CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
+    ERROR_RETURN_TRUE(dwSvrID != 0);
+    ERROR_RETURN_TRUE(dwConnID != 0);
+    ERROR_RETURN_TRUE(dwCopyID != 0);
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Req.roleid(), 6, dwCopyID, dwSvrID);
+
+    return TRUE;
 }

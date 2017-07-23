@@ -37,7 +37,7 @@ BOOL SceneLogic_City::OnPlayerEnter(CSceneObject *pPlayer)
 
 BOOL SceneLogic_City::OnPlayerLeave(CSceneObject *pPlayer)
 {
-	return FALSE;
+	return TRUE;
 }
 
 

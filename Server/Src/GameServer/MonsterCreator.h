@@ -38,15 +38,6 @@ public:
 
 public:
     std::vector<MonsterData>  m_vtMonsterList;
-
-    BOOL IsFinished();
-
-    BOOL SetFinished();
-
-    BOOL IsReady();
-
-    BOOL   m_bFinished;
-    BOOL   m_bReady;
 };
 
 
@@ -62,6 +53,8 @@ public:
 
     BOOL GenMonsterWave(MonsterWave *pWave);
 
+    BOOL GenCurrentWave();
+
     BOOL IsAllFinished();
 
     std::vector<MonsterWave> m_MonsterVaveList;
@@ -69,6 +62,8 @@ public:
 	CScene *m_pScene;
 
     BOOL    m_bAllFinished;
+
+    UINT32  m_dwFinishedWave;
 };
 
 #endif

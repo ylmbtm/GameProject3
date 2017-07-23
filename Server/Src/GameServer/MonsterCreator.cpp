@@ -8,6 +8,8 @@ MonsterCreator::MonsterCreator(CScene *pScene)
 	m_pScene = pScene;
 
     m_bAllFinished = FALSE;
+
+    m_dwFinishedWave = 0;
 }
 
 MonsterCreator::~MonsterCreator()
@@ -22,31 +24,29 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char> *pNode)
 
 BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
 {
+    if(m_MonsterVaveList.size() <= 0)
+    {
+        m_bAllFinished = TRUE;
+    }
+
     if(m_bAllFinished)
     {
         return TRUE;
     }
 
-    m_bAllFinished = TRUE;
-
-    std::vector<MonsterWave>::iterator itor = m_MonsterVaveList.begin();
-    for(; itor != m_MonsterVaveList.end(); itor++)
+    if(m_dwFinishedWave+1 >= m_MonsterVaveList.size())
     {
-        MonsterWave *pData = &(*itor);
-        FALSE_CONTINUE(!pData->IsFinished());
-
-        if(!pData->IsReady())
-        {
-            m_bAllFinished = FALSE;
-            continue;
-        }
-
-        GenMonsterWave(pData);
-
-        pData->SetFinished();
+        m_bAllFinished = TRUE;
     }
 
-    
+    MonsterWave *pWave = &m_MonsterVaveList.at(m_dwFinishedWave+1);
+    ERROR_RETURN_FALSE(pWave != NULL);
+
+    if(pWave)
+    {
+        GenMonsterWave(pWave);
+        m_dwFinishedWave = m_dwFinishedWave+1;
+    }
 
 	return TRUE;
 }
@@ -69,19 +69,30 @@ BOOL MonsterCreator::IsAllFinished()
     return m_bAllFinished;
 }
 
-BOOL MonsterWave::IsFinished()
+BOOL MonsterCreator::GenCurrentWave()
 {
-    return m_bFinished;
-}
+    if(m_MonsterVaveList.size() <= 0)
+    {
+        m_bAllFinished = TRUE;
+    }
 
-BOOL MonsterWave::SetFinished()
-{
-    m_bFinished = TRUE;
+    if(m_bAllFinished)
+    {
+        return TRUE;
+    }
 
+    if(m_dwFinishedWave+1 >= m_MonsterVaveList.size())
+    {
+        m_bAllFinished = TRUE;
+    }
+
+    MonsterWave *pWave = &m_MonsterVaveList.at(m_dwFinishedWave+1);
+    ERROR_RETURN_FALSE(pWave != NULL);
+
+    GenMonsterWave(pWave);
+
+    m_dwFinishedWave = m_dwFinishedWave+1;
+ 
     return TRUE;
 }
 
-BOOL MonsterWave::IsReady()
-{
-    return m_bReady;
-}

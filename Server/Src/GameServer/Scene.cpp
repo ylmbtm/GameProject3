@@ -176,6 +176,7 @@ BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
 	return TRUE;
 }
 
+//玩家主动中止副本
 BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 {
 	LeaveSceneReq Req;
@@ -185,6 +186,8 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 	CSceneObject *pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
 
+
+    //只有主城和不结算的pvp副本需要允许删除玩家信息
 	if(m_pSceneLogic->OnPlayerLeave(pSceneObject))
 	{
 		BroadRemoveObject(pSceneObject);

@@ -27,7 +27,7 @@ long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
 	pTime = localtime( &ctTime );
 	TCHAR tem[256];
 	memset(tem, 0, 256);
-	sprintf(tem, ("%s-%d-%d-%d_%d-%d-%d.dmp"), g_AppName,
+	sprintf(tem, ("%s-%d-%d-%d_%d-%d-%d.dmp"), g_AppName.c_str(),
 	        1900 + pTime->tm_year, 1 + pTime->tm_mon, pTime->tm_mday, pTime->tm_hour, pTime->tm_min, pTime->tm_sec);
 
 	HANDLE hFile = ::CreateFile( tem, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);

@@ -32,6 +32,7 @@ public:
 	BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
 	BOOL OnMsgMainCopyReq(NetPacket *pNetPacket);
 	BOOL OnMsgAbortCopyReq(NetPacket *pNetPacket);
+    BOOL OnMsgBackToCityReq(NetPacket *pNetPacket);
 	//*********************消息处理定义结束******************************
 	CPlayerManager    m_PlayerManager;
 };
