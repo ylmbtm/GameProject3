@@ -83,8 +83,7 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_MOVE_REQ,			OnMsgRoleMoveReq);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_SKILL_REQ,		OnMsgRoleSkillReq);
+		PROCESS_MESSAGE_ITEM(MSG_OBJECT_ACTION_REQ,		OnMsgObjectActionReq);
 		
 		default:
 		{
@@ -97,42 +96,20 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 }
 
 
-BOOL CScene::OnMsgRoleMoveReq(NetPacket *pNetPacket)
+BOOL CScene::OnMsgObjectActionReq( NetPacket *pNetPacket )
 {
-	ObjectMoveReq Req;
+	ObjectActionReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	
-	for(int i = 0; i < Req.movelist_size(); i++)
+	for(int i = 0; i < Req.actionlist_size(); i++)
 	{
-		const MoveItem &Item = Req.movelist(i);
-		CSceneObject *pSceneObj = GetPlayer(Item.objectid());
-		ERROR_RETURN_TRUE(pSceneObj != NULL);
-
-		pSceneObj->m_dwObjState =  Item.movestate();
-		pSceneObj->x = Item.x();
-		pSceneObj->z = Item.z();
-		pSceneObj->vx = Item.vx();
-		pSceneObj->vz = Item.vz();
-		pSceneObj->SetChanged();
+		const ActionItem &Item = Req.actionlist(i);
+        ProcessActionItem(Item);
 	}
 
 	return TRUE;
 }
-
-BOOL CScene::OnMsgRoleSkillReq(NetPacket *pNetPacket)
-{
-	RoleSkillReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
-
-
-
-
-	return TRUE;
-}
-
 
 BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 {
@@ -521,34 +498,29 @@ UINT32 CScene::GetCreateTime()
 
 BOOL CScene::SyncObjectState()
 {
-    ObjectUpdateNty Nty;
+    if(m_ObjectActionNty.actionlist_size() <= 0)
+    {
+        return TRUE;
+    }
+
+    char szBuff[102400] = {0};
+    m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize());
+
     for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
     {
         CSceneObject *pObj = itor->second;
         ASSERT(pObj != NULL);
 
-        pObj->SaveUpdateObject(Nty);
-    }
-
-	char szBuff[102400] = {0};
-	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
-
-    if(Nty.updatelist_size() > 0)
-    {
-        for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+        if(!pObj->IsConnected())
         {
-            CSceneObject *pObj = itor->second;
-            ASSERT(pObj != NULL);
-
-            if(!pObj->IsConnected())
-            {
-                continue;
-            }
-
-            pObj->SendMsgRawData(MSG_OBJECT_UPDATE_NTY, szBuff, Nty.ByteSize());
+            continue;
         }
+
+        pObj->SendMsgRawData(MSG_OBJECT_ACTION_NTY, szBuff, m_ObjectActionNty.ByteSize());
     }
 
+    m_ObjectActionNty.Clear();
+   
     return TRUE;
 }
 
@@ -655,6 +627,33 @@ BOOL CScene::SkillFight( CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject
     {
         pDefender->m_dwHp = 0;
     }
+
+    return TRUE;
+}
+
+BOOL CScene::ProcessActionItem( const  ActionItem &Item )
+{
+    CSceneObject *pSceneObj = GetPlayer(Item.objectid());
+    ERROR_RETURN_TRUE(pSceneObj != NULL);
+    pSceneObj->x = Item.x();
+    pSceneObj->z = Item.z();
+    pSceneObj->vx = Item.vx();
+    pSceneObj->vz = Item.vz();
+
+    if(Item.ishurt())
+    {
+        for(int i = 0; i < Item.damagerlist_size(); i++)
+        {
+            const DamagerItem &damager  = Item.damagerlist(i);
+            CSceneObject *pDamager = GetPlayer(damager.objectid());
+            SkillFight(pSceneObj, Item.actionid(), pDamager);
+        }
+    }
+
+    ActionItem *pSvrItem = m_ObjectActionNty.add_actionlist();
+    ERROR_RETURN_TRUE(pSvrItem != NULL);
+
+    pSvrItem->CopyFrom(Item);
 
     return TRUE;
 }
