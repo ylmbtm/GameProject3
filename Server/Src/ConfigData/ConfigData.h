@@ -59,6 +59,15 @@ public:
     std::map<UINT32, StLocalString> m_mapLocalString;
 	BOOL ReadLanguage(CppSQLite3Query &QueryData);
     std::string& GetLanguageText(UINT32 dwID, UINT32 dwLang);
+
+	//掉落物品表
+	///////////////////////////////////////////////
+	std::map<UINT32, StAwardItem> m_mapAwardItem;
+	BOOL ReadAwardData(CppSQLite3Query &QueryData);
+	BOOL ParseToDropItem(std::string strDrop, StDropItem &Item);
+	BOOL GetAwardItemByIndex(UINT32 dwAwardID, UINT32 dwIndex, StItemData &ItemData);
+	BOOL GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> &vtItemList);
+	BOOL GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::vector<StItemData> &vtItemList);
 	
 	
 	

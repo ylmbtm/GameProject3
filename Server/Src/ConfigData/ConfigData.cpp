@@ -1,6 +1,8 @@
 ﻿#include <stdafx.h>
 #include "ConfigData.h"
 #include "Utility\CommonConvert.h"
+#include "Utility\Log\Log.h"
+#include "Utility\CommonFunc.h"
 
 CConfigData::CConfigData()
 {
@@ -181,4 +183,223 @@ std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
     }
 
     return m_strNull;
+}
+
+BOOL CConfigData::ReadAwardData(CppSQLite3Query &QueryData)
+{
+	while(QueryData.eof())
+	{
+		StAwardItem stValue;
+		stValue.dwAwardID = QueryData.getIntField("awardid");
+		std::string strFixDrop = QueryData.getStringField(2);
+		std::string strRatioDrop = QueryData.getStringField(4);
+		stValue.bDistinct = QueryData.getIntField(4);
+		stValue.dwRatioCount  = QueryData.getIntField(4);
+			//解析固定掉落
+		if (strFixDrop != "NULL") 
+		{
+			std::vector<std::string> vtRet;
+			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
+			for(int i = 0; i < vtRet.size(); i++)
+			{
+				StDropItem item;
+				ParseToDropItem(vtRet.at(i), item);
+				stValue.FixItems.push_back(item);
+			}
+		}
+
+
+		if (strRatioDrop != "NULL") 
+		{
+			UINT32 dwRatioBegin = 1;
+			UINT32 dwTempValue = 0;
+			std::vector<std::string> vtRet;
+			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
+
+			StDropItem item;
+			for(int i = 0; i < vtRet.size(); i++)
+			{
+				ParseToDropItem(vtRet.at(i), item);
+				stValue.RatioItems.push_back(item);
+
+				dwTempValue = stValue.RatioItems[i].dwRatio;
+				stValue.RatioItems[i].dwRatio = dwRatioBegin;
+				dwRatioBegin += dwTempValue;
+			}
+
+	
+			stValue.RatioItems.push_back(item);
+			stValue.RatioItems[vtRet.size()].dwItemID = 0;
+			stValue.RatioItems[vtRet.size()].dwRatio = 10000;
+		}
+
+		if ((stValue.FixItems.size() <= 0) && (stValue.RatioItems.size() <= 0)) 
+		{
+					
+		}
+
+		m_mapAwardItem.insert(std::make_pair(stValue.dwAwardID,stValue));
+
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+BOOL CConfigData::ParseToDropItem(std::string strDrop, StDropItem &item)
+{
+	std::vector<std::string> vtRet;
+	CommonConvert::SpliteString(strDrop, "|", vtRet);
+	if (vtRet.size() < 3) 
+	{
+		return FALSE;
+	}
+
+	item.dwItemID = CommonConvert::StringToInt(vtRet[0].c_str());
+	item.dwRatio = CommonConvert::StringToInt(vtRet[2].c_str());
+	CommonConvert::SpliteString(vtRet[1], "|", vtRet);
+	item.dwItemNum[0] =  CommonConvert::StringToInt(vtRet[0].c_str());
+	item.dwItemNum[1] =  CommonConvert::StringToInt(vtRet[1].c_str());
+
+	return TRUE;
+}
+
+BOOL CConfigData::GetAwardItemByIndex(UINT32 dwAwardID, UINT32 dwIndex, StItemData &ItemData)
+{
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	if(itor == m_mapAwardItem.end())
+	{
+		return FALSE;
+	}
+
+	StAwardItem &AwardItem = itor->second;
+
+	if (dwIndex >= AwardItem.FixItems.size()) 
+	{
+		CLog::GetInstancePtr()->LogError("GetItemByIndex Error: Invalid index :%d", dwIndex);
+		return FALSE;
+	}
+
+	ItemData.dwItemID = AwardItem.FixItems[dwIndex].dwItemID;
+	ItemData.dwItemNum = AwardItem.FixItems[dwIndex].dwItemNum[0];
+	return TRUE;
+}
+
+BOOL CConfigData::GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> &vtItemList)
+{
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	if(itor == m_mapAwardItem.end())
+	{
+		return FALSE;
+	}
+
+	StAwardItem &AwardItem = itor->second;
+
+	StItemData tempItem;
+
+		for (int i = 0; i < AwardItem.FixItems.size(); i++ )
+		{
+			tempItem.dwItemID = AwardItem.FixItems[i].dwItemID;
+				if (AwardItem.FixItems[i].dwItemNum[0] == AwardItem.FixItems[i].dwItemNum[1]) 
+				{
+					tempItem.dwItemNum = AwardItem.FixItems[i].dwItemNum[0];
+				} 
+				else 
+				{
+					tempItem.dwItemNum = AwardItem.FixItems[i].dwItemNum[0] +CommonFunc::GetRandNum(0)%(AwardItem.FixItems[i].dwItemNum[1]-AwardItem.FixItems[i].dwItemNum[0]+1);
+				}
+
+				if (tempItem.dwItemNum > 0) 
+				{
+					vtItemList.push_back(tempItem);
+				}
+		}
+	
+
+
+			for (int  cycle = 0; cycle < AwardItem.dwRatioCount; cycle++ )
+			{
+				UINT32 dwRandValue = CommonFunc::GetRandNum(0);
+			    for (int i = 0; i < AwardItem.RatioItems.size() - 1; i++)
+				{
+				   if ((dwRandValue >= AwardItem.RatioItems[i].dwRatio) && (dwRandValue < AwardItem.RatioItems[i+1].dwRatio)) 
+				   {
+					   tempItem.dwItemID = AwardItem.RatioItems[i].dwItemID;
+					   if (AwardItem.RatioItems[i].dwItemNum[1] == AwardItem.RatioItems[i].dwItemNum[0]) 
+					   {
+						   tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0];
+					   } 
+					   else 
+					   {
+						   tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0] + CommonFunc::GetRandNum(0)%(AwardItem.RatioItems[i].dwItemNum[1]-AwardItem.RatioItems[i].dwItemNum[0]+1);
+					   }
+
+					   if (tempItem.dwItemNum > 0) 
+					   {
+						   vtItemList.push_back(tempItem);
+					   }
+				   }
+			   }
+			}
+		
+		return TRUE;
+}
+
+BOOL CConfigData::GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::vector<StItemData> &vtItemList)
+{
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	if(itor == m_mapAwardItem.end())
+	{
+		return FALSE;
+	}
+
+	StAwardItem &AwardItem = itor->second;
+
+	StItemData tempItem;
+
+	for (int i = 0; i < AwardItem.FixItems.size(); i++ )
+	{
+		tempItem.dwItemID = AwardItem.FixItems[i].dwItemID;
+		if (AwardItem.FixItems[i].dwItemNum[0] == AwardItem.FixItems[i].dwItemNum[1]) 
+		{
+			tempItem.dwItemNum = AwardItem.FixItems[i].dwItemNum[0];
+		} 
+		else 
+		{
+			tempItem.dwItemNum = AwardItem.FixItems[i].dwItemNum[0] +CommonFunc::GetRandNum(0)%(AwardItem.FixItems[i].dwItemNum[1]-AwardItem.FixItems[i].dwItemNum[0]+1);
+		}
+
+		if (tempItem.dwItemNum > 0) 
+		{
+			vtItemList.push_back(tempItem);
+		}
+	}
+
+
+
+	for (int  cycle = 0; cycle < AwardItem.dwRatioCount*dwTimes; cycle++ )
+	{
+		UINT32 dwRandValue = CommonFunc::GetRandNum(0);
+		for (int i = 0; i < AwardItem.RatioItems.size() - 1; i++)
+		{
+			if ((dwRandValue >= AwardItem.RatioItems[i].dwRatio) && (dwRandValue < AwardItem.RatioItems[i+1].dwRatio)) 
+			{
+				tempItem.dwItemID = AwardItem.RatioItems[i].dwItemID;
+				if (AwardItem.RatioItems[i].dwItemNum[1] == AwardItem.RatioItems[i].dwItemNum[0]) 
+				{
+					tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0];
+				} 
+				else 
+				{
+					tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0] + CommonFunc::GetRandNum(0)%(AwardItem.RatioItems[i].dwItemNum[1]-AwardItem.RatioItems[i].dwItemNum[0]+1);
+				}
+
+				if (tempItem.dwItemNum > 0) 
+				{
+					vtItemList.push_back(tempItem);
+				}
+			}
+		}
+	}
+		return TRUE;
 }
