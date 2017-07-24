@@ -20,6 +20,8 @@
 #include "Utility/RapidXml//rapidxml.h"
 #include "SceneXmlMgr.h"
 #include "Utility/CommonConvert.h"
+#include "../ConfigData/ConfigStruct.h"
+#include "../ConfigData/ConfigData.h"
 
 CScene::CScene()
 {
@@ -125,7 +127,6 @@ BOOL CScene::OnMsgRoleSkillReq(NetPacket *pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 
-    //
 
 
 
@@ -553,8 +554,9 @@ BOOL CScene::SyncObjectState()
 
 BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
-	//StActorInfo *pActorInf = NULL;
-	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, "");
+	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
 	AddPlayer(pObject);
 	BroadNewObject(pObject);
     return TRUE;

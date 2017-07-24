@@ -13,6 +13,7 @@
 #include "CopyModule.h"
 #include "BagModule.h"
 #include "EquipModule.h"
+#include "PetModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -136,6 +137,7 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_COPY] = new CCopyModule(this);
 	m_MoudleList[MT_BAG] = new CBagModule(this);
 	m_MoudleList[MT_EQUIP] = new CEquipModule(this);
+	m_MoudleList[MT_PET] = new CPetModule(this);
 	
 
 	return TRUE;

@@ -75,6 +75,9 @@
     <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PetModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -142,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\CopyData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\PetData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="PetModule.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

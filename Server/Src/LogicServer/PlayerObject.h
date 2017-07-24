@@ -11,6 +11,7 @@ enum MouduleType
 	MT_COPY,
 	MT_BAG,
 	MT_EQUIP,
+	MT_PET,
 	MT_END
 };
 
