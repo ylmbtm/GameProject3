@@ -10,5 +10,8 @@ enum COPY_RESULT
 	CR_DRAW			//平局
 };
 
+#define MAX_MONEY_NUM 15
+#define MAX_ACTION_NUM 4
+
 
 #endif //__SERVER_STRUCT_H__

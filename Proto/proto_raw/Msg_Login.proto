@@ -137,20 +137,6 @@ message RoleLoginAck {
 }
 
 
-message DBRoleLoginAck {
-    uint32   RetCode = 1;
-	uint64   AccountID = 2;
-	uint64   RoleID = 3;
-	uint32   ActorID = 4;
-	int32    Level = 5;
-	uint64   Exp = 6;
-	string   Name = 7;
-	uint32   LangID = 8;
-	uint32   VipLvl = 9;
-	uint32   VipExp = 10;
-}
-
-
 message RoleLogoutReq {
     uint64 AccountID = 1;
 	uint64 RoleID = 2;

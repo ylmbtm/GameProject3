@@ -1,7 +1,7 @@
 ﻿#ifndef __ROLE_DATA_OBJECT_H__
 #define __ROLE_DATA_OBJECT_H__
-
 #include "serverStruct.h"
+#include "SharedMemory.h"
 struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
@@ -16,7 +16,7 @@ struct RoleDataObject : public ShareObject
 	UINT32 m_dwLevel;		//等级
 	UINT64 m_Money[10];		//所有的货币
 	UINT64 m_Action[10];	//所有的体力
-    UINT64 m_Actime[10];    //体力恢复时间
+    UINT32 m_Actime[10];    //体力恢复时间
 	UINT64 m_dwExp;			//经验
 	UINT32 m_dwLangID;		//语言ID
 	UINT64 m_u64Fight;      //战力
@@ -42,37 +42,6 @@ struct RoleDataObject : public ShareObject
 
 		pDB->Execut(szSql);
 
-		return TRUE;
-	}
-};
-
-
-struct CopyDataObject : public ShareObject
-{
-	CopyDataObject()
-	{
-		UINT64 m_u64ID = 0;
-		UINT32 m_dwChaper = 0;
-		UINT32 m_dwCopyType = 0;
-		UINT32 m_dwBattleTimes = 0;
-		UINT32 m_dwResetTimes = 0;
-		UINT32 m_dwStar = 0;
-	}
-
-	UINT64 m_u64ID;			//角色ID
-	UINT32 m_dwChaper;
-	UINT32 m_dwCopyType;
-	UINT32 m_dwBattleTimes;
-	UINT32 m_dwResetTimes;
-	UINT32 m_dwStar;
-
-	BOOL Save(IDataBase *pDB)
-	{
-		return TRUE;
-	}
-
-	BOOL Delete(IDataBase *pDB)
-	{
 		return TRUE;
 	}
 };

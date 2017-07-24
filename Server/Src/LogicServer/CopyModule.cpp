@@ -38,8 +38,8 @@ BOOL CCopyModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CCopyModule::OnLoadData(UINT64 u64RoleID)
+BOOL CCopyModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 {
-	SetDataOK(TRUE);
+
 	return TRUE;
 }

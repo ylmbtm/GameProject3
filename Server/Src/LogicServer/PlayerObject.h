@@ -8,6 +8,9 @@
 enum MouduleType
 {
 	MT_ROLE,
+	MT_COPY,
+	MT_BAG,
+	MT_EQUIP,
 	MT_END
 };
 
@@ -40,13 +43,14 @@ public:
 
 	virtual BOOL OnNewDay();
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID);
+	virtual BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 	virtual BOOL DispatchPacket(NetPacket *pNetPack);
 
 	BOOL    SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 	BOOL	SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen);
-    BOOL    ToTransRoleData(TransRoleDataReq &Req);
+	
+	BOOL    ToTransRoleData(TransRoleDataReq &Req);
 
 public: //全部是操作方法
 	BOOL    SendIntoSceneNotify(UINT32 dwCopyID,  UINT32 dwCopyType,UINT32 dwSvrID);
@@ -58,12 +62,8 @@ public: //全部是操作方法
 	//模块函数
 	BOOL			CreateAllModule();
 	BOOL			DestroyAllModule();
-	BOOL			OnModuleFnished();
-	BOOL			IsAllModuleOK();
-	BOOL			OnAllModuleOK();
-	BOOL			SetAllModuleOK();
 	CModuleBase*	GetModuleByType(MouduleType MType);
-
+	BOOL			OnAllModuleOK();
 public:
 	UINT64			GetObjectID();
 public:

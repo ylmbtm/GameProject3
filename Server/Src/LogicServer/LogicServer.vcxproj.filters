@@ -72,6 +72,9 @@
     <ClCompile Include="..\ConfigData\ConfigData.cpp">
       <Filter>ConfigData</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -130,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="..\ConfigData\ConfigStruct.h">
       <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\ServerDefine.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\BagData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\CopyData.h">
+      <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,17 +19,17 @@ BOOL CBagModule::OnCreate(UINT64 u64RoleID)
 }
 
 
-BOOL CBagModule::OnDestroy(UINT64 u64RoleID)
+BOOL CBagModule::OnDestroy()
 {
 	return TRUE;
 }
 
-BOOL CBagModule::OnLogin(UINT64 u64RoleID)
+BOOL CBagModule::OnLogin()
 {
 	return TRUE;
 }
 
-BOOL CBagModule::OnLogout(UINT64 u64RoleID)
+BOOL CBagModule::OnLogout()
 {
 	return TRUE;
 }
@@ -39,8 +39,9 @@ BOOL CBagModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CBagModule::OnLoadData(UINT64 u64RoleID)
+BOOL CBagModule::ReadFromLoginAck( DBRoleLoginAck &Ack )
 {
-	SetDataOK(TRUE);
+	
+
 	return TRUE;
 }

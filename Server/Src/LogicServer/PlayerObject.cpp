@@ -9,6 +9,10 @@
 #include "..\GameServer\GameService.h"
 #include "..\Message\Msg_RetCode.pb.h"
 #include "Utility\Log\Log.h"
+#include "..\ServerData\RoleData.h"
+#include "CopyModule.h"
+#include "BagModule.h"
+#include "EquipModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -87,12 +91,12 @@ BOOL CPlayerObject::OnNewDay()
 	return TRUE;
 }
 
-BOOL CPlayerObject::OnLoadData(UINT64 u64RoleID)
+BOOL CPlayerObject::ReadFromLoginAck(DBRoleLoginAck &Ack)
 {
 	for(int i = MT_ROLE; i< MT_END; i++)
 	{
 		CModuleBase *pBase = m_MoudleList.at(i);
-		pBase->OnLoadData(u64RoleID);
+		pBase->ReadFromLoginAck(Ack);
 	}
 
 	return TRUE;
@@ -104,7 +108,20 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 	{
 	default:
 		{
-			break;
+			for(int i = MT_ROLE; i< MT_END; i++)
+			{
+				CModuleBase *pBase = m_MoudleList.at(i);
+				if(pBase == NULL)
+				{
+					LOG_ERROR;
+					continue;
+				}
+
+				if(pBase->DispatchPacket(pNetPack))
+				{
+					return TRUE;
+				}
+			}
 		}
 		break;
 	}
@@ -114,7 +131,12 @@ BOOL CPlayerObject::DispatchPacket(NetPacket *pNetPack)
 
 BOOL CPlayerObject::CreateAllModule()
 {
-	m_MoudleList.push_back(new CRoleModule(this));
+	m_MoudleList.assign(MT_END, NULL);
+	m_MoudleList[MT_ROLE] = new CRoleModule(this);
+	m_MoudleList[MT_COPY] = new CCopyModule(this);
+	m_MoudleList[MT_BAG] = new CBagModule(this);
+	m_MoudleList[MT_EQUIP] = new CEquipModule(this);
+	
 
 	return TRUE;
 }
@@ -148,30 +170,7 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwL
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
 
-BOOL CPlayerObject::OnModuleFnished()
-{
-	if(IsAllModuleOK())
-	{
-		CLog::GetInstancePtr()->AddLog("===========OnAllModuleFinished=============");
-        OnAllModuleOK();
-	}
 
-	return TRUE;
-}
-
-BOOL CPlayerObject::IsAllModuleOK()
-{
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
-	{
-		CModuleBase *pBase = *itor;
-		if(pBase->IsDataOK() == FALSE)
-		{
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-}
 
 BOOL CPlayerObject::OnAllModuleOK()
 {
@@ -217,28 +216,12 @@ BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 	return TRUE;
 }
 
-BOOL CPlayerObject::SetAllModuleOK()
-{
-	for(std::vector<CModuleBase*>::iterator itor = m_MoudleList.begin(); itor != m_MoudleList.end(); itor++)
-	{
-		CModuleBase *pBase = *itor;
-        if(pBase == NULL)
-        {
-            LOG_ERROR;
-            continue;
-        }
-
-		pBase->m_bIsDataOK = TRUE;
-	}
-
-	return TRUE;
-}
 
 CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
 {
 	if(MType >= m_MoudleList.size())
 	{
-        LOG_ERROR
+        LOG_ERROR;
 		return NULL;
 	}
 

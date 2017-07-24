@@ -2,7 +2,7 @@
 #define __BAG_MODULE_H__
 
 #include "ModuleBase.h"
-
+struct BagDataObject;
 class CBagModule : public CModuleBase
 {
 public:
@@ -11,20 +11,20 @@ public:
 	~CBagModule();
 
 public:
-	virtual BOOL OnCreate(UINT64 u64RoleID);
+	BOOL OnCreate(UINT64 u64RoleID);
 
-	virtual BOOL OnDestroy(UINT64 u64RoleID);
+	BOOL OnDestroy();
 
-	virtual BOOL OnLogin(UINT64 u64RoleID);
+	BOOL OnLogin();
 
-	virtual BOOL OnLogout(UINT64 u64RoleID);
+	BOOL OnLogout();
 
-	virtual BOOL OnNewDay();
+	BOOL OnNewDay();
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID);
+	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
-	//std::map<UINT32, CopyDataObject*>m_mapCopyData;
+	std::vector<BagDataObject*>m_vtBagData;
 
 
 };

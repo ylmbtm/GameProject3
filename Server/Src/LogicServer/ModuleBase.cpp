@@ -12,20 +12,6 @@ CModuleBase::~CModuleBase()
 
 }
 
-BOOL CModuleBase::IsDataOK()
-{
-	return m_bIsDataOK;
-}
-
-BOOL CModuleBase::SetDataOK(BOOL bOK)
-{
-	m_bIsDataOK = bOK;
-
-	m_pOwnPlayer->OnModuleFnished();
-
-	return TRUE;
-}
-
 BOOL CModuleBase::DispatchPacket(NetPacket *pNetPack)
 {
 	return TRUE;

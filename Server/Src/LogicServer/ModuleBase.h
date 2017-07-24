@@ -2,6 +2,7 @@
 #define __CMODULE_BASE_H__
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
+#include "../Message/Msg_LoginData.pb.h"
 
 class CPlayerObject;
 
@@ -22,11 +23,7 @@ public:
 
 	virtual BOOL OnNewDay() = 0;
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID) = 0;
-
-	virtual BOOL IsDataOK();
-
-	virtual BOOL SetDataOK(BOOL bOK);
+	virtual BOOL ReadFromLoginAck(DBRoleLoginAck &Ack) = 0;
 
 	virtual BOOL DispatchPacket(NetPacket *pNetPack);
 
@@ -36,7 +33,6 @@ public:
 
 public:
 	CPlayerObject *m_pOwnPlayer;
-	BOOL		   m_bIsDataOK;
 };
 
 

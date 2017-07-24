@@ -1,9 +1,10 @@
 ﻿#ifndef __COPY_MODULE_H__
 #define __COPY_MODULE_H__
 #include "ModuleBase.h"
-#include "DataPool.h"
 #include "..\ServerData\serverStruct.h"
+#include "..\Message\Msg_LoginData.pb.h"
 
+struct CopyDataObject;
 class CCopyModule : public CModuleBase
 {
 public:
@@ -12,17 +13,17 @@ public:
 	~CCopyModule();
 
 public:
-	virtual BOOL OnCreate(UINT64 u64RoleID);
+	BOOL OnCreate(UINT64 u64RoleID);
 	
-	virtual BOOL OnDestroy();
+	BOOL OnDestroy();
 
-	virtual BOOL OnLogin();
+	BOOL OnLogin();
 
-	virtual BOOL OnLogout();
+	BOOL OnLogout();
 
-	virtual BOOL OnNewDay();
+	BOOL OnNewDay();
 
-	virtual BOOL OnLoadData(UINT64 u64RoleID);
+	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
 	std::map<UINT32, CopyDataObject*>m_mapCopyData;

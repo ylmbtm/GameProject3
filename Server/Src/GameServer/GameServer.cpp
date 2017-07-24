@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
 	if(argc < 3)
 	{
-		printf("not enought param!!! num:%d", argc);
+		printf("Error : Not Enough Parameter!!! num:%d", argc);
 		getchar();
 		return 0;
 	}
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
 	if((dwSvrID <= 0)||(dwPort <= 0))
 	{
-		printf("svrid or port is not right!!!");
+		printf("Error Invalid ServerID:%d or Invalid Port:%d!!!", dwSvrID, dwPort);
 		getchar();
 		return 0;
 	}

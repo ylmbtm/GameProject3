@@ -33,6 +33,14 @@ public:
 	BOOL ReadConstantValue(CppSQLite3Query &QueryData);
 	StConstantValue m_ConstantValue;
 
+	//货币和体力
+	///////////////////////////////////////////////
+	std::vector<StMoneyInfo> m_vtMoneyList;
+	std::vector<StActionInfo> m_vtActionList;
+	UINT64 GetMoneyMaxValue(UINT32 dwMoneyID);
+	UINT64 GetActoinMaxValue(UINT32 dwActionID);
+	UINT32 GetActoinUnitTime(UINT32 dwActionID);
+
 	//角色
 	///////////////////////////////////////////////
 	std::map<UINT32, StActor> m_mapActor;

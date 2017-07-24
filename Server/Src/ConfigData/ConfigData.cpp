@@ -70,6 +70,21 @@ BOOL CConfigData::ReadConstantValue(CppSQLite3Query &QueryData)
 	return TRUE;
 }
 
+UINT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
+{
+	return 0;
+}
+
+UINT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
+{
+	return 0;
+}
+
+UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
+{
+	return 0;
+}
+
 BOOL CConfigData::ReadActor(CppSQLite3Query &QueryData)
 {
 	while(QueryData.eof())

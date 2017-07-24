@@ -104,6 +104,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="BagModule.cpp" />
     <ClCompile Include="CopyModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
@@ -127,7 +130,10 @@
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
+    <ClInclude Include="..\ServerData\BagData.h" />
+    <ClInclude Include="..\ServerData\CopyData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
+    <ClInclude Include="..\ServerData\ServerDefine.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
     <ClInclude Include="BagModule.h" />
     <ClInclude Include="CopyModule.h" />
