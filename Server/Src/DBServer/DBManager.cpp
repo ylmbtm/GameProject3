@@ -73,13 +73,15 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck &Ack)
 
 	if(!QueryRes.eof())  
 	{  
+		DBBagData *pData = Ack.mutable_bagdata();
         Ack.set_retcode(MRC_SUCCESSED);
 		Ack.set_roleid(QueryRes.getInt64Field("id", 0));
-		Ack.set_name(QueryRes.getStringField("name"));
-		Ack.set_actorid(QueryRes.getIntField("actorid", 0));
-		Ack.set_level(QueryRes.getIntField("level", 0));
-		Ack.set_exp(QueryRes.getInt64Field("exp", 0));
-        Ack.set_accountid(QueryRes.getInt64Field("account_id", 0));
+		pData->set_roleid(QueryRes.getInt64Field("id", 0));
+		pData->set_name(QueryRes.getStringField("name"));
+		pData->set_actorid(QueryRes.getIntField("actorid", 0));
+		pData->set_level(QueryRes.getIntField("level", 0));
+		pData->set_exp(QueryRes.getInt64Field("exp", 0));
+        pData->set_accountid(QueryRes.getInt64Field("account_id", 0));
 	}  
 
 	return TRUE;
