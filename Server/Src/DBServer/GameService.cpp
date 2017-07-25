@@ -91,6 +91,7 @@ BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
+	google::protobuf::ShutdownProtobufLibrary();
 	return TRUE;
 }
 

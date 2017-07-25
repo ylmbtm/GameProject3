@@ -123,6 +123,7 @@ BOOL CGameService::ConnectToLogicSvr()
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
+	google::protobuf::ShutdownProtobufLibrary();
 
 	return TRUE;
 }

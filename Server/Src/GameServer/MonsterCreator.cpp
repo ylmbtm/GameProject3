@@ -19,26 +19,21 @@ MonsterCreator::~MonsterCreator()
 
 BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char> *pNode)
 {
-	for(auto pBirthNode = pNode->first_node("BirthPos"); pBirthNode != NULL; pBirthNode->next_sibling("BirthPos"))
+	for(auto pWaveNode = pNode->first_node("Wave"); pWaveNode != NULL; pWaveNode->next_sibling("Wave"))
 	{
-		for(auto pAttr = pBirthNode->first_attribute(); pAttr != NULL; pAttr->next_attribute())
+		UINT32 dwGenType = 0; 
+		dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
+		
+		for(auto pObjectNode = pWaveNode->first_node("Object"); pObjectNode != NULL; pObjectNode->next_sibling("Object"))
 		{
-			UINT32 dwCamp = 0; 
-			if(pAttr->name() == "camp")
-			{
-				dwCamp = CommonConvert::StringToInt(pAttr->value());
-			}
-
-			CPoint2d pt;
-			if(pAttr->name() == "position")
-			{
-				pt.From(pAttr->value());
-			}
-
-			m_vtBirthPos[dwCamp] = pt;
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("camp")->value());
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("num")->value());
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("strength")->value());
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("postion")->value());
+			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("dropid")->value());
 		}
 	}
-
 
 	 return TRUE;
 }

@@ -81,6 +81,9 @@
     <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_RetCode.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="PetModule.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_RetCode.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

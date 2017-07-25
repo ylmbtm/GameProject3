@@ -118,7 +118,6 @@ BOOL CGameSvrMgr::SendPlayerToCopy( UINT64 u64RoleID, UINT32 dwCopyType, UINT32 
     TransRoleDataReq Req;
     ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
     ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64RoleID, dwCopyID, Req);
-    pPlayer->m_CopyState = CS_START;
     pPlayer->m_dwToCopyID = dwCopyID;
     pPlayer->m_dwToCopyType = dwCopyType;
     return TRUE;
@@ -220,7 +219,6 @@ BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket *pNetPacket)
     pPlayer->m_dwCopyID = Req.copyid();
     pPlayer->m_dwCopySvrID = Req.serverid();
     pPlayer->m_dwToCopyID = 0;
-    pPlayer->m_CopyState = CS_FINISHED;
     return TRUE;
 }
 

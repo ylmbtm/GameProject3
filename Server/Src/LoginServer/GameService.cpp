@@ -70,6 +70,7 @@ BOOL CGameService::Init()
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
+	google::protobuf::ShutdownProtobufLibrary();
 	return TRUE;
 }
 
