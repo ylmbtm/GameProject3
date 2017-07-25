@@ -5,23 +5,6 @@
 #include "ModuleBase.h"
 #include "../Message/Msg_Login.pb.h"
 
-enum MouduleType
-{
-	MT_ROLE,
-	MT_COPY,
-	MT_BAG,
-	MT_EQUIP,
-	MT_PET,
-	MT_END
-};
-
-
-enum Copy_State
-{
-	CS_START,
-	CS_FINISHED
-};
-
 class CPlayerObject
 {
 public:
@@ -63,7 +46,7 @@ public: //全部是操作方法
 	//模块函数
 	BOOL			CreateAllModule();
 	BOOL			DestroyAllModule();
-	CModuleBase*	GetModuleByType(MouduleType MType);
+	CModuleBase*	GetModuleByType(UINT32 dwModuleType);
 	BOOL			OnAllModuleOK();
 public:
 	UINT64			GetObjectID();
@@ -79,8 +62,6 @@ public:
 	UINT32      m_dwCopySvrID;  //副本服务器的ID
 	UINT32      m_dwToCopyID;   //正在前往的副本ID
 	UINT32      m_dwToCopyType; //正在前往的副本ID
-
-	Copy_State  m_CopyState;    //副本状态
 };
 
 

@@ -173,3 +173,11 @@ BOOL CSceneObject::IsDie()
 }
 
 
+
+BOOL CSceneObject::SetPos(FLOAT x, FLOAT z)
+{
+	m_x = x;
+	m_z = z;
+
+	return TRUE;
+}

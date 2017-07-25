@@ -4,12 +4,14 @@
 enum RESULTTYPE
 {
 	BRT_NONE,
-	BRT_KILLMONSTER,			//限定时间内击杀怪物
-	BRT_DESTINATION,			//限定时间达到目的地
-	BRT_ALIVE,					//限定时间存活下来
-	BRT_NPC_ALIVE,				//限定时间护送npc
-	BRT_KILL_ONLYMONSTERE,		//限定时间只允许击杀怪物
+	BRT_KILL_ALL,			//击杀全部怪物
+	BRT_KILL_NUM,			//击杀指定数量怪物
+	BRT_REACH_POS,			//达到目的地
+	BRT_ALIVE,				//存活下来
+	BRT_NPC_ALIVE,			//护送npc
+	BRT_END
 };
+
 
 class BattleResult
 {
@@ -34,7 +36,7 @@ private:
 class BR_KillMonsterNum: public BattleResult
 {
 public:
-	BR_KillMonsterNum(): BattleResult(BRT_KILLMONSTER)
+	BR_KillMonsterNum(): BattleResult(BRT_KILL_NUM)
 	{
 	}
 
@@ -54,7 +56,7 @@ public:
 class BR_KillOnlyMonster: public BattleResult
 {
 public:
-	BR_KillOnlyMonster(): BattleResult(BRT_KILLMONSTER)
+	BR_KillOnlyMonster(): BattleResult(BRT_KILL_NUM)
 	{
 	}
 	UINT32 m_dwMonsterID;
@@ -64,7 +66,7 @@ public:
 class BR_ReachPostion: public BattleResult
 {
 public:
-	BR_ReachPostion(): BattleResult(BRT_DESTINATION)
+	BR_ReachPostion(): BattleResult(BRT_REACH_POS)
 	{
 	}
 

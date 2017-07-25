@@ -19,6 +19,9 @@
     <Filter Include="Sqlite">
       <UniqueIdentifier>{87c80df1-377a-4ea5-b36e-d3e44e9f5ad0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Proto">
+      <UniqueIdentifier>{89ecc123-68d5-42c1-8f21-e8fac16568c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBServer.cpp">
@@ -48,14 +51,17 @@
     <ClCompile Include="DBMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="DBWriterManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DBManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,14 +89,14 @@
     <ClInclude Include="DBMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Login.pb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="DBWriterManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DBManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

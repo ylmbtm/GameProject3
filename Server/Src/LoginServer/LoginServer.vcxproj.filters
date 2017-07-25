@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Proto">
+      <UniqueIdentifier>{7b4ccd1e-2ddd-41f6-8170-f91b9619a9fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -24,17 +27,17 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_ID.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="LoginMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LogicSvrManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_ID.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,17 +47,17 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_ID.pb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Message\Msg_Login.pb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="LoginMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LogicSvrManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_ID.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

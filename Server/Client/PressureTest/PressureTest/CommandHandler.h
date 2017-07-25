@@ -42,7 +42,6 @@ public:
 	BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 dwCharID);
 	BOOL SendRoleLogoutReq(UINT64 u64CharID);
 	BOOL SendRoleLoginReq(UINT64 u64CharID);
-	BOOL SendMoveReq(FLOAT x, FLOAT y, FLOAT z, UINT16 nDir);
 	BOOL SendRoleListReq();
 	BOOL SendMainCopyReq();
 	BOOL SendAbortCopyReq();
@@ -57,20 +56,11 @@ public:
 	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	
 	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgObjectUpdateNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectActionNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 
-
-
-	//CMD_CHAR_NEARBY_ADD,			//添加周围的对象
-	//CMD_CHAR_NEARBY_UPDATE,		//更新周围的对象
-	//CMD_CHAR_NEARBY_REMOVE,		//删除周围的对象
-
-	BOOL OnCmdNearByAdd(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnCmdNearByUpdate(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnCmdNearByRemove(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnCmdUpdateMyself(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
 	
 	//*********************消息处理定义结束******************************
 
@@ -92,14 +82,16 @@ public:
 	std::string			m_strRoleName;
 
 	FLOAT               m_x;
-	FLOAT				m_y;
+	FLOAT				m_z;
+	FLOAT				m_vx;
+	FLOAT				m_vz;
 
 	UINT32				m_dwCopySvrID;
 	UINT32				m_dwCopyID;
 	UINT32				m_dwCopyType;
 
 public:
-	VOID  MoveHost();
+	VOID  TestMove();
 };
 
 

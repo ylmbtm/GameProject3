@@ -2,20 +2,13 @@
 #define _SCENELOGIC_BASE_H_
 
 #include "Utility\RapidXml\rapidxml.h"
+#include "..\Message\Game_Define.pb.h"
+#include "Utility\XMath.h"
 
 class CScene;
 class CSceneObject;
+class BattleResult;
 
-enum BATTLERESULTYPE
-{
-	BRT_NONE,
-	BRT_KILL_ALL,			//击杀全部怪物
-	BRT_KILL_NUM,			//击杀指定数量怪物
-	BRT_REACH_POS,			//达到目的地
-	BRT_ALIVE,				//存活下来
-	BRT_NPC_ALIVE,			//护送npc
-	BRT_END
-};
 
 
 class SceneLogicBase
@@ -47,20 +40,16 @@ public:
 	//TRUE:表示己经决出胜负, FALSE没有决出胜负
 	virtual BOOL BattleResultCheck();
 
-	
-
 	CScene*  GetScene();
-
 public:
 	CScene *m_pScene;
-
-public:
 	BOOL m_bFinished;
 
-	UINT32 m_dwLastTime;  
+	UINT32 m_dwLastTime; 
 
-	UINT32 m_dwResultType;
+	BattleResult *m_pBattleResult;
 
+	CPoint2d m_vtBirthPos[CT_CMAP_END];
 };
 
 #endif //_SCENELOGIC_BASE_H_

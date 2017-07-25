@@ -2,17 +2,6 @@
 #define __CLIENT_OBJECT_MGR_H__
 #include "Utility/AVLTree.h"
 
-enum LineState
-{
-	LS_NONE,
-	LS_Online,
-	LS_OffLine,
-	LS_EnterGame,
-	LS_LeaveGame,
-	LS_Unknow
-}; 
-
-
 class  CProxyPlayer
 {
 public:

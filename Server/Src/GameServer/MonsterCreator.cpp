@@ -19,6 +19,27 @@ MonsterCreator::~MonsterCreator()
 
 BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char> *pNode)
 {
+	for(auto pBirthNode = pNode->first_node("BirthPos"); pBirthNode != NULL; pBirthNode->next_sibling("BirthPos"))
+	{
+		for(auto pAttr = pBirthNode->first_attribute(); pAttr != NULL; pAttr->next_attribute())
+		{
+			UINT32 dwCamp = 0; 
+			if(pAttr->name() == "camp")
+			{
+				dwCamp = CommonConvert::StringToInt(pAttr->value());
+			}
+
+			CPoint2d pt;
+			if(pAttr->name() == "position")
+			{
+				pt.From(pAttr->value());
+			}
+
+			m_vtBirthPos[dwCamp] = pt;
+		}
+	}
+
+
 	 return TRUE;
 }
 

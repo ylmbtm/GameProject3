@@ -13,6 +13,7 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "RoleModule.h"
 #include "SimpleMananger.h"
+#include "../ServerData/ServerDefine.h"
 
 CWorldMsgHandler::CWorldMsgHandler()
 {
@@ -227,6 +228,10 @@ BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
+
 	//创建副本
 	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copytype(), Req.roleid(), 1));
 	return TRUE;
@@ -241,7 +246,7 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	ERROR_RETURN_TRUE(pPlayer->m_dwCopyID == Req.copyid());
-	
+	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
     pPlayer->SendLeaveScene(pPlayer->m_dwCopyID, pPlayer->m_dwCopySvrID);
 
 	UINT32 dwSvrID, dwConnID, dwCopyID;
@@ -262,7 +267,7 @@ BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket *pNetPacket )
 
     CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
     ERROR_RETURN_TRUE(pPlayer != NULL);
-
+	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
     UINT32 dwSvrID, dwConnID, dwCopyID;
     CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
     ERROR_RETURN_TRUE(dwSvrID != 0);

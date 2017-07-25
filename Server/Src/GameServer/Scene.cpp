@@ -9,7 +9,6 @@
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Login.pb.h"
-#include "SceneLogic/SceneLogic_Type.h"
 #include "SceneLogic/SceneLogic_Normal.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Game_Define.pb.h"
@@ -22,6 +21,7 @@
 #include "Utility/CommonConvert.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
+#include "../ServerData/ServerDefine.h"
 
 CScene::CScene()
 {
@@ -274,7 +274,7 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	pObject->m_dwActorID = Req.actorid();
 	pObject->m_strName = Req.rolename();
 	pObject->m_uGuid = pHeader->u64TargetID;
-
+	pObject->m_dwCamp = Req.camp();
 	m_pSceneLogic->OnObjectCreate(pObject);
 
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
@@ -537,10 +537,12 @@ BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 BOOL CScene::ReadSceneXml()
 {
 	return TRUE;
-	rapidxml::xml_document<char> *pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument("xxxx");
+	StCopyBase *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyBaseInfo(m_dwCopyType);
+	ERROR_RETURN_FALSE(pCopyInfo != NULL);
+	rapidxml::xml_document<char> *pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument(pCopyInfo->strXml);
 	ERROR_RETURN_FALSE(pXmlDoc != NULL);
 
-	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Scene");
+	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("GameScene");
 	ERROR_RETURN_FALSE(pXmlRoot != NULL);
 	
 	auto pLogicNode = pXmlRoot->first_node("SceneLogic");
@@ -635,10 +637,10 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
 {
     CSceneObject *pSceneObj = GetPlayer(Item.objectid());
     ERROR_RETURN_TRUE(pSceneObj != NULL);
-    pSceneObj->x = Item.x();
-    pSceneObj->z = Item.z();
-    pSceneObj->vx = Item.vx();
-    pSceneObj->vz = Item.vz();
+    pSceneObj->m_x = Item.x();
+    pSceneObj->m_z = Item.z();
+    pSceneObj->m_vx = Item.vx();
+    pSceneObj->m_vz = Item.vz();
 
     if(Item.ishurt())
     {

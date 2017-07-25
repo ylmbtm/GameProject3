@@ -5,6 +5,7 @@
 #include "DBStoredProcMgr.h"
 #include "../ServerData/serverStruct.h"
 #include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_LoginData.pb.h"
 
 class CDBManager : public IDataBase
 {
@@ -22,6 +23,9 @@ public:
 	BOOL  GetRoleList(UINT64 u64AccountID, RoleListAck &Ack);
 
 	BOOL  GetRoleData(UINT64 u64ID, DBRoleLoginAck &Ack);
+	BOOL  GetBagData(UINT64 u64ID, DBRoleLoginAck &Ack);
+	BOOL  GetCopyData(UINT64 u64ID, DBRoleLoginAck &Ack);
+	BOOL  GetEquipData(UINT64 u64ID, DBRoleLoginAck &Ack);
 
 	CppSQLite3DB	m_DBConnection;
 	//真实的mysql

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Proto">
+      <UniqueIdentifier>{b26649a0-5713-49a2-bde9-541f008a76f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -31,7 +34,7 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>源文件</Filter>
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +51,7 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Login.pb.h">
-      <Filter>头文件</Filter>
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

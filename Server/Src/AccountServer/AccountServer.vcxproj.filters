@@ -16,6 +16,9 @@
     <Filter Include="Sqlite">
       <UniqueIdentifier>{87c80df1-377a-4ea5-b36e-d3e44e9f5ad0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Proto">
+      <UniqueIdentifier>{c128d83e-83f6-45fd-933f-787460969e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -30,9 +33,6 @@
     <ClCompile Include="AccountServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="AccountMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -41,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="DBManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,9 +56,6 @@
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
       <Filter>Sqlite</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Login.pb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="AccountMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -64,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="DBManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

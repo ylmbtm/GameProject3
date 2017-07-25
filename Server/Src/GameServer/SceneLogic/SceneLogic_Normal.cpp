@@ -18,6 +18,8 @@ SceneLogic_Normal::~SceneLogic_Normal()
 
 BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
 {
+	SceneLogicBase::OnObjectCreate(pObject);
+
 	//玩家数据传过来了。
 	if(pObject->GetObjType() == OT_PLAYER)
 	{

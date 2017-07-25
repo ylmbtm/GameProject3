@@ -2,14 +2,6 @@
 #define _SCENE_OBJECT_H_
 #include "Utility/Position.h"
 #include "../Message/Msg_Move.pb.h"
-
-enum  OBJECT_STATE
-{
-	BS_Static = 1,  ///停
-	BS_Walk = 2,    ///移动
-	BS_DIE = 3,   ///死亡
-};
-
 class CScene;
 class CSceneObject
 {
@@ -23,6 +15,8 @@ public:
     BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 	BOOL			OnUpdate(UINT32 dwTick);
 	BOOL            SaveNewObject(ObjectNewNty &Nty);
+
+	//以下为对象的操作方法
 public:
     UINT32          GetHp();
     VOID            AddHp(UINT32 dwValue);
@@ -38,6 +32,9 @@ public:
 	VOID			SetEnterCopy();
     BOOL            IsDie();
 
+
+	BOOL			SetPos(FLOAT x, FLOAT z);
+
   
 
     
@@ -50,8 +47,8 @@ public:
 	UINT32          m_dwObjType;		//对象类型 玩家，宠物， NPC之类的
 	std::string     m_strName;          //对象的名字
     UINT32			m_dwCamp;			//阵营
-	FLOAT			x, z;				//对象坐标
-	FLOAT           vx,vz;				//对象方向
+	FLOAT			m_x, m_z;			//对象坐标
+	FLOAT           m_vx,m_vz;			//对象方向
     UINT32          m_dwObjState;		//对象当前的状态
     UINT32          m_dwHp;				//对象当前血量
 	UINT32			m_dwMp;				//对象当前蓝量

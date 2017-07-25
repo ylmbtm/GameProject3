@@ -27,6 +27,7 @@ struct StCopyBase
     UINT32 dwCostActNum;
     UINT32 dwAwardID;
     UINT32 dwBattleTimes;
+	std::string strXml;
 };
 
 

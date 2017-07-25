@@ -25,6 +25,9 @@
     <Filter Include="ConfigData">
       <UniqueIdentifier>{0e358b5d-7aad-44d3-ae3b-39bf152f4c06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="proto">
+      <UniqueIdentifier>{c6b463a4-bbfd-4a98-96c1-6c3b427b8898}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -54,12 +57,6 @@
     <ClCompile Include="GameObject\SceneObject.cpp">
       <Filter>SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Message\Msg_Move.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="MonsterCreator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -77,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Move.pb.cc">
+      <Filter>proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +116,6 @@
     <ClInclude Include="GameObject\SceneObject.h">
       <Filter>SceneObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Move.pb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MonsterCreator.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -139,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Move.pb.h">
+      <Filter>proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

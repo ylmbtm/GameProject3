@@ -14,6 +14,7 @@
 #include "BagModule.h"
 #include "EquipModule.h"
 #include "PetModule.h"
+#include "..\ServerData\ServerDefine.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -183,6 +184,7 @@ BOOL CPlayerObject::OnAllModuleOK()
 	ERROR_RETURN_FALSE(dwSvrID == 1);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ERROR_RETURN_FALSE(dwCopyID != 0);
+	ERROR_RETURN_FALSE(m_dwToCopyID == 0);
     CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 6, dwCopyID, dwSvrID);
 	return TRUE;
 }
@@ -219,15 +221,15 @@ BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 }
 
 
-CModuleBase* CPlayerObject::GetModuleByType(MouduleType MType)
+CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 {
-	if(MType >= m_MoudleList.size())
+	if(dwModuleType >= (UINT32)m_MoudleList.size())
 	{
         LOG_ERROR;
 		return NULL;
 	}
 
-	return m_MoudleList.at(MType);
+	return m_MoudleList.at(dwModuleType);
 }
 
 UINT64 CPlayerObject::GetObjectID()

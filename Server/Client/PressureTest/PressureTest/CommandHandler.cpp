@@ -6,6 +6,7 @@
 #include "PacketHeader.h"
 #include "..\Src\Message\Msg_Move.pb.h"
 #include "Utility\CommonConvert.h"
+#include "..\Src\Message\Game_Define.pb.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -37,18 +38,11 @@ BOOL CClientCmdHandler::DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 Bu
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_NOTIFY_INTO_SCENE,		OnMsgNotifyIntoScene);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_CREATE_ACK,		OnMsgCreateRoleAck);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_NEW_NTY,			OnMsgObjectNewNty);
-		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_UPDATE_NTY,		OnMsgObjectUpdateNty);
+		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_ACTION_NTY,		OnMsgObjectActionNty);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTY,		OnMsgObjectRemoveNty);
 		PROCESS_MESSAGE_ITEM_CLIENT(MSG_ENTER_SCENE_ACK,		OnCmdEnterSceneAck);
 		
-		
-		//PROCESS_MESSAGE_ITEM(CMD_CHAR_ENTER_GAME_ACK,	        OnCmdEnterGameAck)
-
-		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_ADD,		OnCmdNearByAdd);
-		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_UPDATE,	OnCmdNearByUpdate);
-		//PROCESS_MESSAGE_ITEM(CMD_CHAR_NEARBY_REMOVE,	OnCmdNearByRemove);
-		//PROCESS_MESSAGE_ITEM(CMD_CHAR_UPDATE_MYSELF,	OnCmdUpdateMyself);
-
+	
 	default:
 		{
 			bHandled = FALSE;
@@ -59,122 +53,28 @@ BOOL CClientCmdHandler::DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 Bu
 	return bHandled;
 }
 
-BOOL CClientCmdHandler::OnCmdNearByAdd( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
-{
-// 	UINT32 dwCount = 0;
-// 	pBufferHelper->Read(dwCount);
-// 
-// 	printf("BEGIN---添加角色消息，添加人数:%d\n", dwCount);
-// 	
-// 	for(UINT32 i = 0; i < dwCount; i++)
-// 	{
-// 		CString strText;
-// 
-// 		UINT8 type = 0;
-// 
-// 		pBufferHelper->Read(type);
-// 
-// 		if(type != 1)
-// 		{
-// 			continue;
-// 		}
-// 
-// 		CPlayerObject *pObject = new CPlayerObject;
-// 
-// 		pObject->ReadFromBuffer(pBufferHelper);
-// 
-// 		m_PlayerObjMgr.insert(std::make_pair(pObject->GetObjectID(), pObject));
-// 
-// 		printf("添加角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
-// 
-// 	}
-// 
-// 	printf("END---添加角色消息\n");
-// 
-// 
-// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
-
-	return TRUE;
-}
-
-BOOL CClientCmdHandler::OnCmdNearByUpdate( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
-{
-// 	UINT32 dwCount = 0;
-// 	pBufferHelper->Read(dwCount);
-// 
-// 	for(UINT32 i = 0; i < dwCount; i++)
-// 	{
-// 		UINT64 u64CharID = 0;
-// 
-// 		pBufferHelper->Read(u64CharID);
-// 
-// 		CPlayerObject *pObject = m_PlayerObjMgr.GetPlayer(u64CharID);
-// 		if(pObject != NULL)
-// 		{
-// 			pObject->ReadFromBuffer(pBufferHelper);
-// 
-// 			printf("更新角色:%d, 坐标x = %f, z = %f\n", (UINT32)pObject->GetObjectID(), pObject->m_ObjectPos.x, pObject->m_ObjectPos.z);
-// 		}
-// 		else
-// 		{
-// 			ASSERT_FAIELD;
-// 		}
-// 	}
-// 
-// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
-
-	return TRUE;
-}
-
-BOOL CClientCmdHandler::OnCmdNearByRemove( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
-{
-// 	UINT32 dwCount = 0;
-// 	pBufferHelper->Read(dwCount);
-// 
-// 	printf("BEGIN---删除角色消息，预计删除人数:%d, 现在人数:%d", dwCount, m_PlayerObjMgr.size());
-// 
-// 	for(UINT32 i = 0; i < dwCount; i++)
-// 	{
-// 		UINT64 u64CharID = 0;
-// 
-// 		pBufferHelper->Read(u64CharID);
-// 
-// 		CPlayerObject *pObj = m_PlayerObjMgr.GetPlayer(u64CharID);
-// 		if(pObj == NULL)
-// 		{
-// 			ASSERT_FAIELD;
-// 			return 0;
-// 		}
-// 
-// 		m_PlayerObjMgr.RemovePlayer(u64CharID);
-// 
-// 		delete pObj;
-// 	}
-// 
-// 	printf("END---删除角色消息\n");
-// 
-// 
-// 	((CTestClientDlg*)AfxGetMainWnd())->m_SceneView.Invalidate();
-
-	return TRUE;
-}
 
 BOOL CClientCmdHandler::OnCmdEnterSceneAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
 {
 	EnterSceneAck Ack;
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
-
 	m_dwHostState = ST_EnterSceneOK;
 
-	if(Ack.copytype() == 1)
+	if(Ack.copytype() == 6)
 	{
-		SendMainCopyReq();
+		m_dwHostState = ST_EnterSceneOK;
+		//表示进入主城完成
 	}
-	else
-	{
-		SendAbortCopyReq();
-	}
+
+	//if(Ack.copytype() == 6)
+	//{
+	//	SendMainCopyReq();
+	//}
+	//else
+	//{
+	//	SendAbortCopyReq();
+	//}
 	
 
 	return TRUE;
@@ -201,7 +101,7 @@ BOOL CClientCmdHandler::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::OnMsgObjectUpdateNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+BOOL CClientCmdHandler::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
 {
 	return TRUE;
 }
@@ -255,7 +155,6 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_RoleListOk)
 	{
-		//SendCreateRoleReq();
 		SendRoleLoginReq(0);
 		m_dwHostState = ST_EnterScene;
 	}
@@ -398,14 +297,6 @@ BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID , std::string strN
 }
 
 
-// BOOL CClientCmdHandler::OnCmdNewCharAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
-// {
-// 	//m_DlgSelect.AddCharPickInfo(CharNewCharAck.CharPickInfo);
-// 
-// 	//m_DlgSelect.DoModal();
-// 
-// 	return TRUE;
-// }
 
 BOOL CClientCmdHandler::SendDelCharReq( UINT64 dwAccountID,UINT64 dwCharID )
 {
@@ -413,34 +304,26 @@ BOOL CClientCmdHandler::SendDelCharReq( UINT64 dwAccountID,UINT64 dwCharID )
 	return TRUE;
 }
 
-// BOOL CClientCmdHandler::OnCmdDelCharAck( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
-// {
-// // 	StCharDelCharAck CharDelCharAck;
-// // 	pBufferHelper->Read(CharDelCharAck);
-// // 
-// // 	if(CharDelCharAck.nRetCode == E_SUCCESSED)
-// // 	{
-// // 		m_DlgSelect.DelChar(CharDelCharAck.u64CharID);
-// // 	}
-// 
-// 	m_DlgSelect.DoModal();
-// 
-// 	return TRUE;
-// }
 
-BOOL CClientCmdHandler::OnCmdUpdateMyself( UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen )
+VOID CClientCmdHandler::TestMove()
 {
-
-	return TRUE;
-}
-
-VOID CClientCmdHandler::MoveHost()
-{
-	ObjectMoveReq Req;
-	MoveItem *pItem = Req.add_movelist();
+	ObjectActionReq Req;
+	ActionItem *pItem =  Req.add_actionlist();
+	pItem->set_actionid(AT_MOVE);
 	pItem->set_objectid(m_RoleIDList[0]);
-	pItem->set_x(rand()%100);
-	m_ClientConnector.SendData(MSG_ROLE_MOVE_REQ, Req, m_RoleIDList[0], m_dwCopyID);
+	
+	m_x += 1;
+	m_z += 1;
+
+	m_vx += 1;
+	m_vz += 1;
+
+	pItem->set_x(m_x);
+	pItem->set_vx(m_vx);
+	pItem->set_z(m_z);
+	pItem->set_vz(m_vz);
+
+	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyID);
 }
 
 BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )
@@ -456,10 +339,7 @@ BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::SendMoveReq( FLOAT x, FLOAT y, FLOAT z, UINT16 nDir)
-{
-	return TRUE;
-}
+
 
 BOOL CClientCmdHandler::SendRoleListReq()
 {

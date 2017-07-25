@@ -19,6 +19,9 @@
     <Filter Include="ConfigData">
       <UniqueIdentifier>{aa905f56-049e-445f-a450-395241343af6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Proto">
+      <UniqueIdentifier>{624aba6b-aa13-4379-8e5d-dd4bee847a7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -40,9 +43,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WorldMsgHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EquipModule.cpp">
@@ -72,11 +72,14 @@
     <ClCompile Include="..\ConfigData\ConfigData.cpp">
       <Filter>ConfigData</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PetModule.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

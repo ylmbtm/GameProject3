@@ -12,3 +12,22 @@ enum ACTION_TYPE {
 
 
 }
+
+enum CAMP_TYPE {
+    CT_NONE = 0;    //无阵营
+	CT_PVE_PLAYER = 1;    //移动
+	CT_PVE_MONSTER  = 2;    //改变方向
+	CT_PVE_NPC = 3;
+
+	CT_PVP_MONSTER = 4;
+	CT_PVP_NPC = 5;
+	CT_PVP_PLAYER1 = 6;
+	CT_PVP_PLAYER2 = 7;
+	CT_PVP_PLAYER3 = 8;
+	CT_PVP_PLAYER4 = 9;
+	CT_PVP_PLAYER5 = 10;
+
+	CT_CMAP_END = 11;
+
+
+}
