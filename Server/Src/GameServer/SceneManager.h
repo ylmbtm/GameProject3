@@ -27,7 +27,7 @@ public:
 
 	BOOL		OnUpdate( UINT32 dwTick );
 
-	UINT32      MakeCopyID(UINT32 dwCopyType);
+	UINT32      MakeCopyID();
 
 	BOOL		SendCopyReport();
 

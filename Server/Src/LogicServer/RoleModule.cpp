@@ -21,6 +21,7 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
     ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
     m_pRoleDataObject->lock();
     m_pRoleDataObject->m_dwLevel = 1;
+	m_pRoleDataObject->m_dwCityCopy = 6;
     m_pRoleDataObject->unlock();
 
 	return TRUE;

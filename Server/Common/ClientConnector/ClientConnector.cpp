@@ -309,8 +309,6 @@ BOOL CClientConnector::ReceiveData()
 	else
 	{
 		m_nDataLen += nReadLen;
-
-		printf("================recv data : %d!\n", nReadLen);
 	}
 
 	return TRUE;

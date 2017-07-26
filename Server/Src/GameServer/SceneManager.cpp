@@ -34,7 +34,7 @@ CSceneManager::~CSceneManager()
 
 BOOL CSceneManager::Init(BOOL bMainLand)
 {
-	m_MaxCopyBaseID = 1;
+	m_MaxCopyBaseID = 0;
 
 	if(bMainLand)
 	{
@@ -133,7 +133,7 @@ BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 	return TRUE;
 }
 
-UINT32 CSceneManager::MakeCopyID(UINT32 dwCopyType)
+UINT32 CSceneManager::MakeCopyID()
 {
 	m_MaxCopyBaseID += 1;
 
@@ -170,7 +170,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(Req.copytype() != 0);
 	ERROR_RETURN_TRUE(Req.createparam() != 0);
 
-	UINT32 dwNewCopyID = MakeCopyID(Req.copytype());
+	UINT32 dwNewCopyID = MakeCopyID();
 
 	CreateNewSceneAck Ack;
 	Ack.set_createparam(Req.createparam());
@@ -197,7 +197,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6, MakeCopyID(6), 1, 0))
+	if(!CreateScene(6, MakeCopyID(), 1, 0))
 	{
 		ASSERT_FAIELD;
 

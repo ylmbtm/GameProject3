@@ -261,7 +261,7 @@ BOOL CClientCmdHandler::OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 
 
 	if(Ack.rolelist_size() <= 0)
 	{
-		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand()%1000), 1);
+		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand()%1000), rand()%10);
 	}
 	
 	return TRUE;

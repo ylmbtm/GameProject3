@@ -102,7 +102,7 @@ UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
 BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID)
 {
 	dwServerID = 1;
-	dwCopyID = 1<<24|2;
+	dwCopyID = dwServerID<<24|1;
 	dwConnID = GetConnIDBySvrID(dwServerID);
 	return TRUE;
 }

@@ -21,17 +21,19 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char> *pNode)
 {
 	for(auto pWaveNode = pNode->first_node("Wave"); pWaveNode != NULL; pWaveNode->next_sibling("Wave"))
 	{
-		UINT32 dwGenType = 0; 
-		dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
+		MonsterWave Wave;
+		Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
 		
 		for(auto pObjectNode = pWaveNode->first_node("Object"); pObjectNode != NULL; pObjectNode->next_sibling("Object"))
 		{
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("camp")->value());
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("num")->value());
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("strength")->value());
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("postion")->value());
-			dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("dropid")->value());
+			MonsterData Monster;
+			
+			Monster.m_dwTypeID = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
+			Monster.m_dwCamp = CommonConvert::StringToInt(pWaveNode->first_attribute("camp")->value());
+			Monster.m_dwCount = CommonConvert::StringToInt(pWaveNode->first_attribute("num")->value());
+			//Monster.m = CommonConvert::StringToInt(pWaveNode->first_attribute("strength")->value());
+			Monster.m_dwDropID = CommonConvert::StringToInt(pWaveNode->first_attribute("dropid")->value());
+			Wave.m_vtMonsterList.push_back(Monster);
 		}
 	}
 

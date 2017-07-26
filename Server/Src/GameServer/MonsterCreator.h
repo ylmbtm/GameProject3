@@ -21,6 +21,7 @@ public:
     UINT32 m_dwType;   //怪物类别
 	UINT32 m_dwCount;
 	UINT32 m_dwCamp;
+	UINT32  m_dwDropID; //掉落ID
 };
 
 class MonsterWave 
@@ -38,6 +39,7 @@ public:
 
 public:
     std::vector<MonsterData>  m_vtMonsterList;
+	UINT32 m_dwGenType;
 };
 
 
