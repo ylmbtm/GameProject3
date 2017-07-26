@@ -28,9 +28,15 @@ CPlayerObject::~CPlayerObject()
 
 BOOL CPlayerObject::Init(UINT64 u64ID)
 {
-	m_u64ID = u64ID;
-	m_dwProxyConnID = 0;
-    m_dwClientConnID = 0;
+	m_u64ID             = u64ID;
+	m_dwProxyConnID     = 0;
+    m_dwClientConnID    = 0;
+    m_dwCopyID          = 0;        //当前的副本ID
+    m_dwCopyType        = 0;        //当前的副本类型
+    m_dwCopySvrID       = 0;        //副本服务器的ID
+    m_dwToCopyID        = 0;        //正在前往的副本ID
+    m_dwToCopyType      = 0;        //正在前往的副本ID
+     
 
 	return CreateAllModule();
 }
@@ -38,6 +44,14 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 BOOL CPlayerObject::Uninit()
 {
 	DestroyAllModule();
+    m_u64ID             = 0;
+    m_dwProxyConnID     = 0;
+    m_dwClientConnID    = 0;
+    m_dwCopyID          = 0;        //当前的副本ID
+    m_dwCopyType        = 0;        //当前的副本类型
+    m_dwCopySvrID       = 0;        //副本服务器的ID
+    m_dwToCopyID        = 0;        //正在前往的副本ID
+    m_dwToCopyType      = 0;        //正在前往的副本ID
 
 	return TRUE;
 }
@@ -194,6 +208,10 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT
 	ERROR_RETURN_FALSE(dwCopyID != 0);
 	ERROR_RETURN_FALSE(dwCopyType != 0);
 	ERROR_RETURN_FALSE(dwSvrID != 0);
+
+    ERROR_RETURN_FALSE(m_dwCopyID != dwCopyID);
+    ERROR_RETURN_FALSE(m_dwCopyType != dwCopyType);
+
 	NotifyIntoScene Nty;
 	Nty.set_copytype(dwCopyType);
 	Nty.set_copyid(dwCopyID);
@@ -258,6 +276,17 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
     Req.set_actorid(pModule->m_pRoleDataObject->m_dwActorID);
     Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
     Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
+
+    return TRUE;
+}
+
+BOOL CPlayerObject::ClearCopyState()
+{
+    m_dwCopyID      = 0;        //当前的副本ID
+    m_dwCopyType    = 0;        //当前的副本类型
+    m_dwCopySvrID   = 0;        //副本服务器的ID
+    m_dwToCopyID    = 0;        //正在前往的副本ID
+    m_dwToCopyType  = 0;        //正在前往的副本ID
 
     return TRUE;
 }

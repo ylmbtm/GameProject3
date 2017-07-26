@@ -179,6 +179,7 @@ message EnterSceneReq {
     uint64  RoleID = 1;
 	uint32  ServerID = 2; //场景服ID
 	uint32  CopyID  = 3;  //副本实例ID
+	uint32  CopyType = 4;  //副本类型ID
 }
 
 message EnterSceneAck {

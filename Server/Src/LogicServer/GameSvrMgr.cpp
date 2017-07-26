@@ -110,11 +110,18 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 
 BOOL CGameSvrMgr::SendPlayerToCopy( UINT64 u64RoleID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID )
 {
+    ERROR_RETURN_FALSE(u64RoleID != 0);
+    ERROR_RETURN_FALSE(dwCopyType != 0);
+    ERROR_RETURN_FALSE(dwCopyID != 0);
+    ERROR_RETURN_FALSE(dwSvrID != 0);
+
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64RoleID);
     ERROR_RETURN_FALSE(pPlayer != NULL);
+    ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != dwCopyID);
+    ERROR_RETURN_FALSE(pPlayer->m_dwCopyType != dwCopyType);
+
     UINT32 dwConnID = GetConnIDBySvrID(dwSvrID);
     ERROR_RETURN_FALSE(dwConnID != 0);
-    ERROR_RETURN_FALSE(dwCopyID != 0);
     TransRoleDataReq Req;
     ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
     ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64RoleID, dwCopyID, Req);
@@ -189,7 +196,7 @@ BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket *pNetPacket)
     ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
     ERROR_RETURN_TRUE(pHeader->u64TargetID == Ack.roleid());
     CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.roleid());
-    ERROR_RETURN_FALSE(pPlayer != NULL);
+    ERROR_RETURN_TRUE(pPlayer != NULL);
     ERROR_RETURN_TRUE(Ack.copyid() != 0);
     ERROR_RETURN_TRUE(Ack.copytype() != 0);
     ERROR_RETURN_TRUE(Ack.serverid() != 0);
@@ -205,10 +212,8 @@ BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket *pNetPacket)
     ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
     CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-    if(pPlayer->m_dwToCopyID != Req.copyid())
-    {
-        ASSERT_FAIELD;
-    }
+    ERROR_RETURN_TRUE(pPlayer->m_dwToCopyType == Req.copytype());
+    ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == Req.copyid());
 
     //如果原来在主城副本，需要通知离开
     if(pPlayer->m_dwCopyType == 6)
@@ -217,8 +222,10 @@ BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket *pNetPacket)
     }
 
     pPlayer->m_dwCopyID = Req.copyid();
+    pPlayer->m_dwCopyType = Req.copytype();
     pPlayer->m_dwCopySvrID = Req.serverid();
     pPlayer->m_dwToCopyID = 0;
+    pPlayer->m_dwToCopyType = 0;
     return TRUE;
 }
 

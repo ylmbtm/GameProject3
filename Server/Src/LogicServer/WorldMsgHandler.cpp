@@ -169,6 +169,9 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket *pNetPacket)
         return TRUE;
 	}
 
+    ERROR_RETURN_TRUE(pPlayer->m_dwProxyConnID == 0);
+    ERROR_RETURN_TRUE(pPlayer->m_dwClientConnID == 0);
+
 	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
     pPlayer->OnLogin();
 	pPlayer->OnAllModuleOK();
@@ -202,7 +205,10 @@ BOOL CWorldMsgHandler::OnMsgRoleLogoutReq(NetPacket *pNetPacket)
     pPlayer->OnLogout();
 	RoleLogoutAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LOGOUT_ACK, 0, pHeader->dwUserData, Ack);
+	pPlayer->SendMsgProtoBuf(MSG_ROLE_LOGOUT_ACK, Ack);
+    pPlayer->SetConnectID(0, 0);
+    pPlayer->ClearCopyState();
+
 	return TRUE;
 }
 
@@ -218,6 +224,8 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
     ERROR_RETURN_TRUE(pPlayer != NULL);
 
+    pPlayer->SetConnectID(0, 0);
+    pPlayer->ClearCopyState();
 
 	return TRUE;
 }

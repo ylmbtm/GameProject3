@@ -42,6 +42,7 @@ public: //全部是操作方法
     BOOL    SendRoleLoginAck();
 
 	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
+    BOOL    ClearCopyState();
 
 	//模块函数
 	BOOL			CreateAllModule();

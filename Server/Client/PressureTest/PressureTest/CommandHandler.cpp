@@ -88,10 +88,12 @@ BOOL CClientCmdHandler::OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, IN
 	Req.set_roleid(Nty.roleid());
 	Req.set_serverid(Nty.serverid());
 	Req.set_copyid(Nty.copyid());
+    Req.set_copytype(Nty.copytype());
 
 	m_dwCopySvrID = Nty.serverid();
 	m_dwCopyType = Nty.copytype();
 	m_dwCopyID = Nty.copyid();
+    
 	m_ClientConnector.SendData(MSG_ENTER_SCENE_REQ, Req, Nty.serverid(), Nty.copyid());
 	return TRUE;
 }
@@ -161,17 +163,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_EnterSceneOK)
 	{
-		int randValue = rand()%100;
-		if((randValue < 60)&&(randValue > 50))
-		{
-			//m_ClientConnector.DisConnect();
-
-			//m_dwHostState = ST_Disconnected;
-		}
-		else
-		{
-			//MoveHost();
-		}
+		TestMove();
 	}
 
 	if(m_dwHostState == ST_Disconnected)
