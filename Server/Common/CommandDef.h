@@ -2,37 +2,30 @@
 #define __MSG_DEFINE_H__
 
 #define BEGIN_PROCESS_MESSAGE(ClassName) \
-BOOL ClassName##::OnCommandHandle(UINT16 wCommandID, UINT64 u64ConnID, CBufferHelper *pBufferHelper) \
+BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 { \
-	CommandHeader *pCmdHeader = pBufferHelper->GetPacketHeader(); \
-	if(pCmdHeader == NULL) \
-	{ \
-		ASSERT_FAIELD; \
-		return FALSE; \
-	} \
-	ASSERT(u64ConnID != 0);\
-	switch(wCommandID) \
+	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();\
+	ERROR_RETURN_TRUE(pPacketHeader != NULL);\
+	switch(pPacketHeader->dwMsgID) \
 	{ 
 
-#define PROCESS_MESSAGE_ITEM_T(wCommandID, Func) case wCommandID:{Func(wCommandID, u64ConnID, pBufferHelper);}break;
-
-#define PROCESS_MESSAGE_ITEM(wCommandID, Func) \
-		case wCommandID:{\
-		CLog::GetInstancePtr()->AddLog("---Receive Message:[%s]----", #wCommandID);\
+#define PROCESS_MESSAGE_ITEM(dwMsgID, Func) \
+		case dwMsgID:{\
+		CLog::GetInstancePtr()->AddLog("---Receive Message:[%s]----", #dwMsgID);\
 		Func(pNetPacket);}break;
 
 #define END_PROCESS_MESSAGE \
 		default: \
-			{ } \
+			{ return FALSE;} \
 			break;\
 	}\
 	return TRUE;\
 }
 
 
-#define PROCESS_MESSAGE_ITEM_CLIENT(wCommandID, Func) \
-		case wCommandID:{\
-		printf("---Receive Message:[%s]---- \n", #wCommandID); \
+#define PROCESS_MESSAGE_ITEM_CLIENT(dwMsgID, Func) \
+		case dwMsgID:{\
+		printf("---Receive Message:[%s]---- \n", #dwMsgID); \
 		Func(dwMsgID, PacketBuf, BufLen);}break;
 
 #endif /* __MSG_DEFINE_H__ */

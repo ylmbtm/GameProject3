@@ -48,6 +48,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//创建对象
     BOOL            GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y);
+	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
+	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.
 
 	//解析场景配制文件
 	BOOL			ReadSceneXml();

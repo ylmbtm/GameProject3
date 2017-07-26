@@ -534,6 +534,52 @@ BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
     return TRUE;
 }
 
+BOOL CScene::IsCampAllDie(UINT32 dwCamp)
+{
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pObj = itor->second;
+		if(pObj != NULL)
+		{
+			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
+			{
+				return FALSE;
+			}
+		}
+	}
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject *pObj = itor->second;
+		if(pObj != NULL)
+		{
+			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
+			{
+				return FALSE;
+			}
+		}
+	}
+	
+	return TRUE;
+}
+
+BOOL CScene::IsMonsterAllDie()
+{
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject *pObj = itor->second;
+		if(pObj != NULL)
+		{
+			if(!pObj->IsDie() && pObj->m_bIsMonsCheck)
+			{
+				return FALSE;
+			}
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL CScene::ReadSceneXml()
 {
 	return TRUE;

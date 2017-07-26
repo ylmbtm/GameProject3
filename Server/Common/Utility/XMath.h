@@ -114,17 +114,25 @@ inline CPoint2d operator / (const CPoint2d& pos,float v)
 class Rect2d
 {
 public:
-	float m_left,m_top,m_bottom,m_right;
+	FLOAT m_Left,m_Top,m_Bottom,m_Right;
 	Rect2d(float _left,float _top,float _right,float _bottom)
 	{
-		m_left=_left;
-		m_top=_top;
-		m_bottom=_bottom;
-		m_right=_right;
+		m_Left=_left;
+		m_Top=_top;
+		m_Bottom=_bottom;
+		m_Right=_right;
+	};
+
+	Rect2d()
+	{
+		m_Left=0;
+		m_Top=0;
+		m_Bottom=0;
+		m_Right=0;
 	};
 	bool PtInRect(CPoint2d pt)
 	{
-		if(pt.m_x >= m_left && pt.m_y >= m_top && pt.m_x<=m_right && pt.m_y<=m_bottom)
+		if(pt.m_x >= m_Left && pt.m_y >= m_Top && pt.m_x<=m_Right && pt.m_y<=m_Bottom)
 		{
 			return true;
 		}

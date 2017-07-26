@@ -54,37 +54,27 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
 	{
 	case BRT_KILL_ALL:
 		{
-			m_pBattleResult = new BR_KillMonsterNum();
-
-			pAttr = pNode->first_attribute("");
+			m_pBattleResult = new CResultKillAll();
 		}
 		break;
-	case BRT_REACH_POS:
+	case BRT_DESTINATION:
 		{
-			m_pBattleResult = new BR_KillMonsterNum();
-
-			pAttr = pNode->first_attribute("");
+			m_pBattleResult = new CResultDestination(0,0,0,0);
 		}
 		break;
-	case BRT_ALIVE:
+	case BRT_PLAYER_ALIVE:
 		{
-			m_pBattleResult = new BR_KillMonsterNum();
-
-			pAttr = pNode->first_attribute("");
+			m_pBattleResult = new CResultPlayerAlive();
 		}
 		break;
 	case BRT_NPC_ALIVE:
 		{
-			m_pBattleResult = new BR_KillMonsterNum();
-
-			pAttr = pNode->first_attribute("");
+			m_pBattleResult = new CResultNpcAlive(0);
 		}
 		break;
 	case BRT_KILL_NUM:
 		{
-			m_pBattleResult = new BR_KillMonsterNum();
-
-			pAttr = pNode->first_attribute("");
+			m_pBattleResult = new CResultKillNum(0,0);
 		}
 		break;
 	default:
@@ -159,12 +149,12 @@ BOOL SceneLogicBase::BattleResultCheck()
 			//if(m_pScene->IsAllMonDie())
 		}
 		break;
-	case BRT_REACH_POS:
+	case BRT_DESTINATION:
 		{
 			//if(PlayerManager->initFengCeGift())
 		}
 		break;
-	case BRT_ALIVE:
+	case BRT_PLAYER_ALIVE:
 		{
 			//if(is->isaaa)
 			//{

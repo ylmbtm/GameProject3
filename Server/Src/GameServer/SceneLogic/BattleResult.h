@@ -1,4 +1,5 @@
-﻿#ifndef __BATTLE_RESULT_H__
+﻿#include "Utility\XMath.h"
+#ifndef __BATTLE_RESULT_H__
 #define __BATTLE_RESULT_H__
 
 enum RESULTTYPE
@@ -6,8 +7,8 @@ enum RESULTTYPE
 	BRT_NONE,
 	BRT_KILL_ALL,			//击杀全部怪物
 	BRT_KILL_NUM,			//击杀指定数量怪物
-	BRT_REACH_POS,			//达到目的地
-	BRT_ALIVE,				//存活下来
+	BRT_DESTINATION,			//达到目的地
+	BRT_PLAYER_ALIVE,				//存活下来
 	BRT_NPC_ALIVE,			//护送npc
 	BRT_END
 };
@@ -16,70 +17,52 @@ enum RESULTTYPE
 class BattleResult
 {
 public:
-	BattleResult(RESULTTYPE type = BRT_NONE)
-	{
-		m_Type = type;
-	}
-	~BattleResult()
-	{
-	}
+	BattleResult(RESULTTYPE type = BRT_NONE);
+	~BattleResult();
 
-	RESULTTYPE GetResultType()
-	{
-		return m_Type;
-	}
+	RESULTTYPE GetResultType();
 	
 private:
 	RESULTTYPE	m_Type;//判定类型
 };
 
-class BR_KillMonsterNum: public BattleResult
+
+class CResultKillAll: public BattleResult
 {
 public:
-	BR_KillMonsterNum(): BattleResult(BRT_KILL_NUM)
-	{
-	}
+	CResultKillAll();
+};
+
+class CResultKillNum: public BattleResult
+{
+public:
+	CResultKillNum(UINT32 dwMonsterID, UINT32 dwKillNum);
 
 private:
 	UINT32 m_dwMonsterID;
 	UINT32 m_dwKillNum;
 };
 
-class BR_RoleAlive: public BattleResult
+class CResultPlayerAlive: public BattleResult
 {
 public:
-	BR_RoleAlive(): BattleResult(BRT_ALIVE)
-	{
-	}
+	CResultPlayerAlive();
 };
 
-class BR_KillOnlyMonster: public BattleResult
+class CResultDestination: public BattleResult
 {
 public:
-	BR_KillOnlyMonster(): BattleResult(BRT_KILL_NUM)
-	{
-	}
-	UINT32 m_dwMonsterID;
-};
+	CResultDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
 
-
-class BR_ReachPostion: public BattleResult
-{
-public:
-	BR_ReachPostion(): BattleResult(BRT_REACH_POS)
-	{
-	}
-
+	BOOL SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
 private:
-	FLOAT left, top, right, down;
+	Rect2d  m_DestRect;
 };
 
-class BR_NpcAlive: public BattleResult
+class CResultNpcAlive: public BattleResult
 {
 public:
-	BR_NpcAlive(): BattleResult(BRT_NPC_ALIVE)
-	{
-	}
+	CResultNpcAlive(UINT32 dwNpcID);
 private:
 
 	UINT32 m_dwNpcID;

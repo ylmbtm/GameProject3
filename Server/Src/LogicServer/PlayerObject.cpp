@@ -184,7 +184,7 @@ BOOL CPlayerObject::OnAllModuleOK()
 	ERROR_RETURN_FALSE(dwSvrID == 1);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ERROR_RETURN_FALSE(dwCopyID != 0);
-	ERROR_RETURN_FALSE(m_dwToCopyID == 0);
+	//ERROR_RETURN_FALSE(m_dwToCopyID == 0);
     CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 6, dwCopyID, dwSvrID);
 	return TRUE;
 }
