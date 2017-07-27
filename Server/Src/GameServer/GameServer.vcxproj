@@ -194,6 +194,7 @@
     <ClCompile Include="MonsterCreator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLogic\BattleResult.cpp" />
+    <ClCompile Include="SceneLogic\SceneLogic_Arena.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp" />
@@ -213,12 +214,14 @@
     <ClInclude Include="..\..\Common\Utility\rapidxml.h" />
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
+    <ClInclude Include="..\Message\Msg_Login.pb.h" />
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="..\..\Common\Utility\Position.h" />
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\BattleResult.h" />
+    <ClInclude Include="SceneLogic\SceneLogic_Arena.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
     <ClInclude Include="SceneLogic\SceneLogic_City.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />

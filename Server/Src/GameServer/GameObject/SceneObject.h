@@ -21,6 +21,9 @@ public:
     UINT32          GetHp();
     VOID            AddHp(UINT32 dwValue);
     VOID            SubHp(UINT32 dwValue);
+	UINT32          GetMp();
+	VOID            AddMp(UINT32 dwValue);
+	VOID            SubMp(UINT32 dwValue);
 
     UINT64          GetObjectGUID();
 	UINT32			GetActorID();

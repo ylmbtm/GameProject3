@@ -2,6 +2,7 @@
 #include "AccountManager.h"
 #include "Utility\CommonFunc.h"
 #include "Sqlite\CppSQLite3.h"
+#include "Utility\Log\Log.h"
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -82,11 +83,7 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
 BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std::string strPwd, UINT32 dwChannel)
 {
 	CAccountObject *pObj = InsertAlloc(u64ID);
-	if(pObj == NULL)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_FALSE(pObj != NULL);
 
 	pObj->m_bEnabled = TRUE;
 	pObj->m_strName = strName;

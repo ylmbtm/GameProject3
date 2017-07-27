@@ -33,7 +33,6 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
 	if(!CLog::GetInstancePtr()->StartLog("GameServer", "log"))
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -41,7 +40,6 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
 		return FALSE;
 	}
@@ -51,14 +49,12 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn,this))
 	{
-		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("启动服务失败!");
 		return FALSE;
 	}
 
 	if(!m_SceneManager.Init(TRUE))
 	{
-		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("启动场景管理器失败!");
 		return FALSE;
 	}
@@ -176,7 +172,6 @@ BOOL CGameService::ConnectToLogicSvr()
 	CConnection *pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
 	if(pConn == NULL)
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -190,14 +185,8 @@ BOOL CGameService::ConnectToProxySvr()
 	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
 	CConnection *pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strProxyIp, nProxyPort);
-	if(pConn == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(pConn != NULL);
 	m_dwProxyConnID = pConn->GetConnectionID();
-
 	return TRUE;
 }
 

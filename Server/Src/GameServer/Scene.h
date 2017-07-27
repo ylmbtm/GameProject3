@@ -40,6 +40,10 @@ public:
     CSceneObject*   GetPlayer(UINT64 uID);
     BOOL            AddPlayer(CSceneObject *pSceneObject);
 	VOID		    DeletePlayer(UINT64 uID);
+
+	BOOL			AddMonster(CSceneObject *pSceneObject);
+	VOID		    DeleteMonster(UINT64 uID);
+
 	CSceneObject*   GetSceneObject(UINT64 uID);
 
     //在单人PVE情况下，副本应该只有一个人

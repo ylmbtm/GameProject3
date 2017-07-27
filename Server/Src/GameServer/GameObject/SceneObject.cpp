@@ -112,6 +112,11 @@ UINT32 CSceneObject::GetHp()
     return m_dwHp;
 }
 
+UINT32 CSceneObject::GetMp()
+{
+	return m_dwMp;
+}
+
 VOID CSceneObject::AddHp( UINT32 dwValue )
 {
     m_dwHp += dwValue;
@@ -125,6 +130,21 @@ VOID CSceneObject::SubHp( UINT32 dwValue )
     }
 
     m_dwHp -= dwValue;
+}
+
+VOID CSceneObject::AddMp( UINT32 dwValue )
+{
+	m_dwMp += dwValue;
+}
+
+VOID CSceneObject::SubMp( UINT32 dwValue )
+{
+	if(m_dwMp <= dwValue)
+	{
+		m_dwMp = 0;
+	}
+
+	m_dwMp -= dwValue;
 }
 
 UINT64 CSceneObject::GetObjectGUID()

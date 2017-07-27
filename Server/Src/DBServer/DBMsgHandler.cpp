@@ -25,11 +25,7 @@ CDBMsgHandler::~CDBMsgHandler()
 
 BOOL CDBMsgHandler::Init(UINT32 dwReserved)
 {
-	if(!m_DBManager.Init())
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(m_DBManager.Init());
 
 	return TRUE;
 }

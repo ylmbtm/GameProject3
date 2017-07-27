@@ -8,9 +8,6 @@ struct TRankItem {
 }
 
 
-type TRankList []*TRankItem
-
-
 class TRanker 
 {
 public:

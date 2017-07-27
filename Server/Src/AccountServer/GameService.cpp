@@ -30,7 +30,6 @@ BOOL CGameService::Init()
 
 	if(!CLog::GetInstancePtr()->StartLog("AccountServer", "log"))
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -38,7 +37,6 @@ BOOL CGameService::Init()
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
 		return FALSE;
 	}
@@ -47,7 +45,6 @@ BOOL CGameService::Init()
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
-		ASSERT_FAIELD;
 		CLog::GetInstancePtr()->AddLog("启动服务失败!");
 		return FALSE;
 	}

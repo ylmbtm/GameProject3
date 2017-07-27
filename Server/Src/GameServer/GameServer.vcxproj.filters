@@ -81,6 +81,9 @@
     <ClCompile Include="..\Message\Msg_Move.pb.cc">
       <Filter>proto</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_Arena.cpp">
+      <Filter>scenelogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -138,6 +141,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Move.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Arena.h">
+      <Filter>scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
       <Filter>proto</Filter>
     </ClInclude>
   </ItemGroup>

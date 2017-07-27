@@ -291,8 +291,8 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	ERROR_RETURN_FALSE(m_dwCopyType != 0);
 	ERROR_RETURN_FALSE(pHeader->u64TargetID != 0);
 	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
-
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
+	BroadNewObject(pObject);
 	return TRUE;
 }
 
@@ -322,8 +322,6 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
     SendAllNewObjectToPlayer(pSceneObj);
-    BroadNewObject(pSceneObj);
-
 	m_dwStartTime = CommonFunc::GetCurrTime();
 	return TRUE;
 }
@@ -417,10 +415,6 @@ BOOL CScene::AddPlayer( CSceneObject *pSceneObject )
     return TRUE;
 }
 
-
-
-
-
 VOID CScene::DeletePlayer(UINT64 uID)
 {
 	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
@@ -436,19 +430,45 @@ VOID CScene::DeletePlayer(UINT64 uID)
 	return ;
 }
 
+BOOL CScene::AddMonster(CSceneObject *pSceneObject)
+{
+	ERROR_RETURN_FALSE(pSceneObject != NULL);
+
+	ERROR_RETURN_FALSE(pSceneObject->GetObjectGUID() != 0);
+
+	m_MonsterMap.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
+
+	return TRUE;
+
+}
+
+VOID CScene::DeleteMonster(UINT64 uID)
+{
+	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
+	if(itor != m_PlayerMap.end())
+	{
+		m_PlayerMap.erase(itor);
+	}
+	else
+	{
+		CLog::GetInstancePtr()->LogError("Error CScene::DeleteMonster cannot find player id:%d", uID);
+	}
+}
+
 CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {
-   std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
-   if(itor != m_PlayerMap.end())
-   {
-       return itor->second;
-   }
+	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
+	if(itor != m_PlayerMap.end())
+	{
+		return itor->second;
+	}
     
-   itor = m_MonsterMap.find(uID);
-   if(itor != m_MonsterMap.end())
-   {
-       return itor->second;
-   }
+	itor = m_MonsterMap.find(uID);
+	if(itor != m_MonsterMap.end())
+	{
+		return itor->second;
+	}
+
 	return NULL;
 }
 
@@ -529,7 +549,7 @@ BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
-	AddPlayer(pObject);
+	AddMonster(pObject);
 	BroadNewObject(pObject);
     return TRUE;
 }
@@ -694,14 +714,25 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
         {
             const DamagerItem &damager  = Item.damagerlist(i);
             CSceneObject *pDamager = GetPlayer(damager.objectid());
+			if(pDamager == NULL)
+			{
+				CLog::GetInstancePtr()->LogError("Error: CScene::ProcessActionItem Can not find Damager id:%d", damager.objectid());
+				continue;
+			}
             SkillFight(pSceneObj, Item.actionid(), pDamager);
+
+			//damager.set_chghp(1000);
         }
     }
 
     ActionItem *pSvrItem = m_ObjectActionNty.add_actionlist();
     ERROR_RETURN_TRUE(pSvrItem != NULL);
-
     pSvrItem->CopyFrom(Item);
+
+	pSvrItem->set_hp(pSceneObj->GetHp());
+	pSvrItem->set_mp(pSceneObj->GetMp());
+	pSvrItem->set_hpmax(1000);
+	pSvrItem->set_mpmax(1000);
 
     return TRUE;
 }

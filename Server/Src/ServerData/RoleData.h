@@ -6,7 +6,16 @@ struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
 	{
-		
+		m_u64ID			= 0;			//角色ID
+		m_u64AccountID	= 0;			//账号ID
+		m_dwActorID		= 0;			//角色类型
+		m_dwLevel		= 0;			//等级
+		m_dwExp			= 0;			//经验
+		m_dwLangID		= 0;			//语言ID
+		m_u64Fight		= 0;			//战力
+		m_dwVipLvl		= 0;			//VIP等级
+		m_dwVipExp		= 0;			//VIP经验
+		m_dwCityCopy	= 0;			//主城副本类型
 	}
 	
 	UINT64 m_u64ID;			//角色ID

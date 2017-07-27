@@ -36,11 +36,7 @@ BOOL CProxyMsgHandler::Uninit()
 BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 {
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
-	if(pPacketHeader == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pPacketHeader != NULL);
 
 	switch(pNetPacket->m_dwMsgID)
 	{
@@ -67,11 +63,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 	case MSG_ROLE_LOGIN_ACK:
 		{
 			CConnection *pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
-			if(pConnection == NULL)
-			{
-				ASSERT_FAIELD;
-				return TRUE;
-			}
+			ERROR_RETURN_TRUE(pConnection != NULL);
 			pConnection->SetConnectionData(pPacketHeader->u64TargetID);
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
@@ -104,18 +96,10 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket *pNetPacket)
 				else
 				{
 					CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pPacketHeader->u64TargetID);
-					if(pPlayer == NULL)
-					{
-						ASSERT_FAIELD;
-						return TRUE;
-					}
-
+					ERROR_RETURN_TRUE(pPlayer != NULL);
+					
 					UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
-					if(dwConnID == 0)
-					{
-						ASSERT_FAIELD;
-						return TRUE;
-					}
+					ERROR_RETURN_TRUE(dwConnID != 00);
 
 					RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
 				}
@@ -157,12 +141,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 
 BOOL CProxyMsgHandler::RelayToGameServer( CProxyPlayer *pClientObj, IDataBuffer *pBuffer )
 {
-	if(pClientObj == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pClientObj != NULL);
 
 	return TRUE;
 }
@@ -179,12 +158,7 @@ BOOL CProxyMsgHandler::RelayToLogicServer(IDataBuffer *pBuffer )
 
 BOOL CProxyMsgHandler::RelayToClient( CProxyPlayer *pStaticPlayer, IDataBuffer *pBuffer )
 {
-	if(pStaticPlayer == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pStaticPlayer != NULL);
 
 	if(!ServiceBase::GetInstancePtr()->SendMsgBuffer(pStaticPlayer->GetConnID(), pBuffer))
 	{

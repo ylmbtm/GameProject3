@@ -7,10 +7,11 @@ enum OBJECT_TYPE {
 
 enum ACTION_TYPE {
     AT_NONE = 0;    //无动作
-	AT_MOVE = 1;    //移动
-	AT_DIR  = 2;    //改变方向
-
-
+	AT_MOVE = 1;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
+	AT_WALK = 2;    //走
+	AT_RUN  = 3;    //足
+	AT_IDLE = 4;    //原地停止
+	AT_DANCE1 = 5;  //跳舞动作1;
 }
 
 enum CAMP_TYPE {
