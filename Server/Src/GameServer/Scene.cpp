@@ -354,6 +354,11 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
         pOther->SaveNewObject(Nty);
     }
 
+	if(Nty.newlist_size() <= 0)
+	{
+		return TRUE;
+	}
+
     pSceneObject->SendMsgProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
 
     return TRUE;
