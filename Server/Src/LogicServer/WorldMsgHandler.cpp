@@ -129,8 +129,8 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket *pNetPacket)
 	CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
 	pRoleModule->InitBaseData(u64RoleID, Req.name(), Req.actorid(), Req.accountid(), 1);
 	pPlayer->OnCreate(u64RoleID);
-	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
-	pPlayer->OnAllModuleOK();
+	//pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
+	//pPlayer->OnAllModuleOK();
 
 	RoleCreateAck Ack;
     Ack.set_retcode(MRC_SUCCESSED);
