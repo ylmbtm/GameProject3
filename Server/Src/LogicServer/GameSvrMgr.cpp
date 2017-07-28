@@ -137,7 +137,8 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwServerID);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64ID, dwCopyGuid, Req);
-
+	pPlayer->m_dwToCopyID = dwCopyID;
+	pPlayer->m_dwToCopyGuid = dwCopyGuid;
 	return TRUE;
 }
 
@@ -215,7 +216,8 @@ BOOL CGameSvrMgr::OnCreateMainCopy(CreateNewSceneAck &Ack)
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, Ack.createparam(), Ack.copyguid(), Req);
-
+	pPlayer->m_dwToCopyID = Ack.copyid();
+	pPlayer->m_dwToCopyGuid = Ack.copyguid();
 	return TRUE;
 }
 
