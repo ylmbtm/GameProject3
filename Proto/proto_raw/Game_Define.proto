@@ -1,34 +1,39 @@
 ﻿syntax = "proto3";
 enum OBJECT_TYPE {
-	OT_NONE = 0;
-	OT_PLAYER = 1;
-	OT_MONSTER= 2;
+	OT_NONE   = 0;  //无类别
+	OT_PLAYER = 1;  //玩家
+	OT_ROBOT  = 2;  //机器人
+	OT_MONSTER= 3;  //怪
+	OT_PET    = 4;  //宠物
+	OT_PARTNER= 5;  //伙伴
 }
 
 enum ACTION_TYPE {
-    AT_NONE = 0;    //无动作
-	AT_MOVE = 1;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
-	AT_WALK = 2;    //走
-	AT_RUN  = 3;    //足
-	AT_IDLE = 4;    //原地停止
+    AT_NONE   = 0;    //无动作
+	AT_MOVE   = 1;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
+	AT_WALK   = 2;    //走
+	AT_RUN    = 3;    //跑
+	AT_IDLE   = 4;    //原地不动
 	AT_DANCE1 = 5;  //跳舞动作1;
+	AT_DANCE2 = 6;  //跳舞动作2;
+	AT_DANCE3 = 7;  //跳舞动作3;
+	AT_DANCE4 = 8;  //跳舞动作4;
+
+
+	AT_SKILL_BEGIN = 10000;  //技能动作开始
 }
 
 enum CAMP_TYPE {
-    CT_NONE = 0;    //无阵营
-	CT_PVE_PLAYER = 1;    //移动
-	CT_PVE_MONSTER  = 2;    //改变方向
-	CT_PVE_NPC = 3;
+    CT_NONE = 0;			//无阵营
+	CT_PVE_PLAYER  = 1;		//玩家阵营
+	CT_PVE_ENEMY   = 2;     //玩家敌对阵营
+	CT_PVE_NEUTRAL = 3;	    //中立阵营
 
-	CT_PVP_MONSTER = 4;
-	CT_PVP_NPC = 5;
-	CT_PVP_PLAYER1 = 6;
-	CT_PVP_PLAYER2 = 7;
-	CT_PVP_PLAYER3 = 8;
-	CT_PVP_PLAYER4 = 9;
-	CT_PVP_PLAYER5 = 10;
+	CT_PVP_PLAYER1 = 4;     //PVP中玩家1
+	CT_PVP_PLAYER2 = 5;		//PVP中玩家2
+	CT_PVP_PLAYER3 = 6;		//PVP中玩家3
+	CT_PVP_PLAYER4 = 7;		//PVP中玩家4
+	CT_PVP_PLAYER5 = 8;		//PVP中玩家5
 
 	CT_CMAP_END = 11;
-
-
 }

@@ -38,9 +38,16 @@ enum MouduleType
 };
 
 
-
+//货币数量
 #define MAX_MONEY_NUM 15
+
+//行动力数量
 #define MAX_ACTION_NUM 4
+
+//服务器帧率
+#define FPS_TIME_TICK 20
+
+
 
 
 #endif //__SERVER_STRUCT_H__

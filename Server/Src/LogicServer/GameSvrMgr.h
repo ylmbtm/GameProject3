@@ -33,8 +33,11 @@ public:
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
+	BOOL    SendPlayerToMainCity(UINT64 u64ID);
+
+	BOOL    SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp);
+
 	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid);
-    BOOL    SendPlayerToCopy(UINT64 u64RoleID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwSvrID);
     BOOL	CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum );
 
 

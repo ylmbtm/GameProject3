@@ -6,6 +6,7 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "Utility/Log/Log.h"
+#include "../Message/Game_Define.pb.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -99,6 +100,47 @@ UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
 	return itor->second.dwConnID;
 }
 
+BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID)
+{
+	UINT32 dwSvrID, dwConnID, dwCopyGuid;
+	CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyGuid);
+	ERROR_RETURN_TRUE(dwConnID != 0);
+	ERROR_RETURN_FALSE(u64ID != 0);
+	ERROR_RETURN_FALSE(dwCopyGuid != 0);
+	ERROR_RETURN_FALSE(dwSvrID != 0);
+
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
+	ERROR_RETURN_FALSE(pPlayer != NULL);
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != 6);
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
+
+	TransRoleDataReq Req;
+	Req.set_camp(CT_PVE_PLAYER);
+	ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64ID, dwCopyGuid, Req);
+	pPlayer->m_dwToCopyID = 6;
+	pPlayer->m_dwToCopyGuid = dwCopyGuid;
+
+	return TRUE;
+}
+
+BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp)
+{
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
+	ERROR_RETURN_FALSE(pPlayer != NULL);
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != dwCopyID);
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
+
+	TransRoleDataReq Req;
+	ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
+	Req.set_camp(CT_PVE_PLAYER);
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwServerID);
+	ERROR_RETURN_FALSE(dwConnID != 0);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64ID, dwCopyGuid, Req);
+
+	return TRUE;
+}
+
 BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid)
 {
 	dwServerID = 1;
@@ -107,28 +149,6 @@ BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwC
 	return TRUE;
 }
 
-
-BOOL CGameSvrMgr::SendPlayerToCopy( UINT64 u64RoleID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwSvrID )
-{
-    ERROR_RETURN_FALSE(u64RoleID != 0);
-    ERROR_RETURN_FALSE(dwCopyGuid != 0);
-    ERROR_RETURN_FALSE(dwCopyID != 0);
-    ERROR_RETURN_FALSE(dwSvrID != 0);
-
-	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64RoleID);
-    ERROR_RETURN_FALSE(pPlayer != NULL);
-    ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != dwCopyID);
-    ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
-
-    UINT32 dwConnID = GetConnIDBySvrID(dwSvrID);
-    ERROR_RETURN_FALSE(dwConnID != 0);
-    TransRoleDataReq Req;
-    ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
-    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64RoleID, dwCopyGuid, Req);
-    pPlayer->m_dwToCopyID = dwCopyID;
-    pPlayer->m_dwToCopyGuid = dwCopyGuid;
-    return TRUE;
-}
 
 BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 {
@@ -184,7 +204,18 @@ BOOL CGameSvrMgr::OnCreateMainCopy(CreateNewSceneAck &Ack)
 {
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
 	ERROR_RETURN_FALSE(pPlayer != NULL);
-	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Ack.createparam(), Ack.copyid(), Ack.copyguid(), Ack.serverid()));
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != Ack.copyid());
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != Ack.copyguid());
+	//ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->SendPlayerToCity(Ack.createparam(), Ack.copyid(), Ack.copyguid(), Ack.serverid()));
+
+	TransRoleDataReq Req;
+	ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
+
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
+	ERROR_RETURN_FALSE(dwConnID != 0);
+
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, Ack.createparam(), Ack.copyguid(), Req);
+
 	return TRUE;
 }
 

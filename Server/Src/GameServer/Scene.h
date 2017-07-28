@@ -35,7 +35,10 @@ public:
 	BOOL	        SendAllNewObjectToPlayer(CSceneObject *pSceneObject);
 
     BOOL            SyncObjectState();
-	BOOL	        GetPlayerCount();
+	INT32	        GetPlayerCount();
+	INT32			GetConnectCount();
+
+
 
     CSceneObject*   GetPlayer(UINT64 uID);
     BOOL            AddPlayer(CSceneObject *pSceneObject);
@@ -67,11 +70,11 @@ public:
 protected:
 	UINT32							m_dwPlayerNum;  //副本需要进入的人数
 	UINT32							m_dwLoginNum;   //登录副本的人数
-	UINT32							m_dwCopyGuid;		//当前副本实例ID
-	UINT32							m_dwCopyID;   //当前副本TYPE
+	UINT32							m_dwCopyGuid;	//当前副本实例ID
+	UINT32							m_dwCopyID;		//当前副本TYPE
 	UINT32							m_dwLogicType;  //逻辑类型
     UINT32                          m_dwCreateTime; //副本创建时间
-	UINT32							m_dwStartTime;   //副本开始时间
+	UINT32							m_dwStartTime;  //副本开始时间
 	UINT32							m_dwLastTick;
 	UINT32							m_dwMaxGuid;
 

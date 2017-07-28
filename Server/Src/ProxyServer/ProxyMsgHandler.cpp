@@ -240,7 +240,7 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyguid());
 	}
 
-	UINT32 dwConnID = GetGameSvrConnID(pPacketHeader->u64TargetID);
+	UINT32 dwConnID = GetGameSvrConnID((UINT32)pPacketHeader->u64TargetID);
 	ERROR_RETURN_TRUE(dwConnID != 0)
 	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 	RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);

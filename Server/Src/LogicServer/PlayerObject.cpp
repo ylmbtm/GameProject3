@@ -193,13 +193,9 @@ BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
     SendRoleLoginAck();
-    UINT32 dwSvrID, dwConnID, dwCopyGuid;
-    CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyGuid);
-	ERROR_RETURN_FALSE(dwSvrID == 1);
-	ERROR_RETURN_FALSE(dwConnID != 0);
-	ERROR_RETURN_FALSE(dwCopyGuid != 0);
-	//ERROR_RETURN_FALSE(m_dwToCopyID == 0);
-    CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 6, dwCopyGuid, dwSvrID);
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID);
+	m_dwCopyID = 0;
+	m_dwCopyGuid = 0;
 	return TRUE;
 }
 
@@ -276,6 +272,7 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
     Req.set_actorid(pModule->m_pRoleDataObject->m_ActorID);
     Req.set_level(pModule->m_pRoleDataObject->m_Level);
     Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
+	
 
     return TRUE;
 }

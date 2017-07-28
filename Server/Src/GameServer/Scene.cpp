@@ -126,6 +126,11 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 
 BOOL CScene::BroadNewObject(CSceneObject *pSceneObject)
 {
+	if(GetConnectCount() <= 0)
+	{
+		return TRUE;
+	}
+
     //先把玩家的完整包组装好
     ObjectNewNty Nty;
     pSceneObject->SaveNewObject(Nty);
@@ -178,7 +183,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket *pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
-	if((m_dwLastTick > dwTick)&&(m_dwLastTick - dwTick < 20))
+	if((m_dwLastTick > dwTick)&&(m_dwLastTick - dwTick < FPS_TIME_TICK))
 	{
 		return TRUE;
 	}
@@ -354,6 +359,19 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
         pOther->SaveNewObject(Nty);
     }
 
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject *pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+
+		if(pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
+		{
+			continue;
+		}
+
+		pOther->SaveNewObject(Nty);
+	}
+
 	if(Nty.newlist_size() <= 0)
 	{
 		return TRUE;
@@ -364,9 +382,26 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
     return TRUE;
 }
 
-BOOL CScene::GetPlayerCount()
+INT32 CScene::GetPlayerCount()
 {
-	return m_PlayerMap.size();
+	return (INT32)m_PlayerMap.size();
+}
+
+INT32 CScene::GetConnectCount()
+{
+	INT32 nCount = 0;
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+	
+		if(pOther->IsConnected())
+		{
+			nCount += 1;
+		}
+	}
+
+	return nCount;
 }
 
 BOOL CScene::BroadRemoveObject( CSceneObject *pSceneObject )
