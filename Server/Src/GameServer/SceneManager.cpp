@@ -53,11 +53,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType, UINT32 dwPlayerNum)
+BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType, UINT32 dwPlayerNum)
 {
 	CScene *pScene = new CScene;
 
-	if(!pScene->Init(dwCopyType, dwCopyID, dwLogicType, dwPlayerNum))
+	if(!pScene->Init(dwCopyID, dwCopyGuid, dwLogicType, dwPlayerNum))
 	{
 		ASSERT_FAIELD;
 
@@ -66,7 +66,7 @@ BOOL CSceneManager::CreateScene(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLog
 		return FALSE;
 	}
 
-	m_mapSceneList.insert(std::make_pair(dwCopyID, pScene));
+	m_mapSceneList.insert(std::make_pair(dwCopyGuid, pScene));
 
 	return TRUE;
 }
@@ -92,16 +92,16 @@ BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 		return TRUE;
 	}
 
-	CScene *pScene = GetSceneByID(pPacketHeader->dwUserData);
+	CScene *pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
 	ERROR_RETURN_FALSE(pScene != NULL);
 	pScene->DispatchPacket(pNetPacket);
 		
 	return TRUE;
 }
 
-CScene* CSceneManager::GetSceneByID( UINT32 dwSceneID )
+CScene* CSceneManager::GetSceneByCopyGuid( UINT32 dwCopyGuid )
 {
-	SceneMap::iterator itor = m_mapSceneList.find(dwSceneID);
+	SceneMap::iterator itor = m_mapSceneList.find(dwCopyGuid);
 	if(itor != m_mapSceneList.end())
 	{
 		return itor->second;
@@ -152,8 +152,8 @@ BOOL CSceneManager::SendCopyReport()
 		ERROR_RETURN_FALSE(pScene != NULL);
 
 		CopyItem *pItem = Req.add_copylist();
+		pItem->set_copyguid(pScene->GetCopyGuid());
 		pItem->set_copyid(pScene->GetCopyID());
-		pItem->set_copytype(pScene->GetCopyType());
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
@@ -167,19 +167,19 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	ERROR_RETURN_TRUE(Req.copytype() != 0);
+	ERROR_RETURN_TRUE(Req.copyid() != 0);
 	ERROR_RETURN_TRUE(Req.createparam() != 0);
 
-	UINT32 dwNewCopyID = MakeCopyID();
+	UINT32 dwNewCopyGuid = MakeCopyID();
 
 	CreateNewSceneAck Ack;
 	Ack.set_createparam(Req.createparam());
-	Ack.set_copyid(dwNewCopyID);
+	Ack.set_copyguid(dwNewCopyGuid);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
-	Ack.set_copytype(Req.copytype());
+	Ack.set_copyid(Req.copyid());
 	Ack.set_playernum(Req.playernum());
 	Ack.set_logictype(Req.logictype());
-	if (!CreateScene(Req.copytype(), dwNewCopyID, Req.logictype(), Req.playernum()))
+	if (!CreateScene(Req.copyid(),dwNewCopyGuid, Req.logictype(), Req.playernum()))
 	{
 		ASSERT_FAIELD;
 
@@ -197,7 +197,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6, MakeCopyID(), 1, 0))
+	if(!CreateScene(6,MakeCopyID(), 1, 0))
 	{
 		ASSERT_FAIELD;
 

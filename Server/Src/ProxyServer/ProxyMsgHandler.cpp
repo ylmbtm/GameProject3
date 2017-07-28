@@ -135,7 +135,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection *pConn)
 
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
 	ERROR_RETURN_TRUE(dwConnID != 0);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyID(),  Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyGuid(),  Req);
 	return TRUE;
 }
 
@@ -232,12 +232,12 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	if(pPlayer != NULL)
 	{
-		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyid());
+		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyguid());
 	}
 	else
 	{
 		pPlayer = CProxyPlayerMgr::GetInstancePtr()->CreateProxyPlayer(Req.roleid());
-		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyid());
+		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyguid());
 	}
 
 	UINT32 dwConnID = GetGameSvrConnID(pPacketHeader->u64TargetID);

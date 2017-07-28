@@ -2,7 +2,7 @@ syntax = "proto3";
 message CheckVersionReq {
     int32  ClientVerion = 1;
 	string PackageName  = 2;
-	uint32  Channel     = 3;
+	int32  Channel     = 3;
 }
 
 message CheckVersionAck {
@@ -14,7 +14,7 @@ message CheckVersionAck {
 message AccountRegReq {
     string  AccountName = 1;
 	string  Password    = 2;
-	uint32  Channel     = 3;
+	int32   Channel     = 3;
 }
 
 message AccountRegAck {
@@ -37,18 +37,18 @@ message AccountLoginAck {
 
 message ClientServerListReq {
 	uint64   AccountID     = 1;
-	uint32   Channel       = 2; //渠道包
+	int32    Channel       = 2; //渠道包
 	string   PackName      = 3; //包名
 	int32    ClientVersion = 4; //客户端版本号
 }
 
 
 message ClientServerNode {
-	int32  SvrID         = 1;
-	string SvrName      = 2;
-	uint32 SvrState     = 3;
-	uint32 SvrDefault   = 4;
-	int32  SvrOpenTime   = 5;
+	int32   SvrID         = 1;
+	string  SvrName      = 2;
+	int32   SvrState     = 3;
+	int32   SvrDefault   = 4;
+	int32   SvrOpenTime   = 5;
 }
 
 message ClientServerListAck {
@@ -58,7 +58,7 @@ message ClientServerListAck {
 
 
 message SvrRegToSvrReq {
-    uint32  ServerID = 1;
+    int32  ServerID = 1;
 	string ServerName = 2;
 }
 
@@ -67,12 +67,12 @@ message SvrRegToSvrAck {
 }
 
 message SelectServerReq {
-    uint32 ServerID = 1;
+    int32 ServerID = 1;
 }
 
 message SelectServerAck {
     uint32   RetCode       = 1;
-	uint32   ServerID      = 2;
+	int32    ServerID      = 2;
 	string   ServerAddr    = 3;
 	int32    ServerPort    = 4;
 	int32    LoginCode     = 5;
@@ -81,7 +81,7 @@ message SelectServerAck {
 message RoleItem {
 	uint64  RoleID         = 1;
 	string  Name			= 2;
-	uint32  ActorID			= 3;
+	int32   ActorID			= 3;
 	int32   Level			= 4;
 }
 
@@ -91,7 +91,7 @@ message RoleListReq {
 }
 
 message RoleListAck {
-	uint32   RetCode = 1;
+	uint32    RetCode = 1;
 	repeated  RoleItem RoleList = 2;
 }
 
@@ -99,7 +99,7 @@ message RoleListAck {
 message RoleCreateReq {
     uint64 AccountID = 1;
 	string Name = 2;
-	uint32  ActorID = 3;
+	int32  ActorID = 3;
 }
 
 message RoleCreateAck {
@@ -107,7 +107,7 @@ message RoleCreateAck {
 	uint64	 AccountID = 2;
 	uint64   RoleID = 3;
 	string   Name = 4;
-	uint32   ActorID = 5;
+	int32    ActorID = 5;
 }
 
 
@@ -130,9 +130,9 @@ message RoleLoginAck {
     uint32   RetCode = 1;
 	uint64   AccountID = 2;
 	uint64   RoleID = 3;
-	uint32   ActorID = 4;
+	int32    ActorID = 4;
 	int32    Level = 5;
-	uint64   Exp = 6;
+	int64    Exp = 6;
 	string   Name = 7;
 }
 
@@ -157,53 +157,53 @@ message RoleDisconnectAck {
 
 ///创建场景
 message CreateNewSceneReq{
-	uint32 CopyType = 1;
-	uint32 LogicType = 2;
-	uint32 PlayerNum = 3;
+	int32 CopyID = 1;
+	int32 LogicType = 2;
+	int32 PlayerNum = 3;
 	uint64 CreateParam = 4;
 }
 
 ///创建场景
 message CreateNewSceneAck{
 	uint32  RetCode     = 1;
-	uint32  CopyType    = 2;
-	uint32  CopyID      = 3;
+	int32   CopyID      = 2;
+	int32   CopyGuid    = 3;
 	uint64  CreateParam = 4;
-	uint32  ServerID    = 5;
-	uint32  LogicType   = 6;
-	uint32 PlayerNum	= 7;
+	int32  ServerID     = 5;
+	int32  LogicType    = 6;
+	int32 PlayerNum	    = 7;
 }
 
 ////
 message EnterSceneReq {
-    uint64  RoleID = 1;
-	uint32  ServerID = 2; //场景服ID
-	uint32  CopyID  = 3;  //副本实例ID
-	uint32  CopyType = 4;  //副本类型ID
+    uint64  RoleID   = 1;
+	int32  ServerID  = 2; //场景服ID
+	int32  CopyGuid  = 3;  //副本实例ID
+	int32  CopyID  = 4;  //副本类型ID
 }
 
 message EnterSceneAck {
     uint32   RetCode = 1;
-	uint32   CopyType = 2;
-	uint32   CopyID = 3;
+	int32    CopyID = 2;
+	int32    CopyGuid = 3;
 	//以下是主角创建需要信息
 	uint64   RoleID = 4;
-	uint32   ActorID = 6;
+	int32    ActorID = 6;
 	string   RoleName = 5;
 	float	 x = 7;
 	float    z = 8;
 	float    vx = 9;
 	float    vz = 10;
-	uint32   hp = 11;
-	uint32   mp = 12;
-	uint32   hpmax = 13;
-	uint32   mpmax = 14;
+	int32   hp = 11;
+	int32   mp = 12;
+	int32   hpmax = 13;
+	int32   mpmax = 14;
 	repeated uint32 equip = 15; //装备
 }
 
 message MainCopyReq {
     uint64  RoleID = 1;
-	uint32  CopyType  = 2;  //副本类型
+	int32   CopyID  = 2;  //副本类型
 }
 
 message MainCopyAck {
@@ -212,14 +212,14 @@ message MainCopyAck {
 
 message CopyResultNotify {
     uint64  RoleID = 1;
-	uint32  CopyType  = 2;  //副本类型
+	int32   CopyID  = 2;  //副本类型
 }
 
 message AbortCopyReq {
     uint64  RoleID = 1;
-	uint32  CopyType  = 2;  //副本类型
-	uint32  CopyID = 3;
-	uint32  ServerID = 4;
+	int32   CopyID  = 2;  //副本类型
+	int32   CopyGuid = 3;
+	int32   ServerID = 4;
 }
 
 message AbortCopyAck {
@@ -250,43 +250,43 @@ message LeaveSceneAck {
 message TransRoleDataReq {
     uint64  RoleID = 1;
 	string  RoleName = 2;
-	uint32  ActorID = 3;
+	int32   ActorID = 3;
 	int32   Level = 4;
 
 	//以下很重要。
-	uint32  Camp = 5;//战场中的阵营
+	int32  Camp = 5;//战场中的阵营
 }
 
 message TransRoleDataAck {
     uint32   RetCode = 1;
 	uint64   RoleID = 2;
-	uint32   CopyType = 3;
-	uint32   CopyID = 4;
-	uint32   ServerID = 5;
+	int32   CopyID = 3;
+	int32   CopyGuid = 4;
+	int32   ServerID = 5;
 }
 
 message NotifyIntoScene {
-    uint64   RoleID = 1;
-	uint32   CopyType = 2;
-	uint32   CopyID = 3;
-	uint32   ServerID = 4;
+    uint64   RoleID   = 1;
+	int32    CopyID   = 2;
+	int32    CopyGuid = 3;
+	int32    ServerID  = 4;
 }
 
 message NearByRoleItem {
 	uint64  RoleID = 1;
-	uint32  ActorID = 2;
+	int32   ActorID = 2;
 	int32   Level = 3;
 	string  Name = 4;
 	
 }
 
 message CopyItem {
-    uint32  CopyID =   1;
-	uint32  CopyType = 2;
+    int32  CopyGuid =   1;
+	int32  CopyID = 2;
 }
 
 
 message CopyReportReq {
-	uint32 ServerID = 1;
+	int32 ServerID = 1;
 	repeated CopyItem CopyList = 2;
 }

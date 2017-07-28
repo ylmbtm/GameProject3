@@ -21,15 +21,15 @@ UINT32 CProxyPlayer::GetConnID()
 	return m_dwConnID;
 }
 
-UINT32 CProxyPlayer::GetCopyID()
+UINT32 CProxyPlayer::GetCopyGuid()
 {
-	return m_dwCopyID;
+	return m_dwCopyGuid;
 }
 
-VOID CProxyPlayer::SetGameSvrInfo( UINT32 dwSvrID, UINT32 dwCopyID )
+VOID CProxyPlayer::SetGameSvrInfo( UINT32 dwSvrID, UINT32 dwCopyGuid )
 {
 	m_dwGameSvrID = dwSvrID;
-	m_dwCopyID = dwCopyID;
+	m_dwCopyGuid = dwCopyGuid;
 }
 
 

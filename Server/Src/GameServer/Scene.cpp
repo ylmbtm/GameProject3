@@ -31,10 +31,10 @@ CScene::~CScene()
 {
 }
 
-BOOL CScene::Init(UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwLogicType,UINT32 dwPlayerNum)
+BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType,UINT32 dwPlayerNum)
 {
+	m_dwCopyGuid	= dwCopyGuid;
 	m_dwCopyID		= dwCopyID;
-	m_dwCopyType	= dwCopyType;
 	m_dwLogicType	= dwLogicType;
 	m_dwPlayerNum	= dwPlayerNum;
 	m_dwLoginNum	= 0;
@@ -281,14 +281,14 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
     //有的副本不需要等人齐，有人就可以进
 
 	TransRoleDataAck Ack;
+	Ack.set_copyguid(m_dwCopyGuid);
 	Ack.set_copyid(m_dwCopyID);
-	Ack.set_copytype(m_dwCopyType);
 	Ack.set_roleid(pHeader->u64TargetID);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_retcode(MRC_SUCCESSED);
 
+	ERROR_RETURN_FALSE(m_dwCopyGuid != 0);
 	ERROR_RETURN_FALSE(m_dwCopyID != 0);
-	ERROR_RETURN_FALSE(m_dwCopyType != 0);
 	ERROR_RETURN_FALSE(pHeader->u64TargetID != 0);
 	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
@@ -313,8 +313,8 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
+	Ack.set_copyguid(m_dwCopyGuid);
 	Ack.set_copyid(m_dwCopyID);
-	Ack.set_copytype(m_dwCopyType);
 	Ack.set_roleid(Req.roleid());
 	Ack.set_rolename(pSceneObj->m_strName);
 	Ack.set_actorid(pSceneObj->m_dwActorID);
@@ -326,14 +326,14 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	return TRUE;
 }
 
+UINT32 CScene::GetCopyGuid()
+{
+    return m_dwCopyGuid;
+}
+
 UINT32 CScene::GetCopyID()
 {
     return m_dwCopyID;
-}
-
-UINT32 CScene::GetCopyType()
-{
-    return m_dwCopyType;
 }
 
 BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
@@ -608,7 +608,7 @@ BOOL CScene::IsMonsterAllDie()
 BOOL CScene::ReadSceneXml()
 {
 	return TRUE;
-	StCopyBase *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyBaseInfo(m_dwCopyType);
+	StCopyBase *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyBaseInfo(m_dwCopyID);
 	ERROR_RETURN_FALSE(pCopyInfo != NULL);
 	rapidxml::xml_document<char> *pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument(pCopyInfo->strXml);
 	ERROR_RETURN_FALSE(pXmlDoc != NULL);
@@ -706,7 +706,7 @@ BOOL CScene::SkillFight( CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject
 
 BOOL CScene::ProcessActionItem( const  ActionItem &Item )
 {
-    CSceneObject *pSceneObj = GetPlayer(Item.objectid());
+    CSceneObject *pSceneObj = GetPlayer(Item.objectguid());
     ERROR_RETURN_TRUE(pSceneObj != NULL);
     pSceneObj->m_x = Item.x();
     pSceneObj->m_z = Item.z();
@@ -718,10 +718,10 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
         for(int i = 0; i < Item.damagerlist_size(); i++)
         {
             const DamagerItem &damager  = Item.damagerlist(i);
-            CSceneObject *pDamager = GetPlayer(damager.objectid());
+            CSceneObject *pDamager = GetPlayer(damager.objectguid());
 			if(pDamager == NULL)
 			{
-				CLog::GetInstancePtr()->LogError("Error: CScene::ProcessActionItem Can not find Damager id:%d", damager.objectid());
+				CLog::GetInstancePtr()->LogError("Error: CScene::ProcessActionItem Can not find Damager id:%d", damager.objectguid());
 				continue;
 			}
             SkillFight(pSceneObj, Item.actionid(), pDamager);

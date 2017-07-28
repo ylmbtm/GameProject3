@@ -37,8 +37,8 @@ public:
 	///////////////////////////////////////////////
 	std::vector<StMoneyInfo> m_vtMoneyList;
 	std::vector<StActionInfo> m_vtActionList;
-	UINT64 GetMoneyMaxValue(UINT32 dwMoneyID);
-	UINT64 GetActoinMaxValue(UINT32 dwActionID);
+	INT64 GetMoneyMaxValue(UINT32 dwMoneyID);
+	INT64 GetActoinMaxValue(UINT32 dwActionID);
 	UINT32 GetActoinUnitTime(UINT32 dwActionID);
 
 	//角色
@@ -65,9 +65,9 @@ public:
 	std::map<UINT32, StAwardItem> m_mapAwardItem;
 	BOOL ReadAwardData(CppSQLite3Query &QueryData);
 	BOOL ParseToDropItem(std::string strDrop, StDropItem &Item);
-	BOOL GetAwardItemByIndex(UINT32 dwAwardID, UINT32 dwIndex, StItemData &ItemData);
-	BOOL GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> &vtItemList);
-	BOOL GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::vector<StItemData> &vtItemList);
+	BOOL GetAwardItemByIndex(INT32 nAwardID, INT32 nIndex, StItemData &ItemData);
+	BOOL GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData> &vtItemList);
+	BOOL GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector<StItemData> &vtItemList);
 	
 	
 	

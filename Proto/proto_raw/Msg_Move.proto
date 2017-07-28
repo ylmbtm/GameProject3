@@ -1,25 +1,25 @@
 syntax = "proto3";
 
 message DamagerItem {
-  uint64 ObjectID  = 1;
+  uint64 ObjectGuid  = 1;
   float x = 2;
   float z = 3;
   int32 chghp = 4;  
 }
 
 message ActionItem {
-	uint64  ObjectID = 1;
-	uint32  ActionID = 2;
+	uint64  ObjectGuid = 1;
+	int32   ActionID = 2;
 	bool	IsStart = 3;
 	bool    IsHurt = 4;
 	float   x = 5;
 	float   z = 6;
 	float   vx = 7;
 	float   vz = 8;
-	uint32  hp = 9;
-	uint32  mp = 10;
-	uint32  hpmax = 11;
-	uint32  mpmax = 12;
+	int32   hp = 9;
+	int32   mp = 10;
+	int32   hpmax = 11;
+	int32   mpmax = 12;
 	repeated DamagerItem DamagerList = 13; 
 }
 
@@ -31,20 +31,20 @@ message ObjectActionNty {
 }
 
 message NewItem {
-	uint64 ObjectID = 1;	//实例ID
-	uint32 ObjType = 2;		//类别
-	uint32 ActorID = 3;		//类型ID
+	uint64 ObjectGuid = 1;	//实例ID
+	int32 ObjType = 2;		//类别
+	int32 ActorID = 3;		//类型ID
 	string Name = 4;
 	int32  Level = 5;
 	float	 x = 6;
 	float    z = 7;
 	float    vx = 8;
 	float    vz = 9;
-	uint32   hp = 10;
-	uint32   mp = 11;
-	uint32   hpmax = 12;
-	uint32   mpmax = 13;
-	repeated uint32 equip = 14; //装备
+	int32   hp = 10;
+	int32   mp = 11;
+	int32   hpmax = 12;
+	int32   mpmax = 13;
+	repeated int32 equip = 14; //装备
 }
 
 message ObjectNewNty {

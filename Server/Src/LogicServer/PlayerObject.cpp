@@ -31,11 +31,11 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_u64ID             = u64ID;
 	m_dwProxyConnID     = 0;
     m_dwClientConnID    = 0;
-    m_dwCopyID          = 0;        //当前的副本ID
-    m_dwCopyType        = 0;        //当前的副本类型
+    m_dwCopyGuid          = 0;      //当前的副本ID
+    m_dwCopyID			= 0;        //当前的副本类型
     m_dwCopySvrID       = 0;        //副本服务器的ID
-    m_dwToCopyID        = 0;        //正在前往的副本ID
-    m_dwToCopyType      = 0;        //正在前往的副本ID
+    m_dwToCopyGuid      = 0;        //正在前往的副本ID
+    m_dwToCopyID       = 0;         //正在前往的副本ID
      
 
 	return CreateAllModule();
@@ -47,11 +47,11 @@ BOOL CPlayerObject::Uninit()
     m_u64ID             = 0;
     m_dwProxyConnID     = 0;
     m_dwClientConnID    = 0;
-    m_dwCopyID          = 0;        //当前的副本ID
-    m_dwCopyType        = 0;        //当前的副本类型
+    m_dwCopyGuid        = 0;        //当前的副本ID
+    m_dwCopyID          = 0;        //当前的副本类型
     m_dwCopySvrID       = 0;        //副本服务器的ID
-    m_dwToCopyID        = 0;        //正在前往的副本ID
-    m_dwToCopyType      = 0;        //正在前往的副本ID
+    m_dwToCopyGuid      = 0;        //正在前往的副本ID
+    m_dwToCopyID        = 0;        //正在前往的副本类型
 
 	return TRUE;
 }
@@ -193,28 +193,28 @@ BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
     SendRoleLoginAck();
-    UINT32 dwSvrID, dwConnID, dwCopyID;
-    CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyID);
+    UINT32 dwSvrID, dwConnID, dwCopyGuid;
+    CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyGuid);
 	ERROR_RETURN_FALSE(dwSvrID == 1);
 	ERROR_RETURN_FALSE(dwConnID != 0);
-	ERROR_RETURN_FALSE(dwCopyID != 0);
+	ERROR_RETURN_FALSE(dwCopyGuid != 0);
 	//ERROR_RETURN_FALSE(m_dwToCopyID == 0);
-    CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 6, dwCopyID, dwSvrID);
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(m_u64ID, 6, dwCopyGuid, dwSvrID);
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyID, UINT32 dwCopyType, UINT32 dwSvrID)
+BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID)
 {
 	ERROR_RETURN_FALSE(dwCopyID != 0);
-	ERROR_RETURN_FALSE(dwCopyType != 0);
+	ERROR_RETURN_FALSE(dwCopyGuid != 0);
 	ERROR_RETURN_FALSE(dwSvrID != 0);
 
+    ERROR_RETURN_FALSE(m_dwCopyGuid != dwCopyGuid);
     ERROR_RETURN_FALSE(m_dwCopyID != dwCopyID);
-    ERROR_RETURN_FALSE(m_dwCopyType != dwCopyType);
 
 	NotifyIntoScene Nty;
-	Nty.set_copytype(dwCopyType);
 	Nty.set_copyid(dwCopyID);
+	Nty.set_copyguid(dwCopyGuid);
 	Nty.set_serverid(dwSvrID);
 	Nty.set_roleid(m_u64ID);
 	ERROR_RETURN_FALSE(m_u64ID != 0);
@@ -264,7 +264,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
     Ack.set_roleid(m_u64ID);
     Ack.set_name(pModule->m_pRoleDataObject->m_szName);
     Ack.set_level(1);
-    Ack.set_actorid(pModule->m_pRoleDataObject->m_dwActorID);
+    Ack.set_actorid(pModule->m_pRoleDataObject->m_ActorID);
     SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
     return TRUE;
 }
@@ -273,8 +273,8 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
 {
     CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
     Req.set_roleid(m_u64ID);
-    Req.set_actorid(pModule->m_pRoleDataObject->m_dwActorID);
-    Req.set_level(pModule->m_pRoleDataObject->m_dwLevel);
+    Req.set_actorid(pModule->m_pRoleDataObject->m_ActorID);
+    Req.set_level(pModule->m_pRoleDataObject->m_Level);
     Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
 
     return TRUE;
@@ -282,11 +282,11 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
 
 BOOL CPlayerObject::ClearCopyState()
 {
-    m_dwCopyID      = 0;        //当前的副本ID
-    m_dwCopyType    = 0;        //当前的副本类型
+    m_dwCopyGuid    = 0;        //当前的副本ID
+    m_dwCopyID		= 0;        //当前的副本类型
     m_dwCopySvrID   = 0;        //副本服务器的ID
-    m_dwToCopyID    = 0;        //正在前往的副本ID
-    m_dwToCopyType  = 0;        //正在前往的副本ID
+    m_dwToCopyGuid  = 0;        //正在前往的副本ID
+    m_dwToCopyID    = 0;        //正在前往的副本类型
 
     return TRUE;
 }

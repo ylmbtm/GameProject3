@@ -25,17 +25,17 @@ public:
 
 	BOOL	DispatchPacket( NetPacket *pNetPacket);
 
-	UINT32	GetServerIDByCopyID(UINT32 dwCopyID);
+	UINT32  GetServerIDByCopyID(UINT32 dwCopyGuid);
 
 	UINT32	GetFreeGameServerID();
 
-	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
+	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum);
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
-	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyID);
-    BOOL    SendPlayerToCopy(UINT64 u64RoleID, UINT32 dwCopyType, UINT32 dwCopyID, UINT32 dwSvrID);
-    BOOL	CreateScene(UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum );
+	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid);
+    BOOL    SendPlayerToCopy(UINT64 u64RoleID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwSvrID);
+    BOOL	CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum );
 
 
 public:

@@ -87,8 +87,8 @@ public:
 	FLOAT				m_vz;
 
 	UINT32				m_dwCopySvrID;
+	UINT32				m_dwCopyGuid;
 	UINT32				m_dwCopyID;
-	UINT32				m_dwCopyType;
 
 public:
 	VOID  TestMove();

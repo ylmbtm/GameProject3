@@ -61,7 +61,7 @@ BOOL CClientCmdHandler::OnCmdEnterSceneAck( UINT32 dwMsgID, CHAR *PacketBuf, INT
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_dwHostState = ST_EnterSceneOK;
 
-	if(Ack.copytype() == 6)
+	if(Ack.copyid() == 6)
 	{
 		m_dwHostState = ST_EnterSceneOK;
 		//表示进入主城完成
@@ -87,14 +87,14 @@ BOOL CClientCmdHandler::OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, IN
 	EnterSceneReq Req;
 	Req.set_roleid(Nty.roleid());
 	Req.set_serverid(Nty.serverid());
-	Req.set_copyid(Nty.copyid());
-    Req.set_copytype(Nty.copytype());
+	Req.set_copyguid(Nty.copyguid());
+    Req.set_copyid(Nty.copyid());
 
 	m_dwCopySvrID = Nty.serverid();
-	m_dwCopyType = Nty.copytype();
 	m_dwCopyID = Nty.copyid();
+	m_dwCopyGuid = Nty.copyguid();
     
-	m_ClientConnector.SendData(MSG_ENTER_SCENE_REQ, Req, Nty.serverid(), Nty.copyid());
+	m_ClientConnector.SendData(MSG_ENTER_SCENE_REQ, Req, Nty.serverid(), Nty.copyguid());
 	return TRUE;
 }
 
@@ -302,7 +302,7 @@ VOID CClientCmdHandler::TestMove()
 	ObjectActionReq Req;
 	ActionItem *pItem =  Req.add_actionlist();
 	pItem->set_actionid(AT_MOVE);
-	pItem->set_objectid(m_RoleIDList[0]);
+	pItem->set_objectguid(m_RoleIDList[0]);
 	
 	m_x += 1;
 	m_z += 1;
@@ -315,7 +315,7 @@ VOID CClientCmdHandler::TestMove()
 	pItem->set_z(m_z);
 	pItem->set_vz(m_vz);
 
-	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyID);
+	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }
 
 BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )
@@ -345,7 +345,7 @@ BOOL CClientCmdHandler::SendRoleListReq()
 BOOL CClientCmdHandler::SendMainCopyReq()
 {
 	MainCopyReq Req;
-	Req.set_copytype(rand()%100+1);
+	Req.set_copyid(rand()%100+1);
 	Req.set_roleid(m_RoleIDList[0]);
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;
@@ -355,7 +355,7 @@ BOOL CClientCmdHandler::SendAbortCopyReq()
 {
 	AbortCopyReq Req;
 	Req.set_roleid(m_RoleIDList[0]);
-	Req.set_copyid(m_dwCopyID);
+	Req.set_copyid(m_dwCopyGuid);
 	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;
 }

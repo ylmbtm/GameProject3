@@ -72,12 +72,12 @@ BOOL CConfigData::ReadConstantValue(CppSQLite3Query &QueryData)
 	return TRUE;
 }
 
-UINT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
+INT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {
 	return 0;
 }
 
-UINT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
+INT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
 {
 	return 0;
 }
@@ -200,7 +200,7 @@ BOOL CConfigData::ReadAwardData(CppSQLite3Query &QueryData)
 		{
 			std::vector<std::string> vtRet;
 			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
-			for(int i = 0; i < vtRet.size(); i++)
+			for(std::vector<std::string>::size_type i = 0; i < vtRet.size(); i++)
 			{
 				StDropItem item;
 				ParseToDropItem(vtRet.at(i), item);
@@ -217,7 +217,7 @@ BOOL CConfigData::ReadAwardData(CppSQLite3Query &QueryData)
 			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
 
 			StDropItem item;
-			for(int i = 0; i < vtRet.size(); i++)
+			for(std::vector<std::string>::size_type i = 0; i < vtRet.size(); i++)
 			{
 				ParseToDropItem(vtRet.at(i), item);
 				stValue.RatioItems.push_back(item);
@@ -264,9 +264,9 @@ BOOL CConfigData::ParseToDropItem(std::string strDrop, StDropItem &item)
 	return TRUE;
 }
 
-BOOL CConfigData::GetAwardItemByIndex(UINT32 dwAwardID, UINT32 dwIndex, StItemData &ItemData)
+BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nIndex, StItemData &ItemData)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
 	if(itor == m_mapAwardItem.end())
 	{
 		return FALSE;
@@ -274,20 +274,20 @@ BOOL CConfigData::GetAwardItemByIndex(UINT32 dwAwardID, UINT32 dwIndex, StItemDa
 
 	StAwardItem &AwardItem = itor->second;
 
-	if (dwIndex >= AwardItem.FixItems.size()) 
+	if (nIndex >= (INT32)AwardItem.FixItems.size()) 
 	{
-		CLog::GetInstancePtr()->LogError("GetItemByIndex Error: Invalid index :%d", dwIndex);
+		CLog::GetInstancePtr()->LogError("GetItemByIndex Error: Invalid index :%d", nIndex);
 		return FALSE;
 	}
 
-	ItemData.dwItemID = AwardItem.FixItems[dwIndex].dwItemID;
-	ItemData.dwItemNum = AwardItem.FixItems[dwIndex].dwItemNum[0];
+	ItemData.dwItemID = AwardItem.FixItems[nIndex].dwItemID;
+	ItemData.dwItemNum = AwardItem.FixItems[nIndex].dwItemNum[0];
 	return TRUE;
 }
 
-BOOL CConfigData::GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> &vtItemList)
+BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData> &vtItemList)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
 	if(itor == m_mapAwardItem.end())
 	{
 		return FALSE;
@@ -297,7 +297,7 @@ BOOL CConfigData::GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> 
 
 	StItemData tempItem;
 
-		for (int i = 0; i < AwardItem.FixItems.size(); i++ )
+		for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.FixItems.size(); i++ )
 		{
 			tempItem.dwItemID = AwardItem.FixItems[i].dwItemID;
 				if (AwardItem.FixItems[i].dwItemNum[0] == AwardItem.FixItems[i].dwItemNum[1]) 
@@ -320,7 +320,7 @@ BOOL CConfigData::GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> 
 			for (int  cycle = 0; cycle < AwardItem.dwRatioCount; cycle++ )
 			{
 				UINT32 dwRandValue = CommonFunc::GetRandNum(0);
-			    for (int i = 0; i < AwardItem.RatioItems.size() - 1; i++)
+			    for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.RatioItems.size() - 1; i++)
 				{
 				   if ((dwRandValue >= AwardItem.RatioItems[i].dwRatio) && (dwRandValue < AwardItem.RatioItems[i+1].dwRatio)) 
 				   {
@@ -345,9 +345,9 @@ BOOL CConfigData::GetItemsFromAwardID(UINT32 dwAwardID, std::vector<StItemData> 
 		return TRUE;
 }
 
-BOOL CConfigData::GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::vector<StItemData> &vtItemList)
+BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector<StItemData> &vtItemList)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(dwAwardID);
+	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
 	if(itor == m_mapAwardItem.end())
 	{
 		return FALSE;
@@ -357,7 +357,7 @@ BOOL CConfigData::GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::ve
 
 	StItemData tempItem;
 
-	for (int i = 0; i < AwardItem.FixItems.size(); i++ )
+	for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.FixItems.size(); i++ )
 	{
 		tempItem.dwItemID = AwardItem.FixItems[i].dwItemID;
 		if (AwardItem.FixItems[i].dwItemNum[0] == AwardItem.FixItems[i].dwItemNum[1]) 
@@ -377,10 +377,10 @@ BOOL CConfigData::GetItemsAwardIDTimes(UINT32 dwAwardID, UINT32 dwTimes, std::ve
 
 
 
-	for (int  cycle = 0; cycle < AwardItem.dwRatioCount*dwTimes; cycle++ )
+	for (int  cycle = 0; cycle < AwardItem.dwRatioCount*nTimes; cycle++ )
 	{
 		UINT32 dwRandValue = CommonFunc::GetRandNum(0);
-		for (int i = 0; i < AwardItem.RatioItems.size() - 1; i++)
+		for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.RatioItems.size() - 1; i++)
 		{
 			if ((dwRandValue >= AwardItem.RatioItems[i].dwRatio) && (dwRandValue < AwardItem.RatioItems[i+1].dwRatio)) 
 			{

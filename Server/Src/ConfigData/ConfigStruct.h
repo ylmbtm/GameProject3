@@ -16,11 +16,6 @@ struct StCopyBase
 
 	}
 
-    UINT32 GetKey()
-    {
-        return dwTypeID;
-    }
-
 	UINT32 dwTypeID;
     UINT32 dwLogicType;
     UINT32 dwCostActID;
@@ -87,8 +82,8 @@ struct StDropItem
 //奖励项
 struct StAwardItem 
 {
-	UINT32 dwAwardID;					//奖励ID
-	UINT32 dwRatioCount;				//概率掉落个数
+	INT32 dwAwardID;					//奖励ID
+	INT32 dwRatioCount;					//概率掉落个数
 	BOOL bDistinct;						//是否需要去重
 	std::vector<StDropItem> FixItems;	//必掉物品
 	std::vector<StDropItem>  RatioItems;//机率掉落物品

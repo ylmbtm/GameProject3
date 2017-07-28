@@ -20,8 +20,8 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 {
     ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
     m_pRoleDataObject->lock();
-    m_pRoleDataObject->m_dwLevel = 1;
-	m_pRoleDataObject->m_dwCityCopy = 6;
+    m_pRoleDataObject->m_Level = 1;
+	m_pRoleDataObject->m_CityCopyID = 6;
     m_pRoleDataObject->unlock();
 
 	return TRUE;
@@ -34,8 +34,8 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwAct
 	m_pRoleDataObject->m_u64ID = u64RoleID;
 	m_pRoleDataObject->m_u64AccountID = u64AccountID;
 	strcpy_s(m_pRoleDataObject->m_szName, 255, Name.c_str());
-	m_pRoleDataObject->m_dwLangID = 0;
-	m_pRoleDataObject->m_dwActorID = dwActorID;
+	m_pRoleDataObject->m_nLangID = 0;
+	m_pRoleDataObject->m_ActorID = dwActorID;
 	m_pRoleDataObject->unlock();
 	return TRUE;
 }
@@ -71,13 +71,13 @@ BOOL CRoleModule::ReadFromLoginAck( DBRoleLoginAck &Ack )
     m_pRoleDataObject->m_u64ID = Ack.roledata().roleid();
     m_pRoleDataObject->m_u64AccountID = Ack.roledata().accountid();
     strcpy_s(m_pRoleDataObject->m_szName, 255, Ack.roledata().name().c_str());
-    m_pRoleDataObject->m_dwLangID = Ack.roledata().langid();
-    m_pRoleDataObject->m_dwActorID = Ack.roledata().actorid();
-    m_pRoleDataObject->m_dwLevel = Ack.roledata().level();
-    m_pRoleDataObject->m_dwExp = Ack.roledata().exp();
-    m_pRoleDataObject->m_dwVipLvl = Ack.roledata().viplvl();
-    m_pRoleDataObject->m_dwVipExp = Ack.roledata().vipexp();
-    m_pRoleDataObject->m_dwLangID = Ack.roledata().langid();
+    m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
+    m_pRoleDataObject->m_ActorID = Ack.roledata().actorid();
+    m_pRoleDataObject->m_Level = Ack.roledata().level();
+    m_pRoleDataObject->m_Exp = Ack.roledata().exp();
+    m_pRoleDataObject->m_VipLvl = Ack.roledata().viplvl();
+    m_pRoleDataObject->m_VipExp = Ack.roledata().vipexp();
+    m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
     m_pRoleDataObject->unlock();
 
 

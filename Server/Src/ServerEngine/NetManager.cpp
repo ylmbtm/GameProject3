@@ -174,7 +174,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					if(dwNumOfByte == 0)
 					{
 						//说明对方己经关闭
-						CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接ID:%d!", pConnection->GetConnectionID());
+						//CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接ID:%d!", pConnection->GetConnectionID());
 						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 						{
 							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
