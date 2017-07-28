@@ -19,7 +19,12 @@
 #define ST_RoleListOk	8
 #define ST_EnterScene	9
 #define ST_EnterSceneOK	10
-#define ST_Disconnected 11
+#define ST_EnterCopy	11
+#define ST_EnterCopyOK	12
+#define ST_AbortCopy	13
+#define ST_AbortCopyOK	14
+
+#define ST_Disconnected 15
 
 
 class CClientCmdHandler : public IMessageHandler
@@ -40,6 +45,7 @@ public:
 	BOOL SendSelectSvrReq(UINT32 dwSvrID);
 	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwActorID);
 	BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 dwCharID);
+	
 	BOOL SendRoleLogoutReq(UINT64 u64CharID);
 	BOOL SendRoleLoginReq(UINT64 u64CharID);
 	BOOL SendRoleListReq();
@@ -92,6 +98,8 @@ public:
 
 public:
 	VOID  TestMove();
+	VOID  TestCopy();
+	VOID  TestExitCopy();
 };
 
 

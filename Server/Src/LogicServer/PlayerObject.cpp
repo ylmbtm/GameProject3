@@ -222,11 +222,11 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID)
+BOOL CPlayerObject::SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID)
 {
     LeaveSceneReq LeaveReq;
     LeaveReq.set_roleid(m_u64ID);
-    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID), MSG_LEAVE_SCENE_REQ, m_u64ID, dwCopyID, LeaveReq);
+    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwSvrID), MSG_LEAVE_SCENE_REQ, m_u64ID, dwCopyGuid, LeaveReq);
 	return TRUE;
 }
 

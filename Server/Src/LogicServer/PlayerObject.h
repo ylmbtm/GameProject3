@@ -38,7 +38,7 @@ public:
 
 public: //全部是操作方法
 	BOOL	SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID,UINT32 dwSvrID);
-	BOOL	SendLeaveScene(UINT32 dwCopyID, UINT32 dwSvrID);
+	BOOL	SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
     BOOL    SendRoleLoginAck();
 
 	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);

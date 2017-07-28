@@ -254,8 +254,10 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	ERROR_RETURN_TRUE(pPlayer->m_dwCopyID == Req.copyid());
+	ERROR_RETURN_TRUE(pPlayer->m_dwCopyGuid == Req.copyguid());
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
-    pPlayer->SendLeaveScene(pPlayer->m_dwCopyID, pPlayer->m_dwCopySvrID);
+	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == 0);
+    pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 
 	UINT32 dwSvrID, dwConnID, dwCopyGuid;
 	CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyGuid);
@@ -263,6 +265,9 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
     ERROR_RETURN_TRUE(dwConnID != 0);
     ERROR_RETURN_TRUE(dwCopyGuid != 0);
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToCopy(Req.roleid(), 6, dwCopyGuid, dwSvrID);
+
+	pPlayer->m_dwCopyID = 0;
+	pPlayer->m_dwCopyGuid = 0;
 
 	return TRUE;
 }

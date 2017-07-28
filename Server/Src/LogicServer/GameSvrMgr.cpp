@@ -218,7 +218,7 @@ BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket *pNetPacket)
     //如果原来在主城副本，需要通知离开
     if(pPlayer->m_dwCopyID == 6)
     {
-        pPlayer->SendLeaveScene(pPlayer->m_dwCopyID,pPlayer->m_dwCopySvrID);
+        pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid,pPlayer->m_dwCopySvrID);
     }
 
     pPlayer->m_dwCopyGuid = Req.copyguid();

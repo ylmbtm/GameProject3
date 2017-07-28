@@ -59,14 +59,19 @@ BOOL CClientCmdHandler::OnCmdEnterSceneAck( UINT32 dwMsgID, CHAR *PacketBuf, INT
 	EnterSceneAck Ack;
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
-	m_dwHostState = ST_EnterSceneOK;
-
 	if(Ack.copyid() == 6)
 	{
 		m_dwHostState = ST_EnterSceneOK;
+	
 		//表示进入主城完成
 	}
+	else if(Ack.copyid() == 16)
+	{
+		m_dwHostState = ST_EnterCopyOK;
+	}
 
+	m_dwCopyID = Ack.copyid();
+	m_dwCopyGuid = Ack.copyguid();
 	//if(Ack.copytype() == 6)
 	//{
 	//	SendMainCopyReq();
@@ -163,7 +168,14 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_EnterSceneOK)
 	{
-		TestMove();
+		//TestMove();
+		TestCopy();
+	}
+
+	if(m_dwHostState == ST_EnterCopyOK)
+	{
+		//TestMove();
+		TestExitCopy();
 	}
 
 	if(m_dwHostState == ST_Disconnected)
@@ -296,6 +308,26 @@ BOOL CClientCmdHandler::SendDelCharReq( UINT64 dwAccountID,UINT64 dwCharID )
 	return TRUE;
 }
 
+VOID CClientCmdHandler::TestCopy()
+{
+	MainCopyReq Req;
+	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_copyid(16);
+	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
+	m_dwHostState = ST_EnterCopy;
+}
+
+
+VOID CClientCmdHandler::TestExitCopy()
+{
+	AbortCopyReq Req;
+	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_copyid(m_dwCopyID);
+	Req.set_copyguid(m_dwCopyGuid);
+	Req.set_serverid(m_dwCopySvrID);
+	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
+	m_dwHostState = ST_EnterCopy;
+}
 
 VOID CClientCmdHandler::TestMove()
 {
@@ -357,5 +389,7 @@ BOOL CClientCmdHandler::SendAbortCopyReq()
 	Req.set_roleid(m_RoleIDList[0]);
 	Req.set_copyid(m_dwCopyGuid);
 	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
+
+	m_dwHostState = ST_AbortCopy;
 	return TRUE;
 }
