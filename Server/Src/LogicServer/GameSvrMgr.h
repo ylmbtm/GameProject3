@@ -29,7 +29,7 @@ public:
 
 	UINT32	GetFreeGameServerID();
 
-	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum);
+	BOOL	SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
@@ -38,7 +38,7 @@ public:
 	BOOL    SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp);
 
 	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid);
-    BOOL	CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum );
+    BOOL	CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType );
 
 
 public:

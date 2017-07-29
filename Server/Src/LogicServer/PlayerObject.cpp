@@ -273,7 +273,6 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
     Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
     Req.mutable_roledata()->set_rolename(pModule->m_pRoleDataObject->m_szName);
 	
-
     return TRUE;
 }
 

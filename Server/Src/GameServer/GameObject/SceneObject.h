@@ -39,7 +39,8 @@ public:
 	BOOL			SetPos(FLOAT x, FLOAT z);
 
   
-
+	UINT32			GetLastSkillTime(UINT32 dwSkillID);
+	BOOL			SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime);
     
 
 public:
@@ -64,6 +65,9 @@ public:
 
 	BOOL			m_bIsCampCheck;          //是否影响阵营结算
 	BOOL			m_bIsMonsCheck;			 //是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
+
+
+	std::map<UINT32,UINT32> m_mapSkillTime;
 
 
     //对象的一些标记

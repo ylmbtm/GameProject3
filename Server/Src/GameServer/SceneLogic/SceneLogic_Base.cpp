@@ -12,6 +12,8 @@ SceneLogicBase::SceneLogicBase(CScene *pScene)
 	m_pScene = pScene;
 
 	m_bFinished = FALSE;
+
+	m_pBattleResult = NULL;
 }
 
 SceneLogicBase::~SceneLogicBase()
@@ -89,8 +91,8 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
 
 BOOL SceneLogicBase::OnObjectCreate(CSceneObject *pObject)
 {
-	ERROR_RETURN_TRUE(pObject->m_dwCamp <= CT_NONE);
-	ERROR_RETURN_TRUE(pObject->m_dwCamp >= CT_CMAP_END);
+	ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
+	ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
 	pObject->SetPos(m_vtBirthPos[pObject->m_dwCamp].m_x, m_vtBirthPos[pObject->m_dwCamp].m_y);
 	return TRUE;
 }
@@ -140,6 +142,7 @@ BOOL SceneLogicBase::SetLastTime(UINT32 dwTime)
 
 BOOL SceneLogicBase::BattleResultCheck()
 {
+	return TRUE;
 	ERROR_RETURN_TRUE(m_pBattleResult != NULL);
 
 	switch(m_pBattleResult->GetResultType())

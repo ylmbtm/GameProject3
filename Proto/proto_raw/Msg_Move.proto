@@ -10,22 +10,24 @@ message DamagerItem {
 message ActionItem {
 	uint64  ObjectGuid = 1;
 	int32   ActionID = 2;
-	bool	IsStart = 3;
-	bool    IsHurt = 4;
-	float   x = 5;
-	float   z = 6;
-	float   vx = 7;
-	float   vz = 8;
-	int32   hp = 9;
-	int32   mp = 10;
-	int32   hpmax = 11;
-	int32   mpmax = 12;
-	repeated DamagerItem DamagerList = 13; 
+	uint64  ControlerID = 3;     //AI¿ØÖÆÈËµÄGUID
+	bool	IsStart = 4;
+	bool    IsHurt = 5;
+	float   x = 6;
+	float   z = 7;
+	float   vx = 8;
+	float   vz = 9;
+	int32   hp = 10;
+	int32   mp = 11;
+	int32   hpmax = 12;
+	int32   mpmax = 13;
+	repeated DamagerItem DamagerList = 14; 
 }
 
 message ObjectActionReq {
    repeated ActionItem ActionList = 1;
 }
+
 message ObjectActionNty {
    repeated ActionItem ActionList = 1;
 }

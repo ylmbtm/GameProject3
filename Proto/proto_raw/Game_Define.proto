@@ -24,16 +24,27 @@ enum ACTION_TYPE {
 }
 
 enum CAMP_TYPE {
-    CT_NONE = 0;			//无阵营
-	CT_PVE_PLAYER  = 1;		//玩家阵营
-	CT_PVE_ENEMY   = 2;     //玩家敌对阵营
-	CT_PVE_NEUTRAL = 3;	    //中立阵营
+    CT_NONE			= 0;			//无阵营
+	CT_PVE_PLAYER	= 1;		//玩家阵营
+	CT_PVE_ENEMY	= 2;     //玩家敌对阵营
+	CT_PVE_NEUTRAL	= 3;	    //中立阵营
 
-	CT_PVP_PLAYER1 = 4;     //PVP中玩家1
-	CT_PVP_PLAYER2 = 5;		//PVP中玩家2
-	CT_PVP_PLAYER3 = 6;		//PVP中玩家3
-	CT_PVP_PLAYER4 = 7;		//PVP中玩家4
-	CT_PVP_PLAYER5 = 8;		//PVP中玩家5
+	CT_PVP_PLAYER1	= 4;     //PVP中玩家1
+	CT_PVP_PLAYER2	= 5;		//PVP中玩家2
+	CT_PVP_PLAYER3	= 6;		//PVP中玩家3
+	CT_PVP_PLAYER4	= 7;		//PVP中玩家4
+	CT_PVP_PLAYER5	= 8;		//PVP中玩家5
 
-	CT_CMAP_END = 11;
+	CT_CMAP_END = 100;
+}
+
+enum COPY_TYPE {
+    CPT_NONE = 0;			//无阵营
+	CPT_LOGIN = 1;          //登陆副本
+	CPT_SELROLE = 2;        //选角副本
+	CPT_CITY = 3;           //主城
+	CPT_MAIN = 4;           //主线副本
+	CPT_WORLD = 5;          //大世界
+	
+	CPT_END = 100;
 }

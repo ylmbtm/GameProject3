@@ -15,6 +15,7 @@
 #include "SimpleMananger.h"
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
+#include "../ConfigData/ConfigData.h"
 
 CWorldMsgHandler::CWorldMsgHandler()
 {
@@ -240,9 +241,12 @@ BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket *pNetPacket)
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
+	ERROR_RETURN_TRUE(Req.copyid() != 0);
 
-	//创建副本
-	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copyid(), Req.roleid(), 1));
+	StCopyInfo *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Req.copyid());
+	ERROR_RETURN_TRUE(pCopyInfo != NULL);
+	ERROR_RETURN_TRUE(pCopyInfo->dwCopyType != 0);
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copyid(), Req.roleid(), 1, pCopyInfo->dwCopyType));
 	return TRUE;
 }
 

@@ -96,6 +96,8 @@ public:
 	UINT32				m_dwCopyGuid;
 	UINT32				m_dwCopyID;
 
+	UINT32				m_dwToCopyID;
+
 public:
 	VOID  TestMove();
 	VOID  TestCopy();

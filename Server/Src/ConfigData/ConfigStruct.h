@@ -18,7 +18,6 @@ struct StCopyInfo
 
 	UINT32 dwCopyID;
 	UINT32 dwCopyType;     //副要类型
-    UINT32 dwLogicType;    //副本逻辑类型
     UINT32 dwCostActID;    //消耗体力ID
     UINT32 dwCostActNum;   //消耗体力数量
     UINT32 dwAwardID;      //奖励ID

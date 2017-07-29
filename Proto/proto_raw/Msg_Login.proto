@@ -79,7 +79,7 @@ message SelectServerAck {
 }
 
 message RoleItem {
-	uint64  RoleID         = 1;
+	uint64  RoleID          = 1;
 	string  Name			= 2;
 	int32   ActorID			= 3;
 	int32   Level			= 4;
@@ -158,7 +158,7 @@ message RoleDisconnectAck {
 ///创建场景
 message CreateNewSceneReq{
 	int32 CopyID = 1;
-	int32 LogicType = 2;
+	int32 CopyType = 2;
 	int32 PlayerNum = 3;
 	uint64 CreateParam = 4;
 }
@@ -170,7 +170,7 @@ message CreateNewSceneAck{
 	int32   CopyGuid    = 3;
 	uint64  CreateParam = 4;
 	int32  ServerID     = 5;
-	int32  LogicType    = 6;
+	int32  CopyType    = 6;
 	int32 PlayerNum	    = 7;
 }
 
@@ -306,4 +306,22 @@ message CopyItem {
 message CopyReportReq {
 	int32 ServerID = 1;
 	repeated CopyItem CopyList = 2;
+}
+
+
+message UseHpBottleReq {
+
+}
+
+message UseHpBottleAck {
+	uint32 RetCode = 1;
+	int32  Count = 2;
+}
+
+message UseMpBottleReq {
+}
+
+message UseMpBottleAck {
+	uint32 RetCode = 1;
+	int32  Count = 2;
 }

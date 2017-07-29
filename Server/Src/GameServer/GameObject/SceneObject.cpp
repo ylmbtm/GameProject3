@@ -219,3 +219,21 @@ BOOL CSceneObject::SetPos(FLOAT x, FLOAT z)
 
 	return TRUE;
 }
+
+UINT32 CSceneObject::GetLastSkillTime(UINT32 dwSkillID)
+{
+	auto itor = m_mapSkillTime.find(dwSkillID);
+	if(itor != m_mapSkillTime.end())
+	{
+		return itor->second;
+	}
+
+	return 0;
+}
+
+BOOL CSceneObject::SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime)
+{
+	m_mapSkillTime.insert(std::make_pair(dwSkillID, dwTime));
+
+	return TRUE;
+}

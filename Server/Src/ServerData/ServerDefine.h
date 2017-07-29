@@ -10,23 +10,6 @@ enum COPY_RESULT
 	CR_DRAW			//平局
 };
 
-enum SCENE_LOGIC_TYPE
-{
-	SLT_BEGIN = 0,	
-	SLT_CITY,
-	SLT_NORMAL,				
-
-	SLT_END
-};
-
-
-enum  OBJECT_STATE
-{
-	BS_Static = 1,  ///停
-	BS_Walk = 2,    ///移动
-	BS_DIE = 3,   ///死亡
-};
-
 enum MouduleType
 {
 	MT_ROLE,
@@ -37,7 +20,6 @@ enum MouduleType
 	MT_END
 };
 
-
 //货币数量
 #define MAX_MONEY_NUM 15
 
@@ -47,7 +29,11 @@ enum MouduleType
 //服务器帧率
 #define FPS_TIME_TICK 20
 
-
+enum AddWay
+{
+	Add_ = 1,
+	Cost_
+};
 
 
 #endif //__SERVER_STRUCT_H__

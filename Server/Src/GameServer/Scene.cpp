@@ -31,11 +31,11 @@ CScene::~CScene()
 {
 }
 
-BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType,UINT32 dwPlayerNum)
+BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType,UINT32 dwPlayerNum)
 {
 	m_dwCopyGuid	= dwCopyGuid;
 	m_dwCopyID		= dwCopyID;
-	m_dwLogicType	= dwLogicType;
+	m_dwCopyType	= dwCopyType;
 	m_dwPlayerNum	= dwPlayerNum;
 	m_dwLoginNum	= 0;
 	m_dwStartTime	= 0;
@@ -43,7 +43,7 @@ BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType,UINT32 
 	m_pMonsterCreator = new MonsterCreator(this);
 	m_dwMaxGuid = 1;
 
-	ERROR_RETURN_FALSE(CreateSceneLogic(dwLogicType));
+	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
 
 	return TRUE;
@@ -67,7 +67,7 @@ BOOL CScene::Uninit()
 
 	delete m_pMonsterCreator;
 
-	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwLogicType));
+	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwCopyType));
 
 	return TRUE;
 }
@@ -85,6 +85,9 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 		PROCESS_MESSAGE_ITEM(MSG_OBJECT_ACTION_REQ,		OnMsgObjectActionReq);
 		PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);		
+
+		PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
+		PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);		
 		default:
 		{
 			return FALSE;
@@ -140,6 +143,33 @@ BOOL CScene::OnMsgHeartBeatReq(NetPacket *pNetPacket)
 	Ack.set_servertime(0);
 
 	pPlayer->SendMsgProtoBuf(MSG_HEART_BEAT_ACK,Ack);
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgUseHpBottleReq(NetPacket *pNetPacket)
+{
+	UseHpBottleReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
+	ERROR_RETURN_TRUE(pObject != NULL);
+
+
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgUseMpBottleReq(NetPacket *pNetPacket)
+{
+	UseMpBottleReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
+	ERROR_RETURN_TRUE(pObject != NULL);
+
 
 	return TRUE;
 }
@@ -234,16 +264,16 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	return TRUE;
 }
 
-BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
+BOOL CScene::CreateSceneLogic(UINT32 dwCopyType)
 {
-	ERROR_RETURN_FALSE(dwLogicType != 0);
-	switch (dwLogicType)
+	ERROR_RETURN_FALSE(dwCopyType != 0);
+	switch (dwCopyType)
 	{
-	case SLT_NORMAL:
+	case CPT_MAIN:
 		m_pSceneLogic = new SceneLogic_Normal(this);
 		break;
 
-	case SLT_CITY:
+	case CPT_CITY:
 		m_pSceneLogic = new SceneLogic_City(this);
 		break;
 	default:
@@ -255,17 +285,17 @@ BOOL CScene::CreateSceneLogic(UINT32 dwLogicType)
 	return (m_pSceneLogic != NULL);
 }
 
-BOOL CScene::DestroySceneLogic(UINT32 dwLogicType)
+BOOL CScene::DestroySceneLogic(UINT32 dwCopyType)
 {
-	switch (dwLogicType)
+	switch (dwCopyType)
 	{
-	case SLT_NORMAL:
+	case CPT_MAIN:
 		{
 			SceneLogic_Normal* pTemp = (SceneLogic_Normal*)m_pSceneLogic;
 			delete pTemp;
 		}
 		break;
-	case SLT_CITY:
+	case CPT_CITY:
 		{
 			SceneLogic_City* pTemp = (SceneLogic_City*)m_pSceneLogic;
 			delete pTemp;

@@ -65,7 +65,7 @@ BOOL CClientCmdHandler::OnCmdEnterSceneAck( UINT32 dwMsgID, CHAR *PacketBuf, INT
 	
 		//表示进入主城完成
 	}
-	else if(Ack.copyid() == 16)
+	else if(Ack.copyid() == m_dwToCopyID)
 	{
 		m_dwHostState = ST_EnterCopyOK;
 	}
@@ -312,7 +312,8 @@ VOID CClientCmdHandler::TestCopy()
 {
 	MainCopyReq Req;
 	Req.set_roleid(m_RoleIDList[0]);
-	Req.set_copyid(16);
+	Req.set_copyid(rand()%67+10001);
+	m_dwToCopyID = Req.copyid();
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
 	m_dwHostState = ST_EnterCopy;
 }
@@ -377,7 +378,7 @@ BOOL CClientCmdHandler::SendRoleListReq()
 BOOL CClientCmdHandler::SendMainCopyReq()
 {
 	MainCopyReq Req;
-	Req.set_copyid(rand()%100+1);
+	Req.set_copyid(rand()%67+10000);
 	Req.set_roleid(m_RoleIDList[0]);
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;

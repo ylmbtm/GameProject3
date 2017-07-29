@@ -48,7 +48,7 @@ UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyGuid)
 	return 1;
 }
 
-BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum )
+BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType )
 {
 	ERROR_RETURN_TRUE(dwCopyID != 0);
 	ERROR_RETURN_TRUE(CreateParam != 0);
@@ -62,7 +62,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlay
 	}
 
 	//向副本服务器发送创建副本的消息
-	if(!SendCreateSceneCmd(dwServerID, dwCopyID, CreateParam, dwPlayerNum))
+	if(!SendCreateSceneCmd(dwServerID, dwCopyID, dwCopyType, CreateParam, dwPlayerNum))
 	{
 		//发送创建副本的消息失败
 		CLog::GetInstancePtr()->LogError("发送创建副本的消息失败");
@@ -73,12 +73,12 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlay
 }
 
 
-BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum )
+BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )
 {
 	CreateNewSceneReq Req;
 	Req.set_copyid(dwCopyID);
 	Req.set_createparam(CreateParam);
-	Req.set_logictype(1);
+	Req.set_copytype(dwCopyType);
 	Req.set_playernum(dwPlayerNum);
 	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req))
 	{
@@ -183,7 +183,7 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(Ack.serverid() != 0);
 	ERROR_RETURN_TRUE(Ack.createparam() != 0);
 	ERROR_RETURN_TRUE(Ack.playernum() != 0);
-	ERROR_RETURN_TRUE(Ack.logictype() != 0);
+	ERROR_RETURN_TRUE(Ack.copytype() != 0);
 	//StCopyBase *pCopyBase = CConfigData::GetInstancePtr()->GetCopyBaseInfo(Ack.copytype());
 	//switch(pCopyBase->dwLogicType)
 	//{
@@ -211,7 +211,7 @@ BOOL CGameSvrMgr::OnCreateMainCopy(CreateNewSceneAck &Ack)
 
 	TransRoleDataReq Req;
 	ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
-
+	Req.set_camp(CT_PVE_PLAYER);
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
 	ERROR_RETURN_FALSE(dwConnID != 0);
 

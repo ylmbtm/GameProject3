@@ -6,7 +6,7 @@
 
 CConfigData::CConfigData()
 {
-
+	InitDataReader();
 }
 
 CConfigData::~CConfigData()
@@ -45,7 +45,7 @@ BOOL CConfigData::ReadConfigData(std::string strDbFile)
 	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 	{
 		DataFuncNode dataNode = (*itor);
-		sprintf(szSql, "select * from %s;",dataNode.m_strTbName);
+		sprintf(szSql, "select * from %s;",dataNode.m_strTbName.c_str());
 		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
 		(this->*dataNode.m_pDataFunc)(Tabledatas);
 	}
@@ -91,7 +91,7 @@ UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
 
 BOOL CConfigData::ReadActor(CppSQLite3Query &QueryData)
 {
-	while(QueryData.eof())
+	while(!QueryData.eof())
 	{
 		StActor stValue;
 		stValue.dwID = QueryData.getIntField("Id");
@@ -115,14 +115,14 @@ StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
 
 BOOL CConfigData::ReadCopyInfo(CppSQLite3Query &QueryData)
 {
-	while(QueryData.eof())
+	while(!QueryData.eof())
 	{
 		StCopyInfo stValue;
 		stValue.dwCopyID = QueryData.getIntField("Id");
 		/*   stValue.dwBattleTimes = QueryData.getIntField("Id"); 
 		stValue.dwCostActID = QueryData.getIntField("Id");
 		stValue.dwCostActNum = QueryData.getIntField("Id");*/
-        stValue.dwLogicType = QueryData.getIntField("Id");
+        stValue.dwCopyType = QueryData.getIntField("CopyType");
 
 		m_mapCopyInfo.insert(std::make_pair(stValue.dwCopyID, stValue));
 		
@@ -145,7 +145,7 @@ StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 
 BOOL CConfigData::ReadLanguage(CppSQLite3Query &QueryData)
 {
-	while(QueryData.eof())
+	while(!QueryData.eof())
 	{
 		StLocalString stValue;
 		stValue.dwID = QueryData.getIntField("id");

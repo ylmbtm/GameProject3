@@ -178,8 +178,8 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_copyid(Req.copyid());
 	Ack.set_playernum(Req.playernum());
-	Ack.set_logictype(Req.logictype());
-	if (!CreateScene(Req.copyid(),dwNewCopyGuid, Req.logictype(), Req.playernum()))
+	Ack.set_copytype(Req.copytype());
+	if (!CreateScene(Req.copyid(),dwNewCopyGuid, Req.copytype(), Req.playernum()))
 	{
 		ASSERT_FAIELD;
 

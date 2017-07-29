@@ -14,7 +14,7 @@ public:
 
 	BOOL	        DispatchPacket(NetPacket *pNetPack);
 
-	BOOL			Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType,UINT32 dwPlayerNum);
+	BOOL		Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType,UINT32 dwPlayerNum);
 
 	BOOL	        Uninit();
 	
@@ -24,9 +24,9 @@ public:
 
 	BOOL            OnUpdate( UINT32 dwTick );
 
-	BOOL	        CreateSceneLogic(UINT32 dwLogicType);
+	BOOL			CreateSceneLogic(UINT32 dwCopyType);
 
-	BOOL            DestroySceneLogic(UINT32 dwLogicType);
+	BOOL			DestroySceneLogic(UINT32 dwCopyType);
 
     BOOL            BroadNewObject(CSceneObject *pSceneObject);
 
@@ -78,7 +78,7 @@ protected:
 	UINT32							m_dwLoginNum;   //登录副本的人数
 	UINT32							m_dwCopyGuid;	//当前副本实例ID
 	UINT32							m_dwCopyID;		//当前副本TYPE
-	UINT32							m_dwLogicType;  //逻辑类型
+	UINT32							m_dwCopyType;	//逻辑类型
     UINT32                          m_dwCreateTime; //副本创建时间
 	UINT32							m_dwStartTime;  //副本开始时间
 	UINT32							m_dwLastTick;
@@ -106,6 +106,8 @@ public:
     BOOL OnMsgObjectActionReq(NetPacket *pNetPacket);
     BOOL OnMsgRoleDisconnect(NetPacket *pNetPacket);
 	BOOL OnMsgHeartBeatReq(NetPacket *pNetPacket);
+	BOOL OnMsgUseHpBottleReq(NetPacket *pNetPacket);
+	BOOL OnMsgUseMpBottleReq(NetPacket *pNetPacket);
     //*********************消息处理定义结束******************************
 };
 
