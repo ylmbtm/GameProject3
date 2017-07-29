@@ -60,7 +60,7 @@ public:
 
     UINT64          m_uHostGuid;        //主人的GUID
     UINT64          m_uControlerID;     //AI控制人的GUID
-	UINT64          m_uSummonID;		//招唤者的GUID
+	UINT64          m_uSummonerID;		//招唤者的GUID
 
 	BOOL			m_bIsCampCheck;          //是否影响阵营结算
 	BOOL			m_bIsMonsCheck;			 //是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)

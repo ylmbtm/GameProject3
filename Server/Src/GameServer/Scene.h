@@ -49,13 +49,18 @@ public:
 
 	CSceneObject*   GetSceneObject(UINT64 uID);
 
+	BOOL			UpdateAiController(UINT64 uFilterID);
+	UINT64			SelectController(UINT64 uFilterID);
+
     //在单人PVE情况下，副本应该只有一个人
     CSceneObject*   GetOwnPlayer();
 
 	//////////////////////////////////////////////////////////////////////////
 	//创建对象
     BOOL            CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y);
-	BOOL            CreatePet( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y);
+	BOOL            CreatePet( UINT32 dwActorID,UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y);
+	BOOL            CreatePartner( UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y);
+	BOOL            CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y);
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.
 

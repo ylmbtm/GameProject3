@@ -121,6 +121,8 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	pPlayer->SetConnectID(0, 0);
 
+	UpdateAiController(pPlayer->GetObjectGUID());
+
 	return TRUE;
 }
 
@@ -285,17 +287,17 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roleid());
+	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roledata().roleid());
 	CSceneObject *pObject = GetPlayer(pHeader->u64TargetID);
 	if(pObject == NULL)
 	{
-		pObject = new CSceneObject(pHeader->u64TargetID, Req.actorid(), OT_PLAYER, 2, (std::string &)Req.rolename());
+		pObject = new CSceneObject(pHeader->u64TargetID, Req.roledata().actorid(), OT_PLAYER, 2, (std::string &)Req.roledata().rolename());
 		AddPlayer(pObject);
 	}
 	//根据数据创建宠物，英雄
 	pObject->m_dwObjType = OT_PLAYER;
-	pObject->m_dwActorID = Req.actorid();
-	pObject->m_strName = Req.rolename();
+	pObject->m_dwActorID = Req.roledata().actorid();
+	pObject->m_strName = Req.roledata().rolename();
 	pObject->m_uGuid = pHeader->u64TargetID;
 	pObject->m_dwCamp = Req.camp();
 	m_pSceneLogic->OnObjectCreate(pObject);
@@ -549,6 +551,74 @@ CSceneObject* CScene::GetSceneObject(UINT64 uID)
 	return NULL;
 }
 
+BOOL CScene::UpdateAiController(UINT64 uFilterID)
+{
+	UINT64 u64ControllerID = SelectController(uFilterID);
+	if(u64ControllerID == 0)
+	{
+		return FALSE;
+	}
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+
+		if(pOther->GetObjectGUID() == uFilterID)
+		{
+			continue;
+		}
+
+		if(pOther->GetObjType() == OT_ROBOT)
+		{
+			if(pOther->m_uControlerID == uFilterID)
+			{
+				pOther->m_uControlerID = u64ControllerID;
+			}
+		}
+	}
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject *pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+
+		if(pOther->m_uControlerID == uFilterID)
+		{
+			pOther->m_uControlerID = u64ControllerID;
+		}
+	}
+	
+	return TRUE;
+}
+
+UINT64 CScene::SelectController(UINT64 uFilterID)
+{
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+		if(pOther->GetObjectGUID() == uFilterID)
+		{
+			continue;
+		}
+
+		if(pOther->GetObjType() == OT_ROBOT)
+		{
+			continue;
+		}
+			
+		if(!pOther->IsConnected())
+		{
+			continue;
+		}
+		
+		return pOther->GetObjectGUID();
+	}
+
+	return 0;
+}
+
 BOOL CScene::IsFinished()
 {
 	return m_pSceneLogic->IsFinished();
@@ -632,11 +702,37 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
     return TRUE;
 }
 
-BOOL CScene::CreatePet(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreatePet( UINT32 dwActorID,UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
 	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PET, dwCamp, pActorInfo->strName);
+	pObject->m_uHostGuid = uHostID;
+	m_pSceneLogic->OnObjectCreate(pObject);
+	AddMonster(pObject);
+	BroadNewObject(pObject);
+	return TRUE;
+}
+
+BOOL CScene::CreatePartner(UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
+{
+	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
+	pObject->m_uHostGuid = uHostID;
+	m_pSceneLogic->OnObjectCreate(pObject);
+	AddMonster(pObject);
+	BroadNewObject(pObject);
+	return TRUE;
+}
+
+BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y)
+{
+	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
+	pObject->m_uSummonerID = uSummonerID;
+	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
 	return TRUE;

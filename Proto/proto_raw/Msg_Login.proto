@@ -247,14 +247,31 @@ message LeaveSceneAck {
 }
 ///
 
-message TransRoleDataReq {
-    uint64  RoleID = 1;
+message TransRoleData {
+	uint64  RoleID = 1;
 	string  RoleName = 2;
 	int32   ActorID = 3;
 	int32   Level = 4;
+}
 
-	//以下很重要。
-	int32  Camp = 5;//战场中的阵营
+message TransPetData {
+	int32  ActorID = 1;
+	string  RoleName = 2;
+	int32   Level = 3;
+}
+
+
+message TransPartnerData {
+	int32  ActorID = 1;
+	string  RoleName = 2;
+	int32   Level = 3;
+}
+
+message TransRoleDataReq {
+	int32   Camp = 1;			//战场中的阵营
+	TransRoleData RoleData = 2;
+	TransPetData PetData = 3;
+	TransPartnerData PartnerData = 4;
 }
 
 message TransRoleDataAck {

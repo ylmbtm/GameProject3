@@ -268,10 +268,10 @@ BOOL CPlayerObject::SendRoleLoginAck()
 BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq &Req )
 {
     CRoleModule *pModule = (CRoleModule *)GetModuleByType(MT_ROLE);
-    Req.set_roleid(m_u64ID);
-    Req.set_actorid(pModule->m_pRoleDataObject->m_ActorID);
-    Req.set_level(pModule->m_pRoleDataObject->m_Level);
-    Req.set_rolename(pModule->m_pRoleDataObject->m_szName);
+    Req.mutable_roledata()->set_roleid(m_u64ID);
+    Req.mutable_roledata()->set_actorid(pModule->m_pRoleDataObject->m_ActorID);
+    Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
+    Req.mutable_roledata()->set_rolename(pModule->m_pRoleDataObject->m_szName);
 	
 
     return TRUE;

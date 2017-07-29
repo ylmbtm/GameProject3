@@ -185,7 +185,7 @@ BOOL CSceneObject::SaveNewObject( ObjectNewNty &Nty )
 	pItem->set_actorid(m_dwActorID);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
-	pItem->set_summonid(m_uSummonID);
+	pItem->set_summonid(m_uSummonerID);
 	pItem->set_controlerid(m_uControlerID);
 	pItem->set_hostguid(m_uHostGuid);
 	pItem->set_x(m_x);
