@@ -76,7 +76,7 @@ BOOL MonsterCreator::GenMonsterWave( MonsterWave *pWave )
     for( std::vector<MonsterData>::iterator itor = pWave->m_vtMonsterList.begin(); itor != pWave->m_vtMonsterList.end(); itor++)
     {
 		MonsterData *pData = &(*itor);
-        m_pScene->GenMonster(pData->m_dwTypeID, pData->m_dwCamp,0 ,0);
+        m_pScene->CreateMonster(pData->m_dwTypeID, pData->m_dwCamp,0 ,0);
     }
 
     return TRUE;

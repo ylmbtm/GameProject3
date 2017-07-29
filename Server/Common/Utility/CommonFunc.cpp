@@ -69,7 +69,7 @@ UINT32 CommonFunc::GetCurrTime()
 	return (UINT32)t;
 }
 
-UINT32 CommonFunc::GetDayTime()
+UINT32 CommonFunc::GetDayStartTime()
 {
 	time_t t;    
 	t=time(0);
@@ -77,6 +77,19 @@ UINT32 CommonFunc::GetDayTime()
 	t_tm->tm_hour = 0;
 	t_tm->tm_min = 0;
 	t_tm->tm_sec = 0;
+	t = mktime(t_tm);
+	return (UINT32)t;
+}
+
+UINT32 CommonFunc::GetWeekStartTime()
+{
+	time_t t;    
+	t=time(0);
+	tm* t_tm = localtime(&t);
+	t_tm->tm_hour = 0;
+	t_tm->tm_min = 0;
+	t_tm->tm_sec = 0;
+	t_tm->tm_wday = 0;
 	t = mktime(t_tm);
 	return (UINT32)t;
 }

@@ -84,7 +84,7 @@ BOOL CScene::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 		PROCESS_MESSAGE_ITEM(MSG_OBJECT_ACTION_REQ,		OnMsgObjectActionReq);
-		
+		PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);		
 		default:
 		{
 			return FALSE;
@@ -120,6 +120,24 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket *pNetPacket)
 	CSceneObject *pPlayer = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	pPlayer->SetConnectID(0, 0);
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgHeartBeatReq(NetPacket *pNetPacket)
+{
+	HeartBeatReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject *pPlayer = GetPlayer(pHeader->u64TargetID);
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	HeartBeatAck Ack;
+	Ack.set_timestamp(Req.timestamp());
+	Ack.set_servertime(0);
+
+	pPlayer->SendMsgProtoBuf(MSG_HEART_BEAT_ACK,Ack);
 
 	return TRUE;
 }
@@ -282,6 +300,11 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket *pNetPacket)
 	pObject->m_dwCamp = Req.camp();
 	m_pSceneLogic->OnObjectCreate(pObject);
 
+
+	//是否有宠物
+	//CreatePet()
+	
+
     //检查人齐没齐，如果齐了，就全部发准备好了的消息
     //有的副本不需要等人齐，有人就可以进
 
@@ -356,6 +379,15 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
             continue;
         }
 
+		if(pOther->GetObjType() == OT_ROBOT)
+		{
+			if(pOther->m_uControlerID == 0)
+			{
+				pOther->m_uControlerID = pSceneObject->GetObjectGUID();
+			}
+		}
+		
+
         pOther->SaveNewObject(Nty);
     }
 
@@ -367,6 +399,11 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
 		if(pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
 		{
 			continue;
+		}
+
+		if(pOther->m_uControlerID == 0)
+		{
+			pOther->m_uControlerID = pSceneObject->GetObjectGUID();
 		}
 
 		pOther->SaveNewObject(Nty);
@@ -584,14 +621,25 @@ BOOL CScene::SyncObjectState()
     return TRUE;
 }
 
-BOOL CScene::GenMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
 	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
+	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
     return TRUE;
+}
+
+BOOL CScene::CreatePet(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
+{
+	StActor *pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	CSceneObject *pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PET, dwCamp, pActorInfo->strName);
+	AddMonster(pObject);
+	BroadNewObject(pObject);
+	return TRUE;
 }
 
 BOOL CScene::IsCampAllDie(UINT32 dwCamp)

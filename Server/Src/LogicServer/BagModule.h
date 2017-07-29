@@ -22,11 +22,17 @@ public:
 	BOOL OnNewDay();
 
 	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
+public:
+
+	BOOL AddItem(UINT32 dwItemID, INT32 nCount);
+	BOOL RemoveItem(UINT32 dwItemID, INT32 nCount);
+	
 
 public:
-	std::vector<BagDataObject*>m_vtBagData;
+	std::map<UINT64, BagDataObject*>m_mapBagData;
 
-
+	std::set<UINT64> m_BagChange;
+	std::set<UINT64> m_BagRemove;
 };
 
 #endif //__BAG_MODULE_H__

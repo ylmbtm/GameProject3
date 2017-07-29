@@ -21,7 +21,10 @@ namespace CommonFunc
 	UINT32			GetCurrTime();
 
 	//获取当前0点的秒数
-	UINT32			GetDayTime();
+	UINT32			GetDayStartTime();
+
+	//获取当前0点的秒数
+	UINT32			GetWeekStartTime();
 
 	//获取一个由年月日组合的一个唯一值
 	UINT32			GetCurrDate();

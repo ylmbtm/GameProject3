@@ -55,6 +55,7 @@ public:
     UINT32          m_dwObjState;		//对象当前的状态
     UINT32          m_dwHp;				//对象当前血量
 	UINT32			m_dwMp;				//对象当前蓝量
+	UINT32			m_dwLevel;			//等级
     UINT32          m_dwProperty[15];	//15个属性的数值
 
     UINT64          m_uHostGuid;        //主人的GUID

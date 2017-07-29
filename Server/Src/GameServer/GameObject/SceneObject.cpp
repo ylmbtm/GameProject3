@@ -179,6 +179,24 @@ VOID CSceneObject::SetEnterCopy()
 
 BOOL CSceneObject::SaveNewObject( ObjectNewNty &Nty )
 {
+	NewItem *pItem = Nty.add_newlist();
+	pItem->set_objectguid(m_uGuid);
+	pItem->set_objtype(m_dwObjType);
+	pItem->set_actorid(m_dwActorID);
+	pItem->set_name(m_strName);
+	pItem->set_level(m_dwLevel);
+	pItem->set_summonid(m_uSummonID);
+	pItem->set_controlerid(m_uControlerID);
+	pItem->set_hostguid(m_uHostGuid);
+	pItem->set_x(m_x);
+	pItem->set_z(m_z);
+	pItem->set_vx(m_vx);
+	pItem->set_vz(m_vz);
+	pItem->set_hp(m_dwHp);
+	pItem->set_mp(m_dwMp);
+	pItem->set_hpmax(m_dwProperty[0]);
+	pItem->set_mpmax(m_dwProperty[1]);
+
     return TRUE;
 }
 

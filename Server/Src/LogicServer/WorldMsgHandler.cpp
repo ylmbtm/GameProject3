@@ -275,8 +275,11 @@ BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket *pNetPacket )
     PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
     CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-    ERROR_RETURN_TRUE(pPlayer != NULL);
+	ERROR_RETURN_TRUE(pPlayer != NULL);
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
+	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == 0);
+	pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(Req.roleid());
 	pPlayer->m_dwCopyID = 0;
 	pPlayer->m_dwCopyGuid = 0;

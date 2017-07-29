@@ -12,8 +12,18 @@ message DBRoleData {
 	int32   VipExp = 9;
 }
 
-message DBBagData {
+message DBBagItemData {
+	uint64 Guid = 1;			//格子的guid
+	uint64 RoleID = 2;			//角色ID
+	int32 BagType = 3;       //背包类型
+	uint64 ItemGuid = 4;		//物品guid
+	int32 ItemID = 5;        //道具ID
+	int32 Count = 6;       //个数
+	bool  Bind = 7;         //是否是邦定
+}
 
+message DBBagData {
+	repeated DBBagItemData ItemList = 1;
 }
 
 message DBCopyData {

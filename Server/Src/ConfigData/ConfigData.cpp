@@ -24,6 +24,8 @@ CConfigData* CConfigData::GetInstancePtr()
 BOOL CConfigData::InitDataReader()
 {
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor", &CConfigData::ReadActor));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy", &CConfigData::ReadCopyInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Item", &CConfigData::ReadItemData));
 	return TRUE;
 }
 
@@ -402,4 +404,36 @@ BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector
 		}
 	}
 		return TRUE;
+}
+
+BOOL CConfigData::ReadItemData(CppSQLite3Query &QueryData)
+{
+	while(QueryData.eof())
+	{
+		StItemInfo stValue;
+		stValue.dwItemID = QueryData.getIntField("id");
+		stValue.dwType = QueryData.getIntField("type");
+		stValue.SubType = QueryData.getIntField("sub_type");
+		stValue.SellID = QueryData.getIntField("sell_money_id");
+		stValue.SellPrice = QueryData.getIntField("sell_money_num");
+		stValue.Quality = QueryData.getIntField("quality");
+		stValue.UseType = QueryData.getIntField("usetype");
+		stValue.Data1 = QueryData.getIntField("data1");
+		stValue.Data2 = QueryData.getIntField("data2");
+		m_mapItem.insert(std::make_pair(stValue.dwItemID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
+{
+	auto itor = m_mapItem.find(dwItemID);
+	if(itor != m_mapItem.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
 }

@@ -15,6 +15,8 @@ BOOL CDBWriterManager::Init()
 {
 	m_pRoleDataWriter = new DataWriter<RoleDataObject>("Role");
 	m_pGlobalDataWriter = new DataWriter<GlobalDataObject>("Global");
+	m_pBagDataWriter = new DataWriter<BagDataObject>("Bag");
+	m_pCopyDataWriter = new DataWriter<CopyDataObject>("Copy");
 
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
@@ -34,6 +36,8 @@ void CDBWriterManager::WriteWork()
 {
 	m_pRoleDataWriter->saveModifyToDB(&m_DBManager);
 	m_pGlobalDataWriter->saveModifyToDB(&m_DBManager);
+	m_pBagDataWriter->saveModifyToDB(&m_DBManager);
+	m_pCopyDataWriter->saveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

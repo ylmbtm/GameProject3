@@ -60,7 +60,7 @@ public:
 	BOOL ReadLanguage(CppSQLite3Query &QueryData);
     std::string& GetLanguageText(UINT32 dwID, UINT32 dwLang);
 
-	//掉落物品表
+	//掉落表
 	///////////////////////////////////////////////
 	std::map<UINT32, StAwardItem> m_mapAwardItem;
 	BOOL ReadAwardData(CppSQLite3Query &QueryData);
@@ -69,6 +69,12 @@ public:
 	BOOL GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData> &vtItemList);
 	BOOL GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector<StItemData> &vtItemList);
 	
+
+	//物品表
+	///////////////////////////////////////////////
+	std::map<UINT32, StItemInfo> m_mapItem;
+	BOOL ReadItemData(CppSQLite3Query &QueryData);
+	StItemInfo* GetItemInfo(UINT32 dwItemID);
 	
 	
 	

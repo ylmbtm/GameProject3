@@ -36,15 +36,18 @@ message NewItem {
 	int32 ActorID = 3;		//类型ID
 	string Name = 4;
 	int32  Level = 5;
-	float	 x = 6;
-	float    z = 7;
-	float    vx = 8;
-	float    vz = 9;
-	int32   hp = 10;
-	int32   mp = 11;
-	int32   hpmax = 12;
-	int32   mpmax = 13;
-	repeated int32 equip = 14; //装备
+	uint64 HostGuid = 6;        //主人的GUID
+    uint64 ControlerID = 7;     //AI控制人的GUID
+	uint64 SummonID = 8;		//招唤者的GUID
+	float	 x = 9;
+	float    z = 10;
+	float    vx = 11;
+	float    vz = 12;
+	int32   hp = 13;
+	int32   mp = 14;
+	int32   hpmax = 15;
+	int32   mpmax = 16;
+	repeated int32 equip = 17; //装备
 }
 
 message ObjectNewNty {
@@ -55,3 +58,11 @@ message ObjectRemoveNty {
   repeated uint64 RemoveList = 1;
 }
 
+message HeartBeatReq {
+  uint32  TimeStamp = 1;
+}
+
+message HeartBeatAck {
+  uint32  TimeStamp = 1;
+  uint32  ServerTime = 2;
+}

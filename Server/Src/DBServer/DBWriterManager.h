@@ -6,6 +6,8 @@
 #include "Utility\CommonThreadFunc.h"
 #include "DBManager.h"
 #include "..\ServerData\GlobalData.h"
+#include "..\ServerData\BagData.h"
+#include "..\ServerData\CopyData.h"
 
 Th_RetName _DBWriteThread( void *pParam );
 
@@ -25,7 +27,8 @@ public:
 
 	DataWriter<RoleDataObject> *m_pRoleDataWriter;
 	DataWriter<GlobalDataObject> *m_pGlobalDataWriter;
-
+	DataWriter<BagDataObject> *m_pBagDataWriter;
+	DataWriter<CopyDataObject> *m_pCopyDataWriter;
 	BOOL IsStop();
 public:
 

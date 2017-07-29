@@ -92,4 +92,20 @@ struct StAwardItem
 	std::vector<StDropItem>  RatioItems;//机率掉落物品
 };
 
+
+struct StItemInfo 
+{
+	UINT32 dwItemID;	//物品ID
+	UINT32 dwType;		//物品类型
+	UINT32 SubType;		//物品子类型
+	UINT32 Quality;		//物品的品质
+	UINT32 SellID;		//出售货币ID
+	UINT32 SellPrice;	//出售价格
+	UINT32 UseType;		//使用类型
+	UINT32 Data1;		//参数1
+	UINT32 Data2;		//参数2
+};
+
+
+
 #endif //__CONFIG_STRUCT_H__
