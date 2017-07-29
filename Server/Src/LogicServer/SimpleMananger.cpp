@@ -24,10 +24,6 @@ CSimpleManager* CSimpleManager::GetInstancePtr()
 
 BOOL CSimpleManager::LoadSimpleData()
 {
-    //以下是默认值
-    m_u64MaxID = CGameService::GetInstancePtr()->GetServerID();
-    m_u64MaxID = (m_u64MaxID << 32) +1;
-
 	CppSQLite3DB	DBConnection; 
 	try
 	{
@@ -47,15 +43,9 @@ BOOL CSimpleManager::LoadSimpleData()
 		CSimpleInfo *pInfo = CreateSimpleInfo(TableNames.getInt64Field("id"),
 			TableNames.getInt64Field("account_id"), TableNames.getStringField("name"), TableNames.getIntField("actorid"));
 
-		if(pInfo->u64RoleID > m_u64MaxID)
-		{
-			m_u64MaxID = pInfo->u64RoleID;
-		}
-
 		TableNames.nextRow();
 	}
 
-    m_u64MaxID+=1;
 	//DBConnection.close();
 
 	return TRUE;
@@ -200,12 +190,6 @@ UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )
         return 0;
     }
     return  pInfo->dwGuildID;
-}
-
-UINT64 CSimpleManager::MakeNewRoleID()
-{
-    CLog::GetInstancePtr()->LogError(" CSimpleManager::MakeNewRoleID:%lld", m_u64MaxID);
-    return m_u64MaxID++;
 }
 
 CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwActorID )

@@ -5,6 +5,7 @@
 #include "..\ServerData\RoleData.h"
 #include "Utility\CommonThreadFunc.h"
 #include "DBManager.h"
+#include "..\ServerData\GlobalData.h"
 
 Th_RetName _DBWriteThread( void *pParam );
 
@@ -23,6 +24,7 @@ public:
 	void WriteWork();
 
 	DataWriter<RoleDataObject> *m_pRoleDataWriter;
+	DataWriter<GlobalDataObject> *m_pGlobalDataWriter;
 
 	BOOL IsStop();
 public:

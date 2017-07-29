@@ -9,19 +9,22 @@ struct  StConstantValue
 };
 
 
-struct StCopyBase
+struct StCopyInfo
 {
-	StCopyBase()
+	StCopyInfo()
 	{
 
 	}
 
-	UINT32 dwTypeID;
-    UINT32 dwLogicType;
-    UINT32 dwCostActID;
-    UINT32 dwCostActNum;
-    UINT32 dwAwardID;
-    UINT32 dwBattleTimes;
+	UINT32 dwCopyID;
+	UINT32 dwCopyType;     //副要类型
+    UINT32 dwLogicType;    //副本逻辑类型
+    UINT32 dwCostActID;    //消耗体力ID
+    UINT32 dwCostActNum;   //消耗体力数量
+    UINT32 dwAwardID;      //奖励ID
+	UINT32 dwFirstAwardID; //首胜奖励ID
+    UINT32 dwBattleTimes;  //每日可战斗次数
+
 	std::string strXml;
 };
 

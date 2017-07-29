@@ -10,7 +10,8 @@
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
 #include "SimpleMananger.h"
-#include "../GameServer/ConfigData.h"
+#include "../ConfigData/ConfigData.h"
+#include "GlobalDataMgr.h"
 
 CGameService::CGameService(void)
 {
@@ -54,9 +55,13 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	CreateDataPool();
+
 	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
 
 	CSimpleManager::GetInstancePtr()->LoadSimpleData();
+
+	CGlobalDataManager::GetInstancePtr()->LoadGlobalData();
 
 	ConnectToLogServer();
 
@@ -64,7 +69,7 @@ BOOL CGameService::Init()
 
 	ConnectToDBSvr();
 
-	CreateDataPool();
+	
 
 	m_WorldMsgHandler.Init(0);
 

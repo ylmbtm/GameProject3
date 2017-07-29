@@ -14,6 +14,7 @@
 #include "RoleModule.h"
 #include "SimpleMananger.h"
 #include "../ServerData/ServerDefine.h"
+#include "GlobalDataMgr.h"
 
 CWorldMsgHandler::CWorldMsgHandler()
 {
@@ -118,7 +119,7 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket *pNetPacket)
     CLog::GetInstancePtr()->LogError("OnMsgRoleCreateReq Name:%s", Req.name().c_str());
 
 
-	UINT64 u64RoleID = CSimpleManager::GetInstancePtr()->MakeNewRoleID();
+	UINT64 u64RoleID = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
     ERROR_RETURN_TRUE(u64RoleID != 0);
     
 	CSimpleInfo *pSimpleInfo = CSimpleManager::GetInstancePtr()->CreateSimpleInfo(u64RoleID, Req.accountid(), Req.name(), Req.actorid());

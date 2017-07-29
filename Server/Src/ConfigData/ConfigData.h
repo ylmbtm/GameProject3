@@ -49,9 +49,9 @@ public:
 	
 	//副本
 	///////////////////////////////////////////////
-    std::map<UINT32, StCopyBase> m_mapCopybase; 
-	BOOL ReadCopyBase(CppSQLite3Query &QueryData);
-	StCopyBase* GetCopyBaseInfo(UINT32 dwCopyType);
+    std::map<UINT32, StCopyInfo> m_mapCopyInfo; 
+	BOOL ReadCopyInfo(CppSQLite3Query &QueryData);
+	StCopyInfo* GetCopyInfo(UINT32 dwCopyID);
 
 	//语言配制表
 	///////////////////////////////////////////////

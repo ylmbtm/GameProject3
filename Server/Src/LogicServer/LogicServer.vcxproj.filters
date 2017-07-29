@@ -84,6 +84,9 @@
     <ClCompile Include="..\Message\Msg_RetCode.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalDataMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -160,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_RetCode.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalDataMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\GlobalData.h">
+      <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

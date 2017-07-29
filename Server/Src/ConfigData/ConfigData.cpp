@@ -111,18 +111,18 @@ StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadCopyBase(CppSQLite3Query &QueryData)
+BOOL CConfigData::ReadCopyInfo(CppSQLite3Query &QueryData)
 {
 	while(QueryData.eof())
 	{
-		StCopyBase stValue;
-		stValue.dwTypeID = QueryData.getIntField("Id");
+		StCopyInfo stValue;
+		stValue.dwCopyID = QueryData.getIntField("Id");
 		/*   stValue.dwBattleTimes = QueryData.getIntField("Id"); 
 		stValue.dwCostActID = QueryData.getIntField("Id");
 		stValue.dwCostActNum = QueryData.getIntField("Id");*/
         stValue.dwLogicType = QueryData.getIntField("Id");
 
-		m_mapCopybase.insert(std::make_pair(stValue.dwTypeID, stValue));
+		m_mapCopyInfo.insert(std::make_pair(stValue.dwCopyID, stValue));
 		
 		QueryData.nextRow();
 	}
@@ -130,10 +130,10 @@ BOOL CConfigData::ReadCopyBase(CppSQLite3Query &QueryData)
 	return TRUE;
 }
 
-StCopyBase* CConfigData::GetCopyBaseInfo(UINT32 dwCopyType)
+StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 {
-	std::map<UINT32, StCopyBase>::iterator itor = m_mapCopybase.find(dwCopyType);
-	if(itor != m_mapCopybase.end())
+	std::map<UINT32, StCopyInfo>::iterator itor = m_mapCopyInfo.find(dwCopyID);
+	if(itor != m_mapCopyInfo.end())
 	{
 		return &itor->second;
 	}

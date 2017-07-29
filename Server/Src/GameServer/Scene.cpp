@@ -643,7 +643,7 @@ BOOL CScene::IsMonsterAllDie()
 BOOL CScene::ReadSceneXml()
 {
 	return TRUE;
-	StCopyBase *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyBaseInfo(m_dwCopyID);
+	StCopyInfo *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(m_dwCopyID);
 	ERROR_RETURN_FALSE(pCopyInfo != NULL);
 	rapidxml::xml_document<char> *pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument(pCopyInfo->strXml);
 	ERROR_RETURN_FALSE(pXmlDoc != NULL);

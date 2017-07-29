@@ -81,24 +81,14 @@ BOOL ServiceBase::StopNetwork()
 template<typename T>
 BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID,UINT32 dwUserData, T &Data)
 {
-	if(dwConnID == 0)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(dwConnID != 0);
 
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
 }
 
  BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
  {
-	 if(dwConnID == 0)
-	 {
-		 ASSERT_FAIELD;
-
-		 return FALSE;
-	 }
+	 ERROR_RETURN_FALSE(dwConnID != 0);
 
 	 char szBuff[10240] = {0};
 
@@ -109,12 +99,7 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 
  BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char * pdata,UINT32 dwLen)
  {
-	 if(dwConnID == 0)
-	 {
-		 ASSERT_FAIELD;
-
-		 return FALSE;
-	 }
+	 ERROR_RETURN_FALSE(dwConnID != 0);
 
 	 return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
  }
@@ -137,12 +122,7 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 
 BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
 {
-	if(pConnection->GetConnectionID() == 0)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 	m_CloseConList.push(pConnection);
 	AtomicAdd(&m_dwWriteIndex, 1);
 	return TRUE;
@@ -150,11 +130,7 @@ BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
 
 BOOL ServiceBase::OnNewConnect( CConnection *pConnection )
 {
-	if(pConnection->GetConnectionID() == 0)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
 	m_NewConList.push(pConnection);
 	AtomicAdd(&m_dwWriteIndex, 1);
