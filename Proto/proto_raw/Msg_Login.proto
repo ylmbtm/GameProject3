@@ -298,8 +298,10 @@ message NearByRoleItem {
 }
 
 message CopyItem {
-    int32  CopyGuid =   1;
-	int32  CopyID = 2;
+    uint32  CopyGuid =   1;
+	int32   CopyID = 2;
+	int32   CopyType = 3;
+	int32   ServerID = 4;
 }
 
 

@@ -14,6 +14,23 @@ struct GameSvrInfo
 	UINT32 dwLoad;		//负载值
 };
 
+
+struct CityInfo
+{
+	CityInfo(UINT32 dwCopyID , UINT32 dwSvrID, UINT32 dwConID, UINT32 dwCopyGuid)
+	{
+		m_dwSvrID  = dwSvrID;
+		m_dwConnID = dwConID;
+		m_dwCopyID = dwCopyID;
+		m_dwCopyGuid = dwCopyGuid;
+
+	}
+	UINT32 m_dwCopyID;
+	UINT32 m_dwSvrID;
+	UINT32 m_dwConnID;
+	UINT32 m_dwCopyGuid;
+};
+
 class CGameSvrMgr
 {
 private:
@@ -33,13 +50,12 @@ public:
 
 	UINT32  GetConnIDBySvrID(UINT32 dwServerID);
 
-	BOOL    SendPlayerToMainCity(UINT64 u64ID);
+	BOOL    SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID);
 
 	BOOL    SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp);
 
-	BOOL	GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid);
+	BOOL	GetMainCityInfo(UINT32 dwCopyID, UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid);
     BOOL	CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType );
-
 
 public:
 	BOOL	OnCreateMainCopy(CreateNewSceneAck &Ack);
@@ -51,12 +67,14 @@ public:
 	BOOL	OnMsgCreateSceneAck(NetPacket *pNetPacket);  //响应创建副本成功
     BOOL    OnMsgTransRoleDataAck(NetPacket *pNetPacket);//响应角色数据传输成功
     BOOL    OnMsgEnterSceneReq(NetPacket *pNetPacket);
-	//BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
+	BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
 	
-	
-
 public:
 	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->副本服务器信息
+
+	std::map<UINT32, CityInfo> m_mapCity;
+
+
 };
 
 #endif

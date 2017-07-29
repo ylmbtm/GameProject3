@@ -396,6 +396,11 @@ UINT32 CScene::GetCopyID()
     return m_dwCopyID;
 }
 
+UINT32 CScene::GetCopyType()
+{
+	return m_dwCopyType;
+}
+
 BOOL CScene::SendAllNewObjectToPlayer( CSceneObject *pSceneObject )
 {
     //先把玩家的完整包组装好

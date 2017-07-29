@@ -34,7 +34,7 @@ CSceneManager::~CSceneManager()
 
 BOOL CSceneManager::Init(BOOL bMainLand)
 {
-	m_MaxCopyBaseID = 0;
+	m_MaxCopyBaseID = CGameService::GetInstancePtr()->GetServerID() << 24;
 
 	if(bMainLand)
 	{
@@ -137,7 +137,7 @@ UINT32 CSceneManager::MakeCopyID()
 {
 	m_MaxCopyBaseID += 1;
 
-	return CGameService::GetInstancePtr()->GetServerID()<<24|m_MaxCopyBaseID;
+	return m_MaxCopyBaseID;
 }
 
 BOOL CSceneManager::SendCopyReport()
@@ -151,14 +151,16 @@ BOOL CSceneManager::SendCopyReport()
 		CScene *pScene = itor->second;
 		ERROR_RETURN_FALSE(pScene != NULL);
 
-		CopyItem *pItem = Req.add_copylist();
-		pItem->set_copyguid(pScene->GetCopyGuid());
-		pItem->set_copyid(pScene->GetCopyID());
+		if(pScene->GetCopyType() == CPT_CITY)
+		{
+			CopyItem *pItem = Req.add_copylist();
+			pItem->set_copyguid(pScene->GetCopyGuid());
+			pItem->set_copyid(pScene->GetCopyID());
+			pItem->set_copytype(pScene->GetCopyType());
+		}
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
-
-	return TRUE;
 }
 
 BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)

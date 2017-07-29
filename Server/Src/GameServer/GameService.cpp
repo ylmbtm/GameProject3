@@ -62,6 +62,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
 
 	ConnectToLogicSvr();
+
 	ConnectToProxySvr();
 
 	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
@@ -70,13 +71,11 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
 BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
-	//CLog::GetInstancePtr()->AddLog("新连接来到!");
-
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
 		RegisterToLogicSvr();
 
-		//m_SceneManager.SendCopyReport();
+		m_SceneManager.SendCopyReport();
 
 		return TRUE;
 	}

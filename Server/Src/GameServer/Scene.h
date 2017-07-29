@@ -14,13 +14,15 @@ public:
 
 	BOOL	        DispatchPacket(NetPacket *pNetPack);
 
-	BOOL		Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType,UINT32 dwPlayerNum);
+	BOOL			Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType,UINT32 dwPlayerNum);
 
 	BOOL	        Uninit();
 	
 	UINT32	        GetCopyGuid();
 
 	UINT32          GetCopyID();
+
+	UINT32			GetCopyType();
 
 	BOOL            OnUpdate( UINT32 dwTick );
 

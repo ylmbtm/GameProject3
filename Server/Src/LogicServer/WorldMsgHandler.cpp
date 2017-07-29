@@ -264,7 +264,7 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket *pNetPacket)
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == 0);
     pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(Req.roleid());
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(Req.roleid(), pPlayer->GetCityCopyID());
 
 	pPlayer->m_dwCopyID = 0;
 	pPlayer->m_dwCopyGuid = 0;
@@ -284,7 +284,7 @@ BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket *pNetPacket )
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == 0);
 	pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(Req.roleid());
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(Req.roleid(), pPlayer->GetCityCopyID());
 	pPlayer->m_dwCopyID = 0;
 	pPlayer->m_dwCopyGuid = 0;
     return TRUE;

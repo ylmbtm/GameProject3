@@ -32,7 +32,7 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket *pNetPacket)
 		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_ACK,			OnMsgCreateSceneAck);
         PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_ACK,	    OnMsgTransRoleDataAck);
         PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		    OnMsgEnterSceneReq);
-		//PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
+		PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
 	default:
 		{
 			return FALSE;
@@ -100,10 +100,10 @@ UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
 	return itor->second.dwConnID;
 }
 
-BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID)
+BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID)
 {
 	UINT32 dwSvrID, dwConnID, dwCopyGuid;
-	CGameSvrMgr::GetInstancePtr()->GetMainScene(dwSvrID, dwConnID, dwCopyGuid);
+	CGameSvrMgr::GetInstancePtr()->GetMainCityInfo(dwCopyID, dwSvrID, dwConnID, dwCopyGuid);
 	ERROR_RETURN_TRUE(dwConnID != 0);
 	ERROR_RETURN_FALSE(u64ID != 0);
 	ERROR_RETURN_FALSE(dwCopyGuid != 0);
@@ -111,14 +111,14 @@ BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID)
 
 	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
 	ERROR_RETURN_FALSE(pPlayer != NULL);
-	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != 6);
+	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != dwCopyID);
 	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
 
 	TransRoleDataReq Req;
 	Req.set_camp(CT_PVE_PLAYER);
 	ERROR_RETURN_FALSE(pPlayer->ToTransRoleData(Req));
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANS_ROLE_DATA_REQ, u64ID, dwCopyGuid, Req);
-	pPlayer->m_dwToCopyID = 6;
+	pPlayer->m_dwToCopyID = dwCopyID;
 	pPlayer->m_dwToCopyGuid = dwCopyGuid;
 
 	return TRUE;
@@ -142,11 +142,21 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 	return TRUE;
 }
 
-BOOL CGameSvrMgr::GetMainScene(UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid)
+BOOL CGameSvrMgr::GetMainCityInfo(UINT32 dwCopyID, UINT32 &dwServerID, UINT32 &dwConnID, UINT32 &dwCopyGuid)
 {
+	auto itor = m_mapCity.find(dwCopyID);
+	if(itor != m_mapCity.end())
+	{
+		dwServerID = itor->second.m_dwSvrID;
+		dwConnID = itor->second.m_dwConnID;
+		dwCopyGuid = itor->second.m_dwCopyGuid;
+		return TRUE;
+	}
+
 	dwServerID = 1;
 	dwCopyGuid = dwServerID<<24|1;
 	dwConnID = GetConnIDBySvrID(dwServerID);
+
 	return TRUE;
 }
 
@@ -169,10 +179,22 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket *pNetPacket)
 	return TRUE;
 }
 
-// BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket *pNetPacket)
-// {
-// 
-// }
+ BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket *pNetPacket)
+ {
+	 CopyReportReq Req;
+	 Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	 PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	 //
+	 return TRUE;
+	 for(int i = 0; i < Req.copylist_size(); i++)
+	 {
+		 const CopyItem &item = Req.copylist(i);
+		 m_mapCity.insert(std::make_pair(item.copyid(), CityInfo(item.copyid(), item.serverid(), pNetPacket->m_dwConnID, item.copyguid())));
+	 }
+
+	 return TRUE;
+ }
 
 BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket *pNetPacket)
 {

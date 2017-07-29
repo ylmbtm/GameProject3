@@ -51,6 +51,7 @@ public: //全部是操作方法
 	BOOL			OnAllModuleOK();
 public:
 	UINT64			GetObjectID();
+	UINT32			GetCityCopyID();
 public:
 	UINT64			m_u64ID;
 	UINT32			m_dwProxyConnID;

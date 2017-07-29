@@ -193,7 +193,8 @@ BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
     SendRoleLoginAck();
-    CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID);
+
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
 	m_dwCopyID = 0;
 	m_dwCopyGuid = 0;
 	return TRUE;
@@ -249,6 +250,15 @@ CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 UINT64 CPlayerObject::GetObjectID()
 {
 	return m_u64ID;
+}
+
+UINT32 CPlayerObject::GetCityCopyID()
+{
+	CRoleModule *pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_FALSE(pModule != NULL);
+	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
+	//return pModule->m_pRoleDataObject->m_CityCopyID;
+	return 6;
 }
 
 BOOL CPlayerObject::SendRoleLoginAck()
