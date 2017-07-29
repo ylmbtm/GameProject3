@@ -53,11 +53,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwLogicType, UINT32 dwPlayerNum)
+BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum)
 {
 	CScene *pScene = new CScene;
 
-	if(!pScene->Init(dwCopyID, dwCopyGuid, dwLogicType, dwPlayerNum))
+	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum))
 	{
 		ASSERT_FAIELD;
 
@@ -197,7 +197,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6,MakeCopyID(), 1, 0))
+	if(!CreateScene(6,MakeCopyID(), 3, 0))
 	{
 		ASSERT_FAIELD;
 
