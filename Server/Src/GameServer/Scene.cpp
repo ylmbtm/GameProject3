@@ -956,3 +956,10 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
     return TRUE;
 }
 
+BOOL CScene::SendBattleResult()
+{
+    BattleResultNty Nty;
+    
+    
+}
+

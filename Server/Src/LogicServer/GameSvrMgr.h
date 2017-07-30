@@ -1,4 +1,4 @@
-#include "..\Message\Msg_Login.pb.h"
+ï»¿#include "..\Message\Msg_Login.pb.h"
 #ifndef __GAME_SVR_MGR__
 #define __GAME_SVR_MGR__
 
@@ -11,7 +11,7 @@ struct GameSvrInfo
 	}
 	UINT32 dwSvrID;
 	UINT32 dwConnID;
-	UINT32 dwLoad;		//¸ºÔØÖµ
+	UINT32 dwLoad;		//è´Ÿè½½å€¼
 };
 
 
@@ -60,17 +60,18 @@ public:
 public:
 	BOOL	OnCreateMainCopy(CreateNewSceneAck &Ack);
 
-
+    //*********************æ¶ˆæ¯å¤„ç†å®šä¹‰å¼€å§‹******************************
 public:
-	BOOL	OnCloseConnect(UINT32 dwConnID);
-	BOOL	OnMsgGameSvrRegister(NetPacket *pNetPacket); //ÏìÓ¦¸±±¾·şÎñÆ÷×¢²á
-	BOOL	OnMsgCreateSceneAck(NetPacket *pNetPacket);  //ÏìÓ¦´´½¨¸±±¾³É¹¦
-    BOOL    OnMsgTransRoleDataAck(NetPacket *pNetPacket);//ÏìÓ¦½ÇÉ«Êı¾İ´«Êä³É¹¦
+	BOOL    OnCloseConnect(UINT32 dwConnID);
+	BOOL    OnMsgGameSvrRegister(NetPacket *pNetPacket); //å“åº”å‰¯æœ¬æœåŠ¡å™¨æ³¨å†Œ
+	BOOL    OnMsgCreateSceneAck(NetPacket *pNetPacket);  //å“åº”åˆ›å»ºå‰¯æœ¬æˆåŠŸ
+    BOOL    OnMsgTransRoleDataAck(NetPacket *pNetPacket);//å“åº”è§’è‰²æ•°æ®ä¼ è¾“æˆåŠŸ
     BOOL    OnMsgEnterSceneReq(NetPacket *pNetPacket);
-	BOOL	OnMsgCopyReportReq(NetPacket *pNetPacket);
-	
+	BOOL    OnMsgCopyReportReq(NetPacket *pNetPacket);
+    BOOL    OnMsgBattleResultNty(NetPacket *pNetPacket);
+	//*********************æ¶ˆæ¯å¤„ç†å®šä¹‰ç»“æŸ******************************
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //·şÎñÆ÷ID-->¸±±¾·şÎñÆ÷ĞÅÏ¢
+	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //æœåŠ¡å™¨ID-->å‰¯æœ¬æœåŠ¡å™¨ä¿¡æ¯
 
 	std::map<UINT32, CityInfo> m_mapCity;
 

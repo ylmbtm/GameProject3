@@ -33,6 +33,7 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket *pNetPacket)
         PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_ACK,	    OnMsgTransRoleDataAck);
         PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		    OnMsgEnterSceneReq);
 		PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
+        PROCESS_MESSAGE_ITEM(MSG_BATTLE_RESULT_NTY,		    OnMsgBattleResultNty);
 	default:
 		{
 			return FALSE;
@@ -305,4 +306,17 @@ UINT32 CGameSvrMgr::GetFreeGameServerID()
 	}
 	
 	return dwSvrID;
+}
+
+BOOL CGameSvrMgr::OnMsgBattleResultNty( NetPacket *pNetPacket )
+{
+    BattleResultNty Nty;
+    Nty.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
+    //CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+    //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == Req.copyguid());
+    //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == Req.copyid());
+
 }

@@ -327,3 +327,35 @@ message UseMpBottleAck {
 	uint32 RetCode = 1;
 	int32  Count = 2;
 }
+
+message ResultObject{
+    uint64 ObjectID = 1;
+	int32  ActorID = 2;
+	int32  ObjectType = 3;
+	int32  Result = 4;
+	int32  Kill = 5;
+	int32  Death = 6;
+	int32  Heal = 7;
+	int32  Damage = 8;
+}
+
+message ResultPlayer {
+	uint64 ObjectID = 1;
+	int32  ActorID = 2;
+	int32  ObjectType = 3;
+	int32  Result = 4;
+	int32  Kill = 5;
+	int32  Death = 6;
+	int32  Heal = 7;
+	int32  Damage = 8;
+}
+
+message BattleResultNty {
+    uint32 ServerID = 1;
+	uint32 CopyGuid = 2;
+	uint32 CopyID = 3;
+	uint32 CopyType = 4;
+	int32  LeftTime = 5;
+	repeated ResultPlayer PlayerList = 6;
+	repeated ResultObject ObjectList = 7;
+}

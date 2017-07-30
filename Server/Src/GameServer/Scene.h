@@ -100,6 +100,7 @@ protected:
     BOOL ProcessActionItem(const ActionItem &Item);
     BOOL SkillFight(CSceneObject *pAttacker, UINT32 dwSkillID, CSceneObject *pDefender);
 	
+    BOOL SendBattleResult();
 	//*********************消息处理定义开始******************************
 public:
 	BOOL OnMsgTransRoleDataReq(NetPacket *pNetPacket);

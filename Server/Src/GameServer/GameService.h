@@ -42,7 +42,6 @@ protected:
 
 	UINT32				m_dwLogicConnID;
 	UINT32              m_dwProxyConnID;
-
 	UINT32				m_dwServerID;
 
 public:
