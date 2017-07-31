@@ -58,3 +58,14 @@ BOOL CCopyModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	}*/
 	return TRUE;
 }
+
+CopyDataObject* CCopyModule::GetCopyData(UINT32 dwCopyID)
+{
+	auto itor = m_mapCopyData.find(dwCopyID);
+	if(itor != m_mapCopyData.end())
+	{
+		return itor->second;
+	}
+
+	return NULL;
+}

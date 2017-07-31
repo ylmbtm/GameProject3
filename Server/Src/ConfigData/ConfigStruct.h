@@ -20,6 +20,9 @@ struct StCopyInfo
 	UINT32 dwCopyType;     //副要类型
     UINT32 dwCostActID;    //消耗体力ID
     UINT32 dwCostActNum;   //消耗体力数量
+	UINT32 dwGetMoneyID;   //获取货币的ID
+	UINT32 dwGetMoneyRatio;//获取货币的系数
+	UINT32 dwGetExpRation; //获取经验的系数
     UINT32 dwAwardID;      //奖励ID
 	UINT32 dwFirstAwardID; //首胜奖励ID
     UINT32 dwBattleTimes;  //每日可战斗次数

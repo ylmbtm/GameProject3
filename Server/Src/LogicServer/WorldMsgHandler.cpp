@@ -245,7 +245,15 @@ BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket *pNetPacket)
 
 	StCopyInfo *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Req.copyid());
 	ERROR_RETURN_TRUE(pCopyInfo != NULL);
-	ERROR_RETURN_TRUE(pCopyInfo->dwCopyType != 0);
+
+	UINT32 dwRetCode = pPlayer->CheckCopyConditoin(Req.copyid());
+	if(dwRetCode != MRC_SUCCESSED)
+	{
+		MainCopyAck Ack;
+		Ack.set_retcode(dwRetCode);
+		pPlayer->SendMsgProtoBuf(MSG_MAIN_COPY_ACK, Ack);
+	}
+
 	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copyid(), Req.roleid(), 1, pCopyInfo->dwCopyType));
 	return TRUE;
 }

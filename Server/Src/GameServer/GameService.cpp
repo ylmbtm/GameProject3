@@ -75,7 +75,7 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 	{
 		RegisterToLogicSvr();
 
-		m_SceneManager.SendCopyReport();
+		m_SceneManager.SendCityReport();
 
 		return TRUE;
 	}

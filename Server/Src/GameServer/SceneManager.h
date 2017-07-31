@@ -29,7 +29,7 @@ public:
 
 	UINT32      MakeCopyID();
 
-	BOOL		SendCopyReport();
+	BOOL SendCityReport();
 
 	//*********************消息处理定义开始******************************
 public:

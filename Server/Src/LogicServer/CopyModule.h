@@ -25,6 +25,8 @@ public:
 
 	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
+	CopyDataObject* GetCopyData(UINT32 dwCopyID);
+
 public:
 	std::map<UINT32, CopyDataObject*>m_mapCopyData;
 };

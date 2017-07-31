@@ -15,6 +15,8 @@
 #include "EquipModule.h"
 #include "PetModule.h"
 #include "..\ServerData\ServerDefine.h"
+#include "..\ConfigData\ConfigData.h"
+#include "..\ServerData\CopyData.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -198,6 +200,34 @@ BOOL CPlayerObject::OnAllModuleOK()
 	m_dwCopyID = 0;
 	m_dwCopyGuid = 0;
 	return TRUE;
+}
+
+UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
+{
+	return TRUE;
+	StCopyInfo *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(dwCopyID);
+	ERROR_RETURN_CODE(m_u64ID != 0, MRC_INVALID_COPYID);
+
+	CRoleModule *pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_FAILED);
+
+	if(!pRoleModule->CheckActionEnough(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum))
+	{
+		return MRC_NOT_ENOUGH_ACTOIN;
+	}
+
+	CCopyModule *pCopyModule = (CCopyModule*)GetModuleByType(MT_COPY);
+	ERROR_RETURN_CODE(pCopyModule != NULL, MRC_FAILED);
+
+	CopyDataObject *pObject = pCopyModule->GetCopyData(dwCopyID);
+	ERROR_RETURN_CODE(pObject != NULL, MRC_FAILED);
+
+	if(pObject->m_dwBattleTimes >= pCopyInfo->dwBattleTimes)
+	{
+		return MRC_NOT_ENOUGH_TIMES;
+	}
+
+	return MRC_SUCCESSED;
 }
 
 BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID)

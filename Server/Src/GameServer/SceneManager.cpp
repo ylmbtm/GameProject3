@@ -140,7 +140,7 @@ UINT32 CSceneManager::MakeCopyID()
 	return m_MaxCopyBaseID;
 }
 
-BOOL CSceneManager::SendCopyReport()
+BOOL CSceneManager::SendCityReport()
 {
 	CopyReportReq Req;
 

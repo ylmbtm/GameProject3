@@ -49,6 +49,11 @@ public: //全部是操作方法
 	BOOL			DestroyAllModule();
 	CModuleBase*	GetModuleByType(UINT32 dwModuleType);
 	BOOL			OnAllModuleOK();
+
+public:
+	UINT32			CheckCopyConditoin(UINT32 dwCopyID);
+
+
 public:
 	UINT64			GetObjectID();
 	UINT32			GetCityCopyID();
