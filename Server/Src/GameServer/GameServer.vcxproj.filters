@@ -16,7 +16,7 @@
     <Filter Include="include">
       <UniqueIdentifier>{8122e15e-269c-4a57-905e-b9c18d3c82c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="scenelogic">
+    <Filter Include="Scenelogic">
       <UniqueIdentifier>{4c2736fc-4016-4f7c-90ff-cf96be839041}</UniqueIdentifier>
     </Filter>
     <Filter Include="SceneObject">
@@ -25,7 +25,7 @@
     <Filter Include="ConfigData">
       <UniqueIdentifier>{0e358b5d-7aad-44d3-ae3b-39bf152f4c06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="proto">
+    <Filter Include="Proto">
       <UniqueIdentifier>{c6b463a4-bbfd-4a98-96c1-6c3b427b8898}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -46,13 +46,13 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\SceneLogic_Normal.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\SceneObject.cpp">
       <Filter>SceneObject</Filter>
@@ -61,10 +61,10 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\BattleResult.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="SceneXmlMgr.cpp">
       <Filter>源文件</Filter>
@@ -76,13 +76,13 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Login.pb.cc">
-      <Filter>proto</Filter>
+      <Filter>Proto</Filter>
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Move.pb.cc">
-      <Filter>proto</Filter>
+      <Filter>Proto</Filter>
     </ClCompile>
     <ClCompile Include="SceneLogic\SceneLogic_Arena.cpp">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,13 +105,13 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_None.h">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLogic\SceneLogic_Base.h">
-      <Filter>scenelogic</Filter>
+    <ClInclude Include="Scenelogic\SceneLogic_Base.h">
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_Normal.h">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\SceneObject.h">
       <Filter>SceneObject</Filter>
@@ -120,10 +120,10 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_City.h">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\BattleResult.h">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Utility\rapidxml.h">
       <Filter>头文件</Filter>
@@ -141,13 +141,13 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Move.pb.h">
-      <Filter>proto</Filter>
+      <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_Arena.h">
-      <Filter>scenelogic</Filter>
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Login.pb.h">
-      <Filter>proto</Filter>
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

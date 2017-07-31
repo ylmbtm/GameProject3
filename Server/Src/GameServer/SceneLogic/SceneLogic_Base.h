@@ -4,12 +4,10 @@
 #include "Utility\RapidXml\rapidxml.h"
 #include "..\Message\Game_Define.pb.h"
 #include "Utility\XMath.h"
+#include "BattleResult.h"
 
 class CScene;
 class CSceneObject;
-class BattleResult;
-
-
 
 class SceneLogicBase
 {
@@ -47,7 +45,7 @@ public:
 
 	UINT32 m_dwLastTime; 
 
-	BattleResult *m_pBattleResult;
+	BattleResult m_BattleResult;
 
 	CPoint2d m_vtBirthPos[CT_CMAP_END];
 };

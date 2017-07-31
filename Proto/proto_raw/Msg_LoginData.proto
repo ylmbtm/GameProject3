@@ -30,10 +30,26 @@ message DBCopyData {
 
 }
 
+
+message DBEquipData {
+
+}
+
+message DBPetData {
+
+}
+
+message DBPartnerData {
+
+}
+
 message DBRoleLoginAck {
     uint32		RetCode = 1;
 	uint64		RoleID = 2;
 	DBRoleData	RoleData = 3;
 	DBBagData	BagData = 4;
 	DBCopyData	CopyData = 5;
+	DBEquipData	EquipData = 6;
+	DBPetData	PetData = 7;
+	DBPartnerData	PartnerData = 8;
 }

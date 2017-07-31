@@ -961,5 +961,6 @@ BOOL CScene::SendBattleResult()
     BattleResultNty Nty;
     
     
+	return TRUE;
 }
 

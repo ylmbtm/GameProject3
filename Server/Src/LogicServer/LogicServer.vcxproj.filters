@@ -87,6 +87,9 @@
     <ClCompile Include="GlobalDataMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PartnerModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -168,6 +171,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\GlobalData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\EquipData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="PartnerModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\PartnerData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>

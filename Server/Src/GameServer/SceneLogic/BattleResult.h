@@ -21,51 +21,20 @@ public:
 	~BattleResult();
 
 	RESULTTYPE GetResultType();
-	
+	VOID SetResultType(RESULTTYPE type);
+
+	BOOL SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
+
+	BOOL SetNpcID(UINT32 dwNpcID);
+
+	BOOL SetKillMonster(UINT32 dwMonsterID, UINT32 dwKillNum);
 private:
 	RESULTTYPE	m_Type;//判定类型
-};
-
-
-class CResultKillAll: public BattleResult
-{
-public:
-	CResultKillAll();
-};
-
-class CResultKillNum: public BattleResult
-{
-public:
-	CResultKillNum(UINT32 dwMonsterID, UINT32 dwKillNum);
-
-private:
+	Rect2d  m_DestRect;
+	UINT32 m_dwNpcID;
 	UINT32 m_dwMonsterID;
 	UINT32 m_dwKillNum;
 };
 
-class CResultPlayerAlive: public BattleResult
-{
-public:
-	CResultPlayerAlive();
-};
-
-class CResultDestination: public BattleResult
-{
-public:
-	CResultDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
-
-	BOOL SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
-private:
-	Rect2d  m_DestRect;
-};
-
-class CResultNpcAlive: public BattleResult
-{
-public:
-	CResultNpcAlive(UINT32 dwNpcID);
-private:
-
-	UINT32 m_dwNpcID;
-};
 
 #endif //__BATTLE_RESULT_H__

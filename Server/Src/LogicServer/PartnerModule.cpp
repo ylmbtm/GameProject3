@@ -1,46 +1,46 @@
 ﻿#include "stdafx.h"
-#include "EquipModule.h"
+#include "PartnerModule.h"
 
-CEquipModule::CEquipModule(CPlayerObject *pOwner):CModuleBase(pOwner)
+CPartnerModule::CPartnerModule(CPlayerObject *pOwner):CModuleBase(pOwner)
 {
 
 }
 
-CEquipModule::~CEquipModule()
+CPartnerModule::~CPartnerModule()
 {
 
 }
 
-BOOL CEquipModule::OnCreate(UINT64 u64RoleID)
+BOOL CPartnerModule::OnCreate(UINT64 u64RoleID)
 {
 
 	return TRUE;
 }
 
 
-BOOL CEquipModule::OnDestroy()
+BOOL CPartnerModule::OnDestroy()
 {
 	return TRUE;
 }
 
-BOOL CEquipModule::OnLogin()
+BOOL CPartnerModule::OnLogin()
 {
 	return TRUE;
 }
 
-BOOL CEquipModule::OnLogout()
+BOOL CPartnerModule::OnLogout()
 {
 	return TRUE;
 }
 
-BOOL CEquipModule::OnNewDay()
+BOOL CPartnerModule::OnNewDay()
 {
 	return TRUE;
 }
 
-BOOL CEquipModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
+BOOL CPartnerModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 {
-	const DBEquipData &EquipData = Ack.equipdata();
+	const DBPartnerData &PartnerData = Ack.partnerdata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -56,7 +56,6 @@ BOOL CEquipModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	pObject->unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}*/
-
 	return TRUE;
 }
 

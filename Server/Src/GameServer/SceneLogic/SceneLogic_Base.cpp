@@ -12,8 +12,6 @@ SceneLogicBase::SceneLogicBase(CScene *pScene)
 	m_pScene = pScene;
 
 	m_bFinished = FALSE;
-
-	m_pBattleResult = NULL;
 }
 
 SceneLogicBase::~SceneLogicBase()
@@ -52,40 +50,30 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
 	UINT32 dwType = CommonConvert::StringToInt(pAttr->value());
 	ERROR_RETURN_TRUE(dwType != 0);
 
+	m_BattleResult.SetResultType(BRT_KILL_ALL);
 	switch(dwType)
 	{
-	case BRT_KILL_ALL:
-		{
-			m_pBattleResult = new CResultKillAll();
-		}
-		break;
 	case BRT_DESTINATION:
 		{
-			m_pBattleResult = new CResultDestination(0,0,0,0);
-		}
-		break;
-	case BRT_PLAYER_ALIVE:
-		{
-			m_pBattleResult = new CResultPlayerAlive();
+			m_BattleResult.SetDestination(0,0,0,0);
 		}
 		break;
 	case BRT_NPC_ALIVE:
 		{
-			m_pBattleResult = new CResultNpcAlive(0);
+			m_BattleResult.SetNpcID(0);
 		}
 		break;
 	case BRT_KILL_NUM:
 		{
-			m_pBattleResult = new CResultKillNum(0,0);
+			m_BattleResult.SetKillMonster(0,0);
 		}
 		break;
 	default:
 		{
-
+			return FALSE;
 		}
 	}
 	
-
 	return TRUE;
 }
 
@@ -143,9 +131,8 @@ BOOL SceneLogicBase::SetLastTime(UINT32 dwTime)
 BOOL SceneLogicBase::BattleResultCheck()
 {
 	return TRUE;
-	ERROR_RETURN_TRUE(m_pBattleResult != NULL);
 
-	switch(m_pBattleResult->GetResultType())
+	switch(m_BattleResult.GetResultType())
 	{
 	case BRT_KILL_ALL:
 		{

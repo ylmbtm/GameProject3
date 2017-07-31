@@ -205,6 +205,7 @@
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
+    <ClCompile Include="PartnerModule.cpp" />
     <ClCompile Include="PetModule.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
@@ -227,7 +228,9 @@
     <ClInclude Include="..\Message\Msg_RetCode.pb.h" />
     <ClInclude Include="..\ServerData\BagData.h" />
     <ClInclude Include="..\ServerData\CopyData.h" />
+    <ClInclude Include="..\ServerData\EquipData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
+    <ClInclude Include="..\ServerData\PartnerData.h" />
     <ClInclude Include="..\ServerData\PetData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\ServerDefine.h" />
@@ -240,6 +243,7 @@
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GlobalDataMgr.h" />
     <ClInclude Include="ModuleBase.h" />
+    <ClInclude Include="PartnerModule.h" />
     <ClInclude Include="PetModule.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerObject.h" />

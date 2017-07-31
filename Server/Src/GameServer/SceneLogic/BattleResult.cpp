@@ -17,42 +17,32 @@ RESULTTYPE BattleResult::GetResultType()
 	return m_Type;
 }
 
-CResultKillAll::CResultKillAll() : BattleResult(BRT_KILL_ALL)
+VOID BattleResult::SetResultType(RESULTTYPE type)
 {
-
+	m_Type = type;
 }
 
-CResultKillNum::CResultKillNum(UINT32 dwMonsterID, UINT32 dwKillNum) : BattleResult(BRT_KILL_NUM)
+BOOL BattleResult::SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom)
+{
+	m_DestRect.m_Left = left;
+	m_DestRect.m_Top = top;
+	m_DestRect.m_Right = right;
+	m_DestRect.m_Bottom = bottom;
+
+	return TRUE;
+}
+
+BOOL BattleResult::SetNpcID(UINT32 dwNpcID)
+{
+	m_dwNpcID = dwNpcID;
+
+	return TRUE;
+}
+
+BOOL BattleResult::SetKillMonster(UINT32 dwMonsterID, UINT32 dwKillNum)
 {
 	m_dwMonsterID = dwMonsterID;
 	m_dwKillNum = dwKillNum;
-}
-
-CResultPlayerAlive::CResultPlayerAlive() : BattleResult(BRT_PLAYER_ALIVE)
-{
-
-}
-
-CResultDestination::CResultDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom) : BattleResult(BRT_DESTINATION)
-{
-	m_DestRect.m_Left = left;
-	m_DestRect.m_Top = top;
-	m_DestRect.m_Right = right;
-	m_DestRect.m_Bottom = bottom;
-}
-
-CResultNpcAlive::CResultNpcAlive(UINT32 dwNpcID) : BattleResult(BRT_NPC_ALIVE)
-{
-	m_dwNpcID = dwNpcID;
-}
-
-
-BOOL CResultDestination::SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom)
-{
-	m_DestRect.m_Left = left;
-	m_DestRect.m_Top = top;
-	m_DestRect.m_Right = right;
-	m_DestRect.m_Bottom = bottom;
 
 	return TRUE;
 }

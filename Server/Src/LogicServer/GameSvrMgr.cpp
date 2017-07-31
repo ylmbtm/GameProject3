@@ -319,4 +319,6 @@ BOOL CGameSvrMgr::OnMsgBattleResultNty( NetPacket *pNetPacket )
     //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == Req.copyguid());
     //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == Req.copyid());
 
+
+	return TRUE;
 }
