@@ -11,6 +11,11 @@ LogicSvrManager::~LogicSvrManager(void)
 {
 }
 
+BOOL LogicSvrManager::Init()
+{
+	return TRUE;
+}
+
 BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 {
 	LogicServerNode *pNode = GetByKey(dwServerID);
@@ -19,6 +24,8 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 		pNode = InsertAlloc(dwServerID);
 		pNode->dwServerID = dwServerID;
 		pNode->dwConnID = dwConnID;
+		pNode->strIpAddr = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+		pNode->dwPort = 9876;
 	}
 
 	pNode->dwConnID = dwConnID;

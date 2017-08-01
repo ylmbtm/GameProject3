@@ -32,7 +32,7 @@ BOOL CGameService::Init()
 	{
 		return FALSE;
 	}
-
+	CLog::GetInstancePtr()->AddLog("---------服务器开始启动--------");
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
 		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");

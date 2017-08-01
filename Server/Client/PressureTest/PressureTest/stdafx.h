@@ -20,7 +20,8 @@
 #include <ws2tcpip.h>
 #include <mswsock.h>
 #include <assert.h>
-
+#include <direct.h>
+#include <time.h>
 //#define ASSERT_FAIELD (ASSERT(false))
 
 #define ASSERT_FAIELD (assert(false))

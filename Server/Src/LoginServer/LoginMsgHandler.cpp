@@ -26,7 +26,7 @@ CLoginMsgHandler::~CLoginMsgHandler()
 
 BOOL CLoginMsgHandler::Init()
 {
-	
+	m_LogicSvrMgr.Init();
 
 	return TRUE;
 }
@@ -199,9 +199,7 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket *pPacket)
 {
 	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-
 	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid());
-
 	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
@@ -219,13 +217,8 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket *pPacket)
 
 	LogicServerNode *pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.serverid());
 	ERROR_RETURN_TRUE(pNode!= NULL);
-
-	//Ack.set_serveraddr(pNode->strIpAddr);
-	//Ack.set_serverport(pNode->dwPort);
-
-	Ack.set_serveraddr("127.0.0.1");
-	Ack.set_serverport(9876);
-
+	Ack.set_serveraddr(pNode->strIpAddr);
+	Ack.set_serverport(pNode->dwPort);
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
 	return TRUE;

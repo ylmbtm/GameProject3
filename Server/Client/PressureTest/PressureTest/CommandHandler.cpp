@@ -7,6 +7,7 @@
 #include "..\Src\Message\Msg_Move.pb.h"
 #include "Utility\CommonConvert.h"
 #include "..\Src\Message\Game_Define.pb.h"
+#include "Utility\CommonFunc.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -336,19 +337,44 @@ VOID CClientCmdHandler::TestMove()
 	ActionItem *pItem =  Req.add_actionlist();
 	pItem->set_actionid(AT_MOVE);
 	pItem->set_objectguid(m_RoleIDList[0]);
+
+	UINT32 dwTimeDiff = CommonFunc::GetTickCount() - m_dwMoveTime;
+	if(dwTimeDiff > 1000)
+	{
+		dwTimeDiff = 0;
+		m_dwMoveTime = CommonFunc::GetTickCount();
+
+		UINT32 dwRand = m_RoleIDList[0]%4;
+		if(dwRand = 0)
+		{
+			m_x += 1;
+			m_z += 1;
+		}
+		else if(dwRand = 1)
+		{
+			m_x += 1;
+			m_z -= 1;
+		}
+		else if(dwRand = 2)
+		{
+			m_x -= 1;
+			m_z += 1;
+		}
+		else if(dwRand = 3)
+		{
+			m_x -= 1;
+			m_z -= 1;
+		}
+
+		pItem->set_x(m_x);
+		pItem->set_vx(m_vx);
+		pItem->set_z(m_z);
+		pItem->set_vz(m_vz);
+
+		m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
+	}
+
 	
-	m_x += 1;
-	m_z += 1;
-
-	m_vx += 1;
-	m_vz += 1;
-
-	pItem->set_x(m_x);
-	pItem->set_vx(m_vx);
-	pItem->set_z(m_z);
-	pItem->set_vz(m_vz);
-
-	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }
 
 BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )

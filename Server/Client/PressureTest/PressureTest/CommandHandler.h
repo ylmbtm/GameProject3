@@ -98,6 +98,8 @@ public:
 
 	UINT32				m_dwToCopyID;
 
+	UINT32              m_dwMoveTime;
+
 public:
 	VOID  TestMove();
 	VOID  TestCopy();

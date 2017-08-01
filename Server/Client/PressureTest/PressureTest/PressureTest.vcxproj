@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Utility\CommonConvert.cpp" />
+    <ClCompile Include="..\..\..\Common\Utility\CommonFunc.cpp" />
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -122,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Utility\CommonConvert.h" />
+    <ClInclude Include="..\..\..\Common\Utility\CommonFunc.h" />
     <ClInclude Include="CharObject.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="PlayerObject.h" />

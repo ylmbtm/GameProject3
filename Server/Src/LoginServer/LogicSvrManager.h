@@ -20,6 +20,8 @@ public:
 
 
 public:
+	BOOL Init();
+
 	BOOL RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 
 	BOOL UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
