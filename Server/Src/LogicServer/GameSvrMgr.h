@@ -1,7 +1,8 @@
-﻿#include "..\Message\Msg_Login.pb.h"
-#ifndef __GAME_SVR_MGR__
+﻿#ifndef __GAME_SVR_MGR__
 #define __GAME_SVR_MGR__
 
+#include "..\Message\Msg_Login.pb.h"
+#include "..\Message\Msg_Copy.pb.h"
 struct GameSvrInfo
 {
 	GameSvrInfo(UINT32 svrID, UINT32 conID)
@@ -59,7 +60,15 @@ public:
     BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType );
 
 public:
+	//响应副本创建返回
+	//////////////////////////////////////////////////////////////////////////
 	BOOL		OnCreateMainCopy(CreateNewSceneAck &Ack);
+
+
+
+	//响应副本结果返回
+	//////////////////////////////////////////////////////////////////////////
+	BOOL		OnMainCopyResult(BattleResultNty &Nty);
 
     //*********************消息处理定义开始******************************
 public:

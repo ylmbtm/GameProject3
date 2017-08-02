@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "SceneObject.h"
 #include "..\GameService.h"
+#include "..\Message\Msg_Login.pb.h"
+#include "..\Message\Msg_Copy.pb.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
@@ -234,6 +236,15 @@ UINT32 CSceneObject::GetLastSkillTime(UINT32 dwSkillID)
 BOOL CSceneObject::SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime)
 {
 	m_mapSkillTime.insert(std::make_pair(dwSkillID, dwTime));
+
+	return TRUE;
+}
+
+BOOL CSceneObject::SaveBattleResult(ResultPlayer *pResult)
+{
+	pResult->set_actorid(m_dwActorID);
+	pResult->set_result(m_dwResult);
+	pResult->set_damage(m_dwDamage);
 
 	return TRUE;
 }

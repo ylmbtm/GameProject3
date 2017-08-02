@@ -7,6 +7,11 @@
 #include "../Message/Msg_ID.pb.h"
 #include "Utility/Log/Log.h"
 #include "../Message/Game_Define.pb.h"
+#include "BagModule.h"
+#include "RoleModule.h"
+#include "../ServerData/ServerDefine.h"
+#include "../ConfigData/ConfigStruct.h"
+#include "../ConfigData/ConfigData.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -312,13 +317,50 @@ BOOL CGameSvrMgr::OnMsgBattleResultNty( NetPacket *pNetPacket )
 {
     BattleResultNty Nty;
     Nty.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-    ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+	ERROR_RETURN_TRUE(Nty.copytype() != 0);
+	ERROR_RETURN_TRUE(Nty.copyid() != 0);
+	ERROR_RETURN_TRUE(Nty.copyguid() != 0);
+	ERROR_RETURN_TRUE(Nty.serverid() != 0);
 
-    //CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-    //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == Req.copyguid());
-    //ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == Req.copyid());
+	switch(Nty.copytype())
+	{
+		case CPT_MAIN: OnMainCopyResult(Nty);break;
+	}
 
+	return TRUE;
+}
+
+
+BOOL CGameSvrMgr::OnMainCopyResult(BattleResultNty &Nty)
+{
+	ERROR_RETURN_TRUE(Nty.playerlist_size() == 1);
+
+	MainCopyResultNty Req;
+	const ResultPlayer &Result = Nty.playerlist(0);
+
+	CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Result.objectid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	CBagModule *pBagModule = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
+	ERROR_RETURN_TRUE(pBagModule != NULL);
+
+	StCopyInfo *pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Nty.copyid());
+	ERROR_RETURN_TRUE(pCopyInfo != NULL);
+
+	std::vector<StItemData> vtItemList;
+	CConfigData::GetInstancePtr()->GetItemsFromAwardID(pCopyInfo->dwAwardID, vtItemList);
+
+	for(std::vector<StItemData>::size_type i = 0; i < vtItemList.size(); i++)
+	{
+		pBagModule->AddItem(vtItemList[i].dwItemID, vtItemList[i].dwItemNum);
+	}
+
+	CRoleModule *pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
+	ERROR_RETURN_TRUE(pRoleModule != NULL);
+
+	pRoleModule->CostAction(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum);
+
+	pPlayer->SendMsgProtoBuf(MSG_MAINCOPY_RESULT_NTY, Req);
 
 	return TRUE;
 }

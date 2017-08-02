@@ -84,6 +84,9 @@
     <ClCompile Include="SceneLogic\SceneLogic_Arena.cpp">
       <Filter>Scenelogic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_Copy.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -147,6 +150,9 @@
       <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Login.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>

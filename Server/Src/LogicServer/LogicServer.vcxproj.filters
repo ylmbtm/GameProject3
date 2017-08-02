@@ -90,6 +90,9 @@
     <ClCompile Include="PartnerModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_Copy.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\PartnerData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Copy.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

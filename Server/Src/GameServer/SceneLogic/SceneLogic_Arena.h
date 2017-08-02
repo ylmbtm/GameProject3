@@ -20,7 +20,6 @@ public:
 	virtual BOOL Update(UINT32 dwTick);
 
 	virtual BOOL OnTimeUP();
-
 };
 
 #endif //_SCENELOGIC_BASE_H_

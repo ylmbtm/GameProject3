@@ -179,6 +179,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
     <ClCompile Include="..\ConfigData\ConfigData.cpp" />
+    <ClCompile Include="..\Message\Msg_Copy.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -224,6 +227,7 @@
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
+    <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
     <ClInclude Include="..\Message\Msg_RetCode.pb.h" />
     <ClInclude Include="..\ServerData\BagData.h" />

@@ -3,6 +3,7 @@
 #include "Utility/Position.h"
 #include "../Message/Msg_Move.pb.h"
 class CScene;
+class ResultPlayer;
 class CSceneObject
 {
 public:
@@ -42,7 +43,7 @@ public:
 	UINT32			GetLastSkillTime(UINT32 dwSkillID);
 	BOOL			SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime);
     
-
+	BOOL			SaveBattleResult(ResultPlayer *pResult);
 public:
 	//对象的基本信息
     //////////////////////////////////////////////////////////
@@ -75,9 +76,13 @@ public:
     CScene			*m_pScene;  //所在场景
     BOOL            m_bEnter;   //玩家是否己经进入副本
     
-	//对象的副要结果
+	//对象的副本结算数据
 	////////////////////////////////////////////////////////////////
 	UINT32			m_dwResult;   //0:未结算，1:胜利，2: 失败 3: 平局
+	UINT32			m_dwKill;
+	UINT32          m_dwDeath;
+	UINT32			m_dwHeal;
+	UINT32          m_dwDamage;
 
 	//对象的连接情况，仅玩家有效
 	////////////////////////////////////////////////////////////////

@@ -22,6 +22,7 @@
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
 #include "../ServerData/ServerDefine.h"
+#include "../Message/Msg_Copy.pb.h"
 
 CScene::CScene()
 {
@@ -938,6 +939,7 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
 				CLog::GetInstancePtr()->LogError("Error: CScene::ProcessActionItem Can not find Damager id:%d", damager.objectguid());
 				continue;
 			}
+
             SkillFight(pSceneObj, Item.actionid(), pDamager);
 
 			//damager.set_chghp(1000);
@@ -947,7 +949,6 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
     ActionItem *pSvrItem = m_ObjectActionNty.add_actionlist();
     ERROR_RETURN_TRUE(pSvrItem != NULL);
     pSvrItem->CopyFrom(Item);
-
 	pSvrItem->set_hp(pSceneObj->GetHp());
 	pSvrItem->set_mp(pSceneObj->GetMp());
 	pSvrItem->set_hpmax(1000);
@@ -959,8 +960,17 @@ BOOL CScene::ProcessActionItem( const  ActionItem &Item )
 BOOL CScene::SendBattleResult()
 {
     BattleResultNty Nty;
-    
-    
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject *pObj = itor->second;
+		ERROR_RETURN_FALSE(pObj != NULL);
+		ResultPlayer *pPlayer = Nty.add_playerlist();
+		pObj->SaveBattleResult(pPlayer);
+	}
+
+    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_BATTLE_RESULT_NTY, 0, 0, Nty);
+
 	return TRUE;
 }
 
