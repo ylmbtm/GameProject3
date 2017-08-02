@@ -225,8 +225,8 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 {
 	EnterSceneReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pPacketHeader->u64TargetID != 0);
 
 	CProxyPlayer *pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	if(pPlayer != NULL)
@@ -239,7 +239,7 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 		pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyguid());
 	}
 
-	UINT32 dwConnID = GetGameSvrConnID((UINT32)pPacketHeader->u64TargetID);
+	UINT32 dwConnID = GetGameSvrConnID(Req.serverid());
 	ERROR_RETURN_TRUE(dwConnID != 0)
 	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 	RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);

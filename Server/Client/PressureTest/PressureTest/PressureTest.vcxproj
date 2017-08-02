@@ -97,6 +97,10 @@
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\Message\Msg_Copy.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Msg_ID.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -124,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Utility\CommonConvert.h" />
     <ClInclude Include="..\..\..\Common\Utility\CommonFunc.h" />
+    <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h" />
     <ClInclude Include="CharObject.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="PlayerObject.h" />

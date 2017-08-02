@@ -16,6 +16,7 @@ struct RoleDataObject : public ShareObject
 		m_VipLvl		= 0;			//VIP等级
 		m_VipExp		= 0;			//VIP经验
 		m_CityCopyID	= 0;			//主城副本类型
+        m_bDelete       = FALSE;        //是否删除
 	}
 	
 	UINT64 m_u64ID;			//角色ID
@@ -32,6 +33,7 @@ struct RoleDataObject : public ShareObject
     INT32 m_VipLvl;			//VIP等级
     INT32 m_VipExp;			//VIP经验
     INT32 m_CityCopyID;		//主城副本类型
+    BOOL  m_bDelete;        //是否删除
 
 	BOOL Save(IDataBase *pDB)
 	{ 

@@ -8,6 +8,7 @@
 #include "Utility\CommonConvert.h"
 #include "..\Src\Message\Game_Define.pb.h"
 #include "Utility\CommonFunc.h"
+#include "..\Src\Message\Msg_Copy.pb.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -129,7 +130,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		{
 			m_ClientConnector.SetClientID(0);
 
-			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
 		}
 
 		if(m_ClientConnector.GetConnectState() == Succ_Connect)
@@ -303,16 +304,18 @@ BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID , std::string strN
 
 
 
-BOOL CClientCmdHandler::SendDelCharReq( UINT64 dwAccountID,UINT64 dwCharID )
+BOOL CClientCmdHandler::SendDelCharReq( UINT64 dwAccountID,UINT64 u64RoleID )
 {
-
+    RoleDeleteReq Req;
+    Req.set_accountid(dwAccountID); 
+    Req.set_roleid(u64RoleID);
+    m_ClientConnector.SendData(MSG_ROLE_DELETE_REQ, Req, 0, 0);
 	return TRUE;
 }
 
 VOID CClientCmdHandler::TestCopy()
 {
 	MainCopyReq Req;
-	Req.set_roleid(m_RoleIDList[0]);
 	Req.set_copyid(rand()%67+10001);
 	m_dwToCopyID = Req.copyid();
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
@@ -323,7 +326,6 @@ VOID CClientCmdHandler::TestCopy()
 VOID CClientCmdHandler::TestExitCopy()
 {
 	AbortCopyReq Req;
-	Req.set_roleid(m_RoleIDList[0]);
 	Req.set_copyid(m_dwCopyID);
 	Req.set_copyguid(m_dwCopyGuid);
 	Req.set_serverid(m_dwCopySvrID);
@@ -405,7 +407,6 @@ BOOL CClientCmdHandler::SendMainCopyReq()
 {
 	MainCopyReq Req;
 	Req.set_copyid(rand()%67+10000);
-	Req.set_roleid(m_RoleIDList[0]);
 	m_ClientConnector.SendData(MSG_MAIN_COPY_REQ, Req, m_RoleIDList[0], 0);
 	return TRUE;
 }
@@ -413,7 +414,6 @@ BOOL CClientCmdHandler::SendMainCopyReq()
 BOOL CClientCmdHandler::SendAbortCopyReq()
 {
 	AbortCopyReq Req;
-	Req.set_roleid(m_RoleIDList[0]);
 	Req.set_copyid(m_dwCopyGuid);
 	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
 

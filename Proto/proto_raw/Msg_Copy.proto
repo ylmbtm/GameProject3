@@ -1,4 +1,4 @@
-syntax = "proto3";
+锘縮yntax = "proto3";
 
 message ResultObject{
     uint64 ObjectID = 1;
@@ -33,8 +33,7 @@ message BattleResultNty {
 }
 
 message MainCopyReq {
-    uint64  RoleID = 1;
-	int32   CopyID  = 2;  //副本类型
+	int32   CopyID  = 1;  //鍓湰绫诲瀷
 }
 
 message MainCopyAck {

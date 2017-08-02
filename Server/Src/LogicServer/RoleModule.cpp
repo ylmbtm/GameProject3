@@ -103,8 +103,9 @@ BOOL CRoleModule::CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 		CLog::GetInstancePtr()->LogError("CostMoney Error : Not Enough Money :%d", nMoneyNum);
 		return FALSE;
 	}
-
+    m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_Money[dwMoneyID-1] -= nMoneyNum;
+    m_pRoleDataObject->unlock();
 
 	return TRUE;
 }
@@ -156,11 +157,13 @@ UINT64 CRoleModule::AddMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 		return 0;
 	}
 
+    m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_Money[dwMoneyID-1] += nMoneyNum;
 	if ( m_pRoleDataObject->m_Money[dwMoneyID-1] > CConfigData::GetInstancePtr()->GetMoneyMaxValue(dwMoneyID))
 	{
 		m_pRoleDataObject->m_Money[dwMoneyID-1] = CConfigData::GetInstancePtr()->GetMoneyMaxValue(dwMoneyID);
 	}
+    m_pRoleDataObject->unlock();
 
 	return  m_pRoleDataObject->m_Money[dwMoneyID-1];
 }
@@ -184,6 +187,7 @@ BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 		return FALSE;
 	}
 
+    m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_Action[dwActionID-1] -= nActionNum;
 
 	if (m_pRoleDataObject->m_Action[dwActionID-1] < CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID) )
@@ -197,6 +201,7 @@ BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 	{
 		m_pRoleDataObject->m_Actime[dwActionID-1] = 0;
 	}
+    m_pRoleDataObject->unlock();
 	return TRUE;
 }
 
@@ -250,20 +255,23 @@ UINT64 CRoleModule::AddAction(UINT32 dwActionID, INT32 nActionNum)
 		return 0;
 	}
 
+    m_pRoleDataObject->lock();
 	UpdateAction(dwActionID);
 
+    
 	m_pRoleDataObject->m_Action[dwActionID-1] += nActionNum;
 
 	if (m_pRoleDataObject->m_Action[dwActionID-1] >= CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID)) 
 	{
 		m_pRoleDataObject->m_Actime[dwActionID-1] = 0;
 	}
-
+    m_pRoleDataObject->unlock();
 	return m_pRoleDataObject->m_Action[dwActionID-1];
 }
 
 BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 {
+
 	if (m_pRoleDataObject->m_Action[dwActionID-1] >= CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
 	{
 		if (m_pRoleDataObject->m_Actime[dwActionID-1] > 0) 
@@ -300,4 +308,12 @@ BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 	}
 
 	return TRUE;
+}
+
+BOOL CRoleModule::SetDelete( BOOL bDelete )
+{
+    m_pRoleDataObject->lock();
+    m_pRoleDataObject->m_bDelete = bDelete;
+    m_pRoleDataObject->unlock();
+    return TRUE;
 }

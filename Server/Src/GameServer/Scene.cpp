@@ -362,6 +362,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket *pNetPacket)
 	EnterSceneReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
 	CSceneObject *pSceneObj = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);

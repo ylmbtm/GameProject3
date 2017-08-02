@@ -121,13 +121,13 @@ message RoleDeleteAck {
 }
 
 message RoleLoginReq {
-    uint64 AccountID = 1;
+	uint64 AccountID = 1;
 	uint64 RoleID = 2;
 	int32  LoginCode = 3;
 }
 
 message RoleLoginAck {
-    uint32   RetCode = 1;
+	uint32   RetCode = 1;
 	uint64   AccountID = 2;
 	uint64   RoleID = 3;
 	int32    ActorID = 4;
@@ -139,7 +139,6 @@ message RoleLoginAck {
 
 message RoleLogoutReq {
     uint64 AccountID = 1;
-	uint64 RoleID = 2;
 }
 
 message RoleLogoutAck {
@@ -147,7 +146,7 @@ message RoleLogoutAck {
 }
 
 message RoleDisconnectReq {
-	uint64 RoleID = 2;
+	uint64 RoleID = 1;
 }
 
 message RoleDisconnectAck {
@@ -176,7 +175,7 @@ message CreateNewSceneAck{
 
 ////
 message EnterSceneReq {
-    uint64  RoleID   = 1;
+	uint64 RoleID  = 1;
 	int32  ServerID  = 2; //场景服ID
 	int32  CopyGuid  = 3;  //副本实例ID
 	int32  CopyID  = 4;  //副本类型ID
@@ -202,10 +201,9 @@ message EnterSceneAck {
 }
 
 message AbortCopyReq {
-    uint64  RoleID = 1;
-	int32   CopyID  = 2;  //副本类型
-	int32   CopyGuid = 3;
-	int32   ServerID = 4;
+	int32   CopyID  = 1;  //副本类型
+	int32   CopyGuid = 2;
+	int32   ServerID = 3;
 }
 
 message AbortCopyAck {
@@ -214,7 +212,7 @@ message AbortCopyAck {
 
 
 message BackToCityReq {
-    uint64  RoleID = 1;
+    uint32  Param = 1;
 }
 
 message BackToCityAck {
