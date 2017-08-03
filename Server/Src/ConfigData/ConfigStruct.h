@@ -3,7 +3,7 @@
 
 struct  StConstantValue
 {
-	StConstantValue(){}
+	StConstantValue() {}
 
 	UINT32 xxxx;
 };
@@ -18,14 +18,14 @@ struct StCopyInfo
 
 	UINT32 dwCopyID;
 	UINT32 dwCopyType;     //副要类型
-    UINT32 dwCostActID;    //消耗体力ID
-    UINT32 dwCostActNum;   //消耗体力数量
+	UINT32 dwCostActID;    //消耗体力ID
+	UINT32 dwCostActNum;   //消耗体力数量
 	UINT32 dwGetMoneyID;   //获取货币的ID
 	UINT32 dwGetMoneyRatio;//获取货币的系数
 	UINT32 dwGetExpRation; //获取经验的系数
-    UINT32 dwAwardID;      //奖励ID
+	UINT32 dwAwardID;      //奖励ID
 	UINT32 dwFirstAwardID; //首胜奖励ID
-    UINT32 dwBattleTimes;  //每日可战斗次数
+	UINT32 dwBattleTimes;  //每日可战斗次数
 
 	std::string strXml;
 };
@@ -77,7 +77,7 @@ struct  StItemData
 
 
 //掉落项
-struct StDropItem 
+struct StDropItem
 {
 	UINT32 dwItemID; //物品ID
 	UINT32 dwItemNum[2];//物品数量
@@ -85,7 +85,7 @@ struct StDropItem
 };
 
 //奖励项
-struct StAwardItem 
+struct StAwardItem
 {
 	INT32 dwAwardID;					//奖励ID
 	INT32 dwRatioCount;					//概率掉落个数
@@ -95,19 +95,53 @@ struct StAwardItem
 };
 
 
-struct StItemInfo 
+struct StItemInfo
 {
 	UINT32 dwItemID;	//物品ID
 	UINT32 dwType;		//物品类型
-	UINT32 SubType;		//物品子类型
+	UINT32 dwBagType;	//物品背包类型
 	UINT32 Quality;		//物品的品质
 	UINT32 SellID;		//出售货币ID
 	UINT32 SellPrice;	//出售价格
 	UINT32 UseType;		//使用类型
+	UINT32 Profession;  //职业
+	UINT32 StackMax;    //最大堆放数
 	UINT32 Data1;		//参数1
 	UINT32 Data2;		//参数2
 };
 
 
+struct StFuncInfo
+{
+	UINT32 dwFuncID;	//! 功能ID
+	INT32 OpenLevel;	//! 开放等级
+	INT32 VipLevel;		//! VIP提前开放等级
+	INT32 Logic;		//! 逻辑关系 1->优先VIP 2->同时满足
+};
+
+
+struct StFuncVipInfo
+{
+	UINT32 dwFuncID;		//! 功能ID
+	INT32  VipValue[20];	//! 对应VIP数值
+};
+
+
+struct StEquipInfo
+{
+	UINT32 dwEquipID;		//! ID
+};
+
+struct StPetInfo
+{
+	UINT32 dwPetID;		//! ID
+
+};
+
+struct StPartnerInfo
+{
+	UINT32 dwPartnerID;		//! ID
+
+};
 
 #endif //__CONFIG_STRUCT_H__

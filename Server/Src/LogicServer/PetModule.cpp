@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "PetModule.h"
+#include "DataPool.h"
+#include "GlobalDataMgr.h"
 
 CPetModule::CPetModule(CPlayerObject *pOwner):CModuleBase(pOwner)
 {
@@ -20,6 +22,13 @@ BOOL CPetModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CPetModule::OnDestroy()
 {
+	for(auto itor = m_mapPetData.begin(); itor != m_mapPetData.end(); itor++)
+	{
+		itor->second->release();
+	}
+
+	m_mapPetData.clear();
+
 	return TRUE;
 }
 
@@ -61,3 +70,17 @@ BOOL CPetModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 
 
 
+UINT64 CPetModule::AddPet(UINT32 dwPetID)
+{
+	PetDataObject *pObject = g_pPetDataObjectPool->newOjbect(TRUE);
+	pObject->lock();
+	pObject->m_PetID = dwPetID;
+	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
+	pObject->m_StrengthLvl = 0;
+	pObject->m_RefineExp = 0;
+	pObject->m_StarExp = 0;
+	pObject->m_StarLevel = 0;
+	pObject->unlock();
+
+	return pObject->m_uGuid;
+}

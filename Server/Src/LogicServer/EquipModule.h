@@ -25,7 +25,13 @@ public:
 	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
+	UINT64 AddEquip(UINT32 dwEquipID);
+
+public:
 	std::map<UINT32, EquipDataObject*>m_mapEquipData;
+
+	std::set<UINT64> m_setChange;
+	std::set<UINT64> m_setRemove;
 
 
 };
