@@ -12,6 +12,7 @@
 #include "../ServerData/ServerDefine.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
+#include "../ServerData/RoleData.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
@@ -346,19 +347,19 @@ BOOL CGameSvrMgr::OnMainCopyResult(BattleResultNty& Nty)
 	CBagModule* pBagModule = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
 	ERROR_RETURN_TRUE(pBagModule != NULL);
 
+	CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
+	ERROR_RETURN_TRUE(pRoleModule != NULL);
+
 	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Nty.copyid());
 	ERROR_RETURN_TRUE(pCopyInfo != NULL);
 
 	std::vector<StItemData> vtItemList;
-	CConfigData::GetInstancePtr()->GetItemsFromAwardID(pCopyInfo->dwAwardID, vtItemList);
+	CConfigData::GetInstancePtr()->GetItemsFromAwardID(pCopyInfo->dwAwardID, pRoleModule->m_pRoleDataObject->m_CarrerID, vtItemList);
 
 	for(std::vector<StItemData>::size_type i = 0; i < vtItemList.size(); i++)
 	{
 		pBagModule->AddItem(vtItemList[i].dwItemID, vtItemList[i].dwItemNum);
 	}
-
-	CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
-	ERROR_RETURN_TRUE(pRoleModule != NULL);
 
 	pRoleModule->CostAction(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum);
 

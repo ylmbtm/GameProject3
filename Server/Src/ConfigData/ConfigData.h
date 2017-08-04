@@ -63,11 +63,13 @@ public:
 	//掉落表
 	///////////////////////////////////////////////
 	std::map<UINT32, std::vector<StAwardItem>> m_mapAwardItem;
+	//std::map<UINT32, StAwardItem> m_mapAwardItem;
 	BOOL ReadAwardData(CppSQLite3Query& QueryData);
 	BOOL ParseToDropItem(std::string strDrop, StDropItem& Item);
-	BOOL GetAwardItemByIndex(INT32 nAwardID, INT32 INT32 nIndex, StItemData& ItemData);
-	BOOL GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData>& vtItemList);
-	BOOL GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector<StItemData>& vtItemList);
+	BOOL GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& AwardItem);
+	BOOL GetAwardItemByIndex(INT32 nAwardID, INT32 nCarrer, INT32 nIndex, StItemData& ItemData);
+	BOOL GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector<StItemData>& vtItemList);
+	BOOL GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTimes, std::vector<StItemData>& vtItemList);
 
 
 	//物品表

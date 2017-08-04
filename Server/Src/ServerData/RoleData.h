@@ -17,6 +17,7 @@ struct RoleDataObject : public ShareObject
 		m_VipExp		= 0;			//VIP经验
 		m_CityCopyID	= 0;			//主城副本类型
 		m_bDelete       = FALSE;        //是否删除
+		m_CarrerID      = 0;
 	}
 
 	UINT64 m_u64ID;			//角色ID

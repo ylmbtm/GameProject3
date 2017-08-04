@@ -76,17 +76,35 @@ BOOL CConfigData::ReadConstantValue(CppSQLite3Query& QueryData)
 
 INT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {
-	return 0;
+	if((dwMoneyID <= 0) || (dwMoneyID >= m_vtMoneyList.size()))
+	{
+		ASSERT_FAIELD;
+		return 1;
+	}
+
+	return m_vtActionList.at(dwMoneyID - 1).dwMax;
 }
 
 INT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
 {
-	return 0;
+	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
+	{
+		ASSERT_FAIELD;
+		return 1;
+	}
+
+	return m_vtActionList.at(dwActionID - 1).dwMax;
 }
 
 UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
 {
-	return 0;
+	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
+	{
+		ASSERT_FAIELD;
+		return 1;
+	}
+
+	return m_vtActionList.at(dwActionID - 1).UnitTime;
 }
 
 BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
@@ -239,7 +257,19 @@ BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)
 
 		}
 
-		m_mapAwardItem.insert(std::make_pair(stValue.dwAwardID, stValue));
+		auto itor = m_mapAwardItem.find(stValue.dwAwardID);
+		if(itor != m_mapAwardItem.end())
+		{
+			std::vector<StAwardItem>& vtList = itor->second;
+
+			vtList.push_back(stValue);
+		}
+		else
+		{
+			std::vector<StAwardItem> vtList;
+			vtList.push_back(stValue);
+			m_mapAwardItem.insert(std::make_pair(stValue.dwAwardID, vtList));
+		}
 
 		QueryData.nextRow();
 	}
@@ -265,15 +295,36 @@ BOOL CConfigData::ParseToDropItem(std::string strDrop, StDropItem& item)
 	return TRUE;
 }
 
-BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nIndex, StItemData& ItemData)
+BOOL CConfigData::GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& AwardItem)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
+	std::map<UINT32, std::vector<StAwardItem>>::iterator itor =  m_mapAwardItem.find(nAwardID);
 	if(itor == m_mapAwardItem.end())
 	{
 		return FALSE;
 	}
 
-	StAwardItem& AwardItem = itor->second;
+	std::vector<StAwardItem>& AwardItemList = itor->second;
+
+	for(auto i = 0; i < AwardItemList.size(); i++)
+	{
+		AwardItem = AwardItemList.at(i);
+		if(AwardItem.nCarrer == nCarrer)
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nCarrer, INT32 nIndex, StItemData& ItemData)
+{
+	StAwardItem AwardItem;
+
+	if(!GetAwardItem(nAwardID, nCarrer, AwardItem))
+	{
+		return FALSE;
+	}
 
 	if (nIndex >= (INT32)AwardItem.FixItems.size())
 	{
@@ -286,15 +337,14 @@ BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nIndex, StItemData& 
 	return TRUE;
 }
 
-BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData>& vtItemList)
+BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector<StItemData>& vtItemList)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
-	if(itor == m_mapAwardItem.end())
+	StAwardItem AwardItem;
+
+	if(!GetAwardItem(nAwardID, nCarrer, AwardItem))
 	{
 		return FALSE;
 	}
-
-	StAwardItem& AwardItem = itor->second;
 
 	StItemData tempItem;
 
@@ -346,15 +396,14 @@ BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, std::vector<StItemData>& v
 	return TRUE;
 }
 
-BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector<StItemData>& vtItemList)
+BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTimes, std::vector<StItemData>& vtItemList)
 {
-	std::map<UINT32, StAwardItem>::iterator itor =  m_mapAwardItem.find(nAwardID);
-	if(itor == m_mapAwardItem.end())
+	StAwardItem AwardItem;
+
+	if(!GetAwardItem(nAwardID, nCarrer, AwardItem))
 	{
 		return FALSE;
 	}
-
-	StAwardItem& AwardItem = itor->second;
 
 	StItemData tempItem;
 
@@ -375,8 +424,6 @@ BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nTimes, std::vector
 			vtItemList.push_back(tempItem);
 		}
 	}
-
-
 
 	for (int  cycle = 0; cycle < AwardItem.dwRatioCount * nTimes; cycle++ )
 	{

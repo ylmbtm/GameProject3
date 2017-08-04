@@ -56,16 +56,26 @@ struct StActionInfo
 {
 	StActionInfo()
 	{
-
+		dwActionID = 0;		// 行动力ID
+		UnitTime = 0;		//恢复1个单位需要的时间(秒)
+		dwMax = 0;			//最大值
 	}
+
+	UINT32 dwActionID;	// 行动力ID
+	INT32 UnitTime;		//恢复1个单位需要的时间(秒)
+	UINT32 dwMax;		//最大值
 };
 
 struct StMoneyInfo
 {
 	StMoneyInfo()
 	{
-
+		dwMoneyID = 0;	//货币ID
+		dwMax = 0;		//上限
 	}
+
+	UINT32 dwMoneyID;	//货币ID
+	UINT32 dwMax;		//上限
 };
 
 
@@ -90,6 +100,7 @@ struct StAwardItem
 	INT32 dwAwardID;					//奖励ID
 	INT32 dwRatioCount;					//概率掉落个数
 	BOOL bDistinct;						//是否需要去重
+	INT32 nCarrer;						//职业
 	std::vector<StDropItem> FixItems;	//必掉物品
 	std::vector<StDropItem>  RatioItems;//机率掉落物品
 };
