@@ -1,14 +1,14 @@
 ﻿syntax = "proto3";
 
 message BagItem {
-	uint64 Guid;
-	int32  ItemID;
-	int32  ItemNum;
-	int32  ItemGuid;
+	uint64 Guid = 1;
+	int32  ItemID = 2;
+	int32  ItemNum = 3;
+	int32  ItemGuid = 4;
 }
 
 message BagDataNty{
-	repeated BagItem ChangeList;
-	repeater uint64  RemoveList;
+	repeated BagItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
 }
 
