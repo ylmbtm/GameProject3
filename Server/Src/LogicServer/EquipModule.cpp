@@ -3,7 +3,7 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 
-CEquipModule::CEquipModule(CPlayerObject *pOwner):CModuleBase(pOwner)
+CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
 }
@@ -47,9 +47,9 @@ BOOL CEquipModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CEquipModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
+BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBEquipData &EquipData = Ack.equipdata();
+	const DBEquipData& EquipData = Ack.equipdata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -69,11 +69,14 @@ BOOL CEquipModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	return TRUE;
 }
 
-
+BOOL CEquipModule::SaveToClientLoginData(RoleLoginAck& Ack)
+{
+	return TRUE;
+}
 
 UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 {
-	EquipDataObject *pObject = g_pEquipDataObjectPool->newOjbect(TRUE);
+	EquipDataObject* pObject = g_pEquipDataObjectPool->newOjbect(TRUE);
 	pObject->lock();
 	pObject->m_EquipID = dwEquipID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -82,6 +85,8 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
 	pObject->unlock();
+
+	m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
 
 	return pObject->m_uGuid;
 }

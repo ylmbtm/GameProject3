@@ -3,7 +3,7 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 
-CPartnerModule::CPartnerModule(CPlayerObject *pOwner):CModuleBase(pOwner)
+CPartnerModule::CPartnerModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
 }
@@ -47,9 +47,9 @@ BOOL CPartnerModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CPartnerModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
+BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBPartnerData &PartnerData = Ack.partnerdata();
+	const DBPartnerData& PartnerData = Ack.partnerdata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -68,11 +68,15 @@ BOOL CPartnerModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	return TRUE;
 }
 
+BOOL CPartnerModule::SaveToClientLoginData(RoleLoginAck& Ack)
+{
+	return TRUE;
+}
 
 
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
-	PartnerDataObject *pObject = g_pPartnerDataObjectPool->newOjbect(TRUE);
+	PartnerDataObject* pObject = g_pPartnerDataObjectPool->newOjbect(TRUE);
 	pObject->lock();
 	pObject->m_PartnerID = dwPartnerID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -81,6 +85,6 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
 	pObject->unlock();
-
+	m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
 }

@@ -7,7 +7,7 @@ struct EquipDataObject;
 class CEquipModule  : public CModuleBase
 {
 public:
-	CEquipModule(CPlayerObject *pOwner);
+	CEquipModule(CPlayerObject* pOwner);
 
 	~CEquipModule();
 
@@ -22,7 +22,9 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
+	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+
+	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
 public:
 	UINT64 AddEquip(UINT32 dwEquipID);

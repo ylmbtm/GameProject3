@@ -7,7 +7,7 @@ struct PartnerDataObject;
 class CPartnerModule  : public CModuleBase
 {
 public:
-	CPartnerModule(CPlayerObject *pOwner);
+	CPartnerModule(CPlayerObject* pOwner);
 
 	~CPartnerModule();
 
@@ -22,7 +22,9 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
+	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+
+	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
 
 public:

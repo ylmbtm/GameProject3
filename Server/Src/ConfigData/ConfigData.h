@@ -41,6 +41,12 @@ public:
 	INT64 GetActoinMaxValue(UINT32 dwActionID);
 	UINT32 GetActoinUnitTime(UINT32 dwActionID);
 
+	//职业
+	///////////////////////////////////////////////
+	std::map<UINT32, StCarrerInfo> m_mapCarrer;
+	BOOL ReadCarrer(CppSQLite3Query& QueryData);
+	StCarrerInfo* GetCarrerInfo(UINT32 dwCarrerID);
+
 	//角色
 	///////////////////////////////////////////////
 	std::map<UINT32, StActor> m_mapActor;
@@ -63,7 +69,6 @@ public:
 	//掉落表
 	///////////////////////////////////////////////
 	std::map<UINT32, std::vector<StAwardItem>> m_mapAwardItem;
-	//std::map<UINT32, StAwardItem> m_mapAwardItem;
 	BOOL ReadAwardData(CppSQLite3Query& QueryData);
 	BOOL ParseToDropItem(std::string strDrop, StDropItem& Item);
 	BOOL GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& AwardItem);
@@ -95,7 +100,6 @@ public:
 	BOOL ReadFuncCostInfo(CppSQLite3Query& QueryData);
 	INT32 GetFuncCostInfo(UINT32 dwFuncID, INT32 Times);
 
-
 	//装备
 	std::map<UINT32, StEquipInfo> m_mapEquipInfo;
 	BOOL ReadEquipInfo(CppSQLite3Query& QueryData);
@@ -106,7 +110,6 @@ public:
 	std::map<UINT32, StPetInfo> m_mapPetInfo;
 	BOOL ReadPetInfo(CppSQLite3Query& QueryData);
 	StPetInfo* GetPetInfo(UINT32 dwPetID);
-
 
 	//伙伴
 	std::map<UINT32, StPartnerInfo> m_mapPartnerInfo;

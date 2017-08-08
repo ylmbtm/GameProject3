@@ -49,6 +49,19 @@ struct StActor
 	}
 	UINT32  dwID;
 	std::string strName;
+
+};
+
+struct StCarrerInfo
+{
+	StCarrerInfo()
+	{
+		dwID = 0;
+		dwActorID = 0;
+	}
+	UINT32  dwID;
+	std::string strName;
+	UINT32  dwActorID;
 };
 
 
@@ -113,12 +126,12 @@ struct StItemInfo
 	UINT32 dwBagType;	//物品背包类型
 	UINT32 Quality;		//物品的品质
 	UINT32 SellID;		//出售货币ID
-	UINT32 SellPrice;	//出售价格
+	INT32 SellPrice;	//出售价格
 	UINT32 UseType;		//使用类型
-	UINT32 Profession;  //职业
-	UINT32 StackMax;    //最大堆放数
-	UINT32 Data1;		//参数1
-	UINT32 Data2;		//参数2
+	UINT32 CarrerID;  //职业
+	INT32 StackMax;    //最大堆放数
+	INT32 Data1;		//参数1
+	INT32 Data2;		//参数2
 };
 
 

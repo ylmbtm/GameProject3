@@ -3,7 +3,7 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 
-CPetModule::CPetModule(CPlayerObject *pOwner):CModuleBase(pOwner)
+CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
 }
@@ -47,9 +47,9 @@ BOOL CPetModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CPetModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
+BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBPetData &PetData = Ack.petdata();
+	const DBPetData& PetData = Ack.petdata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -68,11 +68,14 @@ BOOL CPetModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	return TRUE;
 }
 
-
+BOOL CPetModule::SaveToClientLoginData(RoleLoginAck& Ack)
+{
+	return TRUE;
+}
 
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
-	PetDataObject *pObject = g_pPetDataObjectPool->newOjbect(TRUE);
+	PetDataObject* pObject = g_pPetDataObjectPool->newOjbect(TRUE);
 	pObject->lock();
 	pObject->m_PetID = dwPetID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -81,6 +84,6 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
 	pObject->unlock();
-
+	m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
 }

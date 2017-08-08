@@ -3,7 +3,7 @@
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
 #include "ModuleBase.h"
-#include "../Message/Msg_Login.pb.h"
+#include "../Message/Msg_Game.pb.h"
 
 class CPlayerObject
 {
@@ -11,7 +11,7 @@ public:
 	CPlayerObject();
 
 	~CPlayerObject();
-	
+
 	//  初始化玩家对象
 	BOOL		Init(UINT64 u64ID);
 	//  反初始化玩家对家
@@ -27,22 +27,22 @@ public:
 
 	virtual BOOL OnNewDay();
 
-	virtual BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
+	virtual BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	virtual BOOL DispatchPacket(NetPacket *pNetPack);
+	virtual BOOL DispatchPacket(NetPacket* pNetPack);
 
 	BOOL    SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
-	BOOL	SendMsgRawData(UINT32 dwMsgID, const char * pdata,UINT32 dwLen);
-	
-	BOOL    ToTransRoleData(TransRoleDataReq &Req);
+	BOOL	SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+
+	BOOL    ToTransRoleData(TransRoleDataReq& Req);
 
 public: //全部是操作方法
-	BOOL	SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID,UINT32 dwSvrID);
+	BOOL	SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
 	BOOL	SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
-    BOOL    SendRoleLoginAck();
+	BOOL    SendRoleLoginAck();
 
 	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
-    BOOL    ClearCopyState();
+	BOOL    ClearCopyState();
 
 	//模块函数
 	BOOL			CreateAllModule();

@@ -2,7 +2,6 @@
 #include "GameSvrMgr.h"
 #include "CommandDef.h"
 #include "../LogicServer/GameService.h"
-#include "../Message/Msg_Login.pb.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "Utility/Log/Log.h"
@@ -300,14 +299,14 @@ BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 
 UINT32 CGameSvrMgr::GetFreeGameServerID()
 {
-	UINT32 dwMax = 100000;
+	UINT32 dwMinLoad = 1000000;
 	UINT32 dwSvrID = 0;
 	for(std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.begin(); itor != m_mapGameSvr.end(); itor++)
 	{
-		if(itor->second.dwLoad > dwMax)
+		if(itor->second.dwLoad < dwMinLoad)
 		{
 			dwSvrID = itor->second.dwSvrID;
-			dwMax = itor->second.dwLoad;
+			dwMinLoad = itor->second.dwLoad;
 		}
 	}
 
@@ -360,6 +359,8 @@ BOOL CGameSvrMgr::OnMainCopyResult(BattleResultNty& Nty)
 	{
 		pBagModule->AddItem(vtItemList[i].dwItemID, vtItemList[i].dwItemNum);
 	}
+
+	pRoleModule->AddExp(pCopyInfo->dwGetMoneyRatio * pRoleModule->m_pRoleDataObject->m_Level);
 
 	pRoleModule->CostAction(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum);
 

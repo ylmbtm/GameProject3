@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommandHandler.h"
 #include <complex>
-#include "..\Src\Message\Msg_Login.pb.h"
 #include "..\Src\Message\Msg_RetCode.pb.h"
 #include "PacketHeader.h"
 #include "..\Src\Message\Msg_Move.pb.h"
@@ -9,6 +8,8 @@
 #include "..\Src\Message\Game_Define.pb.h"
 #include "Utility\CommonFunc.h"
 #include "..\Src\Message\Msg_Copy.pb.h"
+#include "..\Src\Message\Msg_Game.pb.h"
+#include "Utility\XMath.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -20,6 +21,12 @@ CClientCmdHandler::CClientCmdHandler(void)
 
 	m_dwAccountID = 0;
 	m_dwHostState = ST_NONE;
+	m_vx = 0;
+	m_vy = 0;
+	m_vz = 0;
+	m_x = 0;
+	m_y = 0;
+	m_z = 13;
 
 	m_ClientConnector.RegisterMsgHandler((IMessageHandler*)this);
 }
@@ -130,7 +137,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		{
 			m_ClientConnector.SetClientID(0);
 
-			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
 		}
 
 		if(m_ClientConnector.GetConnectState() == Succ_Connect)
@@ -170,14 +177,14 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_EnterSceneOK)
 	{
-		//TestMove();
-		TestCopy();
+		TestMove();
+		//TestCopy();
 	}
 
 	if(m_dwHostState == ST_EnterCopyOK)
 	{
 		//TestMove();
-		TestExitCopy();
+		//TestExitCopy();
 	}
 
 	if(m_dwHostState == ST_Disconnected)
@@ -267,7 +274,7 @@ BOOL CClientCmdHandler::OnMsgRoleListAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 
 	if(Ack.rolelist_size() <= 0)
 	{
-		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), rand() % 10);
+		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), rand() % 4 + 1);
 	}
 
 	return TRUE;
@@ -292,12 +299,12 @@ BOOL CClientCmdHandler::OnCmdNewAccountAck( UINT32 dwMsgID, CHAR* PacketBuf, INT
 	return TRUE;
 }
 
-BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID, std::string strName, UINT32 dwActorID)
+BOOL CClientCmdHandler::SendCreateRoleReq( UINT64 dwAccountID, std::string strName, UINT32 dwCarrerID)
 {
 	RoleCreateReq Req;
 	Req.set_accountid(dwAccountID);
 	Req.set_name(strName);
-	Req.set_actorid(dwActorID);
+	Req.set_carrer(dwCarrerID);
 	m_ClientConnector.SendData(MSG_ROLE_CREATE_REQ, Req, 0, 0);
 	return TRUE;
 }
@@ -337,46 +344,42 @@ VOID CClientCmdHandler::TestMove()
 {
 	ObjectActionReq Req;
 	ActionItem* pItem =  Req.add_actionlist();
-	pItem->set_actionid(AT_MOVE);
+	pItem->set_actionid(AT_WALK);
 	pItem->set_objectguid(m_RoleIDList[0]);
 
 	UINT32 dwTimeDiff = CommonFunc::GetTickCount() - m_dwMoveTime;
-	if(dwTimeDiff > 1000)
+	if(dwTimeDiff < 100)
 	{
-		dwTimeDiff = 0;
-		m_dwMoveTime = CommonFunc::GetTickCount();
-
-		UINT32 dwRand = m_RoleIDList[0] % 4;
-		if(dwRand = 0)
-		{
-			m_x += 1;
-			m_z += 1;
-		}
-		else if(dwRand = 1)
-		{
-			m_x += 1;
-			m_z -= 1;
-		}
-		else if(dwRand = 2)
-		{
-			m_x -= 1;
-			m_z += 1;
-		}
-		else if(dwRand = 3)
-		{
-			m_x -= 1;
-			m_z -= 1;
-		}
-
-		pItem->set_x(m_x);
-		pItem->set_vx(m_vx);
-		pItem->set_z(m_z);
-		pItem->set_vz(m_vz);
-
-		m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
+		return ;
 	}
 
+	m_dwMoveTime = CommonFunc::GetTickCount();
 
+	UINT32 dwRand = m_RoleIDList[0] % 4;
+
+	m_vx = rand() % 40 - 20;
+	m_vz = rand() % 40 - 20;
+
+	CPoint2d Dir(m_vx, m_vz);
+	Dir.Normalized();
+
+	m_x += Dir.m_x;
+	m_z += Dir.m_y;
+	m_y = m_y;
+
+	if(m_x > 20) { m_x = 20; }
+	if(m_z > 20) { m_z = 20; }
+	if(m_x < -20) { m_x = -20; }
+	if(m_z < -20) { m_z = -20; }
+
+	pItem->set_x(m_x);
+	pItem->set_y(0);
+	pItem->set_z(m_z);
+	pItem->set_vx(m_vx);
+	pItem->set_vy(m_vy);
+	pItem->set_vz(m_vz);
+
+	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }
 
 BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )

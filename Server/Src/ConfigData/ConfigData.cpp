@@ -23,6 +23,7 @@ CConfigData* CConfigData::GetInstancePtr()
 
 BOOL CConfigData::InitDataReader()
 {
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Role", &CConfigData::ReadCarrer));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor", &CConfigData::ReadActor));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy", &CConfigData::ReadCopyInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Item", &CConfigData::ReadItemData));
@@ -107,6 +108,32 @@ UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
 	return m_vtActionList.at(dwActionID - 1).UnitTime;
 }
 
+BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
+{
+	while(!QueryData.eof())
+	{
+		StCarrerInfo stValue;
+		stValue.dwID = QueryData.getIntField("Carrer");
+		stValue.dwActorID = QueryData.getIntField("ActorID");
+		m_mapCarrer.insert(std::make_pair(stValue.dwID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StCarrerInfo* CConfigData::GetCarrerInfo(UINT32 dwCarrerID)
+{
+	std::map<UINT32, StCarrerInfo>::iterator itor = m_mapCarrer.find(dwCarrerID);
+	if(itor != m_mapCarrer.end())
+	{
+		return &itor->second;
+	}
+
+    ASSERT_FAIELD;
+	return NULL;
+}
+
 BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 {
 	while(!QueryData.eof())
@@ -127,7 +154,7 @@ StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
 	{
 		return &itor->second;
 	}
-
+    ASSERT_FAIELD;
 	return NULL;
 }
 
@@ -156,7 +183,7 @@ StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 	{
 		return &itor->second;
 	}
-
+    ASSERT_FAIELD;
 	return NULL;
 }
 

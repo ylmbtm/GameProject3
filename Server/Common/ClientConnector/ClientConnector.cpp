@@ -2,8 +2,8 @@
 #include "ClientConnector.h"
 #include "CommandDef.h"
 #include "Utility\CommonSocket.h"
-#include "..\Src\Message\Msg_Login.pb.h"
 #include "PacketHeader.h"
+#include "google\protobuf\message.h"
 
 CClientConnector::CClientConnector(void)
 {
@@ -40,7 +40,7 @@ CClientConnector::~CClientConnector(void)
 
 BOOL CClientConnector::InitConnector()
 {
-	
+
 
 	return TRUE;
 }
@@ -71,14 +71,14 @@ BOOL CClientConnector::SendData(UINT32 dwMsgID, const google::protobuf::Message&
 	pHeader->dwUserData = dwUserData;
 	pHeader->dwSize = 28 + pdata.ByteSize();
 
-	pdata.SerializePartialToArray(szBuff+28, pdata.ByteSize());
+	pdata.SerializePartialToArray(szBuff + 28, pdata.ByteSize());
 
 	return SendData( szBuff, pdata.ByteSize() + 28);
 }
 
-BOOL CClientConnector::SendData( char *pData, INT32 dwLen )
+BOOL CClientConnector::SendData( char* pData, INT32 dwLen )
 {
-	if((pData == NULL)||(dwLen == 0))
+	if((pData == NULL) || (dwLen == 0))
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -135,7 +135,7 @@ BOOL CClientConnector::ConnectLoginSvr(BOOL bConnect)
 	return TRUE;
 }
 
-BOOL CClientConnector::RegisterMsgHandler(IMessageHandler *pMsgHandler)
+BOOL CClientConnector::RegisterMsgHandler(IMessageHandler* pMsgHandler)
 {
 	for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
 	{
@@ -144,13 +144,13 @@ BOOL CClientConnector::RegisterMsgHandler(IMessageHandler *pMsgHandler)
 			return FALSE;
 		}
 	}
-		
+
 	m_vtMsgHandler.push_back(pMsgHandler);
 
 	return TRUE;
 }
 
-BOOL CClientConnector::UnregisterMsgHandler( IMessageHandler *pMsgHandler )
+BOOL CClientConnector::UnregisterMsgHandler( IMessageHandler* pMsgHandler )
 {
 	for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
 	{
@@ -178,22 +178,22 @@ BOOL CClientConnector::Render()
 	}
 
 	ReceiveData();
-	
+
 	while(ProcessData());
 
 	return TRUE;
 
 }
 
-BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen)
+BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
 {
 	switch(dwMsgID)
 	{
-	default:
+		default:
 		{
 			for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
 			{
-				IMessageHandler *pHandler = *itor;
+				IMessageHandler* pHandler = *itor;
 
 				if(pHandler->DispatchPacket(dwMsgID, PacketBuf, BufLen))
 				{
@@ -219,7 +219,7 @@ BOOL CClientConnector::ConnectToServer( std::string strIpAddr, UINT16 sPort )
 	SetConnectState(Start_Connect);
 
 	m_hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
-	if((m_hSocket == INVALID_SOCKET)||(m_hSocket == NULL))
+	if((m_hSocket == INVALID_SOCKET) || (m_hSocket == NULL))
 	{
 		printf("创建套接字失败!\n");
 
@@ -289,7 +289,7 @@ BOOL CClientConnector::ReceiveData()
 		{
 
 		}
-		else 
+		else
 		{
 			printf("接收数据发生错误:%s!\n", CommonSocket::GetLastErrorStr(nError).c_str());
 		}
@@ -300,7 +300,7 @@ BOOL CClientConnector::ReceiveData()
 	{
 		printf("对方关闭了连接!\n");
 
-		SetConnectState(Not_Connect); 
+		SetConnectState(Not_Connect);
 
 		CommonSocket::CloseSocket(m_hSocket);
 
@@ -322,13 +322,13 @@ BOOL CClientConnector::ProcessData()
 		return FALSE;
 	}
 
-	PacketHeader *pHeader = (PacketHeader *)m_DataBuffer;
+	PacketHeader* pHeader = (PacketHeader*)m_DataBuffer;
 	if(pHeader->CheckCode != 0x88)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
-	
+
 	if(pHeader->dwSize == 0)
 	{
 		ASSERT_FAIELD;
@@ -346,14 +346,14 @@ BOOL CClientConnector::ProcessData()
 
 	if(m_nDataLen > 0)
 	{
-		memmove(m_DataBuffer, m_DataBuffer+pHeader->dwSize, m_nDataLen);
+		memmove(m_DataBuffer, m_DataBuffer + pHeader->dwSize, m_nDataLen);
 	}
 	else if(m_nDataLen < 0)
 	{
 		ASSERT_FAIELD;
 	}
 
-	PacketHeader *pMsgHeader = (PacketHeader *)m_PackBuffer;
+	PacketHeader* pMsgHeader = (PacketHeader*)m_PackBuffer;
 
 	DispatchPacket(pMsgHeader->dwMsgID, m_PackBuffer + 28, m_PacketLen - 28);
 
@@ -364,7 +364,7 @@ UINT32 CClientConnector::GetServerTime()
 {
 	UINT32 dwTick = ::GetTickCount();
 
-	return m_dwServerTime + (m_dwServerTick - dwTick)/1000;
+	return m_dwServerTime + (m_dwServerTick - dwTick) / 1000;
 }
 
 BOOL CClientConnector::SetLoginServerAddr( std::string strIpAddr, UINT16 sPort )

@@ -2,14 +2,15 @@
 #define __CMODULE_BASE_H__
 #include "Utility/AVLTree.h"
 #include "Utility/Position.h"
-#include "../Message/Msg_LoginData.pb.h"
+#include "../Message/Msg_LoginDbData.pb.h"
+#include "../Message/Msg_LoginCltData.pb.h"
 
 class CPlayerObject;
 
 class CModuleBase
 {
 public:
-	CModuleBase(CPlayerObject *pOwner);
+	CModuleBase(CPlayerObject* pOwner);
 
 	~CModuleBase();
 
@@ -23,16 +24,18 @@ public:
 
 	virtual BOOL OnNewDay() = 0;
 
-	virtual BOOL ReadFromLoginAck(DBRoleLoginAck &Ack) = 0;
+	virtual BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack) = 0;
 
-	virtual BOOL DispatchPacket(NetPacket *pNetPack);
+	virtual BOOL SaveToClientLoginData(RoleLoginAck& Ack) = 0;
 
-	BOOL SetOwner(CPlayerObject *pOwner);
+	virtual BOOL DispatchPacket(NetPacket* pNetPack);
+
+	BOOL SetOwner(CPlayerObject* pOwner);
 
 	CPlayerObject* GetOwner();
 
 public:
-	CPlayerObject *m_pOwnPlayer;
+	CPlayerObject* m_pOwnPlayer;
 };
 
 

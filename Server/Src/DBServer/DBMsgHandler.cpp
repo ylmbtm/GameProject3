@@ -10,7 +10,6 @@
 #include "DataBuffer.h"
 #include "DBStoredProcMgr.h"
 #include "../Message/Msg_ID.pb.h"
-#include "../Message/Msg_Login.pb.h"
 
 
 CDBMsgHandler::CDBMsgHandler()
@@ -38,13 +37,13 @@ BOOL CDBMsgHandler::Uninit()
 }
 
 
-BOOL CDBMsgHandler::DispatchPacket(NetPacket *pNetPacket)
+BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
-		PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
-	default:
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
+		default:
 		{
 
 		}
@@ -60,7 +59,7 @@ BOOL CDBMsgHandler::OnUpdate(UINT32 dwTick)
 	return TRUE;
 }
 
-BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket *pPacket)
+BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket* pPacket)
 {
 	RoleListReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
@@ -71,7 +70,7 @@ BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket *pPacket)
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }
 
-BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket *pPacket)
+BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 {
 	RoleLoginReq  Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());

@@ -2,19 +2,18 @@
 #define __ROLE_MODULE_H__
 #include "ModuleBase.h"
 #include "..\ServerData\serverStruct.h"
-#include "..\Message\Msg_Login.pb.h"
 
 struct RoleDataObject;
 class CRoleModule : public CModuleBase
 {
 public:
-	CRoleModule(CPlayerObject *pOwner);
+	CRoleModule(CPlayerObject* pOwner);
 
 	~CRoleModule();
 
 public:
 	BOOL    OnCreate(UINT64 u64RoleID);
-	
+
 	BOOL    OnDestroy();
 
 	BOOL    OnLogin();
@@ -23,9 +22,11 @@ public:
 
 	BOOL    OnNewDay();
 
-    BOOL    InitBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwActorID, UINT64 u64AccountID, UINT32 dwChannel);
+	BOOL    InitBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel);
 
-    BOOL    ReadFromLoginAck(DBRoleLoginAck &Ack);
+	BOOL    ReadFromDBLoginData(DBRoleLoginAck& Ack);
+
+	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 public:
 	//扣除货币， 如果返回成功，就是扣除成功， 如果返回失败，就是货币不足
 	BOOL    CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum);
@@ -47,11 +48,16 @@ public:
 
 	BOOL    UpdateAction(UINT32 dwActionID);
 
-    BOOL    SetDelete(BOOL bDelete);
+	BOOL    SetDelete(BOOL bDelete);
+
+	UINT32  GetActorID();
+
+	UINT64  AddExp(INT32 nExp);
 
 public:
+	UINT32           m_dwActorID;
 
-	RoleDataObject  *m_pRoleDataObject;
+	RoleDataObject*  m_pRoleDataObject;
 };
 
 #endif //__ROLE_MODULE_H__

@@ -3,7 +3,6 @@
 #include "PacketHeader.h"
 #include "PlayerManager.h"
 #include "RoleModule.h"
-#include "..\Message\Msg_Login.pb.h"
 #include "..\Message\Msg_ID.pb.h"
 #include "GameSvrMgr.h"
 #include "..\GameServer\GameService.h"
@@ -115,13 +114,13 @@ BOOL CPlayerObject::OnNewDay()
 	return TRUE;
 }
 
-BOOL CPlayerObject::ReadFromLoginAck(DBRoleLoginAck& Ack)
+BOOL CPlayerObject::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	for(int i = MT_ROLE; i < MT_END; i++)
 	{
 		CModuleBase* pBase = m_MoudleList.at(i);
 		ERROR_RETURN_FALSE(pBase != NULL);
-		pBase->ReadFromLoginAck(Ack);
+		pBase->ReadFromDBLoginData(Ack);
 	}
 
 	return TRUE;
@@ -194,7 +193,6 @@ BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
 	SendRoleLoginAck();
-
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
 	m_dwCopyID = 0;
 	m_dwCopyGuid = 0;
@@ -296,11 +294,13 @@ BOOL CPlayerObject::SendRoleLoginAck()
 	ERROR_RETURN_FALSE(pModule != NULL);
 	RoleLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	Ack.set_accountid(pModule->m_pRoleDataObject->m_u64AccountID);
-	Ack.set_roleid(m_u64ID);
-	Ack.set_name(pModule->m_pRoleDataObject->m_szName);
-	Ack.set_level(1);
-	Ack.set_actorid(pModule->m_pRoleDataObject->m_ActorID);
+	for(int i = MT_ROLE; i < MT_END; i++)
+	{
+		CModuleBase* pBase = m_MoudleList.at(i);
+		ERROR_RETURN_FALSE(pBase != NULL);
+		pBase->SaveToClientLoginData(Ack);
+	}
+
 	SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
 	return TRUE;
 }
@@ -309,7 +309,8 @@ BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq& Req )
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	Req.mutable_roledata()->set_roleid(m_u64ID);
-	Req.mutable_roledata()->set_actorid(pModule->m_pRoleDataObject->m_ActorID);
+	Req.mutable_roledata()->set_carrerid(pModule->m_pRoleDataObject->m_CarrerID);
+	Req.mutable_roledata()->set_actorid(pModule->GetActorID());
 	Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
 	Req.mutable_roledata()->set_rolename(pModule->m_pRoleDataObject->m_szName);
 

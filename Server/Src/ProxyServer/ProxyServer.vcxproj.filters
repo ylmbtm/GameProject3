@@ -33,7 +33,10 @@
     <ClCompile Include="ProxyMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+    <ClCompile Include="..\Message\Msg_Copy.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +53,10 @@
     <ClInclude Include="ProxyMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Login.pb.h">
+    <ClInclude Include="..\Message\Msg_Copy.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
