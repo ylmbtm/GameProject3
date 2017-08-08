@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CopyModule.h"
 
-CCopyModule::CCopyModule(CPlayerObject *pOwner):CModuleBase(pOwner)
+CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
 }
@@ -13,7 +13,7 @@ CCopyModule::~CCopyModule()
 
 BOOL CCopyModule::OnCreate(UINT64 u64RoleID)
 {
-	
+
 	return TRUE;
 }
 
@@ -38,9 +38,9 @@ BOOL CCopyModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CCopyModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
+BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBCopyData &CopyData = Ack.copydata();
+	const DBCopyData& CopyData = Ack.copydata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -56,6 +56,11 @@ BOOL CCopyModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 	pObject->unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}*/
+	return TRUE;
+}
+
+BOOL CCopyModule::SaveToClientLoginData(RoleLoginAck& Ack)
+{
 	return TRUE;
 }
 

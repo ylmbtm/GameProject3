@@ -11,21 +11,21 @@ public:
 	float m_y;
 
 
-	CPoint2d(float _x=0.0f,float _y=0.0f )
+	CPoint2d(float _x = 0.0f, float _y = 0.0f )
 	{
 		m_x = _x;
 		m_y = _y;
 	}
 
 
-	 CPoint2d&  operator *=(float v)
+	CPoint2d&  operator *=(float v)
 	{
 		m_x *= v;
 		m_y *= v;
 		return *this;
 	}
 
-	 CPoint2d& operator /=(float v)
+	CPoint2d& operator /=(float v)
 	{
 		m_x /= v;
 		m_y /= v;
@@ -57,7 +57,7 @@ public:
 
 	inline  bool operator ==(CPoint2d& pt)
 	{
-		if(pt.m_x==m_x&&pt.m_y==m_y)
+		if(pt.m_x == m_x && pt.m_y == m_y)
 		{
 			return true;
 		}
@@ -67,7 +67,18 @@ public:
 
 	float GetDistance(CPoint2d pos)
 	{
-		return sqrt(float(pow(fabs(pos.m_x-m_x),2)+pow(fabs(pos.m_y-m_y),2)));
+		return sqrt(float(pow(fabs(pos.m_x - m_x), 2) + pow(fabs(pos.m_y - m_y), 2)));
+	}
+
+	CPoint2d& Normalized()
+	{
+		float mo = sqrt(m_x * m_x + m_y * m_y);
+		if(mo >= 0.0001f)
+		{
+			m_x = m_x / mo;
+			m_y = m_y / mo;
+		}
+		return *this;
 	}
 
 	bool From(std::string str)
@@ -79,34 +90,34 @@ public:
 };
 
 
-inline CPoint2d operator +(const CPoint2d& pos,float v)
+inline CPoint2d operator +(const CPoint2d& pos, float v)
 {
-	return CPoint2d(pos.m_x+v,pos.m_y+v);
+	return CPoint2d(pos.m_x + v, pos.m_y + v);
 }
 
 
-inline CPoint2d operator +(const CPoint2d& pos,const CPoint2d& v)
+inline CPoint2d operator +(const CPoint2d& pos, const CPoint2d& v)
 {
-	return CPoint2d(pos.m_x+v.m_x,pos.m_y+v.m_y);
+	return CPoint2d(pos.m_x + v.m_x, pos.m_y + v.m_y);
 }
-inline CPoint2d operator -(const CPoint2d& pos,const CPoint2d& v)
+inline CPoint2d operator -(const CPoint2d& pos, const CPoint2d& v)
 {
-	return CPoint2d(pos.m_x-v.m_x,pos.m_y-v.m_y);
-}
-
-inline CPoint2d operator -(const CPoint2d& pos,float v)
-{
-	return CPoint2d(pos.m_x-v,pos.m_y-v);
+	return CPoint2d(pos.m_x - v.m_x, pos.m_y - v.m_y);
 }
 
-inline CPoint2d operator *(const CPoint2d& pos,float v)
+inline CPoint2d operator -(const CPoint2d& pos, float v)
 {
-	return CPoint2d(pos.m_x*v,pos.m_y*v);
+	return CPoint2d(pos.m_x - v, pos.m_y - v);
 }
 
-inline CPoint2d operator / (const CPoint2d& pos,float v)
+inline CPoint2d operator *(const CPoint2d& pos, float v)
 {
-	return CPoint2d(pos.m_x/v,pos.m_y/v);
+	return CPoint2d(pos.m_x * v, pos.m_y * v);
+}
+
+inline CPoint2d operator / (const CPoint2d& pos, float v)
+{
+	return CPoint2d(pos.m_x / v, pos.m_y / v);
 }
 
 
@@ -114,25 +125,25 @@ inline CPoint2d operator / (const CPoint2d& pos,float v)
 class Rect2d
 {
 public:
-	FLOAT m_Left,m_Top,m_Bottom,m_Right;
-	Rect2d(float _left,float _top,float _right,float _bottom)
+	FLOAT m_Left, m_Top, m_Bottom, m_Right;
+	Rect2d(float _left, float _top, float _right, float _bottom)
 	{
-		m_Left=_left;
-		m_Top=_top;
-		m_Bottom=_bottom;
-		m_Right=_right;
+		m_Left = _left;
+		m_Top = _top;
+		m_Bottom = _bottom;
+		m_Right = _right;
 	};
 
 	Rect2d()
 	{
-		m_Left=0;
-		m_Top=0;
-		m_Bottom=0;
-		m_Right=0;
+		m_Left = 0;
+		m_Top = 0;
+		m_Bottom = 0;
+		m_Right = 0;
 	};
 	bool PtInRect(CPoint2d pt)
 	{
-		if(pt.m_x >= m_Left && pt.m_y >= m_Top && pt.m_x<=m_Right && pt.m_y<=m_Bottom)
+		if(pt.m_x >= m_Left && pt.m_y >= m_Top && pt.m_x <= m_Right && pt.m_y <= m_Bottom)
 		{
 			return true;
 		}

@@ -17,8 +17,6 @@ public:
 
 	}
 
-
-
 public:
 	static CPlayerManager* GetInstancePtr();
 

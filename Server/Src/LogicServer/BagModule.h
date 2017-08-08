@@ -6,7 +6,7 @@ struct BagDataObject;
 class CBagModule : public CModuleBase
 {
 public:
-	CBagModule(CPlayerObject *pOwner);
+	CBagModule(CPlayerObject* pOwner);
 
 	~CBagModule();
 
@@ -21,12 +21,18 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
+	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+
+	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 public:
 
 	BOOL AddItem(UINT32 dwItemID, INT32 nCount);
 	BOOL RemoveItem(UINT32 dwItemID, INT32 nCount);
-	
+	INT32 GetItemCount(UINT32 dwItemID);
+
+	BagDataObject* GetItemByGuid(UINT64 uGuid);
+
+	BOOL NotifyChange();
 
 public:
 	std::map<UINT64, BagDataObject*>m_mapBagData;

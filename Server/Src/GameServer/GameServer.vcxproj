@@ -180,11 +180,13 @@
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Move.pb.cc">
@@ -215,11 +217,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
-    <ClInclude Include="..\..\Common\Utility\rapidxml.h" />
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
-    <ClInclude Include="..\Message\Msg_Login.pb.h" />
+    <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="..\..\Common\Utility\Position.h" />

@@ -6,9 +6,9 @@
 #include "Utility/CommonEvent.h"
 #include "DataBuffer.h"
 #include "Utility/CommonThreadFunc.h"
-#include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../ConfigData/ConfigData.h"
+#include "../Message/Msg_Game.pb.h"
 
 CGameService::CGameService(void)
 {
@@ -36,7 +36,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-ServerID:%d--Port:%d--------",dwServerID, dwPort);
+	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
@@ -47,7 +47,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	m_dwServerID = dwServerID;
 
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn,this))
+	if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn, this))
 	{
 		CLog::GetInstancePtr()->AddLog("启动服务失败!");
 		return FALSE;
@@ -69,7 +69,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(CConnection *pConn)
+BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
@@ -84,11 +84,11 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 		RegisterToProxySvr();
 		return TRUE;
 	}
-	
+
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection *pConn)
+BOOL CGameService::OnCloseConnect(CConnection* pConn)
 {
 	if(m_dwLogicConnID == pConn->GetConnectionID())
 	{
@@ -108,12 +108,12 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 	return TRUE;
 }
 
-BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
+BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgDefautReq)
-	default:
+			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgDefautReq)
+		default:
 		{
 			m_SceneManager.DispatchPacket(pNetPacket);
 		}
@@ -168,7 +168,7 @@ BOOL CGameService::ConnectToLogicSvr()
 {
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
-	CConnection *pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
+	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
 	if(pConn == NULL)
 	{
 		return FALSE;
@@ -183,7 +183,7 @@ BOOL CGameService::ConnectToProxySvr()
 {
 	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
-	CConnection *pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strProxyIp, nProxyPort);
+	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strProxyIp, nProxyPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
 	m_dwProxyConnID = pConn->GetConnectionID();
 	return TRUE;
@@ -208,7 +208,7 @@ UINT32 CGameService::GetServerID()
 	return m_dwServerID;
 }
 
-BOOL CGameService::OnMsgDefautReq(NetPacket *pNetPacket)
+BOOL CGameService::OnMsgDefautReq(NetPacket* pNetPacket)
 {
 	return TRUE;
 }

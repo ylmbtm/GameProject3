@@ -6,7 +6,6 @@
 #include "Utility/CommonEvent.h"
 #include "TimerManager.h"
 #include "Utility/CommonThreadFunc.h"
-#include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
 #include "SimpleMananger.h"
@@ -69,7 +68,7 @@ BOOL CGameService::Init()
 
 	ConnectToDBSvr();
 
-	
+
 
 	m_WorldMsgHandler.Init(0);
 
@@ -97,7 +96,7 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
-BOOL CGameService::SendCmdToDBConnection(IDataBuffer *pBuffer)
+BOOL CGameService::SendCmdToDBConnection(IDataBuffer* pBuffer)
 {
 	return TRUE;
 }
@@ -105,9 +104,9 @@ BOOL CGameService::SendCmdToDBConnection(IDataBuffer *pBuffer)
 
 BOOL CGameService::ConnectToLogServer()
 {
-	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("stat_svr_port");
-	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("stat_svr_ip");
-	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
+	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
+	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	m_dwLogConnID = pConnection->GetConnectionID();
@@ -118,7 +117,7 @@ BOOL CGameService::ConnectToLoginSvr()
 {
 	UINT32 nLoginPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
 	std::string strLoginIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
-	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLoginIp, nLoginPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLoginIp, nLoginPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwLoginConnID = pConnection->GetConnectionID();
 	return TRUE;
@@ -128,7 +127,7 @@ BOOL CGameService::ConnectToDBSvr()
 {
 	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_port");
 	std::string strDBIp = CConfigFile::GetInstancePtr()->GetStringValue("db_svr_ip");
-	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strDBIp, nDBPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strDBIp, nDBPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwDBConnID = pConnection->GetConnectionID();
 	return TRUE;
@@ -144,7 +143,7 @@ BOOL CGameService::RegisterToLoginSvr()
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
-BOOL CGameService::OnNewConnect(CConnection *pConn)
+BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
 	if(pConn->GetConnectionID() == m_dwLoginConnID)
 	{
@@ -154,7 +153,7 @@ BOOL CGameService::OnNewConnect(CConnection *pConn)
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection *pConn)
+BOOL CGameService::OnCloseConnect(CConnection* pConn)
 {
 	if(m_dwLoginConnID == pConn->GetConnectionID())
 	{
@@ -182,7 +181,7 @@ BOOL CGameService::OnCloseConnect(CConnection *pConn)
 	return TRUE;
 }
 
-BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
+BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	//switch(pNetPacket->m_dwMsgID)
 	//{

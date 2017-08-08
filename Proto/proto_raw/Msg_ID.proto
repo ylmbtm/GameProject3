@@ -68,7 +68,13 @@ enum MessageID {
 
 	MSG_BATTLE_RESULT_NTY		 = 20000023;  //副本服发给逻辑服的通知
 
-	MSG_MAINCOPY_RESULT_NTY      = 20000024;
+	MSG_MAINCOPY_RESULT_NTY      = 20000024;  //主线副本的结果（发给客户端)
+
+	MSG_ROLE_CHANG_NTY			 = 20000025;
+	MSG_BAG_CHANGE_NTY           = 20000026;
+	MSG_PET_CHANGE_NTY           = 20000027;
+	MSG_EQUIP_CHANGE_NTY         = 20000028;
+	MSG_PARTNER_CHANGE_NTY       = 20000029;
 
 	MSG_LOGICSVR_MSGID_END       = 2999999;
 	//========================SceneSVR=======================

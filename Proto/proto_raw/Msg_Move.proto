@@ -3,8 +3,9 @@ syntax = "proto3";
 message DamagerItem {
   uint64 ObjectGuid  = 1;
   float x = 2;
-  float z = 3;
-  int32 chghp = 4;  
+  float y = 3;
+  float z = 4;
+  int32 chghp = 5;  
 }
 
 message ActionItem {
@@ -14,14 +15,16 @@ message ActionItem {
 	bool	IsStart = 4;
 	bool    IsHurt = 5;
 	float   x = 6;
-	float   z = 7;
-	float   vx = 8;
-	float   vz = 9;
-	int32   hp = 10;
-	int32   mp = 11;
-	int32   hpmax = 12;
-	int32   mpmax = 13;
-	repeated DamagerItem DamagerList = 14; 
+	float   y = 7;
+	float   z = 8;
+	float   vx = 9;
+	float   vy = 10;
+	float   vz = 11;
+	int32   hp = 12;
+	int32   mp = 13;
+	int32   hpmax = 14;
+	int32   mpmax = 15;
+	repeated DamagerItem DamagerList = 16; 
 }
 
 message ObjectActionReq {
@@ -42,14 +45,16 @@ message NewItem {
     uint64 ControlerID = 7;     //AI控制人的GUID
 	uint64 SummonID = 8;		//招唤者的GUID
 	float	 x = 9;
-	float    z = 10;
-	float    vx = 11;
-	float    vz = 12;
-	int32   hp = 13;
-	int32   mp = 14;
-	int32   hpmax = 15;
-	int32   mpmax = 16;
-	repeated int32 equip = 17; //装备
+	float	 y = 10;
+	float    z = 11;
+	float    vx = 12;
+	float    vy = 13;
+	float    vz = 14;
+	int32   hp = 15;
+	int32   mp = 16;
+	int32   hpmax = 17;
+	int32   mpmax = 18;
+	repeated int32 equip = 19; //装备
 }
 
 message ObjectNewNty {

@@ -35,7 +35,7 @@ public:
 	~CClientCmdHandler(void);
 
 
-	BOOL DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
 	BOOL OnUpdate(UINT32 dwTick);
 
@@ -43,9 +43,9 @@ public:
 	BOOL SendNewAccountReq(std::string szAccountName, std::string szPassword);
 	BOOL SendAccountLoginReq(std::string szAccountName, std::string szPassword);
 	BOOL SendSelectSvrReq(UINT32 dwSvrID);
-	BOOL SendCreateRoleReq(UINT64 dwAccountID,std::string strName, UINT32 dwActorID);
-    BOOL SendDelCharReq(UINT64 dwAccountID,UINT64 u64RoleID);
-	
+	BOOL SendCreateRoleReq(UINT64 dwAccountID, std::string strName, UINT32 dwCarrerID);
+	BOOL SendDelCharReq(UINT64 dwAccountID, UINT64 u64RoleID);
+
 	BOOL SendRoleLogoutReq(UINT64 u64CharID);
 	BOOL SendRoleLoginReq(UINT64 u64CharID);
 	BOOL SendRoleListReq();
@@ -55,19 +55,19 @@ public:
 
 	//*********************消息处理定义开始******************************
 public:
-	BOOL OnCmdNewAccountAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgSelectServerAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgRoleListAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	
-	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgObjectActionNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
-	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL OnCmdNewAccountAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgSelectServerAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgRoleListAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
-	
+	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+
+
 	//*********************消息处理定义结束******************************
 
 	std::vector<UINT64>	m_RoleIDList;
@@ -88,8 +88,10 @@ public:
 	std::string			m_strRoleName;
 
 	FLOAT               m_x;
+	FLOAT				m_y;
 	FLOAT				m_z;
 	FLOAT				m_vx;
+	FLOAT				m_vy;
 	FLOAT				m_vz;
 
 	UINT32				m_dwCopySvrID;

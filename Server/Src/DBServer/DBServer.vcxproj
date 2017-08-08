@@ -173,16 +173,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
+    <ClCompile Include="..\Message\Msg_LoginDBData.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DBMsgHandler.cpp" />
@@ -203,7 +203,8 @@
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Message\Msg_Login.pb.h" />
+    <ClInclude Include="..\Message\Msg_Game.pb.h" />
+    <ClInclude Include="..\Message\Msg_LoginDBData.pb.h" />
     <ClInclude Include="DBMsgHandler.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="DBWriterManager.h" />
