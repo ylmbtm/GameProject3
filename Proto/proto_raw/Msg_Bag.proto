@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+
+message BagItem {
+	uint64 Guid = 1;
+	int32  ItemID = 2;
+	int32  ItemNum = 3;
+	int32  ItemGuid = 4;
+}
+
+message BagDataNty{
+	repeated BagItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
+}
+

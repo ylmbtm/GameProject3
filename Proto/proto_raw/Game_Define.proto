@@ -49,3 +49,28 @@ enum COPY_TYPE {
 	
 	CPT_END = 100;
 }
+
+
+
+enum ITEM_TYPE{
+	IMT_NONE = 0;
+	IMT_MONEY = 1; //货币
+	IMT_ACTION = 2; //行动力
+	IMT_NORMAL = 3; //普通道具
+	IMT_EQUIP  = 4;
+	IMT_PET    = 5;
+	IMT_PARTNER = 6;
+}
+
+
+enum BAG_TYPE {
+	BT_NONE = 0;
+}
+
+
+enum FUNCTION_ID{
+	FUNC_BEGIN_ID  = 0;  //!功能ID开始标记
+	
+	FUNC_END_ID = 150; //!功能ID结束标记
+	
+}

@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "PartnerModule.h"
+#include "DataPool.h"
+#include "GlobalDataMgr.h"
 
 CPartnerModule::CPartnerModule(CPlayerObject *pOwner):CModuleBase(pOwner)
 {
@@ -20,6 +22,13 @@ BOOL CPartnerModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CPartnerModule::OnDestroy()
 {
+	for(auto itor = m_mapPartnerData.begin(); itor != m_mapPartnerData.end(); itor++)
+	{
+		itor->second->release();
+	}
+
+	m_mapPartnerData.clear();
+
 	return TRUE;
 }
 
@@ -61,3 +70,17 @@ BOOL CPartnerModule::ReadFromLoginAck(DBRoleLoginAck &Ack)
 
 
 
+UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
+{
+	PartnerDataObject *pObject = g_pPartnerDataObjectPool->newOjbect(TRUE);
+	pObject->lock();
+	pObject->m_PartnerID = dwPartnerID;
+	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
+	pObject->m_StrengthLvl = 0;
+	pObject->m_RefineExp = 0;
+	pObject->m_StarExp = 0;
+	pObject->m_StarLevel = 0;
+	pObject->unlock();
+
+	return pObject->m_uGuid;
+}

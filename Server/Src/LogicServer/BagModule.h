@@ -26,6 +26,8 @@ public:
 
 	BOOL AddItem(UINT32 dwItemID, INT32 nCount);
 	BOOL RemoveItem(UINT32 dwItemID, INT32 nCount);
+
+	INT32 GetItemCount(UINT32 dwItemID);
 	
 
 public:

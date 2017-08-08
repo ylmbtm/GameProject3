@@ -24,8 +24,11 @@ public:
 
 	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
+
 public:
-	std::map<UINT32, PartnerDataObject*>m_mapPetData;
+	UINT64 AddPartner(UINT32 dwPartnerID);
+public:
+	std::map<UINT32, PartnerDataObject*>m_mapPartnerData;
 
 
 };

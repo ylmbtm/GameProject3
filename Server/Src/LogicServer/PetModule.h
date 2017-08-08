@@ -25,6 +25,10 @@ public:
 	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
+	UINT64 AddPet(UINT32 dwPetID);
+
+
+public:
 	std::map<UINT32, PetDataObject*>m_mapPetData;
 
 
