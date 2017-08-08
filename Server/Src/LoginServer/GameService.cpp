@@ -28,7 +28,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkPath("");
 
-	if(!CLog::GetInstancePtr()->StartLog("LoginServer", "log"))
+	if(!CLog::GetInstancePtr()->StartLog("LoginServer","log"))
 	{
 		return FALSE;
 	}
@@ -43,9 +43,9 @@ BOOL CGameService::Init()
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
-	{
-		CLog::GetInstancePtr()->AddLog("启动服务失败!");
+    if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn,this))
+    {
+        CLog::GetInstancePtr()->AddLog("启动服务失败!");
 		return FALSE;
 	}
 
@@ -83,11 +83,11 @@ BOOL CGameService::Run()
 }
 
 
-BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
+BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,const google::protobuf::Message& pdata)
 {
 	ERROR_RETURN_FALSE(m_dwAccountConnID != 0);
 
-	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData, pdata))
+	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData,pdata))
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -113,9 +113,9 @@ BOOL CGameService::OnTimer(UINT32 dwUserData)
 
 BOOL CGameService::ConnectToLogServer()
 {
-	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
-	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
+	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("stat_svr_port");
+	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("stat_svr_ip");
+	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwLogSvrConnID = pConnection->GetConnectionID();
 	return TRUE;
@@ -125,13 +125,13 @@ BOOL CGameService::ConnectToAccountSvr()
 {
 	UINT32 nAccountPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");
 	std::string strAccountIp = CConfigFile::GetInstancePtr()->GetStringValue("account_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strAccountIp, nAccountPort);
+	CConnection *pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strAccountIp, nAccountPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwAccountConnID = pConnection->GetConnectionID();
 	return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(CConnection* pConn)
+BOOL CGameService::OnNewConnect(CConnection *pConn)
 {
 	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 
@@ -139,7 +139,7 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection* pConn)
+BOOL CGameService::OnCloseConnect(CConnection *pConn)
 {
 	if(pConn->GetConnectionID() == m_dwAccountConnID)
 	{
@@ -156,11 +156,11 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	return TRUE;
 }
 
-BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
+BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		default:
+	default:
 		{
 			m_LoginMsgHandler.DispatchPacket(pNetPacket);
 		}

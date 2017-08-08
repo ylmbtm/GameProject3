@@ -17,7 +17,6 @@ enum MouduleType
 	MT_BAG,
 	MT_EQUIP,
 	MT_PET,
-	MT_PARTNER,
 	MT_END
 };
 

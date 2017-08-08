@@ -36,7 +36,7 @@
     <ClCompile Include="..\Message\Msg_ID.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="..\Message\Msg_ID.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Game.pb.h">
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>

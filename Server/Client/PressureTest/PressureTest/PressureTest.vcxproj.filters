@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\..\Src\Message\Msg_ID.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Msg_Move.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
@@ -67,9 +70,6 @@
       <Filter>Proto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Msg_Copy.pb.cc">
-      <Filter>Proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,12 +106,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Src\Message\Msg_Game.pb.h">
-      <Filter>Proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\XMath.h">
-      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@
 
 LogicSvrManager::LogicSvrManager(void)
 {
-	m_dwRecommendSvrID = 0;
 }
 
 
@@ -19,17 +18,14 @@ BOOL LogicSvrManager::Init()
 
 BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 {
-	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+	LogicServerNode *pNode = GetByKey(dwServerID);
 	if(pNode == NULL)
 	{
-		LogicServerNode tempNode;
-		tempNode.dwServerID = dwServerID;
-		tempNode.dwConnID   = dwConnID;
-		tempNode.strIpAddr  = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
-		tempNode.dwPort     = 9876;
-		tempNode.strServerName = "Test_Server1";
-		insert(std::make_pair(dwServerID, tempNode));
-		return TRUE;
+		pNode = InsertAlloc(dwServerID);
+		pNode->dwServerID = dwServerID;
+		pNode->dwConnID = dwConnID;
+		pNode->strIpAddr = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+		pNode->dwPort = 9876;
 	}
 
 	pNode->dwConnID = dwConnID;
@@ -40,7 +36,7 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 
 BOOL LogicSvrManager::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 {
-	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+	LogicServerNode *pNode = GetByKey(dwServerID);
 	if(pNode == NULL)
 	{
 		return TRUE;
@@ -53,7 +49,7 @@ BOOL LogicSvrManager::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 
 UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 {
-	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+	LogicServerNode *pNode = GetByKey(dwServerID);
 	if(pNode == NULL)
 	{
 		return 0;
@@ -64,29 +60,10 @@ UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 
 LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
 {
-	auto itor = find(dwServerID);
-	if(itor != end())
-	{
-		return &itor->second;
-	}
-
-	return NULL;
-}
-
-LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
-{
-	LogicServerNode* pNode = GetLogicServerInfo(m_dwRecommendSvrID);
+	LogicServerNode *pNode = GetByKey(dwServerID);
 	if(pNode == NULL)
 	{
-		for(auto itor = begin(); itor != end(); itor++)
-		{
-			LogicServerNode* pNode = &itor->second;
-			if (pNode->dwServerID != 0)
-			{
-				return pNode;
-
-			}
-		}
+		return 0;
 	}
 
 	return pNode;

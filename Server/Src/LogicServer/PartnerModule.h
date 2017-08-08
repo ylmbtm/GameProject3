@@ -7,7 +7,7 @@ struct PartnerDataObject;
 class CPartnerModule  : public CModuleBase
 {
 public:
-	CPartnerModule(CPlayerObject* pOwner);
+	CPartnerModule(CPlayerObject *pOwner);
 
 	~CPartnerModule();
 
@@ -22,15 +22,10 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
-
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
-
+	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
-	UINT64 AddPartner(UINT32 dwPartnerID);
-public:
-	std::map<UINT32, PartnerDataObject*>m_mapPartnerData;
+	std::map<UINT32, PartnerDataObject*>m_mapPetData;
 
 
 };

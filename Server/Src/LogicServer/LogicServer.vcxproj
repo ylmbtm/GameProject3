@@ -182,22 +182,14 @@
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_LoginCltData.pb.cc">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Message\Msg_LoginDBData.pb.cc">
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -221,7 +213,6 @@
     <ClCompile Include="PetModule.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
-    <ClCompile Include="RankMananger.cpp" />
     <ClCompile Include="RoleModule.cpp" />
     <ClCompile Include="SimpleMananger.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -238,10 +229,7 @@
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
-    <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
-    <ClInclude Include="..\Message\Msg_LoginCltData.pb.h" />
-    <ClInclude Include="..\Message\Msg_LoginDBData.pb.h" />
     <ClInclude Include="..\Message\Msg_RetCode.pb.h" />
     <ClInclude Include="..\ServerData\BagData.h" />
     <ClInclude Include="..\ServerData\CopyData.h" />
@@ -264,7 +252,6 @@
     <ClInclude Include="PetModule.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerObject.h" />
-    <ClInclude Include="RankMananger.h" />
     <ClInclude Include="RoleModule.h" />
     <ClInclude Include="SimpleMananger.h" />
     <ClInclude Include="stdafx.h" />

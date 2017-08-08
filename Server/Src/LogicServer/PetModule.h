@@ -7,7 +7,7 @@ struct PetDataObject;
 class CPetModule  : public CModuleBase
 {
 public:
-	CPetModule(CPlayerObject* pOwner);
+	CPetModule(CPlayerObject *pOwner);
 
 	~CPetModule();
 
@@ -22,13 +22,7 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
-
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
-
-public:
-	UINT64 AddPet(UINT32 dwPetID);
-
+	BOOL ReadFromLoginAck(DBRoleLoginAck &Ack);
 
 public:
 	std::map<UINT32, PetDataObject*>m_mapPetData;

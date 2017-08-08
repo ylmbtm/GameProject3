@@ -57,10 +57,10 @@
     <ClCompile Include="DBManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
-    <ClCompile Include="..\Message\Msg_LoginDBData.pb.cc">
+    <ClCompile Include="..\Message\Msg_LoginData.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,10 +95,7 @@
     <ClInclude Include="DBManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Game.pb.h">
-      <Filter>Proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Message\Msg_LoginDBData.pb.h">
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>

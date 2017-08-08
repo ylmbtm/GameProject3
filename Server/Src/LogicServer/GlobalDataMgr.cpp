@@ -8,7 +8,7 @@
 
 CGlobalDataManager::CGlobalDataManager()
 {
-
+    
 }
 
 CGlobalDataManager::~CGlobalDataManager()
@@ -25,18 +25,18 @@ CGlobalDataManager* CGlobalDataManager::GetInstancePtr()
 
 BOOL CGlobalDataManager::LoadGlobalData()
 {
-	CppSQLite3DB	DBConnection;
+	CppSQLite3DB	DBConnection; 
 	try
 	{
 		std::string strCurDir = CommonFunc::GetCurrentDir();
-		strCurDir += "\\GameData.db";
+		strCurDir+= "\\GameData.db";
 		DBConnection.open(strCurDir.c_str());
 	}
-	catch(CppSQLite3Exception& e)
-	{
-		CLog::GetInstancePtr()->LogError("Error : File:%s", e.errorMessage());
+	catch(CppSQLite3Exception& e)  
+	{  
+        CLog::GetInstancePtr()->LogError("Error : File:%s",e.errorMessage());
 		return FALSE;
-	}
+	}  
 
 	UINT32 dwServerID  = 0;
 	UINT64 dwMaxGuid = 0;
@@ -47,14 +47,14 @@ BOOL CGlobalDataManager::LoadGlobalData()
 		dwServerID = TableNames.getIntField("serverid");
 		dwMaxGuid = TableNames.getInt64Field("maxguid");
 	}
-
-	if((dwServerID == 0) || (dwMaxGuid == 0))
+	
+	if((dwServerID == 0)||(dwMaxGuid == 0))
 	{
 		dwServerID = CGameService::GetInstancePtr()->GetServerID();
 		dwMaxGuid  =  dwServerID;
-		dwMaxGuid = (dwMaxGuid << 48) + 1;
+		dwMaxGuid = (dwMaxGuid<<48) + 1;
 	}
-	dwMaxGuid += 100;
+
 	m_pGlobalDataObject = g_pGlobalDataObjectPool->newOjbect(TRUE);
 	m_pGlobalDataObject->lock();
 	m_pGlobalDataObject->m_dwServerID = dwServerID;

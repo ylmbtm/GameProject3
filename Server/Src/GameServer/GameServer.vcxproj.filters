@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_Login.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
     <ClCompile Include="..\Message\Msg_Move.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
@@ -82,9 +85,6 @@
       <Filter>Scenelogic</Filter>
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
-      <Filter>Proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,6 +128,9 @@
     <ClInclude Include="SceneLogic\BattleResult.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\Utility\rapidxml.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="SceneXmlMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -146,10 +149,10 @@
     <ClInclude Include="SceneLogic\SceneLogic_Arena.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Copy.pb.h">
+    <ClInclude Include="..\Message\Msg_Login.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
-    <ClInclude Include="..\Message\Msg_Game.pb.h">
+    <ClInclude Include="..\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>

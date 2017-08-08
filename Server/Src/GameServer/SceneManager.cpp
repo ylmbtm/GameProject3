@@ -7,8 +7,8 @@
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_Login.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
-#include "../Message/Msg_Game.pb.h"
 
 
 
@@ -22,7 +22,7 @@ CSceneManager::~CSceneManager()
 	SceneMap::iterator itor = m_mapSceneList.begin();
 	for(; itor != m_mapSceneList.end(); ++itor)
 	{
-		CScene* pScene = itor->second;
+		CScene *pScene = itor->second;
 		if(pScene != NULL)
 		{
 			pScene->Uninit();
@@ -55,7 +55,7 @@ BOOL CSceneManager::Uninit()
 
 BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum)
 {
-	CScene* pScene = new CScene;
+	CScene *pScene = new CScene;
 
 	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum))
 	{
@@ -71,16 +71,16 @@ BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCop
 	return TRUE;
 }
 
-BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
+BOOL CSceneManager::DispatchPacket(NetPacket *pNetPacket)
 {
 	BOOL bHandled = TRUE;
-	PacketHeader* pPacketHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pPacketHeader != NULL);
 
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
-		default:
+		PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
+	default:
 		{
 			bHandled = FALSE;
 		}
@@ -92,10 +92,10 @@ BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	CScene* pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
+	CScene *pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
 	ERROR_RETURN_FALSE(pScene != NULL);
 	pScene->DispatchPacket(pNetPacket);
-
+		
 	return TRUE;
 }
 
@@ -114,7 +114,7 @@ BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 {
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
 	{
-		CScene* pScene = itor->second;
+		CScene *pScene = itor->second;
 
 		pScene->OnUpdate(dwTick);
 
@@ -148,12 +148,12 @@ BOOL CSceneManager::SendCityReport()
 
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); itor++)
 	{
-		CScene* pScene = itor->second;
+		CScene *pScene = itor->second;
 		ERROR_RETURN_FALSE(pScene != NULL);
 
 		if(pScene->GetCopyType() == CPT_CITY)
 		{
-			CopyItem* pItem = Req.add_copylist();
+			CopyItem *pItem = Req.add_copylist();
 			pItem->set_copyguid(pScene->GetCopyGuid());
 			pItem->set_copyid(pScene->GetCopyID());
 			pItem->set_copytype(pScene->GetCopyType());
@@ -163,7 +163,7 @@ BOOL CSceneManager::SendCityReport()
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
 }
 
-BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
+BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket *pNetPacket)
 {
 	CreateNewSceneReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -181,7 +181,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	Ack.set_copyid(Req.copyid());
 	Ack.set_playernum(Req.playernum());
 	Ack.set_copytype(Req.copytype());
-	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum()))
+	if (!CreateScene(Req.copyid(),dwNewCopyGuid, Req.copytype(), Req.playernum()))
 	{
 		ASSERT_FAIELD;
 
@@ -191,7 +191,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	{
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
-
+	
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_CREATE_SCENE_ACK, 0, 0, Ack);
 
 	return TRUE;
@@ -199,7 +199,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6, MakeCopyID(), 3, 0))
+	if(!CreateScene(6,MakeCopyID(), 3, 0))
 	{
 		ASSERT_FAIELD;
 
