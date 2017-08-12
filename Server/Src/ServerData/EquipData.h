@@ -6,10 +6,10 @@ struct EquipDataObject : public ShareObject
 {
 	EquipDataObject()
 	{
-		
+
 	}
-	
-	UINT64 m_u64ID;			//角色ID
+
+	UINT64 m_u64RoleID;		//角色ID
 	UINT64 m_uGuid;			//guid
 	UINT32 m_EquipID;		//装备ID
 	INT32  m_StrengthLvl;   //强化等级
@@ -17,17 +17,18 @@ struct EquipDataObject : public ShareObject
 	INT32  m_StarLevel;		//星级
 	INT32  m_RefineExp;		//精验的经验
 	INT32  m_StarExp;		//星级经验
+	BOOL   m_IsDress;		//是否穿戴
 
-	BOOL Save(IDataBase *pDB)
-	{ 
-		
+	BOOL Save(IDataBase* pDB)
+	{
+
 
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase *pDB)
+	BOOL Delete(IDataBase* pDB)
 	{
-		
+
 
 		return TRUE;
 	}

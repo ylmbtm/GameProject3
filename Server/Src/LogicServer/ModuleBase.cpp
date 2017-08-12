@@ -2,7 +2,7 @@
 #include "ModuleBase.h"
 #include "PlayerObject.h"
 
-CModuleBase::CModuleBase(CPlayerObject *pOwner)
+CModuleBase::CModuleBase(CPlayerObject* pOwner)
 {
 	m_pOwnPlayer = pOwner;
 }
@@ -12,12 +12,17 @@ CModuleBase::~CModuleBase()
 
 }
 
-BOOL CModuleBase::DispatchPacket(NetPacket *pNetPack)
+BOOL CModuleBase::DispatchPacket(NetPacket* pNetPack)
 {
 	return TRUE;
 }
 
-BOOL CModuleBase::SetOwner(CPlayerObject *pOwner)
+BOOL CModuleBase::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	return TRUE;
+}
+
+BOOL CModuleBase::SetOwner(CPlayerObject* pOwner)
 {
 	m_pOwnPlayer = pOwner;
 	return TRUE;

@@ -216,6 +216,8 @@
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
+    <ClCompile Include="Guild.cpp" />
+    <ClCompile Include="GuildMananger.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
     <ClCompile Include="PartnerModule.cpp" />
     <ClCompile Include="PetModule.cpp" />
@@ -230,6 +232,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TaskModule.cpp" />
     <ClCompile Include="WorldMsgHandler.cpp" />
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
@@ -247,11 +250,13 @@
     <ClInclude Include="..\ServerData\CopyData.h" />
     <ClInclude Include="..\ServerData\EquipData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
+    <ClInclude Include="..\ServerData\GuildData.h" />
     <ClInclude Include="..\ServerData\PartnerData.h" />
     <ClInclude Include="..\ServerData\PetData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\ServerDefine.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
+    <ClInclude Include="..\ServerData\TaskData.h" />
     <ClInclude Include="BagModule.h" />
     <ClInclude Include="CopyModule.h" />
     <ClInclude Include="DataPool.h" />
@@ -259,6 +264,8 @@
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GlobalDataMgr.h" />
+    <ClInclude Include="Guild.h" />
+    <ClInclude Include="GuildMananger.h" />
     <ClInclude Include="ModuleBase.h" />
     <ClInclude Include="PartnerModule.h" />
     <ClInclude Include="PetModule.h" />
@@ -268,6 +275,7 @@
     <ClInclude Include="RoleModule.h" />
     <ClInclude Include="SimpleMananger.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TaskModule.h" />
     <ClInclude Include="WorldMsgHandler.h" />
   </ItemGroup>
   <ItemGroup>

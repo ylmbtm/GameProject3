@@ -18,10 +18,12 @@ CRoleModule::~CRoleModule()
 
 BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 {
+	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+
 	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_Level = 1;
-	m_pRoleDataObject->m_CityCopyID = 6;
 
 	for(int i = 0; i < MAX_ACTION_NUM; i++)
 	{
@@ -34,10 +36,11 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 		m_pRoleDataObject->m_Money[i] = 100000;
 	}
 
+	m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
+
 	m_pRoleDataObject->unlock();
 
-	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
-	ERROR_RETURN_FALSE(pInfo != NULL);
+
 
 	m_dwActorID = pInfo->dwActorID;
 
@@ -71,6 +74,10 @@ BOOL CRoleModule::OnLogin()
 	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 	m_dwActorID = pInfo->dwActorID;
+	for(int i = 0; i < MAX_ACTION_NUM; i++)
+	{
+		UpdateAction(i + 1);
+	}
 	return TRUE;
 }
 
@@ -98,6 +105,21 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->m_VipLvl = Ack.roledata().viplvl();
 	m_pRoleDataObject->m_VipExp = Ack.roledata().vipexp();
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
+	m_pRoleDataObject->m_CityCopyID = Ack.roledata().citycopyid();
+
+	if(m_pRoleDataObject->m_CityCopyID == 0)
+	{
+		StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+		if(pInfo != NULL)
+		{
+			m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
+		}
+		else
+		{
+			CLog::GetInstancePtr()->LogError("Error m_pRoleDataObject->m_CarrerID is 0");
+		}
+	}
+
 	m_pRoleDataObject->unlock();
 
 
@@ -126,6 +148,11 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 		Ack.add_actime(m_pRoleDataObject->m_Actime[i]);
 	}
 
+	return TRUE;
+}
+
+BOOL CRoleModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
 	return TRUE;
 }
 

@@ -39,10 +39,12 @@ struct RoleDataObject : public ShareObject
 	BOOL Save(IDataBase* pDB)
 	{
 		char szSql[1024];
-		sprintf(szSql, "REPLACE INTO player (id, account_id, name, carrerid,level, exp, langid) VALUES(%lld, %lld, '%s', %d, %d, %lld,%d);", \
-		        m_u64ID, m_u64AccountID, m_szName, m_CarrerID, m_Level, m_Exp, m_nLangID);
+		sprintf(szSql, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d);", \
+		        m_u64ID, m_u64AccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID);
 
 		pDB->Execut(szSql);
+
+		printf("DB--------------------RoleDataObject::Save");
 
 		return TRUE;
 	}

@@ -24,6 +24,8 @@ public:
 	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+
+	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
 public:
 
 	BOOL AddItem(UINT32 dwItemID, INT32 nCount);

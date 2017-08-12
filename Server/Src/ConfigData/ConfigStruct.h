@@ -1,4 +1,5 @@
-﻿#ifndef __CONFIG_STRUCT_H__
+﻿#include "..\ServerData\ServerDefine.h"
+#ifndef __CONFIG_STRUCT_H__
 #define __CONFIG_STRUCT_H__
 
 struct  StConstantValue
@@ -48,6 +49,7 @@ struct StActor
 
 	}
 	UINT32  dwID;
+	INT32   Propertys[MAX_PROPERTY_NUM];
 	std::string strName;
 
 };
@@ -58,12 +60,31 @@ struct StCarrerInfo
 	{
 		dwID = 0;
 		dwActorID = 0;
+		dwBornCity = 0;
+		strName = "";
 	}
 	UINT32  dwID;
 	std::string strName;
 	UINT32  dwActorID;
+	UINT32  dwBornCity;
 };
 
+struct StLevelInfo
+{
+	StLevelInfo()
+	{
+		dwLevel = 0;
+		dwFightValue = 0;
+		dwNeedExp = 0;
+		dwCarrerID = 0;
+	}
+
+	UINT32 dwCarrerID;
+	UINT32 dwLevel;
+	UINT32 dwNeedExp;
+	INT32 Propertys[MAX_PROPERTY_NUM];
+	UINT32 dwFightValue;
+};
 
 struct StActionInfo
 {
@@ -154,18 +175,40 @@ struct StFuncVipInfo
 struct StEquipInfo
 {
 	UINT32 dwEquipID;		//! ID
+	UINT32 dwSuitID;
+	UINT32 dwPos;
 };
 
 struct StPetInfo
 {
 	UINT32 dwPetID;		//! ID
-
 };
 
 struct StPartnerInfo
 {
 	UINT32 dwPartnerID;		//! ID
+};
 
+
+struct StTaskInfo
+{
+	UINT32 TaskID;		//! 任务ID
+	UINT32 TaskType;	//! 任务类型
+	UINT32 Condition;	//! 任务条件
+	UINT32 TaskEvent;	//! 任务事件
+	INT32  NeedLevel;	//! 开放等级
+	UINT32 AwardID;		//! 任务奖励ID
+};
+
+
+struct StSkillInfo
+{
+	UINT32 SkillID;		//! 任务ID
+	UINT32 Level;		//! 任务类型
+	UINT32 CD;			//! 任务条件
+	UINT32 CostMp;		//! 消耗魔法值
+	UINT32 Fix;			//! 增加固定攻击
+	UINT32 Percent;		//! 增加百分比伤害
 };
 
 #endif //__CONFIG_STRUCT_H__

@@ -64,6 +64,11 @@ BOOL CCopyModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CCopyModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	return TRUE;
+}
+
 CopyDataObject* CCopyModule::GetCopyData(UINT32 dwCopyID)
 {
 	auto itor = m_mapCopyData.find(dwCopyID);

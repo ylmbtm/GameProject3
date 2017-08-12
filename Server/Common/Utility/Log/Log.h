@@ -26,13 +26,13 @@ public:
 
 	BOOL CloseLog();
 
-	void AddLog(char* lpszFormat,...);
+	void AddLog(char* lpszFormat, ...);
 
-	void LogWarnning(char* lpszFormat,...);
+	void LogWarnning(char* lpszFormat, ...);
 
-	void LogError(char* lpszFormat,...);
+	void LogError(char* lpszFormat, ...);
 
-	void LogInfo(char* lpszFormat,...);
+	void LogInfo(char* lpszFormat, ...);
 
 	void SetLogLevel(int Level);
 
@@ -41,7 +41,7 @@ protected:
 
 	INT32				m_LogCount;
 
-	FILE *m_pLogFile;
+	FILE* m_pLogFile;
 
 	INT32				m_LogLevel;
 };
@@ -64,6 +64,14 @@ protected:
         ASSERT_FAIELD; \
         return TRUE;	\
     }
+
+#define ERROR_RETURN_NULL(P) \
+	if(P == FALSE)\
+{\
+	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+	ASSERT_FAIELD; \
+	return NULL;	\
+}
 
 
 #define ERROR_RETURN_CODE(P, Code) \

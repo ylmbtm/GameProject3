@@ -4,6 +4,7 @@
 #include "Utility/Position.h"
 #include "../Message/Msg_LoginDbData.pb.h"
 #include "../Message/Msg_LoginCltData.pb.h"
+#include "../ServerData/ServerDefine.h"
 
 class CPlayerObject;
 
@@ -29,6 +30,8 @@ public:
 	virtual BOOL SaveToClientLoginData(RoleLoginAck& Ack) = 0;
 
 	virtual BOOL DispatchPacket(NetPacket* pNetPack);
+
+	virtual BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue) = 0;
 
 	BOOL SetOwner(CPlayerObject* pOwner);
 

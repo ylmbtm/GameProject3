@@ -25,7 +25,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for(int i = 0; i < nRobotNum; i++)
 	{
-		CClientCmdHandler *pClientSpaceObject = new CClientCmdHandler();
+		CClientCmdHandler* pClientSpaceObject = new CClientCmdHandler();
 
 		sprintf(szBuff, "test%d", i);
 		pClientSpaceObject->m_strAccountName = szBuff;
@@ -41,13 +41,13 @@ DrivenRobot:
 	DWORD dwTickLast = GetTickCount();
 	for(std::vector<CClientCmdHandler*>::iterator itor = m_ClientList.begin(); itor != m_ClientList.end(); itor++)
 	{
-		CClientCmdHandler *pClient = *itor;
+		CClientCmdHandler* pClient = *itor;
 
 		pClient->OnUpdate(0);
 	}
-	
+
 	DWORD dwTickCur = GetTickCount();
-	if((dwTickCur-dwTickLast) < RUN_TIME)
+	if((dwTickCur - dwTickLast) < RUN_TIME)
 	{
 		Sleep(RUN_TIME - dwTickCur + dwTickLast);
 	}

@@ -26,11 +26,11 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
-
+	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
 public:
 	UINT64 AddPartner(UINT32 dwPartnerID);
 public:
-	std::map<UINT32, PartnerDataObject*>m_mapPartnerData;
+	std::map<UINT64, PartnerDataObject*>m_mapPartnerData;
 
 
 };

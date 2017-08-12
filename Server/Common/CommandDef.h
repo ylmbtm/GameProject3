@@ -7,11 +7,15 @@ BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 	PacketHeader *pPacketHeader = (PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer();\
 	ERROR_RETURN_TRUE(pPacketHeader != NULL);\
 	switch(pPacketHeader->dwMsgID) \
-	{ 
+	{
 
 #define PROCESS_MESSAGE_ITEM(dwMsgID, Func) \
 		case dwMsgID:{\
 		CLog::GetInstancePtr()->AddLog("---Receive Message:[%s]----", #dwMsgID);\
+		Func(pNetPacket);}break;
+
+#define PROCESS_MESSAGE_ITEMEX(dwMsgID, Func) \
+		case dwMsgID:{\
 		Func(pNetPacket);}break;
 
 #define END_PROCESS_MESSAGE \

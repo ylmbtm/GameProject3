@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\..\Src\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\Message\Msg_LoginCltData.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharObject.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Utility\XMath.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\Message\Msg_LoginCltData.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

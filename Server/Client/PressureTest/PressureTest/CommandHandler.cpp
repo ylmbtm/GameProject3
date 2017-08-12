@@ -10,6 +10,7 @@
 #include "..\Src\Message\Msg_Copy.pb.h"
 #include "..\Src\Message\Msg_Game.pb.h"
 #include "Utility\XMath.h"
+#include "..\Src\Message\Msg_LoginCltData.pb.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -21,12 +22,17 @@ CClientCmdHandler::CClientCmdHandler(void)
 
 	m_dwAccountID = 0;
 	m_dwHostState = ST_NONE;
-	m_vx = 0;
 	m_vy = 0;
-	m_vz = 0;
 	m_x = 0;
 	m_y = 0;
 	m_z = 13;
+
+	m_vx = rand() % 40 - 20;
+	m_vz = rand() % 40 - 20;
+	CPoint2d Dir(m_vx, m_vz);
+	Dir.Normalized();
+	m_vx = Dir.m_x;
+	m_vz = Dir.m_y;
 
 	m_ClientConnector.RegisterMsgHandler((IMessageHandler*)this);
 }
@@ -50,6 +56,8 @@ BOOL CClientCmdHandler::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Bu
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_ACTION_NTY,		OnMsgObjectActionNty);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTY,		OnMsgObjectRemoveNty);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ENTER_SCENE_ACK,		OnCmdEnterSceneAck);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LOGIN_ACK,			OnMsgRoleLoginAck);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_OTHER_LOGIN_NTY,	OnMsgOtherLoginNty);
 
 
 		default:
@@ -136,7 +144,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-
+			//m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
 			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
 		}
 
@@ -157,7 +165,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_LoginOK)
 	{
-		SendSelectSvrReq(0);
+		SendSelectSvrReq(201);
 
 		m_dwHostState = ST_SelectSvr;
 	}
@@ -171,7 +179,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_RoleListOk)
 	{
-		SendRoleLoginReq(0);
+		SendRoleLoginReq(m_RoleIDList[0]);
 		m_dwHostState = ST_EnterScene;
 	}
 
@@ -194,6 +202,11 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		{
 			m_dwHostState = ST_NONE;
 		}
+	}
+
+	if(m_dwHostState == ST_Overed)
+	{
+
 	}
 
 	return TRUE;
@@ -224,7 +237,7 @@ BOOL CClientCmdHandler::SendAccountLoginReq(std::string szAccountName, std::stri
 BOOL CClientCmdHandler::SendSelectSvrReq(UINT32 dwSvrID)
 {
 	SelectServerReq Req;
-	Req.set_serverid(201);
+	Req.set_serverid(dwSvrID);
 	m_ClientConnector.SendData(MSG_SELECT_SERVER_REQ, Req, 0, 0);
 	return TRUE;
 }
@@ -238,6 +251,8 @@ BOOL CClientCmdHandler::OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, IN
 	if(Ack.retcode() == MRC_FAILED)
 	{
 		MessageBox(NULL, "登录失败! 密码或账号不对!!", "提示", MB_OK);
+		m_dwHostState = ST_Overed;
+		return TRUE;
 	}
 	else
 	{
@@ -348,7 +363,7 @@ VOID CClientCmdHandler::TestMove()
 	pItem->set_objectguid(m_RoleIDList[0]);
 
 	UINT32 dwTimeDiff = CommonFunc::GetTickCount() - m_dwMoveTime;
-	if(dwTimeDiff < 100)
+	if(dwTimeDiff < 300)
 	{
 		return ;
 	}
@@ -357,20 +372,54 @@ VOID CClientCmdHandler::TestMove()
 
 	UINT32 dwRand = m_RoleIDList[0] % 4;
 
-	m_vx = rand() % 40 - 20;
-	m_vz = rand() % 40 - 20;
+	if(m_x > 15)
+	{
+		m_x = 15;
+		m_vx = rand() % 40 - 20;
+		m_vz = rand() % 40 - 20;
+		CPoint2d Dir(m_vx, m_vz);
+		Dir.Normalized();
+		m_vx = Dir.m_x;
+		m_vz = Dir.m_y;
+		m_y = m_y;
+	}
+	if(m_z > 15)
+	{
+		m_z = 15;
+		m_vx = rand() % 40 - 20;
+		m_vz = rand() % 40 - 20;
+		CPoint2d Dir(m_vx, m_vz);
+		Dir.Normalized();
+		m_vx = Dir.m_x;
+		m_vz = Dir.m_y;
+		m_y = m_y;
+	}
+	if(m_x < -15)
+	{
+		m_x = -15;
+		m_vx = rand() % 40 - 20;
+		m_vz = rand() % 40 - 20;
+		CPoint2d Dir(m_vx, m_vz);
+		Dir.Normalized();
+		m_vx = Dir.m_x;
+		m_vz = Dir.m_y;
+		m_y = m_y;
+	}
+	if(m_z < -15)
+	{
+		m_z = -15;
+		m_vx = rand() % 40 - 20;
+		m_vz = rand() % 40 - 20;
+		CPoint2d Dir(m_vx, m_vz);
+		Dir.Normalized();
+		m_vx = Dir.m_x;
+		m_vz = Dir.m_y;
+		m_y = m_y;
+	}
 
-	CPoint2d Dir(m_vx, m_vz);
-	Dir.Normalized();
-
-	m_x += Dir.m_x;
-	m_z += Dir.m_y;
+	m_x += m_vx;
+	m_z += m_vz;
 	m_y = m_y;
-
-	if(m_x > 20) { m_x = 20; }
-	if(m_z > 20) { m_z = 20; }
-	if(m_x < -20) { m_x = -20; }
-	if(m_z < -20) { m_z = -20; }
 
 	pItem->set_x(m_x);
 	pItem->set_y(0);
@@ -390,7 +439,7 @@ BOOL CClientCmdHandler::SendRoleLogoutReq( UINT64 u64CharID )
 BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
 {
 	RoleLoginReq Req;
-	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_roleid(u64CharID);
 	m_ClientConnector.SendData(MSG_ROLE_LOGIN_REQ, Req, 0, 0);
 	return TRUE;
 }
@@ -399,6 +448,13 @@ BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
 
 BOOL CClientCmdHandler::SendRoleListReq()
 {
+	if(m_dwAccountID == 0)
+	{
+		ASSERT_FAIELD;
+		m_dwHostState = ST_Overed;
+		return TRUE;
+	}
+
 	RoleListReq Req;
 	Req.set_accountid(m_dwAccountID);
 	Req.set_logincode(12345678);
@@ -421,5 +477,23 @@ BOOL CClientCmdHandler::SendAbortCopyReq()
 	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
 
 	m_dwHostState = ST_AbortCopy;
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::OnMsgOtherLoginNty( UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen )
+{
+	m_ClientConnector.CloseConnector();
+	return TRUE;
+}
+
+BOOL CClientCmdHandler::OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
+{
+	RoleLoginAck Ack;
+	Ack.ParsePartialFromArray(PacketBuf, BufLen);
+	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
+	m_RoleIDList.push_back(Ack.roleid());
+
+	m_dwHostState = ST_RoleListOk;
+
 	return TRUE;
 }

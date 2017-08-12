@@ -2,6 +2,7 @@
 #define __EQUIPMENT_MODULE_H__
 #include "ModuleBase.h"
 #include "..\ServerData\EquipData.h"
+#include "..\ServerData\ServerDefine.h"
 
 struct EquipDataObject;
 class CEquipModule  : public CModuleBase
@@ -26,11 +27,16 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
+	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
+
 public:
 	UINT64 AddEquip(UINT32 dwEquipID);
 
+
+
 public:
-	std::map<UINT32, EquipDataObject*>m_mapEquipData;
+	std::map<UINT64, EquipDataObject*>m_mapEquipData;
+	EquipDataObject* m_vtDressEquip[8];
 
 	std::set<UINT64> m_setChange;
 	std::set<UINT64> m_setRemove;

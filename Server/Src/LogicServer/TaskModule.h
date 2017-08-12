@@ -1,15 +1,15 @@
-﻿#ifndef __COPY_MODULE_H__
-#define __COPY_MODULE_H__
+﻿#ifndef __TASK_MODULE_H__
+#define __TASK_MODULE_H__
 #include "ModuleBase.h"
-#include "..\ServerData\serverStruct.h"
+#include "..\ServerData\TaskData.h"
 
-struct CopyDataObject;
-class CCopyModule : public CModuleBase
+struct TaskDataObject;
+class CTaskModule  : public CModuleBase
 {
 public:
-	CCopyModule(CPlayerObject* pOwner);
+	CTaskModule(CPlayerObject* pOwner);
 
-	~CCopyModule();
+	~CTaskModule();
 
 public:
 	BOOL OnCreate(UINT64 u64RoleID);
@@ -27,13 +27,12 @@ public:
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
 	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
-
 public:
-
-	CopyDataObject* GetCopyData(UINT32 dwCopyID);
-
+	UINT64 AddPartner(UINT32 dwPartnerID);
 public:
-	std::map<UINT32, CopyDataObject*>m_mapCopyData;
+	std::map<UINT64, TaskDataObject*>m_mapTaskData;
+
+
 };
 
-#endif //__ROLE_MODULE_H__
+#endif //__PARTNER_MODULE_H__

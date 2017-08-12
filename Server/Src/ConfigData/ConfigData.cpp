@@ -24,9 +24,11 @@ CConfigData* CConfigData::GetInstancePtr()
 BOOL CConfigData::InitDataReader()
 {
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Role", &CConfigData::ReadCarrer));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel", &CConfigData::ReadCarrerLevel));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor", &CConfigData::ReadActor));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy", &CConfigData::ReadCopyInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Item", &CConfigData::ReadItemData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Action", &CConfigData::ReadActionCfg));
 	return TRUE;
 }
 
@@ -115,6 +117,7 @@ BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
 		StCarrerInfo stValue;
 		stValue.dwID = QueryData.getIntField("Carrer");
 		stValue.dwActorID = QueryData.getIntField("ActorID");
+		stValue.dwBornCity = QueryData.getIntField("BornCity");
 		m_mapCarrer.insert(std::make_pair(stValue.dwID, stValue));
 		QueryData.nextRow();
 	}
@@ -130,8 +133,55 @@ StCarrerInfo* CConfigData::GetCarrerInfo(UINT32 dwCarrerID)
 		return &itor->second;
 	}
 
-    ASSERT_FAIELD;
+	ASSERT_FAIELD;
 	return NULL;
+}
+
+BOOL CConfigData::ReadMoneyCfg(CppSQLite3Query& QueryData)
+{
+	return TRUE;
+}
+
+BOOL CConfigData::ReadActionCfg(CppSQLite3Query& QueryData)
+{
+	while(!QueryData.eof())
+	{
+		StActionInfo stValue;
+		stValue.dwActionID = QueryData.getIntField("id");
+		stValue.dwMax = QueryData.getIntField("max");
+		stValue.UnitTime = QueryData.getIntField("unittime");
+		m_vtActionList.push_back(stValue);
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+BOOL CConfigData::ReadCarrerLevel(CppSQLite3Query& QueryData)
+{
+	while(!QueryData.eof())
+	{
+		UINT32 dwCarrerID = QueryData.getIntField("Carrer");
+		UINT32 dwLevel = QueryData.getIntField("Level");
+		m_CarrerLevel[dwCarrerID - 1][dwLevel - 1].dwLevel = dwLevel;
+		m_CarrerLevel[dwCarrerID - 1][dwLevel - 1].dwFightValue = QueryData.getIntField("FightValue");
+		m_CarrerLevel[dwCarrerID - 1][dwLevel - 1].dwNeedExp = QueryData.getIntField("RequireExp");
+
+		int nIndex  = QueryData.fieldIndex("P1");
+		for(int i = 0; i < 20; i++)
+		{
+			m_CarrerLevel[dwCarrerID - 1][dwLevel - 1].Propertys[i] = QueryData.getIntField(i + nIndex, 0);
+		}
+
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StLevelInfo* CConfigData::GetCarrerLevelInfo(UINT32 dwCarrerID, UINT32 dwLevel)
+{
+	return &m_CarrerLevel[dwCarrerID - 1][dwLevel - 1];
 }
 
 BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
@@ -140,6 +190,12 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 	{
 		StActor stValue;
 		stValue.dwID = QueryData.getIntField("Id");
+		int nIndex  = QueryData.fieldIndex("P1");
+		for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+		{
+			stValue.Propertys[i] = QueryData.getIntField(i + nIndex, 0);
+		}
+
 		m_mapActor.insert(std::make_pair(stValue.dwID, stValue));
 		QueryData.nextRow();
 	}
@@ -149,12 +205,13 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 
 StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
 {
+	ERROR_RETURN_NULL(dwActorID != 0);
 	std::map<UINT32, StActor>::iterator itor = m_mapActor.find(dwActorID);
 	if(itor != m_mapActor.end())
 	{
 		return &itor->second;
 	}
-    ASSERT_FAIELD;
+	ASSERT_FAIELD;
 	return NULL;
 }
 
@@ -178,12 +235,12 @@ BOOL CConfigData::ReadCopyInfo(CppSQLite3Query& QueryData)
 
 StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 {
+	ERROR_RETURN_NULL(dwCopyID != 0);
 	std::map<UINT32, StCopyInfo>::iterator itor = m_mapCopyInfo.find(dwCopyID);
 	if(itor != m_mapCopyInfo.end())
 	{
 		return &itor->second;
 	}
-    ASSERT_FAIELD;
 	return NULL;
 }
 
@@ -513,6 +570,7 @@ BOOL CConfigData::ReadFuncInfo(CppSQLite3Query& QueryData)
 
 StFuncInfo* CConfigData::GetFuncInfo(UINT32 dwFuncID)
 {
+	ERROR_RETURN_NULL(dwFuncID != 0);
 	auto itor = m_mapFuncInfo.find(dwFuncID);
 	if(itor != m_mapFuncInfo.end())
 	{
@@ -576,6 +634,7 @@ BOOL CConfigData::ReadFuncVipInfo(CppSQLite3Query& QueryData)
 
 StFuncVipInfo* CConfigData::GetFuncVipInfo(UINT32 dwFuncID)
 {
+	ERROR_RETURN_NULL(dwFuncID != 0);
 	auto itor = m_mapFuncVipInfo.find(dwFuncID);
 	if(itor != m_mapFuncVipInfo.end())
 	{
@@ -627,6 +686,7 @@ BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
 
 StEquipInfo* CConfigData::GetEquipInfo(UINT32 dwEquipID)
 {
+	ERROR_RETURN_NULL(dwEquipID != 0);
 	auto itor = m_mapEquipInfo.find(dwEquipID);
 	if(itor != m_mapEquipInfo.end())
 	{
@@ -649,6 +709,7 @@ BOOL CConfigData::ReadPetInfo(CppSQLite3Query& QueryData)
 
 StPetInfo* CConfigData::GetPetInfo(UINT32 dwPetID)
 {
+	ERROR_RETURN_NULL(dwPetID != 0);
 	auto itor = m_mapPetInfo.find(dwPetID);
 	if(itor != m_mapPetInfo.end())
 	{
@@ -671,6 +732,7 @@ BOOL CConfigData::ReadPartnerInfo(CppSQLite3Query& QueryData)
 
 StPartnerInfo* CConfigData::GetPartnerInfo(UINT32 dwPartnerID)
 {
+	ERROR_RETURN_NULL(dwPartnerID != 0);
 	auto itor = m_mapPartnerInfo.find(dwPartnerID);
 	if(itor != m_mapPartnerInfo.end())
 	{
@@ -679,8 +741,60 @@ StPartnerInfo* CConfigData::GetPartnerInfo(UINT32 dwPartnerID)
 	return NULL;
 }
 
+BOOL CConfigData::ReadTaskInfo(CppSQLite3Query& QueryData)
+{
+	while(QueryData.eof())
+	{
+		StTaskInfo stValue;
+		m_mapTaskInfo.insert(std::make_pair(stValue.TaskID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StTaskInfo* CConfigData::GetTaskInfo(UINT32 dwTaskID)
+{
+	ERROR_RETURN_NULL(dwTaskID != 0);
+	auto itor = m_mapTaskInfo.find(dwTaskID);
+	if(itor != m_mapTaskInfo.end())
+	{
+		return &itor->second;
+	}
+	return NULL;
+}
+
+BOOL CConfigData::ReadSkillInfo(CppSQLite3Query& QueryData)
+{
+	while(QueryData.eof())
+	{
+		StSkillInfo stValue;
+		stValue.SkillID = QueryData.getIntField("id");
+		stValue.Level = QueryData.getIntField("level");
+		UINT32 dwNewID = stValue.Level << 20 | stValue.SkillID;
+		m_mapSkillInfo.insert(std::make_pair(dwNewID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StSkillInfo* CConfigData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
+{
+	ERROR_RETURN_NULL(dwSkillID != 0);
+	ERROR_RETURN_NULL(dwLevel != 0);
+	UINT32 dwNewID = dwLevel << 20 | dwSkillID;
+	auto itor = m_mapSkillInfo.find(dwNewID);
+	if(itor != m_mapSkillInfo.end())
+	{
+		return &itor->second;
+	}
+	return NULL;
+}
+
 StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
 {
+	ERROR_RETURN_NULL(dwItemID != 0);
 	auto itor = m_mapItem.find(dwItemID);
 	if(itor != m_mapItem.end())
 	{

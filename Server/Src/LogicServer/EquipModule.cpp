@@ -2,15 +2,23 @@
 #include "EquipModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
+#include "..\ConfigData\ConfigData.h"
+#include "Utility\Log\Log.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	for(int i = 0; i < 8; i++)
+	{
+		m_vtDressEquip[i] = NULL;
+	}
 }
 
 CEquipModule::~CEquipModule()
 {
-
+	for(int i = 0; i < 8; i++)
+	{
+		m_vtDressEquip[i] = NULL;
+	}
 }
 
 BOOL CEquipModule::OnCreate(UINT64 u64RoleID)
@@ -50,21 +58,27 @@ BOOL CEquipModule::OnNewDay()
 BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	const DBEquipData& EquipData = Ack.equipdata();
-	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
+	for(int i = 0; i < EquipData.equiplist_size(); i++)
 	{
-	const DBBagItemData &ItemData = BagData.itemlist(i);
-
-	BagDataObject *pObject = g_pBagDataObjectPool->newOjbect(FALSE);
-	pObject->lock();
-	pObject->m_uGuid = ItemData.guid();
-	pObject->m_uRoleID = ItemData.roleid();
-	pObject->m_BagType = ItemData.bagtype();
-	pObject->m_bBind = ItemData.bind();
-	pObject->m_ItemGuid = ItemData.itemguid();
-	pObject->m_ItemID = ItemData.itemid();
-	pObject->unlock();
-	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	}*/
+		const DBEquipItem& ItemData = EquipData.equiplist(i);
+		EquipDataObject* pObject = g_pEquipDataObjectPool->newOjbect(FALSE);
+		pObject->m_uGuid = ItemData.guid();
+		pObject->m_u64RoleID = ItemData.roleid();
+		pObject->m_EquipID = ItemData.equipid();
+		pObject->m_StrengthLvl = ItemData.strengthlvl();
+		pObject->m_RefineLevel = ItemData.refinelevel();
+		pObject->m_StarLevel = ItemData.starlevel();
+		pObject->m_StarExp = ItemData.starexp();
+		pObject->m_RefineExp = ItemData.refineexp();
+		pObject->m_IsDress = ItemData.isdress();
+		m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
+		if(pObject->m_IsDress == TRUE)
+		{
+			StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+			ERROR_RETURN_FALSE(pInfo != NULL);
+			m_vtDressEquip[pInfo->dwPos - 1] = pObject;
+		}
+	}
 
 	return TRUE;
 }
@@ -84,9 +98,37 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 	pObject->m_RefineExp = 0;
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
+	pObject->m_IsDress = FALSE;
 	pObject->unlock();
 
 	m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
 
 	return pObject->m_uGuid;
+}
+
+BOOL CEquipModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	INT32 nMinStengthLevel = 10000;
+	INT32 nMinRefineLevel = 1000;
+	for (int i  = 0; i < 8; i++)
+	{
+		if(m_vtDressEquip[i] == NULL)
+		{
+			nMinStengthLevel = 0;
+			continue;
+		}
+
+		EquipDataObject* pObject = m_vtDressEquip[i];
+		StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+		ERROR_RETURN_FALSE(pInfo != NULL);
+		if(pObject->m_StrengthLvl >= 1)
+		{
+
+
+
+		}
+
+	}
+
+	return TRUE;
 }

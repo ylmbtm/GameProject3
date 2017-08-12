@@ -5,9 +5,7 @@
 #include "BattleResult.h"
 #include "Utility\Log\Log.h"
 
-
-
-SceneLogicBase::SceneLogicBase(CScene *pScene)
+SceneLogicBase::SceneLogicBase(CScene* pScene)
 {
 	m_pScene = pScene;
 
@@ -19,13 +17,13 @@ SceneLogicBase::~SceneLogicBase()
 
 }
 
-BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
+BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
 	for(auto pBirthNode = pNode->first_node("BirthPos"); pBirthNode != NULL; pBirthNode->next_sibling("BirthPos"))
 	{
 		for(auto pAttr = pBirthNode->first_attribute(); pAttr != NULL; pAttr->next_attribute())
 		{
-			UINT32 dwCamp = 0; 
+			UINT32 dwCamp = 0;
 			if(pAttr->name() == "camp")
 			{
 				dwCamp = CommonConvert::StringToInt(pAttr->value());
@@ -40,7 +38,7 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
 			m_vtBirthPos[dwCamp] = pt;
 		}
 	}
-	
+
 	auto pResultNode = pNode->first_node("BattleResult");
 	ERROR_RETURN_TRUE(pResultNode != NULL);
 
@@ -53,57 +51,57 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char> *pNode)
 	m_BattleResult.SetResultType(BRT_KILL_ALL);
 	switch(dwType)
 	{
-	case BRT_DESTINATION:
+		case BRT_DESTINATION:
 		{
-			m_BattleResult.SetDestination(0,0,0,0);
+			m_BattleResult.SetDestination(0, 0, 0, 0);
 		}
 		break;
-	case BRT_NPC_ALIVE:
+		case BRT_NPC_ALIVE:
 		{
 			m_BattleResult.SetNpcID(0);
 		}
 		break;
-	case BRT_KILL_NUM:
+		case BRT_KILL_NUM:
 		{
-			m_BattleResult.SetKillMonster(0,0);
+			m_BattleResult.SetKillMonster(0, 0);
 		}
 		break;
-	default:
+		default:
 		{
 			return FALSE;
 		}
 	}
-	
+
 	return TRUE;
 }
 
-BOOL SceneLogicBase::OnObjectCreate(CSceneObject *pObject)
+BOOL SceneLogicBase::OnObjectCreate(CSceneObject* pObject)
 {
 	ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
 	ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
-	pObject->SetPos(m_vtBirthPos[pObject->m_dwCamp].m_x, m_vtBirthPos[pObject->m_dwCamp].m_y);
+	pObject->SetPos(m_vtBirthPos[pObject->m_dwCamp].m_x, 0, m_vtBirthPos[pObject->m_dwCamp].m_y);
 	return TRUE;
 }
 
-BOOL SceneLogicBase::OnPlayerEnter(CSceneObject *pPlayer)
+BOOL SceneLogicBase::OnPlayerEnter(CSceneObject* pPlayer)
 {
 	return TRUE;
 }
 
-BOOL SceneLogicBase::OnPlayerLeave(CSceneObject *pPlayer)
+BOOL SceneLogicBase::OnPlayerLeave(CSceneObject* pPlayer)
 {
 	return FALSE;
 }
 
 
-BOOL SceneLogicBase::OnObjectDie(CSceneObject *pObject)
+BOOL SceneLogicBase::OnObjectDie(CSceneObject* pObject)
 {
 	return TRUE;
 }
 
 BOOL SceneLogicBase::Update(UINT32 dwTick)
 {
-	if(CommonFunc::GetCurrTime()- m_pScene->GetStartTime() > m_dwLastTime)
+	if(CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_dwLastTime)
 	{
 		OnTimeUP();
 	}
@@ -134,17 +132,17 @@ BOOL SceneLogicBase::BattleResultCheck()
 
 	switch(m_BattleResult.GetResultType())
 	{
-	case BRT_KILL_ALL:
+		case BRT_KILL_ALL:
 		{
 			//if(m_pScene->IsAllMonDie())
 		}
 		break;
-	case BRT_DESTINATION:
+		case BRT_DESTINATION:
 		{
 			//if(PlayerManager->initFengCeGift())
 		}
 		break;
-	case BRT_PLAYER_ALIVE:
+		case BRT_PLAYER_ALIVE:
 		{
 			//if(is->isaaa)
 			//{
@@ -152,17 +150,17 @@ BOOL SceneLogicBase::BattleResultCheck()
 			//}
 		}
 		break;
-	case BRT_NPC_ALIVE:
+		case BRT_NPC_ALIVE:
 		{
 
 		}
 		break;
-	case BRT_KILL_NUM:
+		case BRT_KILL_NUM:
 		{
 
 		}
 		break;
-	default:
+		default:
 		{
 
 		}
@@ -178,7 +176,7 @@ CScene* SceneLogicBase::GetScene()
 
 BOOL SceneLogicBase::SetFinished()
 {
-    m_bFinished = TRUE;
+	m_bFinished = TRUE;
 
-    return TRUE;
+	return TRUE;
 }

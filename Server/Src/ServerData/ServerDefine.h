@@ -18,6 +18,7 @@ enum MouduleType
 	MT_EQUIP,
 	MT_PET,
 	MT_PARTNER,
+	MT_TASK,
 	MT_END
 };
 
@@ -26,6 +27,12 @@ enum MouduleType
 
 //行动力数量
 #define MAX_ACTION_NUM 4
+
+//角色属性个数
+#define MAX_PROPERTY_NUM 21
+
+//角色的最大等级
+#define MAX_ROLE_LEVEL 150
 
 //服务器帧率
 #define FPS_TIME_TICK 20

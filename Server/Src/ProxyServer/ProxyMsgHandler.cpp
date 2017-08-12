@@ -76,18 +76,19 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		break;
 		case MSG_ENTER_SCENE_ACK:
 		{
-			if(pNetPacket->m_dwConnID == CGameService::GetInstancePtr()->GetLogicConnID())
-			{
-				CLog::GetInstancePtr()->LogError("usredata1:%d", pPacketHeader->dwUserData);
-				RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-			}
-			else
-			{
-				CLog::GetInstancePtr()->LogError("usredata2:%d", pPacketHeader->dwUserData);
-				RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-			}
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
+        case MSG_ROLE_OTHER_LOGIN_NTY:
+        {
+            RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
+            CConnection *pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+            if(pConn != NULL)
+            {
+                pConn->SetConnectionData(0);
+            }
+        }
+        break;
 		default:
 		{
 			if((pPacketHeader->dwMsgID >= MSG_LOGICSVR_MSGID_BEGIN) && (pPacketHeader->dwMsgID <= MSG_LOGICSVR_MSGID_END))

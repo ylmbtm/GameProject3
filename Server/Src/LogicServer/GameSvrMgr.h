@@ -16,7 +16,6 @@ struct GameSvrInfo
 	UINT32 dwLoad;		//负载值
 };
 
-
 struct CityInfo
 {
 	CityInfo(UINT32 dwCopyID, UINT32 dwSvrID, UINT32 dwConID, UINT32 dwCopyGuid)

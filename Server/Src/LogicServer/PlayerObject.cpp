@@ -17,6 +17,7 @@
 #include "..\ConfigData\ConfigData.h"
 #include "..\ServerData\CopyData.h"
 #include "PartnerModule.h"
+#include "TaskModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -37,7 +38,8 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_dwCopyID			= 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_dwToCopyGuid      = 0;        //正在前往的副本ID
-	m_dwToCopyID       = 0;         //正在前往的副本ID
+	m_dwToCopyID        = 0;         //正在前往的副本ID
+	m_dwToCopySvrID     = 0;
 
 
 	return CreateAllModule();
@@ -158,6 +160,7 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_EQUIP] = new CEquipModule(this);
 	m_MoudleList[MT_PET] = new CPetModule(this);
 	m_MoudleList[MT_PARTNER] = new CPartnerModule(this);
+	m_MoudleList[MT_TASK] = new CTaskModule(this);
 
 	return TRUE;
 }
@@ -192,6 +195,7 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
+	CalcFightDataInfo();
 	SendRoleLoginAck();
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
 	m_dwCopyID = 0;
@@ -284,8 +288,7 @@ UINT32 CPlayerObject::GetCityCopyID()
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	ERROR_RETURN_FALSE(pModule != NULL);
 	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
-	//return pModule->m_pRoleDataObject->m_CityCopyID;
-	return 6;
+	return pModule->m_pRoleDataObject->m_CityCopyID;
 }
 
 BOOL CPlayerObject::SendRoleLoginAck()
@@ -305,14 +308,49 @@ BOOL CPlayerObject::SendRoleLoginAck()
 	return TRUE;
 }
 
-BOOL CPlayerObject::ToTransRoleData( TransRoleDataReq& Req )
+BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	Req.mutable_roledata()->set_roleid(m_u64ID);
 	Req.mutable_roledata()->set_carrerid(pModule->m_pRoleDataObject->m_CarrerID);
 	Req.mutable_roledata()->set_actorid(pModule->GetActorID());
 	Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
-	Req.mutable_roledata()->set_rolename(pModule->m_pRoleDataObject->m_szName);
+	Req.mutable_roledata()->set_name(pModule->m_pRoleDataObject->m_szName);
+
+	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	{
+		Req.mutable_roledata()->add_propertys(m_Propertys[i]);
+	}
+
+
+	//CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
+
+
+	return TRUE;
+}
+
+BOOL CPlayerObject::CalcFightDataInfo()
+{
+	INT32 PropertyValue[MAX_PROPERTY_NUM] = {0};
+	INT32 PropertyPercent[MAX_PROPERTY_NUM] = {0};
+	INT32 FightValue = 0;
+
+	for(int nIndex = MT_ROLE; nIndex < MT_END; nIndex++)
+	{
+		CRoleModule* pTempModule = (CRoleModule*)GetModuleByType(nIndex);
+		pTempModule->CalcFightValue(PropertyValue, PropertyPercent, FightValue);
+	}
+
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_FALSE(pModule != NULL);
+	StLevelInfo* pLevelInfo = CConfigData::GetInstancePtr()->GetCarrerLevelInfo(pModule->m_pRoleDataObject->m_CarrerID, pModule->m_pRoleDataObject->m_Level);
+	ERROR_RETURN_FALSE(pLevelInfo != NULL);
+	memcpy(PropertyValue, pLevelInfo->Propertys, sizeof(INT32)*MAX_PROPERTY_NUM);
+
+	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	{
+		m_Propertys[i] = PropertyValue[i] + PropertyValue[i] * PropertyPercent[i] / 10000;
+	}
 
 	return TRUE;
 }
@@ -324,6 +362,7 @@ BOOL CPlayerObject::ClearCopyState()
 	m_dwCopySvrID   = 0;        //副本服务器的ID
 	m_dwToCopyGuid  = 0;        //正在前往的副本ID
 	m_dwToCopyID    = 0;        //正在前往的副本类型
+	m_dwToCopySvrID = 0;
 
 	return TRUE;
 }

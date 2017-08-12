@@ -74,6 +74,11 @@ BOOL CPartnerModule::SaveToClientLoginData(RoleLoginAck& Ack)
 }
 
 
+BOOL CPartnerModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	return TRUE;
+}
+
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
 	PartnerDataObject* pObject = g_pPartnerDataObjectPool->newOjbect(TRUE);

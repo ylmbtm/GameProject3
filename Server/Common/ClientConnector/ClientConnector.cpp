@@ -267,7 +267,7 @@ void CClientConnector::SetConnectState( ConnectState val )
 {
 	if(val == Succ_Connect)
 	{
-		printf("设置连接成功!\n");
+		printf("连接服务器成功!\n");
 	}
 
 	m_ConnectState = val;

@@ -80,13 +80,12 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 
 	switch(pPacketHeader->dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_TRANS_ROLE_DATA_REQ,   OnMsgTransRoleDataReq);
+			PROCESS_MESSAGE_ITEM(MSG_TRANSFER_DATA_REQ,     OnMsgTransRoleDataReq);
 			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
-			PROCESS_MESSAGE_ITEM(MSG_OBJECT_ACTION_REQ,		OnMsgObjectActionReq);
+			PROCESS_MESSAGE_ITEMEX(MSG_OBJECT_ACTION_REQ,	OnMsgObjectActionReq);
 			PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);
-
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
 		default:
@@ -312,7 +311,7 @@ BOOL CScene::DestroySceneLogic(UINT32 dwCopyType)
 
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 {
-	TransRoleDataReq Req;
+	TransferDataReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
@@ -320,26 +319,44 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 	CSceneObject* pObject = GetPlayer(pHeader->u64TargetID);
 	if(pObject == NULL)
 	{
-		pObject = new CSceneObject(pHeader->u64TargetID, Req.roledata().actorid(), OT_PLAYER, 2, (std::string&)Req.roledata().rolename());
+		pObject = new CSceneObject(pHeader->u64TargetID, Req.roledata().actorid(), OT_PLAYER, 2, (std::string&)Req.roledata().name());
 		AddPlayer(pObject);
 	}
 	//根据数据创建宠物，英雄
 	pObject->m_dwObjType = OT_PLAYER;
 	pObject->m_dwActorID = Req.roledata().actorid();
-	pObject->m_strName = Req.roledata().rolename();
+	pObject->m_strName = Req.roledata().name();
 	pObject->m_uGuid = pHeader->u64TargetID;
 	pObject->m_dwCamp = Req.camp();
+
+	for(int i = 0; i < Req.roledata().propertys_size(); i++)
+	{
+		pObject->m_Propertys[i] = Req.roledata().propertys(i);
+	}
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
 	m_pSceneLogic->OnObjectCreate(pObject);
 
-
 	//是否有宠物
-	//CreatePet()
+
+	if(Req.has_petdata())
+	{
+		const TransPetData& PetData = Req.petdata();
+		CreatePet(PetData.petguid(), PetData.actorid(), pHeader->u64TargetID, OT_PLAYER, 0, 0);
+	}
+
+	if(Req.has_partnerdata())
+	{
+		const TransPartnerData& PartnerData = Req.partnerdata();
+		CreatePartner(PartnerData.partnerguid(), PartnerData.actorid(), pHeader->u64TargetID, OT_PLAYER, 0, 0);
+	}
 
 
 	//检查人齐没齐，如果齐了，就全部发准备好了的消息
 	//有的副本不需要等人齐，有人就可以进
 
-	TransRoleDataAck Ack;
+	TransferDataAck Ack;
 	Ack.set_copyguid(m_dwCopyGuid);
 	Ack.set_copyid(m_dwCopyID);
 	Ack.set_roleid(pHeader->u64TargetID);
@@ -350,7 +367,7 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 	ERROR_RETURN_FALSE(m_dwCopyID != 0);
 	ERROR_RETURN_FALSE(pHeader->u64TargetID != 0);
 	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANS_ROLE_DATA_ACK, pHeader->u64TargetID, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANSFER_DATA_ACK, pHeader->u64TargetID, 0, Ack);
 	BroadNewObject(pObject);
 	return TRUE;
 }
@@ -379,6 +396,20 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	Ack.set_rolename(pSceneObj->m_strName);
 	Ack.set_actorid(pSceneObj->m_dwActorID);
 	Ack.set_retcode(MRC_SUCCESSED);
+
+	Ack.set_hp(pSceneObj->m_Propertys[HP]);
+	Ack.set_mp(pSceneObj->m_Propertys[MP]);
+	Ack.set_hpmax(pSceneObj->m_Propertys[HP_MAX]);
+	Ack.set_mpmax(pSceneObj->m_Propertys[MP_MAX]);
+
+	Ack.set_camp(pSceneObj->m_dwCamp);
+
+	Ack.set_x(pSceneObj->m_x);
+	Ack.set_y(pSceneObj->m_y);
+	Ack.set_z(pSceneObj->m_z);
+
+	Ack.set_vx(0);
+	Ack.set_vz(0);
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
@@ -731,17 +762,25 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
+	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	{
+		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
+	}
+
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
 	return TRUE;
 }
 
-BOOL CScene::CreatePet( UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreatePet(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PET, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(uGuiD, dwActorID, OT_PET, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
@@ -749,11 +788,11 @@ BOOL CScene::CreatePet( UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x
 	return TRUE;
 }
 
-BOOL CScene::CreatePartner(UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreatePartner(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(uGuiD, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
@@ -765,7 +804,7 @@ BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, F
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
@@ -835,7 +874,6 @@ BOOL CScene::ReadSceneXml()
 	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
 	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pLogicNode));
 
-
 	auto pCreatorNode = pXmlRoot->first_node("SceneCreator");
 	ERROR_RETURN_FALSE(pCreatorNode != NULL);
 	ERROR_RETURN_FALSE(m_pMonsterCreator != NULL);
@@ -866,9 +904,23 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 	ERROR_RETURN_FALSE(pDefender != NULL);
 	ERROR_RETURN_FALSE(dwSkillID != 0);
 
+	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(dwSkillID, 1);
+	ERROR_RETURN_FALSE(pSkillInfo != NULL);
+
+	UINT32 dwCurTime = CommonFunc::GetTickCount();
+
+	UINT32 dwTime = pAttacker->GetLastSkillTime(dwSkillID);
+	if(dwCurTime - dwTime < pSkillInfo->CD * 1000)
+	{
+		CLog::GetInstancePtr()->LogError("玩家作敝");
+
+		return FALSE;
+	}
+
+
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
-	if (dwRandValue > (800 + pAttacker->m_dwProperty[8] - pDefender->m_dwProperty[7]) && dwRandValue > 500)
+	if (dwRandValue > (800 + pAttacker->m_Propertys[8] - pDefender->m_Propertys[7]) && dwRandValue > 500)
 	{
 		//未命中
 		return TRUE;
@@ -877,24 +929,18 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 	//判断是否爆击
 	dwRandValue = CommonFunc::GetRandNum(1);
 	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (pAttacker->m_dwProperty[9] - pAttacker->m_dwProperty[10]) || dwRandValue < 10)
+	if (dwRandValue < (pAttacker->m_Propertys[9] - pAttacker->m_Propertys[10]) || dwRandValue < 10)
 	{
 		bCriticalHit = TRUE;
 	}
 
-	//var pSkillInfo = new(gamedata.ST_SkillInfo)
-	//    pSkillInfo.Hurts = make([]gamedata.ST_Hurts, 1, 1)
-	//    pSkillInfo.Hurts[0].Percent = 100
-	//   pSkillInfo.Hurts[0].Fixed = 0
-
 	//最终伤害加成
-	UINT32 dwFinalAdd = pAttacker->m_dwProperty[6] - pDefender->m_dwProperty[5] + 1000;
+	UINT32 dwFinalAdd = pAttacker->m_Propertys[6] - pDefender->m_Propertys[5] + 1000;
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	//hurt := (pSkillInfo.Hurts[0].Percent*(pAttacker.CurProperty[pAttacker.AttackPID-1]-pDefender.CurProperty[pAttacker.AttackPID]) + pSkillInfo.Hurts[0].Fixed)
-	//UINT32 dwHurt := pAttacker->m_dwProperty[pAttacker.AttackPID-1] - pDefender->m_dwProperty[pAttacker.AttackPID]
-	UINT32 dwHurt = pAttacker->m_dwProperty[1] - pDefender->m_dwProperty[1];
+	INT32 hurt = (pSkillInfo->Percent * (pAttacker->m_Propertys[5] - pDefender->m_Propertys[6]) + pSkillInfo->Fix);
+	UINT32 dwHurt = pAttacker->m_Propertys[1] - pDefender->m_Propertys[1];
 	if (dwHurt <= 0)
 	{
 		dwHurt = 1;
@@ -909,10 +955,10 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 		}
 	}
 
-	pDefender->m_dwHp -= dwHurt;
-	if (pDefender->m_dwHp <= 0)
+	pDefender->m_Propertys[HP] -= dwHurt;
+	if (pDefender->m_Propertys[HP] <= 0)
 	{
-		pDefender->m_dwHp = 0;
+		pDefender->m_Propertys[HP] = 0;
 	}
 
 	return TRUE;

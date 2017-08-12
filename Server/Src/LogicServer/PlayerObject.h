@@ -4,6 +4,7 @@
 #include "Utility/Position.h"
 #include "ModuleBase.h"
 #include "../Message/Msg_Game.pb.h"
+#include "../ServerData/ServerDefine.h"
 
 class CPlayerObject
 {
@@ -17,32 +18,34 @@ public:
 	//  反初始化玩家对家
 	BOOL		Uninit();
 
-	virtual BOOL OnCreate(UINT64 u64RoleID);
+	BOOL		OnCreate(UINT64 u64RoleID);
 
-	virtual BOOL OnDestroy();
+	BOOL		OnDestroy();
 
-	virtual BOOL OnLogin();
+	BOOL		OnLogin();
 
-	virtual BOOL OnLogout();
+	BOOL		OnLogout();
 
-	virtual BOOL OnNewDay();
+	BOOL		OnNewDay();
 
-	virtual BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+	BOOL		ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	virtual BOOL DispatchPacket(NetPacket* pNetPack);
+	BOOL		DispatchPacket(NetPacket* pNetPack);
 
-	BOOL    SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
-	BOOL	SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+	BOOL		SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL		SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
 
-	BOOL    ToTransRoleData(TransRoleDataReq& Req);
+	BOOL		ToTransferData(TransferDataReq& Req);
+
+
 
 public: //全部是操作方法
-	BOOL	SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
-	BOOL	SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
-	BOOL    SendRoleLoginAck();
+	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
+	BOOL		SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
+	BOOL		SendRoleLoginAck();
 
-	BOOL	SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
-	BOOL    ClearCopyState();
+	BOOL		SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
+	BOOL		ClearCopyState();
 
 	//模块函数
 	BOOL			CreateAllModule();
@@ -53,10 +56,26 @@ public: //全部是操作方法
 public:
 	UINT32			CheckCopyConditoin(UINT32 dwCopyID);
 
-
 public:
 	UINT64			GetObjectID();
 	UINT32			GetCityCopyID();
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
+	//计算角色，宠物， 伙伴的战斗属性
+	BOOL		CalcFightDataInfo();
+
+	INT32       m_Propertys[MAX_PROPERTY_NUM];
+
+
+
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 public:
 	UINT64			m_u64ID;
 	UINT32			m_dwProxyConnID;
@@ -64,11 +83,12 @@ public:
 	std::vector<CModuleBase*> m_MoudleList;
 
 public:
-	UINT32      m_dwCopyGuid;     //当前的副本ID
-	UINT32      m_dwCopyID;   //当前的副本类型
-	UINT32      m_dwCopySvrID;  //副本服务器的ID
-	UINT32      m_dwToCopyGuid;   //正在前往的副本ID
-	UINT32      m_dwToCopyID; //正在前往的副本ID
+	UINT32      m_dwCopyGuid;		//当前的副本ID
+	UINT32      m_dwCopyID;			//当前的副本类型
+	UINT32      m_dwCopySvrID;		//副本服务器的ID
+	UINT32      m_dwToCopyGuid;		//正在前往的副本ID
+	UINT32      m_dwToCopyID;		//正在前往的副本ID
+	UINT32      m_dwToCopySvrID;	//正在前往的副本服务器的ID
 };
 
 

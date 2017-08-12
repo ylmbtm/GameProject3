@@ -79,6 +79,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_EXIST);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_ACCOUNT_EXIST");
 		return TRUE;
 	}
 
@@ -86,6 +87,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	if (u64ID != 0)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_EXIST);
+		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_ACCOUNT_EXIST2");
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -93,17 +95,16 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	pAccount = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 	if(pAccount == NULL)
 	{
-		CLog::GetInstancePtr()->LogError("Error:创建账号失败1");
 		Ack.set_retcode(MRC_FAILED);
+		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_FAILED");
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return FALSE;
 	}
 
 	if(!m_DBManager.CreateAccount(pAccount->m_ID, Req.accountname().c_str(), Req.password().c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime))
 	{
-		CLog::GetInstancePtr()->LogError("Error:存数据库失败1");
 		Ack.set_retcode(MRC_FAILED);
-
+		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_FAILED2");
 	}
 	else
 	{
@@ -144,6 +145,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	if(u64AccountID == 0)
 	{
 		Ack.set_retcode(MRC_FAILED);
+		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccontLoginReq RetCode:MRC_FAILED");
 	}
 	else
 	{

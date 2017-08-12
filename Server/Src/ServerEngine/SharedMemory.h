@@ -60,7 +60,7 @@ struct _SMBlock
 	BOOL			m_bUse;         //是否在使用true是正在使用，false是没有使用
 	BOOL			m_bNewBlock;	///是否是刚刚新创建的区块
 	time_t			m_beforeTime;   //DS服务器更新完成后回写的信息时间。
-	time_t          m_afterTime;    
+	time_t          m_afterTime;
 	_SMBlock()
 	{
 		m_dwIndex = 0;
@@ -309,6 +309,7 @@ public:
 			if (pBlock->m_bNewBlock)
 			{
 				///创建一个副本发送异步执行,提高运行效率
+				pBlock->m_beforeTime = time(NULL);
 				pdata->Save(pdb);
 				pBlock->m_bNewBlock = false;
 				pBlock->m_afterTime = time(NULL);
@@ -326,7 +327,7 @@ public:
 			///保存完毕的时间大于保存前的时间,那么上一次保存成功的
 			if (afterTime >= beforeTime)
 			{
-				if (lastMotifyTime < beforeTime)
+				if (lastMotifyTime > beforeTime)
 				{
 					needsave = true;
 				}
@@ -343,11 +344,11 @@ public:
 				pdata->Save(pdb);
 				hasOprate = true;
 				writetimes++;
-				pBlock->m_afterTime =time(NULL);
+				pBlock->m_afterTime = time(NULL);
 				continue;
 			}
-	
-		
+
+
 			if (pdata->isRelease())
 			{
 				///释放的时候执行一次保存...如果上次没有保存成功或者，释放前修改了就再保存一次
@@ -357,12 +358,12 @@ public:
 					pdata->Save(pdb);
 					hasOprate = true;
 					writetimes++;
-					continue; 
+					continue;
 				}
 				m_MemoryPool->destoryObject(pdata);
 				releasetime++;
 			}
-			
+
 		}
 
 

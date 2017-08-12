@@ -73,6 +73,11 @@ BOOL CPetModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CPetModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	return TRUE;
+}
+
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
 	PetDataObject* pObject = g_pPetDataObjectPool->newOjbect(TRUE);

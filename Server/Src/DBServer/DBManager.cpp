@@ -46,7 +46,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 	CHAR szSql[MAX_SQL_LEN];
 
 	sprintf(szSql, "select * from player where account_id = %lld", u64AccountID);
-	CLog::GetInstancePtr()->LogError(szSql);
+
 	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
 
 	while(!QueryRes.eof())
@@ -82,6 +82,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->set_level(QueryRes.getIntField("level", 0));
 		pData->set_exp(QueryRes.getInt64Field("exp", 0));
 		pData->set_accountid(QueryRes.getInt64Field("account_id", 0));
+		pData->set_citycopyid(QueryRes.getIntField("citycopyid", 0));
 	}
 
 	return TRUE;

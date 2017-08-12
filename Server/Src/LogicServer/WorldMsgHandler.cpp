@@ -91,6 +91,7 @@ BOOL CWorldMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 {
 	RoleListReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	ERROR_RETURN_TRUE(Req.accountid() != 0);
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
@@ -160,8 +161,6 @@ BOOL CWorldMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 
 	}
 
-
-
 	RoleDeleteAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_DELETE_REQ, pHeader->u64TargetID, 0, Ack);
@@ -180,13 +179,32 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	if(pPlayer->m_dwClientConnID != 0)
+	if((pPlayer->m_dwProxyConnID != 0) || (pPlayer->m_dwClientConnID != 0))
 	{
-		return TRUE;
-	}
+		//表示玩家还没有退出，这个时候就是相当于挤的人情况发生了
+		//如果在副本中，通知副本里人物离开
+		//如果在场景中，通知场景中人物离开
+		//清理副本状态
+		//还需要通知玩家被人挤走了
 
-	ERROR_RETURN_TRUE(pPlayer->m_dwProxyConnID == 0);
-	ERROR_RETURN_TRUE(pPlayer->m_dwClientConnID == 0);
+		pPlayer->SendMsgRawData(MSG_ROLE_OTHER_LOGIN_NTY, NULL, 0);
+		if(pPlayer->m_dwCopyGuid != 0)
+		{
+			//表示明确己登录到其它的副本
+			pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+		}
+		else
+		{
+			CLog::GetInstancePtr()->LogError("玩家还没有主动登录副本,就又重新进入了");
+			if(pPlayer->m_dwToCopyGuid != 0)
+			{
+				pPlayer->SendLeaveScene(pPlayer->m_dwToCopyGuid, pPlayer->m_dwToCopySvrID);
+			}
+		}
+		pPlayer->SetConnectID(0, 0);
+		pPlayer->ClearCopyState();
+		pPlayer->OnLogout();
+	}
 
 	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
 	pPlayer->OnLogin();
@@ -221,6 +239,11 @@ BOOL CWorldMsgHandler::OnMsgRoleLogoutReq(NetPacket* pNetPacket)
 	RoleLogoutAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	pPlayer->SendMsgProtoBuf(MSG_ROLE_LOGOUT_ACK, Ack);
+
+	ERROR_RETURN_TRUE(pPlayer->m_dwCopyID != 0);
+	ERROR_RETURN_TRUE(pPlayer->m_dwCopyGuid != 0);
+	pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+
 	pPlayer->SetConnectID(0, 0);
 	pPlayer->ClearCopyState();
 
@@ -238,6 +261,12 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
+	if(pPlayer->m_dwProxyConnID == 0)
+	{
+		return TRUE;
+	}
+
+	pPlayer->OnLogout();
 	pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 	pPlayer->SetConnectID(0, 0);
 	pPlayer->ClearCopyState();
@@ -291,7 +320,7 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket* pNetPacket)
 
 	pPlayer->m_dwCopyID = 0;
 	pPlayer->m_dwCopyGuid = 0;
-
+	pPlayer->m_dwCopySvrID = 0;
 	return TRUE;
 }
 

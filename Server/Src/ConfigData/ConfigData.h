@@ -37,6 +37,8 @@ public:
 	///////////////////////////////////////////////
 	std::vector<StMoneyInfo> m_vtMoneyList;
 	std::vector<StActionInfo> m_vtActionList;
+	BOOL ReadMoneyCfg(CppSQLite3Query& QueryData);
+	BOOL ReadActionCfg(CppSQLite3Query& QueryData);
 	INT64 GetMoneyMaxValue(UINT32 dwMoneyID);
 	INT64 GetActoinMaxValue(UINT32 dwActionID);
 	UINT32 GetActoinUnitTime(UINT32 dwActionID);
@@ -46,6 +48,13 @@ public:
 	std::map<UINT32, StCarrerInfo> m_mapCarrer;
 	BOOL ReadCarrer(CppSQLite3Query& QueryData);
 	StCarrerInfo* GetCarrerInfo(UINT32 dwCarrerID);
+
+
+	//职业等级信息
+	///////////////////////////////////////////////
+	StLevelInfo m_CarrerLevel[4][MAX_ROLE_LEVEL];
+	BOOL ReadCarrerLevel(CppSQLite3Query& QueryData);
+	StLevelInfo* GetCarrerLevelInfo(UINT32 dwCarrerID, UINT32 dwLevel);
 
 	//角色
 	///////////////////////////////////////////////
@@ -76,13 +85,11 @@ public:
 	BOOL GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector<StItemData>& vtItemList);
 	BOOL GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTimes, std::vector<StItemData>& vtItemList);
 
-
 	//物品表
 	///////////////////////////////////////////////
 	std::map<UINT32, StItemInfo> m_mapItem;
 	BOOL ReadItemData(CppSQLite3Query& QueryData);
 	StItemInfo* GetItemInfo(UINT32 dwItemID);
-
 
 	//功能表
 	std::map<UINT32, StFuncInfo> m_mapFuncInfo;
@@ -105,7 +112,6 @@ public:
 	BOOL ReadEquipInfo(CppSQLite3Query& QueryData);
 	StEquipInfo* GetEquipInfo(UINT32 dwEquipID);
 
-
 	//宠物
 	std::map<UINT32, StPetInfo> m_mapPetInfo;
 	BOOL ReadPetInfo(CppSQLite3Query& QueryData);
@@ -115,6 +121,16 @@ public:
 	std::map<UINT32, StPartnerInfo> m_mapPartnerInfo;
 	BOOL ReadPartnerInfo(CppSQLite3Query& QueryData);
 	StPartnerInfo* GetPartnerInfo(UINT32 dwPartnerID);
+
+	//任务
+	std::map<UINT32, StTaskInfo> m_mapTaskInfo;
+	BOOL ReadTaskInfo(CppSQLite3Query& QueryData);
+	StTaskInfo* GetTaskInfo(UINT32 dwTaskID);
+
+	//技能
+	std::map<UINT32, StSkillInfo> m_mapSkillInfo;
+	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
+	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
 
 public:
 

@@ -8,10 +8,9 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 	m_dwProxyConnID = 0;
 	m_dwClientConnID = 0;
 	m_dwObjState = 0;
-	m_dwHp = 0;
-	m_dwMp = 0;
 	m_bEnter = FALSE;
 
+	memset(m_Propertys, 0, sizeof(m_Propertys));
 
 	m_uGuid = uGuid;
 	m_dwActorID = dwActorID;
@@ -110,42 +109,42 @@ BOOL CSceneObject::OnUpdate( UINT32 dwTick )
 
 UINT32 CSceneObject::GetHp()
 {
-	return m_dwHp;
+	return m_Propertys[HP];
 }
 
 UINT32 CSceneObject::GetMp()
 {
-	return m_dwMp;
+	return m_Propertys[MP];
 }
 
 VOID CSceneObject::AddHp( UINT32 dwValue )
 {
-	m_dwHp += dwValue;
+	m_Propertys[HP] += dwValue;
 }
 
 VOID CSceneObject::SubHp( UINT32 dwValue )
 {
-	if(m_dwHp <= dwValue)
-	{
-		m_dwHp = 0;
-	}
+	m_Propertys[HP] -= dwValue;
 
-	m_dwHp -= dwValue;
+	if(m_Propertys[HP] < 0)
+	{
+		m_Propertys[HP] = 0;
+	}
 }
 
 VOID CSceneObject::AddMp( UINT32 dwValue )
 {
-	m_dwMp += dwValue;
+	m_Propertys[MP] += dwValue;
 }
 
 VOID CSceneObject::SubMp( UINT32 dwValue )
 {
-	if(m_dwMp <= dwValue)
-	{
-		m_dwMp = 0;
-	}
+	m_Propertys[MP] -= dwValue;
 
-	m_dwMp -= dwValue;
+	if(m_Propertys[MP] < 0)
+	{
+		m_Propertys[MP] = 0;
+	}
 }
 
 UINT64 CSceneObject::GetObjectGUID()
@@ -195,17 +194,17 @@ BOOL CSceneObject::SaveNewObject( ObjectNewNty& Nty )
 	pItem->set_vx(m_vx);
 	pItem->set_vx(m_vy);
 	pItem->set_vz(m_vz);
-	pItem->set_hp(m_dwHp);
-	pItem->set_mp(m_dwMp);
-	pItem->set_hpmax(m_dwProperty[0]);
-	pItem->set_mpmax(m_dwProperty[1]);
+	pItem->set_hp(m_Propertys[HP]);
+	pItem->set_mp(m_Propertys[MP]);
+	pItem->set_hpmax(m_Propertys[HP_MAX]);
+	pItem->set_mpmax(m_Propertys[MP_MAX]);
 
 	return TRUE;
 }
 
 BOOL CSceneObject::IsDie()
 {
-	if(m_dwHp <= 0)
+	if(m_Propertys[HP] <= 0)
 	{
 		return TRUE;
 	}
@@ -213,11 +212,10 @@ BOOL CSceneObject::IsDie()
 	return FALSE;
 }
 
-
-
-BOOL CSceneObject::SetPos(FLOAT x, FLOAT z)
+BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z)
 {
 	m_x = x;
+	m_y = y;
 	m_z = z;
 
 	return TRUE;
@@ -243,6 +241,7 @@ BOOL CSceneObject::SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime)
 
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 {
+	pResult->set_objectid(m_uGuid);
 	pResult->set_actorid(m_dwActorID);
 	pResult->set_result(m_dwResult);
 	pResult->set_damage(m_dwDamage);

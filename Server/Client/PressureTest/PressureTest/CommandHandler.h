@@ -26,6 +26,7 @@
 
 #define ST_Disconnected 15
 
+#define ST_Overed        16
 
 class CClientCmdHandler : public IMessageHandler
 {
@@ -62,7 +63,8 @@ public:
 	BOOL OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnCmdEnterSceneAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
-
+	BOOL OnMsgOtherLoginNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);

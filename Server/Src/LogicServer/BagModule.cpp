@@ -92,6 +92,11 @@ BOOL CBagModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CBagModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+{
+	return TRUE;
+}
+
 BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 {
 	StItemInfo* pItemInfo = CConfigData::GetInstancePtr()->GetItemInfo(dwItemID);

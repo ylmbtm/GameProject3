@@ -99,6 +99,15 @@
     <ClCompile Include="RankMananger.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TaskModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GuildMananger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Guild.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -204,6 +213,21 @@
       <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="RankMananger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\TaskData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GuildMananger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\GuildData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="Guild.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

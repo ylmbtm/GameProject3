@@ -26,7 +26,9 @@ public:
 
 	BOOL    ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+	BOOL	SaveToClientLoginData(RoleLoginAck& Ack);
+
+	BOOL	CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
 public:
 	//扣除货币， 如果返回成功，就是扣除成功， 如果返回失败，就是货币不足
 	BOOL    CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum);

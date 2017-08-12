@@ -104,9 +104,9 @@ BOOL CGameService::SendCmdToDBConnection(IDataBuffer* pBuffer)
 
 BOOL CGameService::ConnectToLogServer()
 {
-	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
-	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
+	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
+	std::string strLogIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogIp, nLogPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	m_dwLogConnID = pConnection->GetConnectionID();
@@ -138,8 +138,9 @@ BOOL CGameService::RegisterToLoginSvr()
 {
 	SvrRegToSvrReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("domainid");
+	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	Req.set_serverid(dwServerID);
-
+	Req.set_serverport(dwPort);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
@@ -183,16 +184,6 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	//switch(pNetPacket->m_dwMsgID)
-	//{
-	//default:
-	//	{
-	//		m_WorldMsgHandler.DispatchPacket(pNetPacket);
-	//	}
-	//	break;
-	//}
-
-
 	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;
