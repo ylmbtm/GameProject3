@@ -92,9 +92,7 @@ public:
 	FLOAT               m_x;
 	FLOAT				m_y;
 	FLOAT				m_z;
-	FLOAT				m_vx;
-	FLOAT				m_vy;
-	FLOAT				m_vz;
+	FLOAT				m_ft;
 
 	UINT32				m_dwCopySvrID;
 	UINT32				m_dwCopyGuid;

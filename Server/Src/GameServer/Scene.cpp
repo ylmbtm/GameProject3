@@ -311,47 +311,30 @@ BOOL CScene::DestroySceneLogic(UINT32 dwCopyType)
 
 BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 {
+	ERROR_RETURN_FALSE(m_dwCopyGuid != 0);
+	ERROR_RETURN_FALSE(m_dwCopyID != 0);
+	ERROR_RETURN_FALSE(m_dwCopyType != 0);
+	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
+
 	TransferDataReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roledata().roleid());
-	CSceneObject* pObject = GetPlayer(pHeader->u64TargetID);
-	if(pObject == NULL)
-	{
-		pObject = new CSceneObject(pHeader->u64TargetID, Req.roledata().actorid(), OT_PLAYER, 2, (std::string&)Req.roledata().name());
-		AddPlayer(pObject);
-	}
-	//根据数据创建宠物，英雄
-	pObject->m_dwObjType = OT_PLAYER;
-	pObject->m_dwActorID = Req.roledata().actorid();
-	pObject->m_strName = Req.roledata().name();
-	pObject->m_uGuid = pHeader->u64TargetID;
-	pObject->m_dwCamp = Req.camp();
 
-	for(int i = 0; i < Req.roledata().propertys_size(); i++)
-	{
-		pObject->m_Propertys[i] = Req.roledata().propertys(i);
-	}
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
-
-	m_pSceneLogic->OnObjectCreate(pObject);
+	CreatePlayer(Req.roledata(), pHeader->u64TargetID, Req.camp());
 
 	//是否有宠物
-
 	if(Req.has_petdata())
 	{
-		const TransPetData& PetData = Req.petdata();
-		CreatePet(PetData.petguid(), PetData.actorid(), pHeader->u64TargetID, OT_PLAYER, 0, 0);
+		CreatePet(Req.petdata(), pHeader->u64TargetID, Req.camp());
 	}
 
+	//是否有伙伴
 	if(Req.has_partnerdata())
 	{
-		const TransPartnerData& PartnerData = Req.partnerdata();
-		CreatePartner(PartnerData.partnerguid(), PartnerData.actorid(), pHeader->u64TargetID, OT_PLAYER, 0, 0);
+		CreatePartner(Req.partnerdata(), pHeader->u64TargetID, Req.camp());
 	}
-
 
 	//检查人齐没齐，如果齐了，就全部发准备好了的消息
 	//有的副本不需要等人齐，有人就可以进
@@ -362,13 +345,7 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 	Ack.set_roleid(pHeader->u64TargetID);
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_retcode(MRC_SUCCESSED);
-
-	ERROR_RETURN_FALSE(m_dwCopyGuid != 0);
-	ERROR_RETURN_FALSE(m_dwCopyID != 0);
-	ERROR_RETURN_FALSE(pHeader->u64TargetID != 0);
-	ERROR_RETURN_FALSE(CGameService::GetInstancePtr()->GetServerID() != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_TRANSFER_DATA_ACK, pHeader->u64TargetID, 0, Ack);
-	BroadNewObject(pObject);
 	return TRUE;
 }
 
@@ -407,9 +384,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	Ack.set_x(pSceneObj->m_x);
 	Ack.set_y(pSceneObj->m_y);
 	Ack.set_z(pSceneObj->m_z);
-
-	Ack.set_vx(0);
-	Ack.set_vz(0);
+	Ack.set_ft(0);
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
@@ -757,7 +732,7 @@ BOOL CScene::SyncObjectState()
 	return TRUE;
 }
 
-BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
@@ -776,11 +751,38 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y)
 	return TRUE;
 }
 
-BOOL CScene::CreatePet(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT32 uHostID, UINT32 dwCamp )
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	CSceneObject* pObject = GetPlayer(roleData.roleid());
+	if(pObject == NULL)
+	{
+		pObject = new CSceneObject(roleData.roleid(), roleData.actorid(), OT_PLAYER, 2, (std::string&)roleData.name());
+		AddPlayer(pObject);
+	}
+	//根据数据创建宠物，英雄
+	pObject->m_dwObjType = OT_PLAYER;
+	pObject->m_dwActorID = roleData.actorid();
+	pObject->m_strName = roleData.name();
+	pObject->m_uGuid = roleData.roleid();
+	pObject->m_dwCamp = dwCamp;
+
+	for(int i = 0; i < roleData.propertys_size(); i++)
+	{
+		pObject->m_Propertys[i] = roleData.propertys(i);
+	}
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
+	m_pSceneLogic->OnObjectCreate(pObject);
+	BroadNewObject(pObject);
+	return TRUE;
+}
+
+BOOL CScene::CreatePet(const TransPetData& petData, UINT32 uHostID, UINT32 dwCamp )
+{
+	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(uGuiD, dwActorID, OT_PET, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(petData.petguid(), petData.actorid(), OT_PET, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
@@ -788,11 +790,11 @@ BOOL CScene::CreatePet(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dw
 	return TRUE;
 }
 
-BOOL CScene::CreatePartner(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT32 uHostID, UINT32 dwCamp  )
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(uGuiD, dwActorID, OT_PARTNER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), partnerData.actorid(), OT_PARTNER, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
@@ -971,9 +973,7 @@ BOOL CScene::ProcessActionItem( const  ActionItem& Item )
 	pSceneObj->m_x = Item.x();
 	pSceneObj->m_y = Item.y();
 	pSceneObj->m_z = Item.z();
-	pSceneObj->m_vx = Item.vx();
-	pSceneObj->m_vy = Item.vy();
-	pSceneObj->m_vz = Item.vz();
+	pSceneObj->m_ft = Item.ft();
 
 	if(Item.ishurt())
 	{
@@ -1020,4 +1020,6 @@ BOOL CScene::SendBattleResult()
 
 	return TRUE;
 }
+
+
 

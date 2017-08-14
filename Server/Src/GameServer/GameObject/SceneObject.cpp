@@ -191,9 +191,7 @@ BOOL CSceneObject::SaveNewObject( ObjectNewNty& Nty )
 	pItem->set_x(m_x);
 	pItem->set_x(m_y);
 	pItem->set_z(m_z);
-	pItem->set_vx(m_vx);
-	pItem->set_vx(m_vy);
-	pItem->set_vz(m_vz);
+	pItem->set_ft(m_ft);;
 	pItem->set_hp(m_Propertys[HP]);
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);

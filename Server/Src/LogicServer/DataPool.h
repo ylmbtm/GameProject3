@@ -10,6 +10,7 @@
 #include "..\ServerData\PetData.h"
 #include "..\ServerData\PartnerData.h"
 #include "..\ServerData\GuildData.h"
+#include "..\ServerData\TaskData.h"
 
 extern	SharedMemory<RoleDataObject>*	g_pRoleDataObjectPool;
 extern	SharedMemory<GlobalDataObject>*	g_pGlobalDataObjectPool;
@@ -20,6 +21,7 @@ extern	SharedMemory<PetDataObject>*		g_pPetDataObjectPool;
 extern	SharedMemory<PartnerDataObject>*	g_pPartnerDataObjectPool;
 extern	SharedMemory<GuildDataObject>*	g_pGuildDataObjectPool;
 extern	SharedMemory<MemberDataObject>*	g_pMemberDataObjectPool;
+extern	SharedMemory<TaskDataObject>*	g_pTaskDataObjectPool;
 
 BOOL CreateDataPool();
 

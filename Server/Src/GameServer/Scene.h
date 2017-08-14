@@ -2,6 +2,7 @@
 #define _SCENE_H_
 #include "GameObject/SceneObject.h"
 #include "SceneLogic/SceneLogic_Base.h"
+#include "../Message/Msg_Game.pb.h"
 
 class MonsterCreator;
 
@@ -58,10 +59,15 @@ public:
 	CSceneObject*   GetOwnPlayer();
 
 	//////////////////////////////////////////////////////////////////////////
-	//创建对象
-	BOOL            CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y);
-	BOOL            CreatePet(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y);
-	BOOL            CreatePartner(UINT64 uGuiD, UINT32 dwActorID, UINT64 uHostID, UINT32 dwCamp, FLOAT x, FLOAT y);
+	//创建角色相关对象
+	BOOL            CreatePlayer(const TransRoleData& roleData, UINT32 uHostID, UINT32 dwCamp );
+	BOOL            CreatePet(const TransPetData& petData, UINT32 uHostID, UINT32 dwCamp );
+	BOOL            CreatePartner(const TransPartnerData& partnerData, UINT32 uHostID, UINT32 dwCamp );
+
+	//创建怪物对象
+	BOOL            CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
+
+
 	BOOL            CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y);
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.
@@ -84,7 +90,7 @@ protected:
 	UINT32                          m_dwCreateTime; //副本创建时间
 	UINT32							m_dwStartTime;  //副本开始时间
 	UINT32							m_dwLastTick;
-	UINT32							m_dwMaxGuid;
+	UINT32							m_dwMaxGuid;	//场景里的最大GUID
 
 	SceneLogicBase*					m_pSceneLogic;
 	MonsterCreator*					m_pMonsterCreator;

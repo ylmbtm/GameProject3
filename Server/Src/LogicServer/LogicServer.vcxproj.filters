@@ -108,6 +108,9 @@
     <ClCompile Include="Guild.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ActivityModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -228,6 +231,9 @@
       <Filter>ServerData</Filter>
     </ClInclude>
     <ClInclude Include="Guild.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivityModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

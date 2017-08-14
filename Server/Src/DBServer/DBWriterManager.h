@@ -8,8 +8,13 @@
 #include "..\ServerData\GlobalData.h"
 #include "..\ServerData\BagData.h"
 #include "..\ServerData\CopyData.h"
+#include "..\ServerData\EquipData.h"
+#include "..\ServerData\PetData.h"
+#include "..\ServerData\PartnerData.h"
+#include "..\ServerData\GuildData.h"
+#include "..\ServerData\TaskData.h"
 
-Th_RetName _DBWriteThread( void *pParam );
+Th_RetName _DBWriteThread( void* pParam );
 
 class CDBWriterManager
 {
@@ -20,15 +25,21 @@ public:
 
 public:
 	BOOL Init();
-	
+
 	BOOL Uninit();
 
 	void WriteWork();
 
-	DataWriter<RoleDataObject> *m_pRoleDataWriter;
-	DataWriter<GlobalDataObject> *m_pGlobalDataWriter;
-	DataWriter<BagDataObject> *m_pBagDataWriter;
-	DataWriter<CopyDataObject> *m_pCopyDataWriter;
+	DataWriter<RoleDataObject>* m_pRoleDataWriter;
+	DataWriter<GlobalDataObject>* m_pGlobalDataWriter;
+	DataWriter<BagDataObject>* m_pBagDataWriter;
+	DataWriter<CopyDataObject>* m_pCopyDataWriter;
+	DataWriter<EquipDataObject>* m_pEquipDataWriter;
+	DataWriter<PetDataObject>* m_pPetDataWriter;
+	DataWriter<PartnerDataObject>* m_pPartnerDataWriter;
+	DataWriter<GuildDataObject>* m_pGuildDataWriter;
+	DataWriter<MemberDataObject>* m_pMemberDataWriter;
+	DataWriter<TaskDataObject>* m_pTaskDataWriter;
 	BOOL IsStop();
 public:
 
@@ -37,7 +48,7 @@ public:
 	BOOL	 m_Stop;
 
 	CDBManager m_DBManager;
-	
+
 };
 
 #endif //_DB_WRITER_H_

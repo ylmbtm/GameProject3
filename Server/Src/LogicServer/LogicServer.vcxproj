@@ -209,6 +209,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ActivityModule.cpp" />
     <ClCompile Include="BagModule.cpp" />
     <ClCompile Include="CopyModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="..\ServerData\ServerDefine.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
     <ClInclude Include="..\ServerData\TaskData.h" />
+    <ClInclude Include="ActivityModule.h" />
     <ClInclude Include="BagModule.h" />
     <ClInclude Include="CopyModule.h" />
     <ClInclude Include="DataPool.h" />

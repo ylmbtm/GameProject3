@@ -22,17 +22,11 @@ CClientCmdHandler::CClientCmdHandler(void)
 
 	m_dwAccountID = 0;
 	m_dwHostState = ST_NONE;
-	m_vy = 0;
 	m_x = 0;
 	m_y = 0;
 	m_z = 13;
 
-	m_vx = rand() % 40 - 20;
-	m_vz = rand() % 40 - 20;
-	CPoint2d Dir(m_vx, m_vz);
-	Dir.Normalized();
-	m_vx = Dir.m_x;
-	m_vz = Dir.m_y;
+	m_ft = PI * 2 * (rand() % 360) / 360;
 
 	m_ClientConnector.RegisterMsgHandler((IMessageHandler*)this);
 }
@@ -375,58 +369,28 @@ VOID CClientCmdHandler::TestMove()
 	if(m_x > 15)
 	{
 		m_x = 15;
-		m_vx = rand() % 40 - 20;
-		m_vz = rand() % 40 - 20;
-		CPoint2d Dir(m_vx, m_vz);
-		Dir.Normalized();
-		m_vx = Dir.m_x;
-		m_vz = Dir.m_y;
-		m_y = m_y;
 	}
-	if(m_z > 15)
+	if(m_z > 25)
 	{
-		m_z = 15;
-		m_vx = rand() % 40 - 20;
-		m_vz = rand() % 40 - 20;
-		CPoint2d Dir(m_vx, m_vz);
-		Dir.Normalized();
-		m_vx = Dir.m_x;
-		m_vz = Dir.m_y;
-		m_y = m_y;
+		m_z = 25;
 	}
 	if(m_x < -15)
 	{
 		m_x = -15;
-		m_vx = rand() % 40 - 20;
-		m_vz = rand() % 40 - 20;
-		CPoint2d Dir(m_vx, m_vz);
-		Dir.Normalized();
-		m_vx = Dir.m_x;
-		m_vz = Dir.m_y;
-		m_y = m_y;
 	}
-	if(m_z < -15)
+	if(m_z < -5)
 	{
-		m_z = -15;
-		m_vx = rand() % 40 - 20;
-		m_vz = rand() % 40 - 20;
-		CPoint2d Dir(m_vx, m_vz);
-		Dir.Normalized();
-		m_vx = Dir.m_x;
-		m_vz = Dir.m_y;
-		m_y = m_y;
+		m_z = -5;
 	}
 
-	m_x += m_vx;
-	m_z += m_vz;
+	m_x += atan(m_ft);
+	m_z += tan(m_ft);
 	m_y = m_y;
 
 	pItem->set_x(m_x);
 	pItem->set_y(0);
 	pItem->set_z(m_z);
-	pItem->set_vx(m_vx);
-	pItem->set_vy(m_vy);
-	pItem->set_vz(m_vz);
+	pItem->set_ft(m_ft);
 
 	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }

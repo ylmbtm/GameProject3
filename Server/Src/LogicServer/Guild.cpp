@@ -23,8 +23,6 @@ BOOL CGuild::Init()
 
 BOOL CGuild::LoadGuildData()
 {
-	//DBConnection.close();
-
 	return TRUE;
 }
 

@@ -18,6 +18,7 @@
 #include "..\ServerData\CopyData.h"
 #include "PartnerModule.h"
 #include "TaskModule.h"
+#include "ActivityModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -161,6 +162,7 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_PET] = new CPetModule(this);
 	m_MoudleList[MT_PARTNER] = new CPartnerModule(this);
 	m_MoudleList[MT_TASK] = new CTaskModule(this);
+	m_MoudleList[MT_ACTIVITY] = new CActivityModule(this);
 
 	return TRUE;
 }
