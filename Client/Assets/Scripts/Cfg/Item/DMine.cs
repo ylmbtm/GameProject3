@@ -23,13 +23,13 @@ public class DMine : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id            = element.GetInt("Id");
+        this.Id            = element.GetInt32("Id");
         this.Name          = element.GetString("Name");
         this.Model         = element.GetString("Model");
-        this.CostItemID    = element.GetInt("CostItemID");
+        this.CostItemID    = element.GetInt32("CostItemID");
         this.CostTime      = element.GetFloat("CostTime");
         this.Radius        = element.GetFloat("Radius");
-        this.DropItemID    = element.GetInt("DropItemID");
+        this.DropItemID    = element.GetInt32("DropItemID");
         this.IsShowMineBar = element.GetBool("IsShowMineBar");
         this.IsShowName    = element.GetBool("IsShowName");
     }

@@ -9,7 +9,7 @@ public class DGem : DObj<int>
     public int                    Id;
     public string                 Name;
     public int                    Quality;
-    public List<KStrengthValue>   Propertys = new List<KStrengthValue>();
+    public List<DStrengthValue>   Propertys = new List<DStrengthValue>();
     public int                    Suit;
     public int                    Pos;
     public int                    Exp;
@@ -21,19 +21,19 @@ public class DGem : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id      = element.GetInt("Id");
+        this.Id      = element.GetInt32("Id");
         this.Name    = element.GetString("Name");
-        this.Quality = element.GetInt("Quality");
-        this.Suit    = element.GetInt("Suit");
-        this.Exp     = element.GetInt("Exp");
-        this.Pos     = element.GetInt("Pos");
+        this.Quality = element.GetInt32("Quality");
+        this.Suit    = element.GetInt32("Suit");
+        this.Exp     = element.GetInt32("Exp");
+        this.Pos     = element.GetInt32("Pos");
 
         for (int i = 1; i <= 3; i++)
         {
-            EAttr k = (EAttr)element.GetInt("PropertyId" + i);
-            int v = element.GetInt("PropertyNum" + i);
-            int l = element.GetInt("UnlockLevel" + i);
-            KStrengthValue gem = new KStrengthValue(k, v, l);
+            EAttr k = (EAttr)element.GetInt32("PropertyId" + i);
+            int v = element.GetInt32("PropertyNum" + i);
+            int l = element.GetInt32("UnlockLevel" + i);
+            DStrengthValue gem = new DStrengthValue(k, v, l);
             this.Propertys.Add(gem);
         }
     }

@@ -14,7 +14,7 @@ public class DPet : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id = element.GetInt("Id");
+        this.Id = element.GetInt32("Id");
     }
 }
 

@@ -18,9 +18,9 @@ public class DPartnerWake : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id          = element.GetInt("Id");
-        this.Level       = element.GetInt("Level");
-        this.CostSoulNum = element.GetInt("CostSoulNum");
+        this.Id          = element.GetInt32("Id");
+        this.Level       = element.GetInt32("Level");
+        this.CostSoulNum = element.GetInt32("CostSoulNum");
         this.Desc        = element.GetString("Desc");
     }
 }

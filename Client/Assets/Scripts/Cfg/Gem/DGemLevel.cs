@@ -26,12 +26,12 @@ public class DGemLevel : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id            = element.GetInt("Id");
-        this.Quality       = element.GetInt("Quality");
-        this.Level         = element.GetInt("Level");
-        this.CostMoneyId   = element.GetInt("UpCostMoneyId");
-        this.RequireExp    = element.GetInt("RequireExp");
-        this.PropertyRatio = element.GetInt("PropertyRatio");
+        this.Id            = element.GetInt32("Id");
+        this.Quality       = element.GetInt32("Quality");
+        this.Level         = element.GetInt32("Level");
+        this.CostMoneyId   = element.GetInt32("UpCostMoneyId");
+        this.RequireExp    = element.GetInt32("RequireExp");
+        this.PropertyRatio = element.GetInt32("PropertyRatio");
     }
 }
 

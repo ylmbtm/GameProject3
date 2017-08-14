@@ -25,22 +25,22 @@ public class DRune : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id                  = element.GetInt("Id");
-        this.PropertyId          = (EAttr)element.GetInt("PropertyId");
-        this.PropertyNum         = element.GetInt("PropertyNum");
-        this.RuneType            = (ERuneType)element.GetInt("RuneType");
-        this.ComposeCostMoneyId  = element.GetInt("ComposeCostMoneyId");
-        this.ComposeCostMoneyNum = element.GetInt("ComposeCostMoneyNum");
-        this.UpCostMoneyId       = element.GetInt("UpCostMoneyId");
+        this.Id                  = element.GetInt32("Id");
+        this.PropertyId          = (EAttr)element.GetInt32("PropertyId");
+        this.PropertyNum         = element.GetInt32("PropertyNum");
+        this.RuneType            = (ERuneType)element.GetInt32("RuneType");
+        this.ComposeCostMoneyId  = element.GetInt32("ComposeCostMoneyId");
+        this.ComposeCostMoneyNum = element.GetInt32("ComposeCostMoneyNum");
+        this.UpCostMoneyId       = element.GetInt32("UpCostMoneyId");
         for (int i = 1; i <= 5; i++)
         {
-            this.UpCostMoneys[i - 1] = element.GetInt("UpCostMoney" + i);
+            this.UpCostMoneys[i - 1] = element.GetInt32("UpCostMoney" + i);
         }
         for (int i = 1; i <= 5; i++)
         {
-            this.UpValues[i - 1] = element.GetInt("PropertyLevel" + i);
+            this.UpValues[i - 1] = element.GetInt32("PropertyLevel" + i);
         }
-        string compose = element.GetString("Compose");
+        string compose           = element.GetString("Compose");
         if (compose.Contains("|"))
         {
             Regex reg = new Regex(@"(?is)(?<=\()[^\)]+(?=\))");

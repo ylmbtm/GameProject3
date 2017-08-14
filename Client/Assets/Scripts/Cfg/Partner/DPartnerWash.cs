@@ -17,11 +17,11 @@ public class DPartnerWash : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Level = element.GetInt("Level");
+        this.Level = element.GetInt32("Level");
         for (int i = 1; i <= 3; i++)
         {
-            this.PropertyMins[i - 1] = element.GetInt("PropertyMin" + i);
-            this.PropertyMaxs[i - 1] = element.GetInt("PropertyMax" + i);
+            this.PropertyMins[i - 1] = element.GetInt32("PropertyMin" + i);
+            this.PropertyMaxs[i - 1] = element.GetInt32("PropertyMax" + i);
         }
     }
 }

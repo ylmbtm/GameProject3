@@ -12,9 +12,9 @@ public class GTTouchEffect : GTMonoSingleton<GTTouchEffect>
     private bool             mActive = false;
     private bool             mIsLoop = false;
 
-    public override void SetDontDestroyOnLoad(Transform parent)
+    public override void SetRoot(Transform parent)
     {
-        base.SetDontDestroyOnLoad(parent);
+        base.SetRoot(parent);
         this.mTouchEffect = GTWorld.Instance.Ect.LoadEffectObj(GTEffectKey.EFFECT_TOUCH);
         if (mTouchEffect == null)
         {
@@ -58,11 +58,11 @@ public class GTTouchEffect : GTMonoSingleton<GTTouchEffect>
             pos = mTouchCam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, mDistanceToCam));
             mTouchEffect.transform.position = pos;
         }
-        if(mIsLoop!=mActive)
+        if (mIsLoop != mActive)
         {
             mIsLoop = mActive;
             mParticle.loop = mIsLoop;
-            if(mIsLoop)
+            if (mIsLoop)
             {
                 mParticle.Play();
             }

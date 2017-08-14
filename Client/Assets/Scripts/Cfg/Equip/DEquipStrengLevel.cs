@@ -18,10 +18,10 @@ public class DEquipStrengLevel : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id         = element.GetInt("Id");
-        this.Quality    = element.GetInt("Quality");
-        this.Level      = element.GetInt("Level");
-        this.RequireExp = element.GetInt("RequireExp");
+        this.Id         = element.GetInt32("Id");
+        this.Quality    = element.GetInt32("Quality");
+        this.Level      = element.GetInt32("Level");
+        this.RequireExp = element.GetInt32("RequireExp");
     }
 }
 

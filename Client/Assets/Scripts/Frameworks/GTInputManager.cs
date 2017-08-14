@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Protocol;
 
 public class GTInputManager : GTMonoSingleton<GTInputManager>
 {
-    public override void SetDontDestroyOnLoad(Transform parent)
+    public override void SetRoot(Transform parent)
     {
-        base.SetDontDestroyOnLoad(parent);
+        base.SetRoot(parent);
     }
 
     float mX;
@@ -32,47 +33,47 @@ public class GTInputManager : GTMonoSingleton<GTInputManager>
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_0);       
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_0);       
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_1);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_2);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_2);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_3);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_3);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_4);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_4);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_5);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_5);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_6);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_6);
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_7);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_7);
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_8);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_8);
         }
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            CharacterService.Instance.TryCastSkill(ESkillPos.Skill_9);
+            GTNetworkSend.Instance.TryCastSkill(ESkillPos.Skill_9);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            CharacterService.Instance.TryJump();
+            GTNetworkSend.Instance.TryJump();
         }
     }
 

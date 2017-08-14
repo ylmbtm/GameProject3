@@ -8,7 +8,7 @@ public class DGemSuit : DObj<int>
 {
     public int                              Id;
     public string                           Name;
-    public List<Dictionary<EAttr, int>> SuitPropertys = new List<Dictionary<EAttr, int>>();
+    public List<Dictionary<EAttr, int>>     SuitPropertys = new List<Dictionary<EAttr, int>>();
     public string                           SuitDesc;
 
     public override int GetKey()
@@ -18,7 +18,7 @@ public class DGemSuit : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id       = element.GetInt("Id");
+        this.Id       = element.GetInt32("Id");
         this.Name     = element.GetString("Name");
         this.SuitDesc = element.GetString("SuitDesc");
         for (int i = 1; i <= 3; i++)

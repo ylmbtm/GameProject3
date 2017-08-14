@@ -17,7 +17,7 @@ public class DEquipSuit : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id   = element.GetInt("Id");
+        this.Id   = element.GetInt32("Id");
         this.Name = element.GetString("Name");
         for (int i = 1; i <= 3; i++)
         {

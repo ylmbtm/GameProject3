@@ -13,15 +13,10 @@ public class DRelics : DObj<int>
     public string         Model;
     public int            ActiveEffectID;
     public int            DitiveEffectID;
-    public int            AddProperty;
-    public int[]          LevelRequireExp = new int[5];
-    public int[]          ArtificeCostID = new int[3];
-    public EAttr[]    PropertyID = new EAttr[3];
-    public int[]          PropertyNum = new int[3];
-    public int            SkillID;
-    public Vector3        StagePos;
-    public Vector3        StageEuler;
-    public float          StageScale;
+    public int[]          LevelExp          = new int[5];
+    public int[]          ArtificeCostID    = new int[3];
+    public EAttr[]        PropertyID        = new EAttr[3];
+    public int[]          PropertyNum       = new int[3];
 
     public override int GetKey()
     {
@@ -30,37 +25,31 @@ public class DRelics : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id             = element.GetInt("Id");
+        this.Id             = element.GetInt32("Id");
         this.Name           = element.GetString("Name");
         this.Icon           = element.GetString("Icon");
-        for (int i = 1; i <= 3; i++)
-        {
-            EAttr p = (EAttr)element.GetInt("PropertyID" + i);
-            int num = element.GetInt("PropertyNum" + i);
-            this.PropertyID[i - 1] = p;
-            this.PropertyNum[i - 1] = num;
-        }
-
         this.Model          = element.GetString("Model");
-        this.ActiveEffectID = element.GetInt("ActiveEffectID");
-        this.DitiveEffectID = element.GetInt("DitiveEffectID");
+        this.ActiveEffectID = element.GetInt32("ActiveEffectID");
+        this.DitiveEffectID = element.GetInt32("DitiveEffectID");
+        this.Desc           = element.GetString("Desc");
 
         for (int i = 1; i <= 5; i++)
         {
-            int exp = element.GetInt("LevelExp" + i);
-            this.LevelRequireExp[i - 1] = exp;
+            int exp = element.GetInt32("LevelExp" + i);
+            this.LevelExp[i - 1] = exp;
         }
         for (int i = 1; i <= 3; i++)
         {
-            int id = element.GetInt("ArtificeCostID" + i);
+            int id = element.GetInt32("ArtificeCostID" + i);
             this.ArtificeCostID[i - 1] = id;
         }
-        this.Desc           = element.GetString("Desc");
-        this.StagePos       = element.GetString("StagePos").ToVector3(true);
-        this.StageEuler     = element.GetString("StageEuler").ToVector3(true);
-        this.StageScale     = element.GetFloat("StageScale");
-        this.SkillID        = element.GetInt("SkillID");
-        this.AddProperty    = element.GetInt("AddProperty");
+        for (int i = 1; i <= 3; i++)
+        {
+            EAttr p = (EAttr)element.GetInt32("PropertyID" + i);
+            int num = element.GetInt32("PropertyNum" + i);
+            this.PropertyID[i - 1] = p;
+            this.PropertyNum[i - 1] = num;
+        }
     }
 }
 

@@ -15,8 +15,8 @@ public class DAction : DObj<EAction>
 
     public override void Read(XmlElement element)
     {
-        this.Id     = (EAction)element.GetInt("Id");
-        this.ItemID = element.GetInt("ItemID");
+        this.Id     = (EAction)element.GetInt32("Id");
+        this.ItemID = element.GetInt32("ItemID");
     }
 }
 

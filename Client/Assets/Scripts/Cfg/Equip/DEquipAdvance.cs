@@ -18,13 +18,13 @@ public class DEquipAdvance : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id        = element.GetInt("Id");
+        this.Id        = element.GetInt32("Id");
         this.Name      = element.GetString("Name");
-        this.Quality   = element.GetInt("Quality");
+        this.Quality   = element.GetInt32("Quality");
         for (int i = 1; i <= 8; i++)
         {
-            EAttr key = (EAttr)element.GetInt("PropertyId" + i);
-            int value = element.GetInt("PropertyNum" + i);
+            EAttr key = (EAttr)element.GetInt32("PropertyId" + i);
+            int value = element.GetInt32("PropertyNum" + i);
             KeyValuePair<EAttr, int> e = new KeyValuePair<EAttr, int>(key, value);
             this.Propertys.Add(e);
         }

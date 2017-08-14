@@ -21,6 +21,7 @@ public class GTLayer
     public const int LAYER_FLYTEXT      = 21;
     public const int LAYER_UDT          = 22;
     public const int LAYER_MINI         = 23;
+    public const int LAYER_GUIDE        = 24;
 
     public const int LAYER_RENDER_START = 28;
 }

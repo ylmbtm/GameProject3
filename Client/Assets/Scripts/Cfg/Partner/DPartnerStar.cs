@@ -19,13 +19,13 @@ public class DPartnerStar : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id           = element.GetInt("Id");
-        this.AddProperty  = element.GetInt("AddProperty");
-        this.RequireLevel = element.GetInt("RequireLevel");
+        this.Id           = element.GetInt32("Id");
+        this.AddProperty  = element.GetInt32("AddProperty");
+        this.RequireLevel = element.GetInt32("RequireLevel");
         for (int i = 1; i <= 2; i++)
         {
-            this.CostItemIDArray[i - 1] = element.GetInt("CostItemID" + i);
-            this.CostItemNumArray[i - 1] = element.GetInt("CostItemNum" + i);
+            this.CostItemIDArray[i - 1] = element.GetInt32("CostItemID" + i);
+            this.CostItemNumArray[i - 1] = element.GetInt32("CostItemNum" + i);
         }
     }
 }

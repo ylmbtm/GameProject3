@@ -19,15 +19,15 @@ public class DPartner : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id         = element.GetInt("Id");
-        this.SoulItemID = element.GetInt("SoulItemID");
+        this.Id         = element.GetInt32("Id");
+        this.SoulItemID = element.GetInt32("SoulItemID");
         for (int i = 1; i <= 6; i++)
         {
-            this.Fetters[i - 1] = element.GetInt("Fetter" + i);
+            this.Fetters[i - 1] = element.GetInt32("Fetter" + i);
         }
         for (int i = 1; i <= 4; i++)
         {
-            this.Skills[i - 1]  = element.GetInt("Skill" + i);
+            this.Skills[i - 1]  = element.GetInt32("Skill" + i);
         }
         this.Show       = element.GetBool("Show");
     }

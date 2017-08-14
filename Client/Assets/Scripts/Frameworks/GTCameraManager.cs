@@ -15,17 +15,15 @@ public class GTCameraManager : GTMonoSingleton<GTCameraManager>
     public Camera           MainCamera    { get; private set; }
     public Camera           MinimapCamera { get; private set; }
     public Camera           NGUICamera    { get; private set; }
-    public CameraController CameraCtrl    { get; private set; }
+    public CameraFollow     CameraCtrl    { get; private set; }
 
     public const int DEPTH_CAM_MAIN       = 0;
     public const int DEPTH_CAM_2DUICAMERA = 6;
     public const int DEPTH_CAM_MINIMAP    = 4;
 
-    public override void SetDontDestroyOnLoad(Transform parent)
+    public override void SetRoot(Transform parent)
     {
-        base.SetDontDestroyOnLoad(parent);
-        this.CreateMainCamera(null);
-        this.RevertMainCamera();
+        base.SetRoot(parent);
         this.AddRoot();
     }
 
@@ -46,16 +44,18 @@ public class GTCameraManager : GTMonoSingleton<GTCameraManager>
             mFreeLook = GTResourceManager.Instance.Load<GameObject>("Model/Other/FreeLook", true);
             MainCamera = mFreeLook.GetComponentInChildren<Camera>();
             GTTools.SetTag(MainCamera.gameObject, GTTools.Tags.MainCamera);
-            MainCamera.gameObject.GET<AudioListener>();
             mFreeLook.transform.parent = transform;
             mRetailPos = MainCamera.transform.localPosition;
             mRetailEuler = MainCamera.transform.localEulerAngles;
+            MainCamera.fieldOfView = 60;
+            MainCamera.renderingPath = RenderingPath.Forward;
+            MainCamera.depth = DEPTH_CAM_MAIN;
         }
-        this.CameraCtrl = MainCamera.gameObject.GET<CameraController>();
+        this.CameraCtrl = mFreeLook.GET<CameraFollow>();
         this.CameraCtrl.SetTarget(trans);
     }
 
-    public void CreateMinimapCamera(Transform target)
+    public void CreateMiniCamera(Transform target)
     {
         MinimapCamera = CreateCamera("MiniMapCamera");
         MinimapCamera.transform.parent = target;
@@ -68,22 +68,9 @@ public class GTCameraManager : GTMonoSingleton<GTCameraManager>
         MinimapCamera.orthographicSize = 8;
         if (mMiniMapTexture == null)
         {
-            mMiniMapTexture = new RenderTexture(1024, 1024, 24);
+            mMiniMapTexture = new RenderTexture(128, 128, 24);
         }
         MinimapCamera.targetTexture = mMiniMapTexture;
-    }
-
-    public void RevertMainCamera()
-    {
-        if (MainCamera == null)
-        {
-            return;
-        }
-        MainCamera.transform.localPosition = mRetailPos;
-        MainCamera.transform.localEulerAngles = mRetailEuler;
-        MainCamera.fieldOfView = 60;
-        MainCamera.renderingPath = RenderingPath.Forward;
-        MainCamera.depth = DEPTH_CAM_MAIN;
     }
 
     public void AddUI(GameObject go)
@@ -114,6 +101,7 @@ public class GTCameraManager : GTMonoSingleton<GTCameraManager>
         mRoot.scalingStyle = UIRoot.Scaling.Flexible;
         mRoot.minimumHeight = 320;
         mRoot.maximumHeight = 4096;
+        mRoot.transform.localPosition = new Vector3(0, 0, -10000);
         NGUICamera = UICamera.eventHandler.cachedCamera;
         NGUICamera.clearFlags = CameraClearFlags.Depth;
         NGUICamera.depth = DEPTH_CAM_2DUICAMERA;
@@ -144,7 +132,7 @@ public class GTCameraManager : GTMonoSingleton<GTCameraManager>
 
         mAnchor = mRoot.gameObject.AddChild().transform;
         mAnchor.gameObject.name = "Anchor";
-        mAnchor.localPosition = Vector3.zero;
+        mAnchor.localPosition = new Vector3(0, 0, 0);
         mAnchor.localScale = Vector3.one;
         mAnchor.localRotation = Quaternion.identity;
     }

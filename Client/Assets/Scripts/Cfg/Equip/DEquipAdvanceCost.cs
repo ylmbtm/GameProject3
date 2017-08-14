@@ -22,14 +22,14 @@ public class DEquipAdvanceCost : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id              = element.GetInt("Id");
-        this.Quality         = element.GetInt("Quality");
-        this.AdvanceLevel    = element.GetInt("AdvanceLevel");
-        this.CostItemId      = element.GetInt("CostItemId");
-        this.CostItemNum     = element.GetInt("CostItemNum");
-        this.CostMoneyId     = element.GetInt("CostMoneyId");
-        this.CostMoneyNum    = element.GetInt("CostMoneyNum");
-        this.CostEquipNum    = element.GetInt("CostEquipNum");
+        this.Id              = element.GetInt32("Id");
+        this.Quality         = element.GetInt32("Quality");
+        this.AdvanceLevel    = element.GetInt32("AdvanceLevel");
+        this.CostItemId      = element.GetInt32("CostItemId");
+        this.CostItemNum     = element.GetInt32("CostItemNum");
+        this.CostMoneyId     = element.GetInt32("CostMoneyId");
+        this.CostMoneyNum    = element.GetInt32("CostMoneyNum");
+        this.CostEquipNum    = element.GetInt32("CostEquipNum");
     }
 }
 

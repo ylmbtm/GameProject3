@@ -9,7 +9,7 @@ public class DItem : DObj<int>
     public int              Quality;
     public EItemType        ItemType;
     public EBagType         BagType;
-    public ECarrer          Carrer;
+    public int              Carrer;
     public string           Model_R;
     public string           Model_L;
     public string           Icon;
@@ -26,20 +26,20 @@ public class DItem : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id           = element.GetInt("Id");
+        this.Id           = element.GetInt32("Id");
         this.Name         = element.GetString("Name");
-        this.ItemType     = (EItemType)element.GetInt("ItemType");
-        this.BagType      = (EBagType)element.GetInt("BagType");
-        this.Quality      = element.GetInt("Quality");
+        this.ItemType     = (EItemType)element.GetInt32("ItemType");
+        this.BagType      = (EBagType)element.GetInt32("BagType");
+        this.Quality      = element.GetInt32("Quality");
         this.Icon         = element.GetString("Icon");
-        this.SellMoneyId  = element.GetInt("SellMoneyId");
-        this.SellMoneyNum = element.GetInt("SellMoneyNum");
+        this.SellMoneyId  = element.GetInt32("SellMoneyId");
+        this.SellMoneyNum = element.GetInt32("SellMoneyNum");
         this.Desc         = element.GetString("Desc");
-        this.Data1        = element.GetInt("Data1");
-        this.Data2        = element.GetInt("Data2");
+        this.Data1        = element.GetInt32("Data1");
+        this.Data2        = element.GetInt32("Data2");
         this.Model_R      = element.GetString("Model_R");
         this.Model_L      = element.GetString("Model_L");
-        this.Carrer       = (ECarrer)element.GetInt("Carrer");
+        this.Carrer       = element.GetInt32("Carrer");
     }
 }
 

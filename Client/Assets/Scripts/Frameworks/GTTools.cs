@@ -10,9 +10,18 @@ using System.Linq;
 
 public static class GTTools
 {
-    public static StringBuilder mStringBuilder = new StringBuilder();
-    public const  float         eps = 1E-06f;
-    public static char[]        SEPARATOR = new char[3] { '(', ',', ')' };
+    static StringBuilder m_StringBuilder = new StringBuilder();
+    const  float         m_Eps = 1E-06f;
+    static char[]        m_SeParator = new char[3] { '(', ',', ')' };
+    static Color[]       m_RandomColors = new Color[6]
+    {
+        Color.blue,
+        Color.yellow,
+        Color.red,
+        Color.cyan,
+        Color.green,
+        Color.magenta
+    };
 
     public enum Tags
     {
@@ -61,30 +70,30 @@ public static class GTTools
 
     public static string Format(string format, object arg0)
     {
-        mStringBuilder.Remove(0, mStringBuilder.Length);
-        mStringBuilder.AppendFormat(format, arg0);
-        return mStringBuilder.ToString();
+        m_StringBuilder.Remove(0, m_StringBuilder.Length);
+        m_StringBuilder.AppendFormat(format, arg0);
+        return m_StringBuilder.ToString();
     }
 
     public static string Format(string format, object arg0, object arg1)
     {
-        mStringBuilder.Remove(0, mStringBuilder.Length);
-        mStringBuilder.AppendFormat(format, arg0, arg1);
-        return mStringBuilder.ToString();
+        m_StringBuilder.Remove(0, m_StringBuilder.Length);
+        m_StringBuilder.AppendFormat(format, arg0, arg1);
+        return m_StringBuilder.ToString();
     }
 
     public static string Format(string format, object arg0, object arg1, object arg2)
     {
-        mStringBuilder.Remove(0, mStringBuilder.Length);
-        mStringBuilder.AppendFormat(format, arg0, arg1, arg2);
-        return mStringBuilder.ToString();
+        m_StringBuilder.Remove(0, m_StringBuilder.Length);
+        m_StringBuilder.AppendFormat(format, arg0, arg1, arg2);
+        return m_StringBuilder.ToString();
     }
 
     public static string Format(string format, object arg0, object arg1, object arg2, object arg3)
     {
-        mStringBuilder.Remove(0, mStringBuilder.Length);
-        mStringBuilder.AppendFormat(format, arg0, arg1, arg2, arg3);
-        return mStringBuilder.ToString();
+        m_StringBuilder.Remove(0, m_StringBuilder.Length);
+        m_StringBuilder.AppendFormat(format, arg0, arg1, arg2, arg3);
+        return m_StringBuilder.ToString();
     }
 
     public static string ToPercent(this float value, int num = 0)
@@ -260,12 +269,62 @@ public static class GTTools
         return num;
     }
 
-    public static int ToInt32(this string value)
+    public static Int16 ToInt16(this string value)
+    {
+        Int16 v = 0;
+        if (Int16.TryParse(value, out v) == false)
+        {
+            Debug.LogError(string.Format("value = {0} can not convert to int16", value));
+        }
+        return v;
+    }
+
+    public static Int32 ToInt32(this string value)
     {
         int v = 0;
         if (int.TryParse(value, out v) == false)
         {
             Debug.LogError(string.Format("value = {0} can not convert to int", value));
+        }
+        return v;
+    }
+
+    public static Int64 ToInt64(this string value)
+    {
+        Int64 v = 0;
+        if (Int64.TryParse(value, out v) == false)
+        {
+            Debug.LogError(string.Format("value = {0} can not convert to int64", value));
+        }
+        return v;
+    }
+
+    public static UInt16 ToUInt16(this string value)
+    {
+        UInt16 v = 0;
+        if (UInt16.TryParse(value, out v) == false)
+        {
+            Debug.LogError(string.Format("value = {0} can not convert to uint16", value));
+        }
+        return v;
+    }
+
+    public static UInt32 ToUInt32(this string value)
+    {
+        UInt32 v = 0;
+        if (UInt32.TryParse(value, out v) == false)
+        {
+            Debug.LogError(string.Format("value = {0} can not convert to uint32", value));
+        }
+        return v;
+    }
+
+    public static UInt64 ToUInt64(this string value)
+    {
+        UInt64 v = 0;
+        if (UInt64.TryParse(value, out v) == false)
+        {
+            Debug.LogError(string.Format("value = {0} can not convert to uint64", value));
         }
         return v;
     }
@@ -641,7 +700,7 @@ public static class GTTools
         {
             return Vector2.zero;
         }
-        string[] array = value.Split(SEPARATOR);
+        string[] array = value.Split(m_SeParator);
         return new Vector2(array[1].ToFloat(), array[2].ToFloat());
     }
 
@@ -659,7 +718,7 @@ public static class GTTools
         }
         else
         {
-            string[] array = value.Split(SEPARATOR);
+            string[] array = value.Split(m_SeParator);
             return new Vector3(array[1].ToFloat(), array[2].ToFloat(), array[3].ToFloat());
         }
     }
@@ -943,6 +1002,20 @@ public static class GTTools
         return new Color(r, g, b, a);
     }
 
+    public static Color GetRandomColor()
+    {
+        float r = UnityEngine.Random.Range(0, 1f);
+        float g = UnityEngine.Random.Range(0, 1f);
+        float b = UnityEngine.Random.Range(0, 1f);
+        return new Color(r, g, b);
+    }
+
+    public static Color GetRandomColorFromColorList(int index)
+    {
+        int i = index % m_RandomColors.Length;
+        return m_RandomColors[i];
+    }
+
     public static RenderTexture Realloc(this RenderTexture texture)
     {
         return texture.Realloc(Screen.width, Screen.height);
@@ -1056,6 +1129,29 @@ public static class GTTools
             {
                 list.Add(temp);
             }
+        }
+        return list;
+    }
+
+    public static void       GetAllComponents<T>(Transform trans, List<T> pList) where T : Component
+    {
+        if (trans == null) return;
+        for (int i = 0; i < trans.childCount; i++)
+        {
+            T t = trans.GetChild(i).GetComponent<T>();
+            if (t != null)
+            {
+                pList.Add(t);
+            }
+        }
+    }
+
+    public static List<T>    GetListFromEnumNames<T>(Type enumType) 
+    {
+        List<T> list = new List<T>();
+        for (int i = 0; i < Enum.GetNames(enumType).Length; i++)
+        {
+            list.Add(default(T));
         }
         return list;
     }

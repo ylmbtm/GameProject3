@@ -47,7 +47,7 @@ public class GTTimerManager : GTSingleton<GTTimerManager>, IGame
 
     public void DelListener(GTTimer timer)
     {
-        if(timer==null)
+        if (timer == null)
         {
             return;
         }

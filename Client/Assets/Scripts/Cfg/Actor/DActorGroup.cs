@@ -16,7 +16,7 @@ public class DActorGroup : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id   = element.GetInt("Id");
+        this.Id   = element.GetInt32("Id");
         this.Name = element.GetString("Name");
     }
 }

@@ -20,14 +20,14 @@ public class DPetLevel : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id      = element.GetInt("Id");
-        this.Quality = element.GetInt("Quality");
-        this.Level   = element.GetInt("Level");
-        this.Exp     = element.GetInt("Exp");
-        this.Ratio   = element.GetInt("Ratio");
+        this.Id      = element.GetInt32("Id");
+        this.Quality = element.GetInt32("Quality");
+        this.Level   = element.GetInt32("Level");
+        this.Exp     = element.GetInt32("Exp");
+        this.Ratio   = element.GetInt32("Ratio");
         for (int i = 1; i <= 3; i++)
         {
-            this.PropertyNums[i - 1] = element.GetInt("PropertyNum" + i);
+            this.PropertyNums[i - 1] = element.GetInt32("PropertyNum" + i);
         }
     }
 

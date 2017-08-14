@@ -15,7 +15,7 @@ public class DCurve : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id   = element.GetInt("Id");
+        this.Id   = element.GetInt32("Id");
         this.Path = element.GetString("Path");
     }
 }

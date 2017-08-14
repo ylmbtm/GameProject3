@@ -18,35 +18,26 @@ public class GTAudioManager : GTMonoSingleton<GTAudioManager>
     public AudioSource        MusicAudioSource                     { get; private set; }
     public AudioSource        SoundAudioSource                     { get; private set; }
     public Queue<AudioSource> EffectAudioSourceQueue               { get; private set; }
-    public const string       MUSIC_ACTIVE_KEY = "MusicActive";
-    public const string       SOUND_ACTIVE_KEY = "SoundActive";
+    private GameObject        musicSource;
+    private GameObject        soundSource;
 
-    private GameObject musicSource;
-    private GameObject soundSource;
-
-    public override void SetDontDestroyOnLoad(Transform parent)
+    public override void SetRoot(Transform parent)
     {
-        base.SetDontDestroyOnLoad(parent);
+        base.SetRoot(parent);
         musicSource = new GameObject("MusicSource");
         soundSource = new GameObject("SoundSource");
         musicSource.transform.parent = transform;
         soundSource.transform.parent = transform;
-
         MusicAudioSource = musicSource.AddComponent<AudioSource>();
         MusicAudioSource.loop = true;
         MusicAudioSource.playOnAwake = false;
-
         SoundAudioSource = soundSource.AddComponent<AudioSource>();
         SoundAudioSource.loop = false;
         SoundAudioSource.playOnAwake = false;
-
-        int musicActive = PlayerPrefs.GetInt(MUSIC_ACTIVE_KEY, 1);
-        int soundActive = PlayerPrefs.GetInt(SOUND_ACTIVE_KEY, 1);
-        MusicActive = musicActive == 1 ? true : false;
-        SoundActive = soundActive == 1 ? true : false;
-
+        MusicActive = GTGlobal.LocalData.MusicActive;
+        SoundActive = GTGlobal.LocalData.SoundActive;
         EffectAudioSourceQueue = new Queue<AudioSource>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
             AudioSource ad = soundSource.AddComponent<AudioSource>();
             EffectAudioSourceQueue.Enqueue(ad);
@@ -60,7 +51,7 @@ public class GTAudioManager : GTMonoSingleton<GTAudioManager>
             return;
         }
         MusicActive = active;
-        PlayerPrefs.SetInt(MUSIC_ACTIVE_KEY, active ? 1 : 0);
+        GTGlobal.LocalData.MusicActive = active;
         if (MusicAudioSource == null)
         {
             return;
@@ -79,7 +70,7 @@ public class GTAudioManager : GTMonoSingleton<GTAudioManager>
             return;
         }
         SoundActive = active;
-        PlayerPrefs.SetInt(SOUND_ACTIVE_KEY, active ? 1 : 0);
+        GTGlobal.LocalData.SoundActive = active;
     }
 
     public void PlayClipAtPoint(string soundPath, Vector3 pos)

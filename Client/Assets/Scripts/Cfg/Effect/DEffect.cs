@@ -16,12 +16,12 @@ public class DEffect : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id   = element.GetInt("Id");
+        this.Id   = element.GetInt32("Id");
         this.Path = element.GetString("Path");
     }
 }
 
-public sealed class ReadCfgEffect : DReadBase<int, DEffect>
+public class ReadCfgEffect : DReadBase<int, DEffect>
 {
 
 }

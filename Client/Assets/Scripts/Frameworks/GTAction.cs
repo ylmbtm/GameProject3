@@ -6,7 +6,6 @@ using System;
 public class GTAction
 {
     private Animator                           mAnimator;
-
     private float                              mPlaySpeed  = 1f;
     private float                              mPlayTimer  = 0f;
     private float                              mCurAnimLength = 0f;
@@ -34,10 +33,10 @@ public class GTAction
             AnimationClip clip = mAnimator.runtimeAnimatorController.animationClips[i];
             mAnimClips[clip.name] = clip;
         }
-        mActions[mAnimator] = this;
+        s_AddList.Add(new GA() { gtaction = this, animator = animator });
     }
 
-    void Execute()
+    public void Execute()
     {
         if (!mAnimator.enabled)
         {
@@ -58,15 +57,16 @@ public class GTAction
             if (mCurFinishCallback != null)
             {
                 mCurFinishCallback();
+                mCurFinishCallback = null;
             }
             mIsFinish = true;
         }
     }
 
-    void Release()
+    public void Release()
     {
         mCurAnimName = string.Empty;
-        mDeleteList.Add(this);
+        s_DelList.Add(this);
     }
 
     public void  Play(string animName, Callback onFinish = null, bool isLoop = false, float speed = 1f, float lastTime = 0f)
@@ -104,7 +104,7 @@ public class GTAction
 
     IEnumerator  PlayQueue(List<string> animQueue, Callback onFinish, float speed = 1f)
     {
-        for(int i=0;i<animQueue.Count;i++)
+        for (int i = 0; i < animQueue.Count; i++)
         {
             Play(animQueue[i], null, false, speed);
             while (!mIsFinish)
@@ -150,18 +150,25 @@ public class GTAction
         return mPlaySpeed;
     }
 
-    static Dictionary<Animator, GTAction> mActions = new Dictionary<Animator, GTAction>();
-    static List<GTAction>                 mDeleteList = new List<GTAction>();
+    static Dictionary<Animator, GTAction> s_Actions = new Dictionary<Animator, GTAction>();
+    static List<GTAction>                 s_DelList = new List<GTAction>();
+    static List<GA>                       s_AddList = new List<GA>();
+
+    public class GA
+    {
+        public GTAction gtaction;
+        public Animator animator;
+    }
 
     public static void     Update()
     {
-        Dictionary<Animator, GTAction>.Enumerator em = mActions.GetEnumerator();
+        Dictionary<Animator, GTAction>.Enumerator em = s_Actions.GetEnumerator();
         while (em.MoveNext())
         {
             Animator animator = em.Current.Key;
             if (animator == null)
             {
-                mDeleteList.Add(em.Current.Value);
+                s_DelList.Add(em.Current.Value);
             }
             else
             {
@@ -169,12 +176,20 @@ public class GTAction
             }
         }
         em.Dispose();
-        while (mDeleteList.Count > 0)
+        while (s_DelList.Count > 0)
         {
-            Animator animator = mDeleteList[0].mAnimator;
-            mActions.Remove(animator);
-            mDeleteList.RemoveAt(0);
+            Animator animator = s_DelList[0].mAnimator;
+            s_Actions.Remove(animator);
+            s_DelList.RemoveAt(0);
         }
+        for (int i = 0; i < s_AddList.Count; i++)
+        {
+            if (s_Actions.ContainsKey(s_AddList[i].animator) == false)
+            {
+                s_Actions.Add(s_AddList[i].animator, s_AddList[i].gtaction);
+            }
+        }
+        s_AddList.Clear();
     }
 
     public static GTAction Get(Animator animator)
@@ -184,11 +199,11 @@ public class GTAction
             return null;
         }
         GTAction action = null;
-        mActions.TryGetValue(animator, out action);
+        s_Actions.TryGetValue(animator, out action);
         if (action == null)
         {
             action = new GTAction(animator);
-            mActions[animator] = action;
+            s_Actions[animator] = action;
         }
         return action;
     }
@@ -209,6 +224,6 @@ public class GTAction
         {
             return;
         }
-        mDeleteList.Add(action);
+        s_DelList.Add(action);
     }
 }

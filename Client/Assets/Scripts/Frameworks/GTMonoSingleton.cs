@@ -25,7 +25,7 @@ public abstract class GTMonoSingleton<T> : MonoBehaviour where T : GTMonoSinglet
         }
     }
 
-    public virtual void SetDontDestroyOnLoad(Transform parent)
+    public virtual void SetRoot(Transform parent)
     {
         transform.parent = parent;
     }

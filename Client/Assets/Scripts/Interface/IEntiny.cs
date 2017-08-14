@@ -6,7 +6,7 @@ public interface IEntiny : IObj
     GameObject Obj            { get; set; }
     Transform  CacheTransform { get; set; }
 
-    void       Load(KTransform bornData);
+    void       Load(GTTransform bornData);
     void       Destroy();
     void       Execute();
     void       Release();

@@ -20,12 +20,12 @@ public class DStoreType : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id     = element.GetInt("Id");
+        this.Id     = element.GetInt32("Id");
         this.Name   = element.GetString("Name");
         this.Icon1  = element.GetString("Icon1");
         this.Icon2  = element.GetString("Icon2");
         this.Random = element.GetBool("Random");
-        this.Limit  = element.GetInt("Limit");
+        this.Limit  = element.GetInt32("Limit");
     }
 }
 

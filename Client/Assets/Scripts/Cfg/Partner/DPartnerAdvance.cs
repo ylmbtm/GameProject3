@@ -24,30 +24,30 @@ public class DPartnerAdvance : DObj<int>
 
     public override void Read(XmlElement element)
     {
-        this.Id          = element.GetInt("Id");
-        this.Partner     = element.GetInt("Partner");
-        this.Advance     = element.GetInt("Advance");
-        this.CostSoulNum = element.GetInt("CostSoulNum");
-        this.MainTarget  = element.GetInt("MainTarget");
-        this.ViceTarget  = element.GetInt("ViceTarget");
+        this.Id          = element.GetInt32("Id");
+        this.Partner     = element.GetInt32("Partner");
+        this.Advance     = element.GetInt32("Advance");
+        this.CostSoulNum = element.GetInt32("CostSoulNum");
+        this.MainTarget  = element.GetInt32("MainTarget");
+        this.ViceTarget  = element.GetInt32("ViceTarget");
         this.Desc1       = element.GetString("Desc1");
         this.Desc2       = element.GetString("Desc2");
 
         for (int i = 1; i <= 2; i++)
         {
-            int mainID = element.GetInt("MainID" + i);
-            int viceID = element.GetInt("ViceID" + i);
+            int mainID = element.GetInt32("MainID" + i);
+            int viceID = element.GetInt32("ViceID" + i);
             if (mainID > 0)
             {
                 EAttr id = (EAttr)mainID;
-                int num = element.GetInt("MainNum" + i);
+                int num = element.GetInt32("MainNum" + i);
                 this.MainPropertys.Add(id, num);
 
             }
             if (viceID > 0)
             {
                 EAttr id = (EAttr)viceID;
-                int num = element.GetInt("ViceNum" + i);
+                int num = element.GetInt32("ViceNum" + i);
                 this.VicePropertys.Add(id, num);
             }
         }

@@ -5,26 +5,30 @@ using System.Xml;
 
 public class DRole : DObj<int>
 {
-    public int    Id;
-    public string CarrerName = string.Empty;
-    public int    Star1;
-    public int    Star2;
-    public int    Star3;
-    public int    Star4;
+    public int     ActorID;
+    public string  CarrerName = string.Empty;
+    public int     Carrer;
+    public int     Star1;
+    public int     Star2;
+    public int     Star3;
+    public int     Star4;
+    public int     DisplayWeapon;
 
     public override int GetKey()
     {
-        return Id;
+        return Carrer;
     }
 
     public override void Read(XmlElement element)
     {
-        this.Id         = element.GetInt("Id");
-        this.CarrerName = element.GetString("CarrerName ");
-        this.Star1      = element.GetInt("Star1");
-        this.Star2      = element.GetInt("Star2");
-        this.Star3      = element.GetInt("Star3");
-        this.Star4      = element.GetInt("Star4");
+        this.Carrer        = element.GetInt32("Carrer");
+        this.CarrerName    = element.GetString("CarrerName");
+        this.ActorID       = element.GetInt32("ActorID");
+        this.Star1         = element.GetInt32("Star1");
+        this.Star2         = element.GetInt32("Star2");
+        this.Star3         = element.GetInt32("Star3");
+        this.Star4         = element.GetInt32("Star4");
+        this.DisplayWeapon = element.GetInt32("DisplayWeapon");
     }
 }
 
