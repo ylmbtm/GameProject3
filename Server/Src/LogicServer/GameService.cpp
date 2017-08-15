@@ -8,7 +8,7 @@
 #include "Utility/CommonThreadFunc.h"
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
-#include "SimpleMananger.h"
+#include "SimpleManager.h"
 #include "../ConfigData/ConfigData.h"
 #include "GlobalDataMgr.h"
 

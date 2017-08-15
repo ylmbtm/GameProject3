@@ -11,7 +11,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "RoleModule.h"
-#include "SimpleMananger.h"
+#include "SimpleManager.h"
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"

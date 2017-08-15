@@ -41,12 +41,12 @@ struct MemberDataObject : public ShareObject
 
 	}
 
-	UINT64 m_uGuid;			//格子的guid
-	INT32 Pos;   //! 角色
-	INT32 Contribute;    //! 军团贡献
-	UINT32 EnterTime;  //! 加入时间
-	UINT32 BattleTimes;    //! 攻打军团副本次数
-	UINT32 BattleDamage;  //! 攻打军团副本最高伤害
+	UINT64 m_uRoleID;
+	UINT64 m_uGuildID;			//公会的guid
+	UINT32 m_Pos;
+	UINT32 m_dwJoinTime;
+
+
 
 	BOOL Save(IDataBase* pDB)
 	{

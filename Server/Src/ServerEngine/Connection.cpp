@@ -745,7 +745,6 @@ BOOL CConnectionMgr::DestroyAllConnection()
 
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
-	return TRUE;
 	UINT32 curTick = CommonFunc::GetTickCount();
 
 	for(int i = 0; i < m_vtConnList.size(); i++)
@@ -756,7 +755,7 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 			continue;
 		}
 
-		if(curTick > (pTemp->m_LastRecvTick + 3000))
+		if(curTick > (pTemp->m_LastRecvTick + 30000))
 		{
 			pTemp->Close();
 		}

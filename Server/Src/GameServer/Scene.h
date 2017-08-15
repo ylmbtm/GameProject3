@@ -37,6 +37,8 @@ public:
 
 	BOOL	        SendAllNewObjectToPlayer(CSceneObject* pSceneObject);
 
+	BOOL			BroadDieNotify(UINT64 uObjectID);
+
 	BOOL            SyncObjectState();
 	INT32	        GetPlayerCount();
 	INT32			GetConnectCount();

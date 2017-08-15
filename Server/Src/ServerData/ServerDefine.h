@@ -23,6 +23,15 @@ enum MouduleType
 	MT_END
 };
 
+enum OBJECT_STATUE
+{
+	OS_IDLE,
+	OS_WALK,
+	OS_RUN,
+	OS_DIE,
+	OS_END
+};
+
 //货币数量
 #define MAX_MONEY_NUM 15
 

@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include "SimpleMananger.h"
+#include "SimpleManager.h"
 #include "..\GameServer\GameService.h"
 #include "Sqlite\CppSQLite3.h"
 #include "Utility\CommonFunc.h"

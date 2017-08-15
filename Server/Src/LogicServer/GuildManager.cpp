@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include "GuildMananger.h"
+#include "GuildManager.h"
 #include "..\GameServer\GameService.h"
 #include "Sqlite\CppSQLite3.h"
 #include "Utility\CommonFunc.h"

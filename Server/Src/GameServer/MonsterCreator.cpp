@@ -87,6 +87,11 @@ BOOL MonsterCreator::IsAllFinished()
 	return m_bAllFinished;
 }
 
+BOOL MonsterCreator::OnObjectDie(CSceneObject* pObject)
+{
+	return TRUE;
+}
+
 BOOL MonsterCreator::GenCurrentWave()
 {
 	if(m_MonsterVaveList.size() <= 0)

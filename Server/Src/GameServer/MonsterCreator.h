@@ -3,7 +3,7 @@
 #define _GAME_MONSTER_CREATOR_H_
 
 class CScene;
-
+class CSceneObject;
 class MonsterData
 {
 public:
@@ -67,6 +67,8 @@ public:
 	BOOL GenCurrentWave();
 
 	BOOL IsAllFinished();
+
+	BOOL OnObjectDie(CSceneObject* pObject);
 
 	std::vector<MonsterWave> m_MonsterVaveList;
 

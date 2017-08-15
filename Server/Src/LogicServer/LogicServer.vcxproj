@@ -209,8 +209,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ActivityManager.cpp" />
     <ClCompile Include="ActivityModule.cpp" />
     <ClCompile Include="BagModule.cpp" />
+    <ClCompile Include="ChatManager.cpp" />
     <ClCompile Include="CopyModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
     <ClCompile Include="EquipModule.cpp" />
@@ -218,7 +220,8 @@
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
     <ClCompile Include="Guild.cpp" />
-    <ClCompile Include="GuildMananger.cpp" />
+    <ClCompile Include="GuildManager.cpp" />
+    <ClCompile Include="MailModule.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
     <ClCompile Include="PartnerModule.cpp" />
     <ClCompile Include="PetModule.cpp" />
@@ -226,7 +229,7 @@
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="RankMananger.cpp" />
     <ClCompile Include="RoleModule.cpp" />
-    <ClCompile Include="SimpleMananger.cpp" />
+    <ClCompile Include="SimpleManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -252,14 +255,17 @@
     <ClInclude Include="..\ServerData\EquipData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
     <ClInclude Include="..\ServerData\GuildData.h" />
+    <ClInclude Include="..\ServerData\MailData.h" />
     <ClInclude Include="..\ServerData\PartnerData.h" />
     <ClInclude Include="..\ServerData\PetData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\ServerDefine.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
     <ClInclude Include="..\ServerData\TaskData.h" />
+    <ClInclude Include="ActivityManager.h" />
     <ClInclude Include="ActivityModule.h" />
     <ClInclude Include="BagModule.h" />
+    <ClInclude Include="ChatManager.h" />
     <ClInclude Include="CopyModule.h" />
     <ClInclude Include="DataPool.h" />
     <ClInclude Include="EquipModule.h" />
@@ -267,7 +273,8 @@
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GlobalDataMgr.h" />
     <ClInclude Include="Guild.h" />
-    <ClInclude Include="GuildMananger.h" />
+    <ClInclude Include="GuildManager.h" />
+    <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />
     <ClInclude Include="PartnerModule.h" />
     <ClInclude Include="PetModule.h" />
@@ -275,7 +282,7 @@
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="RankMananger.h" />
     <ClInclude Include="RoleModule.h" />
-    <ClInclude Include="SimpleMananger.h" />
+    <ClInclude Include="SimpleManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TaskModule.h" />
     <ClInclude Include="WorldMsgHandler.h" />

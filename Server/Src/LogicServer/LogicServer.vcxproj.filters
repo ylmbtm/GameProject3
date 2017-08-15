@@ -60,9 +60,6 @@
     <ClCompile Include="DataPool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMananger.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -102,13 +99,25 @@
     <ClCompile Include="TaskModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GuildMananger.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Guild.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ActivityModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MailModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GuildManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ActivityManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,9 +163,6 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\RoleData.h">
       <Filter>ServerData</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMananger.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
       <Filter>头文件</Filter>
@@ -224,9 +230,6 @@
     <ClInclude Include="..\ServerData\TaskData.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GuildMananger.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerData\GuildData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
@@ -234,6 +237,24 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ActivityModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MailModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\MailData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GuildManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivityManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

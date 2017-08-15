@@ -245,12 +245,37 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 
 	SyncObjectState(); //同步所有对象的状态
 
-	//如果playerNum 不等于0， 表示有人数要求, 0表示无人数要求
-	/*if(m_dwPlayerNum != 0)
+	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
 	{
-		if(m_dwPlayerNum == m_PlayerMap.size())
-	}*/
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjState != OS_DIE)
+		{
+			pSceneObject->m_dwObjState = OS_DIE;
+			m_pSceneLogic->OnObjectDie(pSceneObject);
+			BroadDieNotify(pSceneObject->GetObjectGUID());
+		}
+	}
 
+
+	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); )
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjState != OS_DIE)
+		{
+			pSceneObject->m_dwObjState = OS_DIE;
+			m_pMonsterCreator->OnObjectDie(pSceneObject);
+			m_pSceneLogic->OnObjectDie(pSceneObject);
+			BroadDieNotify(pSceneObject->GetObjectGUID());
+
+			itor = m_MonsterMap.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
+	}
 
 	if(IsAllDataReady())
 	{
@@ -260,6 +285,7 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 	m_pSceneLogic->Update(dwTick);
 
 	return TRUE;
+
 }
 
 BOOL CScene::CreateSceneLogic(UINT32 dwCopyType)
@@ -458,6 +484,24 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 	}
 
 	pSceneObject->SendMsgProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
+
+	return TRUE;
+}
+
+BOOL CScene::BroadDieNotify(UINT64 uObjectID)
+{
+	ObjectDieNotify Nty;
+	Nty.set_objectguid(uObjectID);
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_RETURN_FALSE(pSceneObject != NULL);
+
+		if(pSceneObject->IsConnected())
+		{
+			pSceneObject->SendMsgProtoBuf(MSG_OBJECT_DIE_NOTIFY, Nty);
+		}
+	}
 
 	return TRUE;
 }
@@ -819,7 +863,7 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		if(pObj != NULL)
+		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
 		{
 			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
 			{
@@ -831,7 +875,7 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		if(pObj != NULL)
+		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
 		{
 			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
 			{
@@ -848,7 +892,7 @@ BOOL CScene::IsMonsterAllDie()
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		if(pObj != NULL)
+		if((pObj != NULL) && (pObj->GetObjType() == OT_MONSTER))
 		{
 			if(!pObj->IsDie() && pObj->m_bIsMonsCheck)
 			{
@@ -988,8 +1032,6 @@ BOOL CScene::ProcessActionItem( const  ActionItem& Item )
 			}
 
 			SkillFight(pSceneObj, Item.actionid(), pDamager);
-
-			//damager.set_chghp(1000);
 		}
 	}
 

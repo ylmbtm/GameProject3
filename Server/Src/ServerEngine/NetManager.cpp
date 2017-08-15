@@ -61,13 +61,15 @@ BOOL CNetManager::WorkThread_Listen()
 			break;
 		}
 
-		//CLog::GetInstancePtr()->AddLog("收到连接:%s", inet_ntoa(Con_Addr.sin_addr));
+		CLog::GetInstancePtr()->AddLog("收到连接IP:%s", inet_ntoa(Con_Addr.sin_addr));
 
 		CommonSocket::SetSocketUnblock(hClientSocket);
 
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
+			CLog::GetInstancePtr()->AddLog("收到连接IP:%s---ConnID:%d", inet_ntoa(Con_Addr.sin_addr), pConnection->GetConnectionID());
+
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);

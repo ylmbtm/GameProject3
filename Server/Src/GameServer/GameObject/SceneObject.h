@@ -21,15 +21,18 @@ public:
 	//以下为对象的操作方法
 public:
 	UINT32          GetHp();
-	VOID            AddHp(UINT32 dwValue);
-	VOID            SubHp(UINT32 dwValue);
 	UINT32          GetMp();
-	VOID            AddMp(UINT32 dwValue);
-	VOID            SubMp(UINT32 dwValue);
-
 	UINT64          GetObjectGUID();
 	UINT32			GetActorID();
 	UINT32			GetObjType();
+	UINT32          GetCamp();
+
+	VOID            AddHp(UINT32 dwValue);
+	VOID            SubHp(UINT32 dwValue);
+	VOID            AddMp(UINT32 dwValue);
+	VOID            SubMp(UINT32 dwValue);
+
+
 
 	BOOL			IsConnected();
 
@@ -56,7 +59,7 @@ public:
 	FLOAT			m_x, m_y, m_z, m_ft;			//对象坐标, 朝向
 	UINT32          m_dwObjState;					//对象当前的状态
 	INT32			m_dwLevel;						//等级
-	INT32          m_Propertys[MAX_PROPERTY_NUM];	//15个属性的数值
+	INT32           m_Propertys[MAX_PROPERTY_NUM];	//15个属性的数值
 
 	UINT64          m_uHostGuid;					//主人的GUID
 	UINT64          m_uControlerID;					//AI控制人的GUID
