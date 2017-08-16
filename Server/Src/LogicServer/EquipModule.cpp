@@ -4,6 +4,8 @@
 #include "GlobalDataMgr.h"
 #include "..\ConfigData\ConfigData.h"
 #include "Utility\Log\Log.h"
+#include "PlayerObject.h"
+#include "..\Message\Msg_ID.pb.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -103,7 +105,44 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 
 	m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
 
+	m_setChange.insert(pObject->m_uGuid);
+
 	return pObject->m_uGuid;
+}
+
+BOOL CEquipModule::NotifyChange()
+{
+	EquipChangeNty Nty;
+	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
+	{
+		EquipDataObject* pObject = GetEquipByGuid(*itor);
+		ERROR_CONTINUE_EX(pObject != NULL);
+
+		EquipItem* pItem = Nty.add_changelist();
+	}
+
+	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
+	{
+		Nty.add_removelist(*itor);
+	}
+
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_EQUIP_CHANGE_NTY, Nty);
+
+	m_setChange.clear();
+	m_setRemove.clear();
+
+	return TRUE;
+}
+
+EquipDataObject* CEquipModule::GetEquipByGuid(UINT64 uGuid)
+{
+	auto itor = m_mapEquipData.find(uGuid);
+	if(itor != m_mapEquipData.end())
+	{
+		return itor->second;
+	}
+
+	return NULL;
 }
 
 BOOL CEquipModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)

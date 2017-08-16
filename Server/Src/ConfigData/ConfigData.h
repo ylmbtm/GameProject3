@@ -132,6 +132,10 @@ public:
 	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
 	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
 
+	//Buff
+	std::map<UINT32, StBuffInfo> m_mapBuffInfo;
+	BOOL ReadBuffInfo(CppSQLite3Query& QueryData);
+	StBuffInfo* GetBuffInfo(UINT32 dwBuffID);
 public:
 
 	CppSQLite3DB	m_DBConnection;

@@ -32,7 +32,9 @@ public:
 public:
 	UINT64 AddEquip(UINT32 dwEquipID);
 
+	BOOL NotifyChange();
 
+	EquipDataObject* GetEquipByGuid(UINT64 uGuid);
 
 public:
 	std::map<UINT64, EquipDataObject*>m_mapEquipData;

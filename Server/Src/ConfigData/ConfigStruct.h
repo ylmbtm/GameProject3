@@ -211,4 +211,11 @@ struct StSkillInfo
 	UINT32 Percent;		//! 增加百分比伤害
 };
 
+
+struct StBuffInfo
+{
+	UINT32 BuffID;		//! 任务ID
+	UINT32 BuffType;    //! Buff类型
+};
+
 #endif //__CONFIG_STRUCT_H__

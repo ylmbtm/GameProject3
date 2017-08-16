@@ -1,58 +1,58 @@
 ﻿#include "stdafx.h"
-#include "PetModule.h"
+#include "MountModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
 #include "Utility\Log\Log.h"
 #include "..\Message\Msg_ID.pb.h"
 
-CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)
+CMountModule::CMountModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
 }
 
-CPetModule::~CPetModule()
+CMountModule::~CMountModule()
 {
 
 }
 
-BOOL CPetModule::OnCreate(UINT64 u64RoleID)
+BOOL CMountModule::OnCreate(UINT64 u64RoleID)
 {
 
 	return TRUE;
 }
 
 
-BOOL CPetModule::OnDestroy()
+BOOL CMountModule::OnDestroy()
 {
-	for(auto itor = m_mapPetData.begin(); itor != m_mapPetData.end(); itor++)
+	for(auto itor = m_mapMountData.begin(); itor != m_mapMountData.end(); itor++)
 	{
 		itor->second->release();
 	}
 
-	m_mapPetData.clear();
+	m_mapMountData.clear();
 
 	return TRUE;
 }
 
-BOOL CPetModule::OnLogin()
+BOOL CMountModule::OnLogin()
 {
 	return TRUE;
 }
 
-BOOL CPetModule::OnLogout()
+BOOL CMountModule::OnLogout()
 {
 	return TRUE;
 }
 
-BOOL CPetModule::OnNewDay()
+BOOL CMountModule::OnNewDay()
 {
 	return TRUE;
 }
 
-BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
+BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBPetData& PetData = Ack.petdata();
+	const DBMountData& MountData = Ack.mountdata();
 	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
@@ -71,41 +71,41 @@ BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CPetModule::SaveToClientLoginData(RoleLoginAck& Ack)
+BOOL CMountModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
 	return TRUE;
 }
 
-BOOL CPetModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CMountModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }
 
-UINT64 CPetModule::AddPet(UINT32 dwPetID)
+UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
-	PetDataObject* pObject = g_pPetDataObjectPool->newOjbect(TRUE);
+	MountDataObject* pObject = g_pMountDataObjectPool->newOjbect(TRUE);
 	pObject->lock();
-	pObject->m_PetID = dwPetID;
+	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 0;
 	pObject->m_RefineExp = 0;
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
 	pObject->unlock();
-	m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
 }
 
 
-BOOL CPetModule::NotifyChange()
+BOOL CMountModule::NotifyChange()
 {
-	PetChangeNty Nty;
+	MountChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{
-		PetDataObject* pObject = GetPetByGuid(*itor);
+		MountDataObject* pObject = GetMountByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
 
-		PetItem* pItem = Nty.add_changelist();
+		MountItem* pItem = Nty.add_changelist();
 	}
 
 	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
@@ -121,10 +121,10 @@ BOOL CPetModule::NotifyChange()
 	return TRUE;
 }
 
-PetDataObject* CPetModule::GetPetByGuid(UINT64 uGuid)
+MountDataObject* CMountModule::GetMountByGuid(UINT64 uGuid)
 {
-	auto itor = m_mapPetData.find(uGuid);
-	if(itor != m_mapPetData.end())
+	auto itor = m_mapMountData.find(uGuid);
+	if(itor != m_mapMountData.end())
 	{
 		return itor->second;
 	}

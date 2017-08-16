@@ -55,8 +55,6 @@ BOOL CGameService::Init()
 
 	m_LoginMsgHandler.Init();
 
-	TimerManager::GetInstancePtr()->AddDiffTimer(1, 1, &CGameService::OnTimer, this);
-
 	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
 
 	return TRUE;
@@ -91,21 +89,6 @@ BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID
 	{
 		ASSERT_FAIELD;
 		return FALSE;
-	}
-
-	return TRUE;
-}
-
-BOOL CGameService::OnTimer(UINT32 dwUserData)
-{
-	if(m_dwAccountConnID == 0)
-	{
-		ConnectToAccountSvr();
-	}
-
-	if(m_dwLogSvrConnID == 0)
-	{
-		//ConnectToLogServer();
 	}
 
 	return TRUE;

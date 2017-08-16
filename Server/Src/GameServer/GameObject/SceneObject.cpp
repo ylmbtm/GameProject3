@@ -2,6 +2,8 @@
 #include "SceneObject.h"
 #include "..\GameService.h"
 #include "..\Message\Msg_Copy.pb.h"
+#include "BuffObject.h"
+#include "Utility\Log\Log.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
@@ -250,4 +252,14 @@ BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 	pResult->set_damage(m_dwDamage);
 
 	return TRUE;
+}
+
+BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
+{
+    CBuffObject *pBuffObject = new CBuffObject(this, dwBuffID);
+    ERROR_RETURN_FALSE(pBuffObject != NULL);
+
+    pBuffObject->OnAddBuff();
+
+    return TRUE;
 }

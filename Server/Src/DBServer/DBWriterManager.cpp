@@ -13,17 +13,17 @@ CDBWriterManager::~CDBWriterManager()
 
 BOOL CDBWriterManager::Init()
 {
-	m_pRoleDataWriter = new DataWriter<RoleDataObject>("Role");
-	m_pGlobalDataWriter = new DataWriter<GlobalDataObject>("Global");
-	m_pBagDataWriter = new DataWriter<BagDataObject>("Bag");
-	m_pCopyDataWriter = new DataWriter<CopyDataObject>("Copy");
-	m_pEquipDataWriter = new DataWriter<EquipDataObject>("Equip");
-	m_pPetDataWriter = new DataWriter<PetDataObject>("Pet");
-	m_pPartnerDataWriter = new DataWriter<PartnerDataObject>("Partner");
-	m_pGuildDataWriter = new DataWriter<GuildDataObject>("Guild");
-	m_pMemberDataWriter = new DataWriter<MemberDataObject>("GuildMember");
-	m_pTaskDataWriter = new DataWriter<TaskDataObject>("Task");
-
+	m_pRoleDataWriter		= new DataWriter<RoleDataObject>("Role");
+	m_pGlobalDataWriter		= new DataWriter<GlobalDataObject>("Global");
+	m_pBagDataWriter		= new DataWriter<BagDataObject>("Bag");
+	m_pCopyDataWriter		= new DataWriter<CopyDataObject>("Copy");
+	m_pEquipDataWriter		= new DataWriter<EquipDataObject>("Equip");
+	m_pPetDataWriter		= new DataWriter<PetDataObject>("Pet");
+	m_pPartnerDataWriter	= new DataWriter<PartnerDataObject>("Partner");
+	m_pGuildDataWriter		= new DataWriter<GuildDataObject>("Guild");
+	m_pMemberDataWriter		= new DataWriter<MemberDataObject>("GuildMember");
+	m_pTaskDataWriter		= new DataWriter<TaskDataObject>("Task");
+	m_pMountDataWriter		= new DataWriter<MountDataObject>("Mount");
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
 	return TRUE;
@@ -50,6 +50,7 @@ void CDBWriterManager::WriteWork()
 	m_pGuildDataWriter->saveModifyToDB(&m_DBManager);
 	m_pMemberDataWriter->saveModifyToDB(&m_DBManager);
 	m_pTaskDataWriter->saveModifyToDB(&m_DBManager);
+	m_pMountDataWriter->saveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

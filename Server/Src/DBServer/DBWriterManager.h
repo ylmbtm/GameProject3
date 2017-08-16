@@ -13,6 +13,7 @@
 #include "..\ServerData\PartnerData.h"
 #include "..\ServerData\GuildData.h"
 #include "..\ServerData\TaskData.h"
+#include "..\ServerData\MountData.h"
 
 Th_RetName _DBWriteThread( void* pParam );
 
@@ -40,6 +41,7 @@ public:
 	DataWriter<GuildDataObject>* m_pGuildDataWriter;
 	DataWriter<MemberDataObject>* m_pMemberDataWriter;
 	DataWriter<TaskDataObject>* m_pTaskDataWriter;
+	DataWriter<MountDataObject>* m_pMountDataWriter;
 	BOOL IsStop();
 public:
 

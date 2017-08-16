@@ -28,8 +28,6 @@ public:
 
 	BOOL        SendCmdToAccountConnection(UINT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
-	BOOL		OnTimer(UINT32 dwUserData);
-
 	BOOL	    ConnectToLogServer();
 
 	BOOL		ConnectToAccountSvr();

@@ -62,9 +62,9 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//创建角色相关对象
-	BOOL            CreatePlayer(const TransRoleData& roleData, UINT32 uHostID, UINT32 dwCamp );
-	BOOL            CreatePet(const TransPetData& petData, UINT32 uHostID, UINT32 dwCamp );
-	BOOL            CreatePartner(const TransPartnerData& partnerData, UINT32 uHostID, UINT32 dwCamp );
+	BOOL            CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp );
+	BOOL            CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp );
+	BOOL            CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp );
 
 	//创建怪物对象
 	BOOL            CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);

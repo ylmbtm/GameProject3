@@ -83,9 +83,10 @@ protected:
 }
 
 
-#define FALSE_CONTINUE(P) \
+#define ERROR_CONTINUE_EX(P) \
     if(P == FALSE)\
 {\
+	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
     continue; \
 }
 

@@ -87,6 +87,9 @@
     <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\BuffObject.cpp">
+      <Filter>SceneObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BuffObject.h">
+      <Filter>SceneObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

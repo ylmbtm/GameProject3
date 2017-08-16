@@ -792,6 +792,32 @@ StSkillInfo* CConfigData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
 	return NULL;
 }
 
+BOOL CConfigData::ReadBuffInfo(CppSQLite3Query& QueryData)
+{
+	while(QueryData.eof())
+	{
+		StBuffInfo stValue;
+		stValue.BuffID = QueryData.getIntField("id");
+
+		m_mapBuffInfo.insert(std::make_pair(stValue.BuffID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StBuffInfo* CConfigData::GetBuffInfo(UINT32 dwBuffID)
+{
+	ERROR_RETURN_NULL(dwBuffID != 0);
+	auto itor = m_mapBuffInfo.find(dwBuffID);
+	if(itor != m_mapBuffInfo.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
+}
+
 StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
 {
 	ERROR_RETURN_NULL(dwItemID != 0);

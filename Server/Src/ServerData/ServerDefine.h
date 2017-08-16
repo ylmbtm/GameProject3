@@ -19,6 +19,7 @@ enum MouduleType
 	MT_PET,
 	MT_PARTNER,
 	MT_TASK,
+	MT_MOUNT,
 	MT_ACTIVITY,
 	MT_END
 };

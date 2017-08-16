@@ -19,6 +19,7 @@
 #include "PartnerModule.h"
 #include "TaskModule.h"
 #include "ActivityModule.h"
+#include "MountModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -162,6 +163,7 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_PET] = new CPetModule(this);
 	m_MoudleList[MT_PARTNER] = new CPartnerModule(this);
 	m_MoudleList[MT_TASK] = new CTaskModule(this);
+	m_MoudleList[MT_MOUNT] = new CMountModule(this);
 	m_MoudleList[MT_ACTIVITY] = new CActivityModule(this);
 
 	return TRUE;
@@ -191,8 +193,6 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 {
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
-
-
 
 BOOL CPlayerObject::OnAllModuleOK()
 {

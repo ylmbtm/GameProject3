@@ -11,6 +11,7 @@
 #include "..\ServerData\PartnerData.h"
 #include "..\ServerData\GuildData.h"
 #include "..\ServerData\TaskData.h"
+#include "..\ServerData\MountData.h"
 
 extern	SharedMemory<RoleDataObject>*	g_pRoleDataObjectPool;
 extern	SharedMemory<GlobalDataObject>*	g_pGlobalDataObjectPool;
@@ -22,7 +23,7 @@ extern	SharedMemory<PartnerDataObject>*	g_pPartnerDataObjectPool;
 extern	SharedMemory<GuildDataObject>*	g_pGuildDataObjectPool;
 extern	SharedMemory<MemberDataObject>*	g_pMemberDataObjectPool;
 extern	SharedMemory<TaskDataObject>*	g_pTaskDataObjectPool;
-
+extern	SharedMemory<MountDataObject>*	g_pMountDataObjectPool;
 BOOL CreateDataPool();
 
 #endif //__DATA_MODULE_POOL_H__

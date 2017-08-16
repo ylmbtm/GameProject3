@@ -179,6 +179,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
     <ClCompile Include="..\ConfigData\ConfigData.cpp" />
+    <ClCompile Include="..\Message\Game_Define.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -223,6 +229,7 @@
     <ClCompile Include="GuildManager.cpp" />
     <ClCompile Include="MailModule.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
+    <ClCompile Include="MountModule.cpp" />
     <ClCompile Include="PartnerModule.cpp" />
     <ClCompile Include="PetModule.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -244,6 +251,7 @@
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
+    <ClInclude Include="..\Message\Game_Define.pb.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_Login.pb.h" />
@@ -256,6 +264,7 @@
     <ClInclude Include="..\ServerData\GlobalData.h" />
     <ClInclude Include="..\ServerData\GuildData.h" />
     <ClInclude Include="..\ServerData\MailData.h" />
+    <ClInclude Include="..\ServerData\MountData.h" />
     <ClInclude Include="..\ServerData\PartnerData.h" />
     <ClInclude Include="..\ServerData\PetData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
@@ -276,6 +285,7 @@
     <ClInclude Include="GuildManager.h" />
     <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />
+    <ClInclude Include="MountModule.h" />
     <ClInclude Include="PartnerModule.h" />
     <ClInclude Include="PetModule.h" />
     <ClInclude Include="PlayerManager.h" />

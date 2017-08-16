@@ -5,6 +5,7 @@
 #include "../ServerData/ServerDefine.h"
 class CScene;
 class ResultPlayer;
+class CBuffObject;
 class CSceneObject
 {
 public:
@@ -40,14 +41,22 @@ public:
 	VOID			SetEnterCopy();
 	BOOL            IsDie();
 
-
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z);
-
 
 	UINT32			GetLastSkillTime(UINT32 dwSkillID);
 	BOOL			SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime);
 
 	BOOL			SaveBattleResult(ResultPlayer* pResult);
+
+public:
+	//////////////////////////////////////////////////////////////////////////
+	//buff的处理
+	BOOL			AddBuff(UINT32 dwBuffID);
+	BOOL			RemoveBuff(UINT32 dwBuffID);
+	std::map<UINT32, CBuffObject*> m_mapBuff;
+	//////////////////////////////////////////////////////////////////////////
+
+
 public:
 	//对象的基本信息
 	//////////////////////////////////////////////////////////
@@ -70,6 +79,8 @@ public:
 
 
 	std::map<UINT32, UINT32> m_mapSkillTime;
+
+
 
 
 	//对象的一些标记

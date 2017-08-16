@@ -15,6 +15,8 @@
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
+#include "Utility/CommonConvert.h"
+#include "BagModule.h"
 
 CWorldMsgHandler::CWorldMsgHandler()
 {
@@ -54,10 +56,8 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_COPY_ABORT_REQ,		OnMsgAbortCopyReq);
 			PROCESS_MESSAGE_ITEM(MSG_MAIN_COPY_REQ,			OnMsgMainCopyReq);
 			PROCESS_MESSAGE_ITEM(MSG_BACK_TO_CITY_REQ,		OnMsgBackToCityReq);
-
-
-		case MSG_LOGIC_REGTO_LOGIN_ACK:
-			break;
+			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
+			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
 		default:
 		{
 			PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
@@ -126,10 +126,8 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	ERROR_RETURN_TRUE(pPlayer->Init(u64RoleID));
 	CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
-	pRoleModule->InitBaseData(u64RoleID, Req.name(), Req.carrer(), Req.accountid(), 1);
+	pRoleModule->InitBaseData(u64RoleID, Req.name(), Req.carrer(), Req.accountid(), Req.channel());
 	pPlayer->OnCreate(u64RoleID);
-	//pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
-	//pPlayer->OnAllModuleOK();
 
 	RoleCreateAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
@@ -340,5 +338,51 @@ BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pHeader->u64TargetID, pPlayer->GetCityCopyID());
 	pPlayer->m_dwCopyID = 0;
 	pPlayer->m_dwCopyGuid = 0;
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgRegToLoginAck(NetPacket* pNetPacket)
+{
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
+{
+	ChatMessageReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
+	if((Req.content().size() > 2) && (Req.content().at(0) == '@') && (Req.content().at(1) == '@'))
+	{
+		std::vector<std::string> vtParam;
+		CommonConvert::SpliteString(Req.content(), " ", vtParam);
+		ProcessGameCommand(pHeader->u64TargetID, vtParam);
+	}
+	else
+	{
+
+	}
+
+
+	return TRUE;
+}
+
+BOOL CWorldMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
+{
+	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	if(vtParam[0].compare("@@additem") == 0)
+	{
+		CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
+		ERROR_RETURN_TRUE(pBag != NULL);
+		pBag->AddItem(CommonConvert::StringToInt(vtParam[1].c_str()), CommonConvert::StringToInt(vtParam[2].c_str()));
+	}
+	else if(vtParam[0].compare("xxxx") == 0)
+	{
+
+	}
+
 	return TRUE;
 }

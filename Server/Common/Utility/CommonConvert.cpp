@@ -2,7 +2,7 @@
 #include "CommonConvert.h"
 
 
-INT32 CommonConvert::StringToInt(char *pStr)
+INT32 CommonConvert::StringToInt(char* pStr)
 {
 	if(pStr == NULL)
 	{
@@ -12,7 +12,7 @@ INT32 CommonConvert::StringToInt(char *pStr)
 	return atoi(pStr);
 }
 
-INT32 CommonConvert::StringToInt(const char *pStr)
+INT32 CommonConvert::StringToInt(const char* pStr)
 {
 	if(pStr == NULL)
 	{
@@ -22,7 +22,7 @@ INT32 CommonConvert::StringToInt(const char *pStr)
 	return atoi(pStr);
 }
 
-FLOAT  CommonConvert::StringToFloat(char *pStr)
+FLOAT  CommonConvert::StringToFloat(char* pStr)
 {
 	if(pStr == NULL)
 	{
@@ -32,7 +32,7 @@ FLOAT  CommonConvert::StringToFloat(char *pStr)
 	return (FLOAT)atof(pStr);
 }
 
-FLOAT  CommonConvert::StringToFloat(const char *pStr)
+FLOAT  CommonConvert::StringToFloat(const char* pStr)
 {
 	if(pStr == NULL)
 	{
@@ -44,7 +44,7 @@ FLOAT  CommonConvert::StringToFloat(const char *pStr)
 
 std::string CommonConvert::IntToString(INT32 nValue)
 {
-	CHAR szValue[64]={0};
+	CHAR szValue[64] = {0};
 
 	sprintf(szValue, "%d", nValue);
 
@@ -53,29 +53,29 @@ std::string CommonConvert::IntToString(INT32 nValue)
 
 std::string CommonConvert::FloatToString(FLOAT fValue, INT32 nPrecision, BOOL bRound)
 {
-	CHAR szValue[64]={0};
+	CHAR szValue[64] = {0};
 
-	if((bRound)&&(nPrecision>0)&&(nPrecision<6))
+	if((bRound) && (nPrecision > 0) && (nPrecision < 6))
 	{
 		FLOAT fRoundValue = 5;
 
-		for(int i = 0; i < nPrecision+1; i++)
+		for(int i = 0; i < nPrecision + 1; i++)
 		{
 			fRoundValue *= 0.1f;
 		}
 
 		fValue += fRoundValue;
 	}
-	
+
 	sprintf(szValue, "%f", fValue);
 
-	CHAR *pChar = strchr(szValue,'.');
+	CHAR* pChar = strchr(szValue, '.');
 	if(pChar == NULL)
 	{
 		return std::string(szValue);
 	}
 
-	*(pChar+nPrecision+1) = '\0';
+	*(pChar + nPrecision + 1) = '\0';
 
 	return std::string(szValue);
 }
@@ -96,15 +96,16 @@ std::string CommonConvert::UnicodeToUft8( std::wstring wstrValue )
 	return strResult;
 }
 
-BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::vector<std::string> &vtStr)
+BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::vector<std::string>& vtStr)
 {
 	vtStr.clear();
 	if (strDelim.empty())
 	{
 		vtStr.push_back(strSrc);
+		return TRUE;
 	}
 
-	std::string::iterator subStart , subEnd;
+	std::string::iterator subStart, subEnd;
 	subStart = strSrc.begin();
 	while (true)
 	{
@@ -120,6 +121,6 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
 		}
 		subStart = subEnd + strDelim.size();
 	}
-	
+
 	return TRUE;
 }

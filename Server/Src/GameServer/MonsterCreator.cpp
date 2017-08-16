@@ -9,7 +9,7 @@ MonsterCreator::MonsterCreator(CScene* pScene)
 
 	m_bAllFinished = FALSE;
 
-	m_dwFinishedWave = 0;
+	m_dwCurWave = 0;
 }
 
 MonsterCreator::~MonsterCreator()
@@ -27,11 +27,9 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 		for(auto pObjectNode = pWaveNode->first_node("Object"); pObjectNode != NULL; pObjectNode->next_sibling("Object"))
 		{
 			MonsterData Monster;
-
-			Monster.m_dwTypeID = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
+			Monster.m_dwActorID = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
 			Monster.m_dwCamp = CommonConvert::StringToInt(pWaveNode->first_attribute("camp")->value());
 			Monster.m_dwCount = CommonConvert::StringToInt(pWaveNode->first_attribute("num")->value());
-			//Monster.m = CommonConvert::StringToInt(pWaveNode->first_attribute("strength")->value());
 			Monster.m_dwDropID = CommonConvert::StringToInt(pWaveNode->first_attribute("dropid")->value());
 			Wave.m_vtMonsterList.push_back(Monster);
 		}
@@ -52,18 +50,18 @@ BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
 		return TRUE;
 	}
 
-	if(m_dwFinishedWave + 1 >= m_MonsterVaveList.size())
+	if(m_dwCurWave + 1 >= m_MonsterVaveList.size())
 	{
 		m_bAllFinished = TRUE;
 	}
 
-	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwFinishedWave + 1);
+	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwCurWave + 1);
 	ERROR_RETURN_FALSE(pWave != NULL);
 
 	if(pWave)
 	{
 		GenMonsterWave(pWave);
-		m_dwFinishedWave = m_dwFinishedWave + 1;
+		m_dwCurWave = m_dwCurWave + 1;
 	}
 
 	return TRUE;
@@ -76,7 +74,7 @@ BOOL MonsterCreator::GenMonsterWave( MonsterWave* pWave )
 	for( std::vector<MonsterData>::iterator itor = pWave->m_vtMonsterList.begin(); itor != pWave->m_vtMonsterList.end(); itor++)
 	{
 		MonsterData* pData = &(*itor);
-		m_pScene->CreateMonster(pData->m_dwTypeID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
+		m_pScene->CreateMonster(pData->m_dwActorID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
 	}
 
 	return TRUE;
@@ -104,17 +102,17 @@ BOOL MonsterCreator::GenCurrentWave()
 		return TRUE;
 	}
 
-	if(m_dwFinishedWave + 1 >= m_MonsterVaveList.size())
+	if(m_dwCurWave + 1 >= m_MonsterVaveList.size())
 	{
 		m_bAllFinished = TRUE;
 	}
 
-	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwFinishedWave + 1);
+	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwCurWave + 1);
 	ERROR_RETURN_FALSE(pWave != NULL);
 
 	GenMonsterWave(pWave);
 
-	m_dwFinishedWave = m_dwFinishedWave + 1;
+	m_dwCurWave = m_dwCurWave + 1;
 
 	return TRUE;
 }

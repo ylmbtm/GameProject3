@@ -795,7 +795,7 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 	return TRUE;
 }
 
-BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT32 uHostID, UINT32 dwCamp )
+BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp )
 {
 	CSceneObject* pObject = GetPlayer(roleData.roleid());
 	if(pObject == NULL)
@@ -822,7 +822,7 @@ BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT32 uHostID, UINT32 
 	return TRUE;
 }
 
-BOOL CScene::CreatePet(const TransPetData& petData, UINT32 uHostID, UINT32 dwCamp )
+BOOL CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp )
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
@@ -834,7 +834,7 @@ BOOL CScene::CreatePet(const TransPetData& petData, UINT32 uHostID, UINT32 dwCam
 	return TRUE;
 }
 
-BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT32 uHostID, UINT32 dwCamp  )
+BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp  )
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
@@ -963,7 +963,6 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 		return FALSE;
 	}
 
-
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
 	if (dwRandValue > (800 + pAttacker->m_Propertys[8] - pDefender->m_Propertys[7]) && dwRandValue > 500)
@@ -1019,7 +1018,7 @@ BOOL CScene::ProcessActionItem( const  ActionItem& Item )
 	pSceneObj->m_z = Item.z();
 	pSceneObj->m_ft = Item.ft();
 
-	if(Item.ishurt())
+	if(Item.actionstate()&AS_HURT)
 	{
 		for(int i = 0; i < Item.damagerlist_size(); i++)
 		{
