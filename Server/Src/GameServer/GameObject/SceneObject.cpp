@@ -256,10 +256,12 @@ BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 
 BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 {
-    CBuffObject *pBuffObject = new CBuffObject(this, dwBuffID);
-    ERROR_RETURN_FALSE(pBuffObject != NULL);
+	CBuffObject* pBuffObject = new CBuffObject(this, dwBuffID);
+	ERROR_RETURN_FALSE(pBuffObject != NULL);
 
-    pBuffObject->OnAddBuff();
+	pBuffObject->OnAddBuff();
 
-    return TRUE;
+	m_mapBuff.insert(std::make_pair(dwBuffID, pBuffObject));
+
+	return TRUE;
 }

@@ -120,6 +120,12 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 		}
 	}
 
+	for(int i = 0; i < Ack.roledata().action_size(); i++)
+	{
+		m_pRoleDataObject->m_Action[i] = Ack.roledata().action(i);
+		m_pRoleDataObject->m_Actime[i] = Ack.roledata().actime(i);
+	}
+
 	m_pRoleDataObject->unlock();
 
 
@@ -354,7 +360,7 @@ BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 
 	if (m_pRoleDataObject->m_Actime[dwActionID - 1] <= 0)
 	{
-		CLog::GetInstancePtr()->LogError("UpdateAction error  action not max, but starttime is 0");
+		//CLog::GetInstancePtr()->LogError("UpdateAction error  action not max, but starttime is 0");
 	}
 
 	UINT32 dwTimeElapse = CommonFunc::GetCurrTime() - m_pRoleDataObject->m_Actime[dwActionID - 1];

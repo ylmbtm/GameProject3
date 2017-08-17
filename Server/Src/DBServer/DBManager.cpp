@@ -83,6 +83,22 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->set_exp(QueryRes.getInt64Field("exp", 0));
 		pData->set_accountid(QueryRes.getInt64Field("account_id", 0));
 		pData->set_citycopyid(QueryRes.getIntField("citycopyid", 0));
+		pData->add_action(QueryRes.getInt64Field("action1", 0));
+		pData->add_action(QueryRes.getInt64Field("action2", 0));
+		pData->add_action(QueryRes.getInt64Field("action3", 0));
+		pData->add_action(QueryRes.getInt64Field("action4", 0));
+		pData->add_actime(QueryRes.getInt64Field("actime1", 0));
+		pData->add_actime(QueryRes.getInt64Field("actime2", 0));
+		pData->add_actime(QueryRes.getInt64Field("actime3", 0));
+		pData->add_actime(QueryRes.getInt64Field("actime4", 0));
+		pData->add_money(QueryRes.getInt64Field("money1", 0));
+		pData->add_money(QueryRes.getInt64Field("money2", 0));
+		pData->add_money(QueryRes.getInt64Field("money3", 0));
+		pData->add_money(QueryRes.getInt64Field("money4", 0));
+		pData->add_money(QueryRes.getInt64Field("money5", 0));
+		pData->add_money(QueryRes.getInt64Field("money6", 0));
+		pData->add_money(QueryRes.getInt64Field("money7", 0));
+		pData->add_money(QueryRes.getInt64Field("money8", 0));
 	}
 
 	return TRUE;

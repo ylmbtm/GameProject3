@@ -181,7 +181,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 						//CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接ID:%d!", pConnection->GetConnectionID());
 						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 						{
-							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV1, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 							break;
 						}
 						pConnection->Close();
@@ -190,7 +190,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					{
 						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 						{
-							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV2, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 							break;
 						}
 
@@ -201,7 +201,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 								//收数据失败，基本就是连接己断开
 								if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 								{
-									CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 但连接己经被关闭重用了。");
+									CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 									break;
 								}
 								pConnection->Close();

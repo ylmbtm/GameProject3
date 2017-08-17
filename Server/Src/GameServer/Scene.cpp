@@ -963,6 +963,13 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 		return FALSE;
 	}
 
+	StBuffInfo* pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(pSkillInfo->SelfBuffID);
+	ERROR_RETURN_FALSE(pBuffInfo != NULL);
+
+	pAttacker->AddBuff(pSkillInfo->SelfBuffID);
+
+	pDefender->AddBuff(pSkillInfo->TargetBuffID);
+
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
 	if (dwRandValue > (800 + pAttacker->m_Propertys[8] - pDefender->m_Propertys[7]) && dwRandValue > 500)

@@ -121,6 +121,20 @@ BOOL CClientCmdHandler::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32
 
 BOOL CClientCmdHandler::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
 {
+	ObjectActionNty Nty;
+	Nty.ParsePartialFromArray(PacketBuf, BufLen);
+	for(int i = 0; i < Nty.actionlist_size(); i++)
+	{
+		const ActionItem& Item = Nty.actionlist(i);
+		float y = Item.ft();
+		if(y != 0)
+		{
+			printf("--%f--\n", y);
+		}
+	}
+
+
+
 	return TRUE;
 }
 
@@ -154,10 +168,10 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 	{
 		SendAccountLoginReq(m_strAccountName, m_strPassword);
 
-		m_dwHostState = ST_Login;
+		m_dwHostState = ST_AccountLogin;
 	}
 
-	if(m_dwHostState == ST_LoginOK)
+	if(m_dwHostState == ST_AccountLoginOK)
 	{
 		SendSelectSvrReq(201);
 
@@ -171,7 +185,7 @@ BOOL CClientCmdHandler::OnUpdate( UINT32 dwTick )
 		m_dwHostState = ST_RoleList;
 	}
 
-	if(m_dwHostState == ST_RoleListOk)
+	if(m_dwHostState == ST_RoleListOK)
 	{
 		SendRoleLoginReq(m_RoleIDList[0]);
 		m_dwHostState = ST_EnterScene;
@@ -253,7 +267,7 @@ BOOL CClientCmdHandler::OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, IN
 		m_dwAccountID = Ack.accountid();
 	}
 
-	m_dwHostState = ST_LoginOK;
+	m_dwHostState = ST_AccountLoginOK;
 	return TRUE;
 }
 
@@ -278,11 +292,13 @@ BOOL CClientCmdHandler::OnMsgRoleListAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	for( int i = 0 ; i < Ack.rolelist_size(); i++)
 	{
 		m_RoleIDList.push_back(Ack.rolelist(i).roleid());
-		m_dwHostState = ST_RoleListOk;
+		m_dwHostState = ST_RoleListOK;
 	}
 
 	if(Ack.rolelist_size() <= 0)
 	{
+		m_dwHostState = ST_RoleCreate;
+
 		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), rand() % 4 + 1);
 	}
 
@@ -295,7 +311,7 @@ BOOL CClientCmdHandler::OnMsgCreateRoleAck(UINT32 dwMsgID, CHAR* PacketBuf, INT3
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_RoleIDList.push_back(Ack.roleid());
-	m_dwHostState = ST_RoleListOk;
+	m_dwHostState = ST_RoleListOK;
 	return TRUE;
 }
 
@@ -349,6 +365,32 @@ VOID CClientCmdHandler::TestExitCopy()
 	m_dwHostState = ST_EnterCopy;
 }
 
+BOOL CClientCmdHandler::MoveForward(FLOAT fDistance)
+{
+	if(m_ft <= 90.0f)
+	{
+		m_x += fDistance * sin(m_ft * PI / 180);
+		m_z -= fDistance * cos(m_ft * PI / 180);
+	}
+	else if(m_ft <= 180.0f)
+	{
+		m_x += fDistance * sin(m_ft * PI / 180);
+		m_z += fDistance * cos(m_ft * PI / 180);
+	}
+	else if(m_ft <= 270.0f)
+	{
+		m_x += fDistance * sin(m_ft * PI / 180);
+		m_z += fDistance * cos(m_ft * PI / 180);
+	}
+	else if(m_ft <= 360.0f)
+	{
+		m_x += fDistance * sin(m_ft * PI / 180);
+		m_z += fDistance * cos(m_ft * PI / 180);
+	}
+
+	return TRUE;
+}
+
 VOID CClientCmdHandler::TestMove()
 {
 	ObjectActionReq Req;
@@ -357,35 +399,36 @@ VOID CClientCmdHandler::TestMove()
 	pItem->set_objectguid(m_RoleIDList[0]);
 
 	UINT32 dwTimeDiff = CommonFunc::GetTickCount() - m_dwMoveTime;
-	if(dwTimeDiff < 300)
+	if(dwTimeDiff < 160)
 	{
 		return ;
 	}
 
 	m_dwMoveTime = CommonFunc::GetTickCount();
 
-	UINT32 dwRand = m_RoleIDList[0] % 4;
+	MoveForward(1.0f);
 
-	if(m_x > 15)
+	if(m_x > 10)
 	{
-		m_x = 15;
+		m_x = 10;
+		m_ft = abs(m_ft - 90);
 	}
-	if(m_z > 25)
+	if(m_z > 20)
 	{
-		m_z = 25;
+		m_z = 20;
+		m_ft = abs(m_ft - 90);
 	}
-	if(m_x < -15)
+	if(m_x < -10)
 	{
-		m_x = -15;
+		m_x = -10;
+		m_ft = abs(m_ft - 90);
 	}
-	if(m_z < -5)
+	if(m_z < 0)
 	{
-		m_z = -5;
+		0;
+		m_z = 0;
+		m_ft = abs(m_ft - 90);
 	}
-
-	m_x += atan(m_ft);
-	m_z += tan(m_ft);
-	m_y = m_y;
 
 	pItem->set_x(m_x);
 	pItem->set_y(0);
@@ -407,8 +450,6 @@ BOOL CClientCmdHandler::SendRoleLoginReq(UINT64 u64CharID)
 	m_ClientConnector.SendData(MSG_ROLE_LOGIN_REQ, Req, 0, 0);
 	return TRUE;
 }
-
-
 
 BOOL CClientCmdHandler::SendRoleListReq()
 {
@@ -456,8 +497,5 @@ BOOL CClientCmdHandler::OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_RoleIDList.push_back(Ack.roleid());
-
-	m_dwHostState = ST_RoleListOk;
-
 	return TRUE;
 }

@@ -8,7 +8,7 @@ UINT32 CommonFunc::GetProcessorNum()
 #ifdef WIN32
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);
-	dwNum = sysInfo.dwNumberOfProcessors*2;
+	dwNum = sysInfo.dwNumberOfProcessors * 2;
 #else
 	dwNum = sysconf(_SC_NPROCESSORS_CONF);
 #endif
@@ -35,10 +35,10 @@ std::string CommonFunc::GetCurrentExeDir()
 #ifdef WIN32
 	ZeroMemory(szPath, 1024);
 	GetModuleFileName(NULL, szPath, 1024);
-	char *p = strrchr(szPath, '\\');
+	char* p = strrchr(szPath, '\\');
 	*p = 0;
 #else
-	
+
 #endif
 	return std::string(szPath);
 }
@@ -62,17 +62,17 @@ BOOL CommonFunc::SetCurrentWorkPath(std::string strPath)
 
 UINT32 CommonFunc::GetCurrTime()
 {
-	time_t t;    
+	time_t t;
 
-	t=time(0);
+	t = time(0);
 
 	return (UINT32)t;
 }
 
 UINT32 CommonFunc::GetDayStartTime()
 {
-	time_t t;    
-	t=time(0);
+	time_t t;
+	t = time(0);
 	tm* t_tm = localtime(&t);
 	t_tm->tm_hour = 0;
 	t_tm->tm_min = 0;
@@ -83,8 +83,8 @@ UINT32 CommonFunc::GetDayStartTime()
 
 UINT32 CommonFunc::GetWeekStartTime()
 {
-	time_t t;    
-	t=time(0);
+	time_t t;
+	t = time(0);
 	tm* t_tm = localtime(&t);
 	t_tm->tm_hour = 0;
 	t_tm->tm_min = 0;
@@ -98,11 +98,11 @@ UINT32 CommonFunc::GetCurrDate()
 {
 	time_t t = time(0);
 
-	struct tm *pTm = localtime(&t);
+	struct tm* pTm = localtime(&t);
 
 	pTm->tm_year += 1900;
 
-	UINT32 dwCurDate = (pTm->tm_year<<16)|(pTm->tm_mon<<8)|(pTm->tm_mday);
+	UINT32 dwCurDate = (pTm->tm_year << 16) | (pTm->tm_mon << 8) | (pTm->tm_mday);
 
 	return dwCurDate;
 }
@@ -117,9 +117,9 @@ UINT32 CommonFunc::GetTickCount()
 
 	UINT32 dwTickCount = 0;;
 	struct timespec on;
-	if(0 == clock_gettime(CLOCK_MONOTONIC,&on) )
+	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
-		dwTickCount = on.tv_sec*1000+ on.tv_nsec/1000000;
+		dwTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
 	}
 
 	return dwTickCount;
@@ -133,13 +133,13 @@ UINT64 CommonFunc::GetTickCount64()
 	return GetTickCount();
 #else
 #ifdef WIN32
-		return ::GetTickCount64();
+	return ::GetTickCount64();
 #else
 	UINT64 dwTickCount = 0;;
 	struct timespec on;
-	if(0 == clock_gettime(CLOCK_MONOTONIC,&on) )
+	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
-		dwTickCount = on.tv_sec*1000+ on.tv_nsec/1000000;
+		dwTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
 	}
 
 	return dwTickCount;
@@ -147,7 +147,7 @@ UINT64 CommonFunc::GetTickCount64()
 #endif
 }
 
-BOOL CommonFunc::CreateDir( std::string &strDir )
+BOOL CommonFunc::CreateDir( std::string& strDir )
 {
 	int nRet = 0;
 #ifdef WIN32
@@ -190,12 +190,12 @@ UINT32 CommonFunc::GetFreePhysMemory()
 
 	GlobalMemoryStatusEx (&statex);
 
-	dwFreeSize = (UINT32)(statex.ullAvailPhys/1024/1024);
+	dwFreeSize = (UINT32)(statex.ullAvailPhys / 1024 / 1024);
 #else
 	UINT32 dwPageSize;
 	UINT32 dwFreePages;
-	dwPageSize = sysconf (_SC_PAGESIZE)/1024;
-	dwFreePages = sysconf (_SC_AVPHYS_PAGES)/1024;
+	dwPageSize = sysconf (_SC_PAGESIZE) / 1024;
+	dwFreePages = sysconf (_SC_AVPHYS_PAGES) / 1024;
 	dwFreeSize = dwFreePages * dwPageSize;
 #endif
 
@@ -208,15 +208,15 @@ INT32 CommonFunc::FloatToInt(FLOAT value)
 	return 0;
 }
 
-UINT32 CommonFunc::GetRandNum(INT32 nType)
+INT32 CommonFunc::GetRandNum(INT32 nType)
 {
-	if(nType >= 100||nType <0)
+	if(nType >= 100 || nType < 0)
 	{
 		return 0;
 	}
 
 	static int nRandIndex[100] = {0};
-	static UINT32 vtGlobalRankValue[10000];
+	static INT32 vtGlobalRankValue[10000];
 	static bool bInit = false;
 
 	if(bInit == false)

@@ -6,27 +6,29 @@
 #include "PlayerObject.h"
 #include "ClientConnector\ClientConnector.h"
 
-#define ST_NONE			0
-#define ST_Register		1
-#define ST_RegisterOK   2
-#define ST_Login		3
-#define ST_LoginOK		4
-#define ST_Entering		5
-#define ST_EnterOK		6
-#define ST_SelectSvr	5
-#define ST_SelectSvrOK	6
-#define ST_RoleList		7
-#define ST_RoleListOk	8
-#define ST_EnterScene	9
-#define ST_EnterSceneOK	10
-#define ST_EnterCopy	11
-#define ST_EnterCopyOK	12
-#define ST_AbortCopy	13
-#define ST_AbortCopyOK	14
+#define ST_NONE				0
+#define ST_Register			1
+#define ST_RegisterOK		2
+#define ST_AccountLogin		3
+#define ST_AccountLoginOK	4
+#define ST_SelectSvr		5
+#define ST_SelectSvrOK		6
+#define ST_RoleList			7
+#define ST_RoleListOK		8
+#define ST_RoleCreate		9
+#define ST_RoleCreateOK		10
+#define ST_RoleLogin		11
+#define ST_RoleLoginOK		12
+#define ST_EnterScene		13
+#define ST_EnterSceneOK		14
+#define ST_EnterCopy		15
+#define ST_EnterCopyOK		16
+#define ST_AbortCopy		17
+#define ST_AbortCopyOK		18
 
-#define ST_Disconnected 15
+#define ST_Disconnected		19
 
-#define ST_Overed        16
+#define ST_Overed			20
 
 class CClientCmdHandler : public IMessageHandler
 {
@@ -106,6 +108,8 @@ public:
 	VOID  TestMove();
 	VOID  TestCopy();
 	VOID  TestExitCopy();
+
+	BOOL MoveForward(FLOAT fDistance);
 };
 
 

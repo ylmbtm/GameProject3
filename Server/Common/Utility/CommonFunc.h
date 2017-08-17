@@ -7,39 +7,39 @@
 
 namespace CommonFunc
 {
-	UINT32			GetProcessorNum();
+UINT32			GetProcessorNum();
 
-	std::string		GetCurrentDir();
+std::string		GetCurrentDir();
 
-	std::string		GetCurrentExeDir();
+std::string		GetCurrentExeDir();
 
-	BOOL			SetCurrentWorkPath(std::string strPath);
+BOOL			SetCurrentWorkPath(std::string strPath);
 
-	BOOL			CreateDir(std::string &strDir);
+BOOL			CreateDir(std::string& strDir);
 
-	//获取当前的秒数
-	UINT32			GetCurrTime();
+//获取当前的秒数
+UINT32			GetCurrTime();
 
-	//获取当前0点的秒数
-	UINT32			GetDayStartTime();
+//获取当前0点的秒数
+UINT32			GetDayStartTime();
 
-	//获取当前0点的秒数
-	UINT32			GetWeekStartTime();
+//获取当前0点的秒数
+UINT32			GetWeekStartTime();
 
-	//获取一个由年月日组合的一个唯一值
-	UINT32			GetCurrDate();
+//获取一个由年月日组合的一个唯一值
+UINT32			GetCurrDate();
 
-	UINT32			GetTickCount();
+UINT32			GetTickCount();
 
-	UINT64			GetTickCount64();
+UINT64			GetTickCount64();
 
-	UINT32			GetCurThreadID();
+UINT32			GetCurThreadID();
 
-	UINT32			GetFreePhysMemory();  
+UINT32			GetFreePhysMemory();
 
-	INT32           FloatToInt(FLOAT value);
+INT32           FloatToInt(FLOAT value);
 
-	UINT32          GetRandNum(INT32 nType);
+INT32          GetRandNum(INT32 nType);
 }
 
 

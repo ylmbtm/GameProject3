@@ -209,6 +209,8 @@ struct StSkillInfo
 	UINT32 CostMp;		//! 消耗魔法值
 	UINT32 Fix;			//! 增加固定攻击
 	UINT32 Percent;		//! 增加百分比伤害
+	UINT32 SelfBuffID;  //! 给自己加的BuffID;
+	UINT32 TargetBuffID;//! 给目标上的BuffID;
 };
 
 
@@ -216,6 +218,7 @@ struct StBuffInfo
 {
 	UINT32 BuffID;		//! 任务ID
 	UINT32 BuffType;    //! Buff类型
+	UINT32 BuffEffect;  //! Buff目标需要加的特效
 };
 
 #endif //__CONFIG_STRUCT_H__

@@ -745,6 +745,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
+	return TRUE;
 	UINT32 curTick = CommonFunc::GetTickCount();
 
 	for(int i = 0; i < m_vtConnList.size(); i++)
