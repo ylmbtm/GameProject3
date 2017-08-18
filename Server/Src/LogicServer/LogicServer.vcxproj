@@ -225,6 +225,7 @@
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
+    <ClCompile Include="GroupMailMgr.cpp" />
     <ClCompile Include="Guild.cpp" />
     <ClCompile Include="GuildManager.cpp" />
     <ClCompile Include="MailModule.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GlobalDataMgr.h" />
+    <ClInclude Include="GroupMailMgr.h" />
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />
     <ClInclude Include="MailModule.h" />

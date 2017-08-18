@@ -127,10 +127,6 @@ BOOL CClientCmdHandler::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, IN
 	{
 		const ActionItem& Item = Nty.actionlist(i);
 		float y = Item.ft();
-		if(y != 0)
-		{
-			printf("--%f--\n", y);
-		}
 	}
 
 

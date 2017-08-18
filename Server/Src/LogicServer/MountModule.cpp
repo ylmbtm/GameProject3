@@ -113,7 +113,7 @@ BOOL CMountModule::NotifyChange()
 		Nty.add_removelist(*itor);
 	}
 
-	m_pOwnPlayer->SendMsgProtoBuf(MSG_PET_CHANGE_NTY, Nty);
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_MOUNT_CHANGE_NTY, Nty);
 
 	m_setChange.clear();
 	m_setRemove.clear();

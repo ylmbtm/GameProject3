@@ -14,6 +14,7 @@
 #include "..\ServerData\GuildData.h"
 #include "..\ServerData\TaskData.h"
 #include "..\ServerData\MountData.h"
+#include "..\ServerData\MailData.h"
 
 Th_RetName _DBWriteThread( void* pParam );
 
@@ -31,6 +32,8 @@ public:
 
 	void WriteWork();
 
+	BOOL IsStop();
+public:
 	DataWriter<RoleDataObject>* m_pRoleDataWriter;
 	DataWriter<GlobalDataObject>* m_pGlobalDataWriter;
 	DataWriter<BagDataObject>* m_pBagDataWriter;
@@ -42,9 +45,8 @@ public:
 	DataWriter<MemberDataObject>* m_pMemberDataWriter;
 	DataWriter<TaskDataObject>* m_pTaskDataWriter;
 	DataWriter<MountDataObject>* m_pMountDataWriter;
-	BOOL IsStop();
-public:
-
+	DataWriter<MailDataObject>* m_pMailDataWriter;
+	DataWriter<GroupMailDataObject>* m_pGroupMailDataWriter;
 	THANDLE  m_hWorkThread;
 
 	BOOL	 m_Stop;

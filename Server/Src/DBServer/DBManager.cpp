@@ -118,3 +118,28 @@ BOOL CDBManager::GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	return TRUE;
 }
+
+BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetPartnerData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetMountData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}

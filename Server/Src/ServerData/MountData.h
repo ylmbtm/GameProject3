@@ -17,6 +17,7 @@ struct MountDataObject : public ShareObject
 	INT32  m_StarLevel;		//星级
 	INT32  m_RefineExp;		//精验的经验
 	INT32  m_StarExp;		//星级经验
+	BOOL   m_IsUsing;       //当前使用中
 
 	BOOL Save(IDataBase* pDB)
 	{

@@ -126,6 +126,9 @@
     <ClCompile Include="MountModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GroupMailMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\MountData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupMailMgr.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

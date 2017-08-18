@@ -219,6 +219,8 @@ struct StBuffInfo
 	UINT32 BuffID;		//! 任务ID
 	UINT32 BuffType;    //! Buff类型
 	UINT32 BuffEffect;  //! Buff目标需要加的特效
+	INT32  PtyValue[MAX_PROPERTY_NUM];	//加属性值
+	INT32  PtyPercent[MAX_PROPERTY_NUM];  //加属性百分比
 };
 
 #endif //__CONFIG_STRUCT_H__

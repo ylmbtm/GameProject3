@@ -46,11 +46,14 @@ DrivenRobot:
 		pClient->OnUpdate(0);
 	}
 
-	DWORD dwTickCur = GetTickCount();
-	if((dwTickCur - dwTickLast) < RUN_TIME)
-	{
-		Sleep(RUN_TIME - dwTickCur + dwTickLast);
-	}
+	Sleep(1);
+
+
+	//DWORD dwTickCur = GetTickCount();
+	//if((dwTickCur - dwTickLast) < RUN_TIME)
+	//{
+	//	Sleep(RUN_TIME - dwTickCur + dwTickLast);
+	//}
 
 	goto DrivenRobot;
 

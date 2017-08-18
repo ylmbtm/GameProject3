@@ -27,7 +27,7 @@ struct RoleDataObject : public ShareObject
 	INT32 m_Level;			//等级
 	INT64 m_Money[MAX_MONEY_NUM];		//所有的货币
 	INT64 m_Action[MAX_ACTION_NUM];		//所有的体力
-	INT32 m_Actime[MAX_ACTION_NUM];		//体力恢复时间
+	INT64 m_Actime[MAX_ACTION_NUM];		//体力恢复时间
 	INT64 m_Exp;			//经验
 	INT32 m_nLangID;		//语言ID
 	INT64 m_u64Fight;		//战力

@@ -24,6 +24,9 @@ BOOL CDBWriterManager::Init()
 	m_pMemberDataWriter		= new DataWriter<MemberDataObject>("GuildMember");
 	m_pTaskDataWriter		= new DataWriter<TaskDataObject>("Task");
 	m_pMountDataWriter		= new DataWriter<MountDataObject>("Mount");
+	m_pMailDataWriter		= new DataWriter<MailDataObject>("Mail");
+	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>("GroupMail");
+
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
 	return TRUE;
@@ -51,6 +54,8 @@ void CDBWriterManager::WriteWork()
 	m_pMemberDataWriter->saveModifyToDB(&m_DBManager);
 	m_pTaskDataWriter->saveModifyToDB(&m_DBManager);
 	m_pMountDataWriter->saveModifyToDB(&m_DBManager);
+	m_pMailDataWriter->saveModifyToDB(&m_DBManager);
+	m_pGroupMailDataWriter->saveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

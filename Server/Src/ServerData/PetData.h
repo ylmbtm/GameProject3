@@ -6,7 +6,7 @@ struct PetDataObject : public ShareObject
 {
 	PetDataObject ()
 	{
-		
+
 	}
 
 	UINT64 m_u64ID;			//角色ID
@@ -17,13 +17,14 @@ struct PetDataObject : public ShareObject
 	INT32  m_StarLevel;		//星级
 	INT32  m_RefineExp;		//精验的经验
 	INT32  m_StarExp;		//星级经验
+	BOOL   m_IsUsing;       //当前使用中
 
-	BOOL Save(IDataBase *pDB)
+	BOOL Save(IDataBase* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase *pDB)
+	BOOL Delete(IDataBase* pDB)
 	{
 		return TRUE;
 	}

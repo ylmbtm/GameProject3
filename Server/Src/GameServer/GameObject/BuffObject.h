@@ -1,4 +1,5 @@
-﻿#ifndef __BUFF_OBJECT_H__
+﻿#include "..\ServerData\ServerDefine.h"
+#ifndef __BUFF_OBJECT_H__
 #define __BUFF_OBJECT_H__
 
 class CSceneObject;
@@ -19,9 +20,9 @@ public:
 
 public:
 	UINT32  m_dwBuffID;    //buffID
-	UINT32  m_dwBuffType;
-	UINT32  m_dwEffTime;   //作用时间
-
+	UINT32  m_dwStartTime; //开始时间
+	UINT32  m_dwLastTime;  //上次作用时间
+	INT32   m_PtyChange[MAX_PROPERTY_NUM];
 	CSceneObject* m_pSceneObject;
 	StBuffInfo*   m_pBuffInfo;
 

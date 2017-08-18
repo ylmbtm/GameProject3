@@ -72,9 +72,9 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_StarLevel = ItemData.starlevel();
 		pObject->m_StarExp = ItemData.starexp();
 		pObject->m_RefineExp = ItemData.refineexp();
-		pObject->m_IsDress = ItemData.isdress();
+		pObject->m_IsUsing = ItemData.isusing();
 		m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
-		if(pObject->m_IsDress == TRUE)
+		if(pObject->m_IsUsing == TRUE)
 		{
 			StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
 			ERROR_RETURN_FALSE(pInfo != NULL);
@@ -100,7 +100,7 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 	pObject->m_RefineExp = 0;
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
-	pObject->m_IsDress = FALSE;
+	pObject->m_IsUsing = FALSE;
 	pObject->unlock();
 
 	m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));

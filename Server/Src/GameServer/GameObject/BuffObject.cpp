@@ -10,34 +10,24 @@
 #include "..\ConfigData\ConfigStruct.h"
 #include "SceneObject.h"
 
-
 CBuffObject::CBuffObject(CSceneObject* pObject, UINT32 dwBuffID)
 {
 	m_dwBuffID = dwBuffID;
 	m_pSceneObject = pObject;
-	m_dwBuffType = 0;
-	m_dwEffTime = 0;
-	m_pBuffInfo = NULL;
+	m_pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(m_dwBuffID);
 }
 
 CBuffObject::~CBuffObject()
 {
 	m_dwBuffID = 0;
 	m_pSceneObject = NULL;
-	m_dwBuffType = 0;
-	m_dwEffTime = 0;
 	m_pBuffInfo = NULL;
 }
 
 BOOL CBuffObject::OnAddBuff()
 {
-	if(m_pBuffInfo == NULL)
-	{
-		m_pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(m_dwBuffID);
-		ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
-	}
-
-	switch(m_dwBuffType)
+	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
+	switch(m_pBuffInfo->BuffType)
 	{
 		case BFT_NONE:
 		{
@@ -51,6 +41,15 @@ BOOL CBuffObject::OnAddBuff()
 		}
 	}
 
+	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	{
+		m_PtyChange[i] += m_pSceneObject->m_Propertys[i] * m_pBuffInfo->PtyPercent[i] / 10000;
+		m_PtyChange[i] += m_pBuffInfo->PtyValue[i];
+
+		m_pSceneObject->m_Propertys[i] += m_PtyChange[i];
+	}
+
+
 	TimerManager::GetInstancePtr()->AddDiffTimer(1, m_dwBuffID, &CBuffObject::OnUpdate, this);
 
 	return TRUE;
@@ -58,7 +57,8 @@ BOOL CBuffObject::OnAddBuff()
 
 BOOL CBuffObject::OnRemoveBuff()
 {
-	switch(m_dwBuffType)
+	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
+	switch(m_pBuffInfo->BuffType)
 	{
 		case BFT_NONE:
 		{
@@ -73,12 +73,18 @@ BOOL CBuffObject::OnRemoveBuff()
 		}
 	}
 
+	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	{
+		m_pSceneObject->m_Propertys[i] -= m_PtyChange[i];
+	}
+
 	return TRUE;
 }
 
 BOOL CBuffObject::OnEffect()
 {
-	switch(m_dwBuffType)
+	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
+	switch(m_pBuffInfo->BuffType)
 	{
 		case BFT_NONE:
 		{
