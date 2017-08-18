@@ -1,14 +1,37 @@
 ﻿syntax = "proto3";
 
-message BagItem {
-	uint64 Guid = 1;
-	int32  ItemID = 2;
-	int32  ItemNum = 3;
-	int32  ItemGuid = 4;
+message SetupEquipReq {
+	uint64 upguid = 1;
+	uint64 downguid = 2;
 }
 
-message BagDataNty{
-	repeated BagItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+message SetupEquipAck {
+	uint32   RetCode = 1;
 }
 
+message SetupPetReq {
+	uint64 upguid = 1;
+	uint64 downguid = 2;
+}
+
+message SetupPetAck {
+	uint32   RetCode = 1;
+}
+
+message SetupPartnerReq {
+	uint64 upguid = 1;
+	uint64 downguid = 2;
+}
+
+message SetupPartnerAck {
+	uint32   RetCode = 1;
+}
+
+message SetupMountReq {
+	uint64 upguid = 1;
+	uint64 downguid = 2;
+}
+
+message SetupMountAck {
+	uint32   RetCode = 1;
+}

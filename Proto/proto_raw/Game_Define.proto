@@ -6,6 +6,7 @@ enum OBJECT_TYPE {
 	OT_MONSTER= 3;  //怪
 	OT_PET    = 4;  //宠物
 	OT_PARTNER= 5;  //伙伴
+	OT_SUMMON = 6;  //招唤物
 }
 
 enum ACTION_TYPE {
@@ -22,6 +23,13 @@ enum ACTION_TYPE {
 
 
 	AT_SKILL_BEGIN = 10000;  //技能动作开始
+}
+
+enum ACTION_STATE {
+    AS_NONE   = 0;    //无动作
+	AS_HURT   = 0x1;  //伤害
+	AS_START   = 0x2; //开始动作
+	AS_END = 0xfffffff;  //技能动作开始
 }
 
 enum CAMP_TYPE {
@@ -72,5 +80,36 @@ enum FUNCTION_ID{
 	FUNC_BEGIN_ID  = 0;  //!功能ID开始标记
 	
 	FUNC_END_ID = 150; //!功能ID结束标记
+}
+
+
+enum ATTRI_ID{
+	NONE		= 0; 
+	HP			= 1;//血量
+	MP			= 2;//蓝量
+	HP_MAX		= 3;//最大血量
+	MP_MAX		= 4;//最大蓝量
+	HP_REC		= 5;//血恢复速度
+	MP_REC		= 6;//蓝恢复速度
+	SPEED		= 7;//移动速度
+	ATTACK		= 8;//攻击力
+	ELEMENT     = 9;//元素伤害
+	MAGIC_DEF	= 10;//魔防
+	PHYSIC_DEF	= 11;//物防
+	HIT			= 12;//命中
+    DODGE		= 13;//闪避
+	MORE_HURT   = 14;//伤害加深
+	LESS_HURT   = 15;//伤害减免
+	CRIT_HIT    = 16;//暴击
+	CRIT_DEF    = 17;//抗暴
+	ICE_DODGE  = 18;//抗暴
+	FLASH_DODGE  = 19;//抗暴
+	FIRE_DODGE   = 20;//抗暴
+	TOXIN_DODGE  = 21;//抗毒
+}
+
+
+enum BUFF_TYPE{
+	BFT_NONE		= 0; 
 	
 }

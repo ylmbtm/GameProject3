@@ -1,4 +1,4 @@
-syntax = "proto3";
+﻿syntax = "proto3";
 message CheckVersionReq {
     int32  ClientVerion = 1;
 	string PackageName  = 2;
@@ -60,6 +60,7 @@ message ClientServerListAck {
 message SvrRegToSvrReq {
     int32  ServerID = 1;
 	string ServerName = 2;
+	int32  ServerPort = 3;
 }
 
 message SvrRegToSvrAck {
@@ -81,7 +82,7 @@ message SelectServerAck {
 message RoleItem {
 	uint64  RoleID          = 1;
 	string  Name			= 2;
-	int32   ActorID			= 3;
+	int32   Carrer          = 3;
 	int32   Level			= 4;
 }
 
@@ -99,7 +100,8 @@ message RoleListAck {
 message RoleCreateReq {
     uint64 AccountID = 1;
 	string Name = 2;
-	int32  ActorID = 3;
+	int32  Carrer = 3;
+	int32  Channel = 4;
 }
 
 message RoleCreateAck {
@@ -107,7 +109,7 @@ message RoleCreateAck {
 	uint64	 AccountID = 2;
 	uint64   RoleID = 3;
 	string   Name = 4;
-	int32    ActorID = 5;
+	int32    Carrer = 5;
 }
 
 
@@ -125,17 +127,6 @@ message RoleLoginReq {
 	uint64 RoleID = 2;
 	int32  LoginCode = 3;
 }
-
-message RoleLoginAck {
-	uint32   RetCode = 1;
-	uint64   AccountID = 2;
-	uint64   RoleID = 3;
-	int32    ActorID = 4;
-	int32    Level = 5;
-	int64    Exp = 6;
-	string   Name = 7;
-}
-
 
 message RoleLogoutReq {
     uint64 AccountID = 1;
@@ -187,17 +178,19 @@ message EnterSceneAck {
 	int32    CopyGuid = 3;
 	//以下是主角创建需要信息
 	uint64   RoleID = 4;
+	int32    Carrer = 5;
 	int32    ActorID = 6;
-	string   RoleName = 5;
-	float	 x = 7;
-	float    z = 8;
-	float    vx = 9;
-	float    vz = 10;
-	int32   hp = 11;
-	int32   mp = 12;
-	int32   hpmax = 13;
-	int32   mpmax = 14;
-	repeated uint32 equip = 15; //装备
+	string   RoleName = 7;
+	int32      Camp = 8;
+	float	 x = 9;
+	float    y = 10;
+	float    z = 11;
+	float    ft = 12;
+	int32   hp = 13;
+	int32   mp = 14;
+	int32   hpmax = 15;
+	int32   mpmax = 16;
+	int32   weapon = 17; //武器
 }
 
 message AbortCopyReq {
@@ -233,38 +226,46 @@ message LeaveSceneAck {
 
 message TransRoleData {
 	uint64  RoleID = 1;
-	string  RoleName = 2;
-	int32   ActorID = 3;
-	int32   Level = 4;
+	string  Name = 2;
+	int32   CarrerID = 3;
+	int32   ActorID = 4;
+	int32   Level = 5;
+	repeated int32  Propertys = 6;
 }
 
 message TransPetData {
-	int32  ActorID = 1;
-	string  RoleName = 2;
-	int32   Level = 3;
+	uint64  PetGuid = 1;
+	int32   PetID   = 2;
+	int32   ActorID = 3;
+	string  Name    = 4;
+	int32   Level   = 5;
+	repeated int32  Propertys = 6;
 }
 
 
 message TransPartnerData {
-	int32  ActorID = 1;
-	string  RoleName = 2;
-	int32   Level = 3;
+	uint64  PartnerGuid = 1;
+	int32   ParterID  = 2;
+	int32   ActorID = 3;
+	string  Name = 4;
+	int32   Level = 5;
+	repeated int32  Propertys = 6;
 }
 
-message TransRoleDataReq {
+message TransferDataReq {
 	int32   Camp = 1;			//战场中的阵营
 	TransRoleData RoleData = 2;
-	TransPetData PetData = 3;
+	TransPetData  PetData = 3;
 	TransPartnerData PartnerData = 4;
 }
 
-message TransRoleDataAck {
+message TransferDataAck {
     uint32   RetCode = 1;
 	uint64   RoleID = 2;
-	int32   CopyID = 3;
-	int32   CopyGuid = 4;
-	int32   ServerID = 5;
-}
+	int32    CopyID = 3;
+	int32    CopyGuid = 4;
+	int32    ServerID = 5;
+} 
 
 message NotifyIntoScene {
     uint64   RoleID   = 1;
@@ -312,3 +313,22 @@ message UseMpBottleAck {
 	int32  Count = 2;
 }
 
+message ChatMessageReq {
+	string SrcName = 1;
+	uint64 SrcID   = 2;
+	int32  Channel = 3;
+	uint64 GuildID = 4;
+	string Content = 5;
+}
+
+message ChatMessageAck {
+	uint32 RetCode = 1;
+}
+
+message ChatMessageNty {
+	string SrcName = 1;
+	uint64 SrcID   = 2;
+	int32  Channel = 3;
+	uint64 GuildID = 4;
+	string Content = 5;
+}

@@ -3,25 +3,27 @@ syntax = "proto3";
 message DamagerItem {
   uint64 ObjectGuid  = 1;
   float x = 2;
-  float z = 3;
-  int32 chghp = 4;  
+  float y = 3;
+  float z = 4;
+  int32 chghp = 5;  
 }
 
 message ActionItem {
 	uint64  ObjectGuid = 1;
-	int32   ActionID = 2;
-	uint64  ControlerID = 3;     //AI控制人的GUID
-	bool	IsStart = 4;
-	bool    IsHurt = 5;
-	float   x = 6;
-	float   z = 7;
-	float   vx = 8;
-	float   vz = 9;
-	int32   hp = 10;
-	int32   mp = 11;
-	int32   hpmax = 12;
-	int32   mpmax = 13;
-	repeated DamagerItem DamagerList = 14; 
+	int32	ObjStatue  = 2;		//实例状态
+	int32	ActorID    = 3;		//类型ID
+	uint64  ControlerID = 4;    //AI控制人的GUID
+	int32   ActionID = 5;
+	int32   ActionState = 6; 
+	float   x = 7;
+	float   y = 8;
+	float   z = 9;
+	float   ft = 10;
+	int32   hp = 11;
+	int32   mp = 12;
+	int32   hpmax = 13;
+	int32   mpmax = 14;
+	repeated DamagerItem DamagerList = 15; 
 }
 
 message ObjectActionReq {
@@ -33,23 +35,24 @@ message ObjectActionNty {
 }
 
 message NewItem {
-	uint64 ObjectGuid = 1;	//实例ID
-	int32 ObjType = 2;		//类别
-	int32 ActorID = 3;		//类型ID
-	string Name = 4;
-	int32  Level = 5;
-	uint64 HostGuid = 6;        //主人的GUID
-    uint64 ControlerID = 7;     //AI控制人的GUID
-	uint64 SummonID = 8;		//招唤者的GUID
-	float	 x = 9;
-	float    z = 10;
-	float    vx = 11;
-	float    vz = 12;
-	int32   hp = 13;
-	int32   mp = 14;
-	int32   hpmax = 15;
-	int32   mpmax = 16;
-	repeated int32 equip = 17; //装备
+	uint64 ObjectGuid = 1;		//实例ID
+	int32  ObjType    = 2;		//类别
+	int32 ObjStatue  = 3;		//实例状态
+	int32  ActorID    = 4;		//类型ID
+	string Name       = 5;
+	int32  Level      = 6;
+	uint64 HostGuid   = 7;		//主人的GUID
+    uint64 ControlerID = 8;     //AI控制人的GUID
+	uint64 SummonID = 9;		//招唤者的GUID
+	float  x = 10;
+	float  y = 11;
+	float  z = 12;
+	float  ft = 13;
+	int32  hp = 14;
+	int32  mp = 15;
+	int32  hpmax = 16;
+	int32  mpmax = 17;
+	int32  weapon = 18; //武器
 }
 
 message ObjectNewNty {
@@ -67,4 +70,9 @@ message HeartBeatReq {
 message HeartBeatAck {
   uint32  TimeStamp = 1;
   uint32  ServerTime = 2;
+}
+
+
+message ObjectDieNotify {
+  uint64  ObjectGuid = 1;
 }

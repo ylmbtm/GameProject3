@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+message DBRoleData {
+	uint64   AccountID = 1;
+	uint64   RoleID = 2;
+	int32    CarrerID = 3;
+	int32    Level = 4;
+	int64    Exp = 5;
+	string   Name = 6;
+	int32    LangID = 7;
+	int32    VipLvl = 8;
+	int32    VipExp = 9;
+	int64    FightValue =  10;
+	int32    CityCopyID = 11;
+	repeated int64 Money = 13;
+	repeated int64 Action = 14;
+	repeated int64 Actime = 15;
+}
+
+message DBBagItem {
+	uint64  Guid = 1;			//格子的guid
+	uint64  RoleID = 2;			//角色ID
+	int32   BagType = 3;		//背包类型
+	uint64  ItemGuid = 4;		//物品guid
+	int32   ItemID = 5;			//道具ID
+	int32   Count = 6;			//个数
+	bool    Bind = 7;			//是否是邦定
+}
+
+message DBBagData {
+	repeated DBBagItem ItemList = 1;
+}
+
+message DBCopyItem {
+}
+
+message DBCopyData {
+	repeated DBCopyItem CopyList = 1;
+}
+
+message DBEquipItem {
+	uint64 RoleID = 1; 		//角色ID
+	uint64 Guid = 2;
+	int32  EquipID = 3;
+	int32  StrengthLvl = 4;   //强化等级
+	int32  RefineLevel = 5;   //精炼等级
+	int32  StarLevel = 6;	  //星级
+	int32  RefineExp = 7;	  //精验的经验
+	int32  StarExp = 8;		  //星级经验
+	bool   IsUsing = 9;       //是否使用中
+}
+
+message DBEquipData {
+	repeated DBEquipItem EquipList = 1;
+}
+
+message DBPetItem {
+	bool   IsUsing = 1;       //是否使用中
+}
+
+message DBPetData {
+	repeated DBPetItem PetList = 1;
+}
+
+message DBMountItem {
+	bool   IsUsing = 1;       //是否使用中
+}
+
+message DBMountData {
+	repeated DBMountItem MountList = 1;
+}
+
+message DBPartnerItem {
+	bool   IsUsing = 1;       //是否使用中
+}
+
+message DBPartnerData {
+	repeated DBPartnerItem PartnerList = 1;
+}
+
+message DBTaskItem {
+	uint64  RoleID = 1;			//角色ID
+	uint32  TaskID = 2;
+}
+
+message DBTaskData {
+	repeated DBTaskItem TaskList = 1;
+}
+
+message DBMailItem {
+	uint64 RoleID = 1; 		//角色ID
+}
+
+message DBMailData {
+	repeated DBMailItem MailList = 1;
+}
+
+message DBRoleLoginAck {
+    uint32		RetCode = 1;
+	uint64		RoleID = 2;
+	DBRoleData	RoleData = 3;
+	DBBagData	BagData = 4;
+	DBCopyData	CopyData = 5;
+	DBEquipData	EquipData = 6;
+	DBPetData	PetData = 7;
+	DBPartnerData	PartnerData = 8;
+	DBTaskData	TaskData = 9;
+	DBMailData MailData = 10;
+	DBMountData MountData = 11;
+}
+
