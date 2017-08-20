@@ -38,11 +38,7 @@ BOOL CSceneManager::Init(BOOL bMainLand)
 
 	if(bMainLand)
 	{
-		if(!LoadMainScene())
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
+		ERROR_RETURN_FALSE(LoadMainScene());
 	}
 
 	return TRUE;
@@ -183,8 +179,6 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	Ack.set_copytype(Req.copytype());
 	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum()))
 	{
-		ASSERT_FAIELD;
-
 		Ack.set_retcode(MRC_FAILED);
 	}
 	else

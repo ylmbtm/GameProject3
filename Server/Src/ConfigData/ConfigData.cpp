@@ -23,16 +23,29 @@ CConfigData* CConfigData::GetInstancePtr()
 
 BOOL CConfigData::InitDataReader()
 {
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Role", &CConfigData::ReadCarrer));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel", &CConfigData::ReadCarrerLevel));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor", &CConfigData::ReadActor));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy", &CConfigData::ReadCopyInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Item", &CConfigData::ReadItemData));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Action", &CConfigData::ReadActionCfg));
+	//m_vtDataFuncList.push_back(DataFuncNode("Data_Constant",    &CConfigData::ReadConstantData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Role",        &CConfigData::ReadCarrer));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel",   &CConfigData::ReadCarrerLevel));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor",       &CConfigData::ReadActor));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy",        &CConfigData::ReadCopyInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CConfigData::ReadItemData));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CConfigData::ReadActionCfg));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CConfigData::ReadLanguage));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CConfigData::ReadAwardData));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CConfigData::ReadFuncInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CConfigData::ReadFuncVipInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CConfigData::ReadFuncCostInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CConfigData::ReadEquipInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CConfigData::ReadPetInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CConfigData::ReadPartnerInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CConfigData::ReadTaskInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CConfigData::ReadSkillInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CConfigData::ReadBuffInfo));
+//	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CConfigData::ReadStoreInfo));
 	return TRUE;
 }
 
-BOOL CConfigData::ReadConfigData(std::string strDbFile)
+BOOL CConfigData::LoadConfigData(std::string strDbFile)
 {
 	try
 	{
@@ -58,10 +71,42 @@ BOOL CConfigData::ReadConfigData(std::string strDbFile)
 	return TRUE;
 }
 
-
-BOOL CConfigData::ReadConstantValue(CppSQLite3Query& QueryData)
+BOOL CConfigData::ReloadConfigData( std::string strTbName )
 {
-	while(QueryData.eof())
+	try
+	{
+		m_DBConnection.open("Config.db");
+	}
+	catch(CppSQLite3Exception& e)
+	{
+		printf("%s", e.errorMessage());
+		return FALSE;
+	}
+
+	char szSql[1024]  = {0};
+	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
+	{
+		DataFuncNode dataNode = (*itor);
+		if(dataNode.m_strTbName != strTbName)
+		{
+			continue;
+		}
+
+		sprintf(szSql, "select * from %s;", dataNode.m_strTbName.c_str());
+		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
+		(this->*dataNode.m_pDataFunc)(Tabledatas);
+	}
+
+	m_DBConnection.close();
+
+	return TRUE;
+}
+
+
+
+BOOL CConfigData::ReadConstantData(CppSQLite3Query& QueryData)
+{
+	while(!QueryData.eof())
 	{
 		std::string strName = QueryData.getStringField("name");
 		std::string strValue = QueryData.getStringField("value");
@@ -112,6 +157,8 @@ UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
 
 BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
 {
+	m_mapCarrer.clear();
+
 	while(!QueryData.eof())
 	{
 		StCarrerInfo stValue;
@@ -128,13 +175,10 @@ BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
 StCarrerInfo* CConfigData::GetCarrerInfo(UINT32 dwCarrerID)
 {
 	std::map<UINT32, StCarrerInfo>::iterator itor = m_mapCarrer.find(dwCarrerID);
-	if(itor != m_mapCarrer.end())
-	{
-		return &itor->second;
-	}
 
-	ASSERT_FAIELD;
-	return NULL;
+	ERROR_RETURN_NULL(itor != m_mapCarrer.end());
+
+	return &itor->second;
 }
 
 BOOL CConfigData::ReadMoneyCfg(CppSQLite3Query& QueryData)
@@ -144,6 +188,7 @@ BOOL CConfigData::ReadMoneyCfg(CppSQLite3Query& QueryData)
 
 BOOL CConfigData::ReadActionCfg(CppSQLite3Query& QueryData)
 {
+	m_vtActionList.clear();
 	while(!QueryData.eof())
 	{
 		StActionInfo stValue;
@@ -186,6 +231,8 @@ StLevelInfo* CConfigData::GetCarrerLevelInfo(UINT32 dwCarrerID, UINT32 dwLevel)
 
 BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 {
+	m_mapActor.clear();
+
 	while(!QueryData.eof())
 	{
 		StActor stValue;
@@ -217,6 +264,8 @@ StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
 
 BOOL CConfigData::ReadCopyInfo(CppSQLite3Query& QueryData)
 {
+	m_mapCopyInfo.clear();
+
 	while(!QueryData.eof())
 	{
 		StCopyInfo stValue;
@@ -246,6 +295,8 @@ StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 
 BOOL CConfigData::ReadLanguage(CppSQLite3Query& QueryData)
 {
+	m_mapLanguage.clear();
+
 	while(!QueryData.eof())
 	{
 		StLocalString stValue;
@@ -265,7 +316,7 @@ BOOL CConfigData::ReadLanguage(CppSQLite3Query& QueryData)
 		stValue.Language[12] = QueryData.getIntField("lang12");
 		stValue.Language[13] = QueryData.getIntField("lang13");
 		stValue.Language[14] = QueryData.getIntField("lang14");
-		m_mapLocalString.insert(std::make_pair(stValue.dwID, stValue));
+		m_mapLanguage.insert(std::make_pair(stValue.dwID, stValue));
 		QueryData.nextRow();
 	}
 
@@ -279,8 +330,8 @@ std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 		return m_strNull;
 	}
 
-	std::map<UINT32, StLocalString>::iterator itor = m_mapLocalString.find(dwID);
-	if(itor != m_mapLocalString.end())
+	std::map<UINT32, StLocalString>::iterator itor = m_mapLanguage.find(dwID);
+	if(itor != m_mapLanguage.end())
 	{
 		return itor->second.Language[dwLang];
 	}
@@ -290,7 +341,9 @@ std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 
 BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapAwardItem.clear();
+
+	while(!QueryData.eof())
 	{
 		StAwardItem stValue;
 		stValue.dwAwardID = QueryData.getIntField("awardid");
@@ -538,7 +591,9 @@ BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTim
 
 BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapItem.clear();
+
+	while(!QueryData.eof())
 	{
 		StItemInfo stValue;
 		stValue.dwItemID = QueryData.getIntField("id");
@@ -558,7 +613,7 @@ BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
 
 BOOL CConfigData::ReadFuncInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	while(!QueryData.eof())
 	{
 		StFuncInfo stValue;
 		m_mapFuncInfo.insert(std::make_pair(stValue.dwFuncID, stValue));
@@ -584,6 +639,8 @@ BOOL CConfigData::IsFuncOpen(UINT32 dwFuncID, INT32 level, INT32 viplevel)
 {
 	StFuncInfo* pFuncInfo = GetFuncInfo(dwFuncID);
 	ERROR_RETURN_FALSE (pFuncInfo != NULL);
+	ERROR_RETURN_FALSE (pFuncInfo->Logic  > 0);
+	ERROR_RETURN_FALSE (pFuncInfo->Logic  < 5);
 	if (pFuncInfo->Logic == 1)
 	{
 		if (level >= pFuncInfo->OpenLevel || viplevel >= pFuncInfo->VipLevel)
@@ -612,17 +669,15 @@ BOOL CConfigData::IsFuncOpen(UINT32 dwFuncID, INT32 level, INT32 viplevel)
 			return TRUE;
 		}
 	}
-	else
-	{
-		ASSERT_FAIELD;
-	}
 
 	return FALSE;
 }
 
 BOOL CConfigData::ReadFuncVipInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapFuncVipInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StFuncVipInfo stValue;
 		m_mapFuncVipInfo.insert(std::make_pair(stValue.dwFuncID, stValue));
@@ -646,7 +701,9 @@ StFuncVipInfo* CConfigData::GetFuncVipInfo(UINT32 dwFuncID)
 
 BOOL CConfigData::ReadFuncCostInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapFuncCostInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		UINT32 dwFuncID = 0;
 		std::vector<INT32> vtValue;
@@ -674,7 +731,9 @@ INT32 CConfigData::GetFuncCostInfo(UINT32 dwFuncID, INT32 Times)
 
 BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapEquipInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StEquipInfo stValue;
 		m_mapEquipInfo.insert(std::make_pair(stValue.dwEquipID, stValue));
@@ -697,7 +756,9 @@ StEquipInfo* CConfigData::GetEquipInfo(UINT32 dwEquipID)
 
 BOOL CConfigData::ReadPetInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapPetInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StPetInfo stValue;
 		m_mapPetInfo.insert(std::make_pair(stValue.dwPetID, stValue));
@@ -720,7 +781,9 @@ StPetInfo* CConfigData::GetPetInfo(UINT32 dwPetID)
 
 BOOL CConfigData::ReadPartnerInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapPartnerInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StPartnerInfo stValue;
 		m_mapPartnerInfo.insert(std::make_pair(stValue.dwPartnerID, stValue));
@@ -743,7 +806,9 @@ StPartnerInfo* CConfigData::GetPartnerInfo(UINT32 dwPartnerID)
 
 BOOL CConfigData::ReadTaskInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapTaskInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StTaskInfo stValue;
 		m_mapTaskInfo.insert(std::make_pair(stValue.TaskID, stValue));
@@ -766,7 +831,9 @@ StTaskInfo* CConfigData::GetTaskInfo(UINT32 dwTaskID)
 
 BOOL CConfigData::ReadSkillInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapSkillInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StSkillInfo stValue;
 		stValue.SkillID = QueryData.getIntField("id");
@@ -794,7 +861,9 @@ StSkillInfo* CConfigData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
 
 BOOL CConfigData::ReadBuffInfo(CppSQLite3Query& QueryData)
 {
-	while(QueryData.eof())
+	m_mapBuffInfo.clear();
+
+	while(!QueryData.eof())
 	{
 		StBuffInfo stValue;
 		stValue.BuffID = QueryData.getIntField("id");
@@ -818,6 +887,16 @@ StBuffInfo* CConfigData::GetBuffInfo(UINT32 dwBuffID)
 	return NULL;
 }
 
+BOOL CConfigData::ReadStoreInfo(CppSQLite3Query& QueryData)
+{
+	return TRUE;
+}
+
+StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStoreID)
+{
+	return NULL;
+}
+
 StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
 {
 	ERROR_RETURN_NULL(dwItemID != 0);
@@ -829,3 +908,4 @@ StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
 
 	return NULL;
 }
+

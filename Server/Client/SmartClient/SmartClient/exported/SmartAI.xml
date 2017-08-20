@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--EXPORTED BY TOOL, DON'T MODIFY IT!-->
+<!--Source File: SmartAI.xml-->
+<behavior name="SmartAI" agenttype="CClientObject" version="5">
+  <node class="DecoratorLoop" id="0">
+    <property Count="const int 6" />
+    <property DecorateWhenChildEnds="true" />
+    <property DoneWithinFrame="false" />
+    <node class="Action" id="1">
+      <property Method="Self.CClientObject::SayHello(&quot;2112121&quot;)" />
+      <property ResultOption="BT_SUCCESS" />
+    </node>
+  </node>
+</behavior>

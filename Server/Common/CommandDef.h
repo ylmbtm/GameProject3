@@ -11,12 +11,12 @@ BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 
 #define PROCESS_MESSAGE_ITEM_ID(dwMsgID, Func) \
 	case dwMsgID:{\
-	CLog::GetInstancePtr()->AddLog("---Receive Message:[%s]----Targetid:[%lld]", #dwMsgID, ((PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer())->u64TargetID);\
+	CLog::GetInstancePtr()->LogInfo("---Receive Message:[%s]----Targetid:[%lld]", #dwMsgID, ((PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer())->u64TargetID);\
 	Func(pNetPacket);}break;
 
 #define PROCESS_MESSAGE_ITEM(dwMsgID, Func) \
 		case dwMsgID:{\
-		CLog::GetInstancePtr()->AddLog("---Receive Message:[%s]----", #dwMsgID);\
+		CLog::GetInstancePtr()->LogInfo("---Receive Message:[%s]----", #dwMsgID);\
 		Func(pNetPacket);}break;
 
 #define PROCESS_MESSAGE_ITEMEX(dwMsgID, Func) \

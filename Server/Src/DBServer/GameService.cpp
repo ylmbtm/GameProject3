@@ -32,19 +32,19 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-----------");
+	CLog::GetInstancePtr()->LogError("---------服务器开始启动-----------");
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
+		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
 		return FALSE;
 	}
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn,this))
+	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
-		CLog::GetInstancePtr()->AddLog("启动服务失败!");
+		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
 	}
 
@@ -52,30 +52,30 @@ BOOL CGameService::Init()
 
 	m_DBWriterManger.Init();
 
-	
-	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+
+	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
 }
 
 
 
-BOOL CGameService::OnNewConnect(CConnection *pConn)
+BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
 	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection *pConn)
+BOOL CGameService::OnCloseConnect(CConnection* pConn)
 {
 	return TRUE;
 }
 
-BOOL CGameService::DispatchPacket(NetPacket *pNetPacket)
+BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-	default:
+		default:
 		{
 			m_DBMsgHandler.DispatchPacket(pNetPacket);
 		}

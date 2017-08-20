@@ -24,22 +24,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CharObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PressureTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp">
@@ -75,24 +63,15 @@
     <ClCompile Include="..\..\..\Src\Message\Msg_LoginCltData.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="ClientObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h">

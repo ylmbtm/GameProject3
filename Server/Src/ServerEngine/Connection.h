@@ -129,6 +129,7 @@ public:
 public:
     
     CConnection				*m_pFreeConnRoot;
+    CConnection				*m_pFreeConnTail;
     std::vector<CConnection*> m_vtConnList;            //连接列表
 	CCritSec				 m_CritSecConnList;
 };

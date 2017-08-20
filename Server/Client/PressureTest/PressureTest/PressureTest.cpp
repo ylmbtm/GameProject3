@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "CommandHandler.h"
+#include "ClientObject.h"
 
 #define ROBOT_NUM 2
 #define RUN_TIME 50
@@ -19,13 +19,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		return 0;
 	}
 
-	std::vector<CClientCmdHandler*> m_ClientList;
+	std::vector<CClientObject*> m_ClientList;
 
 	char szBuff[256];
 
 	for(int i = 0; i < nRobotNum; i++)
 	{
-		CClientCmdHandler* pClientSpaceObject = new CClientCmdHandler();
+		CClientObject* pClientSpaceObject = new CClientObject();
 
 		sprintf(szBuff, "test%d", i);
 		pClientSpaceObject->m_strAccountName = szBuff;
@@ -39,9 +39,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 DrivenRobot:
 	DWORD dwTickLast = GetTickCount();
-	for(std::vector<CClientCmdHandler*>::iterator itor = m_ClientList.begin(); itor != m_ClientList.end(); itor++)
+	for(std::vector<CClientObject*>::iterator itor = m_ClientList.begin(); itor != m_ClientList.end(); itor++)
 	{
-		CClientCmdHandler* pClient = *itor;
+		CClientObject* pClient = *itor;
 
 		pClient->OnUpdate(0);
 	}

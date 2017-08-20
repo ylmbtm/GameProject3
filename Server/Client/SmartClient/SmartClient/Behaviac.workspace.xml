@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<workspace name="Behaviac" folder="behaviors" export="exported" language="cpp" useintvalue="true" version="3">
+  <export>
+    <cpp>
+      <isexported>False</isexported>
+      <exportfilecount>1</exportfilecount>
+      <folder>../exported</folder>
+      <includedfilenames>
+        <includedfilename>../ClientObject.h</includedfilename>
+      </includedfilenames>
+    </cpp>
+  </export>
+</workspace>

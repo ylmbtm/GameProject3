@@ -11,7 +11,7 @@ public:
 
 	BOOL  SendGroupMail(GroupMailDataObject* pGroupMail);
 
-
+    BOOL  LoadGroupMailData();
 
 public:
 	std::map<UINT64, GroupMailDataObject*> m_mapGroupMailData;

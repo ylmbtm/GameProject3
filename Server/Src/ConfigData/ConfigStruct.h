@@ -223,4 +223,13 @@ struct StBuffInfo
 	INT32  PtyPercent[MAX_PROPERTY_NUM];  //加属性百分比
 };
 
+
+struct StStoreItemInfo
+{
+	UINT32 StoreID;		//! 商品ID
+	UINT32 ItemID;
+	UINT32 ItemNum;
+};
+
+
 #endif //__CONFIG_STRUCT_H__

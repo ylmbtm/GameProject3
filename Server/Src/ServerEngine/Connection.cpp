@@ -89,7 +89,7 @@ BOOL CConnection::DoReceive()
 		int nError = CommonSocket::GetSocketLastError();
 		if(nError != ERROR_IO_PENDING )
 		{
-			CLog::GetInstancePtr()->AddLog("关闭连接，因为接收数据发生错误:%s!", CommonSocket::GetLastErrorStr(nError).c_str());
+			CLog::GetInstancePtr()->LogError("关闭连接，因为接收数据发生错误:%s!", CommonSocket::GetLastErrorStr(nError).c_str());
 
 			return FALSE;
 		}
@@ -193,11 +193,7 @@ BOOL CConnection::ExtractBuffer()
 	//在这方法里返回FALSE。
 	//会在外面导致这个连接被关闭。
 
-	if(m_dwDataLen <= 0)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(m_dwDataLen > 0);
 
 	while(TRUE)
 	{
@@ -234,8 +230,20 @@ BOOL CConnection::ExtractBuffer()
 		1.首先验证包的验证吗
 		2.包的长度
 		3.包的序号*/
-		if(pHeader->CheckCode == 0x88)
+		if(pHeader->CheckCode != 0x88)
 		{
+            return FALSE;
+        }
+
+        if(pHeader->dwSize > 1024*1024)
+        {
+            return FALSE;
+        }
+
+        if(pHeader->dwMsgID > 4999999)
+        {
+            return FALSE;
+        }
 			/*if(m_nCheckNo == 0)
 			{
 				m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
@@ -250,18 +258,10 @@ BOOL CConnection::ExtractBuffer()
 				{
 					return FALSE;
 				}*/
-		}
-		else
-		{
-			return FALSE;
-		}
+		
 
 
-		if(pHeader->dwSize == 0)
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
+		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
 
 		UINT32 dwPacketSize = pHeader->dwSize;
 
@@ -361,11 +361,7 @@ BOOL CConnection::SetSocket( SOCKET hSocket )
 
 BOOL CConnection::SetDataHandler( IDataHandler* pHandler )
 {
-	if(pHandler == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pHandler != NULL);
 
 	m_pDataHandler = pHandler;
 
@@ -411,7 +407,12 @@ BOOL CConnection::Clear()
 
 	m_pBufPos   = m_pRecvBuf;
 
-	m_pCurRecvBuffer = NULL;
+    if(m_pCurRecvBuffer != NULL)
+    {
+        m_pCurRecvBuffer->Release();
+    }
+
+    m_pCurRecvBuffer = NULL;
 
 	m_nCheckNo = 0;
 
@@ -442,11 +443,7 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
 {
 	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
-	if(pDataBuffer == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
 	pHeader->CheckCode = 0x88;
@@ -530,7 +527,7 @@ BOOL CConnection::DoSend()
 	{
 		if(dwSendBytes < DataBuf.len)
 		{
-			CLog::GetInstancePtr()->AddLog("发送线程:直接发送功数据%d!", dwSendBytes);
+			CLog::GetInstancePtr()->LogWarnning("发送线程:直接发送功数据%d!", dwSendBytes);
 		}
 	}
 	else if( nRet == -1 ) //发送出错
@@ -540,7 +537,7 @@ BOOL CConnection::DoSend()
 		{
 			Close();
 			m_IsSending = FALSE;
-			CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
+			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
 		}
 	}
 
@@ -641,32 +638,37 @@ BOOL CConnection::DoSend()
 CConnectionMgr::CConnectionMgr()
 {
 	m_pFreeConnRoot = NULL;
+	m_pFreeConnTail = NULL;
 }
 
 CConnectionMgr::~CConnectionMgr()
 {
-
+	DestroyAllConnection();
+	m_pFreeConnRoot = NULL;
+	m_pFreeConnTail = NULL;
 }
 
 CConnection* CConnectionMgr::CreateConnection()
 {
 	CAutoLock Lock(&m_CritSecConnList);
 
-	if(m_pFreeConnRoot == NULL)
+	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
+
+	CConnection* pTemp = NULL;
+
+	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
-		ASSERT_FAIELD;
-		return NULL;
+		pTemp = m_pFreeConnRoot;
+		m_pFreeConnTail = m_pFreeConnRoot = NULL;
+	}
+	else
+	{
+		pTemp = m_pFreeConnRoot;
+		m_pFreeConnRoot = pTemp->m_pNext;
+		pTemp->m_pNext = NULL;
 	}
 
-	CConnection* pTemp = m_pFreeConnRoot;
-
-	m_pFreeConnRoot = pTemp->m_pNext;
-
-	if(pTemp->GetConnectionID() == 0)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
 
 	return pTemp;
 }
@@ -675,11 +677,7 @@ CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 {
 	UINT32 dwIndex = dwConnID % m_vtConnList.size();
 
-	if(dwIndex >= m_vtConnList.size())
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(dwIndex < m_vtConnList.size())
 
 	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
 	if(pConnect->GetConnectionID() != dwConnID)
@@ -701,17 +699,32 @@ CConnectionMgr* CConnectionMgr::GetInstancePtr()
 
 VOID CConnectionMgr::DeleteConnection( CConnection* pConnection )
 {
-	CAutoLock Lock(&m_CritSecConnList);
-
 	if(pConnection == NULL)
 	{
 		ASSERT_FAIELD;
 		return ;
 	}
 
-	pConnection->m_pNext = m_pFreeConnRoot;
+	CAutoLock Lock(&m_CritSecConnList);
 
-	m_pFreeConnRoot = pConnection;
+	if(m_pFreeConnTail == NULL)
+	{
+		if(m_pFreeConnRoot != NULL)
+		{
+			ASSERT_FAIELD;
+		}
+
+		m_pFreeConnTail = m_pFreeConnRoot = pConnection;
+	}
+	else
+	{
+		m_pFreeConnTail->m_pNext = pConnection;
+
+		m_pFreeConnTail = pConnection;
+
+		m_pFreeConnTail->m_pNext = NULL;
+
+	}
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 
@@ -738,6 +751,14 @@ BOOL CConnectionMgr::CloseAllConnection()
 
 BOOL CConnectionMgr::DestroyAllConnection()
 {
+	CConnection* pConn = NULL;
+	for(size_t i = 0; i < m_vtConnList.size(); i++)
+	{
+		pConn = m_vtConnList.at(i);
+		pConn->Close();
+		delete pConn;
+	}
+
 	m_vtConnList.clear();
 
 	return TRUE;
@@ -746,6 +767,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
 	return TRUE;
+	CAutoLock Lock(&m_CritSecConnList);
 	UINT32 curTick = CommonFunc::GetTickCount();
 
 	for(int i = 0; i < m_vtConnList.size(); i++)
@@ -767,9 +789,8 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 
 BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons)
 {
-	ASSERT(m_pFreeConnRoot == NULL);
-
-	CConnection* pTemp = NULL;
+	ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
+	ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
 
 	m_vtConnList.assign(nMaxCons, NULL);
 	for(UINT32 i = 0; i < nMaxCons; i++)
@@ -784,13 +805,13 @@ BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons)
 		{
 			m_pFreeConnRoot = pConn;
 			pConn->m_pNext = NULL;
-			pTemp = pConn;
+			m_pFreeConnTail = pConn;
 		}
 		else
 		{
-			pTemp->m_pNext = pConn;
-			pTemp = pConn;
-			pTemp->m_pNext = NULL;
+			m_pFreeConnTail->m_pNext = pConn;
+			m_pFreeConnTail = pConn;
+			m_pFreeConnTail->m_pNext = NULL;
 		}
 	}
 

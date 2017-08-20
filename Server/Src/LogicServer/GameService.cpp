@@ -11,6 +11,7 @@
 #include "SimpleManager.h"
 #include "../ConfigData/ConfigData.h"
 #include "GlobalDataMgr.h"
+#include "GroupMailMgr.h"
 
 CGameService::CGameService(void)
 {
@@ -38,11 +39,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动--------");
+	CLog::GetInstancePtr()->LogError("---------服务器开始启动--------");
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
+		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
 		return FALSE;
 	}
 
@@ -50,17 +51,19 @@ BOOL CGameService::Init()
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
-		CLog::GetInstancePtr()->AddLog("启动服务失败!");
+		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
 	}
 
 	CreateDataPool();
 
-	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
+	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
 
 	CSimpleManager::GetInstancePtr()->LoadSimpleData();
 
 	CGlobalDataManager::GetInstancePtr()->LoadGlobalData();
+
+	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData();
 
 	ConnectToLogServer();
 
@@ -68,11 +71,9 @@ BOOL CGameService::Init()
 
 	ConnectToDBSvr();
 
-
-
 	m_WorldMsgHandler.Init(0);
 
-	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
 }

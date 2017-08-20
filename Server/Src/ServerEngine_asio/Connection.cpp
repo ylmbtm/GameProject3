@@ -390,11 +390,15 @@ void CConnection::HandReaddata(const boost::system::error_code& error, size_t le
 CConnectionMgr::CConnectionMgr()
 {
     m_pFreeConnRoot = NULL;
+    m_pFreeConnTail = NULL;
+
 }
 
 CConnectionMgr::~CConnectionMgr()
 {
-
+    DestroyAllConnection();
+    m_pFreeConnRoot = NULL;
+    m_pFreeConnTail = NULL;
 }
 
 CConnection* CConnectionMgr::CreateConnection() 
@@ -450,6 +454,21 @@ VOID CConnectionMgr::DeleteConnection( CConnection *pConnection )
         return ;
     }
 
+    if(m_pFreeConnTail == NULL)
+    {
+        if(m_pFreeConnRoot != NULL)
+        {
+            ASSERT_FAIELD;
+        }
+
+        m_pFreeConnTail = m_pFreeConnRoot = pConnection;
+    }
+    else
+    {
+        m_pFreeConnTail->m_pNext = pConnection;
+        m_pFreeConnTail = pConnection;
+    }
+
     pConnection->m_pNext = m_pFreeConnRoot;
 
     m_pFreeConnRoot = pConnection;
@@ -473,6 +492,14 @@ BOOL CConnectionMgr::CloseAllConnection()
 
 BOOL CConnectionMgr::DestroyAllConnection()
 {
+    CConnection *pConn = NULL;
+    for(size_t i = 0; i < m_vtConnList.size(); i++)
+    {
+        pConn = m_vtConnList.at(i);
+        pConn->Close();
+        delete pConn;
+    }
+
     m_vtConnList.clear();
 
 	return TRUE;
@@ -500,9 +527,8 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 }
 BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service &ioservice)
 {
-    ASSERT(m_pFreeConnRoot == NULL);
-
-    CConnection *pTemp = NULL;
+    ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
+    ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
 
     m_vtConnList.assign(nMaxCons+1, NULL);
     for(UINT32 i = 1; i < nMaxCons+1; i++)
@@ -510,14 +536,12 @@ BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service
 		CConnection *pConn = new CConnection(ioservice);
 
         m_vtConnList[i] = pConn;
-
         pConn->SetConnectionID(i) ;
-
         if (m_pFreeConnRoot == NULL)
         {
             m_pFreeConnRoot = pConn;
 			pConn->m_pNext = NULL;
-			pTemp = pConn;
+			m_pFreeConnTail = pConn;
         }
         else
         {

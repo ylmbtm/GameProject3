@@ -88,6 +88,7 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
+            PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
 		default:
 		{
 			return FALSE;
@@ -1067,6 +1068,11 @@ BOOL CScene::SendBattleResult()
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_BATTLE_RESULT_NTY, 0, 0, Nty);
 
 	return TRUE;
+}
+
+BOOL CScene::OnMsgBattleChatReq( NetPacket* pNetPacket )
+{
+    return TRUE;
 }
 
 

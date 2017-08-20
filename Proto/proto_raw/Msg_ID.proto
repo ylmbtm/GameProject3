@@ -124,6 +124,9 @@ enum MessageID {
 
 	MSG_OBJECT_DIE_NOTIFY       = 3000025;
 
+	MSG_BATTLE_CHAT_REQ         = 3000026;
+	MSG_BATTLE_CHAT_ACK			= 3000027;
+
 	MSG_SCENESVR_MSGID_END 		= 3999999;
 	//========================ProxySVR=======================
 	MSG_PROXYSVR_MSGID_BEGIN    = 4000000;

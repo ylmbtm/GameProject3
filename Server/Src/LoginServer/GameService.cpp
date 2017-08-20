@@ -33,11 +33,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-----------");
+	CLog::GetInstancePtr()->LogError("---------服务器开始启动-----------");
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
+		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
 		return FALSE;
 	}
 
@@ -45,7 +45,7 @@ BOOL CGameService::Init()
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
-		CLog::GetInstancePtr()->AddLog("启动服务失败!");
+		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
 	}
 
@@ -55,7 +55,7 @@ BOOL CGameService::Init()
 
 	m_LoginMsgHandler.Init();
 
-	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
 }
@@ -84,13 +84,7 @@ BOOL CGameService::Run()
 BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
 {
 	ERROR_RETURN_FALSE(m_dwAccountConnID != 0);
-
-	if(!ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData, pdata))
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, dwMsgID, u64TargetID, dwUserData, pdata));
 	return TRUE;
 }
 

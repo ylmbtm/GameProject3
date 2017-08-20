@@ -10,6 +10,7 @@
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Game_Define.pb.h"
 #include "RoleModule.h"
 #include "SimpleManager.h"
 #include "../ServerData/ServerDefine.h"
@@ -361,7 +362,26 @@ BOOL CWorldMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	}
 	else
 	{
+        switch(Req.channel())
+        {
+        case CHL_WORLD:
+            {
 
+            }
+            break;
+        case CHL_PRIVATE:
+            {
+
+            }
+            break;
+        case CHL_GUILD:
+            {
+
+            }
+            break;
+        default:
+            break;
+        }
 	}
 
 
@@ -373,7 +393,7 @@ BOOL CWorldMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	if(vtParam[0].compare("@@additem") == 0)
+    if(std::strcmp(vtParam[0].c_str(), "@@additem") == 0)
 	{
 		CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
 		ERROR_RETURN_TRUE(pBag != NULL);

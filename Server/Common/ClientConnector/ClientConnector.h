@@ -87,7 +87,6 @@ protected:
 
 	std::string			m_strLoginIp;
 	UINT16				m_sLoginPort;
-
 };
 
 

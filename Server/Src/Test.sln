@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicServer", "LogicServer\LogicServer.vcxproj", "{1EB19A2A-049A-45AD-A592-E94703018D85}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerEngine_asio", "ServerEngine_asio\ServerEngine_asio.vcxproj", "{A845B92E-EA29-416E-9C09-FB2D80008971}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -93,12 +91,6 @@ Global
 		{1EB19A2A-049A-45AD-A592-E94703018D85}.Release|Win32.Build.0 = Release|Win32
 		{1EB19A2A-049A-45AD-A592-E94703018D85}.Release|x64.ActiveCfg = Release|Win32
 		{1EB19A2A-049A-45AD-A592-E94703018D85}.Release|x64.Build.0 = Release|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Debug|x64.ActiveCfg = Debug|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Debug|x64.Build.0 = Debug|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Release|Win32.ActiveCfg = Release|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Release|x64.ActiveCfg = Release|Win32
-		{A845B92E-EA29-416E-9C09-FB2D80008971}.Release|x64.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,14 +31,14 @@ ServiceBase* ServiceBase::GetInstancePtr()
 }
 
 
-BOOL ServiceBase::OnDataHandle(IDataBuffer *pDataBuffer , CConnection *pConnection)
+BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnection)
 {
-	PacketHeader *pHeader = (PacketHeader *)pDataBuffer->GetBuffer();
-	ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex%2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer,pHeader->dwMsgID)));
+	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)));
 	return TRUE;
 }
 
-BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher *pDispather)
+BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather)
 {
 	if (pDispather == NULL)
 	{
@@ -46,7 +46,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 		return FALSE;
 	}
 
-	if((nPortNum <= 0)||(nMaxConn <= 0))
+	if((nPortNum <= 0) || (nMaxConn <= 0))
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -56,7 +56,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 
 	if (!CNetManager::GetInstancePtr()->Start(nPortNum, nMaxConn, this))
 	{
-		CLog::GetInstancePtr()->AddLog("启动网络层失败!");
+		CLog::GetInstancePtr()->LogError("启动网络层失败!");
 		return FALSE;
 	}
 
@@ -69,7 +69,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 
 BOOL ServiceBase::StopNetwork()
 {
-	CLog::GetInstancePtr()->AddLog("==========服务器开始关闭=======================");
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
 
 	CNetManager::GetInstancePtr()->Close();
 
@@ -79,39 +79,39 @@ BOOL ServiceBase::StopNetwork()
 }
 
 template<typename T>
-BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID,UINT32 dwUserData, T &Data)
+BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data)
 {
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
 }
 
- BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
- {
-	 ERROR_RETURN_FALSE(dwConnID != 0);
-
-	 char szBuff[10240] = {0};
-
-	 pdata.SerializePartialToArray(szBuff, pdata.ByteSize());
-
-	 return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.ByteSize());
- }
-
- BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char * pdata,UINT32 dwLen)
- {
-	 ERROR_RETURN_FALSE(dwConnID != 0);
-
-	 return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
- }
-
- BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer *pDataBuffer)
- {
-	 return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
- }
-
- CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
 {
-	if(strIpAddr.empty()||sPort <= 0)
+	ERROR_RETURN_FALSE(dwConnID != 0);
+
+	char szBuff[10240] = {0};
+
+	pdata.SerializePartialToArray(szBuff, pdata.ByteSize());
+
+	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.ByteSize());
+}
+
+BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen)
+{
+	ERROR_RETURN_FALSE(dwConnID != 0);
+
+	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
+}
+
+BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
+{
+	return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
+}
+
+CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+{
+	if(strIpAddr.empty() || sPort <= 0)
 	{
 		ASSERT_FAIELD;
 		return NULL;
@@ -120,7 +120,7 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 	return CNetManager::GetInstancePtr()->ConnectToOtherSvrEx(strIpAddr, sPort);
 }
 
-BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
+BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 	m_CloseConList.push(pConnection);
@@ -128,7 +128,7 @@ BOOL ServiceBase::OnCloseConnect( CConnection *pConnection )
 	return TRUE;
 }
 
-BOOL ServiceBase::OnNewConnect( CConnection *pConnection )
+BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
@@ -153,7 +153,7 @@ BOOL ServiceBase::Update()
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
 	//处理新连接的通知
-	CConnection *pConnection = NULL;
+	CConnection* pConnection = NULL;
 	while(m_NewConList.pop(pConnection))
 	{
 		m_pPacketDispatcher->OnNewConnect(pConnection);
@@ -177,7 +177,7 @@ BOOL ServiceBase::Update()
 
 	m_dwFps += 1;
 
-	if((CommonFunc::GetTickCount()-m_dwLastTick)>1000)
+	if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
 	{
 		//CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
 		m_dwFps = 0;

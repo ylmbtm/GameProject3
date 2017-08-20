@@ -257,11 +257,8 @@ BOOL CBagModule::NotifyChange()
 	for(auto itor = m_BagChange.begin(); itor != m_BagChange.end(); itor++)
 	{
 		BagDataObject* pObject = GetItemByGuid(*itor);
-		if(pObject == NULL)
-		{
-			ASSERT_FAIELD;
-			continue;
-		}
+		ERROR_CONTINUE_EX(pObject != NULL);
+
 
 		BagItem* pItem = Nty.add_changelist();
 		pItem->set_guid(*itor);

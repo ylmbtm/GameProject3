@@ -119,6 +119,7 @@ public:
 	BOOL OnMsgHeartBeatReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseHpBottleReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseMpBottleReq(NetPacket* pNetPacket);
+    BOOL OnMsgBattleChatReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

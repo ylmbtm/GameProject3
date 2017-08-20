@@ -113,3 +113,12 @@ enum BUFF_TYPE{
 	BFT_NONE		= 0; 
 	
 }
+
+
+enum CHAT_CHANNEL{
+	CHL_NONE		= 0; 
+	CHL_WORLD       = 1;//世界聊天
+	CHL_PRIVATE     = 2;//私聊
+	CHL_GUILD		= 3;//公会
+	
+}

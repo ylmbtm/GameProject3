@@ -36,11 +36,11 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->AddLog("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
+	CLog::GetInstancePtr()->LogError("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		CLog::GetInstancePtr()->AddLog("配制文件加载失败!");
+		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
 		return FALSE;
 	}
 
@@ -49,23 +49,23 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn, this))
 	{
-		CLog::GetInstancePtr()->AddLog("启动服务失败!");
+		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
 	}
 
 	if(!m_SceneManager.Init(TRUE))
 	{
-		CLog::GetInstancePtr()->AddLog("启动场景管理器失败!");
+		CLog::GetInstancePtr()->LogError("启动场景管理器失败!");
 		return FALSE;
 	}
 
-	CConfigData::GetInstancePtr()->ReadConfigData("Config.db");
+	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
 
 	ConnectToLogicSvr();
 
 	ConnectToProxySvr();
 
-	CLog::GetInstancePtr()->AddLog("---------服务器启动成功!--------");
+	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
 
@@ -95,14 +95,14 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 		m_dwLogicConnID = 0;
 		ConnectToLogicSvr();
 
-		CLog::GetInstancePtr()->AddLog("与逻辑服断开连接!");
+		CLog::GetInstancePtr()->LogInfo("与逻辑服断开连接!");
 	}
 
 	if(m_dwProxyConnID == pConn->GetConnectionID())
 	{
 		m_dwProxyConnID = NULL;
 		ConnectToProxySvr();
-		CLog::GetInstancePtr()->AddLog("与代理服断开连接!");
+		CLog::GetInstancePtr()->LogInfo("与代理服断开连接!");
 	}
 
 	return TRUE;

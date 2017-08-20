@@ -29,11 +29,7 @@ BOOL CNetManager::CreateEventThread( int nNum )
 		nNum = CommonFunc::GetProcessorNum();
 	}
 
-	if(nNum <= 0)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(nNum > 0);
 
 	m_bCloseEvent = FALSE;
 
@@ -56,19 +52,19 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			CLog::GetInstancePtr()->AddLog("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 
 			break;
 		}
 
-		CLog::GetInstancePtr()->AddLog("收到连接IP:%s", inet_ntoa(Con_Addr.sin_addr));
+		CLog::GetInstancePtr()->LogError("收到连接IP:%s", inet_ntoa(Con_Addr.sin_addr));
 
 		CommonSocket::SetSocketUnblock(hClientSocket);
 
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			CLog::GetInstancePtr()->AddLog("收到连接IP:%s---ConnID:%d", inet_ntoa(Con_Addr.sin_addr), pConnection->GetConnectionID());
+			CLog::GetInstancePtr()->LogError("收到连接IP:%s---ConnID:%d", inet_ntoa(Con_Addr.sin_addr), pConnection->GetConnectionID());
 
 			pConnection->SetConnectionOK(TRUE);
 
@@ -83,7 +79,7 @@ BOOL CNetManager::WorkThread_Listen()
 		}
 		else
 		{
-			CLog::GetInstancePtr()->AddLog("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		}
 	}
 
@@ -102,7 +98,7 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 	m_hListenSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(m_hListenSocket == INVALID_SOCKET)
 	{
-		CLog::GetInstancePtr()->AddLog("创建监听套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("创建监听套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
@@ -110,19 +106,19 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 
 	if(!CommonSocket::BindSocket(m_hListenSocket, (sockaddr*)&SvrAddr, sizeof(SvrAddr)))
 	{
-		CLog::GetInstancePtr()->AddLog("邦定套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("邦定套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
 	if(!CommonSocket::ListenSocket(m_hListenSocket, 20))
 	{
-		CLog::GetInstancePtr()->AddLog("监听线程套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("监听线程套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
 	if((m_hListenThread = CommonThreadFunc::CreateThread(_NetListenThread,  (void*)NULL)) == NULL)
 	{
-		CLog::GetInstancePtr()->AddLog("创建监听线程失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("创建监听线程失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
@@ -134,12 +130,7 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 
 BOOL CNetManager::WorkThread_ProcessEvent()
 {
-	if(m_hCompletePort == INVALID_HANDLE_VALUE)
-	{
-		CLog::GetInstancePtr()->AddLog("创建事件网络事件处理线程失败， 完成端口还未创建!");
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
 
 	DWORD dwNumOfByte = 0;
 	DWORD dwCompleteKey = 0;
@@ -156,7 +147,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 			{
 				if(ERROR_ABANDONED_WAIT_0 == CommonSocket::GetSocketLastError())
 				{
-					CLog::GetInstancePtr()->AddLog("完成端口被外部关闭!");
+					CLog::GetInstancePtr()->LogError("完成端口被外部关闭!");
 					return FALSE;
 				}
 
@@ -173,45 +164,50 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 			case NET_MSG_RECV:
 			{
 				CConnection* pConnection = (CConnection*)dwCompleteKey;
-				if(pConnection != NULL)
+				if(pConnection == NULL)
 				{
-					if(dwNumOfByte == 0)
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV4, 但连接指针己经为空了");
+					break;
+				}
+
+				CLog::GetInstancePtr()->LogError("触发了----NET_MSG_RECV---");
+
+				if(dwNumOfByte == 0)
+				{
+					//说明对方己经关闭
+					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 					{
-						//说明对方己经关闭
-						//CLog::GetInstancePtr()->AddLog("完成端口收到数据为0, 对方己经关闭连接:连接ID:%d!", pConnection->GetConnectionID());
-						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 对方己经关闭连接，但可能我们这边更快, 连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+						break;
+					}
+					pConnection->Close();
+				}
+				else
+				{
+					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+					{
+						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV，确实有数据, 但连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+						break;
+					}
+
+					if(pConnection->IsConnectionOK())
+					{
+						if(!pConnection->HandleRecvEvent(dwNumOfByte))
 						{
-							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV1, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
-							break;
+							//收数据失败，基本就是连接己断开
+							if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+							{
+								CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+								break;
+							}
+							pConnection->Close();
+							CLog::GetInstancePtr()->LogError("收到的数据格式错误%x!", pConnection);
 						}
-						pConnection->Close();
 					}
 					else
 					{
-						if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
-						{
-							CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV2, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
-							break;
-						}
-
-						if(pConnection->IsConnectionOK())
-						{
-							if(!pConnection->HandleRecvEvent(dwNumOfByte))
-							{
-								//收数据失败，基本就是连接己断开
-								if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
-								{
-									CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
-									break;
-								}
-								pConnection->Close();
-								CLog::GetInstancePtr()->AddLog("收到的数据格式错误%x!", pConnection);
-							}
-						}
-						else
-						{
-							ASSERT_FAIELD;
-						}
+						ASSERT_FAIELD;
+						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
 					}
 				}
 			}
@@ -226,7 +222,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					break;
 				}
 
-
 				if(pConnection != NULL)
 				{
 					pConnection->m_CritSecSendList.Lock();
@@ -237,6 +232,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				else
 				{
 					ASSERT_FAIELD;
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND,连接指针为空。");
 				}
 			}
 			break;
@@ -278,11 +274,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 BOOL CNetManager::CreateCompletePort()
 {
 	m_hCompletePort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, -1);
-	if(m_hCompletePort == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(m_hCompletePort != NULL);
 
 	return TRUE;
 }
@@ -290,11 +282,8 @@ BOOL CNetManager::CreateCompletePort()
 CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	if(pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pConnection != NULL);
+
 
 	pConnection->SetSocket(hSocket);
 
@@ -303,8 +292,6 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
 		pConnection->Close();
-		ASSERT_FAIELD;
-
 		return NULL;
 	}
 
@@ -333,11 +320,7 @@ BOOL CNetManager::WorkThread_DispathEvent()
 BOOL CNetManager::CreateCompletePort()
 {
 	m_hCompletePort = epoll_create(MAXEPOLLSIZE);
-	if(m_hCompletePort == -1)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(m_hCompletePort != -1);
 
 	return TRUE;
 }
@@ -376,11 +359,7 @@ BOOL CNetManager::CreateDispatchThread()
 	m_bCloseDispath = FALSE;
 
 	m_hDispathThread = CommonThreadFunc::CreateThread(_NetEventDispatchThread,  (void*)NULL);
-	if(m_hDispathThread == (THANDLE)NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(m_hDispathThread != (THANDLE)NULL);
 
 	return TRUE;
 }
@@ -533,12 +512,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 
 BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler )
 {
-	if(pBufferHandler == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
 	m_pBufferHandler = pBufferHandler;
 
@@ -546,36 +520,31 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 	if(!InitNetwork())
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("初始化网络失败！！");
+		CLog::GetInstancePtr()->LogError("初始化网络失败！！");
 		return FALSE;
 	}
 
 	if(!CreateCompletePort())
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("创建完成端口或Epoll失败！！");
+		CLog::GetInstancePtr()->LogError("创建完成端口或Epoll失败！！");
 		return FALSE;
 	}
 
 	if(!CreateEventThread(0))
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("创建网络事件处理线程失败！！");
+		CLog::GetInstancePtr()->LogError("创建网络事件处理线程失败！！");
 		return FALSE;
 	}
 
 	if(!CreateDispatchThread())
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("创建事件分发线程失败！！");
+		CLog::GetInstancePtr()->LogError("创建事件分发线程失败！！");
 		return FALSE;
 	}
 
 	if(!StartListen(nPortNum))
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("开启监听失败！！");
+		CLog::GetInstancePtr()->LogError("开启监听失败！！");
 		return FALSE;
 	}
 
@@ -625,9 +594,8 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(hSocket == INVALID_SOCKET)
 	{
-		ASSERT_FAIELD;
 		CommonSocket::CloseSocket(hSocket);
-		CLog::GetInstancePtr()->AddLog("创建套接字失败!!");
+		CLog::GetInstancePtr()->LogError("创建套接字失败!!");
 		return NULL;
 	}
 
@@ -644,8 +612,7 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 	CConnection* pConnection = AssociateCompletePort(hSocket);
 	if(pConnection == NULL)
 	{
-		ASSERT_FAIELD;
-		CLog::GetInstancePtr()->AddLog("邦定套接字到完成端口失败!!");
+		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 		return NULL;
 	}
 
@@ -666,9 +633,8 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(hSocket == INVALID_SOCKET)
 	{
-		ASSERT_FAIELD;
 		CommonSocket::CloseSocket(hSocket);
-		CLog::GetInstancePtr()->AddLog("创建套接字失败!!");
+		CLog::GetInstancePtr()->LogError("创建套接字失败!!");
 		return NULL;
 	}
 
@@ -679,7 +645,7 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	CConnection* pConnection = AssociateCompletePort(hSocket);
 	if(pConnection == NULL)
 	{
-		CLog::GetInstancePtr()->AddLog("邦定套接字到完成端口失败!!");
+		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 
 		return NULL;
 	}
@@ -701,7 +667,7 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	{
 		pConnection->Close();
 
-		CLog::GetInstancePtr()->AddLog("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
+		CLog::GetInstancePtr()->LogError("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
 
 		return NULL;
 	}
@@ -772,7 +738,7 @@ Th_RetName _NetEventThread( void* pParam )
 
 	pNetManager->WorkThread_ProcessEvent();
 
-	CLog::GetInstancePtr()->AddLog("网络事件处理线程退出!");
+	CLog::GetInstancePtr()->LogError("网络事件处理线程退出!");
 
 	CommonThreadFunc::ExitThread();
 
@@ -785,7 +751,7 @@ Th_RetName _NetListenThread( void* pParam )
 
 	pNetManager->WorkThread_Listen();
 
-	CLog::GetInstancePtr()->AddLog("监听线程退出!");
+	CLog::GetInstancePtr()->LogInfo("监听线程退出!");
 
 	CommonThreadFunc::ExitThread();
 
@@ -798,7 +764,7 @@ Th_RetName _NetEventDispatchThread(void* pParam )
 
 	pNetManager->WorkThread_DispathEvent();
 
-	CLog::GetInstancePtr()->AddLog("事件分发线程退出!");
+	CLog::GetInstancePtr()->LogInfo("事件分发线程退出!");
 
 	CommonThreadFunc::ExitThread();
 

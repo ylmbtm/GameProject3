@@ -28,3 +28,8 @@ BOOL CGroupMailMgr::SendGroupMail(GroupMailDataObject* pGroupMail)
 {
 	return TRUE;
 }
+
+BOOL CGroupMailMgr::LoadGroupMailData()
+{
+    return TRUE;
+}

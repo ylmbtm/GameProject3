@@ -25,12 +25,13 @@ class CConfigData
 public:
 	static CConfigData* GetInstancePtr();
 	BOOL InitDataReader();
-	BOOL ReadConfigData(std::string strDbFile);
+	BOOL LoadConfigData(std::string strDbFile);
+	BOOL ReloadConfigData(std::string strTbName);
 
 public:
 	//基本配制变量
 	///////////////////////////////////////////////
-	BOOL ReadConstantValue(CppSQLite3Query& QueryData);
+	BOOL ReadConstantData(CppSQLite3Query& QueryData);
 	StConstantValue m_ConstantValue;
 
 	//货币和体力
@@ -71,7 +72,7 @@ public:
 	//语言配制表
 	///////////////////////////////////////////////
 	std::string m_strNull;
-	std::map<UINT32, StLocalString> m_mapLocalString;
+	std::map<UINT32, StLocalString> m_mapLanguage;
 	BOOL ReadLanguage(CppSQLite3Query& QueryData);
 	std::string& GetLanguageText(UINT32 dwID, UINT32 dwLang);
 
@@ -136,6 +137,12 @@ public:
 	std::map<UINT32, StBuffInfo> m_mapBuffInfo;
 	BOOL ReadBuffInfo(CppSQLite3Query& QueryData);
 	StBuffInfo* GetBuffInfo(UINT32 dwBuffID);
+
+
+	//商店表
+	std::map<UINT32, std::map<UINT32, StStoreItemInfo>> m_mapStoreInfo ;
+	BOOL ReadStoreInfo(CppSQLite3Query& QueryData);
+	StStoreItemInfo* GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStoreID);
 public:
 
 	CppSQLite3DB	m_DBConnection;
