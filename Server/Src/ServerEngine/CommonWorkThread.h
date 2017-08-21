@@ -1,15 +1,15 @@
 ﻿#ifndef _COMMON_WORK_THREAD_H_
 #define _COMMON_WORK_THREAD_H_
-#include "Utility/CommonThreadFunc.h"
-#include "Utility/CommonMsgQueue.h"
+#include "CommonThreadFunc.h"
+#include "CommonMsgQueue.h"
 #include "IBufferHandler.h"
-#include "Utility/LockFreeQueue.h"
+#include "LockFreeQueue.h"
 
-Th_RetName _CommonWorkThread( void *pParam );
+Th_RetName _CommonWorkThread( void* pParam );
 
 struct MsgItem
 {
-	MsgItem(UINT64 _u64ConnID = 0, IDataBuffer *pBuffer = NULL)
+	MsgItem(UINT64 _u64ConnID = 0, IDataBuffer* pBuffer = NULL)
 	{
 		u64ConnID = _u64ConnID;
 
@@ -18,7 +18,7 @@ struct MsgItem
 
 	UINT64		u64ConnID;
 
-	IDataBuffer *pDataBuffer;
+	IDataBuffer* pDataBuffer;
 };
 
 class CCommonWorkThread
@@ -38,9 +38,9 @@ public:
 
 	BOOL			ProcessMessage();
 
-	BOOL			AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer);
+	BOOL			AddMessage(UINT64 u64ConnID, IDataBuffer* pDataBuffer);
 
-	BOOL			SetCommandHandler(IThreadCommandHandler *pCommandHandler);
+	BOOL			SetCommandHandler(IThreadCommandHandler* pCommandHandler);
 
 	BOOL			OnThreadBegin();
 
@@ -51,13 +51,13 @@ protected:
 
 	BOOL					m_bRun;
 
-	IThreadCommandHandler	*m_pCommandHandler;
+	IThreadCommandHandler*	m_pCommandHandler;
 
 	ArrayLockFreeQueue<MsgItem>   m_MessageQueue;
 
 	UINT32					m_dwLastTick;
 
-	
+
 };
 
 #endif //_COMMON_WORK_THREAD_H_

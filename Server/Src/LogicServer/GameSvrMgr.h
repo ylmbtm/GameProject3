@@ -1,8 +1,8 @@
 ﻿#ifndef __GAME_SVR_MGR__
 #define __GAME_SVR_MGR__
 
-#include "..\Message\Msg_Copy.pb.h"
-#include "..\Message\Msg_Game.pb.h"
+#include "../Message/Msg_Copy.pb.h"
+#include "../Message/Msg_Game.pb.h"
 struct GameSvrInfo
 {
 	GameSvrInfo(UINT32 svrID, UINT32 conID)

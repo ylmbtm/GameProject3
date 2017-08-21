@@ -1,8 +1,8 @@
 ﻿#include <stdafx.h>
 #include "ConfigData.h"
-#include "Utility\CommonConvert.h"
-#include "Utility\Log\Log.h"
-#include "Utility\CommonFunc.h"
+#include "CommonConvert.h"
+#include "CommonFunc.h"
+#include "Log.h"
 
 CConfigData::CConfigData()
 {
@@ -23,13 +23,13 @@ CConfigData* CConfigData::GetInstancePtr()
 
 BOOL CConfigData::InitDataReader()
 {
-	//m_vtDataFuncList.push_back(DataFuncNode("Data_Constant",    &CConfigData::ReadConstantData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Constant",    &CConfigData::ReadConstantData));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Role",        &CConfigData::ReadCarrer));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel",   &CConfigData::ReadCarrerLevel));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor",       &CConfigData::ReadActor));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy",        &CConfigData::ReadCopyInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CConfigData::ReadItemData));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CConfigData::ReadActionCfg));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CConfigData::ReadItemData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CConfigData::ReadActionCfg));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CConfigData::ReadLanguage));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CConfigData::ReadAwardData));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CConfigData::ReadFuncInfo));
@@ -61,7 +61,7 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 	{
 		DataFuncNode dataNode = (*itor);
-		sprintf(szSql, "select * from %s;", dataNode.m_strTbName.c_str());
+		sprintf_s(szSql, 1024, "select * from %s;", dataNode.m_strTbName.c_str());
 		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
 		(this->*dataNode.m_pDataFunc)(Tabledatas);
 	}
@@ -92,7 +92,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 			continue;
 		}
 
-		sprintf(szSql, "select * from %s;", dataNode.m_strTbName.c_str());
+		sprintf_s(szSql, 1024, "select * from %s;", dataNode.m_strTbName.c_str());
 		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
 		(this->*dataNode.m_pDataFunc)(Tabledatas);
 	}
@@ -192,9 +192,9 @@ BOOL CConfigData::ReadActionCfg(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StActionInfo stValue;
-		stValue.dwActionID = QueryData.getIntField("id");
-		stValue.dwMax = QueryData.getIntField("max");
-		stValue.UnitTime = QueryData.getIntField("unittime");
+		stValue.dwActionID = QueryData.getIntField("Id");
+		stValue.dwMax = QueryData.getIntField("Max");
+		stValue.UnitTime = QueryData.getIntField("UnitTime");
 		m_vtActionList.push_back(stValue);
 		QueryData.nextRow();
 	}
@@ -442,7 +442,7 @@ BOOL CConfigData::GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& Award
 
 	std::vector<StAwardItem>& AwardItemList = itor->second;
 
-	for(auto i = 0; i < AwardItemList.size(); i++)
+	for(std::vector<StAwardItem>::size_type i = 0; i < AwardItemList.size(); i++)
 	{
 		AwardItem = AwardItemList.at(i);
 		if(AwardItem.nCarrer == nCarrer)
@@ -596,14 +596,14 @@ BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StItemInfo stValue;
-		stValue.dwItemID = QueryData.getIntField("id");
-		stValue.dwType = QueryData.getIntField("type");
-		stValue.SellID = QueryData.getIntField("sell_money_id");
-		stValue.SellPrice = QueryData.getIntField("sell_money_num");
-		stValue.Quality = QueryData.getIntField("quality");
-		stValue.UseType = QueryData.getIntField("usetype");
-		stValue.Data1 = QueryData.getIntField("data1");
-		stValue.Data2 = QueryData.getIntField("data2");
+		stValue.dwItemID = QueryData.getIntField("Id");
+		stValue.dwType = QueryData.getIntField("ItemType");
+		stValue.SellID = QueryData.getIntField("SellMoneyId");
+		stValue.SellPrice = QueryData.getIntField("SellMoneyNum");
+		stValue.Quality = QueryData.getIntField("Quality");
+		//stValue.UseType = QueryData.getIntField("usetype");
+		stValue.Data1 = QueryData.getIntField("Data1");
+		stValue.Data2 = QueryData.getIntField("Data2");
 		m_mapItem.insert(std::make_pair(stValue.dwItemID, stValue));
 		QueryData.nextRow();
 	}

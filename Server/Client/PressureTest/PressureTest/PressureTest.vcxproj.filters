@@ -33,15 +33,6 @@
     <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp">
       <Filter>ClientConnector</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonSocket.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonConvert.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonFunc.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
@@ -66,6 +57,15 @@
     <ClCompile Include="ClientObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonConvert.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonFunc.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonSocket.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -77,26 +77,29 @@
     <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h">
       <Filter>ClientConnector</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonSocket.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonConvert.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonFunc.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\XMath.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_LoginCltData.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonConvert.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonFunc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonSocket.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\XMath.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

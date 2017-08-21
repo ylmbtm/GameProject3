@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "MonsterCreator.h"
-#include "Utility/Log/Log.h"
+#include "Log.h"
 #include "Scene.h"
 
 MonsterCreator::MonsterCreator(CScene* pScene)
@@ -9,7 +9,43 @@ MonsterCreator::MonsterCreator(CScene* pScene)
 
 	m_bAllFinished = FALSE;
 
-	m_dwCurWave = 0;
+	m_dwCurWave = -1;
+	/*
+	MonsterWave Wave;
+	Wave.m_dwGenType = 0;
+
+	MonsterData Data;
+	Data.m_dwActorID = 50022;
+	Data.m_bCheckDie = TRUE;
+	Data.m_dwCamp = 1;
+	Data.m_dwType = OT_MONSTER;
+	Data.m_x = 0;
+	Data.m_y = 0;
+	Data.m_z = 0;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 50028;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 50042;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 50046;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 50061;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 50068;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 60001;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	Data.m_dwActorID = 80002;
+	Wave.m_vtMonsterList.push_back(Data);
+
+	m_MonsterVaveList.push_back(Wave);*/
 }
 
 MonsterCreator::~MonsterCreator()
@@ -50,28 +86,28 @@ BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
 		return TRUE;
 	}
 
-	if(m_dwCurWave + 1 >= m_MonsterVaveList.size())
+	if(m_dwCurWave >= 0)
 	{
-		m_bAllFinished = TRUE;
+		return TRUE;
 	}
 
-	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwCurWave + 1);
-	ERROR_RETURN_FALSE(pWave != NULL);
-
-	if(pWave)
-	{
-		GenMonsterWave(pWave);
-		m_dwCurWave = m_dwCurWave + 1;
-	}
-
+	GenMonsterWave(0);
+	m_dwCurWave = 0;
 	return TRUE;
 }
 
-BOOL MonsterCreator::GenMonsterWave( MonsterWave* pWave )
+BOOL MonsterCreator::GenMonsterWave(INT32 dwWaveIndex)
 {
+	if(dwWaveIndex >= (INT32)m_MonsterVaveList.size())
+	{
+		return FALSE;
+	}
+
+	MonsterWave& Wave = m_MonsterVaveList.at(dwWaveIndex);
+
 	std::vector<MonsterData>  m_vtMonsterList;
 
-	for( std::vector<MonsterData>::iterator itor = pWave->m_vtMonsterList.begin(); itor != pWave->m_vtMonsterList.end(); itor++)
+	for( std::vector<MonsterData>::iterator itor = Wave.m_vtMonsterList.begin(); itor != Wave.m_vtMonsterList.end(); itor++)
 	{
 		MonsterData* pData = &(*itor);
 		m_pScene->CreateMonster(pData->m_dwActorID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
@@ -87,32 +123,12 @@ BOOL MonsterCreator::IsAllFinished()
 
 BOOL MonsterCreator::OnObjectDie(CSceneObject* pObject)
 {
-	return TRUE;
-}
-
-BOOL MonsterCreator::GenCurrentWave()
-{
-	if(m_MonsterVaveList.size() <= 0)
+	if(m_pScene->IsMonsterAllDie())
 	{
-		m_bAllFinished = TRUE;
+		return FALSE;
 	}
 
-	if(m_bAllFinished)
-	{
-		return TRUE;
-	}
-
-	if(m_dwCurWave + 1 >= m_MonsterVaveList.size())
-	{
-		m_bAllFinished = TRUE;
-	}
-
-	MonsterWave* pWave = &m_MonsterVaveList.at(m_dwCurWave + 1);
-	ERROR_RETURN_FALSE(pWave != NULL);
-
-	GenMonsterWave(pWave);
-
-	m_dwCurWave = m_dwCurWave + 1;
+	GenMonsterWave(m_dwCurWave + 1);
 
 	return TRUE;
 }

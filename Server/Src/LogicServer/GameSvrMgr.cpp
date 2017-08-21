@@ -4,7 +4,7 @@
 #include "../LogicServer/GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
-#include "Utility/Log/Log.h"
+#include "Log.h"
 #include "../Message/Game_Define.pb.h"
 #include "BagModule.h"
 #include "RoleModule.h"

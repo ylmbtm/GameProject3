@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "GlobalDataMgr.h"
-#include "..\GameServer\GameService.h"
-#include "Sqlite\CppSQLite3.h"
-#include "Utility\CommonFunc.h"
-#include "Utility\Log\Log.h"
+#include "GameService.h"
+#include "Sqlite/CppSQLite3.h"
+#include "CommonFunc.h"
+#include "Log.h"
 #include "DataPool.h"
 
 CGlobalDataManager::CGlobalDataManager()
@@ -55,7 +55,7 @@ BOOL CGlobalDataManager::LoadGlobalData()
 		dwMaxGuid = (dwMaxGuid << 48) + 1;
 	}
 	dwMaxGuid += 100;
-	m_pGlobalDataObject = g_pGlobalDataObjectPool->newOjbect(TRUE);
+	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewOjbect(TRUE);
 	m_pGlobalDataObject->lock();
 	m_pGlobalDataObject->m_dwServerID = dwServerID;
 	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;

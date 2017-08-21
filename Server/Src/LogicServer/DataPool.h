@@ -1,18 +1,18 @@
 ﻿#ifndef __DATA_MODULE_POOL_H__
 #define __DATA_MODULE_POOL_H__
-#include "..\ServerEngine\SharedMemory.h"
-#include "..\ServerData\ServerStruct.h"
-#include "..\ServerData\RoleData.h"
-#include "..\ServerData\GlobalData.h"
-#include "..\ServerData\BagData.h"
-#include "..\ServerData\CopyData.h"
-#include "..\ServerData\EquipData.h"
-#include "..\ServerData\PetData.h"
-#include "..\ServerData\PartnerData.h"
-#include "..\ServerData\GuildData.h"
-#include "..\ServerData\TaskData.h"
-#include "..\ServerData\MountData.h"
-#include "..\ServerData\MailData.h"
+#include "../ServerEngine/SharedMemory.h"
+#include "../ServerData/ServerStruct.h"
+#include "../ServerData/RoleData.h"
+#include "../ServerData/GlobalData.h"
+#include "../ServerData/BagData.h"
+#include "../ServerData/CopyData.h"
+#include "../ServerData/EquipData.h"
+#include "../ServerData/PetData.h"
+#include "../ServerData/PartnerData.h"
+#include "../ServerData/GuildData.h"
+#include "../ServerData/TaskData.h"
+#include "../ServerData/MountData.h"
+#include "../ServerData/MailData.h"
 
 extern	SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool;
 extern	SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool;

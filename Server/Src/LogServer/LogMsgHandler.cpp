@@ -1,12 +1,11 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "LogMsgHandler.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "GameService.h"
 #include "PacketHeader.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 
 CLogMsgHandler::CLogMsgHandler()
 {
@@ -30,14 +29,14 @@ BOOL CLogMsgHandler::Uninit()
 
 
 
-BOOL CLogMsgHandler::DispatchPacket(NetPacket *pNetPacket)
+BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		
-	default:
+
+		default:
 		{
-			
+
 		}
 		break;
 	}

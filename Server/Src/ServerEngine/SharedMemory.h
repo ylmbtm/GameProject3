@@ -1,9 +1,8 @@
 #ifndef __SHARE_MEMORY_H__
 #define __SHARE_MEMORY_H__
-#include "..\ServerData\serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 
 #define BLOCK_CHECK_CODE	0x5A
-#define  SafeDelete(a) if(a!=NULL){delete a; a=NULL;}
 
 /**共享内存的状态
 */
@@ -115,7 +114,7 @@ protected:
 private:
 
 	///创建一个新页
-	BOOL newPage();
+	BOOL NewPage();
 
 
 	/**
@@ -125,7 +124,7 @@ private:
 	* @return		void
 	* @remarks
 	*/
-	void initpage(shareMemoryPage& rPage);
+	void InitPage(shareMemoryPage& rPage);
 
 
 public:
@@ -135,46 +134,46 @@ public:
 
 
 	/**是否是首创共享内存*/
-	BOOL isFirstCreated();
+	BOOL IsFirstCreated();
 
 
 	/**从共享内存里恢复其他页*/
-	void importOtherPage();
+	void ImportOtherPage();
 
 	/**获取数量*/
-	const UINT32 getCount()const;
+	const UINT32 GetCount()const;
 
 	/**获取还有多少块空闲内存
 	*/
-	UINT32 getFreeCount()const;
+	UINT32 GetFreeCount()const;
 
 	///获取已经使用了多少块
-	UINT32 getUseCount()const;
+	UINT32 GetUseCount()const;
 
 	/**通过id获取原始内存中的描述块指针
 	*/
-	virtual _SMBlock* getSMBbyRawIndex(INT32 index);
+	virtual _SMBlock* GetSMBbyRawIndex(INT32 index);
 
 	/**通过id获取原始内存中的描述块指针
 	*/
-	virtual ShareObject*  getObjectByRawindex(UINT32 index);
+	virtual ShareObject*  GetObjectByRawindex(UINT32 index);
 
 
-	const UINT32 getRawMemoryBlockSize();
+	const UINT32 GetRawMemoryBlockSize();
 
-	const INT32 getBlockSize() { return m_rawblockSize; }
+	const INT32 GetBlockSize() { return m_rawblockSize; }
 
 	/*处理已用区块中被数据库服务器释放的区块*/
-	void processCleanDirtyData();
+	void ProcessCleanDirtyData();
 
 	/*从空闲内存中分配一个块,如果没有了返回空
 	@param isNewBlock 为true时会在保存期调用saveobject 的Create虚函数
 	*/
-	virtual ShareObject* newOjbect(BOOL isNewBlock = false);
+	virtual ShareObject* NewOjbect(BOOL isNewBlock = false);
 
 	/**释放一块已经不再使用的内存
 	*/
-	virtual BOOL destoryObject(ShareObject* pobject);
+	virtual BOOL DestoryObject(ShareObject* pobject);
 };
 
 template<typename T>
@@ -187,25 +186,20 @@ public:
 
 	}
 
-	SharedMemory(const std::string& name, char* pdata, INT32 len)
-		: SharedMemoryBase(sizeof(T), pdata, len)
-	{
+	//SharedMemory(const std::string& name, char* pdata, INT32 len)
+	//	: SharedMemoryBase(sizeof(T), pdata, len)
+	//{
 
+	//}
+
+	T*  GetObjectByRawindex(UINT32 index)
+	{
+		return static_cast<T*>(SharedMemoryBase::GetObjectByRawindex(index));
 	}
 
-	T*  getObjectByRawindex(UINT32 index)
+	T* NewOjbect(BOOL isNewBlock = false)
 	{
-		return static_cast<T*>(SharedMemoryBase::getObjectByRawindex(index));
-	}
-
-	T*  getObjectByindex(UINT32 index)
-	{
-		return static_cast<T*>(SharedMemoryBase::getObjectByindex(index));
-	}
-
-	T* newOjbect(BOOL isNewBlock = false)
-	{
-		T* pTmp = static_cast<T*>(SharedMemoryBase::newOjbect(isNewBlock));
+		T* pTmp = static_cast<T*>(SharedMemoryBase::NewOjbect(isNewBlock));
 		if (pTmp == NULL)
 		{
 			return NULL;
@@ -215,17 +209,16 @@ public:
 		return pTmp;
 	}
 
-	_SMBlock* getSMBbyRawIndex(INT32 index)
+	_SMBlock* GetSMBbyRawIndex(INT32 index)
 	{
-		return SharedMemoryBase::getSMBbyRawIndex(index);
+		return SharedMemoryBase::GetSMBbyRawIndex(index);
 	}
 
-	BOOL destoryObject(T* pobject)
+	BOOL DestoryObject(T* pobject)
 	{
-		return SharedMemoryBase::destoryObject(pobject);
+		return SharedMemoryBase::DestoryObject(pobject);
 	}
 };
-
 
 
 template <typename T> class DataWriter
@@ -239,11 +232,12 @@ public:
 	}
 	~DataWriter()
 	{
-		SafeDelete(m_MemoryPool);
+		delete m_MemoryPool;
+		m_MemoryPool = NULL;
 	}
 
 	/**数据库修改*/
-	BOOL saveModifyToDB(IDataBase* pdb)
+	BOOL SaveModifyToDB(IDataBase* pdb)
 	{
 		///共享内存不存在直接返回
 		if (m_MemoryPool == NULL)
@@ -255,20 +249,21 @@ public:
 			return false;
 		}
 
-		if (m_MemoryPool->isFirstCreated())
+		if (m_MemoryPool->IsFirstCreated())
 		{
 			///共享内存还没创建
-			SafeDelete(m_MemoryPool);
+			delete m_MemoryPool;
+			m_MemoryPool = NULL;
 			return false;
 		}
 
 		INT32 newtimes = 0, writetimes = 0, deletetimes = 0, releasetime = 0;
 		BOOL hasOprate = false; //是否有操作
 		///获取所有修改过的数据,getRawMemoryBlockSize会重新计算所有共享块，
-		UINT32 temblockSize = m_MemoryPool->getRawMemoryBlockSize();
+		UINT32 temblockSize = m_MemoryPool->GetRawMemoryBlockSize();
 		for (UINT32 r = 0; r < temblockSize; r++)
 		{
-			_SMBlock* pBlock = m_MemoryPool->getSMBbyRawIndex(r);
+			_SMBlock* pBlock = m_MemoryPool->GetSMBbyRawIndex(r);
 			if (pBlock == NULL)
 			{
 				continue;
@@ -277,7 +272,7 @@ public:
 			{
 				continue;
 			}
-			T* pdata = m_MemoryPool->getObjectByRawindex(r);
+			T* pdata = m_MemoryPool->GetObjectByRawindex(r);
 			if (pdata == NULL)
 			{
 				continue;
@@ -300,7 +295,7 @@ public:
 			{
 				///创建一个副本发送异步执行,提高运行效率
 				pdata->Delete(pdb);
-				m_MemoryPool->destoryObject(pdata);
+				m_MemoryPool->DestoryObject(pdata);
 				hasOprate = true;
 				deletetimes++;
 				continue;
@@ -360,7 +355,7 @@ public:
 					writetimes++;
 					continue;
 				}
-				m_MemoryPool->destoryObject(pdata);
+				m_MemoryPool->DestoryObject(pdata);
 				releasetime++;
 			}
 

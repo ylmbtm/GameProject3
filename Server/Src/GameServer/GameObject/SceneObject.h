@@ -1,6 +1,6 @@
 ﻿#ifndef _SCENE_OBJECT_H_
 #define _SCENE_OBJECT_H_
-#include "Utility/Position.h"
+#include "Position.h"
 #include "../Message/Msg_Move.pb.h"
 #include "../ServerData/ServerDefine.h"
 class CScene;

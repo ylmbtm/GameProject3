@@ -1,18 +1,18 @@
 ﻿#ifndef __CLIENT_OBJECT_MGR_H__
 #define __CLIENT_OBJECT_MGR_H__
-#include "Utility/AVLTree.h"
+#include "AVLTree.h"
 
 class  CProxyPlayer
 {
 public:
-	CProxyPlayer():m_u64RoleID(0),m_dwGameSvrID(0){}
+	CProxyPlayer(): m_u64RoleID(0), m_dwGameSvrID(0) {}
 
 	~CProxyPlayer();
 
 public:
 	UINT32	GetGameSvrID();
 
-    VOID	SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
+	VOID	SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
 
 	UINT64	GetCharID();
 

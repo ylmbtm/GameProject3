@@ -45,7 +45,7 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
 
-	BagDataObject *pObject = g_pBagDataObjectPool->newOjbect(FALSE);
+	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
 	pObject->lock();
 	pObject->m_uGuid = ItemData.guid();
 	pObject->m_uRoleID = ItemData.roleid();

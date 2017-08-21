@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "RankMananger.h"
-#include "..\GameServer\GameService.h"
-#include "Sqlite\CppSQLite3.h"
-#include "Utility\CommonFunc.h"
-#include "Utility\Log\Log.h"
+#include "GameService.h"
+#include "Sqlite/CppSQLite3.h"
+#include "CommonFunc.h"
+#include "Log.h"
 
 CRankManager::CRankManager()
 {

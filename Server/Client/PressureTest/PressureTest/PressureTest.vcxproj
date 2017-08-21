@@ -94,8 +94,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Utility\CommonConvert.cpp" />
-    <ClCompile Include="..\..\..\Common\Utility\CommonFunc.cpp" />
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -124,6 +122,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonConvert.cpp" />
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonFunc.cpp" />
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonSocket.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="PressureTest.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -131,20 +132,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp" />
-    <ClCompile Include="..\..\..\Common\Utility\CommonSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Common\Utility\CommonConvert.h" />
-    <ClInclude Include="..\..\..\Common\Utility\CommonFunc.h" />
-    <ClInclude Include="..\..\..\Common\Utility\XMath.h" />
     <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\..\..\Src\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\..\..\Src\Message\Msg_LoginCltData.pb.h" />
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonConvert.h" />
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonFunc.h" />
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonSocket.h" />
+    <ClInclude Include="..\..\..\Src\ServerEngine\XMath.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h" />
-    <ClInclude Include="..\..\..\Common\Utility\CommonSocket.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

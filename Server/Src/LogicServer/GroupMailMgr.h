@@ -1,6 +1,6 @@
 #ifndef __GROUP_MAIL_MGR_H__
 #define __GROUP_MAIL_MGR_H__
-#include "..\ServerData\MailData.h"
+#include "../ServerData/MailData.h"
 
 class CGroupMailMgr
 {
@@ -11,7 +11,7 @@ public:
 
 	BOOL  SendGroupMail(GroupMailDataObject* pGroupMail);
 
-    BOOL  LoadGroupMailData();
+	BOOL  LoadGroupMailData();
 
 public:
 	std::map<UINT64, GroupMailDataObject*> m_mapGroupMailData;

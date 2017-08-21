@@ -1,18 +1,18 @@
 ﻿#include "stdafx.h"
 #include "BagModule.h"
 #include "DataPool.h"
-#include "..\ConfigData\ConfigStruct.h"
+#include "../ConfigData/ConfigStruct.h"
 #include "GlobalDataMgr.h"
-#include "..\ConfigData\ConfigData.h"
-#include "Utility\Log\Log.h"
-#include "..\Message\Game_Define.pb.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "../ConfigData/ConfigData.h"
+#include "../Message/Game_Define.pb.h"
+#include "../Message/Msg_ID.pb.h"
 #include "EquipModule.h"
 #include "PlayerObject.h"
-#include "..\ServerData\ServerDefine.h"
+#include "../ServerData/ServerDefine.h"
 #include "PetModule.h"
 #include "PartnerModule.h"
 #include "RoleModule.h"
+#include "Log.h"
 
 
 CBagModule::CBagModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -59,7 +59,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	{
 		const DBBagItem& ItemData = BagData.itemlist(i);
 
-		BagDataObject* pObject = g_pBagDataObjectPool->newOjbect(FALSE);
+		BagDataObject* pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
 		pObject->lock();
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
@@ -166,7 +166,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 		}
 	}
 
-	BagDataObject* pObject = g_pBagDataObjectPool->newOjbect(TRUE);
+	BagDataObject* pObject = g_pBagDataObjectPool->NewOjbect(TRUE);
 	pObject->lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_BagType = pItemInfo->dwBagType;

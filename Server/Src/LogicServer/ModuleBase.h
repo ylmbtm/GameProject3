@@ -1,7 +1,7 @@
 ﻿#ifndef __CMODULE_BASE_H__
 #define __CMODULE_BASE_H__
-#include "Utility/AVLTree.h"
-#include "Utility/Position.h"
+#include "AVLTree.h"
+#include "Position.h"
 #include "../Message/Msg_LoginDbData.pb.h"
 #include "../Message/Msg_LoginCltData.pb.h"
 #include "../ServerData/ServerDefine.h"

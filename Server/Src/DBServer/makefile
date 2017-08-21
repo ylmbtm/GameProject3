@@ -4,13 +4,11 @@ CC_INCLUDE=-I/usr/include
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
-		-I../../Common/Utility \
-		-I../../Common/PacketDef \
-		-I../../Common/DataBuff \
-		-I../../Common/CmdHandler \
-		-I../../Common/Mysql
+		-I../../Common/Mysql \
+		-I../../Common/protobuf/src
 					 
 CC_LIB=-L/usr/lib \
+	   -L/usr/lib64\mysql \
 	-L/lib \
 	-L/usr/lib/mysql \
 	-lpthread

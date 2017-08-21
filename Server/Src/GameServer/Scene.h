@@ -82,6 +82,8 @@ public:
 	BOOL			IsAllLoginReady();
 	UINT32			GetStartTime();
 	UINT32			GetCreateTime();
+	UINT32          GetLastTick();
+	BOOL			SetLastTick(UINT32 dwTick);
 
 protected:
 	UINT32							m_dwPlayerNum;  //副本需要进入的人数
@@ -119,7 +121,7 @@ public:
 	BOOL OnMsgHeartBeatReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseHpBottleReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseMpBottleReq(NetPacket* pNetPacket);
-    BOOL OnMsgBattleChatReq(NetPacket* pNetPacket);
+	BOOL OnMsgBattleChatReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

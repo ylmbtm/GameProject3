@@ -1,7 +1,7 @@
 ﻿#ifndef _GAME_MONSTER_CREATOR_H_
 #define _GAME_MONSTER_CREATOR_H_
 
-#include "Utility\RapidXml\rapidxml.h"
+#include "RapidXml.h"
 
 class CScene;
 class CSceneObject;
@@ -67,9 +67,7 @@ public:
 
 	BOOL OnUpdate(UINT32 dwTick);
 
-	BOOL GenMonsterWave(MonsterWave* pWave);
-
-	BOOL GenCurrentWave();
+	BOOL GenMonsterWave(INT32 dwWaveIndex);
 
 	BOOL IsAllFinished();
 
@@ -81,7 +79,7 @@ public:
 
 	BOOL    m_bAllFinished;
 
-	UINT32  m_dwCurWave;
+	INT32  m_dwCurWave;
 };
 
 #endif

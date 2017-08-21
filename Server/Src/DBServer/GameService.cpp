@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "GameService.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 
 
 CGameService::CGameService(void)
@@ -62,7 +62,6 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
-	//CLog::GetInstancePtr()->AddLog("新连接来到!");
 	return TRUE;
 }
 

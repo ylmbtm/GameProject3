@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 #include "Connection.h"
 #include "DataBuffer.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
+#include "CommonFunc.h"
 #include "PacketHeader.h"
+#include "Log.h"
 
 void NetIoOperatorData::Clear()
 {
@@ -111,7 +111,7 @@ BOOL CConnection::DoReceive()
 		{
 			if(m_dwDataLen == CONST_BUFF_SIZE)
 			{
-				CLog::GetInstancePtr()->AddLog("buffer满了，需要再读一次!!");
+				CLog::GetInstancePtr()->LogError("buffer满了，需要再读一次!!");
 
 				if(!ExtractBuffer())
 				{
@@ -121,7 +121,7 @@ BOOL CConnection::DoReceive()
 				continue;
 			}
 
-			CLog::GetInstancePtr()->AddLog("收到数据为0， 判断是对方关闭################!!");
+			CLog::GetInstancePtr()->LogError("收到数据为0， 判断是对方关闭################!!");
 
 			return FALSE;
 		}
@@ -130,13 +130,13 @@ BOOL CConnection::DoReceive()
 			int nErr = CommonSocket::GetSocketLastError();
 			if( nErr == EAGAIN)
 			{
-				CLog::GetInstancePtr()->AddLog("读成功了，缓冲区己经无数据可读!!");
+				CLog::GetInstancePtr()->LogError("读成功了，缓冲区己经无数据可读!!");
 
 				return TRUE;
 			}
 			else
 			{
-				CLog::GetInstancePtr()->AddLog("读失败， 可能连接己断开 原因:%s!!", CommonSocket::GetLastErrorStr(nErr).c_str());
+				CLog::GetInstancePtr()->LogError("读失败， 可能连接己断开 原因:%s!!", CommonSocket::GetLastErrorStr(nErr).c_str());
 
 				return FALSE;
 			}
@@ -232,33 +232,33 @@ BOOL CConnection::ExtractBuffer()
 		3.包的序号*/
 		if(pHeader->CheckCode != 0x88)
 		{
-            return FALSE;
-        }
+			return FALSE;
+		}
 
-        if(pHeader->dwSize > 1024*1024)
-        {
-            return FALSE;
-        }
+		if(pHeader->dwSize > 1024 * 1024)
+		{
+			return FALSE;
+		}
 
-        if(pHeader->dwMsgID > 4999999)
-        {
-            return FALSE;
-        }
-			/*if(m_nCheckNo == 0)
+		if(pHeader->dwMsgID > 4999999)
+		{
+			return FALSE;
+		}
+		/*if(m_nCheckNo == 0)
+		{
+			m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+		}
+		else
+		{
+			if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
 			{
-				m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+				m_nCheckNo += 1;
 			}
 			else
 			{
-				if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-				{
-					m_nCheckNo += 1;
-				}
-				else
-				{
-					return FALSE;
-				}*/
-		
+				return FALSE;
+			}*/
+
 
 
 		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
@@ -407,12 +407,12 @@ BOOL CConnection::Clear()
 
 	m_pBufPos   = m_pRecvBuf;
 
-    if(m_pCurRecvBuffer != NULL)
-    {
-        m_pCurRecvBuffer->Release();
-    }
+	if(m_pCurRecvBuffer != NULL)
+	{
+		m_pCurRecvBuffer->Release();
+	}
 
-    m_pCurRecvBuffer = NULL;
+	m_pCurRecvBuffer = NULL;
 
 	m_nCheckNo = 0;
 
@@ -620,13 +620,13 @@ BOOL CConnection::DoSend()
 	if(nRet < 0)
 	{
 		int nErr = CommonSocket::GetSocketLastError();
-		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
+		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
 		m_IsSending = FALSE;
 	}
 	else if(nRet < pSendBuffer->GetTotalLenth())
 	{
 		CommonSocket::CloseSocket(m_hSocket);
-		CLog::GetInstancePtr()->AddLog("发送线程:发送失败, 缓冲区满了!");
+		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 缓冲区满了!");
 		m_IsSending = FALSE;
 	}
 	return TRUE;

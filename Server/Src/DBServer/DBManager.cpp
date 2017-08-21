@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "DBManager.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/Log/Log.h"
+#include "CommonFunc.h"
 #include "../Message/Msg_RetCode.pb.h"
 
 
@@ -43,9 +42,9 @@ BOOL CDBManager::Execut(std::string sql)
 
 BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
-	CHAR szSql[MAX_SQL_LEN];
+	CHAR szSql[1024];
 
-	sprintf(szSql, "select * from player where account_id = %lld", u64AccountID);
+	sprintf_s(szSql, 1024, "select * from player where account_id = %lld", u64AccountID);
 
 	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
 
@@ -64,9 +63,9 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 
 BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[MAX_SQL_LEN];
+	CHAR szSql[1024];
 
-	sprintf(szSql, "select * from player where id = %lld", u64ID);
+	sprintf_s(szSql, 1024, "select * from player where id = %lld", u64ID);
 
 	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
 

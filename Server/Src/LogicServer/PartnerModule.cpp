@@ -3,8 +3,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
-#include "..\Message\Msg_ID.pb.h"
-#include "Utility\Log\Log.h"
+#include "../Message/Msg_ID.pb.h"
+#include "Log.h"
 
 CPartnerModule::CPartnerModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -57,7 +57,7 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
 
-	BagDataObject *pObject = g_pBagDataObjectPool->newOjbect(FALSE);
+	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
 	pObject->lock();
 	pObject->m_uGuid = ItemData.guid();
 	pObject->m_uRoleID = ItemData.roleid();
@@ -84,7 +84,7 @@ BOOL CPartnerModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPerce
 
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
-	PartnerDataObject* pObject = g_pPartnerDataObjectPool->newOjbect(TRUE);
+	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewOjbect(TRUE);
 	pObject->lock();
 	pObject->m_PartnerID = dwPartnerID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

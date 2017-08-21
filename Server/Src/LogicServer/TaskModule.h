@@ -1,7 +1,7 @@
 ﻿#ifndef __TASK_MODULE_H__
 #define __TASK_MODULE_H__
 #include "ModuleBase.h"
-#include "..\ServerData\TaskData.h"
+#include "../ServerData/TaskData.h"
 
 struct TaskDataObject;
 class CTaskModule  : public CModuleBase

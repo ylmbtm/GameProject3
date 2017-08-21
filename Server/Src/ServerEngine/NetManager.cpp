@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 #include "NetManager.h"
 #include "Connection.h"
-#include "Utility/CommonSocket.h"
-#include "Utility/CommonFunc.h"
+#include "CommonSocket.h"
+#include "CommonFunc.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
 #include "DataBuffer.h"
+#include "Log.h"
 
 
 CNetManager::CNetManager(void)
@@ -44,32 +44,32 @@ BOOL CNetManager::CreateEventThread( int nNum )
 
 BOOL CNetManager::WorkThread_Listen()
 {
+	sockaddr_in Con_Addr;
+	socklen_t nLen = sizeof(Con_Addr);
 	while(TRUE)
 	{
-		sockaddr_in Con_Addr;
-		socklen_t nLen = sizeof(Con_Addr);
 		memset(&Con_Addr, 0, sizeof(Con_Addr));
+		CLog::GetInstancePtr()->LogError("----111111------");
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
+		CLog::GetInstancePtr()->LogError("----22222------");
 		if(hClientSocket == INVALID_SOCKET)
 		{
 			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 
 			break;
 		}
-
-		CLog::GetInstancePtr()->LogError("收到连接IP:%s", inet_ntoa(Con_Addr.sin_addr));
-
+		CLog::GetInstancePtr()->LogError("----33333------");
 		CommonSocket::SetSocketUnblock(hClientSocket);
-
+		CLog::GetInstancePtr()->LogError("----44444------");
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			CLog::GetInstancePtr()->LogError("收到连接IP:%s---ConnID:%d", inet_ntoa(Con_Addr.sin_addr), pConnection->GetConnectionID());
+			CLog::GetInstancePtr()->LogError("----888888------");
 
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);
-
+			CLog::GetInstancePtr()->LogError("----999999------");
 #ifdef WIN32
 			if(!pConnection->DoReceive())
 			{
@@ -81,6 +81,8 @@ BOOL CNetManager::WorkThread_Listen()
 		{
 			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		}
+
+		CLog::GetInstancePtr()->LogError("----00000000------");
 	}
 
 	return TRUE;
@@ -170,7 +172,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					break;
 				}
 
-				CLog::GetInstancePtr()->LogError("触发了----NET_MSG_RECV---");
+				CLog::GetInstancePtr()->LogError("触发了----NET_MSG_RECV---dwNumOfByte:%d", dwNumOfByte);
 
 				if(dwNumOfByte == 0)
 				{
@@ -281,20 +283,18 @@ BOOL CNetManager::CreateCompletePort()
 
 CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 {
+	CLog::GetInstancePtr()->LogError("AssociateCompletePort ----Begin");
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NULL(pConnection != NULL);
-
-
 	pConnection->SetSocket(hSocket);
-
 	pConnection->SetDataHandler(m_pBufferHandler);
-
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
 		pConnection->Close();
+		CLog::GetInstancePtr()->LogError("AssociateCompletePort ----End");
 		return NULL;
 	}
-
+	CLog::GetInstancePtr()->LogError("AssociateCompletePort ----End");
 	return pConnection;
 }
 
@@ -389,11 +389,11 @@ BOOL CNetManager::WorkThread_DispathEvent()
 			{
 				if(!pConnection->IsConnectionOK())
 				{
-					CLog::GetInstancePtr()->AddLog("---未连接socket收到这个消息----EPOLLERR------------!");
+					CLog::GetInstancePtr()->LogError("---未连接socket收到这个消息----EPOLLERR------------!");
 					continue;
 				}
 
-				CLog::GetInstancePtr()->AddLog("---己连接socket收到这个消息----EPOLLERR------------!");
+				CLog::GetInstancePtr()->LogError("---己连接socket收到这个消息----EPOLLERR------------!");
 
 				continue;
 			}
@@ -403,7 +403,7 @@ BOOL CNetManager::WorkThread_DispathEvent()
 
 			if(getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
 			{
-				CLog::GetInstancePtr()->AddLog("-------getsockopt Error:%d--------成功----!", nError);
+				CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------成功----!", nError);
 				continue;
 			}
 
@@ -417,11 +417,11 @@ BOOL CNetManager::WorkThread_DispathEvent()
 
 					m_DispatchEventList.Push(_EventNode);
 
-					CLog::GetInstancePtr()->AddLog("-------EPOLLIN--------成功----!");
+					CLog::GetInstancePtr()->LogError("-------EPOLLIN--------成功----!");
 				}
 				else
 				{
-					CLog::GetInstancePtr()->AddLog("-------EPOLLIN---------失败---!");
+					CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
 				}
 			}
 
@@ -440,11 +440,11 @@ BOOL CNetManager::WorkThread_DispathEvent()
 						m_DispatchEventList.Push(_EventNode);
 					}
 
-					CLog::GetInstancePtr()->AddLog("-------EPOLLOUT-----成功-------!");
+					CLog::GetInstancePtr()->LogError("-------EPOLLOUT-----成功-------!");
 				}
 				else
 				{
-					CLog::GetInstancePtr()->AddLog("-------EPOLLOUT----失败-------!");
+					CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
 				}
 			}
 		}
@@ -468,7 +468,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 		{
 			if((_EventNode.dwEvent != EVENT_READ) && (_EventNode.dwEvent != EVENT_WRITE))
 			{
-				CLog::GetInstancePtr()->AddLog("错误:取出一个空事件!");
+				CLog::GetInstancePtr()->LogError("错误:取出一个空事件!");
 			}
 
 			continue;

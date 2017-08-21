@@ -1,6 +1,6 @@
 ﻿#ifndef __TASK_DATA_OBJECT_H__
 #define __TASK_DATA_OBJECT_H__
-#include "serverStruct.h"
+#include "ServerStruct.h"
 #include "SharedMemory.h"
 struct TaskDataObject : public ShareObject
 {

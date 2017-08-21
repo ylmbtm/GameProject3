@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "SharedMemory.h"
-#include "Utility\CommonConvert.h"
+#include "CommonConvert.h"
+#include "CommonFunc.h"
 
 ShareObject::ShareObject()
 {
 	m_dwCheckCode = BLOCK_CHECK_CODE;
 	m_State = SMS_USE;
-	m_updatetime = 0; 
+	m_updatetime = 0;
 }
 
 void ShareObject::lock()
@@ -73,38 +74,38 @@ TTTTTTTTTTTTTTTTTTTTTTHHHHHHHHHHHHHHHHHHHHH
 ********************************************************************/
 
 
-BOOL SharedMemoryBase::newPage()
+BOOL SharedMemoryBase::NewPage()
 {
-	unsigned int size = m_countperPage*(m_space);
+	unsigned int size = m_countperPage * (m_space);
 	std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
 
 	shareMemoryPage newpage;
 
-	newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE, 0, size, pagename.c_str());
+	newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
 	if(newpage.m_shm == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ|FILE_MAP_WRITE,0,0,0);
+	newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 	if(newpage.m_pdata == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	newpage.m_pBlock = (_SMBlock*)(newpage.m_pdata + m_rawblockSize*m_countperPage);
+	newpage.m_pBlock = (_SMBlock*)(newpage.m_pdata + m_rawblockSize * m_countperPage);
 	m_pageCount++;
 	m_count += m_countperPage;
-	initpage(newpage);
+	InitPage(newpage);
 	m_ShareMemoryPageMapping.push_back(newpage);
 	return TRUE;
 }
 
 
 //----------------------------------------------
-void SharedMemoryBase::initpage(shareMemoryPage& rPage)
+void SharedMemoryBase::InitPage(shareMemoryPage& rPage)
 {
 	UINT32 size = 0;
 	size = m_countperPage * m_rawblockSize;
@@ -118,7 +119,7 @@ void SharedMemoryBase::initpage(shareMemoryPage& rPage)
 	}
 
 	//m_pageCount已经包含当前页码，故需要减1
-	UINT32 startindex = m_countperPage*(m_pageCount - 1);
+	UINT32 startindex = m_countperPage * (m_pageCount - 1);
 	for (UINT32 i = startindex; i < m_count; ++i)
 	{
 		_SMBlock* ptem = &(rPage.m_pBlock[i - startindex]);
@@ -137,8 +138,8 @@ void SharedMemoryBase::InitToMap()
 	{
 		for (UINT32 i = 0; i < m_count; ++i)
 		{
-			_SMBlock* ptem = getSMBbyRawIndex(i);
-			ShareObject* ptemdata = getObjectByRawindex(i);
+			_SMBlock* ptem = GetSMBbyRawIndex(i);
+			ShareObject* ptemdata = GetObjectByRawindex(i);
 			if (ptem->m_bUse && (ptemdata->m_State == SMS_USE || ptemdata->m_State == SMS_LOCK))
 			{
 				m_mapUsedSMBlock.insert(std::make_pair(ptemdata, ptem));
@@ -159,37 +160,37 @@ void SharedMemoryBase::InitToMap()
 			return;
 		}
 
-		shareMemoryPage &page = m_ShareMemoryPageMapping[0];
+		shareMemoryPage& page = m_ShareMemoryPageMapping[0];
 
-		initpage(page);
+		InitPage(page);
 	}
 }
 
-BOOL SharedMemoryBase::isFirstCreated()
+BOOL SharedMemoryBase::IsFirstCreated()
 {
 	return isempty;
 }
 
-void SharedMemoryBase::importOtherPage()
+void SharedMemoryBase::ImportOtherPage()
 {
 	while (1)
 	{
 		std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
-	
+
 		shareMemoryPage page;
-		page.m_shm = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, pagename.c_str());
+		page.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
 		if(page.m_shm == NULL)
 		{
 			break;
 		}
-		page.m_pdata = (CHAR*)MapViewOfFile(page.m_shm,FILE_MAP_READ|FILE_MAP_WRITE, 0, 0, 0);
+		page.m_pdata = (CHAR*)MapViewOfFile(page.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 		if(page.m_pdata == NULL)
 		{
 			break;
 		}
-			///如果原来就已经存过，初始化数据
-			///找到头数据块的头
-		page.m_pBlock = (_SMBlock*)(page.m_pdata + m_rawblockSize*m_countperPage);
+		///如果原来就已经存过，初始化数据
+		///找到头数据块的头
+		page.m_pBlock = (_SMBlock*)(page.m_pdata + m_rawblockSize * m_countperPage);
 		m_ShareMemoryPageMapping.push_back(page);
 		m_count += m_countperPage;
 		m_pageCount++;
@@ -198,27 +199,27 @@ void SharedMemoryBase::importOtherPage()
 
 
 //从内存中构建虚拟共享内存结构
-SharedMemoryBase::SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len)
-{
-	m_pageCount = 1;
-	m_count = len / (rawblockSize + sizeof(_SMBlock));
+//SharedMemoryBase::SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len)
+//{
+//	m_pageCount = 1;
+//	m_count = len / (rawblockSize + sizeof(_SMBlock));
 
-	m_countperPage = m_count;
+//	m_countperPage = m_count;
 
-	m_rawblockSize = rawblockSize;
+//	m_rawblockSize = rawblockSize;
 
-	shareMemoryPage firstpage;
+//	shareMemoryPage firstpage;
 
-	firstpage.m_pdata = pdata;
+//	firstpage.m_pdata = pdata;
 
-	firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + (m_rawblockSize)*m_count);
+//	firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + (m_rawblockSize) * m_count);
 
-	firstpage.m_shm = NULL;
+//	firstpage.m_shm = NULL;
 
-	m_ShareMemoryPageMapping.push_back(firstpage);
+//	m_ShareMemoryPageMapping.push_back(firstpage);
 
-	isempty = false;
-}
+//	isempty = false;
+//}
 
 
 /**@param name 共享内存名字，可以通过名字找回,暂时如果有只打开内存中已经有的。
@@ -226,29 +227,29 @@ SharedMemoryBase::SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len)
 *@param noCreate 不允许创建
 */
 SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawblockSize, unsigned int count, BOOL noCreate/*=false*/)
-:m_rawblockSize(rawblockSize), m_count(count), m_space(rawblockSize + sizeof(_SMBlock)), m_modulename(name)
+	: m_rawblockSize(rawblockSize), m_count(count), m_space(rawblockSize + sizeof(_SMBlock)), m_modulename(name)
 
 {
 	m_countperPage = m_count;
-	unsigned int size = m_countperPage*(m_space);
+	unsigned int size = m_countperPage * (m_space);
 	m_pageCount = 1;
 	std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(0);
-	
+
 	shareMemoryPage firstpage;
-	firstpage.m_shm =OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, pagename.c_str());
+	firstpage.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
 	if(firstpage.m_shm != NULL)
 	{
-		firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm,FILE_MAP_READ|FILE_MAP_WRITE, 0, 0, 0);
+		firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 		if(firstpage.m_pdata != NULL)
 		{
-			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize*m_countperPage);
+			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize * m_countperPage);
 			m_ShareMemoryPageMapping.push_back(firstpage);
-			importOtherPage();
+			ImportOtherPage();
 			isempty = false;
 		}
 		else
 		{
-			UINT32 dwError = GetLastError();
+			UINT32 dwError = CommonFunc::GetLastError();
 			printf("---error---:%d", dwError);
 		}
 	}
@@ -258,19 +259,23 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 		{
 			shareMemoryPage firstpage;
 
-			firstpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE, 0, size, pagename.c_str());
-			firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ|FILE_MAP_WRITE,0,0,0);
+			firstpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
+			if(firstpage.m_shm == NULL)
+			{
+				printf("CreateFileMapping Failed!!!!");
+			}
+			firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 
 
 			///找到头数据块的头
 			//#ifdef SHARED_BLOCK_CHECK
 			//			firstpage.m_pBlock=(_SMBlock*)(firstpage.m_pdata+(m_rawblockSize+BLOCK_FLAG_SIZE)*m_countperPage);
 			//#else
-			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize*m_countperPage);
+			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize * m_countperPage);
 			//#endif
 			///清空所有内存;
 			memset(firstpage.m_pdata, 0, size);
-			initpage(firstpage);
+			InitPage(firstpage);
 			m_ShareMemoryPageMapping.push_back(firstpage);
 		}
 
@@ -282,45 +287,46 @@ SharedMemoryBase::~SharedMemoryBase()
 {
 	for (unsigned int r = 0; r < (unsigned int)m_ShareMemoryPageMapping.size(); r++)
 	{
-		SafeDelete(m_ShareMemoryPageMapping[r].m_shm);
+		CloseHandle(m_ShareMemoryPageMapping[r].m_shm);
+		m_ShareMemoryPageMapping[r].m_shm = INVALID_HANDLE_VALUE;
 	}
 }
 
-const unsigned int SharedMemoryBase::getCount() const
+const unsigned int SharedMemoryBase::GetCount() const
 {
 	return m_count;
 }
 
-unsigned int SharedMemoryBase::getFreeCount() const
+unsigned int SharedMemoryBase::GetFreeCount() const
 {
 	return m_mapFreeSMBlock.size();
 }
 
-unsigned int SharedMemoryBase::getUseCount() const
+unsigned int SharedMemoryBase::GetUseCount() const
 {
 	return m_mapUsedSMBlock.size();
 }
 
-_SMBlock * SharedMemoryBase::getSMBbyRawIndex(int index)
+_SMBlock* SharedMemoryBase::GetSMBbyRawIndex(int index)
 {
 	if (index < (int)m_count)
 	{
 		unsigned int whichpage = index / m_countperPage;
-		unsigned int pageindex = index%m_countperPage;
-		shareMemoryPage &page = m_ShareMemoryPageMapping[whichpage];
+		unsigned int pageindex = index % m_countperPage;
+		shareMemoryPage& page = m_ShareMemoryPageMapping[whichpage];
 		return &(page.m_pBlock[pageindex]);
 	}
 	return NULL;
 }
 
-ShareObject* SharedMemoryBase::getObjectByRawindex(unsigned int index)
+ShareObject* SharedMemoryBase::GetObjectByRawindex(unsigned int index)
 {
 	if (index < m_count)
 	{
 		unsigned int whichpage = index / m_countperPage;
-		unsigned int pageindex = index%m_countperPage;
-		shareMemoryPage &page = m_ShareMemoryPageMapping[whichpage];
-		return reinterpret_cast<ShareObject*>(page.m_pdata + m_rawblockSize*pageindex);
+		unsigned int pageindex = index % m_countperPage;
+		shareMemoryPage& page = m_ShareMemoryPageMapping[whichpage];
+		return reinterpret_cast<ShareObject*>(page.m_pdata + m_rawblockSize * pageindex);
 	}
 	else
 	{
@@ -332,13 +338,13 @@ ShareObject* SharedMemoryBase::getObjectByRawindex(unsigned int index)
 }
 
 
-const unsigned int SharedMemoryBase::getRawMemoryBlockSize()
+const unsigned int SharedMemoryBase::GetRawMemoryBlockSize()
 {
-	importOtherPage();
+	ImportOtherPage();
 	return m_count;
 }
 
-void SharedMemoryBase::processCleanDirtyData()
+void SharedMemoryBase::ProcessCleanDirtyData()
 {
 	mapUsedSMBlock::iterator it = m_mapUsedSMBlock.begin();
 	while (it != m_mapUsedSMBlock.end())
@@ -360,18 +366,18 @@ void SharedMemoryBase::processCleanDirtyData()
 	}
 }
 
-ShareObject* SharedMemoryBase::newOjbect(BOOL isNewBlock/*=false*/)
+ShareObject* SharedMemoryBase::NewOjbect(BOOL isNewBlock/*=false*/)
 {
 	///如果未分配内存没有了,则开始处理脏数据
 	if (m_mapFreeSMBlock.size() == 0)
 	{
-		processCleanDirtyData();
+		ProcessCleanDirtyData();
 	}
 	if (m_mapFreeSMBlock.size() == 0)
 	{
-		if (newPage())
+		if (NewPage())
 		{
-			return newOjbect(isNewBlock);
+			return NewOjbect(isNewBlock);
 		}
 		else
 		{
@@ -383,7 +389,7 @@ ShareObject* SharedMemoryBase::newOjbect(BOOL isNewBlock/*=false*/)
 	while (it != m_mapFreeSMBlock.end())
 	{
 		_SMBlock* pBlock = it->second;;
-		ShareObject* pobject = getObjectByRawindex(pBlock->m_dwIndex);
+		ShareObject* pobject = GetObjectByRawindex(pBlock->m_dwIndex);
 		if (pobject == NULL)///add by dsq
 		{
 			++it;
@@ -405,17 +411,17 @@ ShareObject* SharedMemoryBase::newOjbect(BOOL isNewBlock/*=false*/)
 	}
 
 	////以下为新加的代码 zm
-	processCleanDirtyData();
+	ProcessCleanDirtyData();
 
-	if (newPage())
+	if (NewPage())
 	{
-		return newOjbect(isNewBlock);
+		return NewOjbect(isNewBlock);
 	}
 
 	return NULL;
 }
 
-BOOL SharedMemoryBase::destoryObject(ShareObject* pobject)
+BOOL SharedMemoryBase::DestoryObject(ShareObject* pobject)
 {
 	if (pobject == NULL)
 	{

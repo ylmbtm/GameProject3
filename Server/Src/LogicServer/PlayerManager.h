@@ -1,7 +1,7 @@
 #ifndef __WS_PLAYER_MANAGER_OBJECT_H__
 #define __WS_PLAYER_MANAGER_OBJECT_H__
-#include "Utility/AVLTree.h"
-#include "Utility/Position.h"
+#include "AVLTree.h"
+#include "Position.h"
 #include "PlayerObject.h"
 
 class CPlayerManager : public AVLTree<UINT64, CPlayerObject>

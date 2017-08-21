@@ -1,7 +1,7 @@
 ﻿#ifndef __PARTNER_MODULE_H__
 #define __PARTNER_MODULE_H__
 #include "ModuleBase.h"
-#include "..\ServerData\PartnerData.h"
+#include "../ServerData/PartnerData.h"
 
 struct PartnerDataObject;
 class CPartnerModule  : public CModuleBase

@@ -151,11 +151,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommonConvert.cpp" />
+    <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonMsgHandler.cpp" />
+    <ClCompile Include="CommonSocket.cpp" />
+    <ClCompile Include="CommonThreadFunc.cpp" />
     <ClCompile Include="CommonWorkThread.cpp" />
+    <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="CrashReport.cpp" />
     <ClCompile Include="DataBuffer.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="NetManager.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
     <ClCompile Include="SharedMemory.cpp" />
@@ -166,39 +172,33 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp" />
-    <ClCompile Include="..\..\Common\Utility\Log\Log.cpp" />
-    <ClCompile Include="..\..\Common\Utility\IniFile\ConfigFile.cpp" />
-    <ClCompile Include="..\..\Common\Utility\CommonConvert.cpp" />
-    <ClCompile Include="..\..\Common\Utility\CommonFunc.cpp" />
-    <ClCompile Include="..\..\Common\Utility\CommonSocket.cpp" />
-    <ClCompile Include="..\..\Common\Utility\CommonThreadFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\Utility\MemObjectPool.h" />
     <ClInclude Include="..\..\Common\Utility\Rank.h" />
+    <ClInclude Include="CommonConvert.h" />
+    <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonMsgHandler.h" />
+    <ClInclude Include="CommonSocket.h" />
+    <ClInclude Include="CommonThreadFunc.h" />
     <ClInclude Include="CommonWorkThread.h" />
+    <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="CrashReport.h" />
     <ClInclude Include="DataBuffer.h" />
     <ClInclude Include="EventFuncManager.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="NetManager.h" />
     <ClInclude Include="ServerEngine.h" />
     <ClInclude Include="ServiceBase.h" />
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimerManager.h" />
-    <ClInclude Include="..\..\Common\Utility\Log\Log.h" />
-    <ClInclude Include="..\..\Common\Utility\IniFile\ConfigFile.h" />
     <ClInclude Include="..\..\Common\Utility\atomic_ops.h" />
     <ClInclude Include="..\..\Common\Utility\AVLTree.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonConvert.h" />
     <ClInclude Include="..\..\Common\Utility\CommonEvent.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonFunc.h" />
     <ClInclude Include="..\..\Common\Utility\CommonMsgQueue.h" />
     <ClInclude Include="..\..\Common\Utility\CommonMsgQueueEx.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonSocket.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonThreadFunc.h" />
     <ClInclude Include="..\..\Common\Utility\CritSec.h" />
     <ClInclude Include="..\..\Common\Utility\CritSecNotify.h" />
     <ClInclude Include="..\..\Common\Utility\LockFreeQueue.h" />
@@ -206,9 +206,6 @@
     <ClInclude Include="..\..\Common\Utility\RandomValue.h" />
     <ClInclude Include="..\..\Common\Utility\WindowsDump.h" />
     <ClInclude Include="..\..\Common\CheckMacroDefine.h" />
-    <ClInclude Include="..\..\Common\Error.h" />
-    <ClInclude Include="..\..\Common\GameDefine.h" />
-    <ClInclude Include="..\..\Common\ObjectID.h" />
     <ClInclude Include="..\..\Common\TypeDef.h" />
   </ItemGroup>
   <ItemGroup>

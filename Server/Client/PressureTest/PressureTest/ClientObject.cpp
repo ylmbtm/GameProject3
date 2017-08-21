@@ -4,13 +4,12 @@
 #include "..\Src\Message\Msg_RetCode.pb.h"
 #include "PacketHeader.h"
 #include "..\Src\Message\Msg_Move.pb.h"
-#include "Utility\CommonConvert.h"
 #include "..\Src\Message\Game_Define.pb.h"
-#include "Utility\CommonFunc.h"
 #include "..\Src\Message\Msg_Copy.pb.h"
 #include "..\Src\Message\Msg_Game.pb.h"
-#include "Utility\XMath.h"
 #include "..\Src\Message\Msg_LoginCltData.pb.h"
+#include "..\Src\ServerEngine\XMath.h"
+#include "..\Src\ServerEngine\CommonFunc.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -148,8 +147,9 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			//m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
-			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
+			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);
 		}
 
 		if(m_ClientConnector.GetConnectState() == Succ_Connect)

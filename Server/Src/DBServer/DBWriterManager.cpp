@@ -43,19 +43,19 @@ BOOL CDBWriterManager::Uninit()
 
 void CDBWriterManager::WriteWork()
 {
-	m_pRoleDataWriter->saveModifyToDB(&m_DBManager);
-	m_pGlobalDataWriter->saveModifyToDB(&m_DBManager);
-	m_pBagDataWriter->saveModifyToDB(&m_DBManager);
-	m_pCopyDataWriter->saveModifyToDB(&m_DBManager);
-	m_pEquipDataWriter->saveModifyToDB(&m_DBManager);
-	m_pPetDataWriter->saveModifyToDB(&m_DBManager);
-	m_pPartnerDataWriter->saveModifyToDB(&m_DBManager);
-	m_pGuildDataWriter->saveModifyToDB(&m_DBManager);
-	m_pMemberDataWriter->saveModifyToDB(&m_DBManager);
-	m_pTaskDataWriter->saveModifyToDB(&m_DBManager);
-	m_pMountDataWriter->saveModifyToDB(&m_DBManager);
-	m_pMailDataWriter->saveModifyToDB(&m_DBManager);
-	m_pGroupMailDataWriter->saveModifyToDB(&m_DBManager);
+	m_pRoleDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pGlobalDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pBagDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pCopyDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pEquipDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pPetDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pPartnerDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pGuildDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pMemberDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pTaskDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pMountDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pMailDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pGroupMailDataWriter->SaveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

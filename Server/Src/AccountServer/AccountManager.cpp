@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
-#include "Utility\CommonFunc.h"
-#include "Sqlite\CppSQLite3.h"
-#include "Utility\Log\Log.h"
+#include "CommonFunc.h"
+#include "Sqlite/CppSQLite3.h"
+#include "Log.h"
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -17,33 +17,33 @@ CAccountObjectMgr::~CAccountObjectMgr()
 BOOL CAccountObjectMgr::InitManager()
 {
 
-    std::string strCurDir = CommonFunc::GetCurrentDir();
-    strCurDir+= "\\AccountData.db";
+	std::string strCurDir = CommonFunc::GetCurrentDir();
+	strCurDir += "\\AccountData.db";
 
-    CppSQLite3DB DBConnection;
-    DBConnection.open(strCurDir.c_str());
+	CppSQLite3DB DBConnection;
+	DBConnection.open(strCurDir.c_str());
 
-    CHAR szSql[MAX_SQL_LEN];
+	CHAR szSql[1024];
 
-    sprintf(szSql, "select * from account");
+	sprintf_s(szSql, 1024, "select * from account");
 
-    CppSQLite3Query QueryRes = DBConnection.execQuery(szSql);
+	CppSQLite3Query QueryRes = DBConnection.execQuery(szSql);
 
-    while(!QueryRes.eof())  
-    {  
-        AddAccountObject(QueryRes.getInt64Field("id"),QueryRes.getStringField("name"),
-            QueryRes.getStringField("password"),
-            QueryRes.getIntField("channel"));
+	while(!QueryRes.eof())
+	{
+		AddAccountObject(QueryRes.getInt64Field("id"), QueryRes.getStringField("name"),
+		                 QueryRes.getStringField("password"),
+		                 QueryRes.getIntField("channel"));
 
-       QueryRes.nextRow();
+		QueryRes.nextRow();
 
-       if(m_u64MaxID < QueryRes.getInt64Field("id"))
-       {
-           m_u64MaxID = QueryRes.getInt64Field("id");
-       }
-    }  
+		if(m_u64MaxID < QueryRes.getInt64Field("id"))
+		{
+			m_u64MaxID = QueryRes.getInt64Field("id");
+		}
+	}
 
-    m_u64MaxID += 1;
+	m_u64MaxID += 1;
 
 	return TRUE;
 }
@@ -57,7 +57,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 {
 	m_u64MaxID += 1;
 
-	CAccountObject *pObj = InsertAlloc(m_u64MaxID);
+	CAccountObject* pObj = InsertAlloc(m_u64MaxID);
 	if(pObj == NULL)
 	{
 		ASSERT_FAIELD;
@@ -82,7 +82,7 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
 
 BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std::string strPwd, UINT32 dwChannel)
 {
-	CAccountObject *pObj = InsertAlloc(u64ID);
+	CAccountObject* pObj = InsertAlloc(u64ID);
 	ERROR_RETURN_FALSE(pObj != NULL);
 
 	pObj->m_bEnabled = TRUE;

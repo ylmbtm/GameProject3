@@ -1,7 +1,7 @@
 ﻿#ifndef __MOUNT_MODULE_H__
 #define __MOUNT_MODULE_H__
 #include "ModuleBase.h"
-#include "..\ServerData\MountData.h"
+#include "../ServerData/MountData.h"
 
 struct MountDataObject;
 class CMountModule  : public CModuleBase

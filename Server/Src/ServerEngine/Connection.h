@@ -2,7 +2,7 @@
 #define _CONNECTION_H_
 
 #include "IBufferHandler.h"
-#include "Utility/CritSec.h"
+#include "CritSec.h"
 
 #define  NET_MSG_RECV				1
 #define  NET_MSG_SEND				2
@@ -20,7 +20,7 @@ struct NetIoOperatorData
 	UINT32			dwCmdType;
 	UINT32          dwConnID;
 
-	IDataBuffer		*pDataBuffer;
+	IDataBuffer*		pDataBuffer;
 
 	void			Clear();
 };
@@ -32,13 +32,13 @@ public:
 	virtual ~CConnection();
 
 public:
-	BOOL	HandleRecvEvent(UINT32 dwBytes); 
+	BOOL	HandleRecvEvent(UINT32 dwBytes);
 
-    UINT32  GetConnectionID();
+	UINT32  GetConnectionID();
 
 	UINT64  GetConnectionData();
 
-    VOID    SetConnectionID(UINT32 dwConnID);
+	VOID    SetConnectionID(UINT32 dwConnID);
 
 	VOID	SetConnectionData(UINT64 dwData);
 
@@ -48,21 +48,21 @@ public:
 
 	SOCKET  GetSocket();
 
-	BOOL	SetDataHandler(IDataHandler *pHandler);
+	BOOL	SetDataHandler(IDataHandler* pHandler);
 
 	BOOL	ExtractBuffer();
-	
+
 	BOOL	DoReceive();
 
 	BOOL	IsConnectionOK();
 
 	BOOL	SetConnectionOK(BOOL bOk);
 
-    BOOL    Clear();
+	BOOL    Clear();
 
-	BOOL    SendBuffer(IDataBuffer	*pBuff);
+	BOOL    SendBuffer(IDataBuffer*	pBuff);
 
-	BOOL    SendMessage(UINT32 dwMsgID, UINT64 uTargetID, UINT32 dwUserData, const char *pData, UINT32 dwLen);
+	BOOL    SendMessage(UINT32 dwMsgID, UINT64 uTargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen);
 
 	BOOL    DoSend();
 
@@ -75,18 +75,18 @@ public:
 
 	NetIoOperatorData			m_IoOverlapSend;
 
-    UINT32                      m_dwConnID;
+	UINT32                      m_dwConnID;
 	UINT64                      m_u64ConnData;
 
-	IDataHandler				*m_pDataHandler;
+	IDataHandler*				m_pDataHandler;
 
 	UINT32						m_dwIpAddr;
 
 	UINT32						m_dwDataLen;
 	CHAR						m_pRecvBuf[RECV_BUF_SIZE];
-	CHAR						*m_pBufPos;
+	CHAR*						m_pBufPos;
 
-	IDataBuffer					*m_pCurRecvBuffer;
+	IDataBuffer*					m_pCurRecvBuffer;
 	UINT32						m_pCurBufferSize;
 	UINT32						m_nCheckNo;
 
@@ -94,7 +94,7 @@ public:
 	BOOL						m_IsSending;
 	CCritSec				    m_CritSecSendList;
 
-    CConnection                *m_pNext;
+	CConnection*                m_pNext;
 
 	UINT32						m_LastRecvTick;
 };
@@ -111,13 +111,13 @@ public:
 	static CConnectionMgr* GetInstancePtr();
 
 public:
-    BOOL            InitConnectionList(UINT32 nMaxCons);
+	BOOL            InitConnectionList(UINT32 nMaxCons);
 
-    CConnection*    CreateConnection();
+	CConnection*    CreateConnection();
 
-	VOID		    DeleteConnection(CConnection *pConnection);
+	VOID		    DeleteConnection(CConnection* pConnection);
 
-    CConnection*    GetConnectionByConnID(UINT32 dwConnID);
+	CConnection*    GetConnectionByConnID(UINT32 dwConnID);
 
 	///////////////////////////////////////////
 	BOOL		    CloseAllConnection();
@@ -127,10 +127,10 @@ public:
 	BOOL			CheckConntionAvalible();
 
 public:
-    
-    CConnection				*m_pFreeConnRoot;
-    CConnection				*m_pFreeConnTail;
-    std::vector<CConnection*> m_vtConnList;            //连接列表
+
+	CConnection*				m_pFreeConnRoot;
+	CConnection*				m_pFreeConnTail;
+	std::vector<CConnection*> m_vtConnList;            //连接列表
 	CCritSec				 m_CritSecConnList;
 };
 

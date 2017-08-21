@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "TimerManager.h"
-#include "../../Common/Utility/CommonFunc.h"
-
-
+#include "CommonFunc.h"
 
 TimerManager::TimerManager()
 {
@@ -18,12 +16,12 @@ TimerManager::~TimerManager()
 
 }
 
- TimerManager* TimerManager::GetInstancePtr()
- {
- 	static TimerManager _TimerManager;
- 
- 	return &_TimerManager;
- }
+TimerManager* TimerManager::GetInstancePtr()
+{
+	static TimerManager _TimerManager;
+
+	return &_TimerManager;
+}
 
 BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 {
@@ -32,10 +30,10 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 		return TRUE;
 	}
 
-	TimeEvent *pDelEvent = m_pHead;
+	TimeEvent* pDelEvent = m_pHead;
 	while(pDelEvent != NULL)
 	{
-		if((pDelEvent->m_dwSec == dwSec)&&(pDelEvent->m_dwData == dwData))
+		if((pDelEvent->m_dwSec == dwSec) && (pDelEvent->m_dwData == dwData))
 		{
 			break;
 		}
@@ -63,7 +61,7 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 
 	pDelEvent->m_pNext = m_pFree;
 	pDelEvent->m_pPrev = NULL;
-	
+
 	if(m_pFree != NULL)
 	{
 		m_pFree->m_pPrev = pDelEvent;
@@ -79,7 +77,7 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 VOID TimerManager::UpdateTimer()
 {
 	m_dwCurTime = CommonFunc::GetCurrTime();
-	TimeEvent *pCurEvent = m_pHead;
+	TimeEvent* pCurEvent = m_pHead;
 	while(pCurEvent != NULL)
 	{
 		if(m_dwCurTime >= pCurEvent->m_dwFireTime)
@@ -104,7 +102,7 @@ VOID TimerManager::UpdateTimer()
 
 		if(pCurEvent->m_dwRepeateTimes <= 0)
 		{
-			
+
 		}
 
 
@@ -112,13 +110,13 @@ VOID TimerManager::UpdateTimer()
 	}
 }
 
-VOID TimerManager::OnTimerEvent(TimeEvent *pEvent)
+VOID TimerManager::OnTimerEvent(TimeEvent* pEvent)
 {
 	if(pEvent == NULL)
 	{
 		return ;
 	}
-	
+
 	(*pEvent->m_pTimerFuncSlot)(pEvent->m_dwData);
 
 	return ;
@@ -134,7 +132,7 @@ BOOL TimerManager::Clear()
 {
 	while(m_pHead != NULL)
 	{
-		TimeEvent *pCurEvent = m_pHead;
+		TimeEvent* pCurEvent = m_pHead;
 		m_pHead = pCurEvent->m_pNext;
 		delete pCurEvent;
 	}

@@ -1,7 +1,7 @@
 ﻿#ifndef __MAIL_DATA_OBJECT_H__
 #define __MAIL_DATA_OBJECT_H__
-#include "serverStruct.h"
-#include "..\ServerEngine\SharedMemory.h"
+#include "ServerStruct.h"
+#include "../ServerEngine/SharedMemory.h"
 
 
 struct GroupMailDataObject : public ShareObject

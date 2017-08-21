@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "RoleModule.h"
-#include "Utility/Log/Log.h"
+#include "Log.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ConfigData/ConfigData.h"
-#include "Utility/CommonFunc.h"
+#include "CommonFunc.h"
 #include "DataPool.h"
 
 CRoleModule::CRoleModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -49,7 +49,7 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->newOjbect(TRUE);
+	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(TRUE);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_u64ID = u64RoleID;
 	m_pRoleDataObject->m_u64AccountID = u64AccountID;
@@ -93,7 +93,7 @@ BOOL CRoleModule::OnNewDay()
 
 BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->newOjbect(FALSE);
+	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(FALSE);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_u64ID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_u64AccountID = Ack.roledata().accountid();

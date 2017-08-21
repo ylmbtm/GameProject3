@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CommonMsgHandler.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 
 CCommonMsgHandler::CCommonMsgHandler()
 {
@@ -27,13 +27,13 @@ BOOL CCommonMsgHandler::Uninit()
 	return TRUE;
 }
 
-BOOL CCommonMsgHandler::OnMessageHandle( UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer *pDataBuffer)
+BOOL CCommonMsgHandler::OnMessageHandle( UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer* pDataBuffer)
 {
 	ASSERT_FAIELD;
 	return TRUE;
 }
 
-BOOL CCommonMsgHandler::AddMessage( UINT64 u64ConnID, IDataBuffer *pDataBuffer )
+BOOL CCommonMsgHandler::AddMessage( UINT64 u64ConnID, IDataBuffer* pDataBuffer )
 {
 	return m_WorkThread.AddMessage(u64ConnID, pDataBuffer);
 }

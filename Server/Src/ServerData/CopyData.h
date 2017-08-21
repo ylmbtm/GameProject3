@@ -1,6 +1,6 @@
 ﻿#ifndef __COPY_DATA_OBJECT_H__
 #define __COPY_DATA_OBJECT_H__
-#include "serverStruct.h"
+#include "ServerStruct.h"
 struct CopyDataObject : public ShareObject
 {
 	CopyDataObject()
@@ -13,19 +13,19 @@ struct CopyDataObject : public ShareObject
 		m_dwCopyID = 0;
 	}
 
-	UINT64 m_u64ID;			
+	UINT64 m_u64ID;
 	UINT32 m_dwCopyID;
 	UINT32 m_dwChaper;
 	UINT32 m_dwBattleTimes;
 	UINT32 m_dwResetTimes;
 	UINT32 m_dwStar;
 
-	BOOL Save(IDataBase *pDB)
+	BOOL Save(IDataBase* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase *pDB)
+	BOOL Delete(IDataBase* pDB)
 	{
 		return TRUE;
 	}

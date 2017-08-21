@@ -1,7 +1,7 @@
 ﻿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
-#include "Sqlite\CppSQLite3.h"
-#include "..\ConfigData\ConfigStruct.h"
+#include "Sqlite/CppSQLite3.h"
+#include "../ConfigData/ConfigStruct.h"
 class CConfigData;
 
 typedef BOOL(CConfigData::*DataFunc)(CppSQLite3Query& QueryData);

@@ -1,6 +1,6 @@
 ﻿#ifndef __MOUNT_DATA_OBJECT_H__
 #define __MOUNT_DATA_OBJECT_H__
-#include "serverStruct.h"
+#include "ServerStruct.h"
 #include "SharedMemory.h"
 struct MountDataObject : public ShareObject
 {

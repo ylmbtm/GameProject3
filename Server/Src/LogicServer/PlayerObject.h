@@ -1,7 +1,7 @@
 ﻿#ifndef __WS_PLAYER_OBJECT_H__
 #define __WS_PLAYER_OBJECT_H__
-#include "Utility/AVLTree.h"
-#include "Utility/Position.h"
+#include "AVLTree.h"
+#include "Position.h"
 #include "ModuleBase.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../ServerData/ServerDefine.h"

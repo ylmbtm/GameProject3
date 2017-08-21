@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_Arena.h"
-#include "..\GameObject\SceneObject.h"
-#include "..\Scene.h"
-#include "..\ServerData\ServerDefine.h"
-#include "..\Message\Game_Define.pb.h"
-#include "Utility\CommonFunc.h"
+#include "../GameObject/SceneObject.h"
+#include "../Scene.h"
+#include "../ServerData/ServerDefine.h"
+#include "../Message/Game_Define.pb.h"
+#include "CommonFunc.h"
 
-SceneLogic_Arena::SceneLogic_Arena(CScene *pScene):SceneLogicBase(pScene)
+SceneLogic_Arena::SceneLogic_Arena(CScene* pScene): SceneLogicBase(pScene)
 {
 
 }
@@ -16,7 +16,7 @@ SceneLogic_Arena::~SceneLogic_Arena()
 
 }
 
-BOOL SceneLogic_Arena::OnObjectCreate(CSceneObject *pObject)
+BOOL SceneLogic_Arena::OnObjectCreate(CSceneObject* pObject)
 {
 	//基类里帮助设定出生点坐标
 	SceneLogicBase::OnObjectCreate(pObject);
@@ -30,7 +30,7 @@ BOOL SceneLogic_Arena::OnObjectCreate(CSceneObject *pObject)
 	return TRUE;
 }
 
-BOOL SceneLogic_Arena::OnObjectDie(CSceneObject *pObject)
+BOOL SceneLogic_Arena::OnObjectDie(CSceneObject* pObject)
 {
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
@@ -42,14 +42,14 @@ BOOL SceneLogic_Arena::OnObjectDie(CSceneObject *pObject)
 }
 
 
-BOOL SceneLogic_Arena::OnPlayerEnter(CSceneObject *pPlayer)
+BOOL SceneLogic_Arena::OnPlayerEnter(CSceneObject* pPlayer)
 {
 	//玩家进入副本了。
 
 	return TRUE;
 }
 
-BOOL SceneLogic_Arena::OnPlayerLeave(CSceneObject *pPlayer)
+BOOL SceneLogic_Arena::OnPlayerLeave(CSceneObject* pPlayer)
 {
 	pPlayer->m_dwResult = CR_LOST;
 

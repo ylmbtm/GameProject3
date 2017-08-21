@@ -1,9 +1,9 @@
 ﻿#ifndef _SCENELOGIC_BASE_H_
 #define _SCENELOGIC_BASE_H_
 
-#include "Utility\RapidXml\rapidxml.h"
-#include "..\Message\Game_Define.pb.h"
-#include "Utility\XMath.h"
+#include "RapidXml.h"
+#include "../Message/Game_Define.pb.h"
+#include "XMath.h"
 #include "BattleResult.h"
 
 class CScene;
@@ -12,25 +12,25 @@ class CSceneObject;
 class SceneLogicBase
 {
 public:
-	SceneLogicBase(CScene *pScene);
-	
+	SceneLogicBase(CScene* pScene);
+
 	~SceneLogicBase();
 public:
-	virtual BOOL ReadFromXml(rapidxml::xml_node<char> *pNode);
+	virtual BOOL ReadFromXml(rapidxml::xml_node<char>* pNode);
 
-	virtual BOOL OnObjectCreate(CSceneObject *pObject);
+	virtual BOOL OnObjectCreate(CSceneObject* pObject);
 
-	virtual BOOL OnObjectDie(CSceneObject *pObject);
+	virtual BOOL OnObjectDie(CSceneObject* pObject);
 
-	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerEnter(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
 
 	virtual BOOL Update(UINT32 dwTick);
 
 	virtual BOOL OnTimeUP();
 
-    virtual BOOL SetFinished();
+	virtual BOOL SetFinished();
 	virtual BOOL IsFinished();
 
 	virtual BOOL SetLastTime(UINT32 dwTime);
@@ -40,10 +40,10 @@ public:
 
 	CScene*  GetScene();
 public:
-	CScene *m_pScene;
+	CScene* m_pScene;
 	BOOL m_bFinished;
 
-	UINT32 m_dwLastTime; 
+	UINT32 m_dwLastTime;
 
 	BattleResult m_BattleResult;
 

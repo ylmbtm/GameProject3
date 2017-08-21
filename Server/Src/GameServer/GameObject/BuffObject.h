@@ -1,6 +1,7 @@
-﻿#include "..\ServerData\ServerDefine.h"
-#ifndef __BUFF_OBJECT_H__
+﻿#ifndef __BUFF_OBJECT_H__
 #define __BUFF_OBJECT_H__
+
+#include "../ServerData/ServerDefine.h"
 
 class CSceneObject;
 struct StBuffInfo;

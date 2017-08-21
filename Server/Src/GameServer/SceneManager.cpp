@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "SceneManager.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "../Message/Msg_ID.pb.h"
@@ -111,6 +111,13 @@ BOOL CSceneManager::OnUpdate( UINT32 dwTick )
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
 	{
 		CScene* pScene = itor->second;
+
+		if((pScene->GetLastTick() > dwTick) && (pScene->GetLastTick() - dwTick < FPS_TIME_TICK))
+		{
+			continue;
+		}
+
+		pScene->SetLastTick(dwTick);
 
 		pScene->OnUpdate(dwTick);
 

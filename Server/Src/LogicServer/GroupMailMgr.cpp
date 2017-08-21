@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include "GroupMailMgr.h"
-#include "..\GameServer\GameService.h"
-#include "Sqlite\CppSQLite3.h"
-#include "Utility\CommonFunc.h"
-#include "Utility\Log\Log.h"
+#include "GameService.h"
+#include "Sqlite/CppSQLite3.h"
+#include "CommonFunc.h"
+#include "Log.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 
@@ -31,5 +31,5 @@ BOOL CGroupMailMgr::SendGroupMail(GroupMailDataObject* pGroupMail)
 
 BOOL CGroupMailMgr::LoadGroupMailData()
 {
-    return TRUE;
+	return TRUE;
 }

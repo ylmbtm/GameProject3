@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_None.h"
-#include "..\Scene.h"
-#include "Utility\CommonFunc.h"
+#include "../Scene.h"
+#include "CommonFunc.h"
 
 
 
 
-SceneLogic_None::SceneLogic_None(CScene *pScene):SceneLogicBase(pScene)
+SceneLogic_None::SceneLogic_None(CScene* pScene): SceneLogicBase(pScene)
 {
 
 }
@@ -16,22 +16,22 @@ SceneLogic_None::~SceneLogic_None()
 
 }
 
-BOOL SceneLogic_None::OnObjectCreate(CSceneObject *pPlayer)
+BOOL SceneLogic_None::OnObjectCreate(CSceneObject* pPlayer)
 {
 	return TRUE;
 }
 
-BOOL SceneLogic_None::OnObjectDie(CSceneObject *pPlayer)
+BOOL SceneLogic_None::OnObjectDie(CSceneObject* pPlayer)
 {
 	return TRUE;
 }
 
-BOOL SceneLogic_None::OnPlayerEnter(CSceneObject *pPlayer)
+BOOL SceneLogic_None::OnPlayerEnter(CSceneObject* pPlayer)
 {
 	return TRUE;
 }
 
-BOOL SceneLogic_None::OnPlayerLeave(CSceneObject *pPlayer)
+BOOL SceneLogic_None::OnPlayerLeave(CSceneObject* pPlayer)
 {
 	return FALSE;
 }

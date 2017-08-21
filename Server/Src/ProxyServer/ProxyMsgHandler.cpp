@@ -1,16 +1,16 @@
 ﻿#include "stdafx.h"
 #include "ProxyMsgHandler.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "PacketHeader.h"
 #include "GameService.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 #include "StaticPlayerMgr.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
+#include "Log.h"
 
 
 CProxyMsgHandler::CProxyMsgHandler()
@@ -79,16 +79,16 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
-        case MSG_ROLE_OTHER_LOGIN_NTY:
-        {
-            RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-            CConnection *pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
-            if(pConn != NULL)
-            {
-                pConn->SetConnectionData(0);
-            }
-        }
-        break;
+		case MSG_ROLE_OTHER_LOGIN_NTY:
+		{
+			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
+			CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+			if(pConn != NULL)
+			{
+				pConn->SetConnectionData(0);
+			}
+		}
+		break;
 		default:
 		{
 			if((pPacketHeader->dwMsgID >= MSG_LOGICSVR_MSGID_BEGIN) && (pPacketHeader->dwMsgID <= MSG_LOGICSVR_MSGID_END))

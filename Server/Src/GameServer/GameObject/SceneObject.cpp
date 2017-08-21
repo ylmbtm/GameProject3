@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "SceneObject.h"
-#include "..\GameService.h"
-#include "..\Message\Msg_Copy.pb.h"
+#include "../GameService.h"
+#include "../Message/Msg_Copy.pb.h"
 #include "BuffObject.h"
-#include "Utility\Log\Log.h"
+#include "Log.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {

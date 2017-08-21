@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_Normal.h"
-#include "..\GameObject\SceneObject.h"
-#include "..\Scene.h"
-#include "..\ServerData\ServerDefine.h"
-#include "..\Message\Game_Define.pb.h"
-#include "Utility\CommonFunc.h"
+#include "../GameObject/SceneObject.h"
+#include "../Scene.h"
+#include "../ServerData/ServerDefine.h"
+#include "../Message/Game_Define.pb.h"
+#include "CommonFunc.h"
 
-SceneLogic_Normal::SceneLogic_Normal(CScene *pScene):SceneLogicBase(pScene)
+SceneLogic_Normal::SceneLogic_Normal(CScene* pScene): SceneLogicBase(pScene)
 {
 
 }
@@ -16,7 +16,7 @@ SceneLogic_Normal::~SceneLogic_Normal()
 
 }
 
-BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
+BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject* pObject)
 {
 	SceneLogicBase::OnObjectCreate(pObject);
 
@@ -29,7 +29,7 @@ BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject *pObject)
 	return TRUE;
 }
 
-BOOL SceneLogic_Normal::OnObjectDie(CSceneObject *pObject)
+BOOL SceneLogic_Normal::OnObjectDie(CSceneObject* pObject)
 {
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
@@ -41,14 +41,14 @@ BOOL SceneLogic_Normal::OnObjectDie(CSceneObject *pObject)
 }
 
 
-BOOL SceneLogic_Normal::OnPlayerEnter(CSceneObject *pPlayer)
+BOOL SceneLogic_Normal::OnPlayerEnter(CSceneObject* pPlayer)
 {
 	//玩家进入副本了。
 
 	return TRUE;
 }
 
-BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject *pPlayer)
+BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject* pPlayer)
 {
 	if(m_pScene->GetPlayerCount() != 1)
 	{

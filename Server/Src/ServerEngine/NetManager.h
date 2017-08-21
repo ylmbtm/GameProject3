@@ -1,14 +1,14 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-#include "Utility/CommonThreadFunc.h"
-#include "Utility/CommonMsgQueue.h"
+#include "CommonThreadFunc.h"
+#include "CommonMsgQueue.h"
 
-Th_RetName _NetEventThread( void *pParam );
+Th_RetName _NetEventThread( void* pParam );
 
-Th_RetName _NetListenThread( void *pParam );
+Th_RetName _NetListenThread( void* pParam );
 
-Th_RetName _NetEventDispatchThread(void *pParam ); //only for linux
+Th_RetName _NetEventDispatchThread(void* pParam ); //only for linux
 
 ////以下为linux专有//////////////////////////////
 #define EVENT_READ  1
@@ -17,7 +17,7 @@ Th_RetName _NetEventDispatchThread(void *pParam ); //only for linux
 struct EventNode
 {
 	UINT32		dwEvent;
-	void		*pPtr;
+	void*		pPtr;
 };
 
 ////////////////////////////////////////////////
@@ -35,13 +35,13 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler *pBufferHandler);
+	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler);
 
 	BOOL	Close();
 
-	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char *pData ,UINT32 dwLen);
+	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer *pBuffer);
+	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer);
 public:
 	BOOL	InitNetwork();
 
@@ -66,11 +66,11 @@ public:
 	BOOL	CreateDispatchThread();
 
 	BOOL    CloseDispatchThread();
-	
+
 	BOOL	CreateEventThread(int nNum);
 
 	BOOL    CloseEventThread();
-	
+
 	BOOL	WorkThread_DispathEvent();
 
 	BOOL	WorkThread_ProcessEvent();
@@ -87,10 +87,10 @@ public:
 
 	BOOL				m_bCloseDispath;	//是否关闭分发线程
 
-	IDataHandler		*m_pBufferHandler;
+	IDataHandler*		m_pBufferHandler;
 public:
 	CommonQueue::CMessageQueue<EventNode>	m_DispatchEventList;
-	
+
 	THANDLE				 m_hListenThread;
 	THANDLE				 m_hDispathThread;
 	std::vector<THANDLE> m_vtEventThread;

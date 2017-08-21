@@ -1,16 +1,16 @@
 ﻿#include "stdafx.h"
 #include "ServiceBase.h"
 #include "NetManager.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonEvent.h"
-#include "Utility/CommonConvert.h"
+#include "CommonEvent.h"
+#include "CommonConvert.h"
 #include "DataBuffer.h"
 #include "Connection.h"
-#include "Utility/CommonFunc.h"
+#include "CommonFunc.h"
 #include "TimerManager.h"
 #include "PacketHeader.h"
+#include "Log.h"
 
 ServiceBase::ServiceBase(void)
 {
@@ -92,9 +92,11 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 
 	char szBuff[10240] = {0};
 
-	pdata.SerializePartialToArray(szBuff, pdata.ByteSize());
+	ERROR_RETURN_FALSE(pdata.ByteSize() < 10240);
 
-	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.ByteSize());
+	pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
+
+	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.GetCachedSize());
 }
 
 BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen)

@@ -3,8 +3,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
-#include "Utility\Log\Log.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "Log.h"
+#include "../Message/Msg_ID.pb.h"
 
 CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -57,7 +57,7 @@ BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
 
-	BagDataObject *pObject = g_pBagDataObjectPool->newOjbect(FALSE);
+	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
 	pObject->lock();
 	pObject->m_uGuid = ItemData.guid();
 	pObject->m_uRoleID = ItemData.roleid();
@@ -83,7 +83,7 @@ BOOL CPetModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[M
 
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
-	PetDataObject* pObject = g_pPetDataObjectPool->newOjbect(TRUE);
+	PetDataObject* pObject = g_pPetDataObjectPool->NewOjbect(TRUE);
 	pObject->lock();
 	pObject->m_PetID = dwPetID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

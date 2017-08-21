@@ -1,6 +1,6 @@
 #ifndef __GUILD_HEADER_H__
 #define __GUILD_HEADER_H__
-#include "..\ServerData\GuildData.h"
+#include "../ServerData/GuildData.h"
 
 class CGuild
 {

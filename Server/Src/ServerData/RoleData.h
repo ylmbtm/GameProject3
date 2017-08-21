@@ -1,6 +1,6 @@
 ﻿#ifndef __ROLE_DATA_OBJECT_H__
 #define __ROLE_DATA_OBJECT_H__
-#include "serverStruct.h"
+#include "ServerStruct.h"
 #include "SharedMemory.h"
 #include "ServerDefine.h"
 struct RoleDataObject : public ShareObject
@@ -39,11 +39,11 @@ struct RoleDataObject : public ShareObject
 	BOOL Save(IDataBase* pDB)
 	{
 		char szSql[1024];
-		sprintf(szSql, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld);", \
-		        m_u64ID, m_u64AccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
-		        m_Action[0], m_Action[1], m_Action[2], m_Action[3],
-		        m_Actime[0], m_Actime[1], m_Actime[2], m_Actime[3]
-		       );
+		sprintf_s(szSql, 1024, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld);", \
+		          m_u64ID, m_u64AccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
+		          m_Action[0], m_Action[1], m_Action[2], m_Action[3],
+		          m_Actime[0], m_Actime[1], m_Actime[2], m_Actime[3]
+		         );
 
 		pDB->Execut(szSql);
 
@@ -55,7 +55,7 @@ struct RoleDataObject : public ShareObject
 	BOOL Delete(IDataBase* pDB)
 	{
 		char szSql[1024];
-		sprintf(szSql, "update player set delete = %d");
+		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);
 

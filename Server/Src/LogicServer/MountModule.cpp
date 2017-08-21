@@ -3,8 +3,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
-#include "Utility\Log\Log.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "Log.h"
+#include "../Message/Msg_ID.pb.h"
 
 CMountModule::CMountModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -57,7 +57,7 @@ BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 	const DBBagItemData &ItemData = BagData.itemlist(i);
 
-	BagDataObject *pObject = g_pBagDataObjectPool->newOjbect(FALSE);
+	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
 	pObject->lock();
 	pObject->m_uGuid = ItemData.guid();
 	pObject->m_uRoleID = ItemData.roleid();
@@ -83,7 +83,7 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent
 
 UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
-	MountDataObject* pObject = g_pMountDataObjectPool->newOjbect(TRUE);
+	MountDataObject* pObject = g_pMountDataObjectPool->NewOjbect(TRUE);
 	pObject->lock();
 	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

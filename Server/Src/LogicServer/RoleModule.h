@@ -1,7 +1,7 @@
 ﻿#ifndef __ROLE_MODULE_H__
 #define __ROLE_MODULE_H__
 #include "ModuleBase.h"
-#include "..\ServerData\serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 
 struct RoleDataObject;
 class CRoleModule : public CModuleBase

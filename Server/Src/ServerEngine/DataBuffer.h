@@ -1,8 +1,7 @@
 ﻿#ifndef _DATA_BUFFER_H_
 #define _DATA_BUFFER_H_
-#include "Utility/CritSec.h"
+#include "CritSec.h"
 #include "IBufferHandler.h"
-#include "Utility/Log/Log.h"
 
 template <int SIZE>
 class  CBufferManager;
@@ -54,7 +53,7 @@ public:
 
 		if(m_dwRefCount == 0)
 		{
-            m_nDataLen = 0;
+			m_nDataLen = 0;
 			//首先从己用中删除
 			if(m_pManager->m_pUsedList == this)
 			{
@@ -106,7 +105,7 @@ public:
 
 	UINT32 GetBodyLenth()
 	{
-		return m_nDataLen-HEADER_LEN;
+		return m_nDataLen - HEADER_LEN;
 	}
 
 	VOID SetTotalLenth(UINT32 nPos)
@@ -124,7 +123,7 @@ public:
 		return m_nBufSize;
 	}
 
-	UINT32  CopyFrom(IDataBuffer *pSrcBuffer)
+	UINT32  CopyFrom(IDataBuffer* pSrcBuffer)
 	{
 		memcpy(m_Buffer, pSrcBuffer->GetBuffer(), pSrcBuffer->GetTotalLenth());
 
@@ -133,7 +132,7 @@ public:
 		return m_nDataLen;
 	}
 
-	UINT32  CopyTo(CHAR *pDestBuf, UINT32 dwDestLen)
+	UINT32  CopyTo(CHAR* pDestBuf, UINT32 dwDestLen)
 	{
 		if(dwDestLen < GetTotalLenth())
 		{
@@ -146,11 +145,11 @@ public:
 		return dwDestLen;
 	}
 
-	CDataBuffer<SIZE> *m_pPrev;
+	CDataBuffer<SIZE>* m_pPrev;
 
-	CDataBuffer<SIZE> *m_pNext;
+	CDataBuffer<SIZE>* m_pNext;
 
-	CBufferManager<SIZE> *m_pManager;
+	CBufferManager<SIZE>* m_pManager;
 
 public:
 	INT32		m_dwRefCount;
@@ -158,7 +157,7 @@ public:
 	UINT32		m_nBufSize;
 
 	CHAR		m_Buffer[SIZE];
-	
+
 	UINT32		m_nDataLen;
 };
 
@@ -181,7 +180,7 @@ public:
 	IDataBuffer* AllocDataBuff()
 	{
 		m_CritSec.Lock();
-		CDataBuffer<SIZE> *pDataBuffer = NULL;
+		CDataBuffer<SIZE>* pDataBuffer = NULL;
 		if(m_pFreeList == NULL)
 		{
 			pDataBuffer = new CDataBuffer<SIZE>();
@@ -206,7 +205,7 @@ public:
 		{
 			ASSERT_FAIELD;
 		}
-		
+
 		pDataBuffer->m_dwRefCount = 1;
 
 		if(m_pUsedList == NULL)
@@ -226,10 +225,10 @@ public:
 		return pDataBuffer;
 	}
 
-	void PrintOutList(CDataBuffer<SIZE> *pList)
+	void PrintOutList(CDataBuffer<SIZE>* pList)
 	{
 		UINT32 dwCount = 0;
-		CDataBuffer<SIZE> *pBufferNode = pList;
+		CDataBuffer<SIZE>* pBufferNode = pList;
 		if(pBufferNode == NULL)
 		{
 			printf("O---空列表---O\n");
@@ -243,7 +242,7 @@ public:
 			if(bNext)
 			{
 				dwCount++;
-				ASSERT(dwCount<10);
+				ASSERT(dwCount < 10);
 				if(pBufferNode->m_pNext != NULL)
 				{
 					pBufferNode = pBufferNode->m_pNext;
@@ -257,9 +256,9 @@ public:
 			else
 			{
 				dwCount++;
-				ASSERT(dwCount<10);
+				ASSERT(dwCount < 10);
 				pBufferNode = pBufferNode->m_pPrev;
-			}	
+			}
 		}
 
 		printf("<-End\n");
@@ -267,9 +266,9 @@ public:
 		return ;
 	}
 
-	CDataBuffer<SIZE> *m_pFreeList;
+	CDataBuffer<SIZE>* m_pFreeList;
 
-	CDataBuffer<SIZE> *m_pUsedList;
+	CDataBuffer<SIZE>* m_pUsedList;
 
 	CCritSec	m_CritSec;
 

@@ -1,6 +1,7 @@
-﻿#include "Utility\XMath.h"
-#ifndef __BATTLE_RESULT_H__
+﻿#ifndef __BATTLE_RESULT_H__
 #define __BATTLE_RESULT_H__
+
+#include "XMath.h"
 
 enum RESULTTYPE
 {
@@ -23,7 +24,7 @@ public:
 	RESULTTYPE GetResultType();
 	VOID SetResultType(RESULTTYPE type);
 
-	BOOL SetDestination(FLOAT left,FLOAT top,FLOAT right,FLOAT bottom);
+	BOOL SetDestination(FLOAT left, FLOAT top, FLOAT right, FLOAT bottom);
 
 	BOOL SetNpcID(UINT32 dwNpcID);
 

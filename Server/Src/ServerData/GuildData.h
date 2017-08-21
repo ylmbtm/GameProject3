@@ -1,7 +1,7 @@
 ﻿#ifndef __GUILD_DATA_OBJECT_H__
 #define __GUILD_DATA_OBJECT_H__
 
-#include "serverStruct.h"
+#include "ServerStruct.h"
 #include "SharedMemory.h"
 struct GuildDataObject : public ShareObject
 {
@@ -25,7 +25,7 @@ struct GuildDataObject : public ShareObject
 	BOOL Delete(IDataBase* pDB)
 	{
 		char szSql[1024];
-		sprintf(szSql, "update player set delete = %d");
+		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);
 
@@ -58,7 +58,7 @@ struct MemberDataObject : public ShareObject
 	BOOL Delete(IDataBase* pDB)
 	{
 		char szSql[1024];
-		sprintf(szSql, "update player set delete = %d");
+		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);
 

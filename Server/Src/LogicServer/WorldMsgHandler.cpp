@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "WorldMsgHandler.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "GameService.h"
 #include "PacketHeader.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
@@ -16,7 +16,7 @@
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
-#include "Utility/CommonConvert.h"
+#include "CommonConvert.h"
 #include "BagModule.h"
 
 CWorldMsgHandler::CWorldMsgHandler()
@@ -362,26 +362,26 @@ BOOL CWorldMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	}
 	else
 	{
-        switch(Req.channel())
-        {
-        case CHL_WORLD:
-            {
+		switch(Req.channel())
+		{
+			case CHL_WORLD:
+			{
 
-            }
-            break;
-        case CHL_PRIVATE:
-            {
+			}
+			break;
+			case CHL_PRIVATE:
+			{
 
-            }
-            break;
-        case CHL_GUILD:
-            {
+			}
+			break;
+			case CHL_GUILD:
+			{
 
-            }
-            break;
-        default:
-            break;
-        }
+			}
+			break;
+			default:
+				break;
+		}
 	}
 
 
@@ -393,7 +393,7 @@ BOOL CWorldMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-    if(std::strcmp(vtParam[0].c_str(), "@@additem") == 0)
+	if(std::strcmp(vtParam[0].c_str(), "@@additem") == 0)
 	{
 		CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
 		ERROR_RETURN_TRUE(pBag != NULL);

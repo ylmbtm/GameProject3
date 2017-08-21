@@ -8,7 +8,7 @@ CSceneXmlManager::CSceneXmlManager()
 
 CSceneXmlManager::~CSceneXmlManager()
 {
-	
+
 }
 
 CSceneXmlManager* CSceneXmlManager::GetInstancePtr()
@@ -20,7 +20,7 @@ CSceneXmlManager* CSceneXmlManager::GetInstancePtr()
 
 rapidxml::xml_document<char>* CSceneXmlManager::GetXmlDocument(std::string strXmlName)
 {
-	std::map<string, rapidxml::xml_document<char>*>::iterator itor = m_mapDocument.find(strXmlName);
+	std::map<std::string, rapidxml::xml_document<char>*>::iterator itor = m_mapDocument.find(strXmlName);
 	if (itor != m_mapDocument.end())
 	{
 		return itor->second;
@@ -34,12 +34,12 @@ rapidxml::xml_document<char>* CSceneXmlManager::GetXmlDocument(std::string strXm
 	}
 
 	char buff[204800] = {0};
-	fseek (pFile , 0 , SEEK_END);
+	fseek (pFile, 0, SEEK_END);
 	INT32 nSize = ftell (pFile);
 	rewind (pFile);
 	fread(buff, nSize, 1, pFile);
 	fclose(pFile);
-	buff[nSize+1] = 0;
+	buff[nSize + 1] = 0;
 
 	rapidxml::xml_document<char>* pXMLDoc = new rapidxml::xml_document<char>();
 

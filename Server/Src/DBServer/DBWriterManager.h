@@ -2,19 +2,19 @@
 #define _DB_WRITER_H_
 
 #include "SharedMemory.h"
-#include "..\ServerData\RoleData.h"
-#include "Utility\CommonThreadFunc.h"
+#include "CommonThreadFunc.h"
 #include "DBManager.h"
-#include "..\ServerData\GlobalData.h"
-#include "..\ServerData\BagData.h"
-#include "..\ServerData\CopyData.h"
-#include "..\ServerData\EquipData.h"
-#include "..\ServerData\PetData.h"
-#include "..\ServerData\PartnerData.h"
-#include "..\ServerData\GuildData.h"
-#include "..\ServerData\TaskData.h"
-#include "..\ServerData\MountData.h"
-#include "..\ServerData\MailData.h"
+#include "../ServerData/GlobalData.h"
+#include "../ServerData/BagData.h"
+#include "../ServerData/CopyData.h"
+#include "../ServerData/EquipData.h"
+#include "../ServerData/PetData.h"
+#include "../ServerData/PartnerData.h"
+#include "../ServerData/GuildData.h"
+#include "../ServerData/TaskData.h"
+#include "../ServerData/MountData.h"
+#include "../ServerData/MailData.h"
+#include "../ServerData/RoleData.h"
 
 Th_RetName _DBWriteThread( void* pParam );
 

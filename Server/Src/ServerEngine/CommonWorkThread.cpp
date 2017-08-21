@@ -1,9 +1,8 @@
 ﻿#include "stdafx.h"
 #include "CommonWorkThread.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "DataBuffer.h"
 #include "PacketHeader.h"
 
@@ -31,7 +30,7 @@ void CCommonWorkThread::Run()
 		{
 			//处理所有的定时器
 			ProcessTimeEvent();
-			
+
 			m_dwLastTick = dwTick;
 		}
 
@@ -43,9 +42,9 @@ void CCommonWorkThread::Run()
 
 		if(m_MessageQueue.size() <= 0)
 		{
-			CommonThreadFunc::Sleep(50-dwTick+m_dwLastTick);
+			CommonThreadFunc::Sleep(50 - dwTick + m_dwLastTick);
 		}
-		
+
 	}
 }
 
@@ -61,7 +60,7 @@ BOOL CCommonWorkThread::Start()
 	}
 
 	return FALSE;
-} 
+}
 
 BOOL CCommonWorkThread::Stop()
 {
@@ -91,7 +90,7 @@ BOOL CCommonWorkThread::ProcessMessage()
 
 		ASSERT(msg.u64ConnID != 0);
 
-		PacketHeader *pPacketHeader = (PacketHeader *)(msg.pDataBuffer->GetBuffer());
+		PacketHeader* pPacketHeader = (PacketHeader*)(msg.pDataBuffer->GetBuffer());
 
 		m_pCommandHandler->OnCommandHandle(pPacketHeader->dwMsgID, msg.u64ConnID, msg.pDataBuffer);
 
@@ -101,15 +100,15 @@ BOOL CCommonWorkThread::ProcessMessage()
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::AddMessage(UINT64 u64ConnID, IDataBuffer *pDataBuffer)
+BOOL CCommonWorkThread::AddMessage(UINT64 u64ConnID, IDataBuffer* pDataBuffer)
 {
 	ASSERT(u64ConnID != 0);
-	IDataBuffer *pRecvBuffer = pDataBuffer;
+	IDataBuffer* pRecvBuffer = pDataBuffer;
 	m_MessageQueue.push(MsgItem(u64ConnID, pRecvBuffer));
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::SetCommandHandler( IThreadCommandHandler *pCommandHandler )
+BOOL CCommonWorkThread::SetCommandHandler( IThreadCommandHandler* pCommandHandler )
 {
 	m_pCommandHandler = pCommandHandler;
 
@@ -141,9 +140,9 @@ BOOL CCommonWorkThread::OnThreadEnd()
 }
 
 
-Th_RetName _CommonWorkThread( void *pParam )
+Th_RetName _CommonWorkThread( void* pParam )
 {
-	CCommonWorkThread *pThread = (CCommonWorkThread *)pParam;
+	CCommonWorkThread* pThread = (CCommonWorkThread*)pParam;
 
 	if(!pThread->OnThreadBegin())
 	{

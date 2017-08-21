@@ -3,26 +3,27 @@
 #include "GameService.h"
 #include "Scene.h"
 #include "PacketHeader.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
-#include "SceneLogic/SceneLogic_Normal.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "../Message/Msg_Move.pb.h"
-#include "MonsterCreator.h"
+#include "../Message/Msg_Copy.pb.h"
+#include "../Message/Msg_Game.pb.h"
+#include "SceneLogic/SceneLogic_Normal.h"
 #include "SceneLogic/SceneLogic_None.h"
 #include "SceneLogic/SceneLogic_City.h"
-#include "Utility/RapidXml//rapidxml.h"
+#include "MonsterCreator.h"
+#include "RapidXml.h"
 #include "SceneXmlMgr.h"
-#include "Utility/CommonConvert.h"
+#include "CommonConvert.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
 #include "../ServerData/ServerDefine.h"
-#include "../Message/Msg_Copy.pb.h"
-#include "../Message/Msg_Game.pb.h"
+
 
 CScene::CScene()
 {
@@ -88,7 +89,7 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
-            PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
+			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
 		default:
 		{
 			return FALSE;
@@ -232,13 +233,6 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
-	if((m_dwLastTick > dwTick) && (m_dwLastTick - dwTick < FPS_TIME_TICK))
-	{
-		return TRUE;
-	}
-
-	m_dwLastTick = dwTick;
-
 	if(m_pSceneLogic->IsFinished()) //己经结束不再处理
 	{
 		return TRUE;
@@ -749,6 +743,17 @@ UINT32 CScene::GetCreateTime()
 	return m_dwCreateTime;
 }
 
+UINT32 CScene::GetLastTick()
+{
+	return m_dwLastTick;
+}
+
+BOOL CScene::SetLastTick(UINT32 dwTick)
+{
+	m_dwLastTick = dwTick;
+	return TRUE;
+}
+
 BOOL CScene::SyncObjectState()
 {
 	if(m_ObjectActionNty.actionlist_size() <= 0)
@@ -1072,7 +1077,7 @@ BOOL CScene::SendBattleResult()
 
 BOOL CScene::OnMsgBattleChatReq( NetPacket* pNetPacket )
 {
-    return TRUE;
+	return TRUE;
 }
 
 

@@ -4,11 +4,9 @@ CC_INCLUDE=-I/usr/include
 DEFS = -DSERVER_ENGINE
 	 
 MY_INCLUDE=-I$(PWD) \
+		-I../ServerEngine \
 		-I../../Common \
-		-I../../Common/Utility \
-		-I../../Common/PacketDef \
-		-I../../Common/DataBuff \
-		-I../../Common/CmdHandler
+		-I../../Common/protobuf/src
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \

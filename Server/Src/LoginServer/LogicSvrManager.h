@@ -1,5 +1,7 @@
-#pragma once
-#include "Utility\AVLTree.h"
+#ifndef _LOGIC_SEVER_MANAGERH_
+#define _LOGIC_SEVER_MANAGERH_
+
+#include "AVLTree.h"
 
 struct LogicServerNode
 {
@@ -13,8 +15,8 @@ struct LogicServerNode
 	}
 	UINT32 dwConnID;   //Á¬½ÓID
 	UINT32 dwServerID;
-	string strServerName;
-	string strIpAddr;
+	std::string strServerName;
+	std::string strIpAddr;
 	UINT32 dwPort;   ///¶Ë¿ÚºÅ
 	UINT32 m_State;
 	UINT32 m_Flag;
@@ -43,3 +45,4 @@ public:
 	UINT32 m_dwRecommendSvrID;
 };
 
+#endif //_LOGIC_SEVER_MANAGERH_

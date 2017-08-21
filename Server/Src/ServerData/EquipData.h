@@ -1,7 +1,7 @@
 ﻿#ifndef __EQUIP_DATA_OBJECT_H__
 #define __EQUIP_DATA_OBJECT_H__
-#include "serverStruct.h"
-#include "..\ServerEngine\SharedMemory.h"
+#include "ServerStruct.h"
+#include "../ServerEngine/SharedMemory.h"
 struct EquipDataObject : public ShareObject
 {
 	EquipDataObject()

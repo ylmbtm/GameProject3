@@ -3,7 +3,7 @@
 #include "Sqlite/CppSQLite3.h"
 #include "DBConnection.h"
 #include "DBStoredProcMgr.h"
-#include "../ServerData/serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 #include "../Message/Msg_LoginDBData.pb.h"
 #include "../Message/Msg_Game.pb.h"
 

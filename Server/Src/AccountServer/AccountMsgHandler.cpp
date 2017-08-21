@@ -1,15 +1,15 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
 #include "AccountMsgHandler.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
 #include "PacketHeader.h"
 #include "GameService.h"
-#include "Utility/CommonSocket.h"
+#include "CommonSocket.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
+#include "Log.h"
 
 
 

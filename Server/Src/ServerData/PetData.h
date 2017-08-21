@@ -1,6 +1,6 @@
 ﻿#ifndef __PET_DATA_OBJECT_H__
 #define __PET_DATA_OBJECT_H__
-#include "serverStruct.h"
+#include "ServerStruct.h"
 #include "SharedMemory.h"
 struct PetDataObject : public ShareObject
 {

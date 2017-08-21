@@ -5,10 +5,7 @@ DEFS = -DSERVER_ENGINE
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../../Common \
-		-I../../Common/Utility \
-		-I../../Common/PacketDef \
-		-I../../Common/DataBuff \
-		-I../../Common/CmdHandler
+		-I../../Common/protobuf/src
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
@@ -21,11 +18,6 @@ TARGET=libServerEngine.a
 OBJPATH=./Linux/
 
 SRCS= $(wildcard ./*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/Utility/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/CmdHandler/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/DataBuffer/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/Utility/Log/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/Utility/IniFile/*.cpp)
 
 #//SRCS=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.cpp))
 

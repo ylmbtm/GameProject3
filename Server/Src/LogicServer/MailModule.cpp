@@ -2,8 +2,8 @@
 #include "MailModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "..\ConfigData\ConfigData.h"
-#include "Utility\Log\Log.h"
+#include "../ConfigData/ConfigData.h"
+#include "Log.h"
 
 CMailModule::CMailModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {

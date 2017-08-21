@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_Base.h"
-#include "Utility\CommonFunc.h"
-#include "..\Scene.h"
+#include "CommonFunc.h"
+#include "../Scene.h"
 #include "BattleResult.h"
-#include "Utility\Log\Log.h"
+#include "Log.h"
 
 SceneLogicBase::SceneLogicBase(CScene* pScene)
 {

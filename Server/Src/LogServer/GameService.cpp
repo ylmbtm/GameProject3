@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "GameService.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "Utility/CommonFunc.h"
-#include "Utility/CommonEvent.h"
-#include "Utility/CommonThreadFunc.h"
+#include "CommonFunc.h"
+#include "CommonEvent.h"
+#include "CommonThreadFunc.h"
+#include "Log.h"
 
 
 CGameService::CGameService(void)

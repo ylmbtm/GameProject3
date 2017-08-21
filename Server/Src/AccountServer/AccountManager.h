@@ -1,7 +1,7 @@
 ﻿#ifndef __DB_ACCOUNT_OBJECT_H__
 #define __DB_ACCOUNT_OBJECT_H__
-#include "Utility/AVLTree.h"
-#include "Utility/Position.h"
+#include "AVLTree.h"
+#include "Position.h"
 
 struct CAccountObject
 {

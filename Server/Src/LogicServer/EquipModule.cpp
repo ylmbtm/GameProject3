@@ -2,10 +2,10 @@
 #include "EquipModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "..\ConfigData\ConfigData.h"
-#include "Utility\Log\Log.h"
+#include "../ConfigData/ConfigData.h"
+#include "Log.h"
 #include "PlayerObject.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "../Message/Msg_ID.pb.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -63,7 +63,7 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < EquipData.equiplist_size(); i++)
 	{
 		const DBEquipItem& ItemData = EquipData.equiplist(i);
-		EquipDataObject* pObject = g_pEquipDataObjectPool->newOjbect(FALSE);
+		EquipDataObject* pObject = g_pEquipDataObjectPool->NewOjbect(FALSE);
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_u64RoleID = ItemData.roleid();
 		pObject->m_EquipID = ItemData.equipid();
@@ -92,7 +92,7 @@ BOOL CEquipModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 {
-	EquipDataObject* pObject = g_pEquipDataObjectPool->newOjbect(TRUE);
+	EquipDataObject* pObject = g_pEquipDataObjectPool->NewOjbect(TRUE);
 	pObject->lock();
 	pObject->m_EquipID = dwEquipID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

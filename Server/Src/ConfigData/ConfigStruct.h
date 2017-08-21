@@ -1,7 +1,7 @@
-﻿#include "..\ServerData\ServerDefine.h"
-#ifndef __CONFIG_STRUCT_H__
+﻿#ifndef __CONFIG_STRUCT_H__
 #define __CONFIG_STRUCT_H__
 
+#include "../ServerData/ServerDefine.h"
 struct  StConstantValue
 {
 	StConstantValue() {}
