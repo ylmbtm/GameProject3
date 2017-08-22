@@ -34,7 +34,11 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnection)
 {
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)));
+	if(!m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)))
+	{
+		AtomicAdd(&m_dwWriteIndex, 1);
+		ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)));
+	}
 	return TRUE;
 }
 
@@ -126,7 +130,12 @@ BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 	m_CloseConList.push(pConnection);
-	AtomicAdd(&m_dwWriteIndex, 1);
+
+	if(m_dwReadIndex == (m_dwWriteIndex % 2))
+	{
+		AtomicAdd(&m_dwWriteIndex, 1);
+	}
+
 	return TRUE;
 }
 
@@ -135,7 +144,12 @@ BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
 	m_NewConList.push(pConnection);
-	AtomicAdd(&m_dwWriteIndex, 1);
+
+	if(m_dwReadIndex == (m_dwWriteIndex % 2))
+	{
+		AtomicAdd(&m_dwWriteIndex, 1);
+	}
+
 	return TRUE;
 }
 
@@ -169,7 +183,7 @@ BOOL ServiceBase::Update()
 
 		//if((GetTickCount() - dwTick) >10)
 		//{
-		//	CLog::GetInstancePtr()->AddLog("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
+		//	CLog::GetInstancePtr()->LogError("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
 		//}
 
 		item.m_pDataBuffer->Release();
@@ -181,7 +195,7 @@ BOOL ServiceBase::Update()
 
 	if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
 	{
-		//CLog::GetInstancePtr()->AddLog("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
+		//CLog::GetInstancePtr()->LogError("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
 		m_dwFps = 0;
 		m_dwPackNum = 0;
 		m_dwLastTick = CommonFunc::GetTickCount();
@@ -198,8 +212,7 @@ BOOL ServiceBase::Update()
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
 
-	m_dwReadIndex = m_dwReadIndex + 1;
-	m_dwReadIndex = m_dwReadIndex % 2;
+	m_dwReadIndex = (m_dwReadIndex + 1) % 2;
 
 	return TRUE;
 }

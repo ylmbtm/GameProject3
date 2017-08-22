@@ -418,15 +418,11 @@ BOOL CConnection::Clear()
 
 	m_IsSending	= FALSE;
 
-	m_CritSecSendList.Lock();
-	for(int i = 0; i < (int)m_SendBuffList.size(); i++)
+	IDataBuffer* pBuff = NULL;
+	while(m_SendBuffList.pop(pBuff))
 	{
-		m_SendBuffList[i]->Release();
+		pBuff->Release();
 	}
-
-	m_SendBuffList.clear();
-
-	m_CritSecSendList.Unlock();
 
 	return TRUE;
 }
@@ -434,8 +430,7 @@ BOOL CConnection::Clear()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	CAutoLock Lock(&m_CritSecSendList);
-	m_SendBuffList.push_back(pBuff);
+	m_SendBuffList.push(pBuff);
 	DoSend();
 	return TRUE;
 }
@@ -469,56 +464,67 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	if(m_SendBuffList.empty())
+	m_IsSending = TRUE;
+	IDataBuffer* pFirstBuff = NULL;
+	IDataBuffer* pBuffer = NULL;
+	IDataBuffer* pSendingBuffer = NULL;
+	int nSendSize = 0;
+	int nCurPos = 0;
+	while(m_SendBuffList.pop(pBuffer))
 	{
+		nSendSize += pBuffer->GetTotalLenth();
+
+		if(pFirstBuff == NULL)
+		{
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				pSendingBuffer = pBuffer;
+				break;
+			}
+
+			pFirstBuff = pBuffer;
+		}
+		else
+		{
+			if(pSendingBuffer == NULL)
+			{
+				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
+				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
+				nCurPos += pFirstBuff->GetTotalLenth();
+				pFirstBuff->Release();
+				pFirstBuff = NULL;
+			}
+
+			pBuffer->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
+			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
+			nCurPos += pBuffer->GetTotalLenth();
+			pBuffer->Release();
+
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				break;
+			}
+		}
+	}
+
+	if(pSendingBuffer == NULL)
+	{
+		pSendingBuffer = pFirstBuff;
+	}
+
+	if(pSendingBuffer == NULL)
+	{
+		m_IsSending = FALSE;
 		return FALSE;
 	}
 
-	m_IsSending = TRUE;
-
-	IDataBuffer* pSendBuffer = NULL;
-	int nSendCount = 0;
-	int nSendSize = 0;
-	for(int i = 0; i < m_SendBuffList.size(); i++)
-	{
-		IDataBuffer* pDataBuffer = (IDataBuffer*)m_SendBuffList[i];
-
-		if((nSendSize + pDataBuffer->GetTotalLenth()) > RECV_BUF_SIZE)
-		{
-			break;
-		}
-
-		nSendSize += pDataBuffer->GetTotalLenth();
-		nSendCount += 1;
-	}
-
-	if(nSendCount <= 1)
-	{
-		pSendBuffer = m_SendBuffList[0];
-
-		m_SendBuffList.erase(m_SendBuffList.begin());
-	}
-	else
-	{
-		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
-		int nCurPos = 0;
-		for(int i = 0; i < nSendCount; i++)
-		{
-			IDataBuffer* pDataBuffer = (IDataBuffer*)m_SendBuffList[i];
-			pDataBuffer->CopyTo(pSendBuffer->GetBuffer() + nCurPos, pDataBuffer->GetTotalLenth());
-			pSendBuffer->SetTotalLenth(pSendBuffer->GetTotalLenth() + pDataBuffer->GetTotalLenth());
-			nCurPos += pDataBuffer->GetTotalLenth();
-			pDataBuffer->Release();
-		}
-		m_SendBuffList.erase(m_SendBuffList.begin(), m_SendBuffList.begin() + nSendCount);
-	}
-
 	WSABUF  DataBuf;
-	DataBuf.len = pSendBuffer->GetTotalLenth();
-	DataBuf.buf = pSendBuffer->GetBuffer();
+	DataBuf.len = pSendingBuffer->GetTotalLenth();
+	DataBuf.buf = pSendingBuffer->GetBuffer();
 	m_IoOverlapSend.Clear();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
-	m_IoOverlapSend.pDataBuffer = pSendBuffer;
+	m_IoOverlapSend.pDataBuffer = pSendingBuffer;
 	m_IoOverlapSend.dwConnID = m_dwConnID;
 
 	DWORD dwSendBytes = 0;
@@ -553,53 +559,65 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	if(m_SendBuffList.empty())
-	{
-		return FALSE;
-	}
-
 	m_IsSending = TRUE;
-
-	IDataBuffer* pSendBuffer = NULL;
-	int nSendCount = 0;
+	IDataBuffer* pFirstBuff = NULL;
+	IDataBuffer* pBuffer = NULL;
+	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
-	for(int i = 0; i < m_SendBuffList.size(); i++)
+	int nCurPos = 0;
+	while(m_SendBuffList.pop(pBuffer))
 	{
-		IDataBuffer* pDataBuffer = (IDataBuffer*)m_SendBuffList[i];
+		nSendSize += pBuffer->GetTotalLenth();
 
-		if((nSendSize + pDataBuffer->GetTotalLenth()) > RECV_BUF_SIZE)
+		if(pFirstBuff == NULL)
 		{
-			break;
-		}
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				pSendingBuffer = pBuffer;
+				break;
+			}
 
-		nSendSize += pDataBuffer->GetTotalLenth();
-		nSendCount += 1;
+			pFirstBuff = pBuffer;
+		}
+		else
+		{
+			if(pSendingBuffer == NULL)
+			{
+				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
+				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
+				nCurPos += pFirstBuff->GetTotalLenth();
+				pFirstBuff->Release();
+				pFirstBuff = NULL;
+			}
+
+			pBuffer->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
+			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
+			nCurPos += pBuffer->GetTotalLenth();
+			pBuffer->Release();
+
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				break;
+			}
+		}
 	}
 
-	if(nSendCount <= 1)
+	if(pSendingBuffer == NULL)
 	{
-		pSendBuffer = m_SendBuffList[0];
-
-		m_SendBuffList.erase(m_SendBuffList.begin());
+		pSendingBuffer = pFirstBuff;
 	}
-	else
+
+	if(pSendingBuffer == NULL)
 	{
-		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
-		int nCurPos = 0;
-		for(int i = 0; i < nSendCount; i++)
-		{
-			IDataBuffer* pDataBuffer = (IDataBuffer*)m_SendBuffList[i];
-			pDataBuffer->CopyTo(pSendBuffer->GetBuffer() + nCurPos, pDataBuffer->GetTotalLenth());
-			pSendBuffer->SetTotalLenth(pSendBuffer->GetTotalLenth() + pDataBuffer->GetTotalLenth());
-			nCurPos += pDataBuffer->GetTotalLenth();
-			pDataBuffer->Release();
-		}
-		m_SendBuffList.erase(m_SendBuffList.begin(), m_SendBuffList.begin() + nSendCount);
+		m_IsSending = FALSE;
+		return FALSE;
 	}
 
 	m_IoOverlapSend.Clear();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
-	m_IoOverlapSend.pDataBuffer = pSendBuffer;
+	m_IoOverlapSend.pDataBuffer = pSendingBuffer;
+	m_IoOverlapSend.dwConnID    = m_dwConnID;
 
 
 	//木多库的处理方式
@@ -615,15 +633,15 @@ BOOL CConnection::DoSend()
 	//	}
 	//}
 
-	INT32 nRet = send(m_hSocket, pSendBuffer->GetBuffer(), pSendBuffer->GetTotalLenth(), 0);
-	pSendBuffer->Release();
+	INT32 nRet = send(m_hSocket, pSendingBuffer->GetBuffer(), pSendingBuffer->GetTotalLenth(), 0);
+	pSendingBuffer->Release();
 	if(nRet < 0)
 	{
 		int nErr = CommonSocket::GetSocketLastError();
 		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
 		m_IsSending = FALSE;
 	}
-	else if(nRet < pSendBuffer->GetTotalLenth())
+	else if(nRet < pSendingBuffer->GetTotalLenth())
 	{
 		CommonSocket::CloseSocket(m_hSocket);
 		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 缓冲区满了!");
@@ -650,12 +668,10 @@ CConnectionMgr::~CConnectionMgr()
 
 CConnection* CConnectionMgr::CreateConnection()
 {
-	CAutoLock Lock(&m_CritSecConnList);
-
 	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
 
 	CConnection* pTemp = NULL;
-
+	m_CritSecConnList.Lock();
 	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
 		pTemp = m_pFreeConnRoot;
@@ -667,9 +683,10 @@ CConnection* CConnectionMgr::CreateConnection()
 		m_pFreeConnRoot = pTemp->m_pNext;
 		pTemp->m_pNext = NULL;
 	}
-
+	m_CritSecConnList.Unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
-
+	ERROR_RETURN_NULL(pTemp->GetSocket() == INVALID_SOCKET);
+	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
 	return pTemp;
 }
 
@@ -697,15 +714,11 @@ CConnectionMgr* CConnectionMgr::GetInstancePtr()
 }
 
 
-VOID CConnectionMgr::DeleteConnection( CConnection* pConnection )
+BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 {
-	if(pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return ;
-	}
+	ERROR_RETURN_FALSE(pConnection != NULL);
 
-	CAutoLock Lock(&m_CritSecConnList);
+	m_CritSecConnList.Lock();
 
 	if(m_pFreeConnTail == NULL)
 	{
@@ -726,6 +739,8 @@ VOID CConnectionMgr::DeleteConnection( CConnection* pConnection )
 
 	}
 
+	m_CritSecConnList.Unlock();
+
 	UINT32 dwConnID = pConnection->GetConnectionID();
 
 	pConnection->Clear();
@@ -734,7 +749,7 @@ VOID CConnectionMgr::DeleteConnection( CConnection* pConnection )
 
 	pConnection->SetConnectionID(dwConnID);
 
-	return ;
+	return TRUE;
 }
 
 BOOL CConnectionMgr::CloseAllConnection()
@@ -767,10 +782,9 @@ BOOL CConnectionMgr::DestroyAllConnection()
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
 	return TRUE;
-	CAutoLock Lock(&m_CritSecConnList);
 	UINT32 curTick = CommonFunc::GetTickCount();
 
-	for(int i = 0; i < m_vtConnList.size(); i++)
+	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{
 		CConnection* pTemp = m_vtConnList.at(i);
 		if(!pTemp->IsConnectionOK())

@@ -3,7 +3,7 @@
 
 #include "IBufferHandler.h"
 #include "CommandDef.h"
-#include "ClientConnector\ClientConnector.h"
+#include "../../Connector/ClientConnector.h"
 
 #define ST_NONE				0
 #define ST_Register			1
@@ -79,7 +79,7 @@ public:
 
 	std::vector<UINT64>	m_RoleIDList;
 
-	std::map<UINT64,CSceneObject> m_mapSceneObject;
+	std::map<UINT64, CSceneObject> m_mapSceneObject;
 
 	CClientConnector	m_ClientConnector;
 

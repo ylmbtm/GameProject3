@@ -255,11 +255,20 @@ UINT32 CommonFunc::GetLastError()
 
 HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 {
+
 #ifdef WIN32
 	HANDLE hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, strName.c_str());
+	if(hShare != 0)
+	{
+		if(GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			CloseHandle(hShare);
+			hShare = 0;
+		}
+	}
 #else
 	key_t key = ftok(strName.c_str(), 201);
-	HANDLE hShare = shmget(key, nSize, 0666 | IPC_CREAT);
+	HANDLE hShare = shmget(key, nSize, 0666 | IPC_CREAT | IPC_EXCL);
 	if(hShare == -1)
 	{
 		hShare = 0;

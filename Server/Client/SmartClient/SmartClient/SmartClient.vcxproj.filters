@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="ClientConnector">
-      <UniqueIdentifier>{d74ee11c-9eb4-4825-8a80-13c59b986a7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{0306eb90-1968-4f39-96e8-03b87abf5c9f}</UniqueIdentifier>
     </Filter>
@@ -25,6 +22,9 @@
     <Filter Include="behaviac">
       <UniqueIdentifier>{83def337-96f4-46fe-bf62-64244da513f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Connector">
+      <UniqueIdentifier>{d74ee11c-9eb4-4825-8a80-13c59b986a7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartClient.cpp">
@@ -32,18 +32,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp">
-      <Filter>ClientConnector</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonSocket.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonConvert.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\Utility\CommonFunc.cpp">
-      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <Filter>Proto</Filter>
@@ -72,6 +60,18 @@
     <ClCompile Include="exported\behaviac_generated\types\internal\behaviac_agent_meta.cpp">
       <Filter>behaviac</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Connector\ClientConnector.cpp">
+      <Filter>Connector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonConvert.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonFunc.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\ServerEngine\CommonSocket.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -80,26 +80,11 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h">
-      <Filter>ClientConnector</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonSocket.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonConvert.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\CommonFunc.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\Utility\XMath.h">
-      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_LoginCltData.pb.h">
       <Filter>Proto</Filter>
@@ -118,6 +103,21 @@
     </ClInclude>
     <ClInclude Include="exported\behaviac_generated\types\internal\behaviac_headers.h">
       <Filter>behaviac</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connector\ClientConnector.h">
+      <Filter>Connector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonConvert.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonFunc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\CommonSocket.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\ServerEngine\XMath.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

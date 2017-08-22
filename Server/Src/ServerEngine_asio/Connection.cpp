@@ -1,15 +1,15 @@
 ﻿#include "stdafx.h"
 #include "Connection.h"
-#include "DataBuffer.h"
-#include "Utility/CommonSocket.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
 #include <boost/asio/placeholders.hpp>
 #include "PacketHeader.h"
-#include "Utility/CommonFunc.h"
+#include "../ServerEngine/Log.h"
+#include "../ServerEngine/DataBuffer.h"
+#include "../ServerEngine/CommonFunc.h"
 
 
-CConnection::CConnection(boost::asio::io_service &ioservice):m_hSocket(ioservice)
+
+CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservice)
 {
 	m_pDataHandler		= NULL;
 
@@ -58,34 +58,35 @@ BOOL CConnection::DoReceive()
 
 	//boost::asio::async_read_some(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-	m_hSocket.async_read_some(boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::HandReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	m_hSocket.async_read_some(boost::asio::buffer(m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen), boost::bind(&CConnection::HandReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 	return TRUE;
 }
 
 UINT32 CConnection::GetConnectionID()
 {
-    return m_dwConnID;
+	return m_dwConnID;
+}
+
+UINT64 CConnection::GetConnectionData()
+{
+	return m_u64ConnData;
 }
 
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
-    ASSERT(m_dwConnID == 0);
-    ASSERT(dwConnID != 0);
-    ASSERT(!m_bConnected);
+	ASSERT(dwConnID != 0);
+	ASSERT(!m_bConnected);
 
-    m_dwConnID = dwConnID;
+	m_dwConnID = dwConnID;
 
 	return ;
 }
 
-
-
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
-	ASSERT(m_dwConnID == 0);
-
-	m_dwConnData = dwData;
+	ASSERT(m_dwConnID != 0);
+	m_u64ConnData = dwData;
 
 	return ;
 }
@@ -93,14 +94,10 @@ VOID CConnection::SetConnectionData( UINT64 dwData )
 
 BOOL CConnection::ExtractBuffer()
 {
-	//在这方法里返回FALSE。	
+	//在这方法里返回FALSE。
 	//会在外面导致这个连接被关闭。
 
-	if(m_dwDataLen <= 0)
-	{
-		ASSERT_FAIELD;
-		return TRUE;
-	}
+	ERROR_RETURN_TRUE(m_dwDataLen > 0);
 
 	while(TRUE)
 	{
@@ -108,17 +105,17 @@ BOOL CConnection::ExtractBuffer()
 		{
 			if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_pCurBufferSize)
 			{
-				memcpy(m_pCurRecvBuffer->GetBuffer()+m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
-				m_dwDataLen = 0; 
-				m_pBufPos = m_pRecvBuf; 
+				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
+				m_dwDataLen = 0;
+				m_pBufPos = m_pRecvBuf;
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen);
 				break;
 			}
 			else
 			{
-				memcpy(m_pCurRecvBuffer->GetBuffer()+m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth());
-				m_dwDataLen -= m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
-				m_pBufPos += m_pCurBufferSize-m_pCurRecvBuffer->GetTotalLenth(); 
+				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth());
+				m_dwDataLen -= m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
+				m_pBufPos += m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurBufferSize);
 				m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, this);
 				m_pCurRecvBuffer = NULL;
@@ -130,65 +127,78 @@ BOOL CConnection::ExtractBuffer()
 			break;
 		}
 
-		PacketHeader *pHeader = (PacketHeader *)m_pBufPos;
+		PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
 		//////////////////////////////////////////////////////////////////////////
 		//在这里对包头进行检查, 如果不合法就要返回FALSE;
 		/*
 		1.首先验证包的验证吗
 		2.包的长度
-		3.包的序号
-		pHeader->CheckCode = 0x88;//客户端
-		pHeader->CheckCoue = 0x99;//服务器
-		if(pHeader->CheckCode == 0x88)
+		3.包的序号*/
+		if(pHeader->CheckCode != 0x88)
 		{
-			if(m_nCheckNo == 0)
+			return FALSE;
+		}
+
+		if(pHeader->dwSize > 1024 * 1024)
+		{
+			return FALSE;
+		}
+
+		if(pHeader->dwMsgID > 4999999)
+		{
+			return FALSE;
+		}
+		/*if(m_nCheckNo == 0)
+		{
+			m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+		}
+		else
+		{
+			if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
 			{
-				m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+				m_nCheckNo += 1;
 			}
 			else
 			{
-				if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-				{
-					m_nCheckNo += 1;
-				}
-				else
-				{
-					return FALSE;
-				}
-		}
+				return FALSE;
+			}*/
 
-		*/
+
+
+		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
+
+		UINT32 dwPacketSize = pHeader->dwSize;
+
 		//////////////////////////////////////////////////////////////////////////
-
-		if((pHeader->dwSize > m_dwDataLen)  && (pHeader->dwSize < CONST_BUFF_SIZE))
+		if((dwPacketSize > m_dwDataLen)  && (dwPacketSize < RECV_BUF_SIZE))
 		{
 			break;
 		}
 
-		if (pHeader->dwSize <= m_dwDataLen)
+		if (dwPacketSize <= m_dwDataLen)
 		{
-			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pHeader->dwSize);
+			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 
-			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, pHeader->dwSize);
+			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, dwPacketSize);
 
-			m_dwDataLen -= pHeader->dwSize;
+			m_dwDataLen -= dwPacketSize;
 
-			m_pBufPos += pHeader->dwSize;
+			m_pBufPos += dwPacketSize;
 
-			pDataBuffer->SetTotalLenth(pHeader->dwSize);
+			pDataBuffer->SetTotalLenth(dwPacketSize);
 
 			m_pDataHandler->OnDataHandle(pDataBuffer, this);
 		}
 		else
 		{
-			IDataBuffer *pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(pHeader->dwSize);
+			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_dwDataLen);
 
 			pDataBuffer->SetTotalLenth(m_dwDataLen);
 			m_dwDataLen = 0;
 			m_pBufPos = m_pRecvBuf;
 			m_pCurRecvBuffer = pDataBuffer;
-			m_pCurBufferSize = pHeader->dwSize;
+			m_pCurBufferSize = dwPacketSize;
 		}
 	}
 
@@ -204,12 +214,12 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-	CLog::GetInstancePtr()->AddLog("CConnection::Close()%x!", this);
+
 	m_pDataHandler->OnCloseConnect(this);
 	m_hSocket.close();
-    m_bConnected        = FALSE;
-    m_dwDataLen         = 0;
-
+	m_bConnected        = FALSE;
+	m_dwDataLen         = 0;
+	m_IsSending			= FALSE;
 	return TRUE;
 }
 
@@ -231,13 +241,9 @@ BOOL CConnection::HandleRecvEvent(UINT32 dwBytes)
 }
 
 
-BOOL CConnection::SetDataHandler( IDataHandler *pHandler )
+BOOL CConnection::SetDataHandler( IDataHandler* pHandler )
 {
-	if(pHandler == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pHandler != NULL);
 
 	m_pDataHandler = pHandler;
 
@@ -253,7 +259,7 @@ BOOL CConnection::IsConnectionOK()
 {
 	//m_hSocket.is_open()
 
-    return m_bConnected;
+	return m_bConnected;
 }
 
 BOOL CConnection::SetConnectionOK( BOOL bOk )
@@ -268,17 +274,20 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 
 BOOL CConnection::Clear()
 {
-    m_bConnected = FALSE;
+	m_bConnected = FALSE;
 
-    m_pDataHandler = NULL;
+	m_u64ConnData = 0;
 
-	m_dwConnData = 0;
+	m_dwDataLen = 0;
 
-    m_dwDataLen = 0;
-
-    m_dwIpAddr  = 0;
+	m_dwIpAddr  = 0;
 
 	m_pBufPos   = m_pRecvBuf;
+
+	if(m_pCurRecvBuffer != NULL)
+	{
+		m_pCurRecvBuffer->Release();
+	}
 
 	m_pCurRecvBuffer = NULL;
 
@@ -286,47 +295,43 @@ BOOL CConnection::Clear()
 
 	m_IsSending	= FALSE;
 
-	m_CritSecSendList.Lock();
-	for(int i = 0; i < (int)m_SendBuffList.size(); i++)
+	IDataBuffer* pBuff = NULL;
+	while(m_SendBuffList.pop(pBuff))
 	{
-		m_SendBuffList[i]->Release();
+		pBuff->Release();
 	}
-	
-	m_SendBuffList.clear();
 
-	m_CritSecSendList.Unlock();
-
-    return TRUE;
+	return TRUE;
 }
 
 
-BOOL CConnection::SendBuffer(IDataBuffer *pBuff)
+BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	CAutoLock Lock(&m_CritSecSendList);
-	m_SendBuffList.push_back(pBuff);
+	m_SendBuffList.push(pBuff);
 	DoSend();
 	return TRUE;
 }
 
-BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char *pData, UINT32 dwLen)
+BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
 {
-	IDataBuffer *pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
-	if(pDataBuffer == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+	ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
-
-
-	PacketHeader *pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	pHeader->CheckCode = 0x88;
 	pHeader->dwUserData = dwUserData;
 	pHeader->u64TargetID = u64TargetID;
 	pHeader->dwSize = dwLen + sizeof(PacketHeader);
 	pHeader->dwMsgID = dwMsgID;
+	pHeader->dwPacketNo = 1;
+
+	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+
+	pDataBuffer->SetTotalLenth(pHeader->dwSize);
 
 	return SendBuffer(pDataBuffer);
 }
+
 BOOL CConnection::DoSend()
 {
 	///如果正在发送中就直接返回
@@ -335,46 +340,59 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	if(m_SendBuffList.empty())
-	{
-		return FALSE;
-	}
-
-	IDataBuffer *pSendBuffer = NULL;
-	int nSendCount = 0;
+	m_IsSending = TRUE;
+	IDataBuffer* pFirstBuff = NULL;
+	IDataBuffer* pBuffer = NULL;
+	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
-	for(int i = 0; i < m_SendBuffList.size(); i++)
+	int nCurPos = 0;
+	while(m_SendBuffList.pop(pBuffer))
 	{
-		IDataBuffer *pDataBuffer = (IDataBuffer *)m_SendBuffList[i];
+		nSendSize += pBuffer->GetTotalLenth();
 
-		if((nSendSize + pDataBuffer->GetTotalLenth())>CONST_BUFF_SIZE)
+		if(pFirstBuff == NULL)
 		{
-			break;
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				pSendingBuffer = pBuffer;
+				break;
+			}
+
+			pFirstBuff = pBuffer;
 		}
-
-		nSendSize += pDataBuffer->GetTotalLenth();
-		nSendCount+= 1;
-	}
-	
-	if(nSendCount <= 1)
-	{
-		pSendBuffer = m_SendBuffList[0];
-
-		m_SendBuffList.erase(m_SendBuffList.begin());
-	}
-	else
-	{
-		pSendBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(CONST_BUFF_SIZE);
-		int nCurPos = 0;
-		for(int i = 0; i < nSendCount; i++)
+		else
 		{
-			IDataBuffer *pDataBuffer = (IDataBuffer *)m_SendBuffList[i];
-			pDataBuffer->CopyTo(pSendBuffer->GetBuffer()+nCurPos, pDataBuffer->GetTotalLenth());
-			pSendBuffer->SetTotalLenth(pSendBuffer->GetTotalLenth()+pDataBuffer->GetTotalLenth());
-			nCurPos += pDataBuffer->GetTotalLenth();
-			pDataBuffer->Release();
+			if(pSendingBuffer == NULL)
+			{
+				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
+				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
+				nCurPos += pFirstBuff->GetTotalLenth();
+				pFirstBuff->Release();
+				pFirstBuff = NULL;
+			}
+
+			pBuffer->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
+			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
+			nCurPos += pBuffer->GetTotalLenth();
+			pBuffer->Release();
+
+			if(nSendSize >= RECV_BUF_SIZE)
+			{
+				break;
+			}
 		}
-		m_SendBuffList.erase(m_SendBuffList.begin(), m_SendBuffList.begin() + nSendCount);
+	}
+
+	if(pSendingBuffer == NULL)
+	{
+		pSendingBuffer = pFirstBuff;
+	}
+
+	if(pSendingBuffer == NULL)
+	{
+		m_IsSending = FALSE;
+		return FALSE;
 	}
 
 	return TRUE;
@@ -389,50 +407,53 @@ void CConnection::HandReaddata(const boost::system::error_code& error, size_t le
 
 CConnectionMgr::CConnectionMgr()
 {
-    m_pFreeConnRoot = NULL;
-    m_pFreeConnTail = NULL;
-
+	m_pFreeConnRoot = NULL;
+	m_pFreeConnTail = NULL;
 }
 
 CConnectionMgr::~CConnectionMgr()
 {
-    DestroyAllConnection();
-    m_pFreeConnRoot = NULL;
-    m_pFreeConnTail = NULL;
+	DestroyAllConnection();
+	m_pFreeConnRoot = NULL;
+	m_pFreeConnTail = NULL;
 }
 
-CConnection* CConnectionMgr::CreateConnection() 
+CConnection* CConnectionMgr::CreateConnection()
 {
-    CAutoLock Lock(&m_CritSecConnList);
+	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
 
-    if(m_pFreeConnRoot == NULL)
-    {
-        ASSERT_FAIELD;
-        return NULL;
-    }
-
-    CConnection* pTemp = m_pFreeConnRoot;
-
-    m_pFreeConnRoot = pTemp->m_pNext;
-
-    if(pTemp->GetConnectionID() == 0)
-    {
-        ASSERT_FAIELD;
-        return NULL;
-    }
-
-    return pTemp;
+	CConnection* pTemp = NULL;
+	m_CritSecConnList.Lock();
+	if(m_pFreeConnRoot == m_pFreeConnTail)
+	{
+		pTemp = m_pFreeConnRoot;
+		m_pFreeConnTail = m_pFreeConnRoot = NULL;
+	}
+	else
+	{
+		pTemp = m_pFreeConnRoot;
+		m_pFreeConnRoot = pTemp->m_pNext;
+		pTemp->m_pNext = NULL;
+	}
+	m_CritSecConnList.Unlock();
+	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
+	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
+	return pTemp;
 }
 
 CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 {
-    if(dwConnID >= m_vtConnList.size())
-    {
-        ASSERT_FAIELD;
-        return NULL;
-    }
+	UINT32 dwIndex = dwConnID % m_vtConnList.size();
 
-    return m_vtConnList.at(dwConnID);
+	ERROR_RETURN_NULL(dwIndex < m_vtConnList.size())
+
+	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
+	if(pConnect->GetConnectionID() != dwConnID)
+	{
+		return NULL;
+	}
+
+	return pConnect;
 }
 
 
@@ -444,80 +465,85 @@ CConnectionMgr* CConnectionMgr::GetInstancePtr()
 }
 
 
-VOID CConnectionMgr::DeleteConnection( CConnection *pConnection )
+BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 {
-    CAutoLock Lock(&m_CritSecConnList);
-    
-    if(pConnection == NULL)
-    {
-        ASSERT_FAIELD;
-        return ;
-    }
+	ERROR_RETURN_FALSE(pConnection != NULL);
 
-    if(m_pFreeConnTail == NULL)
-    {
-        if(m_pFreeConnRoot != NULL)
-        {
-            ASSERT_FAIELD;
-        }
+	m_CritSecConnList.Lock();
 
-        m_pFreeConnTail = m_pFreeConnRoot = pConnection;
-    }
-    else
-    {
-        m_pFreeConnTail->m_pNext = pConnection;
-        m_pFreeConnTail = pConnection;
-    }
+	if(m_pFreeConnTail == NULL)
+	{
+		if(m_pFreeConnRoot != NULL)
+		{
+			ASSERT_FAIELD;
+		}
 
-    pConnection->m_pNext = m_pFreeConnRoot;
+		m_pFreeConnTail = m_pFreeConnRoot = pConnection;
+	}
+	else
+	{
+		m_pFreeConnTail->m_pNext = pConnection;
 
-    m_pFreeConnRoot = pConnection;
+		m_pFreeConnTail = pConnection;
+
+		m_pFreeConnTail->m_pNext = NULL;
+
+	}
+
+	m_CritSecConnList.Unlock();
+
+	UINT32 dwConnID = pConnection->GetConnectionID();
 
 	pConnection->Clear();
 
-	return ;
+	dwConnID += m_vtConnList.size();
+
+	pConnection->SetConnectionID(dwConnID);
+
+	return TRUE;
 }
 
 BOOL CConnectionMgr::CloseAllConnection()
 {
-    CConnection *pConn = NULL;
-    for(size_t i = 0; i < m_vtConnList.size(); i++)
-    {
+	CConnection* pConn = NULL;
+	for(size_t i = 0; i < m_vtConnList.size(); i++)
+	{
 		pConn = m_vtConnList.at(i);
 		pConn->Close();
-    }
+	}
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CConnectionMgr::DestroyAllConnection()
 {
-    CConnection *pConn = NULL;
-    for(size_t i = 0; i < m_vtConnList.size(); i++)
-    {
-        pConn = m_vtConnList.at(i);
-        pConn->Close();
-        delete pConn;
-    }
+	CConnection* pConn = NULL;
+	for(size_t i = 0; i < m_vtConnList.size(); i++)
+	{
+		pConn = m_vtConnList.at(i);
+		pConn->Close();
+		delete pConn;
+	}
 
-    m_vtConnList.clear();
+	m_vtConnList.clear();
 
 	return TRUE;
 }
 
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
+	return TRUE;
 	UINT32 curTick = CommonFunc::GetTickCount();
 
-	for(int i =0; i < m_vtConnList.size(); i++)
+	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{
-		 CConnection *pTemp = m_vtConnList.at(i);
-		 if(!pTemp->IsConnectionOK())
-		 {
-			 continue;
-		 }
+		CConnection* pTemp = m_vtConnList.at(i);
+		if(!pTemp->IsConnectionOK())
+		{
+			continue;
+		}
 
-		if(curTick > (pTemp->m_LastRecvTick+3000))
+		if(curTick > (pTemp->m_LastRecvTick + 30000))
 		{
 			pTemp->Close();
 		}
@@ -525,33 +551,35 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 
 	return TRUE;
 }
-BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service &ioservice)
+BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service& ioservice)
 {
-    ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
-    ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
+	ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
+	ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
 
-    m_vtConnList.assign(nMaxCons+1, NULL);
-    for(UINT32 i = 1; i < nMaxCons+1; i++)
-    {
-		CConnection *pConn = new CConnection(ioservice);
+	m_vtConnList.assign(nMaxCons, NULL);
+	for(UINT32 i = 0; i < nMaxCons; i++)
+	{
+		CConnection* pConn = new CConnection(ioservice);
 
-        m_vtConnList[i] = pConn;
-        pConn->SetConnectionID(i) ;
-        if (m_pFreeConnRoot == NULL)
-        {
-            m_pFreeConnRoot = pConn;
+		m_vtConnList[i] = pConn;
+
+		pConn->SetConnectionID(i + 1) ;
+
+		if (m_pFreeConnRoot == NULL)
+		{
+			m_pFreeConnRoot = pConn;
 			pConn->m_pNext = NULL;
 			m_pFreeConnTail = pConn;
-        }
-        else
-        {
-			pTemp->m_pNext = pConn;
-			pTemp = pConn;
-			pTemp->m_pNext = NULL;
-        }
-    }
+		}
+		else
+		{
+			m_pFreeConnTail->m_pNext = pConn;
+			m_pFreeConnTail = pConn;
+			m_pFreeConnTail->m_pNext = NULL;
+		}
+	}
 
-	 return TRUE;
+	return TRUE;
 }
 
 

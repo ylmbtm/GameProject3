@@ -3,7 +3,7 @@
 #include "behaviac/behaviac.h"
 #include "Platform.h"
 #include "CommandDef.h"
-#include "ClientConnector\ClientConnector.h"
+#include "../../Connector/ClientConnector.h"
 
 
 #define ST_NONE				0
@@ -42,7 +42,7 @@ public:
 
 	~CClientObject(void);
 
-    BEHAVIAC_DECLARE_AGENTTYPE(CClientObject, behaviac::Agent)
+	BEHAVIAC_DECLARE_AGENTTYPE(CClientObject, behaviac::Agent)
 
 	BOOL    DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
@@ -60,7 +60,7 @@ public:
 	BOOL    SendMainCopyReq();
 	BOOL    SendAbortCopyReq();
 
-    void    SayHello(behaviac::string strContent);
+	void    SayHello(behaviac::string strContent);
 	//*********************消息处理定义开始******************************
 public:
 	BOOL    OnCmdNewAccountAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
@@ -85,7 +85,7 @@ public:
 
 	std::vector<UINT64>	m_RoleIDList;
 
-	std::map<UINT64,CSceneObject> m_mapSceneObject;
+	std::map<UINT64, CSceneObject> m_mapSceneObject;
 
 	CClientConnector	m_ClientConnector;
 

@@ -172,7 +172,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					break;
 				}
 
-				CLog::GetInstancePtr()->LogError("触发了----NET_MSG_RECV---dwNumOfByte:%d", dwNumOfByte);
+				CLog::GetInstancePtr()->LogError("BEGIN----NET_MSG_RECV---dwNumOfByte:%d", dwNumOfByte);
 
 				if(dwNumOfByte == 0)
 				{
@@ -212,6 +212,8 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
 					}
 				}
+
+				CLog::GetInstancePtr()->LogError("END----NET_MSG_RECV---");
 			}
 			break;
 			case NET_MSG_SEND:
@@ -226,10 +228,8 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 
 				if(pConnection != NULL)
 				{
-					pConnection->m_CritSecSendList.Lock();
 					pConnection->m_IsSending = FALSE;
 					pConnection->DoSend();
-					pConnection->m_CritSecSendList.Unlock();
 				}
 				else
 				{
@@ -319,7 +319,7 @@ BOOL CNetManager::WorkThread_DispathEvent()
 
 BOOL CNetManager::CreateCompletePort()
 {
-	m_hCompletePort = epoll_create(MAXEPOLLSIZE);
+	m_hCompletePort = epoll_create(10000);
 	ERROR_RETURN_FALSE(m_hCompletePort != -1);
 
 	return TRUE;

@@ -13,14 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="ClientConnector">
-      <UniqueIdentifier>{d74ee11c-9eb4-4825-8a80-13c59b986a7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{0306eb90-1968-4f39-96e8-03b87abf5c9f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Proto">
       <UniqueIdentifier>{9fb3d47f-b7d3-48eb-97e6-849c9c642965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Connector">
+      <UniqueIdentifier>{d74ee11c-9eb4-4825-8a80-13c59b986a7d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Common\ClientConnector\ClientConnector.cpp">
-      <Filter>ClientConnector</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\Message\Game_Define.pb.cc">
       <Filter>Proto</Filter>
@@ -66,6 +63,9 @@
     <ClCompile Include="..\..\..\Src\ServerEngine\CommonSocket.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Connector\ClientConnector.cpp">
+      <Filter>Connector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -73,9 +73,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\ClientConnector\ClientConnector.h">
-      <Filter>ClientConnector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\Message\Msg_Copy.pb.h">
       <Filter>Proto</Filter>
@@ -100,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Src\ServerEngine\XMath.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connector\ClientConnector.h">
+      <Filter>Connector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

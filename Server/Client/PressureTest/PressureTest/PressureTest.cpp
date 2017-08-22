@@ -7,7 +7,6 @@
 #define ROBOT_NUM 2
 #define RUN_TIME 50
 
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int nRobotNum = 0;

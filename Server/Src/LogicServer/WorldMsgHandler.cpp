@@ -265,8 +265,12 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
+	if((pPlayer->m_dwCopyGuid != 0) && (pPlayer->m_dwCopySvrID != 0))
+	{
+		pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+	}
+
 	pPlayer->OnLogout();
-	pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 	pPlayer->SetConnectID(0, 0);
 	pPlayer->ClearCopyState();
 

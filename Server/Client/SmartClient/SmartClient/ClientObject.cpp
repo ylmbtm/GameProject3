@@ -4,13 +4,12 @@
 #include "..\Src\Message\Msg_RetCode.pb.h"
 #include "PacketHeader.h"
 #include "..\Src\Message\Msg_Move.pb.h"
-#include "Utility\CommonConvert.h"
 #include "..\Src\Message\Game_Define.pb.h"
-#include "Utility\CommonFunc.h"
 #include "..\Src\Message\Msg_Copy.pb.h"
 #include "..\Src\Message\Msg_Game.pb.h"
-#include "Utility\XMath.h"
 #include "..\Src\Message\Msg_LoginCltData.pb.h"
+#include "..\Src\ServerEngine\XMath.h"
+#include "..\Src\ServerEngine\CommonFunc.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -499,5 +498,5 @@ BOOL CClientObject::OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 
 void    CClientObject::SayHello(behaviac::string strContent)
 {
-    printf("-------SayHello------%s", strContent.c_str());
+	printf("-------SayHello------%s", strContent.c_str());
 }

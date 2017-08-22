@@ -147,9 +147,14 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
-			//m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
-			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);
+			//m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
+
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 8080); //account
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);  //game
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 8083);  //log
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 8084);  //logic
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 9876);  //proxy
 		}
 
 		if(m_ClientConnector.GetConnectState() == Succ_Connect)

@@ -58,18 +58,18 @@ public:
 	BOOL			Update();
 
 protected:
-	IPacketDispatcher*			  	m_pPacketDispatcher;
-	ArrayLockFreeQueue<NetPacket>      m_DataQueue[2];
-	UINT32							   m_dwReadIndex;
-	UINT32							   m_dwWriteIndex;
-	ArrayLockFreeQueue<CConnection*>   m_NewConList;
-	ArrayLockFreeQueue<CConnection*>   m_CloseConList;
+	IPacketDispatcher*					m_pPacketDispatcher;
+	ArrayLockFreeQueue<NetPacket>		m_DataQueue[2];
+	UINT32								m_dwReadIndex;
+	UINT32								m_dwWriteIndex;
+	ArrayLockFreeQueue<CConnection*>	m_NewConList;
+	ArrayLockFreeQueue<CConnection*>	m_CloseConList;
 
 
 	//以下用于统计
-	UINT32							   m_dwLastTick;
-	UINT32							   m_dwPackNum;
-	UINT32							   m_dwFps;
+	UINT32								m_dwLastTick;
+	UINT32								m_dwPackNum;
+	UINT32								m_dwFps;
 };
 
 

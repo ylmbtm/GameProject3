@@ -85,7 +85,6 @@ public:
 			}
 
 			m_pManager->m_dwBufferCount--;
-			//CLog::GetInstancePtr()->LogError("Release Count:%d, Buff:%x, size:%d", m_pManager->m_dwBufferCount, GetBuffer(), m_nBufSize);
 		}
 
 		m_pManager->m_CritSec.Unlock();

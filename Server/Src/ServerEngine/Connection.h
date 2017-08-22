@@ -3,6 +3,7 @@
 
 #include "IBufferHandler.h"
 #include "CritSec.h"
+#include "LockFreeQueue.h"
 
 #define  NET_MSG_RECV				1
 #define  NET_MSG_SEND				2
@@ -86,17 +87,17 @@ public:
 	CHAR						m_pRecvBuf[RECV_BUF_SIZE];
 	CHAR*						m_pBufPos;
 
-	IDataBuffer*					m_pCurRecvBuffer;
+	IDataBuffer*				m_pCurRecvBuffer;
 	UINT32						m_pCurBufferSize;
 	UINT32						m_nCheckNo;
 
-	std::vector<IDataBuffer*>   m_SendBuffList;
-	BOOL						m_IsSending;
-	CCritSec				    m_CritSecSendList;
+	volatile BOOL				m_IsSending;
 
 	CConnection*                m_pNext;
 
 	UINT32						m_LastRecvTick;
+
+	ArrayLockFreeQueue < IDataBuffer*, 1 << 10 > m_SendBuffList;
 };
 
 
@@ -115,7 +116,7 @@ public:
 
 	CConnection*    CreateConnection();
 
-	VOID		    DeleteConnection(CConnection* pConnection);
+	BOOL		    DeleteConnection(CConnection* pConnection);
 
 	CConnection*    GetConnectionByConnID(UINT32 dwConnID);
 
@@ -130,8 +131,8 @@ public:
 
 	CConnection*				m_pFreeConnRoot;
 	CConnection*				m_pFreeConnTail;
-	std::vector<CConnection*> m_vtConnList;            //连接列表
-	CCritSec				 m_CritSecConnList;
+	std::vector<CConnection*>	m_vtConnList;            //连接列表
+	CCritSec					m_CritSecConnList;
 };
 
 #endif
