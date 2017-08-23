@@ -30,11 +30,6 @@ BOOL CDBManager::Uninit()
 
 BOOL CDBManager::CreateAccount(UINT64 u64AccountID, const char* szAccount, const char* szPassword, UINT32 dwChannel, UINT32 dwCreateTime)
 {
-	if(0 != GetAccountID(szAccount))
-	{
-		return FALSE;
-	}
-
 	CHAR szSql[1024];
 
 	sprintf_s(szSql, 1024, "insert into account(id, name, password, channel, createtime) values('%lld','%s','%s', '%d', '%d')", u64AccountID, szAccount, szPassword, dwChannel, dwCreateTime);
@@ -64,18 +59,21 @@ UINT64 CDBManager::VerifyAccount( const char* szAccount, const char* szPassword 
 	return 0;
 }
 
-UINT64 CDBManager::GetAccountID( const char* szAccount )
+BOOL CDBManager::GetAccountData(const std::string strAccountName, UINT64& u64AccountID, std::string& strPwd, UINT32& dwChannel)
 {
 	CHAR szSql[1024];
 
-	sprintf_s(szSql, 1024, "select * from account where name ='%s'", szAccount);
+	sprintf_s(szSql, 1024, "select * from account where name ='%s'", strAccountName.c_str());
 
 	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
 
 	while(!QueryRes.eof())
 	{
-		return QueryRes.getIntField("id", 0);
+		u64AccountID = QueryRes.getInt64Field("id");
+		strPwd = QueryRes.getStringField("password");
+		dwChannel = QueryRes.getIntField("channel");
+		return TRUE;
 	}
 
-	return 0;
+	return FALSE;
 }

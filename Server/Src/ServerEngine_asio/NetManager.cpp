@@ -1,14 +1,10 @@
 ﻿#include "stdafx.h"
 #include "NetManager.h"
 #include "Connection.h"
-#include "Utility/CommonSocket.h"
-#include "Utility/CommonFunc.h"
 #include "CommandDef.h"
-#include "Utility/Log/Log.h"
-#include "DataBuffer.h"
 #include "boost/asio/placeholders.hpp"
-#include "Utility/CommonConvert.h"
 #include <boost/asio/impl/connect.hpp>
+#include "../ServerEngine/CommonConvert.h"
 
 
 CNetManager::CNetManager(void)
@@ -20,7 +16,7 @@ CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler *pBufferHandler )
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler )
 {
 	if(pBufferHandler == NULL)
 	{
@@ -58,13 +54,13 @@ BOOL CNetManager::Close()
 
 BOOL CNetManager::WaitForConnect()
 {
-	CConnection *pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	if(pConnection == NULL)
 	{
 		return FALSE;
 	}
 
-	m_pAcceptor->async_accept(pConnection->GetSocket(), boost::bind(&CNetManager::HandleAccept,this,  pConnection, boost::asio::placeholders::error));
+	m_pAcceptor->async_accept(pConnection->GetSocket(), boost::bind(&CNetManager::HandleAccept, this,  pConnection, boost::asio::placeholders::error));
 
 	return TRUE;
 }
@@ -77,7 +73,7 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 	//boost::asio::ip::tcp::resolver::iterator end;
 	//boost::system::error_code error = boost::asio::error::host_not_found;
 
-	CConnection *pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	if(pConnection == NULL)
 	{
 		return NULL;
@@ -89,13 +85,13 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 	boost::asio::ip::tcp::resolver::query query(strIpAddr, CommonConvert::IntToString(sPort));
 	boost::asio::ip::tcp::resolver::iterator enditor = resolver.resolve(query);
 
-	boost::asio::async_connect(pConnection->GetSocket(),enditor, boost::bind(&CNetManager::HandleConnect, this, pConnection, boost::asio::placeholders::error));
+	boost::asio::async_connect(pConnection->GetSocket(), enditor, boost::bind(&CNetManager::HandleConnect, this, pConnection, boost::asio::placeholders::error));
 
 	return pConnection;
 }
 
 
-void CNetManager::HandleConnect(CConnection *pConnection, const boost::system::error_code& e)
+void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::error_code& e)
 {
 	m_pBufferHandler->OnNewConnect(pConnection);
 
@@ -104,7 +100,7 @@ void CNetManager::HandleConnect(CConnection *pConnection, const boost::system::e
 	return ;
 }
 
-void CNetManager::HandleAccept(CConnection *pConnection, const boost::system::error_code& e)
+void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::error_code& e)
 {
 	m_pBufferHandler->OnNewConnect(pConnection);
 
@@ -115,16 +111,16 @@ void CNetManager::HandleAccept(CConnection *pConnection, const boost::system::er
 	return ;
 }
 
-BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConID, IDataBuffer *pDataBuffer)
+BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConID, IDataBuffer* pDataBuffer)
 {
-	if((pDataBuffer == NULL)||(dwConID == 0))
+	if((pDataBuffer == NULL) || (dwConID == 0))
 	{
 		ASSERT_FAIELD;
 
 		return FALSE;
 	}
 
-	CConnection *pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConID);
-	
+	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConID);
+
 	return pConn->SendBuffer(pDataBuffer);
 }

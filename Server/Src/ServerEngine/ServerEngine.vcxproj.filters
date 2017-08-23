@@ -33,28 +33,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TimerManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonWorkThread.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DataBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonMsgHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedMemory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="CrashReport.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CommonConvert.cpp">
@@ -67,6 +46,30 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="CommonThreadFunc.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AstarFinder.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemory.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonMsgHandler.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonWorkThread.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigFile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBuffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,76 +89,13 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TimerManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\atomic_ops.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\AVLTree.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonEvent.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueueEx.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CritSec.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CritSecNotify.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueueImpl.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\RandomValue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\WindowsDump.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\CheckMacroDefine.h">
       <Filter>CmdDefine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\TypeDef.h">
       <Filter>CmdDefine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\MemObjectPool.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="EventFuncManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonWorkThread.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DataBuffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonMsgHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedMemory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CrashReport.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\Rank.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CommonConvert.h">
@@ -168,6 +108,33 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="CommonThreadFunc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AstarFinder.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMsgHandler.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonWorkThread.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigFile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFuncManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemory.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

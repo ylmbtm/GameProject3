@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AstarFinder.h"
-////////////////////////////////////////////////////////////////////////////////
-//                           Constructor Destructor                           //
-////////////////////////////////////////////////////////////////////////////////
+
 
 AstarFinder::AstarFinder()
 {
@@ -10,7 +8,7 @@ AstarFinder::AstarFinder()
 	m_pClosedList  = NULL;
 	m_pCurPath    = NULL;
 	m_pStack   = ( STACK* )calloc(1, sizeof( STACK ));
-	m_pTileMap = NULL;	
+	m_pTileMap = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +33,7 @@ AstarFinder::~AstarFinder()
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void AstarFinder::InitAstarMap(BYTE* pMap, int w, int h)
+BOOL AstarFinder::InitAstarMap(BYTE* pMap, INT32 w, INT32 h)
 {
 	m_nColCnt = w;	// 障碍图的宽度
 	m_nRowCnt = h;	// 障碍图的高度
@@ -61,7 +59,7 @@ BOOL AstarFinder::NewPath(int sx, int sy, int dx, int dy) //(dx,dy)目的节点�
 {
 	if ( IsTileAviable(dx, dy) && IsTileAviable(sx, sy) && (GetTileNum(sx, sy) != GetTileNum(dx, dy)) )
 	{
-		FreeNodes(); 
+		FreeNodes();
 		FindPath(sx, sy, dx, dy);
 	}
 
@@ -72,24 +70,47 @@ BOOL AstarFinder::NewPath(int sx, int sy, int dx, int dy) //(dx,dy)目的节点�
 
 BOOL AstarFinder::IsReached(void) // check it's return value before getting
 {
-	if ( m_pCurPath->Parent == NULL )  
-	{ 
-		return FALSE; 
-	}             
+	if ( m_pCurPath->Parent == NULL )
+	{
+		return FALSE;
+	}
 
-	return TRUE; 
+	return TRUE;
+}
+
+BOOL AstarFinder::PathNextNode(void)
+{
+	if(m_pCurPath->Parent != NULL)
+	{
+		m_pCurPath = m_pCurPath->Parent;
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+INT32 AstarFinder::NodeGetX()
+{
+	return m_pCurPath->x;
+}
+
+int AstarFinder::NodeGetY(void)
+{
+	return m_pCurPath->y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 int AstarFinder::GetTileNum(int x, int y)
 {
-	if (x < 0 || x >= m_nColCnt || y < 0 || y >= m_nRowCnt) 
-	{ 
-		return 0; 
+	if (x < 0 || x >= m_nColCnt || y < 0 || y >= m_nRowCnt)
+	{
+		return 0;
 	}
 
-	return (y * m_nColCnt + x); 
+	return (y * m_nColCnt + x);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +121,7 @@ int AstarFinder::IsTileAviable(int x, int y)
 	{
 		return 0;
 	}
-	
+
 	int bytes, bits, val, index;
 	index = y * m_nColCnt + x;
 	bytes = index >> 3;
@@ -156,18 +177,18 @@ void AstarFinder::FindPath(int sx, int sy, int dx, int dy)
 
 	Node = ( NODE* )calloc(1, sizeof( NODE ));
 	Node->g = 0;
-	Node->h = (dx - sx) * (dx - sx) + (dy - sy) * (dy - sy); 
+	Node->h = (dx - sx) * (dx - sx) + (dy - sy) * (dy - sy);
 	Node->f = Node->g + Node->h;
 	Node->NodeNum = GetTileNum(dx, dy);
 	Node->x = dx;
 	Node->y = dy;
-	m_pOpenList->NextNode = Node;      
+	m_pOpenList->NextNode = Node;
 	for (;;)
 	{
 		BestNode = GetBestNode();
-		if (BestNode == NULL)  
+		if (BestNode == NULL)
 		{ break; }
-		else if (BestNode->NodeNum == TileNumDest)    
+		else if (BestNode->NodeNum == TileNumDest)
 		{ break; }
 
 		GenerateSuccessors(BestNode, sx, sy); //？？？？？？？？？？？？(dx,dy)
@@ -205,7 +226,7 @@ void AstarFinder::GenerateSuccessors(NODE* BestNode, int dx, int dy)
 	int x, y;
 
 	// Upper-Left
-	if ( IsTileAviable(x = BestNode->x - TILESIZE, y = BestNode->y - TILESIZE) ) 
+	if ( IsTileAviable(x = BestNode->x - TILESIZE, y = BestNode->y - TILESIZE) )
 	{ GenerateSucc(BestNode, x, y, dx, dy); }
 	// Upper
 	if ( IsTileAviable(x = BestNode->x, y = BestNode->y - TILESIZE) )

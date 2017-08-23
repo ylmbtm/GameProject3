@@ -92,8 +92,11 @@ typedef char				BYTE;
 typedef char				CHAR;
 typedef int					SOCKET;
 typedef int					HANDLE;
-#define INVALID_SOCKET		(-1)
 
+#define INVALID_SOCKET		(-1)
+#define TRUE				1
+#define FALSE				0
+#define INVALID_HANDLE_VALUE 0
 #endif
 
 #ifdef OS_PLATFORM_WINDOWS

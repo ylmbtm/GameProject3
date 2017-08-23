@@ -83,11 +83,17 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
-	UINT64 u64ID = m_DBManager.GetAccountID(Req.accountname().c_str());
-	if (u64ID != 0)
+
+
+	UINT64 u64ID = 0;
+	UINT32 dwChannel = 0;
+	std::string strPwd;
+	BOOL bRet = m_DBManager.GetAccountData(Req.accountname().c_str(), u64ID, strPwd, dwChannel);
+	if (bRet)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_EXIST);
 		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_ACCOUNT_EXIST2");
+		m_AccountManager.AddAccountObject(u64ID, Req.accountname(), strPwd, dwChannel);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -149,7 +155,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	}
 	else
 	{
-		m_AccountManager.AddAccountObject(u64AccountID, Req.accountname().c_str(), Req.password().c_str(), 0);
+		m_AccountManager.AddAccountObject(u64AccountID, Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
 

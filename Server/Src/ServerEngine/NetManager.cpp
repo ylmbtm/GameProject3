@@ -49,27 +49,20 @@ BOOL CNetManager::WorkThread_Listen()
 	while(TRUE)
 	{
 		memset(&Con_Addr, 0, sizeof(Con_Addr));
-		CLog::GetInstancePtr()->LogError("----111111------");
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
-		CLog::GetInstancePtr()->LogError("----22222------");
 		if(hClientSocket == INVALID_SOCKET)
 		{
 			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 
 			break;
 		}
-		CLog::GetInstancePtr()->LogError("----33333------");
 		CommonSocket::SetSocketUnblock(hClientSocket);
-		CLog::GetInstancePtr()->LogError("----44444------");
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			CLog::GetInstancePtr()->LogError("----888888------");
-
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);
-			CLog::GetInstancePtr()->LogError("----999999------");
 #ifdef WIN32
 			if(!pConnection->DoReceive())
 			{
@@ -81,8 +74,6 @@ BOOL CNetManager::WorkThread_Listen()
 		{
 			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		}
-
-		CLog::GetInstancePtr()->LogError("----00000000------");
 	}
 
 	return TRUE;
@@ -172,8 +163,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 					break;
 				}
 
-				CLog::GetInstancePtr()->LogError("BEGIN----NET_MSG_RECV---dwNumOfByte:%d", dwNumOfByte);
-
 				if(dwNumOfByte == 0)
 				{
 					//说明对方己经关闭
@@ -212,8 +201,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
 					}
 				}
-
-				CLog::GetInstancePtr()->LogError("END----NET_MSG_RECV---");
 			}
 			break;
 			case NET_MSG_SEND:
@@ -283,7 +270,6 @@ BOOL CNetManager::CreateCompletePort()
 
 CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 {
-	CLog::GetInstancePtr()->LogError("AssociateCompletePort ----Begin");
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NULL(pConnection != NULL);
 	pConnection->SetSocket(hSocket);
@@ -291,10 +277,8 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
 		pConnection->Close();
-		CLog::GetInstancePtr()->LogError("AssociateCompletePort ----End");
 		return NULL;
 	}
-	CLog::GetInstancePtr()->LogError("AssociateCompletePort ----End");
 	return pConnection;
 }
 

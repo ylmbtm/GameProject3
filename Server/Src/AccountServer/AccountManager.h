@@ -10,7 +10,8 @@ struct CAccountObject
 	std::string m_strPassword;
 	UINT32      m_dwLastSvrID;
 	UINT32      m_dwChannel;	//渠道ID
-	BOOL		m_bEnabled;		//是否禁用
+	UINT32		m_SealStatue;	//封禁状态
+	UINT32		m_SealTime;     //封禁结束时间
 	UINT32      m_dwCreateTime; //创建时间
 };
 

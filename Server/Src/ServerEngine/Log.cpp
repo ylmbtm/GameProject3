@@ -138,12 +138,13 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);
+	m_LogCount++;
 	m_CritSec.Unlock();
 	printf(szLog);
 
-	m_LogCount++;
 
-	if(m_LogCount >= 10)
+
+	if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 
@@ -184,12 +185,13 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);
+	m_LogCount++;
 	m_CritSec.Unlock();
 	printf(szLog);
 
-	m_LogCount++;
 
-	if(m_LogCount >= 10)
+
+	if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 
@@ -230,12 +232,13 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);
+	m_LogCount++;
 	m_CritSec.Unlock();
 	printf(szLog);
 
-	m_LogCount++;
 
-	if(m_LogCount >= 10)
+
+	if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 

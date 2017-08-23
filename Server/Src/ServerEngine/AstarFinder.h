@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef __ASTAR_FINDER_H__
+#define __ASTAR_FINDER_H__
+
 #define TILESIZE 1  // change this also to reflect tile size. 64x64.
 #define MAPDATANOCOPY		//use the pointer for mapdata
 
@@ -6,9 +8,11 @@
 /*
  对TileMap来说， 每一位表示一块方各，当位为1表示不可通行， 0:表示可以通行
 */
+
+
+
 class AstarFinder
 {
-private:
 	struct NODE       // node structure
 	{
 		long f, h;
@@ -20,63 +24,51 @@ private:
 		NODE* NextNode;  // for filing purposes
 	};
 
-	NODE* m_pOpenList;    // the node list pointers
-	NODE* m_pClosedList;  
-	NODE* m_pCurPath;    // pointer to the best path
-
 	struct STACK        // the stack structure
 	{
-		NODE* pNode;
-		STACK* pNextStack;
+		NODE*		pNode;
+		STACK*		pNextStack;
 	};
-
-	STACK* m_pStack;
-
-	int m_nRowCnt,			// tilemap data members, need to be initialisize
-	    m_nColCnt,			// with current map's width and height
-	    m_nTotalTiles;	// to allocate memory for the
-	BYTE* m_pTileMap;		// pointer to the A* own tilemap data array
 public:
 	AstarFinder(void);
 	~AstarFinder();
-	void InitAstarMap(BYTE* pMap, int w, int h);
 
-	BOOL NewPath(int sx, int sy, int dx, int dy); 
-	BOOL IsReached(void); 
-	BOOL PathNextNode(void)
-	{
-		if(m_pCurPath->Parent != NULL)
-		{
-			m_pCurPath = m_pCurPath->Parent;
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	int NodeGetX(void)      { return m_pCurPath->x; }
-	int NodeGetY(void)      { return m_pCurPath->y; }
-
-	int GetTileNum(int x, int y); 
-
-	//为真表示不能通过
-	int IsTileAviable(int x, int y);
-
+	BOOL	InitAstarMap(BYTE* pMap, INT32 w, INT32 h);
+	BOOL	NewPath(int sx, int sy, int dx, int dy);
+	BOOL	IsReached(void);
+	BOOL	PathNextNode(void);
+	INT32	NodeGetX();
+	INT32	NodeGetY();
+	INT32	GetTileNum(int x, int y);
+	INT32	IsTileAviable(int x, int y); ////为真表示不能通过
 
 private:
-	void FreeNodes(void);
-	void FindPath(int sx, int sy, int dx, int dy);
-	NODE* GetBestNode(void);
-	void GenerateSuccessors(NODE* BestNode, int dx, int dy);
-	void GenerateSucc(NODE* BestNode, int x, int y, int dx, int dy);
-	NODE* CheckOPEN(int tilenum);
-	NODE* CheckCLOSED(int tilenum);
-	void Insert(NODE* Successor);
-	void PropagateDown(NODE* Old);
-	void Push(NODE* Node); // stack functions
-	NODE* Pop(void);
+	void	FreeNodes(void);
+	void	FindPath(int sx, int sy, int dx, int dy);
+	NODE*	GetBestNode(void);
+	void	GenerateSuccessors(NODE* BestNode, int dx, int dy);
+	void	GenerateSucc(NODE* BestNode, int x, int y, int dx, int dy);
+	NODE*	CheckOPEN(int tilenum);
+	NODE*	CheckCLOSED(int tilenum);
+	void	Insert(NODE* Successor);
+	void	PropagateDown(NODE* Old);
+	void	Push(NODE* Node); // stack functions
+	NODE*	Pop(void);
+
+	NODE*	m_pOpenList;    // the node list pointers
+	NODE*	m_pClosedList;
+	NODE*	m_pCurPath;    // pointer to the best path
+	STACK*	m_pStack;
+
+	int		m_nRowCnt;			// tilemap data members, need to be initialisize
+	int		m_nColCnt;			// with current map's width and height
+	int		m_nTotalTiles;	// to allocate memory for the
+	BYTE*	m_pTileMap;		// pointer to the A* own tilemap data array
+
+
+
 };
 
 
 
+#endif //__ASTAR_FINDER_H__

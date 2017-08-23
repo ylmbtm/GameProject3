@@ -3,6 +3,7 @@
 #include "CommonFunc.h"
 #include "Sqlite/CppSQLite3.h"
 #include "Log.h"
+#include "../ServerData/ServerDefine.h"
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -64,7 +65,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 		return NULL;
 	}
 
-	pObj->m_bEnabled = TRUE;
+	pObj->m_SealStatue = SS_OK;
 	pObj->m_strName = strName;
 	pObj->m_strPassword = strPwd;
 	pObj->m_ID = m_u64MaxID;
@@ -85,7 +86,7 @@ BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std:
 	CAccountObject* pObj = InsertAlloc(u64ID);
 	ERROR_RETURN_FALSE(pObj != NULL);
 
-	pObj->m_bEnabled = TRUE;
+	pObj->m_SealStatue = SS_OK;
 	pObj->m_strName = strName;
 	pObj->m_strPassword = strPwd;
 	pObj->m_ID = u64ID;

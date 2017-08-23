@@ -13,17 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Log">
-      <UniqueIdentifier>{857c6f73-9dd4-48ae-b2d6-2c1cebc097ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Config">
-      <UniqueIdentifier>{8432dea7-7c97-4952-928e-b0ac3fd9c730}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{fe1551b5-b5b2-4875-b079-2f2e3ce8619f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CmdDefine">
-      <UniqueIdentifier>{4c0e672d-bf1f-4446-ba8a-653968b022ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,35 +30,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TimerManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\Log\Log.cpp">
-      <Filter>Log</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\CommonConvert.cpp">
+    <ClCompile Include="..\ServerEngine\TimerManager.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\CommonFunc.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\CommonSocket.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\CommonThreadFunc.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Utility\IniFile\ConfigFile.cpp">
-      <Filter>Config</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonWorkThread.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DataBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonMsgHandler.cpp">
-      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,89 +50,29 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TimerManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\Log\Log.h">
-      <Filter>Log</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\atomic_ops.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\AVLTree.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonConvert.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonEvent.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonFunc.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueueEx.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonSocket.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CommonThreadFunc.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CritSec.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\CritSecNotify.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueueImpl.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\RandomValue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\WindowsDump.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\CheckMacroDefine.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Error.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\GameDefine.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\ObjectID.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\TypeDef.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\MemObjectPool.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="EventFuncManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\IniFile\ConfigFile.h">
-      <Filter>Config</Filter>
+    <ClInclude Include="..\..\Common\CheckMacroDefine.h">
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CommonWorkThread.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\ServerEngine\atomic_ops.h">
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="DataBuffer.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\ServerEngine\LockFreeQueue.h">
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CommonMsgHandler.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\ServerEngine\LockFreeQueueImpl.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\CritSec.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\CritSecNotify.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\TimerManager.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

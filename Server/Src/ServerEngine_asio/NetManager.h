@@ -1,8 +1,6 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-#include "Utility/CommonThreadFunc.h"
-#include "Utility/CommonMsgQueue.h"
 #include "boost/system/error_code.hpp"
 #include "boost/asio/ip/tcp.hpp"
 #include <boost/thread.hpp>
@@ -23,25 +21,25 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler *pBufferHandler);
+	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler);
 
 	BOOL	Close();
 
-	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char *pData ,UINT32 dwLen);
+	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer *pBuffer);
+	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer);
 public:
 	BOOL	WaitForConnect();
 public:
 	CConnection*	ConnectToOtherSvr(std::string strIpAddr, UINT16 sPort);
 
-	void HandleConnect(CConnection *pConnection, const boost::system::error_code& e);
-	void HandleAccept(CConnection *pConnection, const boost::system::error_code& e);
+	void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
+	void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);
 
 	boost::asio::ip::tcp::acceptor* m_pAcceptor;
 	boost::asio::io_service         m_IoService;
-	boost::thread                   *m_pWorkThread;
-	IDataHandler					*m_pBufferHandler;
+	boost::thread*                   m_pWorkThread;
+	IDataHandler*					m_pBufferHandler;
 };
 
 #endif

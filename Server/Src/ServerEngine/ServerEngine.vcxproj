@@ -151,6 +151,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AstarFinder.cpp" />
     <ClCompile Include="CommonConvert.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonMsgHandler.cpp" />
@@ -174,8 +175,7 @@
     <ClCompile Include="TimerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\Utility\MemObjectPool.h" />
-    <ClInclude Include="..\..\Common\Utility\Rank.h" />
+    <ClInclude Include="AstarFinder.h" />
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonMsgHandler.h" />
@@ -194,17 +194,6 @@
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimerManager.h" />
-    <ClInclude Include="..\..\Common\Utility\atomic_ops.h" />
-    <ClInclude Include="..\..\Common\Utility\AVLTree.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonEvent.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueue.h" />
-    <ClInclude Include="..\..\Common\Utility\CommonMsgQueueEx.h" />
-    <ClInclude Include="..\..\Common\Utility\CritSec.h" />
-    <ClInclude Include="..\..\Common\Utility\CritSecNotify.h" />
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueue.h" />
-    <ClInclude Include="..\..\Common\Utility\LockFreeQueueImpl.h" />
-    <ClInclude Include="..\..\Common\Utility\RandomValue.h" />
-    <ClInclude Include="..\..\Common\Utility\WindowsDump.h" />
     <ClInclude Include="..\..\Common\CheckMacroDefine.h" />
     <ClInclude Include="..\..\Common\TypeDef.h" />
   </ItemGroup>

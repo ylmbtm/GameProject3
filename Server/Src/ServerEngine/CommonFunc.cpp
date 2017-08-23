@@ -295,7 +295,6 @@ CHAR* CommonFunc::GetShareMemory(HANDLE hShm)
 #else
 	CHAR* pdata = (CHAR*)shmat(hShm, (void*)0, 0);
 #endif
-
 	return pdata;
 }
 
