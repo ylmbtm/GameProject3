@@ -76,30 +76,23 @@ CSimpleInfo* CSimpleManager::GetSimpleInfoByID( UINT64 u64ID )
 UINT32 CSimpleManager::GetPlayerLogoffTime( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo != NULL)
-	{
-		return pInfo->dwLogoffTime;
-	}
-	return 0;
+	ERROR_RETURN_NULL(pInfo != NULL);
+
+	return pInfo->dwLogoffTime;
 }
 
 UINT32 CSimpleManager::Get_FightValue( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo != NULL)
-	{
-		return pInfo->dwFightValue;
-	}
-	return 0;
+	ERROR_RETURN_NULL(pInfo != NULL);
+
+	return pInfo->dwFightValue;
 }
 
 BOOL CSimpleManager::Set_FightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->dwFightValue = dwFight;
 	pInfo->dwLevel = dwLevel;
@@ -110,10 +103,7 @@ BOOL CSimpleManager::Set_FightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLeve
 BOOL CSimpleManager::Set_PlayerName( UINT64 u64ID, std::string strName )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->Name = strName;
 	return TRUE;
@@ -122,10 +112,7 @@ BOOL CSimpleManager::Set_PlayerName( UINT64 u64ID, std::string strName )
 BOOL CSimpleManager::Set_LogoffTime( UINT64 u64ID, UINT32 dwTime )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->dwLogoffTime = dwTime;
 
@@ -135,10 +122,7 @@ BOOL CSimpleManager::Set_LogoffTime( UINT64 u64ID, UINT32 dwTime )
 BOOL CSimpleManager::Set_VipLevel( UINT64 u64ID, UINT32 dwVipLvl )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->dwVipLevel = dwVipLvl;
 
@@ -148,10 +132,7 @@ BOOL CSimpleManager::Set_VipLevel( UINT64 u64ID, UINT32 dwVipLvl )
 BOOL CSimpleManager::Set_LoginDay( UINT64 u64ID, UINT32 dwDay )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->dwLoginDay = dwDay;
 
@@ -161,10 +142,7 @@ BOOL CSimpleManager::Set_LoginDay( UINT64 u64ID, UINT32 dwDay )
 BOOL CSimpleManager::Set_GuildID( UINT64 u64ID, UINT32 guildid )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	pInfo->dwGuildID = guildid;
 
@@ -185,10 +163,7 @@ BOOL CSimpleManager::CheckNameExist(std::string strName)
 UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	if(pInfo == NULL)
-	{
-		return 0;
-	}
+	ERROR_RETURN_FALSE(pInfo != NULL);
 	return  pInfo->dwGuildID;
 }
 

@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "SceneXmlMgr.h"
+#include "Log.h"
 
 CSceneXmlManager::CSceneXmlManager()
 {
@@ -28,10 +29,7 @@ rapidxml::xml_document<char>* CSceneXmlManager::GetXmlDocument(std::string strXm
 
 
 	FILE* pFile = fopen(strXmlName.c_str(), "rb");
-	if (pFile == NULL)
-	{
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pFile != NULL);
 
 	char buff[204800] = {0};
 	fseek (pFile, 0, SEEK_END);

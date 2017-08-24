@@ -142,11 +142,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection* pConn)
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, pConn->GetConnectionData(), 0,  Req);
 
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
-	if(pPlayer == NULL)
-	{
-		return TRUE;
-	}
-
+	ERROR_RETURN_TRUE(pPlayer != NULL);
 
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
 	ERROR_RETURN_TRUE(dwConnID != 0);

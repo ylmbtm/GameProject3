@@ -23,7 +23,7 @@ public:
 	~CAccountObjectMgr();
 
 public:
-	BOOL			 InitManager();
+	BOOL			  LoadCacheAccount();
 public:
 	CAccountObject*   GetAccountObjectByID(UINT64 m_u64AccountID);
 

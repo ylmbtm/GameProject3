@@ -11,44 +11,6 @@ CLog::~CLog(void)
 	CloseLog();
 }
 
-//void CLog::AddLog( char* lpszFormat, ... )
-//{
-//	if(m_pLogFile == NULL)
-//	{
-//		return ;
-//	}
-//
-//	CHAR szLog[512];
-//	memset(szLog, 0, sizeof(0));
-//
-//	time_t _time;
-//	time(&_time);
-//	tm* pTime = localtime(&_time);
-//
-//	sprintf(szLog, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", pTime->tm_year % 100, pTime->tm_mon + 1, pTime->tm_mday, pTime->tm_hour, pTime->tm_min, pTime->tm_sec, 0xffff & CommonFunc::GetCurThreadID());
-//
-//	va_list argList;
-//	va_start( argList, lpszFormat );
-//	vsprintf(szLog + 26, lpszFormat, argList);
-//	va_end( argList );
-//
-//	strcat(szLog, "\n");
-//
-//
-//	CAutoLock Lock(&m_CritSec);
-//	fputs(szLog, m_pLogFile);
-//	printf(szLog);
-//
-//	m_LogCount++;
-//
-//	//if(m_LogCount >= 10)
-//	//{
-//	fflush(m_pLogFile);
-//
-//	//	m_LogCount = 0;
-//	//}
-//}
-
 CLog* CLog::GetInstancePtr()
 {
 	static CLog Log;

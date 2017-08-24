@@ -28,7 +28,7 @@ BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
 	m_DBManager.Init();
 
-	m_AccountManager.InitManager();
+	m_AccountManager.LoadCacheAccount();
 
 	return TRUE;
 }
@@ -82,8 +82,6 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_ACCOUNT_EXIST");
 		return TRUE;
 	}
-
-
 
 	UINT64 u64ID = 0;
 	UINT32 dwChannel = 0;

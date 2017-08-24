@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "StaticPlayerMgr.h"
+#include "Log.h"
 
 CProxyPlayer::~CProxyPlayer()
 {
@@ -55,11 +56,8 @@ CProxyPlayer* CProxyPlayerMgr::GetByCharID(UINT64 u64RoleID)
 
 CProxyPlayer* CProxyPlayerMgr::CreateProxyPlayer(UINT64 u64RoleID)
 {
-	CProxyPlayer *pClientObj = InsertAlloc(u64RoleID);
-	if(pClientObj == NULL)
-	{
-		return NULL;
-	}
+	CProxyPlayer* pClientObj = InsertAlloc(u64RoleID);
+	ERROR_RETURN_NULL(pClientObj != NULL);
 
 	pClientObj->m_u64RoleID = u64RoleID;
 

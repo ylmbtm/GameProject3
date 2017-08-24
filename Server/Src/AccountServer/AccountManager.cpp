@@ -15,20 +15,15 @@ CAccountObjectMgr::~CAccountObjectMgr()
 
 }
 
-BOOL CAccountObjectMgr::InitManager()
+BOOL CAccountObjectMgr::LoadCacheAccount()
 {
-
 	std::string strCurDir = CommonFunc::GetCurrentDir();
 	strCurDir += "\\AccountData.db";
 
 	CppSQLite3DB DBConnection;
 	DBConnection.open(strCurDir.c_str());
 
-	CHAR szSql[1024];
-
-	sprintf_s(szSql, 1024, "select * from account");
-
-	CppSQLite3Query QueryRes = DBConnection.execQuery(szSql);
+	CppSQLite3Query QueryRes = DBConnection.execQuery("select * from account");
 
 	while(!QueryRes.eof())
 	{
@@ -36,12 +31,12 @@ BOOL CAccountObjectMgr::InitManager()
 		                 QueryRes.getStringField("password"),
 		                 QueryRes.getIntField("channel"));
 
-		QueryRes.nextRow();
-
 		if(m_u64MaxID < QueryRes.getInt64Field("id"))
 		{
 			m_u64MaxID = QueryRes.getInt64Field("id");
 		}
+
+		QueryRes.nextRow();
 	}
 
 	m_u64MaxID += 1;
@@ -59,20 +54,17 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 	m_u64MaxID += 1;
 
 	CAccountObject* pObj = InsertAlloc(m_u64MaxID);
-	if(pObj == NULL)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pObj != NULL);
 
-	pObj->m_SealStatue = SS_OK;
-	pObj->m_strName = strName;
-	pObj->m_strPassword = strPwd;
-	pObj->m_ID = m_u64MaxID;
-	pObj->m_dwChannel = dwChannel;
-	pObj->m_dwCreateTime = CommonFunc::GetCurrTime();
+	pObj->m_SealStatue		= SS_OK;
+	pObj->m_strName			= strName;
+	pObj->m_strPassword		= strPwd;
+	pObj->m_ID				= m_u64MaxID;
+	pObj->m_dwChannel		= dwChannel;
+	pObj->m_dwCreateTime	= CommonFunc::GetCurrTime();
 
 	m_mapNameObj.insert(std::make_pair(strName, pObj));
+
 	return pObj;
 }
 

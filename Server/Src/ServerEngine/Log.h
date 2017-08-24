@@ -26,8 +26,6 @@ public:
 
 	BOOL CloseLog();
 
-	//void AddLog(char* lpszFormat, ...);
-
 	void LogWarnning(char* lpszFormat, ...);
 
 	void LogError(char* lpszFormat, ...);

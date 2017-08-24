@@ -55,4 +55,12 @@ enum AddWay
 };
 
 
+enum SealState
+{
+	SS_NONE = 0,
+	SS_OK   = 1,
+	SS_NO   = 2
+};
+
+
 #endif //__SERVER_STRUCT_H__

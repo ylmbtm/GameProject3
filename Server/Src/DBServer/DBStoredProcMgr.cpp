@@ -14,14 +14,14 @@ CDBStoredProcedureMgr::~CDBStoredProcedureMgr()
 	m_DBConnection.Connect("127.0.0.1","root","123456", "db_log", 3306);
 	m_DBProceduceMgr.InitStoredProcedures();
 	CDBStoredProcedure *pProcedure = NULL;
-	
- 	pProcedure = m_DBProceduceMgr.GetStoredProcedure(DB_INSERT_PLAYER_INFO);
- 	pProcedure->set_int8(0, 10);
+
+	pProcedure = m_DBProceduceMgr.GetStoredProcedure(DB_INSERT_PLAYER_INFO);
+	pProcedure->set_int8(0, 10);
 	pProcedure->set_string(1, "test", 5);
 	pProcedure->set_int32(2, 10);
 	pProcedure->set_int32(3, 10);
- 	m_DBConnection.Execute(pProcedure);
- 
+	m_DBConnection.Execute(pProcedure);
+
 	while(pProcedure->m_DBRecordSet.MoveNext())
 	{
 		int nValue = pProcedure->m_DBRecordSet.get_int32((size_t)0);
@@ -30,8 +30,8 @@ CDBStoredProcedureMgr::~CDBStoredProcedureMgr()
 
 	pProcedure->m_DBRecordSet.ClearRecordSet();
 
- 	//pProcedure->m_DBRecordSet.MoveNext(0);
- 
+	//pProcedure->m_DBRecordSet.MoveNext(0);
+
 
 
 	/*
@@ -60,38 +60,14 @@ BOOL CDBStoredProcedureMgr::InitStoredProcedures()
 	m_StoredProcedures.assign(MAX_DBServerDB_STATEMENTS, NULL);
 
 	m_StoredProcedures[DB_INSERT_PLAYER_INFO] = new CDBStoredProcedure("CALL addrecord(?,?,?,?)", 4);
-// 	m_StoredProcedures[DB_INSERT_PLAYER_INFO]->m_DBRecordSet.SetFieldNum(6);
-// 	m_StoredProcedures[DB_INSERT_PLAYER_INFO]->m_DBRecordSet.SetFieldType(0, MYSQL_TYPE_FLOAT);
-
-
 	m_StoredProcedures[DB_FIND_PLAYER_INFO] = new CDBStoredProcedure("CALL selectrecord(?)", 1);
-// 	m_StoredProcedures[DB_FIND_PLAYER_INFO]->m_DBRecordSet.SetFieldNum(4);
-// 	m_StoredProcedures[DB_FIND_PLAYER_INFO]->m_DBRecordSet.SetFieldType(0, MYSQL_TYPE_INT24);
-// 	m_StoredProcedures[DB_FIND_PLAYER_INFO]->m_DBRecordSet.SetFieldType(1, MYSQL_TYPE_TINY);
-// 	m_StoredProcedures[DB_FIND_PLAYER_INFO]->m_DBRecordSet.SetFieldType(2, MYSQL_TYPE_INT24);
-// 	m_StoredProcedures[DB_FIND_PLAYER_INFO]->m_DBRecordSet.SetFieldType(3, MYSQL_TYPE_VAR_STRING);
-	
-
-	/*m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();
-	m_StoredProcedures[] = new CDBStoredProcedure();*/
 
 	return TRUE;
 }
 
 CDBStoredProcedure* CDBStoredProcedureMgr::GetStoredProcedure( DBStoredProcedureID SpID )
 {
-	if((SpID < 0)&&(SpID >= MAX_DBServerDB_STATEMENTS))
+	if((SpID < 0) && (SpID >= MAX_DBServerDB_STATEMENTS))
 	{
 		return NULL;
 	}

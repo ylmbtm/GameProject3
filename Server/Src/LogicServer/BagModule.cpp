@@ -100,7 +100,7 @@ BOOL CBagModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[M
 BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 {
 	StItemInfo* pItemInfo = CConfigData::GetInstancePtr()->GetItemInfo(dwItemID);
-	ERROR_RETURN_FALSE(pItemInfo == NULL);
+	ERROR_RETURN_FALSE(pItemInfo != NULL);
 
 	UINT64 uItemGuid = 0;
 	INT32  nTempCount = nCount;
