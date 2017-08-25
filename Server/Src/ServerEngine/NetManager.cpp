@@ -126,14 +126,14 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 	ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
 
 	DWORD dwNumOfByte = 0;
-	DWORD dwCompleteKey = 0;
+	PULONG_PTR pCompleteKey = 0;
 	LPOVERLAPPED lpOverlapped = NULL;
 	DWORD dwWaitTime = 1000;
 	BOOL  bRetValue = FALSE;
 
 	while(!m_bCloseEvent)
 	{
-		bRetValue = GetQueuedCompletionStatus(m_hCompletePort, &dwNumOfByte, &dwCompleteKey, &lpOverlapped, dwWaitTime);
+		bRetValue = GetQueuedCompletionStatus(m_hCompletePort, &dwNumOfByte, pCompleteKey, &lpOverlapped, dwWaitTime);
 		if(!bRetValue)
 		{
 			if(lpOverlapped == NULL)
@@ -156,7 +156,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 		{
 			case NET_MSG_RECV:
 			{
-				CConnection* pConnection = (CConnection*)dwCompleteKey;
+				CConnection* pConnection = (CConnection*)pCompleteKey;
 				if(pConnection == NULL)
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV4, 但连接指针己经为空了");
@@ -206,7 +206,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 			case NET_MSG_SEND:
 			{
 				pIoPeratorData->pDataBuffer->Release();
-				CConnection* pConnection = (CConnection*)dwCompleteKey;
+				CConnection* pConnection = (CConnection*)pCompleteKey;
 				if((pConnection != NULL) && (pConnection->GetConnectionID() != pIoPeratorData->dwConnID))
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND, 但连接己经被关闭重用了。");
@@ -227,7 +227,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 			break;
 			case NET_MSG_CONNECT:
 			{
-				CConnection* pConnection = (CConnection*)dwCompleteKey;
+				CConnection* pConnection = (CConnection*)pCompleteKey;
 				if(pConnection != NULL)
 				{
 					if(bRetValue)

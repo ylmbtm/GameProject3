@@ -36,13 +36,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WorldServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EquipModule.cpp">
@@ -129,6 +123,12 @@
     <ClCompile Include="GroupMailMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicMsgHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -144,9 +144,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PlayerManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Login.pb.h">
@@ -276,6 +273,9 @@
       <Filter>ServerData</Filter>
     </ClInclude>
     <ClInclude Include="GroupMailMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

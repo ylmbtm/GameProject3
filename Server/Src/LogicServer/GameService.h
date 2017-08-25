@@ -1,7 +1,7 @@
 ﻿#ifndef _GAME_SERVICE_H_
 #define _GAME_SERVICE_H_
 #include "ServiceBase.h"
-#include "WorldMsgHandler.h"
+#include "LogicMsgHandler.h"
 
 class CGameService : public IPacketDispatcher
 {
@@ -18,13 +18,13 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection *pConn);
+	BOOL		OnNewConnect(CConnection* pConn);
 
-	BOOL		OnCloseConnect(CConnection *pConn);
+	BOOL		OnCloseConnect(CConnection* pConn);
 
-	BOOL		DispatchPacket( NetPacket *pNetPacket);
+	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL        SendCmdToDBConnection(IDataBuffer *pBuffer);
+	BOOL        SendCmdToDBConnection(IDataBuffer* pBuffer);
 
 	BOOL	    ConnectToLogServer();
 

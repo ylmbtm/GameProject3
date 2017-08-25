@@ -60,12 +60,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\project\Server\Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\project\Server\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../Bin/Debug32/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Bin/Debug64/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../Bin/Release32/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../Bin/Release64/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\</IntDir>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -96,7 +96,7 @@
       <AdditionalOptions>-Zm110 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Lib>
-      <OutputFile>..\Debug\$(ProjectName).lib</OutputFile>
+      <OutputFile>..\Bin\Debug32\$(ProjectName)_d.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,7 +113,7 @@
       <AdditionalOptions>-Zm110 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Lib>
-      <OutputFile>..\Debug\$(ProjectName).lib</OutputFile>
+      <OutputFile>..\Bin\Debug64\$(ProjectName)_d.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +130,7 @@
       <DisableSpecificWarnings>4800</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
-      <OutputFile>..\Release\$(ProjectName).lib</OutputFile>
+      <OutputFile>..\Bin\Release32\$(ProjectName).lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +147,7 @@
       <DisableSpecificWarnings>4800</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
-      <OutputFile>..\Release\$(ProjectName).lib</OutputFile>
+      <OutputFile>..\Bin\Release64\$(ProjectName).lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

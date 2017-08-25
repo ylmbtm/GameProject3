@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DBServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GameService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="..\Message\Msg_LoginDBData.pb.cc">
       <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

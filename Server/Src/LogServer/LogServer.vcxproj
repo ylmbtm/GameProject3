@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1F76D2BD-B853-4797-AFE5-58C380269602}</ProjectGuid>
-    <RootNamespace>StatisticsServer</RootNamespace>
+    <RootNamespace>LogServer</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>LogServer</ProjectName>
   </PropertyGroup>
@@ -61,14 +61,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../debug/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../debug/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../Bin/Debug32/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Bin/Debug64/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../Bin/Release32/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../Bin/Release64/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
@@ -100,8 +100,8 @@
       <DisableSpecificWarnings>4996;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <OutputFile>..\Debug\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\Bin\Debug32\$(ProjectName)_d.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\Bin\Debug32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -121,8 +121,8 @@
       <DisableSpecificWarnings>4996;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <OutputFile>..\Debug\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\Bin\Debug64\$(ProjectName)_d.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\Bin\Debug64</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>libprotocd.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -142,8 +142,8 @@
       <DisableSpecificWarnings>4800</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <OutputFile>../Release/$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\Bin\Release32\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\Bin\Release32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -166,8 +166,8 @@
       <DisableSpecificWarnings>4800</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <OutputFile>../Release/$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\Bin\Release64\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\Bin\Release64</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -178,7 +178,7 @@
   <ItemGroup>
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="LogMsgHandler.cpp" />
-    <ClCompile Include="LogServer.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

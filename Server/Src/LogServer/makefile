@@ -14,7 +14,7 @@ MY_LIB=-L../Debug \
 	-L../Linux \
 	-lServerEngine
 
-TARGET=../Linux/StatisticsServer
+TARGET=../Linux/LogServer
 
 SRCS=$(wildcard *.cpp)
 

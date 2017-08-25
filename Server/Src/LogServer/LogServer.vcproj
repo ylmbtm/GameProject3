@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="StatisticsServer"
+	Name="LogServer"
 	ProjectGUID="{1F76D2BD-B853-4797-AFE5-58C380269602}"
 	RootNamespace="LogServer"
 	Keyword="Win32Proj"

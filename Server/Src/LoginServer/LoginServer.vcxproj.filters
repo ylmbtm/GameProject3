@@ -21,9 +21,6 @@
     <ClCompile Include="GameService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LoginServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -38,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

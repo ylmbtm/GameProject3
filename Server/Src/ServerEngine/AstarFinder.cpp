@@ -51,6 +51,8 @@ BOOL AstarFinder::InitAstarMap(BYTE* pMap, INT32 w, INT32 h)
 	m_pTileMap = new BYTE[BufSize];
 	memcpy(m_pTileMap, pMap, BufSize);
 #endif
+
+	return TRUE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

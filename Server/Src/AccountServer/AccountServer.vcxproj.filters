@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>Sqlite</Filter>
     </ClCompile>
-    <ClCompile Include="AccountServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="AccountMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -44,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

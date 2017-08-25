@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GameService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -89,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\BuffObject.cpp">
       <Filter>SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
