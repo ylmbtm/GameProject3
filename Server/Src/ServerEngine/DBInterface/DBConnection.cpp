@@ -2,7 +2,7 @@
 #include <errmsg.h>
 #include "DBConnection.h"
 #include "DBStoredProc.h"
-#include "CommonThreadFunc.h"
+#include "../CommonThreadFunc.h"
 
 CDBConnection::CDBConnection( void )
 	: m_pMySql( NULL ),

@@ -88,7 +88,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\MySql;..\..\Common\protobuf\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -196,10 +196,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="DBConnection.cpp" />
-    <ClCompile Include="DBRecordSet.cpp" />
-    <ClCompile Include="DBStoredProc.cpp" />
-    <ClCompile Include="DBStoredProcMgr.cpp" />
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -210,10 +206,6 @@
     <ClInclude Include="DBWriterManager.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="DBConnection.h" />
-    <ClInclude Include="DBRecordSet.h" />
-    <ClInclude Include="DBStoredProc.h" />
-    <ClInclude Include="DBStoredProcMgr.h" />
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
   </ItemGroup>
   <ItemGroup>

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="DB">
-      <UniqueIdentifier>{f47be79c-457b-41ae-b7ce-a624f0a8369d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sqlite">
       <UniqueIdentifier>{87c80df1-377a-4ea5-b36e-d3e44e9f5ad0}</UniqueIdentifier>
     </Filter>
@@ -29,18 +26,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DBConnection.cpp">
-      <Filter>DB</Filter>
-    </ClCompile>
-    <ClCompile Include="DBRecordSet.cpp">
-      <Filter>DB</Filter>
-    </ClCompile>
-    <ClCompile Include="DBStoredProc.cpp">
-      <Filter>DB</Filter>
-    </ClCompile>
-    <ClCompile Include="DBStoredProcMgr.cpp">
-      <Filter>DB</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
       <Filter>Sqlite</Filter>
@@ -70,18 +55,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DBConnection.h">
-      <Filter>DB</Filter>
-    </ClInclude>
-    <ClInclude Include="DBRecordSet.h">
-      <Filter>DB</Filter>
-    </ClInclude>
-    <ClInclude Include="DBStoredProc.h">
-      <Filter>DB</Filter>
-    </ClInclude>
-    <ClInclude Include="DBStoredProcMgr.h">
-      <Filter>DB</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
       <Filter>Sqlite</Filter>

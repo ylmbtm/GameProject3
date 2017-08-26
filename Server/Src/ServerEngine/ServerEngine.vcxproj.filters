@@ -19,6 +19,9 @@
     <Filter Include="CmdDefine">
       <UniqueIdentifier>{4c0e672d-bf1f-4446-ba8a-653968b022ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DBInterface">
+      <UniqueIdentifier>{63ab26cc-3f0e-4dcc-b2aa-940e2aa94be7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Connection.cpp">
@@ -71,6 +74,21 @@
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DBInterface\CppMysql.cpp">
+      <Filter>DBInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="DBInterface\DBConnection.cpp">
+      <Filter>DBInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="DBInterface\DBRecordSet.cpp">
+      <Filter>DBInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="DBInterface\DBStoredProc.cpp">
+      <Filter>DBInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="DBInterface\DBStoredProcMgr.cpp">
+      <Filter>DBInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +154,21 @@
     </ClInclude>
     <ClInclude Include="DataBuffer.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\CppMysql.h">
+      <Filter>DBInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\DBConnection.h">
+      <Filter>DBInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\DBRecordSet.h">
+      <Filter>DBInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\DBStoredProc.h">
+      <Filter>DBInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\DBStoredProcMgr.h">
+      <Filter>DBInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

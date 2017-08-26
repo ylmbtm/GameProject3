@@ -92,13 +92,13 @@ protected:
 	///共享内存页映射.
 	ShareMemoryPageMapping m_ShareMemoryPageMapping;
 
-	UINT32		 m_countperPage;///页面容纳T类型数量
-	UINT32		 m_pageCount;///页数量
-	UINT32       m_count;///T类型的总个数,T类型必须是定长的。
-	UINT32       m_space;///每个元素的宽度
-	UINT32		m_rawblockSize;
-	std::string m_modulename;
-	BOOL		isempty;
+	UINT32			m_countperPage;///页面容纳T类型数量
+	UINT32			m_pageCount;///页数量
+	UINT32			m_count;///T类型的总个数,T类型必须是定长的。
+	UINT32			m_space;///每个元素的宽度
+	UINT32			m_rawblockSize;
+	std::string		m_modulename;
+	BOOL			isempty;
 
 	///所有数据头的集合
 	typedef  std::map<INT32, _SMBlock*>    mapSMBlock;

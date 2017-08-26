@@ -23,24 +23,24 @@ public:
 	CDBConnection( void );
 	~CDBConnection( void );
 
-	BOOL Init();
+	BOOL	Init();
 
-	BOOL Uninit();
+	BOOL	Uninit();
 
-	BOOL Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
+	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
 
-	void Close( void );
+	void	Close( void );
 
-	BOOL Execute( CDBStoredProcedure* pDBStoredProcedure);
+	BOOL	Execute( CDBStoredProcedure* pDBStoredProcedure);
 
-	BOOL Query( CDBStoredProcedure* pDBStoredProcedure);
+	BOOL	Query( CDBStoredProcedure* pDBStoredProcedure);
 
-	int GetError( void ) const;
+	int		GetError( void ) const;
 
 protected:
-	bool Reconnect( void );
+	bool	Reconnect( void );
 
-	bool ProcError( char const* op_ = NULL, char const* func_ = NULL );
+	bool	ProcError( char const* op_ = NULL, char const* func_ = NULL );
 
 private:
 	MYSQL*       m_pMySql;

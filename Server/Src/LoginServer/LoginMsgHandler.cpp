@@ -52,6 +52,8 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_ACK,	OnMsgAccountLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ,	OnMsgLogicSvrRegReq);
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,	OnMsgSelectServerAck);
+			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,	OnMsgSealAccountReq);
+			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,	OnMsgSealAccountAck);
 
 
 
@@ -225,4 +227,33 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket* pPacket)
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
 	return TRUE;
+}
+
+BOOL CLoginMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
+{
+	SealAccountReq Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nConnID = pPacket->m_dwConnID;
+	ERROR_RETURN_TRUE(nConnID != 0);
+
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_SEAL_ACCOUNT_REQ, nConnID, 0, Req);
+	return TRUE;
+}
+
+BOOL CLoginMsgHandler::OnMsgSealAccountAck(NetPacket* pPacket)
+{
+	SealAccountAck Ack;
+	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nConnID = pHeader->dwUserData;
+	ERROR_RETURN_TRUE(nConnID != 0);
+
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SEAL_ACCOUNT_ACK, 0, 0, Ack);
+
+	return TRUE;
+
 }

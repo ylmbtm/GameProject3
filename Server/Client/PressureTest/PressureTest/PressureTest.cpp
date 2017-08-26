@@ -3,9 +3,40 @@
 
 #include "stdafx.h"
 #include "ClientObject.h"
+#include "..\Src\ServerEngine\CommonThreadFunc.h"
 
-#define ROBOT_NUM 2
 #define RUN_TIME 50
+
+std::vector<CClientObject*> g_vtClientList;
+
+//BOOL g_Run = FALSE;
+//
+//Th_RetName _NetEventThread( void* pParam )
+//{
+//	std::vector<CClientObject*>* pClientList = (std::vector<CClientObject*>*)pParam;
+//
+//	while(g_Run)
+//	{
+//		for(int i = 0; i < pClientList->size(); i++)
+//		{
+//			CClientObject* pObject = pClientList->at(i);
+//			pObject->OnUpdate(0);
+//		}
+//
+//		Sleep(10);
+//	}
+//
+//	CommonThreadFunc::ExitThread();
+//
+//	return Th_RetValue;
+//}
+//
+//
+//for(int i = 0; i < 4; ++i)
+//{
+//	CommonThreadFunc::CreateThread(_NetEventThread, (void*)this);
+//	m_vtWorkThread.push_back(hThread);
+//}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -17,8 +48,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		return 0;
 	}
-
-	std::vector<CClientObject*> m_ClientList;
 
 	char szBuff[256];
 
@@ -33,12 +62,12 @@ int _tmain(int argc, _TCHAR* argv[])
 		sprintf(szBuff, "zhang%d", i);
 		pClientSpaceObject->m_strRoleName = szBuff;
 
-		m_ClientList.push_back(pClientSpaceObject);
+		g_vtClientList.push_back(pClientSpaceObject);
 	}
 
 DrivenRobot:
 	DWORD dwTickLast = GetTickCount();
-	for(std::vector<CClientObject*>::iterator itor = m_ClientList.begin(); itor != m_ClientList.end(); itor++)
+	for(std::vector<CClientObject*>::iterator itor = g_vtClientList.begin(); itor != g_vtClientList.end(); itor++)
 	{
 		CClientObject* pClient = *itor;
 
@@ -46,13 +75,6 @@ DrivenRobot:
 	}
 
 	Sleep(1);
-
-
-	//DWORD dwTickCur = GetTickCount();
-	//if((dwTickCur - dwTickLast) < RUN_TIME)
-	//{
-	//	Sleep(RUN_TIME - dwTickCur + dwTickLast);
-	//}
 
 	goto DrivenRobot;
 

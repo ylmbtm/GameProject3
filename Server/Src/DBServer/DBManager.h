@@ -1,8 +1,6 @@
 ﻿#ifndef __DB_PROC_MANAGER__
 #define __DB_PROC_MANAGER__
 #include "Sqlite/CppSQLite3.h"
-#include "DBConnection.h"
-#include "DBStoredProcMgr.h"
 #include "../ServerData/ServerStruct.h"
 #include "../Message/Msg_LoginDBData.pb.h"
 #include "../Message/Msg_Game.pb.h"
@@ -21,7 +19,6 @@ public:
 	BOOL Execut(std::string sql);
 
 	BOOL  GetRoleList(UINT64 u64AccountID, RoleListAck& Ack);
-
 	BOOL  GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL  GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL  GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack);
@@ -33,6 +30,7 @@ public:
 	BOOL  GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack);
 
 	CppSQLite3DB	m_DBConnection;
+
 	//真实的mysql
 	//CDBConnection   m_DBConnection;
 

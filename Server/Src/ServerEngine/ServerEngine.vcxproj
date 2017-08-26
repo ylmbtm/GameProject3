@@ -84,7 +84,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -120,7 +120,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -162,6 +162,11 @@
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="CrashReport.cpp" />
     <ClCompile Include="DataBuffer.cpp" />
+    <ClCompile Include="DBInterface\CppMysql.cpp" />
+    <ClCompile Include="DBInterface\DBConnection.cpp" />
+    <ClCompile Include="DBInterface\DBRecordSet.cpp" />
+    <ClCompile Include="DBInterface\DBStoredProc.cpp" />
+    <ClCompile Include="DBInterface\DBStoredProcMgr.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="NetManager.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
@@ -186,6 +191,11 @@
     <ClInclude Include="Connection.h" />
     <ClInclude Include="CrashReport.h" />
     <ClInclude Include="DataBuffer.h" />
+    <ClInclude Include="DBInterface\CppMysql.h" />
+    <ClInclude Include="DBInterface\DBConnection.h" />
+    <ClInclude Include="DBInterface\DBRecordSet.h" />
+    <ClInclude Include="DBInterface\DBStoredProc.h" />
+    <ClInclude Include="DBInterface\DBStoredProcMgr.h" />
     <ClInclude Include="EventFuncManager.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="NetManager.h" />

@@ -8,7 +8,6 @@
 #include "GameService.h"
 #include "CommonSocket.h"
 #include "DataBuffer.h"
-#include "DBStoredProcMgr.h"
 #include "../Message/Msg_ID.pb.h"
 
 
