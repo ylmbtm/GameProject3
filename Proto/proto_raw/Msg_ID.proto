@@ -11,25 +11,29 @@ enum MessageID {
 	MSG_LOGINSVR_MSGID_BEGIN    = 1000000;
 	
 	MSG_CHECK_VERSION_REQ		= 1000001;    //版本验证
-	MSG_CHECK_VERSION_ACK       = 1000002;    //版本返回
+	MSG_CHECK_VERSION_ACK       = 1000002;    //版本验证返回
 
 	MSG_ACCOUNT_REG_REQ			= 1000003;    //注册账号
-	MSG_ACCOUNT_REG_ACK	        = 1000004;    //注册账号
+	MSG_ACCOUNT_REG_ACK	        = 1000004;    //注册账号返回
 
 	MSG_ACCOUNT_LOGIN_REQ       = 1000005;    //账号登录
-	MSG_ACCOUNT_LOGIN_ACK		= 1000006;    //账号登录
+	MSG_ACCOUNT_LOGIN_ACK		= 1000006;    //账号登录返回
 	
 	MSG_ACCOUNT_LOGINREG_REQ    = 1000007;    //账号登录
-	MSG_ACCOUNT_LOGINREG_ACK	= 1000008;    //账号登录
+	MSG_ACCOUNT_LOGINREG_ACK	= 1000008;    //账号登录返回
 
 	MSG_SERVER_LIST_REQ	        = 1000009;	 //服务器列表请求
 	MSG_SERVER_LIST_ACK	        = 1000010;   //服务器列表的返回
 	
-	MSG_SELECT_SERVER_REQ      = 1000011;	//服务器列表请求
-	MSG_SELECT_SERVER_ACK      = 1000012;	//服务器列表请求
+	MSG_SELECT_SERVER_REQ      = 1000011;	//选择服务器请求
+	MSG_SELECT_SERVER_ACK      = 1000012;	//选择服务器请求返回
 	
-	MSG_LOGIC_REGTO_LOGIN_REQ  = 1000013;	//服务器列表请求
-	MSG_LOGIC_REGTO_LOGIN_ACK  = 1000014;	//服务器列表请求
+	MSG_LOGIC_REGTO_LOGIN_REQ  = 1000013;	//注册服务器请求
+	MSG_LOGIC_REGTO_LOGIN_ACK  = 1000014;	//注册服务器请求返回
+
+	MSG_SEAL_ACCOUNT_REQ	   = 1000015;   //封号请求
+	MSG_SEAL_ACCOUNT_ACK	   = 1000016;   //封号请求返回
+
 	MSG_LOGINSVR_MSGID_END     = 1999999;
 	//========================LogicSVR=======================
 	MSG_LOGICSVR_MSGID_BEGIN     = 2000000;
@@ -165,7 +169,6 @@ enum MessageID {
 	MSG_ACK_UNLOAD_GEM          = 1112;//卸下宝石
 	MSG_REQ_COMPOSE_CHIP        = 1113;//合成碎片
 	MSG_ACK_COMPOSE_CHIP        = 1114;//合成碎片
-
 
 	MSG_REQ_STRENGTHEN_EQUIP    = 1115;//强化装备
 	MSG_ACK_STRENGTHEN_EQUIP    = 1116;//强化装备

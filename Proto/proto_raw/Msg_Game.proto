@@ -25,6 +25,7 @@ message AccountRegAck {
 message AccountLoginReq {
     string AccountName = 1;
 	string Password    = 2;
+	int32  Channel     = 3;
 }
 
 message AccountLoginAck {
@@ -331,4 +332,17 @@ message ChatMessageNty {
 	int32  Channel = 3;
 	uint64 GuildID = 4;
 	string Content = 5;
+}
+
+message SealAccountReq {
+    string  AccountName = 1;
+	uint64  AccountID   = 2;
+	int32   SealTime    = 3;
+	bool	Seal        = 4;
+}
+
+message SealAccountAck {
+    uint32   RetCode       = 1;
+	string   AccountName = 2;
+	uint64   AccountID     = 3; //账号ID
 }
