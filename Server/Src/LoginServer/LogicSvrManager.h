@@ -31,7 +31,7 @@ public:
 public:
 	BOOL Init();
 
-	BOOL RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort);
+	BOOL RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort);
 
 	BOOL UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 

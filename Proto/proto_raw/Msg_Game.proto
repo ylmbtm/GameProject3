@@ -61,7 +61,8 @@ message ClientServerListAck {
 message SvrRegToSvrReq {
     int32  ServerID = 1;
 	string ServerName = 2;
-	int32  ServerPort = 3;
+	string ServerIp   = 3;
+	int32  ServerPort = 4;
 }
 
 message SvrRegToSvrAck {

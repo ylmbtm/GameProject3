@@ -2,10 +2,11 @@ syntax = "proto3";
 
 message DamagerItem {
   uint64 ObjectGuid  = 1;
-  float x = 2;
-  float y = 3;
-  float z = 4;
-  int32 chghp = 5;  
+  int32	ObjStatue  = 2;		//ÊµÀý×´Ì¬
+  float x = 3;
+  float y = 4;
+  float z = 5;
+  int32 chghp = 6;  
 }
 
 message ActionItem {

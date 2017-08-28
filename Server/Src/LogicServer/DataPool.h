@@ -27,6 +27,10 @@ extern	SharedMemory<TaskDataObject>*		g_pTaskDataObjectPool;
 extern	SharedMemory<MountDataObject>*		g_pMountDataObjectPool;
 extern	SharedMemory<MailDataObject>*		g_pMailDataObjectPool;
 extern	SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool;
+
+
+std::string GenDataName(std::string strName);
+
 BOOL CreateDataPool();
 
 #endif //__DATA_MODULE_POOL_H__

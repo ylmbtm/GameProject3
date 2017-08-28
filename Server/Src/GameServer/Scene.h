@@ -84,6 +84,7 @@ public:
 	UINT32			GetCreateTime();
 	UINT32          GetLastTick();
 	BOOL			SetLastTick(UINT32 dwTick);
+	UINT64			GenNewGuid();
 
 protected:
 	UINT32							m_dwPlayerNum;  //副本需要进入的人数
@@ -93,8 +94,8 @@ protected:
 	UINT32							m_dwCopyType;	//逻辑类型
 	UINT32                          m_dwCreateTime; //副本创建时间
 	UINT32							m_dwStartTime;  //副本开始时间
-	UINT32							m_dwLastTick;
-	UINT32							m_dwMaxGuid;	//场景里的最大GUID
+	UINT32							m_dwLastTick;	//上一个tick时间
+	UINT64							m_uMaxGuid;	//场景里的最大GUID
 
 	SceneLogicBase*					m_pSceneLogic;
 	MonsterCreator*					m_pMonsterCreator;

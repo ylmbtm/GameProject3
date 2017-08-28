@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "LogicSvrManager.h"
+#include "CommonConvert.h"
 
 
 LogicSvrManager::LogicSvrManager(void)
@@ -17,7 +18,7 @@ BOOL LogicSvrManager::Init()
 	return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort)
+BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
@@ -25,9 +26,9 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		LogicServerNode tempNode;
 		tempNode.dwServerID = dwServerID;
 		tempNode.dwConnID   = dwConnID;
-		tempNode.strIpAddr  = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+		tempNode.strIpAddr  = strIpAddr;
 		tempNode.dwPort     = dwPort;
-		tempNode.strServerName = "Test_Server1";
+		tempNode.strServerName = "Server_" + CommonConvert::IntToString(dwServerID);
 		insert(std::make_pair(dwServerID, tempNode));
 		return TRUE;
 	}

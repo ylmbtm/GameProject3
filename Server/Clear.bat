@@ -16,3 +16,4 @@ del /s /q *.aps
 del /s /q ReadMe.txt
 del /s /q *.res
 del /s /q *.ncb
+del /s /q *.exp

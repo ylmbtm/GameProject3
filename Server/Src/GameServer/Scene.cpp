@@ -35,15 +35,15 @@ CScene::~CScene()
 
 BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum)
 {
-	m_dwCopyGuid	= dwCopyGuid;
-	m_dwCopyID		= dwCopyID;
-	m_dwCopyType	= dwCopyType;
-	m_dwPlayerNum	= dwPlayerNum;
-	m_dwLoginNum	= 0;
-	m_dwStartTime	= 0;
-	m_dwCreateTime	= CommonFunc::GetCurrTime();
-	m_pMonsterCreator = new MonsterCreator(this);
-	m_dwMaxGuid = 1;
+	m_dwCopyGuid		= dwCopyGuid;
+	m_dwCopyID			= dwCopyID;
+	m_dwCopyType		= dwCopyType;
+	m_dwPlayerNum		= dwPlayerNum;
+	m_dwLoginNum		= 0;
+	m_dwStartTime		= 0;
+	m_uMaxGuid			= 0;
+	m_dwCreateTime		= CommonFunc::GetCurrTime();
+	m_pMonsterCreator	= new MonsterCreator(this);
 
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
@@ -233,13 +233,16 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
-	if(m_pSceneLogic->IsFinished()) //己经结束不再处理
+	if(m_pSceneLogic->IsFinished())
 	{
+		//己经结束不再处理
 		return TRUE;
 	}
 
-	SyncObjectState(); //同步所有对象的状态
+	//同步所有对象的状态
+	SyncObjectState();
 
+	//把玩家死亡都同步一下
 	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
@@ -252,7 +255,7 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 		}
 	}
 
-
+	//把怪物死亡同步一下
 	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); )
 	{
 		CSceneObject* pSceneObject = itor->second;
@@ -263,7 +266,6 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
-
 			itor = m_MonsterMap.erase(itor);
 		}
 		else
@@ -272,10 +274,7 @@ BOOL CScene::OnUpdate( UINT32 dwTick )
 		}
 	}
 
-	if(IsAllDataReady())
-	{
-		m_pMonsterCreator->OnUpdate(dwTick);
-	}
+	m_pMonsterCreator->OnUpdate(dwTick);
 
 	m_pSceneLogic->Update(dwTick);
 
@@ -754,6 +753,12 @@ BOOL CScene::SetLastTick(UINT32 dwTick)
 	return TRUE;
 }
 
+UINT64 CScene::GenNewGuid()
+{
+	m_uMaxGuid += 1;
+	return m_uMaxGuid;
+}
+
 BOOL CScene::SyncObjectState()
 {
 	if(m_ObjectActionNty.actionlist_size() <= 0)
@@ -786,7 +791,7 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
 	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
@@ -856,7 +861,7 @@ BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, F
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(m_dwMaxGuid++, dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);

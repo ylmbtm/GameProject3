@@ -140,8 +140,10 @@ BOOL CGameService::RegisterToLoginSvr()
 	SvrRegToSvrReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("domainid");
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
+	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
+	Req.set_serverip(strIp);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
