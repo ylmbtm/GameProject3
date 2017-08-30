@@ -51,6 +51,30 @@ std::string CommonConvert::IntToString(INT32 nValue)
 	return std::string(szValue);
 }
 
+BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
+{
+	if(pStr == NULL)
+	{
+		return FALSE;
+	}
+
+	char* pPos = strchr(pStr, ',');
+	*pPos = 0;
+	x = CommonConvert::StringToFloat(pStr + 1);
+
+	char* pOldPos = pPos + 1;
+	pPos = strchr(pPos + 1, ',');
+	*pPos = 0;
+	y = CommonConvert::StringToFloat(pOldPos);
+
+	pOldPos = pPos + 1;
+	pPos = strchr(pPos + 1, ')');
+	*pPos = 0;
+	z = CommonConvert::StringToFloat(pOldPos);
+
+	return TRUE;
+}
+
 std::string CommonConvert::FloatToString(FLOAT fValue, INT32 nPrecision, BOOL bRound)
 {
 	CHAR szValue[64] = {0};

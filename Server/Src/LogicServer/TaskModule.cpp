@@ -2,6 +2,8 @@
 #include "TaskModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
+#include "..\ConfigData\ConfigData.h"
+#include "Log.h"
 
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -76,5 +78,34 @@ BOOL CTaskModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 BOOL CTaskModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
 {
+	return TRUE;
+}
+
+BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2)
+{
+	for(std::map<UINT64, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
+	{
+		TaskDataObject* pDataObj = itor->second;
+
+		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo(pDataObj->m_TaskID);
+		ERROR_CONTINUE_EX(pInfo != NULL);
+
+		if(pInfo->TaskEvent != taskEvent)
+		{
+			continue;
+		}
+
+		if(pDataObj->m_TaskState == TASK_FINISHED)
+		{
+			continue;
+		}
+
+		if(pDataObj->m_TaskCondition >= pInfo->Condition)
+		{
+
+		}
+	}
+
+
 	return TRUE;
 }

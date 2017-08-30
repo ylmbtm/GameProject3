@@ -917,21 +917,27 @@ BOOL CScene::IsMonsterAllDie()
 
 BOOL CScene::ReadSceneXml()
 {
-	return TRUE;
+	//return TRUE;
 	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(m_dwCopyID);
 	ERROR_RETURN_FALSE(pCopyInfo != NULL);
+	pCopyInfo->strXml = CommonConvert::IntToString(m_dwCopyID) + ".xml";
 	rapidxml::xml_document<char>* pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument(pCopyInfo->strXml);
 	ERROR_RETURN_FALSE(pXmlDoc != NULL);
 
-	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("GameScene");
+	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Root");
 	ERROR_RETURN_FALSE(pXmlRoot != NULL);
 
-	auto pLogicNode = pXmlRoot->first_node("SceneLogic");
-	ERROR_RETURN_FALSE(pLogicNode != NULL);
-	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
-	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pLogicNode));
+	//auto pLogicNode = pXmlRoot->first_node("MapLogic");
+	//ERROR_RETURN_FALSE(pLogicNode != NULL);
+	//ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
+	//ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pLogicNode));
 
-	auto pCreatorNode = pXmlRoot->first_node("SceneCreator");
+	auto pBornNode = pXmlRoot->first_node("MapBorns");
+	ERROR_RETURN_FALSE(pBornNode != NULL);
+	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
+	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pBornNode));
+
+	auto pCreatorNode = pXmlRoot->first_node("MapActions");
 	ERROR_RETURN_FALSE(pCreatorNode != NULL);
 	ERROR_RETURN_FALSE(m_pMonsterCreator != NULL);
 	ERROR_RETURN_FALSE(m_pMonsterCreator->ReadFromXml(pCreatorNode));
@@ -969,7 +975,7 @@ BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject
 	UINT32 dwTime = pAttacker->GetLastSkillTime(dwSkillID);
 	if(dwCurTime - dwTime < pSkillInfo->CD * 1000)
 	{
-		CLog::GetInstancePtr()->LogError("玩家作敝");
+		CLog::GetInstancePtr()->LogError("玩家作弊!!!");
 
 		return FALSE;
 	}

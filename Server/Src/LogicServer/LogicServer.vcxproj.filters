@@ -278,6 +278,9 @@
     <ClInclude Include="LogicMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\ConfigData\ConfigDefine.h">
+      <Filter>ConfigData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

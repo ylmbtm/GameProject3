@@ -12,7 +12,6 @@ public:
 	{
 		m_dwActorID		= 0;	//怪物类型ID
 		m_dwType		= 0;	//怪物类别
-		m_dwCount		= 0;	//数量
 		m_dwCamp		= 0;	//阵营
 		m_dwDropID		= 0;	//掉落ID
 		m_bCheckCamp	= 0;    //是否影响结算
@@ -30,7 +29,6 @@ public:
 
 	UINT32 m_dwActorID;			//怪物类型ID
 	UINT32 m_dwType;			//怪物类别
-	UINT32 m_dwCount;			//数量
 	UINT32 m_dwCamp;			//阵营
 	UINT32 m_dwDropID;			//掉落ID
 	BOOL   m_bCheckCamp;		//是否影响结算
@@ -63,23 +61,23 @@ public:
 	MonsterCreator(CScene* pScene);
 	~MonsterCreator();
 
-	BOOL ReadFromXml(rapidxml::xml_node<char>* pNode);
+	BOOL		ReadFromXml(rapidxml::xml_node<char>* pNode);
 
-	BOOL OnUpdate(UINT32 dwTick);
+	BOOL		OnUpdate(UINT32 dwTick);
 
-	BOOL GenMonsterWave(INT32 dwWaveIndex);
+	BOOL		GenMonsterWave(INT32 dwWaveIndex);
 
-	BOOL IsAllFinished();
+	BOOL		IsAllFinished();
 
-	BOOL OnObjectDie(CSceneObject* pObject);
+	BOOL		OnObjectDie(CSceneObject* pObject);
+
+	CScene*		m_pScene;
+
+	BOOL		m_bAllFinished;
+
+	INT32		m_dwCurWave;
 
 	std::vector<MonsterWave> m_MonsterVaveList;
-
-	CScene* m_pScene;
-
-	BOOL    m_bAllFinished;
-
-	INT32  m_dwCurWave;
 };
 
 #endif

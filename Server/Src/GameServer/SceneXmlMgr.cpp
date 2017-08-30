@@ -27,8 +27,9 @@ rapidxml::xml_document<char>* CSceneXmlManager::GetXmlDocument(std::string strXm
 		return itor->second;
 	}
 
-
-	FILE* pFile = fopen(strXmlName.c_str(), "rb");
+	std::string strPath = "Map\\";
+	strPath += strXmlName;
+	FILE* pFile = fopen(strPath.c_str(), "rb");
 	ERROR_RETURN_NULL(pFile != NULL);
 
 	char buff[204800] = {0};

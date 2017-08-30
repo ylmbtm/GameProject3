@@ -55,20 +55,21 @@ MonsterCreator::~MonsterCreator()
 
 BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
-	for(auto pWaveNode = pNode->first_node("Wave"); pWaveNode != NULL; pWaveNode->next_sibling("Wave"))
+	for(auto pWaveNode = pNode->first_node("MapActWave"); pWaveNode != NULL; pWaveNode = pWaveNode->next_sibling("MapActWave"))
 	{
 		MonsterWave Wave;
 		Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
-
-		for(auto pObjectNode = pWaveNode->first_node("Object"); pObjectNode != NULL; pObjectNode->next_sibling("Object"))
+		for(auto pObjectNode = pWaveNode->first_node("MapCallMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("MapCallMonster"))
 		{
 			MonsterData Monster;
-			Monster.m_dwActorID = CommonConvert::StringToInt(pWaveNode->first_attribute("id")->value());
-			Monster.m_dwCamp = CommonConvert::StringToInt(pWaveNode->first_attribute("camp")->value());
-			Monster.m_dwCount = CommonConvert::StringToInt(pWaveNode->first_attribute("num")->value());
-			Monster.m_dwDropID = CommonConvert::StringToInt(pWaveNode->first_attribute("dropid")->value());
+			Monster.m_dwActorID = CommonConvert::StringToInt(pObjectNode->first_attribute("MonsterID")->value());
+			CommonConvert::StringToPos(pObjectNode->first_attribute("Pos")->value(), Monster.m_x, Monster.m_y, Monster.m_z);
+			Monster.m_dwCamp = CommonConvert::StringToInt(pObjectNode->first_attribute("Camp")->value());
+			Monster.m_dwDropID = CommonConvert::StringToInt(pObjectNode->first_attribute("dropid")->value());
 			Wave.m_vtMonsterList.push_back(Monster);
 		}
+
+		m_MonsterVaveList.push_back(Wave);
 	}
 
 	return TRUE;
@@ -76,23 +77,11 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 
 BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
 {
-	if(m_MonsterVaveList.size() <= 0)
+	if(m_dwCurWave == -1)
 	{
-		m_bAllFinished = TRUE;
+		m_dwCurWave = 0;
+		GenMonsterWave(0);
 	}
-
-	if(m_bAllFinished)
-	{
-		return TRUE;
-	}
-
-	if(m_dwCurWave >= 0)
-	{
-		return TRUE;
-	}
-
-	GenMonsterWave(0);
-	m_dwCurWave = 0;
 	return TRUE;
 }
 

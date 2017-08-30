@@ -19,25 +19,27 @@ SceneLogicBase::~SceneLogicBase()
 
 BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
-	for(auto pBirthNode = pNode->first_node("BirthPos"); pBirthNode != NULL; pBirthNode->next_sibling("BirthPos"))
+	UINT32 dwCamp = 0;
+	CPoint3D pt;
+	for(auto pBornNode = pNode->first_node("MapBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("MapBorn"))
 	{
-		for(auto pAttr = pBirthNode->first_attribute(); pAttr != NULL; pAttr->next_attribute())
+		for(auto pAttr = pBornNode->first_attribute(); pAttr != NULL; pAttr = pAttr->next_attribute())
 		{
-			UINT32 dwCamp = 0;
-			if(pAttr->name() == "camp")
+			if(strcmp(pAttr->name(), "ID") == 0)
 			{
 				dwCamp = CommonConvert::StringToInt(pAttr->value());
 			}
 
-			CPoint2d pt;
-			if(pAttr->name() == "position")
+			if(strcmp(pAttr->name(), "Pos") == 0)
 			{
 				pt.From(pAttr->value());
 			}
-
-			m_vtBirthPos[dwCamp] = pt;
 		}
+
+		m_vtBornPos[dwCamp] = pt;
 	}
+
+	return TRUE;
 
 	auto pResultNode = pNode->first_node("BattleResult");
 	ERROR_RETURN_TRUE(pResultNode != NULL);
@@ -79,7 +81,7 @@ BOOL SceneLogicBase::OnObjectCreate(CSceneObject* pObject)
 {
 	ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
 	ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
-	pObject->SetPos(m_vtBirthPos[pObject->m_dwCamp].m_x, 0, m_vtBirthPos[pObject->m_dwCamp].m_y);
+	pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, 0, m_vtBornPos[pObject->m_dwCamp].m_y);
 	return TRUE;
 }
 

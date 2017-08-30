@@ -19,6 +19,8 @@ public:
 public:
 
 
+
+
 	std::map<std::string, rapidxml::xml_document<char>*> m_mapDocument;
 };
 

@@ -20,6 +20,12 @@ struct RoleDataObject : public ShareObject
 		m_CarrerID      = 0;
 	}
 
+	std::string GetDataName()
+	{
+
+	}
+
+
 	UINT64 m_u64ID;			//角色ID
 	UINT64 m_u64AccountID;	//账号ID
 	CHAR   m_szName[255];	//角色名

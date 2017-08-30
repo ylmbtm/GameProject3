@@ -47,7 +47,7 @@ public:
 
 	BattleResult m_BattleResult;
 
-	CPoint2d m_vtBirthPos[CT_CMAP_END];
+	CPoint3D m_vtBornPos[CT_CMAP_END];
 };
 
 #endif //_SCENELOGIC_BASE_H_

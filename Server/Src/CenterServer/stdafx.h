@@ -3,8 +3,9 @@
 // 特定于项目的包含文件
 //
 
-#ifndef __STDAFX_H__
-#define __STDAFX_H__
+
+#ifndef __STDAFX__
+#define __STDAFX__
 
 #include <stdio.h>
 

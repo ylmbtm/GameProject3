@@ -3,7 +3,8 @@
 // 特定于项目的包含文件
 //
 
-#pragma once
+#ifndef __STDAFX_H__
+#define __STDAFX_H__
 
 #include <stdio.h>
 
@@ -12,3 +13,4 @@
 
 
 // TODO: 在此处引用程序需要的其他头文件
+#endif

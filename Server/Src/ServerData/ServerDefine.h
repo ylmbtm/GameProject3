@@ -1,38 +1,6 @@
 ﻿#ifndef __SERVER_DEFINE_H__
 #define __SERVER_DEFINE_H__
 
-//副本战斗结果
-enum COPY_RESULT
-{
-	CR_NONE = 0,	//未结算
-	CR_WIN,         //胜利
-	CR_LOST,		//失败
-	CR_DRAW			//平局
-};
-
-enum MouduleType
-{
-	MT_ROLE,
-	MT_COPY,
-	MT_BAG,
-	MT_EQUIP,
-	MT_PET,
-	MT_PARTNER,
-	MT_TASK,
-	MT_MOUNT,
-	MT_ACTIVITY,
-	MT_END
-};
-
-enum OBJECT_STATUE
-{
-	OS_IDLE,
-	OS_WALK,
-	OS_RUN,
-	OS_DIE,
-	OS_END
-};
-
 //货币数量
 #define MAX_MONEY_NUM 15
 
@@ -48,14 +16,36 @@ enum OBJECT_STATUE
 //服务器帧率
 #define FPS_TIME_TICK 20
 
-enum AddWay
+//副本战斗结果
+enum ECopyResult
+{
+	CR_NONE = 0,	//未结算
+	CR_WIN,         //胜利
+	CR_LOST,		//失败
+	CR_DRAW			//平局
+};
+
+enum EMouduleType
+{
+	MT_ROLE,
+	MT_COPY,
+	MT_BAG,
+	MT_EQUIP,
+	MT_PET,
+	MT_PARTNER,
+	MT_TASK,
+	MT_MOUNT,
+	MT_ACTIVITY,
+	MT_END
+};
+
+enum EAddWay
 {
 	Add_ = 1,
 	Cost_
 };
 
-
-enum SealState
+enum ESealState
 {
 	SS_NONE = 0,
 	SS_OK   = 1,

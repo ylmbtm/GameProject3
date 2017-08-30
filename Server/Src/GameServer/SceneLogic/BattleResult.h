@@ -31,10 +31,10 @@ public:
 	BOOL SetKillMonster(UINT32 dwMonsterID, UINT32 dwKillNum);
 private:
 	RESULTTYPE	m_Type;//判定类型
-	Rect2d  m_DestRect;
-	UINT32 m_dwNpcID;
-	UINT32 m_dwMonsterID;
-	UINT32 m_dwKillNum;
+	Rect2D		m_DestRect;
+	UINT32		m_dwNpcID;
+	UINT32		m_dwMonsterID;
+	UINT32		m_dwKillNum;
 };
 
 

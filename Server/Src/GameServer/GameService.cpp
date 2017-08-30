@@ -53,13 +53,14 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
+	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
+
+
 	if(!m_SceneManager.Init(TRUE))
 	{
 		CLog::GetInstancePtr()->LogError("启动场景管理器失败!");
 		return FALSE;
 	}
-
-	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
 
 	ConnectToLogicSvr();
 

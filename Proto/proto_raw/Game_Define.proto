@@ -1,5 +1,5 @@
 ﻿syntax = "proto3";
-enum OBJECT_TYPE {
+enum EObjectType {
 	OT_NONE   = 0;  //无类别
 	OT_PLAYER = 1;  //玩家
 	OT_ROBOT  = 2;  //机器人
@@ -9,7 +9,7 @@ enum OBJECT_TYPE {
 	OT_SUMMON = 6;  //招唤物
 }
 
-enum ACTION_TYPE {
+enum EActionType {
     AT_NONE   = 0;    //无动作
 	AT_MOVE   = 1;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
 	AT_WALK   = 2;    //走
@@ -25,14 +25,14 @@ enum ACTION_TYPE {
 	AT_SKILL_BEGIN = 10000;  //技能动作开始
 }
 
-enum ACTION_STATE {
-    AS_NONE   = 0;    //无动作
-	AS_HURT   = 0x1;  //伤害
-	AS_START   = 0x2; //开始动作
+enum EActionStatue {
+    AS_NONE			= 0;    //无动作
+	AS_HURT			=	0x1;  //伤害
+	AS_START		= 0x2; //开始动作
 	AS_END = 0xfffffff;  //技能动作开始
 }
 
-enum CAMP_TYPE {
+enum ECampType {
     CT_NONE			= 0;			//无阵营
 	CT_PVE_PLAYER	= 1;		//玩家阵营
 	CT_PVE_ENEMY	= 2;     //玩家敌对阵营
@@ -47,7 +47,7 @@ enum CAMP_TYPE {
 	CT_CMAP_END = 100;
 }
 
-enum COPY_TYPE {
+enum ECopyType {
     CPT_NONE = 0;			//无阵营
 	CPT_LOGIN = 1;          //登陆副本
 	CPT_SELROLE = 2;        //选角副本
@@ -58,9 +58,18 @@ enum COPY_TYPE {
 	CPT_END = 100;
 }
 
+enum EOBjectStatue
+{
+	OS_NONE = 0;
+	OS_IDLE = 1;
+	OS_WALK = 2;
+	OS_RUN = 3;
+	OS_DIE = 4;
+	OS_END = 5;
+};
 
 
-enum ITEM_TYPE{
+enum EItemType{
 	IMT_NONE = 0;
 	IMT_MONEY = 1; //货币
 	IMT_ACTION = 2; //行动力
@@ -71,19 +80,19 @@ enum ITEM_TYPE{
 }
 
 
-enum BAG_TYPE {
+enum EBagType {
 	BT_NONE = 0;
 }
 
 
-enum FUNCTION_ID{
+enum EFunctionType{
 	FUNC_BEGIN_ID  = 0;  //!功能ID开始标记
 	
 	FUNC_END_ID = 150; //!功能ID结束标记
 }
 
 
-enum ATTRI_ID{
+enum EAttrID{
 	NONE		= 0; 
 	HP			= 1;//血量
 	MP			= 2;//蓝量
@@ -109,13 +118,11 @@ enum ATTRI_ID{
 }
 
 
-enum BUFF_TYPE{
+enum EBuffType{
 	BFT_NONE		= 0; 
-	
 }
 
-
-enum CHAT_CHANNEL{
+enum EChatChannel{
 	CHL_NONE		= 0; 
 	CHL_WORLD       = 1;//世界聊天
 	CHL_PRIVATE     = 2;//私聊

@@ -156,15 +156,15 @@ BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPack)
 BOOL CPlayerObject::CreateAllModule()
 {
 	m_MoudleList.assign(MT_END, NULL);
-	m_MoudleList[MT_ROLE] = new CRoleModule(this);
-	m_MoudleList[MT_COPY] = new CCopyModule(this);
-	m_MoudleList[MT_BAG] = new CBagModule(this);
-	m_MoudleList[MT_EQUIP] = new CEquipModule(this);
-	m_MoudleList[MT_PET] = new CPetModule(this);
-	m_MoudleList[MT_PARTNER] = new CPartnerModule(this);
-	m_MoudleList[MT_TASK] = new CTaskModule(this);
-	m_MoudleList[MT_MOUNT] = new CMountModule(this);
-	m_MoudleList[MT_ACTIVITY] = new CActivityModule(this);
+	m_MoudleList[MT_ROLE]			= new CRoleModule(this);
+	m_MoudleList[MT_COPY]			= new CCopyModule(this);
+	m_MoudleList[MT_BAG]			= new CBagModule(this);
+	m_MoudleList[MT_EQUIP]			= new CEquipModule(this);
+	m_MoudleList[MT_PET]			= new CPetModule(this);
+	m_MoudleList[MT_PARTNER]		= new CPartnerModule(this);
+	m_MoudleList[MT_TASK]			= new CTaskModule(this);
+	m_MoudleList[MT_MOUNT]			= new CMountModule(this);
+	m_MoudleList[MT_ACTIVITY]		= new CActivityModule(this);
 
 	return TRUE;
 }

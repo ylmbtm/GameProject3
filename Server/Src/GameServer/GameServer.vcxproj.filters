@@ -158,6 +158,9 @@
     <ClInclude Include="GameObject\BuffObject.h">
       <Filter>SceneObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Message\Game_Define.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

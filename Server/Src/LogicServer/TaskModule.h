@@ -2,6 +2,7 @@
 #define __TASK_MODULE_H__
 #include "ModuleBase.h"
 #include "../ServerData/TaskData.h"
+#include "../ConfigData/ConfigDefine.h"
 
 struct TaskDataObject;
 class CTaskModule  : public CModuleBase
@@ -28,7 +29,9 @@ public:
 
 	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
 public:
-	UINT64 AddPartner(UINT32 dwPartnerID);
+	BOOL OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2);
+
+
 public:
 	std::map<UINT64, TaskDataObject*>m_mapTaskData;
 

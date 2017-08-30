@@ -38,5 +38,4 @@ BOOL CreateDataPool()
 std::string GenDataName(std::string strName)
 {
 	return strName + "_" + CommonConvert::IntToString(CGameService::GetInstancePtr()->GetServerID());
-
 }

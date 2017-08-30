@@ -3,21 +3,23 @@
 
 namespace CommonConvert
 {
-	INT32 StringToInt(char *pStr);
-	INT32 StringToInt(const char *pStr);
+INT32 StringToInt(char* pStr);
+INT32 StringToInt(const char* pStr);
 
-	FLOAT StringToFloat(char *pStr);
-	FLOAT StringToFloat(const char *pStr);
-	std::string IntToString(INT32 nValue);
-	
-	//浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
-	std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
+FLOAT StringToFloat(char* pStr);
+FLOAT StringToFloat(const char* pStr);
+std::string IntToString(INT32 nValue);
 
-	std::wstring Utf8ToUnicode(std::string strValue);
+BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
 
-	std::string  UnicodeToUft8(std::wstring wstrValue);
+//浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
+std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
 
-	BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string> &vtStr);
+std::wstring Utf8ToUnicode(std::string strValue);
+
+std::string  UnicodeToUft8(std::wstring wstrValue);
+
+BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
 }
 
 
