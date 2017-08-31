@@ -220,6 +220,7 @@
     <ClCompile Include="BagModule.cpp" />
     <ClCompile Include="ChatManager.cpp" />
     <ClCompile Include="CopyModule.cpp" />
+    <ClCompile Include="CounterModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
     <ClCompile Include="EquipModule.cpp" />
     <ClCompile Include="GameService.cpp" />
@@ -260,8 +261,10 @@
     <ClInclude Include="..\Message\Msg_LoginCltData.pb.h" />
     <ClInclude Include="..\Message\Msg_LoginDBData.pb.h" />
     <ClInclude Include="..\Message\Msg_RetCode.pb.h" />
+    <ClInclude Include="..\ServerData\ActivityData.h" />
     <ClInclude Include="..\ServerData\BagData.h" />
     <ClInclude Include="..\ServerData\CopyData.h" />
+    <ClInclude Include="..\ServerData\CounterData.h" />
     <ClInclude Include="..\ServerData\EquipData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
     <ClInclude Include="..\ServerData\GuildData.h" />
@@ -278,6 +281,7 @@
     <ClInclude Include="BagModule.h" />
     <ClInclude Include="ChatManager.h" />
     <ClInclude Include="CopyModule.h" />
+    <ClInclude Include="CounterModule.h" />
     <ClInclude Include="DataPool.h" />
     <ClInclude Include="EquipModule.h" />
     <ClInclude Include="GameService.h" />

@@ -897,6 +897,34 @@ StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStor
 	return NULL;
 }
 
+BOOL CConfigData::ReadActivityInfo(CppSQLite3Query& QueryData)
+{
+	m_mapActivityInfo.clear();
+
+	while(!QueryData.eof())
+	{
+		StActivityInfo stValue;
+		stValue.ActivityID = QueryData.getIntField("id");
+
+		m_mapActivityInfo.insert(std::make_pair(stValue.ActivityID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StActivityInfo* CConfigData::GetActivityInfo(UINT32 dwActivityID)
+{
+	ERROR_RETURN_NULL(dwActivityID != 0);
+	auto itor = m_mapActivityInfo.find(dwActivityID);
+	if(itor != m_mapActivityInfo.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
+}
+
 StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
 {
 	ERROR_RETURN_NULL(dwItemID != 0);

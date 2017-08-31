@@ -31,7 +31,7 @@ public:
 
 	virtual BOOL DispatchPacket(NetPacket* pNetPack);
 
-	virtual BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue) = 0;
+	virtual BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
 
 	BOOL SetOwner(CPlayerObject* pOwner);
 

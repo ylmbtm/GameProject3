@@ -20,6 +20,7 @@
 #include "TaskModule.h"
 #include "ActivityModule.h"
 #include "MountModule.h"
+#include "CounterModule.h"
 
 CPlayerObject::CPlayerObject()
 {
@@ -165,6 +166,8 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_TASK]			= new CTaskModule(this);
 	m_MoudleList[MT_MOUNT]			= new CMountModule(this);
 	m_MoudleList[MT_ACTIVITY]		= new CActivityModule(this);
+	m_MoudleList[MT_COUNTER]		= new CCounterModule(this);
+
 
 	return TRUE;
 }

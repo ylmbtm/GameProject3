@@ -67,6 +67,56 @@ namespace CommonQueue
 		CCritSecNotify m_CritSec;
 	};
 
+
+    template <typename ELEM_T, UINT32 dwSize=512>
+    class CRingQueue
+    {
+    public:
+        CRingQueue()
+        {
+            m_nReadIndex    = 0;
+            m_nWriteIndex   = 0;
+        }
+
+        ~CRingQueue()
+        {
+
+        }
+
+        BOOL Pop(ELEM_T &_Value)
+        {
+            if(m_nReadIndex == m_nWriteIndex)
+            {
+                return FALSE;
+            }
+
+            _Value = m_vtData[m_nReadIndex];
+
+            m_nReadIndex = (m_nReadIndex+1)%dwSize;
+
+            return TRUE;
+        }
+
+        BOOL Push(ELEM_T &_Value)
+        {
+            if(((m_nWriteIndex + 1)%dwSize) == m_nReadIndex)
+            {
+                return FALSE;
+            }
+
+            m_vtData[m_nWriteIndex] = _Value;
+
+            m_nWriteIndex = (m_nWriteIndex+1)%dwSize;
+
+            return TRUE; 
+        }
+
+        ELEM_T m_vtData[dwSize];
+
+        INT32 m_nWriteIndex;
+
+        INT32 m_nReadIndex;
+    };
 }
 
 #endif /* __COMMON_MESSAGE_QUEUE_ */

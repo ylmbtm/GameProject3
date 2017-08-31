@@ -1,13 +1,14 @@
-﻿#ifndef __ACTIVITY_MODULE_H__
-#define __ACTIVITY_MODULE_H__
+﻿#ifndef __COUNTER_MODULE_H__
+#define __COUNTER_MODULE_H__
 #include "ModuleBase.h"
-struct ActivityDataObject;
-class CActivityModule  : public CModuleBase
+#include "../ServerData/CounterData.h"
+struct CounterDataObject;
+class CCounterModule  : public CModuleBase
 {
 public:
-	CActivityModule(CPlayerObject* pOwner);
+	CCounterModule(CPlayerObject* pOwner);
 
-	~CActivityModule();
+	~CCounterModule();
 
 public:
 	BOOL OnCreate(UINT64 u64RoleID);
@@ -25,14 +26,17 @@ public:
 	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+
+	CounterDataObject* GetCounterData(UINT64 uID, UINT32 dwIndex, BOOL bCreate = FALSE);
+
 public:
 	//*********************消息处理定义开始******************************
 
 	//*********************消息处理定义结束******************************
 
 public:
-
+	std::map<UINT64, std::vector<CounterDataObject*>> m_mapCounterData;
 
 };
 
-#endif //__ACTIVITY_MODULE_H__
+#endif //__COUNTER_MODULE_H__

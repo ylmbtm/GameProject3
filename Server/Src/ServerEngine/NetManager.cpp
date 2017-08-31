@@ -215,8 +215,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 
 				if(pConnection != NULL)
 				{
-					pConnection->m_IsSending = FALSE;
-					pConnection->DoSend();
+					pConnection->DoSend(NULL);
 				}
 				else
 				{

@@ -13,6 +13,8 @@
 #include "../ServerData/TaskData.h"
 #include "../ServerData/MountData.h"
 #include "../ServerData/MailData.h"
+#include "../ServerData/ActivityData.h"
+#include "../ServerData/CounterData.h"
 
 extern	SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool;
 extern	SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool;
@@ -27,7 +29,8 @@ extern	SharedMemory<TaskDataObject>*		g_pTaskDataObjectPool;
 extern	SharedMemory<MountDataObject>*		g_pMountDataObjectPool;
 extern	SharedMemory<MailDataObject>*		g_pMailDataObjectPool;
 extern	SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool;
-
+extern	SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool;
+extern	SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool;
 
 std::string GenDataName(std::string strName);
 

@@ -24,8 +24,9 @@ public:
 
 
 
-	//*********************消息处理定义开始******************************
+
 public:
+	//*********************消息处理定义开始******************************
 	BOOL OnMsgSelectServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgRoleListReq(NetPacket* pNetPacket);
 	BOOL OnMsgRoleListAck(NetPacket* pNetPacket);

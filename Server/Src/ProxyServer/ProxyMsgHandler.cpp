@@ -46,18 +46,9 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		case MSG_ROLE_CREATE_REQ:
 		case MSG_ROLE_DELETE_REQ:
 		case MSG_ROLE_LOGIN_REQ:
-		case MSG_ROLE_LOGOUT_REQ:
 		{
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-		}
-		break;
-		case MSG_ROLE_LIST_ACK:
-		case MSG_ROLE_CREATE_ACK:
-		case MSG_ROLE_DELETE_ACK:
-		case MSG_ROLE_LOGOUT_ACK:
-		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 		case MSG_ROLE_LOGIN_ACK:
@@ -72,11 +63,6 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		{
 			//创建proxyplayer对象
 			OnMsgEnterSceneReq(pNetPacket);
-		}
-		break;
-		case MSG_ENTER_SCENE_ACK:
-		{
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
 		case MSG_ROLE_OTHER_LOGIN_NTY:
@@ -114,7 +100,9 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 					ERROR_RETURN_TRUE(pPlayer != NULL);
 
 					UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
-					ERROR_RETURN_TRUE(dwConnID != 00);
+					ERROR_RETURN_TRUE(dwConnID != 0);
+
+					//疑问, pPakcetHeader->dwUserData字段需不需要由客户端来填，现在proxyserver也可以获取到.
 
 					RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
 				}

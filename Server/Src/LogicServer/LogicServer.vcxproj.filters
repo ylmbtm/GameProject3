@@ -129,6 +129,9 @@
     <ClCompile Include="LogicMsgHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CounterModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -280,6 +283,15 @@
     </ClInclude>
     <ClInclude Include="..\ConfigData\ConfigDefine.h">
       <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\ActivityData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\CounterData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="CounterModule.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

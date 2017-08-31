@@ -29,6 +29,11 @@ public:
         EnterCriticalSection(&m_CritSec);
     };
 
+    bool TryLock()
+    {
+        return TryEnterCriticalSection(&m_CritSec);			
+    }
+
     void Unlock() {
         LeaveCriticalSection(&m_CritSec);
     };
@@ -79,6 +84,7 @@ public:
 
 		return TRUE;			
 	}
+
 	bool Unlock() 
 	{
 		int rc = pthread_mutex_unlock (&mutex);

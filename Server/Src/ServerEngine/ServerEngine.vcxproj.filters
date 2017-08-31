@@ -170,6 +170,15 @@
     <ClInclude Include="DBInterface\DBStoredProcMgr.h">
       <Filter>DBInterface</Filter>
     </ClInclude>
+    <ClInclude Include="LockFreeQueue.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="LockFreeQueueImpl.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMsgQueue.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

@@ -184,6 +184,7 @@
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonMsgHandler.h" />
+    <ClInclude Include="CommonMsgQueue.h" />
     <ClInclude Include="CommonSocket.h" />
     <ClInclude Include="CommonThreadFunc.h" />
     <ClInclude Include="CommonWorkThread.h" />
@@ -197,6 +198,8 @@
     <ClInclude Include="DBInterface\DBStoredProc.h" />
     <ClInclude Include="DBInterface\DBStoredProcMgr.h" />
     <ClInclude Include="EventFuncManager.h" />
+    <ClInclude Include="LockFreeQueue.h" />
+    <ClInclude Include="LockFreeQueueImpl.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="NetManager.h" />
     <ClInclude Include="ServerEngine.h" />

@@ -15,7 +15,9 @@ SharedMemory<MemberDataObject>*		g_pMemberDataObjectPool		= NULL;
 SharedMemory<TaskDataObject>*		g_pTaskDataObjectPool		= NULL;
 SharedMemory<MountDataObject>*		g_pMountDataObjectPool		= NULL;
 SharedMemory<MailDataObject>*		g_pMailDataObjectPool		= NULL;
-SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool		= NULL;
+SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool	= NULL;
+SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool	= NULL;
+SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool	= NULL;
 
 BOOL CreateDataPool()
 {
@@ -32,6 +34,8 @@ BOOL CreateDataPool()
 	g_pMountDataObjectPool		= new SharedMemory<MountDataObject>("Mount", 1024);
 	g_pMailDataObjectPool		= new SharedMemory<MailDataObject>("Mail", 1024);
 	g_pGroupMailDataObjectPool  = new SharedMemory<GroupMailDataObject>("GroupMail", 1024);
+	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>("Activity", 1024);
+	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>("Counter", 1024);
 	return TRUE;
 }
 

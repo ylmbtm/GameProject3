@@ -10,42 +10,6 @@ MonsterCreator::MonsterCreator(CScene* pScene)
 	m_bAllFinished = FALSE;
 
 	m_dwCurWave = -1;
-	/*
-	MonsterWave Wave;
-	Wave.m_dwGenType = 0;
-
-	MonsterData Data;
-	Data.m_dwActorID = 50022;
-	Data.m_bCheckDie = TRUE;
-	Data.m_dwCamp = 1;
-	Data.m_dwType = OT_MONSTER;
-	Data.m_x = 0;
-	Data.m_y = 0;
-	Data.m_z = 0;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 50028;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 50042;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 50046;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 50061;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 50068;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 60001;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	Data.m_dwActorID = 80002;
-	Wave.m_vtMonsterList.push_back(Data);
-
-	m_MonsterVaveList.push_back(Wave);*/
 }
 
 MonsterCreator::~MonsterCreator()
@@ -58,14 +22,15 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 	for(auto pWaveNode = pNode->first_node("MapActWave"); pWaveNode != NULL; pWaveNode = pWaveNode->next_sibling("MapActWave"))
 	{
 		MonsterWave Wave;
-		Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
+		//Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
 		for(auto pObjectNode = pWaveNode->first_node("MapCallMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("MapCallMonster"))
 		{
 			MonsterData Monster;
 			Monster.m_dwActorID = CommonConvert::StringToInt(pObjectNode->first_attribute("MonsterID")->value());
 			CommonConvert::StringToPos(pObjectNode->first_attribute("Pos")->value(), Monster.m_x, Monster.m_y, Monster.m_z);
+			Monster.m_ft = CommonConvert::StringToFloat(pObjectNode->first_attribute("Face")->value());
 			Monster.m_dwCamp = CommonConvert::StringToInt(pObjectNode->first_attribute("Camp")->value());
-			Monster.m_dwDropID = CommonConvert::StringToInt(pObjectNode->first_attribute("dropid")->value());
+			//Monster.m_dwDropID = CommonConvert::StringToInt(pObjectNode->first_attribute("dropid")->value());
 			Wave.m_vtMonsterList.push_back(Monster);
 		}
 

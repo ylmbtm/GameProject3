@@ -430,8 +430,7 @@ BOOL CConnection::Clear()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	m_SendBuffList.push(pBuff);
-	DoSend();
+	DoSend(pBuff);
 	return TRUE;
 }
 
@@ -456,33 +455,55 @@ BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserD
 }
 
 #ifdef WIN32
-BOOL CConnection::DoSend()
+BOOL CConnection::DoSend(IDataBuffer* pBuff)
 {
-	///如果正在发送中就直接返回
-	if (m_IsSending)
+	if(pBuff != NULL)
 	{
-		return FALSE;
+		m_SendBuffList.push(pBuff);
+		if(!mCritSending.TryLock())
+		{
+			return FALSE;
+		}
+
+		///如果正在发送中就直接返回
+		if (m_IsSending)
+		{
+			mCritSending.Unlock();
+			return FALSE;
+		}
+	}
+
+
+
+
+	else
+	{
+		mCritSending.Lock();
+		m_IsSending = FALSE;
 	}
 
 	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
-	IDataBuffer* pBuffer = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
 	int nCurPos = 0;
+
+	IDataBuffer* pBuffer = NULL;
 	while(m_SendBuffList.pop(pBuffer))
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
 		if(pFirstBuff == NULL)
 		{
+			pFirstBuff = pBuffer;
+
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				pSendingBuffer = pBuffer;
 				break;
 			}
 
-			pFirstBuff = pBuffer;
+			pBuffer = NULL;
 		}
 		else
 		{
@@ -500,7 +521,7 @@ BOOL CConnection::DoSend()
 			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
 			nCurPos += pBuffer->GetTotalLenth();
 			pBuffer->Release();
-
+			pBuffer = NULL;
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				break;
@@ -516,6 +537,7 @@ BOOL CConnection::DoSend()
 	if(pSendingBuffer == NULL)
 	{
 		m_IsSending = FALSE;
+		mCritSending.Unlock();
 		return FALSE;
 	}
 
@@ -528,12 +550,13 @@ BOOL CConnection::DoSend()
 	m_IoOverlapSend.dwConnID = m_dwConnID;
 
 	DWORD dwSendBytes = 0;
+	mCritSending.Unlock();
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
 	if(nRet == 0) //发送成功
 	{
 		if(dwSendBytes < DataBuf.len)
 		{
-			CLog::GetInstancePtr()->LogWarnning("发送线程:直接发送功数据%d!", dwSendBytes);
+			CLog::GetInstancePtr()->LogError("发送线程:直接发送功数据send:%d--Len:%d!", dwSendBytes, DataBuf.len);
 		}
 	}
 	else if( nRet == -1 ) //发送出错
@@ -551,7 +574,7 @@ BOOL CConnection::DoSend()
 }
 
 #else
-BOOL CConnection::DoSend()
+BOOL CConnection::DoSend(IDataBuffer* pBuff)
 {
 	///如果正在发送中就直接返回
 	if (m_IsSending)

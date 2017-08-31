@@ -19,9 +19,9 @@ struct NetIoOperatorData
 	OVERLAPPED		Overlap;
 #endif
 	UINT32			dwCmdType;
-	UINT32          dwConnID;
+	UINT32			dwConnID;
 
-	IDataBuffer*		pDataBuffer;
+	IDataBuffer*	pDataBuffer;
 
 	void			Clear();
 };
@@ -65,7 +65,7 @@ public:
 
 	BOOL    SendMessage(UINT32 dwMsgID, UINT64 uTargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen);
 
-	BOOL    DoSend();
+	BOOL    DoSend(IDataBuffer* pBuff);
 
 public:
 	SOCKET						m_hSocket;
@@ -91,13 +91,15 @@ public:
 	UINT32						m_pCurBufferSize;
 	UINT32						m_nCheckNo;
 
-	volatile BOOL				m_IsSending;
-
 	CConnection*                m_pNext;
 
 	UINT32						m_LastRecvTick;
 
 	ArrayLockFreeQueue < IDataBuffer*, 1 << 10 > m_SendBuffList;
+
+    BOOL				        m_IsSending;
+    CCritSec                    mCritSending;
+
 };
 
 

@@ -231,5 +231,17 @@ struct StStoreItemInfo
 	UINT32 ItemNum;
 };
 
+struct StActivityInfo
+{
+	UINT32 ActivityID;		//! 活动ID
+	std::string Name;
+	std::string Desc;
+	std::string Ad;
+	UINT32 ActivityType;
+	UINT32 AwardIndex;
+
+};
+
+
 
 #endif //__CONFIG_STRUCT_H__

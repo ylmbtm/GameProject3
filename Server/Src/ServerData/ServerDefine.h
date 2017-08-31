@@ -36,6 +36,7 @@ enum EMouduleType
 	MT_TASK,
 	MT_MOUNT,
 	MT_ACTIVITY,
+	MT_COUNTER,
 	MT_END
 };
 

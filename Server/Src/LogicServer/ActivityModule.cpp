@@ -42,6 +42,11 @@ BOOL CActivityModule::OnNewDay()
 	return TRUE;
 }
 
+BOOL CActivityModule::DispatchPacket(NetPacket* pNetPack)
+{
+	return TRUE;
+}
+
 BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	const DBPetData& PetData = Ack.petdata();
@@ -64,11 +69,6 @@ BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 }
 
 BOOL CActivityModule::SaveToClientLoginData(RoleLoginAck& Ack)
-{
-	return TRUE;
-}
-
-BOOL CActivityModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }
