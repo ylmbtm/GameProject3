@@ -11,8 +11,8 @@ struct ActivityDataObject : public ShareObject
 	UINT32 m_dwActivityID;  //活动ID
 	UINT32 m_dwActivityType;//活动类型
 	UINT32 m_dwJoinTime;    //参与时间
-
-	CHAR   m_Data[1024];    //活动数据
+    UINT32 m_dwDataLen;     //数据时间长度
+	BYTE   m_Data[1024];    //活动数据
 
 	BOOL Save(IDataBase* pDB)
 	{
@@ -21,11 +21,6 @@ struct ActivityDataObject : public ShareObject
 
 	BOOL Delete(IDataBase* pDB)
 	{
-		char szSql[1024];
-		sprintf_s(szSql, 1024, "update player set delete = %d");
-
-		pDB->Execut(szSql);
-
 		return TRUE;
 	}
 };

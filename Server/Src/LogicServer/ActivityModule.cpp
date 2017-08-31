@@ -2,6 +2,7 @@
 #include "ActivityModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
+#include "../Message/Msg_LoginDBData.pb.h"
 
 CActivityModule::CActivityModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -49,22 +50,17 @@ BOOL CActivityModule::DispatchPacket(NetPacket* pNetPack)
 
 BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBPetData& PetData = Ack.petdata();
-	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
+	const DBActivityData& ActivityData = Ack.activitydata();
+	for(int i = 0; i < ActivityData.activitylist_size(); i++)
 	{
-	const DBBagItemData &ItemData = BagData.itemlist(i);
-
-	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
-	pObject->lock();
-	pObject->m_uGuid = ItemData.guid();
-	pObject->m_uRoleID = ItemData.roleid();
-	pObject->m_BagType = ItemData.bagtype();
-	pObject->m_bBind = ItemData.bind();
-	pObject->m_ItemGuid = ItemData.itemguid();
-	pObject->m_ItemID = ItemData.itemid();
-	pObject->unlock();
-	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	}*/
+	    const DBActivityItem &ActivityItem = ActivityData.activitylist(i);
+	    ActivityDataObject *pObject = g_pActivityDataObjectPool->NewOjbect(FALSE);
+	    pObject->lock();
+	    pObject->m_dwActivityID = ActivityItem.activityid();
+	    pObject->m_uRoleID = ActivityItem.roleid();
+	    pObject->unlock();
+	    m_mapActivityData.insert(std::make_pair(pObject->m_dwActivityID, pObject));
+	}
 	return TRUE;
 }
 
