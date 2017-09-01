@@ -792,7 +792,7 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
-	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
 	}

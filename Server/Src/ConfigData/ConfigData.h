@@ -145,7 +145,7 @@ public:
 	StStoreItemInfo* GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStoreID);
 
 	//活动表
-	std::map <UINT32, StActivityInfo> m_mapActivityInfo ;
+	std::map <UINT32, StActivityInfo> m_mapActivityInfo;
 	BOOL ReadActivityInfo(CppSQLite3Query& QueryData);
 	StActivityInfo* GetActivityInfo(UINT32 dwActivityType);
 public:

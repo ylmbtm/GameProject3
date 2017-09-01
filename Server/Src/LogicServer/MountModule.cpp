@@ -76,7 +76,7 @@ BOOL CMountModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CMountModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }

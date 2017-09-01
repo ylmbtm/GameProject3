@@ -3,6 +3,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "../Message/Msg_LoginDBData.pb.h"
+#include "../ConfigData/ConfigStruct.h"
+#include "../ConfigData/ConfigData.h"
 
 CActivityModule::CActivityModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -16,6 +18,24 @@ CActivityModule::~CActivityModule()
 
 BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 {
+	std::map <UINT32, StActivityInfo>& mapActivityList = CConfigData::GetInstancePtr()->m_mapActivityInfo;
+	for(auto itor = mapActivityList.begin(); itor != mapActivityList.end(); itor ++)
+	{
+		StActivityInfo& tempInfo = itor->second;
+		if(tempInfo.ActivityID)
+		{
+
+		}
+
+		if(tempInfo.ActivityType == ACT_LOGIN)
+		{
+			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
+			pTempObject->m_dwActivityID = tempInfo.ActivityID;
+			pTempObject->m_dwActivityType = ACT_LOGIN;
+		}
+
+	}
+
 
 	return TRUE;
 }
@@ -30,6 +50,24 @@ BOOL CActivityModule::OnDestroy()
 
 BOOL CActivityModule::OnLogin()
 {
+	std::map <UINT32, StActivityInfo>& mapActivityList = CConfigData::GetInstancePtr()->m_mapActivityInfo;
+	for(auto itor = mapActivityList.begin(); itor != mapActivityList.end(); itor ++)
+	{
+		StActivityInfo& tempInfo = itor->second;
+		if(tempInfo.ActivityID)
+		{
+
+		}
+
+		if(tempInfo.ActivityType == ACT_LOGIN)
+		{
+			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
+			pTempObject->m_dwActivityID = tempInfo.ActivityID;
+			pTempObject->m_dwActivityType = ACT_LOGIN;
+		}
+
+	}
+
 	return TRUE;
 }
 
@@ -53,13 +91,13 @@ BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBActivityData& ActivityData = Ack.activitydata();
 	for(int i = 0; i < ActivityData.activitylist_size(); i++)
 	{
-	    const DBActivityItem &ActivityItem = ActivityData.activitylist(i);
-	    ActivityDataObject *pObject = g_pActivityDataObjectPool->NewOjbect(FALSE);
-	    pObject->lock();
-	    pObject->m_dwActivityID = ActivityItem.activityid();
-	    pObject->m_uRoleID = ActivityItem.roleid();
-	    pObject->unlock();
-	    m_mapActivityData.insert(std::make_pair(pObject->m_dwActivityID, pObject));
+		const DBActivityItem& ActivityItem = ActivityData.activitylist(i);
+		ActivityDataObject* pObject = g_pActivityDataObjectPool->NewOjbect(FALSE);
+		pObject->lock();
+		pObject->m_dwActivityID = ActivityItem.activityid();
+		pObject->m_uRoleID = ActivityItem.roleid();
+		pObject->unlock();
+		m_mapActivityData.insert(std::make_pair(pObject->m_dwActivityID, pObject));
 	}
 	return TRUE;
 }

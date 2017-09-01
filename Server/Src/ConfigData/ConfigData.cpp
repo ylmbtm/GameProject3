@@ -238,7 +238,7 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 		StActor stValue;
 		stValue.dwID = QueryData.getIntField("Id");
 		int nIndex  = QueryData.fieldIndex("P1");
-		for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+		for(int i = 0; i < PROPERTY_NUM; i++)
 		{
 			stValue.Propertys[i] = QueryData.getIntField(i + nIndex, 0);
 		}

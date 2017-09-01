@@ -27,7 +27,7 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue);
+	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
 public:
 	UINT64 AddEquip(UINT32 dwEquipID);

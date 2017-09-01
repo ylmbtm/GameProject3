@@ -322,7 +322,7 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 	Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
 	Req.mutable_roledata()->set_name(pModule->m_pRoleDataObject->m_szName);
 
-	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		Req.mutable_roledata()->add_propertys(m_Propertys[i]);
 	}
@@ -336,8 +336,8 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 
 BOOL CPlayerObject::CalcFightDataInfo()
 {
-	INT32 PropertyValue[MAX_PROPERTY_NUM] = {0};
-	INT32 PropertyPercent[MAX_PROPERTY_NUM] = {0};
+	INT32 PropertyValue[PROPERTY_NUM] = {0};
+	INT32 PropertyPercent[PROPERTY_NUM] = {0};
 	INT32 FightValue = 0;
 
 	for(int nIndex = MT_ROLE; nIndex < MT_END; nIndex++)
@@ -350,9 +350,9 @@ BOOL CPlayerObject::CalcFightDataInfo()
 	ERROR_RETURN_FALSE(pModule != NULL);
 	StLevelInfo* pLevelInfo = CConfigData::GetInstancePtr()->GetCarrerLevelInfo(pModule->m_pRoleDataObject->m_CarrerID, pModule->m_pRoleDataObject->m_Level);
 	ERROR_RETURN_FALSE(pLevelInfo != NULL);
-	memcpy(PropertyValue, pLevelInfo->Propertys, sizeof(INT32)*MAX_PROPERTY_NUM);
+	memcpy(PropertyValue, pLevelInfo->Propertys, sizeof(INT32)*PROPERTY_NUM);
 
-	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		m_Propertys[i] = PropertyValue[i] + PropertyValue[i] * PropertyPercent[i] / 10000;
 	}

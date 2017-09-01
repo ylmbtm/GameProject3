@@ -62,7 +62,7 @@ BOOL CMailModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 
 
-BOOL CMailModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CMailModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 
 

@@ -41,7 +41,7 @@ BOOL CBuffObject::OnAddBuff()
 		}
 	}
 
-	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		m_PtyChange[i] += m_pSceneObject->m_Propertys[i] * m_pBuffInfo->PtyPercent[i] / 10000;
 		m_PtyChange[i] += m_pBuffInfo->PtyValue[i];
@@ -73,7 +73,7 @@ BOOL CBuffObject::OnRemoveBuff()
 		}
 	}
 
-	for(int i = 0; i < MAX_PROPERTY_NUM; i++)
+	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		m_pSceneObject->m_Propertys[i] -= m_PtyChange[i];
 	}

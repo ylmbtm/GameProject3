@@ -2,13 +2,13 @@
 #define __SERVER_DEFINE_H__
 
 //货币数量
-#define MAX_MONEY_NUM 15
+#define MONEY_NUM 15
 
 //行动力数量
-#define MAX_ACTION_NUM 4
+#define ACTION_NUM 4
 
 //角色属性个数
-#define MAX_PROPERTY_NUM 21
+#define PROPERTY_NUM 21
 
 //角色的最大等级
 #define MAX_ROLE_LEVEL 150
@@ -53,5 +53,16 @@ enum ESealState
 	SS_NO   = 2
 };
 
+
+enum EActivtyType
+{
+	ACT_NONE = 0,
+	ACT_LOGIN = 1,
+	ACT_SINCHRAGE = 2,
+	ACT_SUMCHARGE = 3,
+	ACT_OPEN_FUND = 4,
+	ACT_DISCOUNT_SALE = 5,
+
+};
 
 #endif //__SERVER_STRUCT_H__

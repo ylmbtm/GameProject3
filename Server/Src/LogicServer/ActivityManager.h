@@ -8,8 +8,12 @@ class CActivityManager
 	~CActivityManager();
 public:
 	static CActivityManager* GetInstancePtr();
-
 public:
+
+	BOOL Init();
+
+	BOOL ActivityTimer(UINT32 dwData);
+
 
 };
 #endif

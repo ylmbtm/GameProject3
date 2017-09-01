@@ -49,7 +49,7 @@ struct StActor
 
 	}
 	UINT32  dwID;
-	INT32   Propertys[MAX_PROPERTY_NUM];
+	INT32   Propertys[PROPERTY_NUM];
 	std::string strName;
 
 };
@@ -82,7 +82,7 @@ struct StLevelInfo
 	UINT32 dwCarrerID;
 	UINT32 dwLevel;
 	UINT32 dwNeedExp;
-	INT32 Propertys[MAX_PROPERTY_NUM];
+	INT32 Propertys[PROPERTY_NUM];
 	UINT32 dwFightValue;
 };
 
@@ -219,8 +219,8 @@ struct StBuffInfo
 	UINT32 BuffID;		//! 任务ID
 	UINT32 BuffType;    //! Buff类型
 	UINT32 BuffEffect;  //! Buff目标需要加的特效
-	INT32  PtyValue[MAX_PROPERTY_NUM];	//加属性值
-	INT32  PtyPercent[MAX_PROPERTY_NUM];  //加属性百分比
+	INT32  PtyValue[PROPERTY_NUM];	//加属性值
+	INT32  PtyPercent[PROPERTY_NUM];  //加属性百分比
 };
 
 
@@ -237,9 +237,11 @@ struct StActivityInfo
 	std::string Name;
 	std::string Desc;
 	std::string Ad;
+	UINT32 Statue;
 	UINT32 ActivityType;
 	UINT32 AwardIndex;
-
+	UINT32 StartTime;
+	UINT32 EndTime;
 };
 
 

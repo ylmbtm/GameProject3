@@ -66,7 +66,7 @@ public:
 	//计算角色，宠物， 伙伴的战斗属性
 	BOOL		CalcFightDataInfo();
 
-	INT32       m_Propertys[MAX_PROPERTY_NUM];
+	INT32       m_Propertys[PROPERTY_NUM];
 
 
 

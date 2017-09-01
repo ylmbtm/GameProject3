@@ -145,7 +145,7 @@ EquipDataObject* CEquipModule::GetEquipByGuid(UINT64 uGuid)
 	return NULL;
 }
 
-BOOL CEquipModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	INT32 nMinStengthLevel = 10000;
 	INT32 nMinRefineLevel = 1000;

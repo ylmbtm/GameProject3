@@ -25,13 +25,13 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_Level = 1;
 
-	for(int i = 0; i < MAX_ACTION_NUM; i++)
+	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		m_pRoleDataObject->m_Action[i] = CConfigData::GetInstancePtr()->GetActoinMaxValue(i + 1);
 		m_pRoleDataObject->m_Actime[i] = 0;
 	}
 
-	for(int i = 0; i < MAX_MONEY_NUM; i++)
+	for(int i = 0; i < MONEY_NUM; i++)
 	{
 		m_pRoleDataObject->m_Money[i] = 100000;
 	}
@@ -74,7 +74,7 @@ BOOL CRoleModule::OnLogin()
 	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 	m_dwActorID = pInfo->dwActorID;
-	for(int i = 0; i < MAX_ACTION_NUM; i++)
+	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		UpdateAction(i + 1);
 	}
@@ -143,12 +143,12 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	Ack.set_exp(m_pRoleDataObject->m_Exp);
 	Ack.set_viplvl(m_pRoleDataObject->m_VipLvl);
 	Ack.set_vipexp(m_pRoleDataObject->m_VipExp);
-	for(int i = 0; i < MAX_MONEY_NUM; i++)
+	for(int i = 0; i < MONEY_NUM; i++)
 	{
 		Ack.add_money(m_pRoleDataObject->m_Money[i]);
 	}
 
-	for(int i = 0; i < MAX_ACTION_NUM; i++)
+	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		Ack.add_action(m_pRoleDataObject->m_Action[i]);
 		Ack.add_actime(m_pRoleDataObject->m_Actime[i]);
@@ -157,14 +157,14 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CRoleModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CRoleModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }
 
 BOOL CRoleModule::CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 {
-	if ((dwMoneyID <= 0) || (dwMoneyID > MAX_MONEY_NUM))
+	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("CostMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
 		return FALSE;
@@ -190,7 +190,7 @@ BOOL CRoleModule::CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 
 BOOL CRoleModule::CheckMoneyEnough(UINT32 dwMoneyID, INT32 nMoneyNum)
 {
-	if ((dwMoneyID <= 0) || (dwMoneyID > MAX_MONEY_NUM))
+	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("CheckMoneyEnough Error: Inavlid dwMoneyID :%d", dwMoneyID);
 		return FALSE;
@@ -212,7 +212,7 @@ BOOL CRoleModule::CheckMoneyEnough(UINT32 dwMoneyID, INT32 nMoneyNum)
 
 UINT64 CRoleModule::GetMoney(UINT32 dwMoneyID)
 {
-	if ((dwMoneyID <= 0) || (dwMoneyID >= MAX_MONEY_NUM))
+	if ((dwMoneyID <= 0) || (dwMoneyID >= MONEY_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("GetMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
 		return 0;
@@ -229,7 +229,7 @@ UINT64 CRoleModule::AddMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 		return m_pRoleDataObject->m_Money[dwMoneyID - 1];
 	}
 
-	if ((dwMoneyID <= 0) || (dwMoneyID > MAX_MONEY_NUM))
+	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("AddMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
 		return 0;
@@ -248,7 +248,7 @@ UINT64 CRoleModule::AddMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
 
 BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 {
-	if ((dwActionID <= 0) || (dwActionID >= MAX_ACTION_NUM))
+	if ((dwActionID <= 0) || (dwActionID >= ACTION_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("CostAction Error: Inavlid dwActionID :%d", dwActionID);
 		return FALSE;
@@ -285,7 +285,7 @@ BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 
 BOOL CRoleModule::CheckActionEnough(UINT32 dwActionID, INT32 nActionNum)
 {
-	if ((dwActionID <= 0) || (dwActionID > MAX_ACTION_NUM))
+	if ((dwActionID <= 0) || (dwActionID > ACTION_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("CheckActionEnough Error: Inavlid dwActionID :%d", dwActionID);
 		return FALSE;
@@ -314,7 +314,7 @@ BOOL CRoleModule::CheckActionEnough(UINT32 dwActionID, INT32 nActionNum)
 
 UINT64 CRoleModule::GetAction(UINT32 dwActionID)
 {
-	if ((dwActionID <= 0) || (dwActionID > MAX_ACTION_NUM))
+	if ((dwActionID <= 0) || (dwActionID > ACTION_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("GetAction Error: Inavlid dwActionID :%d", dwActionID);
 		return 0;
@@ -327,7 +327,7 @@ UINT64 CRoleModule::GetAction(UINT32 dwActionID)
 
 UINT64 CRoleModule::AddAction(UINT32 dwActionID, INT32 nActionNum)
 {
-	if ((dwActionID <= 0) || (dwActionID > MAX_ACTION_NUM))
+	if ((dwActionID <= 0) || (dwActionID > ACTION_NUM))
 	{
 		CLog::GetInstancePtr()->LogError("AddAction Error: Inavlid dwActionID :%d", dwActionID);
 		return 0;

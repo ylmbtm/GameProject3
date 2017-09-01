@@ -26,21 +26,27 @@ struct RoleDataObject : public ShareObject
 	}
 
 
-	UINT64 m_u64ID;			//角色ID
-	UINT64 m_u64AccountID;	//账号ID
-	CHAR   m_szName[255];	//角色名
-	INT32  m_CarrerID;      //职业ID
-	INT32 m_Level;			//等级
-	INT64 m_Money[MAX_MONEY_NUM];		//所有的货币
-	INT64 m_Action[MAX_ACTION_NUM];		//所有的体力
-	INT64 m_Actime[MAX_ACTION_NUM];		//体力恢复时间
-	INT64 m_Exp;			//经验
-	INT32 m_nLangID;		//语言ID
-	INT64 m_u64Fight;		//战力
-	INT32 m_VipLvl;			//VIP等级
-	INT32 m_VipExp;			//VIP经验
-	INT32 m_CityCopyID;		//主城副本类型
-	BOOL  m_bDelete;        //是否删除
+	UINT64		m_u64ID;			//角色ID
+	UINT64		m_u64AccountID;	//账号ID
+	CHAR		m_szName[255];	//角色名
+	INT32		m_CarrerID;      //职业ID
+	INT32		m_Level;			//等级
+	INT64		m_Money[MONEY_NUM];		//所有的货币
+	INT64		m_Action[ACTION_NUM];		//所有的体力
+	INT64		m_Actime[ACTION_NUM];		//体力恢复时间
+	INT64		m_Exp;			//经验
+	INT32		m_nLangID;		//语言ID
+	INT64		m_u64Fight;		//战力
+	INT32		m_VipLvl;			//VIP等级
+	INT32		m_VipExp;			//VIP经验
+	INT32		m_CityCopyID;		//主城副本类型
+	BOOL		m_bDelete;        //是否删除
+
+	//签到数据
+	INT32		m_nSignNum;        //签到天数
+	UINT32		m_nSignDay;        //最新的签到时间
+	UINT32		m_RecvAction;	   //领取体力标记
+
 
 	BOOL Save(IDataBase* pDB)
 	{

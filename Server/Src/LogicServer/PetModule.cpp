@@ -76,7 +76,7 @@ BOOL CPetModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CPetModule::CalcFightValue(INT32 nValue[MAX_PROPERTY_NUM], INT32 nPercent[MAX_PROPERTY_NUM], INT32& FightValue)
+BOOL CPetModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }
