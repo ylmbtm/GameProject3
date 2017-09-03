@@ -1,299 +1,307 @@
 ﻿syntax = "proto3";
 message CheckVersionReq {
-    int32  ClientVerion = 1;
-	string PackageName  = 2;
-	int32  Channel     = 3;
+	int32	ClientVerion	= 1;
+	string	PackageName	= 2;
+	int32	Channel		= 3;
 }
 
 message CheckVersionAck {
-	uint32 RetCode 		 = 1;
-    int32  ClientVerion  = 2;
-	string PackageName   = 3;
+	uint32	RetCode		= 1;
+	int32	ClientVerion	= 2;
+	string	PackageName	= 3;
 }
 
 message AccountRegReq {
-    string  AccountName = 1;
-	string  Password    = 2;
-	int32   Channel     = 3;
+	string	AccountName	= 1;
+	string	Password	= 2;
+	int32	Channel		= 3;
 }
 
 message AccountRegAck {
-    uint32   RetCode       = 1;
-	uint64   AccountID     = 2; //账号ID
+	uint32	RetCode		= 1;
+	uint64	AccountID	= 2; //账号ID
 }
 
 message AccountLoginReq {
-    string AccountName = 1;
-	string Password    = 2;
-	int32  Channel     = 3;
+	string	AccountName	= 1;
+	string	Password	= 2;
+	int32	Channel		= 3;
 }
 
 message AccountLoginAck {
-	uint32   RetCode   = 1;
-	uint64   AccountID = 2;
-	int32    LastSvrID = 3;  //上次登录SvrID
-	string   LastSvrName = 4;
+	uint32	RetCode		= 1;
+	uint64	AccountID	= 2;
+	int32	LastSvrID	= 3;  //上次登录SvrID
+	string	LastSvrName	= 4;
 }
 
 
 message ClientServerListReq {
-	uint64   AccountID     = 1;
-	int32    Channel       = 2; //渠道包
-	string   PackName      = 3; //包名
-	int32    ClientVersion = 4; //客户端版本号
+	uint64	AccountID	= 1;
+	int32	Channel		= 2; //渠道包
+	string	PackName	= 3; //包名
+	int32	ClientVersion	= 4; //客户端版本号
 }
 
 
 message ClientServerNode {
-	int32   SvrID         = 1;
-	string  SvrName      = 2;
-	int32   SvrState     = 3;
-	int32   SvrDefault   = 4;
-	int32   SvrOpenTime   = 5;
+	int32	SvrID		= 1;
+	string	SvrName		= 2;
+	int32	SvrState	= 3;
+	int32	SvrDefault	= 4;
+	int32	SvrOpenTime	= 5;
 }
 
 message ClientServerListAck {
-	uint32   RetCode 					= 1;
-	repeated  ClientServerNode SvrNode 	= 2;
+	uint32	RetCode	= 1;
+	repeated ClientServerNode SvrNode	= 2;
 }
 
 
 message SvrRegToSvrReq {
-    int32  ServerID = 1;
-	string ServerName = 2;
-	string ServerIp   = 3;
-	int32  ServerPort = 4;
+	int32	ServerID	= 1;
+	string	ServerName	= 2;
+	string	ServerIp	= 3;
+	int32	ServerPort	= 4;
 }
 
 message SvrRegToSvrAck {
-    uint32   RetCode       = 1;
+	uint32	RetCode	= 1;
 }
 
 message SelectServerReq {
-    int32 ServerID = 1;
+	int32	ServerID	= 1;
 }
 
 message SelectServerAck {
-    uint32   RetCode       = 1;
-	int32    ServerID      = 2;
-	string   ServerAddr    = 3;
-	int32    ServerPort    = 4;
-	int32    LoginCode     = 5;
+	uint32	RetCode		= 1;
+	int32	ServerID	= 2;
+	string	ServerAddr	= 3;
+	int32	ServerPort	= 4;
+	int32	LoginCode	= 5;
 }
 
 message RoleItem {
-	uint64  RoleID          = 1;
-	string  Name			= 2;
-	int32   Carrer          = 3;
-	int32   Level			= 4;
+	uint64	RoleID	= 1;
+	string	Name	= 2;
+	int32	Carrer	= 3;
+	int32	Level	= 4;
 }
 
 message RoleListReq {
-	uint64 	AccountID = 1;
-	int32   LoginCode = 2;
+	uint64	AccountID	= 1;
+	int32	LoginCode	= 2;
 }
 
 message RoleListAck {
-	uint32    RetCode = 1;
+	uint32	RetCode = 1;
 	repeated  RoleItem RoleList = 2;
 }
 
-
 message RoleCreateReq {
-    uint64 AccountID = 1;
-	string Name = 2;
-	int32  Carrer = 3;
-	int32  Channel = 4;
+	uint64	AccountID	= 1;
+	string	Name		= 2;
+	int32	Carrer		= 3;
+	int32	Channel		= 4;
 }
 
 message RoleCreateAck {
-    uint32   RetCode = 1;
-	uint64	 AccountID = 2;
-	uint64   RoleID = 3;
-	string   Name = 4;
-	int32    Carrer = 5;
+	uint32	RetCode		= 1;
+	uint64	AccountID	= 2;
+	uint64	RoleID		= 3;
+	string	Name		= 4;
+	int32	Carrer		= 5;
 }
 
-
 message RoleDeleteReq {
-    uint64 AccountID = 1;
-	uint64 RoleID = 2;
+	uint64	AccountID	= 1;
+	uint64	RoleID		= 2;
 }
 
 message RoleDeleteAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
 }
 
 message RoleLoginReq {
-	uint64 AccountID = 1;
-	uint64 RoleID = 2;
-	int32  LoginCode = 3;
+	uint64	AccountID	= 1;
+	uint64	RoleID		= 2;
+	int32	LoginCode	= 3;
 }
 
 message RoleLogoutReq {
-    uint64 AccountID = 1;
+	uint64	AccountID = 1;
 }
 
 message RoleLogoutAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
 }
 
 message RoleDisconnectReq {
-	uint64 RoleID = 1;
+	uint64	AccountID	= 1;
+	uint64	RoleID		= 2;
+	int32	LoginCode	= 3;
 }
 
 message RoleDisconnectAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
+}
+
+message RoleReconnectReq {
+	uint64	RoleID = 1;
+}
+
+message RoleReconnectAck {
+	uint32	RetCode = 1;
 }
 
 
 ///创建场景
 message CreateNewSceneReq{
-	int32 CopyID = 1;
-	int32 CopyType = 2;
-	int32 PlayerNum = 3;
-	uint64 CreateParam = 4;
+	int32	CopyID		= 1;
+	int32	CopyType	= 2;
+	int32	PlayerNum	= 3;
+	uint64	CreateParam	= 4;
 }
 
 ///创建场景
 message CreateNewSceneAck{
-	uint32  RetCode     = 1;
-	int32   CopyID      = 2;
-	int32   CopyGuid    = 3;
-	uint64  CreateParam = 4;
-	int32  ServerID     = 5;
-	int32  CopyType    = 6;
-	int32 PlayerNum	    = 7;
+	uint32	RetCode		= 1;
+	int32	CopyID		= 2;
+	int32	CopyGuid	= 3;
+	uint64	CreateParam	= 4;
+	int32	ServerID	= 5;
+	int32	CopyType	= 6;
+	int32	PlayerNum	= 7;
 }
 
 ////
 message EnterSceneReq {
-	uint64 RoleID  = 1;
-	int32  ServerID  = 2; //场景服ID
-	int32  CopyGuid  = 3;  //副本实例ID
-	int32  CopyID  = 4;  //副本类型ID
+	uint64	RoleID		= 1;
+	int32	ServerID	= 2; //场景服ID
+	int32	CopyGuid	= 3;  //副本实例ID
+	int32	CopyID		= 4;  //副本类型ID
 }
 
 message EnterSceneAck {
-    uint32   RetCode = 1;
-	int32    CopyID = 2;
-	int32    CopyGuid = 3;
+	uint32	RetCode		= 1;
+	int32	CopyID		= 2;
+	int32	CopyGuid	= 3;
 	//以下是主角创建需要信息
-	uint64   RoleID = 4;
-	int32    Carrer = 5;
-	int32    ActorID = 6;
-	string   RoleName = 7;
-	int32      Camp = 8;
-	float	 x = 9;
-	float    y = 10;
-	float    z = 11;
-	float    ft = 12;
-	int32   hp = 13;
-	int32   mp = 14;
-	int32   hpmax = 15;
-	int32   mpmax = 16;
-	int32   weapon = 17; //武器
+	uint64	RoleID		= 4;
+	int32	Carrer		= 5;
+	int32	ActorID		= 6;
+	string	RoleName	= 7;
+	int32	Camp		= 8;
+	float	x		= 9;
+	float	y		= 10;
+	float	z		= 11;
+	float	ft		= 12;
+	int32	hp		= 13;
+	int32	mp		= 14;
+	int32	hpmax		= 15;
+	int32	mpmax		= 16;
+	int32	weapon		= 17; //武器
 }
 
 message AbortCopyReq {
-	int32   CopyID  = 1;  //副本类型
-	int32   CopyGuid = 2;
-	int32   ServerID = 3;
+	int32	CopyID		= 1;  //副本类型
+	int32	CopyGuid	= 2;
+	int32	ServerID	= 3;
 }
 
 message AbortCopyAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
 }
 
 
 message BackToCityReq {
-    uint32  Param = 1;
+	uint32	Param = 1;
 }
 
 message BackToCityAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
 }
 
 
 
 message LeaveSceneReq {
-    uint64  RoleID = 1;
-	int32   Reason = 2;
+	uint64	RoleID = 1;
+	int32	Reason = 2;
 }
 
 message LeaveSceneAck {
-    uint32   RetCode = 1;
+	uint32	RetCode = 1;
 }
 ///
 
 message TransRoleData {
-	uint64  RoleID = 1;
-	string  Name = 2;
-	int32   CarrerID = 3;
-	int32   ActorID = 4;
-	int32   Level = 5;
-	repeated int32  Propertys = 6;
+	uint64	RoleID		= 1;
+	string	Name		= 2;
+	int32	CarrerID	= 3;
+	int32	ActorID		= 4;
+	int32	Level		= 5;
+	repeated int32 Propertys = 6;
 }
 
 message TransPetData {
-	uint64  PetGuid = 1;
-	int32   PetID   = 2;
-	int32   ActorID = 3;
-	string  Name    = 4;
-	int32   Level   = 5;
-	repeated int32  Propertys = 6;
+	uint64	PetGuid		= 1;
+	int32	PetID		= 2;
+	int32	ActorID		= 3;
+	string	Name		= 4;
+	int32	Level		= 5;
+	repeated int32 Propertys = 6;
 }
 
 
 message TransPartnerData {
-	uint64  PartnerGuid = 1;
-	int32   ParterID  = 2;
-	int32   ActorID = 3;
-	string  Name = 4;
-	int32   Level = 5;
-	repeated int32  Propertys = 6;
+	uint64	PartnerGuid	= 1;
+	int32	ParterID	= 2;
+	int32	ActorID		= 3;
+	string	Name		= 4;
+	int32	Level		= 5;
+	repeated int32 Propertys = 6;
 }
 
 message TransferDataReq {
-	int32   Camp = 1;			//战场中的阵营
-	TransRoleData RoleData = 2;
-	TransPetData  PetData = 3;
-	TransPartnerData PartnerData = 4;
+	int32			Camp		= 1;			//战场中的阵营
+	TransRoleData		RoleData	= 2;
+	TransPetData		PetData		= 3;
+	TransPartnerData	PartnerData	= 4;
 }
 
 message TransferDataAck {
-    uint32   RetCode = 1;
-	uint64   RoleID = 2;
-	int32    CopyID = 3;
-	int32    CopyGuid = 4;
-	int32    ServerID = 5;
+	uint32	RetCode		= 1;
+	uint64	RoleID		= 2;
+	int32	CopyID		= 3;
+	int32	CopyGuid	= 4;
+	int32	ServerID	= 5;
 } 
 
 message NotifyIntoScene {
-    uint64   RoleID   = 1;
-	int32    CopyID   = 2;
-	int32    CopyGuid = 3;
-	int32    ServerID  = 4;
+	uint64	RoleID		= 1;
+	int32	CopyID		= 2;
+	int32	CopyGuid	= 3;
+	int32	ServerID	= 4;
 }
 
 message NearByRoleItem {
-	uint64  RoleID = 1;
-	int32   ActorID = 2;
-	int32   Level = 3;
-	string  Name = 4;
+	uint64	RoleID	= 1;
+	int32	ActorID	= 2;
+	int32	Level	= 3;
+	string	Name	= 4;
 	
 }
 
 message CopyItem {
-    uint32  CopyGuid =   1;
-	int32   CopyID = 2;
-	int32   CopyType = 3;
-	int32   ServerID = 4;
+	uint32	CopyGuid	= 1;
+	int32	CopyID		= 2;
+	int32	CopyType	= 3;
+	int32	ServerID	= 4;
 }
 
 
 message CopyReportReq {
-	int32 ServerID = 1;
+	int32	ServerID = 1;
 	repeated CopyItem CopyList = 2;
 }
 
@@ -303,47 +311,47 @@ message UseHpBottleReq {
 }
 
 message UseHpBottleAck {
-	uint32 RetCode = 1;
-	int32  Count = 2;
+	uint32	RetCode = 1;
+	int32	Count = 2;
 }
 
 message UseMpBottleReq {
 }
 
 message UseMpBottleAck {
-	uint32 RetCode = 1;
-	int32  Count = 2;
+	uint32	RetCode = 1;
+	int32	Count = 2;
 }
 
 message ChatMessageReq {
-	string SrcName = 1;
-	uint64 SrcID   = 2;
-	int32  Channel = 3;
-	uint64 GuildID = 4;
-	string Content = 5;
+	string	SrcName		= 1;
+	uint64	SrcID		= 2;
+	int32	Channel		= 3;
+	uint64	GuildID		= 4;
+	string	Content		= 5;
 }
 
 message ChatMessageAck {
-	uint32 RetCode = 1;
+	uint32	RetCode = 1;
 }
 
 message ChatMessageNty {
-	string SrcName = 1;
-	uint64 SrcID   = 2;
-	int32  Channel = 3;
-	uint64 GuildID = 4;
-	string Content = 5;
+	string	SrcName		= 1;
+	uint64	SrcID		= 2;
+	int32	Channel		= 3;
+	uint64	GuildID		= 4;
+	string	Content		= 5;
 }
 
 message SealAccountReq {
-    string  AccountName = 1;
-	uint64  AccountID   = 2;
-	int32   SealTime    = 3;
-	bool	Seal        = 4;
+	string	AccountName	= 1;
+	uint64	AccountID	= 2;
+	int32	SealTime	= 3;
+	bool	Seal		= 4;
 }
 
 message SealAccountAck {
-    uint32   RetCode       = 1;
-	string   AccountName = 2;
-	uint64   AccountID     = 3; //账号ID
+	uint32	RetCode		= 1;
+	string	AccountName	= 2;
+	uint64	AccountID	= 3; //账号ID
 }

@@ -5,12 +5,12 @@
 #include "PlayerObject.h"
 #include "PlayerManager.h"
 
-class CWorldMsgHandler
+class CLogicMsgHandler
 {
 public:
-	CWorldMsgHandler();
+	CLogicMsgHandler();
 
-	~CWorldMsgHandler();
+	~CLogicMsgHandler();
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
@@ -42,6 +42,8 @@ public:
 	BOOL OnMsgBackToCityReq(NetPacket* pNetPacket);
 	BOOL OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
+    BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
+    
 	//*********************消息处理定义结束******************************
 	CPlayerManager    m_PlayerManager;
 };

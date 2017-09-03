@@ -71,7 +71,7 @@ BOOL CGameService::Init()
 
 	ConnectToDBSvr();
 
-	m_WorldMsgHandler.Init(0);
+	m_LogicMsgHandler.Init(0);
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
@@ -192,7 +192,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	if(m_WorldMsgHandler.DispatchPacket(pNetPacket))
+	if(m_LogicMsgHandler.DispatchPacket(pNetPacket))
 	{
 		return TRUE;
 	}

@@ -57,7 +57,7 @@ enum ESealState
 enum EActivtyType
 {
 	ACT_NONE = 0,
-	ACT_LOGIN = 1,
+	ACT_LOGINAWARD = 1,
 	ACT_SINCHRAGE = 2,
 	ACT_SUMCHARGE = 3,
 	ACT_OPEN_FUND = 4,

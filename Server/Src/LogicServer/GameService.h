@@ -43,7 +43,7 @@ public:
 	UINT32      GetServerID();
 
 public:
-	CWorldMsgHandler		m_WorldMsgHandler;
+	CLogicMsgHandler m_LogicMsgHandler;
 
 	UINT32			m_dwLogConnID;
 	UINT32			m_dwLoginConnID;

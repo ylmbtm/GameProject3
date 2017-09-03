@@ -46,6 +46,7 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		case MSG_ROLE_CREATE_REQ:
 		case MSG_ROLE_DELETE_REQ:
 		case MSG_ROLE_LOGIN_REQ:
+        case MSG_ROLE_RECONNECT_REQ:
 		{
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
@@ -59,6 +60,14 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
+        case MSG_ROLE_LOGOUT_REQ:
+        {
+            RelayToLogicServer(pNetPacket->m_pDataBuffer);
+            CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+            ERROR_RETURN_TRUE(pConnection != NULL);
+            pConnection->SetConnectionData(0);
+        }
+        break;
 		case MSG_ENTER_SCENE_REQ:
 		{
 			//创建proxyplayer对象

@@ -2,6 +2,12 @@
 #define __ACTIVITY_DATA_OBJECT_H__
 #include "ServerStruct.h"
 
+//登录奖励
+struct LoginAward
+{
+
+};
+
 struct  FirstCharge
 {
 
@@ -39,6 +45,8 @@ struct  SinRecharge
 {
 
 };
+
+
 
 struct ActivityDataObject : public ShareObject
 {

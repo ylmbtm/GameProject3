@@ -27,11 +27,11 @@ BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 
 		}
 
-		if(tempInfo.ActivityType == ACT_LOGIN)
+		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
 			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
-			pTempObject->m_dwActivityType = ACT_LOGIN;
+			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
 
 	}
@@ -59,11 +59,11 @@ BOOL CActivityModule::OnLogin()
 
 		}
 
-		if(tempInfo.ActivityType == ACT_LOGIN)
+		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
 			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
-			pTempObject->m_dwActivityType = ACT_LOGIN;
+			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
 
 	}

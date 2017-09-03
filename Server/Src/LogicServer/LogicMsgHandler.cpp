@@ -19,29 +19,29 @@
 #include "CommonConvert.h"
 #include "BagModule.h"
 
-CWorldMsgHandler::CWorldMsgHandler()
+CLogicMsgHandler::CLogicMsgHandler()
 {
 
 }
 
-CWorldMsgHandler::~CWorldMsgHandler()
+CLogicMsgHandler::~CLogicMsgHandler()
 {
 
 }
 
-BOOL CWorldMsgHandler::Init(UINT32 dwReserved)
+BOOL CLogicMsgHandler::Init(UINT32 dwReserved)
 {
 
 
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::Uninit()
+BOOL CLogicMsgHandler::Uninit()
 {
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::DispatchPacket(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
@@ -59,6 +59,8 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_BACK_TO_CITY_REQ,		OnMsgBackToCityReq);
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
+            PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
+            
 		default:
 		{
 			PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
@@ -75,7 +77,7 @@ BOOL CWorldMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 
 
 
-BOOL CWorldMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 {
 	SelectServerReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -88,7 +90,7 @@ BOOL CWorldMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 {
 	RoleListReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -99,7 +101,7 @@ BOOL CWorldMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleListAck(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleListAck(NetPacket* pNetPacket)
 {
 	RoleListAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -109,7 +111,7 @@ BOOL CWorldMsgHandler::OnMsgRoleListAck(NetPacket* pNetPacket)
 }
 
 
-BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 {
 	RoleCreateReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -140,7 +142,7 @@ BOOL CWorldMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 {
 	RoleDeleteReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -165,7 +167,7 @@ BOOL CWorldMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_DELETE_REQ, pHeader->u64TargetID, 0, Ack);
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 {
 	RoleLoginReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -211,7 +213,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleLoginAck(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleLoginAck(NetPacket* pNetPacket)
 {
 	DBRoleLoginAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -226,7 +228,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLoginAck(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgRoleLogoutReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleLogoutReq(NetPacket* pNetPacket)
 {
 	RoleLogoutReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -251,7 +253,7 @@ BOOL CWorldMsgHandler::OnMsgRoleLogoutReq(NetPacket* pNetPacket)
 
 
 
-BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 {
 	RoleDisconnectReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -277,7 +279,7 @@ BOOL CWorldMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgMainCopyReq(NetPacket* pNetPacket)
 {
 	MainCopyReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -304,7 +306,7 @@ BOOL CWorldMsgHandler::OnMsgMainCopyReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgAbortCopyReq(NetPacket* pNetPacket)
 {
 	AbortCopyReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -327,7 +329,7 @@ BOOL CWorldMsgHandler::OnMsgAbortCopyReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
+BOOL CLogicMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
 {
 	BackToCityReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -346,12 +348,12 @@ BOOL CWorldMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgRegToLoginAck(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgRegToLoginAck(NetPacket* pNetPacket)
 {
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
+BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 {
 	ChatMessageReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -392,7 +394,7 @@ BOOL CWorldMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CWorldMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
+BOOL CLogicMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
 {
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
 	ERROR_RETURN_TRUE(pPlayer != NULL);
@@ -411,4 +413,37 @@ BOOL CWorldMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 	}
 
 	return TRUE;
+}
+
+BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
+{
+    RoleReconnectReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+    CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+    if(pPlayer == NULL)
+    {
+        //重连失败，请重新登录
+        return TRUE;
+    }
+
+    if((pPlayer->m_dwProxyConnID != 0) || (pPlayer->m_dwClientConnID != 0))
+    {
+        //当重连发生的时候，理论上这个连接己经断开了。这两个值应该为空了，
+        //如果此时这两个值为空，那么，还会有其它的情况发生。
+        //此时应该直接选设置这两个值
+        //由于副本己经被退出， 所以此时应该将玩家放到主城
+        CLog::GetInstancePtr()->LogError("OnMsgReconnectReq 断开消都还没有收到， 重连的消息就到了");
+    }
+
+    pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
+
+    CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetObjectID(), pPlayer->GetCityCopyID());
+
+    pPlayer->m_dwCopyID = 0;
+
+    pPlayer->m_dwCopyGuid = 0;
+
+    return TRUE;
 }
