@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CopyModule.h"
+#include "SharedMemory.h"
+#include "DataPool.h"
 
 CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -41,21 +43,17 @@ BOOL CCopyModule::OnNewDay()
 BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	const DBCopyData& CopyData = Ack.copydata();
-	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
+	for(int i = 0; i < CopyData.copylist_size(); i++)
 	{
-	const DBBagItemData &ItemData = BagData.itemlist(i);
+		const DBCopyItem &CopyItem = CopyData.copylist(i);
 
-	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
-	pObject->lock();
-	pObject->m_uGuid = ItemData.guid();
-	pObject->m_uRoleID = ItemData.roleid();
-	pObject->m_BagType = ItemData.bagtype();
-	pObject->m_bBind = ItemData.bind();
-	pObject->m_ItemGuid = ItemData.itemguid();
-	pObject->m_ItemID = ItemData.itemid();
-	pObject->unlock();
-	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	}*/
+		CopyDataObject *pObject = g_pCopyDataObjectPool->NewOjbect(FALSE);
+		pObject->lock();
+		pObject->m_uRoleID = CopyItem.roleid();
+		pObject->m_dwCopyID = CopyItem.copyid();
+		pObject->unlock();
+		m_mapCopyData.insert(std::make_pair(pObject->m_dwCopyID, pObject));
+	}
 	return TRUE;
 }
 

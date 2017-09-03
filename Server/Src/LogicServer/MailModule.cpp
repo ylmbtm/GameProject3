@@ -49,7 +49,10 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBMailData& MailData = Ack.maildata();
 	for(int i = 0; i < MailData.maillist_size(); i++)
 	{
+		MailDataObject *pObject = g_pMailDataObjectPool->NewOjbect(FALSE);
 
+
+		m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 
 	return TRUE;

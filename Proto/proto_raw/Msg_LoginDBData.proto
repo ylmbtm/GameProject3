@@ -32,6 +32,8 @@ message DBBagData {
 }
 
 message DBCopyItem {
+	uint64	RoleID = 1;			//角色ID
+	uint32  CopyID = 2;
 }
 
 message DBCopyData {
@@ -109,18 +111,35 @@ message DBActivityData {
 	repeated DBActivityItem ActivityList = 1;
 }
 
+
+message DBCounterItem {
+	uint64	RoleID		= 1;		//角色ID
+	uint64	CounterID	= 2;		//计数器ID
+	uint32	Index		= 3;		//子索引
+	uint32	Value		= 4;		//计数器值
+	uint32	Time		= 5;		//参与时间
+	uint32	Param1		= 6;		//参数1
+	uint32	Param2		= 7;		//参数2
+}
+
+message DBCounterData {
+	repeated DBCounterItem CounterList = 1;
+}
+
+
 message DBRoleLoginAck {
-	uint32		RetCode = 1;
-	uint64		RoleID = 2;
-	DBRoleData	RoleData = 3;
-	DBBagData	BagData = 4;
-	DBCopyData	CopyData = 5;
-	DBEquipData	EquipData = 6;
-	DBPetData	PetData = 7;
-	DBPartnerData	PartnerData = 8;
-	DBTaskData	TaskData = 9;
-	DBMailData	MailData = 10;
-	DBMountData	MountData = 11;
-	DBActivityData	ActivityData = 12;
+	uint32				RetCode		= 1;
+	uint64				RoleID		= 2;
+	DBRoleData			RoleData	= 3;
+	DBBagData			BagData		= 4;
+	DBCopyData			CopyData	= 5;
+	DBEquipData			EquipData	= 6;
+	DBPetData			PetData		= 7;
+	DBPartnerData		PartnerData = 8;
+	DBTaskData			TaskData	= 9;
+	DBMailData			MailData	= 10;
+	DBMountData			MountData	= 11;
+	DBActivityData		ActivityData = 12;
+	DBCounterData		CounterData = 13;
 }
 

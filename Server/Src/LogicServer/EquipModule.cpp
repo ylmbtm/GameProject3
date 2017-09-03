@@ -65,7 +65,7 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		const DBEquipItem& ItemData = EquipData.equiplist(i);
 		EquipDataObject* pObject = g_pEquipDataObjectPool->NewOjbect(FALSE);
 		pObject->m_uGuid = ItemData.guid();
-		pObject->m_u64RoleID = ItemData.roleid();
+		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_EquipID = ItemData.equipid();
 		pObject->m_StrengthLvl = ItemData.strengthlvl();
 		pObject->m_RefineLevel = ItemData.refinelevel();

@@ -53,21 +53,14 @@ BOOL CMountModule::OnNewDay()
 BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	const DBMountData& MountData = Ack.mountdata();
-	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
+	for(int i = 0; i < MountData.mountlist_size(); i++)
 	{
-	const DBBagItemData &ItemData = BagData.itemlist(i);
-
-	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
-	pObject->lock();
-	pObject->m_uGuid = ItemData.guid();
-	pObject->m_uRoleID = ItemData.roleid();
-	pObject->m_BagType = ItemData.bagtype();
-	pObject->m_bBind = ItemData.bind();
-	pObject->m_ItemGuid = ItemData.itemguid();
-	pObject->m_ItemID = ItemData.itemid();
-	pObject->unlock();
-	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	}*/
+		const DBMountItem &MountItem = MountData.mountlist(i);
+		MountDataObject *pObject = g_pMountDataObjectPool->NewOjbect(FALSE);
+		pObject->lock();
+		pObject->unlock();
+		m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	}
 	return TRUE;
 }
 

@@ -9,7 +9,7 @@ struct PetDataObject : public ShareObject
 
 	}
 
-	UINT64 m_u64ID;			//角色ID
+	UINT64 m_uRoleID;			//角色ID
 	UINT64 m_uGuid;			//guid
 	UINT32 m_PetID;			//宠物ID
 	INT32  m_StrengthLvl;   //强化等级

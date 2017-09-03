@@ -51,8 +51,8 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCar
 {
 	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(TRUE);
 	m_pRoleDataObject->lock();
-	m_pRoleDataObject->m_u64ID = u64RoleID;
-	m_pRoleDataObject->m_u64AccountID = u64AccountID;
+	m_pRoleDataObject->m_uRoleID = u64RoleID;
+	m_pRoleDataObject->m_uAccountID = u64AccountID;
 	strcpy_s(m_pRoleDataObject->m_szName, 255, Name.c_str());
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
@@ -95,8 +95,8 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 {
 	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(FALSE);
 	m_pRoleDataObject->lock();
-	m_pRoleDataObject->m_u64ID = Ack.roledata().roleid();
-	m_pRoleDataObject->m_u64AccountID = Ack.roledata().accountid();
+	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
+	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();
 	strcpy_s(m_pRoleDataObject->m_szName, 255, Ack.roledata().name().c_str());
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
 	m_pRoleDataObject->m_CarrerID = Ack.roledata().carrerid();
@@ -134,8 +134,8 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 
 BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
-	Ack.set_accountid(m_pRoleDataObject->m_u64AccountID);
-	Ack.set_roleid(m_pRoleDataObject->m_u64ID);
+	Ack.set_accountid(m_pRoleDataObject->m_uAccountID);
+	Ack.set_roleid(m_pRoleDataObject->m_uRoleID);
 	Ack.set_name(m_pRoleDataObject->m_szName);
 	Ack.set_level(m_pRoleDataObject->m_Level);
 	Ack.set_carrer(m_pRoleDataObject->m_CarrerID);

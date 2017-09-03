@@ -5,7 +5,7 @@ struct CopyDataObject : public ShareObject
 {
 	CopyDataObject()
 	{
-		m_u64ID = 0;
+		m_uRoleID = 0;
 		m_dwChaper = 0;
 		m_dwBattleTimes = 0;
 		m_dwResetTimes = 0;
@@ -13,7 +13,7 @@ struct CopyDataObject : public ShareObject
 		m_dwCopyID = 0;
 	}
 
-	UINT64 m_u64ID;
+	UINT64 m_uRoleID;
 	UINT32 m_dwCopyID;
 	UINT32 m_dwChaper;
 	UINT32 m_dwBattleTimes;

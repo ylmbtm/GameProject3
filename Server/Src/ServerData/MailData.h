@@ -41,7 +41,7 @@ struct MailDataObject : public ShareObject
 
 	}
 
-	UINT64 m_u64RoleID;		//角色ID
+	UINT64 m_uRoleID;		//角色ID
 	UINT64 m_uGuid;         //邮件ID
 	CHAR   m_szParam[256];  //邮件参数
 	UINT32 m_dwTime;        //邮件时间

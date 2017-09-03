@@ -9,7 +9,7 @@ struct EquipDataObject : public ShareObject
 
 	}
 
-	UINT64 m_u64RoleID;		//角色ID
+	UINT64 m_uRoleID;		//角色ID
 	UINT64 m_uGuid;			//guid
 	UINT32 m_EquipID;		//装备ID
 	INT32  m_StrengthLvl;   //强化等级

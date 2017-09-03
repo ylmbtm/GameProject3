@@ -52,21 +52,15 @@ BOOL CTaskModule::OnNewDay()
 BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
 	const DBTaskData& TaskData = Ack.taskdata();
-	/*for(int i = 0; i < CopyData.itemlist_size(); i++)
+	for(int i = 0; i < TaskData.tasklist_size(); i++)
 	{
-	const DBBagItemData &ItemData = BagData.itemlist(i);
+		const DBTaskItem &TaskItem = TaskData.tasklist(i);
+		TaskDataObject *pObject = g_pTaskDataObjectPool->NewOjbect(FALSE);
+		pObject->lock();
 
-	BagDataObject *pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
-	pObject->lock();
-	pObject->m_uGuid = ItemData.guid();
-	pObject->m_uRoleID = ItemData.roleid();
-	pObject->m_BagType = ItemData.bagtype();
-	pObject->m_bBind = ItemData.bind();
-	pObject->m_ItemGuid = ItemData.itemguid();
-	pObject->m_ItemID = ItemData.itemid();
-	pObject->unlock();
-	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	}*/
+		pObject->unlock();
+		m_mapTaskData.insert(std::make_pair(pObject->m_TaskID, pObject));
+	}
 	return TRUE;
 }
 

@@ -7,8 +7,8 @@ struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
 	{
-		m_u64ID			= 0;			//角色ID
-		m_u64AccountID	= 0;			//账号ID
+		m_uRoleID			= 0;			//角色ID
+		m_uAccountID	= 0;			//账号ID
 		m_Level		= 0;				//等级
 		m_Exp			= 0;			//经验
 		m_nLangID		= 0;			//语言ID
@@ -26,8 +26,8 @@ struct RoleDataObject : public ShareObject
 	}
 
 
-	UINT64		m_u64ID;			//角色ID
-	UINT64		m_u64AccountID;	//账号ID
+	UINT64		m_uRoleID;			//角色ID
+	UINT64		m_uAccountID;	//账号ID
 	CHAR		m_szName[255];	//角色名
 	INT32		m_CarrerID;      //职业ID
 	INT32		m_Level;			//等级
@@ -52,7 +52,7 @@ struct RoleDataObject : public ShareObject
 	{
 		char szSql[1024];
 		sprintf_s(szSql, 1024, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld);", \
-		          m_u64ID, m_u64AccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
+		          m_uRoleID, m_uAccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
 		          m_Action[0], m_Action[1], m_Action[2], m_Action[3],
 		          m_Actime[0], m_Actime[1], m_Actime[2], m_Actime[3]
 		         );
