@@ -127,6 +127,17 @@ message DBCounterData {
 }
 
 
+message DBFriendItem {
+	uint64	RoleID		= 1;		//½ÇÉ«ID
+	uint64	FriendID	= 2;		//ºÃÓÑID
+}
+
+message DBFriendData {
+	repeated DBFriendItem FriendList = 1;
+}
+
+
+
 message DBRoleLoginAck {
 	uint32				RetCode		= 1;
 	uint64				RoleID		= 2;
@@ -141,5 +152,6 @@ message DBRoleLoginAck {
 	DBMountData			MountData	= 11;
 	DBActivityData		ActivityData = 12;
 	DBCounterData		CounterData = 13;
+	DBFriendData		FriendData = 14;
 }
 

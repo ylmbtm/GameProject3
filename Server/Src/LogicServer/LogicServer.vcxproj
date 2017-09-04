@@ -223,6 +223,7 @@
     <ClCompile Include="CounterModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
     <ClCompile Include="EquipModule.cpp" />
+    <ClCompile Include="FriendModule.cpp" />
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="..\ServerData\CopyData.h" />
     <ClInclude Include="..\ServerData\CounterData.h" />
     <ClInclude Include="..\ServerData\EquipData.h" />
+    <ClInclude Include="..\ServerData\FriendData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
     <ClInclude Include="..\ServerData\GuildData.h" />
     <ClInclude Include="..\ServerData\MailData.h" />
@@ -284,6 +286,7 @@
     <ClInclude Include="CounterModule.h" />
     <ClInclude Include="DataPool.h" />
     <ClInclude Include="EquipModule.h" />
+    <ClInclude Include="FriendModule.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GlobalDataMgr.h" />

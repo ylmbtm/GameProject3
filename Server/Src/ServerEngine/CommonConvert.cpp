@@ -59,16 +59,28 @@ BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
 	}
 
 	char* pPos = strchr(pStr, ',');
+	if(pPos == NULL)
+	{
+		return FALSE;
+	}
 	*pPos = 0;
 	x = CommonConvert::StringToFloat(pStr + 1);
 
 	char* pOldPos = pPos + 1;
 	pPos = strchr(pPos + 1, ',');
+	if(pPos == NULL)
+	{
+		return FALSE;
+	}
 	*pPos = 0;
 	y = CommonConvert::StringToFloat(pOldPos);
 
 	pOldPos = pPos + 1;
 	pPos = strchr(pPos + 1, ')');
+	if(pPos == NULL)
+	{
+		return FALSE;
+	}
 	*pPos = 0;
 	z = CommonConvert::StringToFloat(pOldPos);
 

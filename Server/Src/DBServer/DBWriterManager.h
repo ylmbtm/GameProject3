@@ -17,6 +17,7 @@
 #include "../ServerData/RoleData.h"
 #include "../ServerData/ActivityData.h"
 #include "../ServerData/CounterData.h"
+#include "../ServerData/FriendData.h"
 
 Th_RetName _DBWriteThread( void* pParam );
 
@@ -49,9 +50,9 @@ public:
 	DataWriter<MountDataObject>* m_pMountDataWriter;
 	DataWriter<MailDataObject>* m_pMailDataWriter;
 	DataWriter<GroupMailDataObject>* m_pGroupMailDataWriter;
-    DataWriter<ActivityDataObject>* m_pActivityDataWriter;
-    DataWriter<CounterDataObject>* m_pCounterDataWriter;
-
+	DataWriter<ActivityDataObject>* m_pActivityDataWriter;
+	DataWriter<CounterDataObject>* m_pCounterDataWriter;
+	DataWriter<FriendDataObject>* m_pFriendDataWriter;
 
 
 	THANDLE  m_hWorkThread;

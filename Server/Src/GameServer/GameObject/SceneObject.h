@@ -41,7 +41,7 @@ public:
 	VOID			SetEnterCopy();
 	BOOL            IsDie();
 
-	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z);
+	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
 
 	UINT32			GetLastSkillTime(UINT32 dwSkillID);
 	BOOL			SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime);

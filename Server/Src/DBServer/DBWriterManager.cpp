@@ -26,9 +26,9 @@ BOOL CDBWriterManager::Init()
 	m_pMountDataWriter		= new DataWriter<MountDataObject>("Mount");
 	m_pMailDataWriter		= new DataWriter<MailDataObject>("Mail");
 	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>("GroupMail");
-    m_pActivityDataWriter   = new DataWriter<ActivityDataObject>("Activity");
-    m_pCounterDataWriter    = new DataWriter<CounterDataObject>("Counter");
-
+	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>("Activity");
+	m_pCounterDataWriter    = new DataWriter<CounterDataObject>("Counter");
+	m_pFriendDataWriter    = new DataWriter<FriendDataObject>("Friend");
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
 	return TRUE;
@@ -58,8 +58,9 @@ void CDBWriterManager::WriteWork()
 	m_pMountDataWriter->SaveModifyToDB(&m_DBManager);
 	m_pMailDataWriter->SaveModifyToDB(&m_DBManager);
 	m_pGroupMailDataWriter->SaveModifyToDB(&m_DBManager);
-    m_pActivityDataWriter->SaveModifyToDB(&m_DBManager);
-    m_pCounterDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pActivityDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pCounterDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pFriendDataWriter->SaveModifyToDB(&m_DBManager);
 }
 
 BOOL CDBWriterManager::IsStop()

@@ -5,8 +5,6 @@
 #include "PacketHeader.h"
 #include "Log.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
-#include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Game_Define.pb.h"
@@ -19,10 +17,8 @@
 #include "MonsterCreator.h"
 #include "RapidXml.h"
 #include "SceneXmlMgr.h"
-#include "CommonConvert.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
-#include "../ServerData/ServerDefine.h"
 
 
 CScene::CScene()
@@ -799,7 +795,7 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
-
+	pObject->SetPos(x, y, z, ft);
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -857,13 +853,14 @@ BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, 
 	return TRUE;
 }
 
-BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y)
+BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;
 	m_pSceneLogic->OnObjectCreate(pObject);
+	pObject->SetPos(x, y, z, ft);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
 	return TRUE;

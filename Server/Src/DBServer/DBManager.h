@@ -28,7 +28,9 @@ public:
 	BOOL  GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL  GetMountData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL  GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack);
-
+	BOOL  GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack);
+	BOOL  GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack);
+	BOOL  GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	CppSQLite3DB	m_DBConnection;
 
 	//真实的mysql

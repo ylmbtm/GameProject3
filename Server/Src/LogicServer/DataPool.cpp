@@ -18,7 +18,7 @@ SharedMemory<MailDataObject>*		g_pMailDataObjectPool		= NULL;
 SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool	= NULL;
 SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool	= NULL;
 SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool	= NULL;
-
+SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool	= NULL;
 BOOL CreateDataPool()
 {
 	g_pRoleDataObjectPool		= new SharedMemory<RoleDataObject>("Role", 1024);
@@ -36,6 +36,7 @@ BOOL CreateDataPool()
 	g_pGroupMailDataObjectPool  = new SharedMemory<GroupMailDataObject>("GroupMail", 1024);
 	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>("Activity", 1024);
 	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>("Counter", 1024);
+	g_pFriendDataObjectPool    = new SharedMemory<FriendDataObject>("Friend", 1024);
 	return TRUE;
 }
 

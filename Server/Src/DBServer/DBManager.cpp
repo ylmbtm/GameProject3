@@ -142,3 +142,18 @@ BOOL CDBManager::GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	return TRUE;
 }
+
+BOOL CDBManager::GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}
+
+BOOL CDBManager::GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	return TRUE;
+}

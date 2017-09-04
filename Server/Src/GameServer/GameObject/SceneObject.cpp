@@ -217,12 +217,12 @@ BOOL CSceneObject::IsDie()
 	return FALSE;
 }
 
-BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z)
+BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
 {
 	m_x = x;
 	m_y = y;
 	m_z = z;
-
+	m_ft = ft;
 	return TRUE;
 }
 
