@@ -2,6 +2,7 @@
 #define __BAG_DATA_OBJECT_H__
 
 #include "ServerStruct.h"
+#include "ServerDefine.h"
 struct BagDataObject : public ShareObject
 {
 	BagDataObject()
@@ -26,7 +27,7 @@ struct BagDataObject : public ShareObject
 
 	BOOL Delete(IDataBase* pDB)
 	{
-		char szSql[1024];
+		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);

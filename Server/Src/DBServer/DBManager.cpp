@@ -2,6 +2,7 @@
 #include "DBManager.h"
 #include "CommonFunc.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "../ServerData/ServerDefine.h"
 
 
 CDBManager::CDBManager(void)
@@ -42,7 +43,7 @@ BOOL CDBManager::Execut(std::string sql)
 
 BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
-	CHAR szSql[1024];
+	CHAR szSql[SQL_BUFF_LEN];
 
 	sprintf_s(szSql, 1024, "select * from player where account_id = %lld", u64AccountID);
 
@@ -63,7 +64,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 
 BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[1024];
+	CHAR szSql[SQL_BUFF_LEN];
 
 	sprintf_s(szSql, 1024, "select * from player where id = %lld", u64ID);
 

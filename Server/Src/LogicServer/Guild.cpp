@@ -13,7 +13,10 @@ CGuild::CGuild()
 
 CGuild::~CGuild()
 {
-
+	if(m_pGuildData != NULL)
+	{
+		m_pGuildData->release();
+	}
 }
 
 BOOL CGuild::Init()
@@ -26,9 +29,9 @@ BOOL CGuild::LoadGuildData()
 	return TRUE;
 }
 
-std::string& CGuild::GetGuildName()
+CHAR* CGuild::GetGuildName()
 {
-	return m_pGuildData->m_strName;
+	return m_pGuildData->m_szName;
 }
 
 MemberDataObject* CGuild::GetGuidMember(UINT64 uID)

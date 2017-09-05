@@ -39,7 +39,7 @@ struct StLocalString
 
 	}
 	UINT32  dwID;
-	std::string Language[15];
+	std::string Language[MAX_LANGUAGE_NUM];
 };
 
 struct StActor
@@ -123,9 +123,9 @@ struct  StItemData
 //掉落项
 struct StDropItem
 {
-	UINT32 dwItemID; //物品ID
-	UINT32 dwItemNum[2];//物品数量
-	UINT32 dwRatio;//概率范围
+	UINT32 dwItemID;		//物品ID
+	UINT32 dwItemNum[2];	//物品数量
+	UINT32 dwRatio;			//概率范围
 };
 
 //奖励项
@@ -167,8 +167,8 @@ struct StFuncInfo
 
 struct StFuncVipInfo
 {
-	UINT32 dwFuncID;		//! 功能ID
-	INT32  VipValue[20];	//! 对应VIP数值
+	UINT32 dwFuncID;				//! 功能ID
+	INT32  VipValue[MAX_VIP_LEVEL];	//! 对应VIP数值
 };
 
 

@@ -34,6 +34,13 @@ BOOL CBagModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CBagModule::OnDestroy()
 {
+	for(auto itor = m_mapBagData.begin(); itor != m_mapBagData.end(); itor++)
+	{
+		itor->second->release();
+	}
+
+	m_mapBagData.clear();
+
 	return TRUE;
 }
 
@@ -59,7 +66,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	{
 		const DBBagItem& ItemData = BagData.itemlist(i);
 
-		BagDataObject* pObject = g_pBagDataObjectPool->NewOjbect(FALSE);
+		BagDataObject* pObject = g_pBagDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
@@ -166,7 +173,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 		}
 	}
 
-	BagDataObject* pObject = g_pBagDataObjectPool->NewOjbect(TRUE);
+	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_BagType = pItemInfo->dwBagType;

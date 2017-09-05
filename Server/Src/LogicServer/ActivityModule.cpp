@@ -29,7 +29,7 @@ BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 
 		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
-			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
+			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewObject(TRUE);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
 			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
@@ -43,7 +43,12 @@ BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CActivityModule::OnDestroy()
 {
+	for(auto itor = m_mapActivityData.begin(); itor != m_mapActivityData.end(); itor++)
+	{
+		itor->second->release();
+	}
 
+	m_mapActivityData.clear();
 
 	return TRUE;
 }
@@ -61,7 +66,7 @@ BOOL CActivityModule::OnLogin()
 
 		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
-			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewOjbect(TRUE);
+			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewObject(TRUE);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
 			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
@@ -92,7 +97,7 @@ BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < ActivityData.activitylist_size(); i++)
 	{
 		const DBActivityItem& ActivityItem = ActivityData.activitylist(i);
-		ActivityDataObject* pObject = g_pActivityDataObjectPool->NewOjbect(FALSE);
+		ActivityDataObject* pObject = g_pActivityDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 		pObject->m_dwActivityID = ActivityItem.activityid();
 		pObject->m_uRoleID = ActivityItem.roleid();

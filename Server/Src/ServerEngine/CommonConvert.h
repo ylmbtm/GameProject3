@@ -20,6 +20,8 @@ std::wstring Utf8ToUnicode(std::string strValue);
 std::string  UnicodeToUft8(std::wstring wstrValue);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
+
+//BOOL SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr);
 }
 
 

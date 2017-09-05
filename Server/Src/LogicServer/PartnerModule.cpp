@@ -55,9 +55,9 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBPartnerData& PartnerData = Ack.partnerdata();
 	for(int i = 0; i < PartnerData.partnerlist_size(); i++)
 	{
-		const DBPartnerItem &PartnerItem = PartnerData.partnerlist(i);
+		const DBPartnerItem& PartnerItem = PartnerData.partnerlist(i);
 
-		PartnerDataObject *pObject = g_pPartnerDataObjectPool->NewOjbect(FALSE);
+		PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 
 		pObject->unlock();
@@ -79,7 +79,7 @@ BOOL CPartnerModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[P
 
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
-	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewOjbect(TRUE);
+	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_PartnerID = dwPartnerID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

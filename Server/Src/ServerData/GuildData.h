@@ -3,6 +3,7 @@
 
 #include "ServerStruct.h"
 #include "SharedMemory.h"
+#include "ServerDefine.h"
 struct GuildDataObject : public ShareObject
 {
 	GuildDataObject()
@@ -11,8 +12,8 @@ struct GuildDataObject : public ShareObject
 	}
 
 	UINT64 m_uGuid;			//格子的guid
-	std::string m_strName;
-	std::string m_strNotice;
+	CHAR m_szName[GUILD_NAME_LEN];
+	CHAR m_szNotice[GUILD_NOTICE_LEN];
 	INT32  m_Level;
 
 	BOOL Save(IDataBase* pDB)
@@ -24,11 +25,6 @@ struct GuildDataObject : public ShareObject
 
 	BOOL Delete(IDataBase* pDB)
 	{
-		char szSql[1024];
-		sprintf_s(szSql, 1024, "update player set delete = %d");
-
-		pDB->Execut(szSql);
-
 		return TRUE;
 	}
 };
@@ -57,7 +53,7 @@ struct MemberDataObject : public ShareObject
 
 	BOOL Delete(IDataBase* pDB)
 	{
-		char szSql[1024];
+		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);

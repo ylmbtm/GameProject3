@@ -12,6 +12,7 @@
 #include "../ConfigData/ConfigData.h"
 #include "GlobalDataMgr.h"
 #include "GroupMailMgr.h"
+#include "PayManager.h"
 
 CGameService::CGameService(void)
 {
@@ -55,15 +56,17 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CreateDataPool();
-
 	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
 
-	CSimpleManager::GetInstancePtr()->LoadSimpleData();
+	CreateDataPool();
 
 	CGlobalDataManager::GetInstancePtr()->LoadGlobalData();
 
+	CSimpleManager::GetInstancePtr()->LoadSimpleData();
+
 	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData();
+
+	CPayManager::GetInstancePtr()->InitPayManager();
 
 	ConnectToLogServer();
 

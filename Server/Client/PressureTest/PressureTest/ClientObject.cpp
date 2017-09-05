@@ -115,6 +115,19 @@ BOOL CClientObject::OnMsgNotifyIntoScene(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 
 BOOL CClientObject::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
 {
+	ObjectNewNty Nty;
+	Nty.ParsePartialFromArray(PacketBuf, BufLen);
+
+	for(int i = 0; i < Nty.newlist_size(); i++)
+	{
+		const NewItem& item = Nty.newlist(i);
+
+		printf("x:%f", item.x());
+		printf("y:%f", item.y());
+		printf("y:%f\n", item.z());
+		printf("actorid:%d\n", item.actorid());
+	}
+
 	return TRUE;
 }
 
@@ -147,8 +160,8 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
-			//m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
+			//m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
 
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 8080);	   //account
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);  //game
@@ -174,7 +187,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_AccountLoginOK)
 	{
-		SendSelectSvrReq(201);
+		SendSelectSvrReq(202);
 
 		m_dwHostState = ST_SelectSvr;
 	}

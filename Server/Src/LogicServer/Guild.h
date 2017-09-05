@@ -12,7 +12,7 @@ public:
 
 	BOOL LoadGuildData();
 
-	std::string& GetGuildName();
+	CHAR* GetGuildName();
 
 public:
 	MemberDataObject* GetGuidMember(UINT64 uID);

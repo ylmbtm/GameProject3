@@ -74,6 +74,24 @@ message MountChangeNty{
 	repeated uint64  RemoveList = 2;
 }
 
+message MailItem {
+	uint64 Guid = 1;
+}
+
+message MailChangeNty{
+	repeated MailItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
+}
+
+message TaskItem {
+	uint64  RoleID = 1;			//½ÇÉ«ID
+	uint32  TaskID = 2;
+}
+
+message TaskChangeNty {
+	repeated TaskItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
+}
 
 message RoleLoginAck {
 	uint32   RetCode = 1;
@@ -94,4 +112,8 @@ message RoleLoginAck {
 	repeated PartnerItem PartnerList = 16;
 	repeated MountItem MountItemList = 17;
 	repeated BagItem BagItemList = 18;
+	repeated MailItem MailItemList = 19;
+	repeated TaskItem TaskItemList = 20;
 }
+
+

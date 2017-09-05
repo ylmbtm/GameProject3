@@ -134,7 +134,7 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 	{
 		CAccountObject* pAccount = NULL;
 
-		CHAR szSql[1024];
+		CHAR szSql[SQL_BUFF_LEN];
 
 		while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
 		{
@@ -160,6 +160,8 @@ BOOL CAccountObjectMgr::Close()
 	CommonThreadFunc::WaitThreadExit(m_hThread);
 
 	m_mapNameObj.clear();
+
+	m_DBConnection.close();
 
 	return TRUE;
 }

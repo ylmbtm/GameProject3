@@ -169,7 +169,7 @@ public:
 	/*从空闲内存中分配一个块,如果没有了返回空
 	@param isNewBlock 为true时会在保存期调用saveobject 的Create虚函数
 	*/
-	virtual ShareObject* NewOjbect(BOOL isNewBlock = false);
+	virtual ShareObject* NewObject(BOOL isNewBlock = false);
 
 	/**释放一块已经不再使用的内存
 	*/
@@ -197,9 +197,9 @@ public:
 		return static_cast<T*>(SharedMemoryBase::GetObjectByRawindex(index));
 	}
 
-	T* NewOjbect(BOOL isNewBlock = false)
+	T* NewObject(BOOL isNewBlock = false)
 	{
-		T* pTmp = static_cast<T*>(SharedMemoryBase::NewOjbect(isNewBlock));
+		T* pTmp = static_cast<T*>(SharedMemoryBase::NewObject(isNewBlock));
 		if (pTmp == NULL)
 		{
 			return NULL;

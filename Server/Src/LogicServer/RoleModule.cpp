@@ -49,7 +49,7 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(TRUE);
+	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(TRUE);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
@@ -93,7 +93,7 @@ BOOL CRoleModule::OnNewDay()
 
 BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->NewOjbect(FALSE);
+	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(FALSE);
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();

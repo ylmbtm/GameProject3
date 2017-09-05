@@ -55,7 +55,7 @@ BOOL CGlobalDataManager::LoadGlobalData()
 		dwMaxGuid = (dwMaxGuid << 48) + 1;
 	}
 	dwMaxGuid += 100;
-	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewOjbect(TRUE);
+	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewObject(TRUE);
 	m_pGlobalDataObject->lock();
 	m_pGlobalDataObject->m_dwServerID = dwServerID;
 	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;

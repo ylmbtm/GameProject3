@@ -334,6 +334,13 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 	return TRUE;
 }
 
+BOOL CPlayerObject::NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dwParam2)
+{
+	CTaskModule* pTaskModule = (CTaskModule*)GetModuleByType(MT_TASK);
+	pTaskModule->OnTaskEvent((ETaskEvent)dwEventID, dwParam1, dwParam2);
+	return TRUE;
+}
+
 BOOL CPlayerObject::CalcFightDataInfo()
 {
 	INT32 PropertyValue[PROPERTY_NUM] = {0};

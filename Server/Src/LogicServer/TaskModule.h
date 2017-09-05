@@ -31,11 +31,14 @@ public:
 public:
 	BOOL OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2);
 
+	TaskDataObject* GetTaskByID(UINT32 dwTaskID);
 
+	BOOL NotifyChange();
 public:
 	std::map<UINT64, TaskDataObject*>m_mapTaskData;
 
-
+	std::set<UINT64> m_setChange;
+	std::set<UINT64> m_setRemove;
 };
 
 #endif //__PARTNER_MODULE_H__

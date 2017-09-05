@@ -55,8 +55,8 @@ BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBPetData& PetData = Ack.petdata();
 	for(int i = 0; i < PetData.petlist_size(); i++)
 	{
-		const DBPetItem &PetItem = PetData.petlist(i);
-		PetDataObject *pObject = g_pPetDataObjectPool->NewOjbect(FALSE);
+		const DBPetItem& PetItem = PetData.petlist(i);
+		PetDataObject* pObject = g_pPetDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 		pObject->unlock();
 		m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
@@ -76,7 +76,7 @@ BOOL CPetModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
-	PetDataObject* pObject = g_pPetDataObjectPool->NewOjbect(TRUE);
+	PetDataObject* pObject = g_pPetDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_PetID = dwPetID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

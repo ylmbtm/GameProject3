@@ -2,6 +2,7 @@
 #define __GLOBAL_DATA_OBJECT_H__
 #include "ServerStruct.h"
 #include "SharedMemory.h"
+#include "ServerDefine.h"
 struct GlobalDataObject : public ShareObject
 {
 	GlobalDataObject()
@@ -15,7 +16,7 @@ struct GlobalDataObject : public ShareObject
 
 	BOOL Save(IDataBase* pDB)
 	{
-		char szSql[1024];
+		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "REPLACE INTO globaldata (serverid, maxguid) VALUES(%d, %lld);", \
 		          m_dwServerID, m_u64Guid);
 

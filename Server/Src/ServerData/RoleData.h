@@ -28,7 +28,7 @@ struct RoleDataObject : public ShareObject
 
 	UINT64		m_uRoleID;			//角色ID
 	UINT64		m_uAccountID;	//账号ID
-	CHAR		m_szName[255];	//角色名
+	CHAR		m_szName[ROLE_NAME_LEN];	//角色名
 	INT32		m_CarrerID;      //职业ID
 	INT32		m_Level;			//等级
 	INT64		m_Money[MONEY_NUM];		//所有的货币
@@ -50,7 +50,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Save(IDataBase* pDB)
 	{
-		char szSql[1024];
+		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld);", \
 		          m_uRoleID, m_uAccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
 		          m_Action[0], m_Action[1], m_Action[2], m_Action[3],
@@ -66,7 +66,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Delete(IDataBase* pDB)
 	{
-		char szSql[1024];
+		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "update player set delete = %d");
 
 		pDB->Execut(szSql);

@@ -39,7 +39,7 @@ message AccountLoginAck {
 message ClientServerListReq {
 	uint64	AccountID	= 1;
 	int32	Channel		= 2; //渠道包
-	string	PackName	= 3; //包名
+	string	PackageName	= 3; //包名
 	int32	ClientVersion	= 4; //客户端版本号
 }
 
@@ -48,7 +48,7 @@ message ClientServerNode {
 	int32	SvrID		= 1;
 	string	SvrName		= 2;
 	int32	SvrState	= 3;
-	int32	SvrDefault	= 4;
+	int32	SvrFlag		= 4;
 	int32	SvrOpenTime	= 5;
 }
 

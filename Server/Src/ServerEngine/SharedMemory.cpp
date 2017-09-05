@@ -366,7 +366,7 @@ void SharedMemoryBase::ProcessCleanDirtyData()
 	}
 }
 
-ShareObject* SharedMemoryBase::NewOjbect(BOOL isNewBlock/*=false*/)
+ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 {
 	///如果未分配内存没有了,则开始处理脏数据
 	if (m_mapFreeSMBlock.size() == 0)
@@ -377,7 +377,7 @@ ShareObject* SharedMemoryBase::NewOjbect(BOOL isNewBlock/*=false*/)
 	{
 		if (NewPage())
 		{
-			return NewOjbect(isNewBlock);
+			return NewObject(isNewBlock);
 		}
 		else
 		{
@@ -415,7 +415,7 @@ ShareObject* SharedMemoryBase::NewOjbect(BOOL isNewBlock/*=false*/)
 
 	if (NewPage())
 	{
-		return NewOjbect(isNewBlock);
+		return NewObject(isNewBlock);
 	}
 
 	return NULL;

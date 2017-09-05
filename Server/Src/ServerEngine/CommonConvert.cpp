@@ -160,3 +160,27 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
 
 	return TRUE;
 }
+
+
+// BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr)
+// {
+// 	vtStr.clear();
+// 	std::string::iterator subStart, subEnd;
+// 	subStart = strSrc.begin();
+// 	while (true)
+// 	{
+// 		subEnd = std::search(subStart, strSrc.end(), strDelim.begin(), strDelim.end());
+// 		std::string temp(subStart, subEnd);
+// 		if (!temp.empty())
+// 		{
+// 			vtStr.push_back(temp);
+// 		}
+// 		if (subEnd == strSrc.end())
+// 		{
+// 			break;
+// 		}
+// 		subStart = subEnd + strDelim.size();
+// 	}
+//
+// 	return TRUE;
+// }

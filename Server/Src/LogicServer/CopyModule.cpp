@@ -22,6 +22,13 @@ BOOL CCopyModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CCopyModule::OnDestroy()
 {
+	for(auto itor = m_mapCopyData.begin(); itor != m_mapCopyData.end(); itor++)
+	{
+		itor->second->release();
+	}
+
+	m_mapCopyData.clear();
+
 	return TRUE;
 }
 
@@ -45,9 +52,9 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBCopyData& CopyData = Ack.copydata();
 	for(int i = 0; i < CopyData.copylist_size(); i++)
 	{
-		const DBCopyItem &CopyItem = CopyData.copylist(i);
+		const DBCopyItem& CopyItem = CopyData.copylist(i);
 
-		CopyDataObject *pObject = g_pCopyDataObjectPool->NewOjbect(FALSE);
+		CopyDataObject* pObject = g_pCopyDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 		pObject->m_uRoleID = CopyItem.roleid();
 		pObject->m_dwCopyID = CopyItem.copyid();

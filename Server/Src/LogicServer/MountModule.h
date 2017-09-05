@@ -12,25 +12,25 @@ public:
 	~CMountModule();
 
 public:
-	BOOL OnCreate(UINT64 u64RoleID);
+	BOOL	OnCreate(UINT64 u64RoleID);
 
-	BOOL OnDestroy();
+	BOOL	OnDestroy();
 
-	BOOL OnLogin();
+	BOOL	OnLogin();
 
-	BOOL OnLogout();
+	BOOL	OnLogout();
 
-	BOOL OnNewDay();
+	BOOL	OnNewDay();
 
-	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+	BOOL	ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+	BOOL	SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
-public:
-	UINT64 AddMount(UINT32 dwMountID);
+	BOOL	CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL NotifyChange();
+	UINT64	AddMount(UINT32 dwMountID);
+
+	BOOL	NotifyChange();
 
 	MountDataObject* GetMountByGuid(UINT64 uGuid);
 

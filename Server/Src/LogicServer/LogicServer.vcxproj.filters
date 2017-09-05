@@ -135,6 +135,12 @@
     <ClCompile Include="FriendModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PayManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_ID.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -301,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\FriendData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="PayManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_ID.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

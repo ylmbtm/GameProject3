@@ -43,7 +43,7 @@ BOOL CGuildManager::LoadAllGuildData()
 	while(!TableNames.eof())
 	{
 		CGuild* pGuid = new CGuild();
-		pGuid->m_pGuildData = g_pGuildDataObjectPool->NewOjbect(FALSE);
+		pGuid->m_pGuildData = g_pGuildDataObjectPool->NewObject(FALSE);
 		pGuid->m_pGuildData->m_uGuid = TableNames.getInt64Field("id");
 		m_mapGulidData.insert(std::make_pair(pGuid->m_pGuildData->m_uGuid, pGuid));
 		TableNames.nextRow();
@@ -68,12 +68,12 @@ CGuild* CGuildManager::GetGuildByID( UINT64 u64ID )
 CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 nIcon)
 {
 	CGuild* pGuild = new CGuild();
-	pGuild->m_pGuildData = g_pGuildDataObjectPool->NewOjbect(TRUE);
+	pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(TRUE);
 	pGuild->m_pGuildData->lock();
 	pGuild->m_pGuildData->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pGuild->m_pGuildData->unlock();
 
-	MemberDataObject* pMemberObj = g_pMemberDataObjectPool->NewOjbect(TRUE);
+	MemberDataObject* pMemberObj = g_pMemberDataObjectPool->NewObject(TRUE);
 	pMemberObj->lock();
 
 

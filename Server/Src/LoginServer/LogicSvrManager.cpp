@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "LogicSvrManager.h"
 #include "CommonConvert.h"
+#include "Log.h"
+#include "CommonSocket.h"
 
 
 LogicSvrManager::LogicSvrManager(void)
@@ -15,6 +17,9 @@ LogicSvrManager::~LogicSvrManager(void)
 
 BOOL LogicSvrManager::Init()
 {
+
+
+
 	return TRUE;
 }
 
@@ -24,17 +29,17 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, st
 	if(pNode == NULL)
 	{
 		LogicServerNode tempNode;
-		tempNode.dwServerID = dwServerID;
-		tempNode.dwConnID   = dwConnID;
-		tempNode.strIpAddr  = strIpAddr;
-		tempNode.dwPort     = dwPort;
-		tempNode.strServerName = "Server_" + CommonConvert::IntToString(dwServerID);
+		tempNode.m_dwServerID = dwServerID;
+		tempNode.m_dwConnID   = dwConnID;
+		tempNode.m_strIpAddr  = strIpAddr;
+		tempNode.m_dwPort     = dwPort;
+		tempNode.m_strSvrName = "Server_" + CommonConvert::IntToString(dwServerID);
 		insert(std::make_pair(dwServerID, tempNode));
 		return TRUE;
 	}
 
-	pNode->dwConnID = dwConnID;
-	pNode->dwServerID = dwServerID;
+	pNode->m_dwConnID = dwConnID;
+	pNode->m_dwServerID = dwServerID;
 
 	return TRUE;
 }
@@ -47,7 +52,7 @@ BOOL LogicSvrManager::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 		return TRUE;
 	}
 
-	pNode->dwConnID = 0;
+	pNode->m_dwConnID = 0;
 
 	return TRUE;
 }
@@ -60,7 +65,7 @@ UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 		return 0;
 	}
 
-	return pNode->dwConnID;
+	return pNode->m_dwConnID;
 }
 
 LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
@@ -82,7 +87,7 @@ LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
 		for(auto itor = begin(); itor != end(); itor++)
 		{
 			LogicServerNode* pNode = &itor->second;
-			if (pNode->dwServerID != 0)
+			if (pNode->m_dwServerID != 0)
 			{
 				return pNode;
 
@@ -92,3 +97,92 @@ LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
 
 	return pNode;
 }
+
+BOOL LogicSvrManager::IsReviewPackage(std::string strPackageName)
+{
+	if(m_setReviewPackage.find(strPackageName) == m_setReviewPackage.end())
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+
+}
+
+BOOL LogicSvrManager::ReloadServerList()
+{
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
+
+	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("ReloadServerList Error: Can not open database!!!");
+		return FALSE;
+	}
+
+	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from account");
+	while(!QueryResult.eof())
+	{
+		UINT32 dwSvrID = QueryResult.getIntField("id");
+
+		LogicServerNode* pNode = GetLogicServerInfo(dwSvrID);
+		if(pNode == NULL)
+		{
+
+		}
+
+		pNode->m_strSvrName = QueryResult.getStringField("name");
+		//QueryResult.getInt64Field("opentime");
+		pNode->m_Statue = QueryResult.getIntField("statue");
+		pNode->m_Flag = QueryResult.getIntField("flag");
+		std::string strCheckVersion = QueryResult.getStringField("check_version");
+		if(strCheckVersion.empty() || strCheckVersion == "*")
+		{
+			pNode->m_dwCheckVersion = 0;
+		}
+		else
+		{
+
+		}
+
+		std::string strCheckChannel = QueryResult.getStringField("check_chan");
+		if(strCheckChannel.empty() || strCheckChannel == "*")
+		{
+			pNode->m_CheckChannelList.clear();
+		}
+		else
+		{
+			std::vector<std::string> vtValue;
+			CommonConvert::SpliteString(strCheckChannel, ";", vtValue);
+			for(int i = 0; i < vtValue.size(); i++)
+			{
+				pNode->m_CheckChannelList.insert(CommonConvert::StringToInt(vtValue[i].c_str()));
+			}
+
+		}
+
+		std::string strCheckIp = QueryResult.getStringField("check_ip");
+		if(strCheckIp.empty() || strCheckIp == "*")
+		{
+			pNode->m_CheckIpList.clear();
+		}
+		else
+		{
+			std::vector<std::string> vtValue;
+			CommonConvert::SpliteString(strCheckIp,  ";", vtValue);
+			for(int i = 0; i < vtValue.size(); i++)
+			{
+				pNode->m_CheckIpList.insert(vtValue[i]);
+			}
+		}
+
+		QueryResult.nextRow();
+	}
+
+
+	return TRUE;
+}
+

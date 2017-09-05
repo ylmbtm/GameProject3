@@ -55,8 +55,8 @@ BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBMountData& MountData = Ack.mountdata();
 	for(int i = 0; i < MountData.mountlist_size(); i++)
 	{
-		const DBMountItem &MountItem = MountData.mountlist(i);
-		MountDataObject *pObject = g_pMountDataObjectPool->NewOjbect(FALSE);
+		const DBMountItem& MountItem = MountData.mountlist(i);
+		MountDataObject* pObject = g_pMountDataObjectPool->NewObject(FALSE);
 		pObject->lock();
 		pObject->unlock();
 		m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
@@ -76,7 +76,7 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 
 UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
-	MountDataObject* pObject = g_pMountDataObjectPool->NewOjbect(TRUE);
+	MountDataObject* pObject = g_pMountDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

@@ -1,0 +1,1 @@
+protoc.exe --go_out=import_path=protoc-gen-go:./protoc-gen-go/ --proto_path=./proto_raw/ ./proto_raw/*.proto

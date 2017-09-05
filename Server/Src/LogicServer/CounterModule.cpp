@@ -22,7 +22,17 @@ BOOL CCounterModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CCounterModule::OnDestroy()
 {
+	for(auto itor = m_mapCounterData.begin(); itor != m_mapCounterData.end(); itor++)
+	{
+		std::vector<CounterDataObject*>& vtObject = itor->second;
 
+		for(auto vtitor = vtObject.begin(); vtitor != vtObject.end(); vtitor++)
+		{
+			(*vtitor)->release();
+		}
+	}
+
+	m_mapCounterData.clear();
 
 	return TRUE;
 }
@@ -52,9 +62,9 @@ BOOL CCounterModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBCounterData& CounterData = Ack.counterdata();
 	for(int i = 0; i < CounterData.counterlist_size(); i++)
 	{
-		const DBCounterItem &CounterItem = CounterData.counterlist(i);
-		CounterDataObject *pObject = g_pCounterDataObjectPool->NewOjbect(FALSE);
-		
+		const DBCounterItem& CounterItem = CounterData.counterlist(i);
+		CounterDataObject* pObject = g_pCounterDataObjectPool->NewObject(FALSE);
+
 
 		//m_mapCounterData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
@@ -73,7 +83,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT64 uID, UINT32 dwIndex, BO
 	{
 		if(bCreate)
 		{
-			CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewOjbect(TRUE);
+			CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewObject(TRUE);
 			std::vector<CounterDataObject*> tempvt;
 			tempvt.push_back(pTempObject);
 			m_mapCounterData.insert(std::make_pair(uID, tempvt));
@@ -103,7 +113,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT64 uID, UINT32 dwIndex, BO
 
 	if(bCreate)
 	{
-		CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewOjbect(TRUE);
+		CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewObject(TRUE);
 		std::vector<CounterDataObject*> tempvt;
 		itor->second.push_back(pTempObject);
 		return pTempObject;

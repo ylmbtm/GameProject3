@@ -22,7 +22,12 @@ BOOL CFriendModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CFriendModule::OnDestroy()
 {
+	for(auto itor = m_mapFriendData.begin(); itor != m_mapFriendData.end(); itor++)
+	{
+		itor->second->release();
+	}
 
+	m_mapFriendData.clear();
 
 	return TRUE;
 }
@@ -53,7 +58,7 @@ BOOL CFriendModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < FriendData.friendlist_size(); i++)
 	{
 		const DBFriendItem& FriendItem = FriendData.friendlist(i);
-		FriendDataObject* pObject = g_pFriendDataObjectPool->NewOjbect(FALSE);
+		FriendDataObject* pObject = g_pFriendDataObjectPool->NewObject(FALSE);
 
 
 		m_mapFriendData.insert(std::make_pair(pObject->m_uFriendID, pObject));

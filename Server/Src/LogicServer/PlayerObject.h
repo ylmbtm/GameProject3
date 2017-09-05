@@ -37,7 +37,7 @@ public:
 
 	BOOL		ToTransferData(TransferDataReq& Req);
 
-
+	BOOL		NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dwParm2);
 
 public: //全部是操作方法
 	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);

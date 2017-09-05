@@ -31,9 +31,10 @@ public:
 
 	BOOL				DeletePlayer(UINT64 u64RoleID);
 
-
-
 public:
+
+
+
 };
 
 #endif //__WS_PLAYER_OBJECT_H__

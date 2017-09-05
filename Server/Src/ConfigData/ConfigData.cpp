@@ -57,7 +57,7 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 		return FALSE;
 	}
 
-	char szSql[1024]  = {0};
+	char szSql[SQL_BUFF_LEN]  = {0};
 	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 	{
 		DataFuncNode dataNode = (*itor);
@@ -83,7 +83,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 		return FALSE;
 	}
 
-	char szSql[1024]  = {0};
+	char szSql[SQL_BUFF_LEN]  = {0};
 	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 	{
 		DataFuncNode dataNode = (*itor);

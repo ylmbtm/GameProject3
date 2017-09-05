@@ -60,6 +60,8 @@ BOOL CNetManager::WorkThread_Listen()
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
+			pConnection->m_dwIpAddr = Con_Addr.sin_addr.S_un.S_addr;
+
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);
