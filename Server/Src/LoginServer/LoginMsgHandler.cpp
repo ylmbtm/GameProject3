@@ -132,39 +132,39 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 
 	for(auto itor = m_LogicSvrMgr.begin(); itor != m_LogicSvrMgr.end(); itor++)
 	{
-		LogicServerNode& tempNode = itor->second;
+		LogicServerNode* pTempNode = itor->second;
 		//如果是评审包
 		if(m_LogicSvrMgr.IsReviewPackage(Req.packagename()))
 		{
-			if(tempNode.m_Statue != ESS_REVIEW)
+			if(pTempNode->m_Statue != ESS_REVIEW)
 			{
 				continue;
 			}
 		}
 
-		if(!tempNode.CheckIP(dwIpAddr))
+		if(!pTempNode->CheckIP(dwIpAddr))
 		{
 			//需要检测IP
 			continue;
 		}
 
-		if(!tempNode.CheckChannel(Req.channel()))
+		if(!pTempNode->CheckChannel(Req.channel()))
 		{
 			//需要检测渠道
 			continue;
 		}
 
-		if(!tempNode.CheckVersion(Req.clientversion()))
+		if(!pTempNode->CheckVersion(Req.clientversion()))
 		{
 			//需要检测版本
 			continue;
 		}
 
 		ClientServerNode* pClientNode =  Ack.add_svrnode();
-		pClientNode->set_svrid(tempNode.m_dwServerID);
-		pClientNode->set_svrname(tempNode.m_strSvrName);
-		pClientNode->set_svrstate(tempNode.m_Statue);
-		pClientNode->set_svrflag(tempNode.m_Flag);
+		pClientNode->set_svrid(pTempNode->m_dwServerID);
+		pClientNode->set_svrname(pTempNode->m_strSvrName);
+		pClientNode->set_svrstate(pTempNode->m_Statue);
+		pClientNode->set_svrflag(pTempNode->m_Flag);
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
@@ -236,7 +236,7 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 {
 	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.serverip(), Req.serverport());
+	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.serverip(), Req.serverport(), Req.servername());
 	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);

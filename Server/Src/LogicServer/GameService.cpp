@@ -74,6 +74,8 @@ BOOL CGameService::Init()
 
 	ConnectToDBSvr();
 
+	ConnectToCenterSvr();
+
 	m_LogicMsgHandler.Init(0);
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
@@ -138,21 +140,52 @@ BOOL CGameService::ConnectToDBSvr()
 }
 
 
+BOOL CGameService::ConnectToCenterSvr()
+{
+	UINT32 nCenterPort = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_port");
+	std::string strCenterIp = CConfigFile::GetInstancePtr()->GetStringValue("center_svr_ip");
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strCenterIp, nCenterPort);
+	ERROR_RETURN_FALSE(pConnection != NULL);
+	m_dwCenterID = pConnection->GetConnectionID();
+	return TRUE;
+}
+
 BOOL CGameService::RegisterToLoginSvr()
 {
 	SvrRegToSvrReq Req;
-	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("domainid");
+	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);
+	Req.set_servername(strSvrName);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
+}
+
+BOOL CGameService::RegisterToCenterSvr()
+{
+	SvrRegToSvrReq Req;
+	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
+	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
+	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+	Req.set_serverid(dwServerID);
+	Req.set_serverport(dwPort);
+	Req.set_serverip(strIp);
+	Req.set_servername(strSvrName);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
 BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
 	if(pConn->GetConnectionID() == m_dwLoginConnID)
+	{
+		RegisterToLoginSvr();
+	}
+
+	if(pConn->GetConnectionID() == m_dwCenterID)
 	{
 		RegisterToLoginSvr();
 	}
@@ -171,15 +204,22 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 	if(m_dwLogConnID == pConn->GetConnectionID())
 	{
-		m_dwLogConnID = NULL;
+		m_dwLogConnID = 0;
 		ConnectToLogServer();
 		return TRUE;
 	}
 
 	if(m_dwDBConnID == pConn->GetConnectionID())
 	{
-		m_dwDBConnID = NULL;
+		m_dwDBConnID = 0;
 		ConnectToDBSvr();
+		return TRUE;
+	}
+
+	if(m_dwCenterID == pConn->GetConnectionID())
+	{
+		m_dwCenterID = 0;
+		ConnectToCenterSvr();
 		return TRUE;
 	}
 
@@ -203,25 +243,6 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CGameService::OnTimer(UINT32 dwUserData)
-{
-	if(m_dwLoginConnID == 0)
-	{
-		ConnectToLoginSvr();
-	}
-
-	if(m_dwLogConnID == 0)
-	{
-		ConnectToLogServer();
-	}
-
-	if(m_dwDBConnID == 0)
-	{
-		ConnectToDBSvr();
-	}
-
-	return TRUE;
-}
 
 UINT32 CGameService::GetDBConnID()
 {
@@ -235,5 +256,10 @@ UINT32 CGameService::GetLoginConnID()
 
 UINT32 CGameService::GetServerID()
 {
-	return CConfigFile::GetInstancePtr()->GetIntValue("domainid");
+	return CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+}
+
+UINT32 CGameService::GetCenterID()
+{
+	return m_dwCenterID;
 }

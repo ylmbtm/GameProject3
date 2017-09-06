@@ -77,7 +77,7 @@ struct LogicServerNode
 
 };
 
-class LogicSvrManager : public std::map<UINT32, LogicServerNode>
+class LogicSvrManager : public std::map<UINT32, LogicServerNode*>
 {
 public:
 	LogicSvrManager(void);
@@ -86,7 +86,7 @@ public:
 public:
 	BOOL	Init();
 
-	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort);
+	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort, std::string strSvrName);
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 

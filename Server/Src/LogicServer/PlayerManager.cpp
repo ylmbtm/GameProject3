@@ -2,6 +2,16 @@
 #include "PlayerManager.h"
 #include "Log.h"
 
+CPlayerManager::CPlayerManager()
+{
+
+}
+
+CPlayerManager::~CPlayerManager()
+{
+
+}
+
 CPlayerManager* CPlayerManager::GetInstancePtr()
 {
 	static CPlayerManager _PlayerManager;

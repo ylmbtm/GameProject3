@@ -23,23 +23,24 @@ BOOL LogicSvrManager::Init()
 	return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort)
+BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort, std::string strSvrName)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
 	{
-		LogicServerNode tempNode;
-		tempNode.m_dwServerID = dwServerID;
-		tempNode.m_dwConnID   = dwConnID;
-		tempNode.m_strIpAddr  = strIpAddr;
-		tempNode.m_dwPort     = dwPort;
-		tempNode.m_strSvrName = "Server_" + CommonConvert::IntToString(dwServerID);
-		insert(std::make_pair(dwServerID, tempNode));
+		LogicServerNode* pTempNode = new LogicServerNode();
+		pTempNode->m_dwServerID = dwServerID;
+		pTempNode->m_dwConnID   = dwConnID;
+		pTempNode->m_strIpAddr  = strIpAddr;
+		pTempNode->m_dwPort     = dwPort;
+		pTempNode->m_strSvrName = strSvrName;
+		insert(std::make_pair(dwServerID, pTempNode));
 		return TRUE;
 	}
 
 	pNode->m_dwConnID = dwConnID;
 	pNode->m_dwServerID = dwServerID;
+	pNode->m_strSvrName = strSvrName;
 
 	return TRUE;
 }
@@ -73,7 +74,7 @@ LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
 	auto itor = find(dwServerID);
 	if(itor != end())
 	{
-		return &itor->second;
+		return itor->second;
 	}
 
 	return NULL;
@@ -86,7 +87,7 @@ LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
 	{
 		for(auto itor = begin(); itor != end(); itor++)
 		{
-			LogicServerNode* pNode = &itor->second;
+			LogicServerNode* pNode = itor->second;
 			if (pNode->m_dwServerID != 0)
 			{
 				return pNode;
@@ -111,11 +112,11 @@ BOOL LogicSvrManager::IsReviewPackage(std::string strPackageName)
 
 BOOL LogicSvrManager::ReloadServerList()
 {
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
 
 	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
@@ -123,15 +124,16 @@ BOOL LogicSvrManager::ReloadServerList()
 		return FALSE;
 	}
 
-	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from account");
+	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from server_list");
 	while(!QueryResult.eof())
 	{
 		UINT32 dwSvrID = QueryResult.getIntField("id");
-
 		LogicServerNode* pNode = GetLogicServerInfo(dwSvrID);
 		if(pNode == NULL)
 		{
-
+			pNode = new LogicServerNode();
+			pNode->m_dwServerID = dwSvrID;
+			insert(std::make_pair(dwSvrID, pNode));
 		}
 
 		pNode->m_strSvrName = QueryResult.getStringField("name");
@@ -181,7 +183,6 @@ BOOL LogicSvrManager::ReloadServerList()
 
 		QueryResult.nextRow();
 	}
-
 
 	return TRUE;
 }

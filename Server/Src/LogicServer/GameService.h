@@ -32,9 +32,11 @@ public:
 
 	BOOL		ConnectToDBSvr();
 
+	BOOL		ConnectToCenterSvr();
+
 	BOOL		RegisterToLoginSvr();
 
-	BOOL		OnTimer(UINT32 dwUserData);
+	BOOL		RegisterToCenterSvr();
 
 	UINT32      GetDBConnID();
 
@@ -42,12 +44,15 @@ public:
 
 	UINT32      GetServerID();
 
+	UINT32      GetCenterID();
+
 public:
 	CLogicMsgHandler m_LogicMsgHandler;
 
 	UINT32			m_dwLogConnID;
 	UINT32			m_dwLoginConnID;
 	UINT32			m_dwDBConnID;
+	UINT32          m_dwCenterID;   //中心服的连接ID
 };
 
 #endif

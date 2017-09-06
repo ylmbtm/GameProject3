@@ -30,6 +30,18 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LogicSvrMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Game.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_ID.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_RetCode.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -39,6 +51,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CenterMsgHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicSvrMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

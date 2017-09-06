@@ -42,10 +42,9 @@ public:
 	BOOL OnMsgBackToCityReq(NetPacket* pNetPacket);
 	BOOL OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
-    BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
-    
+	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
+
 	//*********************消息处理定义结束******************************
-	CPlayerManager    m_PlayerManager;
 };
 
 #endif //_LOGIC_MSG_HANDLER_H_

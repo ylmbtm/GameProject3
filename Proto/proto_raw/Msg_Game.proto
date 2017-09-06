@@ -67,6 +67,7 @@ message SvrRegToSvrReq {
 
 message SvrRegToSvrAck {
 	uint32	RetCode	= 1;
+	string	NewSvrName	= 2;
 }
 
 message SelectServerReq {

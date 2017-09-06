@@ -6,17 +6,8 @@
 
 class CPlayerManager : public AVLTree<UINT64, CPlayerObject>
 {
-public:
-	CPlayerManager()
-	{
-
-	}
-
-	~CPlayerManager()
-	{
-
-	}
-
+	CPlayerManager();
+	~CPlayerManager();
 public:
 	static CPlayerManager* GetInstancePtr();
 

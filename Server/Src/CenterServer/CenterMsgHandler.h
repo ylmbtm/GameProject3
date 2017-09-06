@@ -13,10 +13,11 @@ public:
 	BOOL		Uninit();
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
-	//*********************消息处理定义开始******************************
+
 public:
-
-
+	//*********************消息处理定义开始******************************
+	BOOL		OnMsgLogicSvrRegReq(NetPacket* pPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif //_CENTER_MSG_HANDLER_H_
