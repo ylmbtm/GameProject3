@@ -215,14 +215,14 @@ INT32 CommonFunc::GetRandNum(INT32 nType)
 		return 0;
 	}
 
-	static int nRandIndex[100] = {0};
+	static INT32 nRandIndex[100] = {0};
 	static INT32 vtGlobalRankValue[10000];
-	static bool bInit = false;
+	static BOOL  bInit = false;
 
 	if(bInit == false)
 	{
 		bInit = true;
-		int nTempIndex;
+		INT32  nTempIndex;
 		UINT32 nTemp;
 		for(int j = 0; j < 10000; j++ )
 		{

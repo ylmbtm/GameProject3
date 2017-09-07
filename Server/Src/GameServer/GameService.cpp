@@ -113,7 +113,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgDefautReq)
+			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgRegToProxyAck)
 		default:
 		{
 			m_SceneManager.DispatchPacket(pNetPacket);
@@ -194,7 +194,7 @@ BOOL CGameService::RegisterToLogicSvr()
 {
 	SvrRegToSvrReq Req;
 	Req.set_serverid(m_dwServerID);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLogicConnID, MSG_GMSVR_REGTO_LOGIC_REQ, 0, 0, Req);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLogicConnID, MSG_GAME_REGTO_LOGIC_REQ, 0, 0, Req);
 }
 
 BOOL CGameService::RegisterToProxySvr()
@@ -211,5 +211,14 @@ UINT32 CGameService::GetServerID()
 
 BOOL CGameService::OnMsgDefautReq(NetPacket* pNetPacket)
 {
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgRegToProxyAck(NetPacket* pNetPacket)
+{
+	SvrRegToSvrAck Ack;
+
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
 	return TRUE;
 }

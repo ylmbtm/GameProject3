@@ -356,3 +356,19 @@ message SealAccountAck {
 	string	AccountName	= 2;
 	uint64	AccountID	= 3; //账号ID
 }
+
+
+message CommonReq {
+	uint32  Param1 = 1;
+}
+
+message CommonAck {
+	uint32	RetCode	= 1;
+}
+
+
+message BroadMessageNotify {
+	uint32 MsgID = 1;
+	repeated uint32 ConnID = 2;
+    bytes MsgData = 3;	
+}

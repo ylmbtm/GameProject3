@@ -59,8 +59,8 @@ BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_BACK_TO_CITY_REQ,		OnMsgBackToCityReq);
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
-            PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
-            
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
+
 		default:
 		{
 			PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
@@ -350,6 +350,11 @@ BOOL CLogicMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
 
 BOOL CLogicMsgHandler::OnMsgRegToLoginAck(NetPacket* pNetPacket)
 {
+	SvrRegToSvrAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
+
 	return TRUE;
 }
 
@@ -417,33 +422,33 @@ BOOL CLogicMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 
 BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 {
-    RoleReconnectReq Req;
-    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-    ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
-    CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-    if(pPlayer == NULL)
-    {
-        //重连失败，请重新登录
-        return TRUE;
-    }
+	RoleReconnectReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+	if(pPlayer == NULL)
+	{
+		//重连失败，请重新登录
+		return TRUE;
+	}
 
-    if((pPlayer->m_dwProxyConnID != 0) || (pPlayer->m_dwClientConnID != 0))
-    {
-        //当重连发生的时候，理论上这个连接己经断开了。这两个值应该为空了，
-        //如果此时这两个值为空，那么，还会有其它的情况发生。
-        //此时应该直接选设置这两个值
-        //由于副本己经被退出， 所以此时应该将玩家放到主城
-        CLog::GetInstancePtr()->LogError("OnMsgReconnectReq 断开消都还没有收到， 重连的消息就到了");
-    }
+	if((pPlayer->m_dwProxyConnID != 0) || (pPlayer->m_dwClientConnID != 0))
+	{
+		//当重连发生的时候，理论上这个连接己经断开了。这两个值应该为空了，
+		//如果此时这两个值为空，那么，还会有其它的情况发生。
+		//此时应该直接选设置这两个值
+		//由于副本己经被退出， 所以此时应该将玩家放到主城
+		CLog::GetInstancePtr()->LogError("OnMsgReconnectReq 断开消都还没有收到， 重连的消息就到了");
+	}
 
-    pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
+	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
 
-    CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetObjectID(), pPlayer->GetCityCopyID());
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetObjectID(), pPlayer->GetCityCopyID());
 
-    pPlayer->m_dwCopyID = 0;
+	pPlayer->m_dwCopyID = 0;
 
-    pPlayer->m_dwCopyGuid = 0;
+	pPlayer->m_dwCopyGuid = 0;
 
-    return TRUE;
+	return TRUE;
 }

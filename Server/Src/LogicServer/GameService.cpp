@@ -175,7 +175,7 @@ BOOL CGameService::RegisterToCenterSvr()
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);
 	Req.set_servername(strSvrName);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterID, MSG_LOGIC_REGTO_CENTER_REQ, 0, 0, Req);
 }
 
 BOOL CGameService::OnNewConnect(CConnection* pConn)

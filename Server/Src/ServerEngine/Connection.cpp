@@ -472,10 +472,6 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 			return FALSE;
 		}
 	}
-
-
-
-
 	else
 	{
 		mCritSending.Lock();

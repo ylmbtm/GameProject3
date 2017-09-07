@@ -18,11 +18,11 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection *pConn);
+	BOOL		OnNewConnect(CConnection* pConn);
 
-	BOOL		OnCloseConnect(CConnection *pConn);
+	BOOL		OnCloseConnect(CConnection* pConn);
 
-	BOOL		DispatchPacket( NetPacket *pNetPacket);
+	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	BOOL		SetLogicConnID(UINT32 dwConnID);
 
@@ -45,7 +45,10 @@ protected:
 	UINT32				m_dwServerID;
 
 public:
-	BOOL OnMsgDefautReq(NetPacket *pNetPacket);
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgDefautReq(NetPacket* pNetPacket);
+	BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif

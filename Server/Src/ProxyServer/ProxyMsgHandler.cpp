@@ -41,12 +41,12 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_REQ,			OnMsgGameSvrRegister);
-
+			PROCESS_MESSAGE_ITEM(MSG_BROAD_MESSAGE_NOTIFY,			OnMsgBroadMessageNty);
 		case MSG_ROLE_LIST_REQ:
 		case MSG_ROLE_CREATE_REQ:
 		case MSG_ROLE_DELETE_REQ:
 		case MSG_ROLE_LOGIN_REQ:
-        case MSG_ROLE_RECONNECT_REQ:
+		case MSG_ROLE_RECONNECT_REQ:
 		{
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
@@ -60,14 +60,14 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
 		}
 		break;
-        case MSG_ROLE_LOGOUT_REQ:
-        {
-            RelayToLogicServer(pNetPacket->m_pDataBuffer);
-            CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
-            ERROR_RETURN_TRUE(pConnection != NULL);
-            pConnection->SetConnectionData(0);
-        }
-        break;
+		case MSG_ROLE_LOGOUT_REQ:
+		{
+			RelayToLogicServer(pNetPacket->m_pDataBuffer);
+			CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+			ERROR_RETURN_TRUE(pConnection != NULL);
+			pConnection->SetConnectionData(0);
+		}
+		break;
 		case MSG_ENTER_SCENE_REQ:
 		{
 			//创建proxyplayer对象
@@ -252,5 +252,19 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 	RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
 	RelayToLogicServer(pNetPacket->m_pDataBuffer);
+	return TRUE;
+}
+
+BOOL CProxyMsgHandler::OnMsgBroadMessageNty(NetPacket* pPacket)
+{
+	BroadMessageNotify Nty;
+	Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pPacketHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	for(int i = 0; i < Nty.connid_size(); i++)
+	{
+		ServiceBase::GetInstancePtr()->SendMsgRawData(Nty.connid(i), Nty.msgid(), 0, 0, Nty.msgdata().c_str(), Nty.msgdata().size());
+	}
+
 	return TRUE;
 }
