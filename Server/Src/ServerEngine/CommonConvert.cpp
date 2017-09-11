@@ -12,6 +12,26 @@ INT32 CommonConvert::StringToInt(char* pStr)
 	return atoi(pStr);
 }
 
+INT64 CommonConvert::StringToInt64(char* pStr)
+{
+	if(pStr == NULL)
+	{
+		return 0;
+	}
+
+	return atol(pStr);
+}
+
+INT64 CommonConvert::StringToInt64(const char* pStr)
+{
+	if(pStr == NULL)
+	{
+		return 0;
+	}
+
+	return atol(pStr);
+}
+
 INT32 CommonConvert::StringToInt(const char* pStr)
 {
 	if(pStr == NULL)
@@ -161,26 +181,38 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
 	return TRUE;
 }
 
+BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat)
+{
+	const size_t nsize = newpat.size();
+	const size_t psize = pattern.size();
 
-// BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr)
-// {
-// 	vtStr.clear();
-// 	std::string::iterator subStart, subEnd;
-// 	subStart = strSrc.begin();
-// 	while (true)
-// 	{
-// 		subEnd = std::search(subStart, strSrc.end(), strDelim.begin(), strDelim.end());
-// 		std::string temp(subStart, subEnd);
-// 		if (!temp.empty())
-// 		{
-// 			vtStr.push_back(temp);
-// 		}
-// 		if (subEnd == strSrc.end())
-// 		{
-// 			break;
-// 		}
-// 		subStart = subEnd + strDelim.size();
-// 	}
-//
-// 	return TRUE;
-// }
+	for (size_t pos = str.find(pattern, 0); pos != std::string::npos; pos = str.find(pattern, pos + nsize))
+	{
+		str.replace(pos, psize, newpat);
+	}
+
+	return TRUE;
+}
+
+ BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr)
+ {
+ 	vtStr.clear();
+	
+	std::string::size_type posStart, posEnd;
+	posEnd = strSrc.find(cDelim);
+	posStart = 0;
+	while(std::string::npos != posEnd)
+	{
+		vtStr.push_back(strSrc.substr(posStart, posEnd-posStart));
+
+		posStart = posEnd + 1;
+		posEnd = strSrc.find(cDelim, posStart);
+	}
+
+	if(posStart != strSrc.length())
+	{
+		vtStr.push_back(strSrc.substr(posStart));
+	}
+
+	return TRUE;
+ }
