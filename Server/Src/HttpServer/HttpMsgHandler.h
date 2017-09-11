@@ -1,12 +1,12 @@
-﻿#ifndef _LOG_MSG_HANDLER_H_
-#define _LOG_MSG_HANDLER_H_
+﻿#ifndef _HTTP_MSG_HANDLER_H_
+#define _HTTP_MSG_HANDLER_H_
 
-class CLogMsgHandler
+class CHttpMsgHandler
 {
 public:
-	CLogMsgHandler();
+	CHttpMsgHandler();
 
-	~CLogMsgHandler();
+	~CHttpMsgHandler();
 
 	BOOL		Init(UINT32 dwReserved);
 

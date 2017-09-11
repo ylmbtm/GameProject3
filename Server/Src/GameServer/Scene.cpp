@@ -755,6 +755,32 @@ UINT64 CScene::GenNewGuid()
 	return m_uMaxGuid;
 }
 
+//BOOL CScene::SyncObjectState()
+//{
+//	if(m_ObjectActionNty.actionlist_size() <= 0)
+//	{
+//		return TRUE;
+//	}
+//
+//	char szBuff[102400] = {0};
+//	m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize());
+//	m_ObjectActionNty.Clear();
+//	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+//	{
+//		CSceneObject* pObj = itor->second;
+//		ASSERT(pObj != NULL);
+//
+//		if(!pObj->IsConnected())
+//		{
+//			continue;
+//		}
+//
+//		pObj->SendMsgRawData(MSG_OBJECT_ACTION_NTY, szBuff, m_ObjectActionNty.ByteSize());
+//	}
+//
+//	return TRUE;
+//}
+
 BOOL CScene::SyncObjectState()
 {
 	if(m_ObjectActionNty.actionlist_size() <= 0)
@@ -764,6 +790,12 @@ BOOL CScene::SyncObjectState()
 
 	char szBuff[102400] = {0};
 	m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize());
+
+
+	BroadMessageNotify Nty;
+	Nty.set_msgdata(szBuff, m_ObjectActionNty.ByteSize());
+	Nty.set_msgid(MSG_OBJECT_ACTION_NTY);
+	m_ObjectActionNty.Clear();
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
@@ -775,13 +807,14 @@ BOOL CScene::SyncObjectState()
 			continue;
 		}
 
-		pObj->SendMsgRawData(MSG_OBJECT_ACTION_NTY, szBuff, m_ObjectActionNty.ByteSize());
+		Nty.add_connid(pObj->m_dwClientConnID);
 	}
 
-	m_ObjectActionNty.Clear();
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetProxyConnID(), MSG_BROAD_MESSAGE_NOTIFY, 0, 0, Nty);
 
 	return TRUE;
 }
+
 
 BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {

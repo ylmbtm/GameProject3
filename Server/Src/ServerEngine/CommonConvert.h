@@ -4,10 +4,17 @@
 namespace CommonConvert
 {
 INT32 StringToInt(char* pStr);
+
 INT32 StringToInt(const char* pStr);
 
+INT64 StringToInt64(char* pStr);
+
+INT64 StringToInt64(const char* pStr);
+
 FLOAT StringToFloat(char* pStr);
+
 FLOAT StringToFloat(const char* pStr);
+
 std::string IntToString(INT32 nValue);
 
 BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
@@ -21,7 +28,9 @@ std::string  UnicodeToUft8(std::wstring wstrValue);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
 
-//BOOL SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr);
+BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtStr);
+
+BOOL ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat);
 }
 
 

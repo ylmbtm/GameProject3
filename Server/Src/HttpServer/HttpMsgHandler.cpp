@@ -1,35 +1,35 @@
 ﻿#include "stdafx.h"
 #include "CommandDef.h"
-#include "LogMsgHandler.h"
+#include "HttpMsgHandler.h"
 #include "CommonFunc.h"
 #include "CommonEvent.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "CommonSocket.h"
 
-CLogMsgHandler::CLogMsgHandler()
+CHttpMsgHandler::CHttpMsgHandler()
 {
 
 }
 
-CLogMsgHandler::~CLogMsgHandler()
+CHttpMsgHandler::~CHttpMsgHandler()
 {
 
 }
 
-BOOL CLogMsgHandler::Init(UINT32 dwReserved)
-{
-	return TRUE;
-}
-
-BOOL CLogMsgHandler::Uninit()
+BOOL CHttpMsgHandler::Init(UINT32 dwReserved)
 {
 	return TRUE;
 }
 
+BOOL CHttpMsgHandler::Uninit()
+{
+	return TRUE;
+}
 
 
-BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
+
+BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
@@ -46,12 +46,7 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-
-
-
-
-
-BOOL CLogMsgHandler::OnTestMsgReq(NetPacket* pNetPacket)
+BOOL CHttpMsgHandler::OnTestMsgReq(NetPacket* pNetPacket)
 {
 	char sz[20] = "abcdefghiji";
 

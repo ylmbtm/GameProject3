@@ -4,8 +4,9 @@
 #include "CommandDef.h"
 #include "Connection.h"
 #include "PacketHeader.h"
-#include "..\ServerEngine\Log.h"
-#include "..\ServerEngine\TimerManager.h"
+#include "../ServerEngine/Log.h"
+#include "../ServerEngine/TimerManager.h"
+#include "../ServerEngine/CommonFunc.h"
 
 ServiceBase::ServiceBase(void)
 {
