@@ -156,7 +156,7 @@ BOOL CGameService::RegisterToLoginSvr()
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
-	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);
@@ -170,7 +170,7 @@ BOOL CGameService::RegisterToCenterSvr()
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
-	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_out_ip");
+	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);

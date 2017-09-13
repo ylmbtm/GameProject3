@@ -17,13 +17,13 @@ LogicSvrManager::~LogicSvrManager(void)
 
 BOOL LogicSvrManager::Init()
 {
-
+	ReloadServerList();
 
 
 	return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strIpAddr, UINT32 dwPort, std::string strSvrName)
+BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, std::string strSvrName)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
@@ -31,7 +31,6 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, st
 		LogicServerNode* pTempNode = new LogicServerNode();
 		pTempNode->m_dwServerID = dwServerID;
 		pTempNode->m_dwConnID   = dwConnID;
-		pTempNode->m_strIpAddr  = strIpAddr;
 		pTempNode->m_dwPort     = dwPort;
 		pTempNode->m_strSvrName = strSvrName;
 		insert(std::make_pair(dwServerID, pTempNode));
@@ -137,9 +136,9 @@ BOOL LogicSvrManager::ReloadServerList()
 		}
 
 		pNode->m_strSvrName = QueryResult.getStringField("name");
-		//QueryResult.getInt64Field("opentime");
 		pNode->m_Statue = QueryResult.getIntField("statue");
 		pNode->m_Flag = QueryResult.getIntField("flag");
+		pNode->m_strIpAddr = QueryResult.getIntField("flag");
 		std::string strCheckVersion = QueryResult.getStringField("check_version");
 		if(strCheckVersion.empty() || strCheckVersion == "*")
 		{
@@ -147,7 +146,7 @@ BOOL LogicSvrManager::ReloadServerList()
 		}
 		else
 		{
-
+			pNode->m_dwCheckVersion = 0;
 		}
 
 		std::string strCheckChannel = QueryResult.getStringField("check_chan");

@@ -13,16 +13,15 @@ public:
 	BOOL		Uninit();
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
-	//*********************消息处理定义开始******************************
-public:
-	//BOOL OnMsgSvrRunningStateReq(NetPacket *pPacket);
 
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgPhpWebReq(NetPacket* pNetPacket);
 
 	//*********************消息处理定义结束******************************
-	//日志处理函数
-	//BOOL OnSvrReport_NormalLog(NetPacket* pNetPacket);
 
-	BOOL OnTestMsgReq(NetPacket* pNetPacket);
+
+
 
 };
 

@@ -6,6 +6,8 @@
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "CommonSocket.h"
+#include "..\Message\Msg_ID.pb.h"
+#include "Log.h"
 
 CHttpMsgHandler::CHttpMsgHandler()
 {
@@ -33,9 +35,7 @@ BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		case 4999998:
-			OnTestMsgReq(pNetPacket);
-			break;
+			PROCESS_MESSAGE_ITEM(MSG_PHP_WEB_REQ,		OnMsgPhpWebReq);
 		default:
 		{
 
@@ -46,7 +46,7 @@ BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CHttpMsgHandler::OnTestMsgReq(NetPacket* pNetPacket)
+BOOL CHttpMsgHandler::OnMsgPhpWebReq(NetPacket* pNetPacket)
 {
 	char sz[20] = "abcdefghiji";
 

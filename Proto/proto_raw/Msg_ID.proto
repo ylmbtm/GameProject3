@@ -7,7 +7,9 @@ enum MessageID {
 	MSG_CONNECT_SUCCESS			= 2;    //连接成功
 	MSG_DISCONNECT_NTY			= 3;    //断开连接
 
-	//========================LoginSVR=======================
+	//============================================================================================
+	// 				一般消息定义
+	//============================================================================================
 	MSG_LOGINSVR_MSGID_BEGIN		= 1000000;
 
 	MSG_CHECK_VERSION_REQ			= 1000001;    //版本验证
@@ -33,9 +35,16 @@ enum MessageID {
 
 	MSG_SEAL_ACCOUNT_REQ			= 1000015;   //封号请求
 	MSG_SEAL_ACCOUNT_ACK			= 1000016;   //封号请求返回
+	
+	MSG_PHP_WEB_REQ					= 1000017;   //封号请求
+	MSG_PHP_WEB_ACK					= 1000018;   //封号请求
 
 	MSG_LOGINSVR_MSGID_END			= 1999999;
-	//========================LogicSVR=======================
+	
+	
+	//============================================================================================
+	// 				Cient <==> LogicSVR
+	//============================================================================================
 	MSG_LOGICSVR_MSGID_BEGIN		= 2000000;
 	MSG_ROLE_LIST_REQ			= 2000001;
 	MSG_ROLE_LIST_ACK			= 2000002;
@@ -54,8 +63,8 @@ enum MessageID {
 	
 	MSG_DATA_UPDATE				= 2000011;
 	
-	MSG_GAME_REGTO_LOGIC_REQ			= 2000012;
-	MSG_GAME_REGTO_LOGIC_ACK			= 2000013;
+	MSG_GAME_REGTO_LOGIC_REQ		= 2000012;
+	MSG_GAME_REGTO_LOGIC_ACK		= 2000013;
 	MSG_NOTIFY_INTO_SCENE			= 2000014;
 
 	
@@ -103,9 +112,14 @@ enum MessageID {
 	MSG_LOGIC_REGTO_CENTER_ACK		= 2000050;
 
 	MSG_BROAD_MESSAGE_NOTIFY		= 2000051;
+	MSG_GASVR_REGTO_PROXY_REQ		= 2000052;
+	MSG_GASVR_REGTO_PROXY_ACK		= 2000053;
 
 	MSG_LOGICSVR_MSGID_END			= 2999999;
-	//========================SceneSVR=======================
+	
+	//============================================================================================
+	// 				Cient <==> SceneSVR
+	//============================================================================================
 	MSG_SCENESVR_MSGID_BEGIN		= 3000000;
 	MSG_CREATE_SCENE_REQ 			= 3000001;
 	MSG_CREATE_SCENE_ACK 			= 3000002;
@@ -141,14 +155,6 @@ enum MessageID {
 	MSG_BATTLE_CHAT_ACK			= 3000027;
 
 	MSG_SCENESVR_MSGID_END			= 3999999;
-	//========================ProxySVR=======================
-	MSG_PROXYSVR_MSGID_BEGIN		= 4000000;
-	
-	MSG_GASVR_REGTO_PROXY_REQ		= 4000001;
-	MSG_GASVR_REGTO_PROXY_ACK		= 4000002;
-	
-	
-	MSG_PROXYSVR_MSGID_END 			= 4999999;
 	///////////////////////////////////////
 	/////////////////////////////
 	//////////////////////////////////////
