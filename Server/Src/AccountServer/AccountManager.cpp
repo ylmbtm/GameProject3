@@ -119,7 +119,7 @@ BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std:
 
 CAccountObject* CAccountObjectMgr::GetAccountObjectByName(std::string name)
 {
-	std::map<std::string, CAccountObject*>::iterator itor = m_mapNameObj.find(name);
+	std::multimap<std::string, CAccountObject*>::iterator itor = m_mapNameObj.find(name);
 	if(itor != m_mapNameObj.end())
 	{
 		return itor->second;
@@ -169,4 +169,19 @@ BOOL CAccountObjectMgr::Close()
 BOOL CAccountObjectMgr::IsRun()
 {
 	return m_IsRun;
+}
+
+CAccountObject* CAccountObjectMgr::GetAccountObject( std::string name, UINT32 dwChannel )
+{
+	auto range = m_mapNameObj.equal_range(name);
+	for (std::multimap<std::string, CAccountObject*>::iterator itor =range.first; itor!=range.second; ++itor)
+	{
+		CAccountObject* pObject = itor->second;
+		if(pObject->m_dwChannel == dwChannel)
+		{
+			return pObject;
+		}
+	}
+
+	return NULL;
 }

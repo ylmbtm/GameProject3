@@ -255,7 +255,6 @@ UINT32 CommonFunc::GetLastError()
 
 HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 {
-
 #ifdef WIN32
 	HANDLE hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, strName.c_str());
 	if(hShare != 0)
@@ -283,7 +282,7 @@ HANDLE CommonFunc::OpenShareMemory(std::string strName, INT32 nSize)
 	HANDLE hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, strName.c_str());
 #else
 	key_t key = ftok(strName.c_str(), 201);
-	HANDLE hShare = shmget(key, nSize, 0666);
+	HANDLE hShare = shmget(key, nSize, 0);
 #endif
 	return hShare;
 }
@@ -298,12 +297,20 @@ CHAR* CommonFunc::GetShareMemory(HANDLE hShm)
 	return pdata;
 }
 
+BOOL CommonFunc::ReleaseShareMemory(CHAR* pMem)
+{
+#ifdef WIN32
+	return UnmapViewOfFile(pMem);
+#else
+	return (0 == shmdt(pMem));
+#endif
+}
+
 BOOL CommonFunc::CloseShareMemory(HANDLE hShm)
 {
 #ifdef WIN32
 	return  CloseHandle(hShm);
 #else
-	shmdt(hShm);
 	return (0 == shmctl(hShm, IPC_RMID, 0));
 #endif
 }

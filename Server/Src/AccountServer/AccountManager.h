@@ -38,6 +38,8 @@ public:
 
 	CAccountObject*		GetAccountObjectByName(std::string name);
 
+	CAccountObject*		GetAccountObject(std::string name, UINT32 dwChannel);
+
 	BOOL				SaveAccountChange();
 
 	BOOL				Close();
@@ -46,7 +48,7 @@ public:
 
 public:
 
-	std::map<std::string, CAccountObject*>	m_mapNameObj;
+	std::multimap<std::string, CAccountObject*>	m_mapNameObj;
 
 	ArrayLockFreeQueue<CAccountObject*>		m_ArrChangedAccount;
 

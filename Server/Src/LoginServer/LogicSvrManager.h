@@ -94,6 +94,8 @@ public:
 
 	BOOL	ReloadServerList();
 
+	BOOL	ReloadReviewPackage();
+
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 
 	LogicServerNode* GetRecommendServerInfo();

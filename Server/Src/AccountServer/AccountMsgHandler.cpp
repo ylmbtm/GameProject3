@@ -108,6 +108,9 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	AccountLoginAck Ack;
+	//由于实际运营中存在不同渠道的accountname一样的情况，所有需要增加渠道参数
+	//CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
+
 	CAccountObject* pAccObj = m_AccountManager.GetAccountObjectByName(Req.accountname());
 	if(pAccObj != NULL)
 	{

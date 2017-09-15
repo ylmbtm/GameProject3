@@ -17,8 +17,27 @@ LogicSvrManager::~LogicSvrManager(void)
 
 BOOL LogicSvrManager::Init()
 {
-	ReloadServerList();
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
 
+	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("ReloadServerList Error: Can not open database!!!");
+		return FALSE;
+	}
+
+	if(!ReloadServerList())
+	{
+		return FALSE;
+	}
+
+	if(!ReloadReviewPackage())
+	{
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -111,18 +130,6 @@ BOOL LogicSvrManager::IsReviewPackage(std::string strPackageName)
 
 BOOL LogicSvrManager::ReloadServerList()
 {
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
-
-	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
-	{
-		CLog::GetInstancePtr()->LogError("ReloadServerList Error: Can not open database!!!");
-		return FALSE;
-	}
-
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from server_list");
 	while(!QueryResult.eof())
 	{
@@ -180,6 +187,22 @@ BOOL LogicSvrManager::ReloadServerList()
 			}
 		}
 
+		QueryResult.nextRow();
+	}
+
+	return TRUE;
+}
+
+BOOL LogicSvrManager::ReloadReviewPackage()
+{
+	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from review_client");
+	while(!QueryResult.eof())
+	{
+		UINT32 dwID = QueryResult.getIntField("id");
+		std::string strPackageName = QueryResult.getStringField("review_package");
+
+		m_setReviewPackage.insert(strPackageName);
+	
 		QueryResult.nextRow();
 	}
 

@@ -49,6 +49,8 @@ HANDLE			OpenShareMemory(std::string strName, INT32 nSize);
 
 CHAR* 			GetShareMemory(HANDLE hShm);
 
+BOOL 			ReleaseShareMemory(CHAR* pMem);
+
 BOOL			CloseShareMemory(HANDLE hShm);
 
 }
