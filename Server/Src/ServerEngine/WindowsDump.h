@@ -1,4 +1,4 @@
-#ifndef __WINDOWS_DUMP_H__
+ï»¿#ifndef __WINDOWS_DUMP_H__
 #define __WINDOWS_DUMP_H__
 
 #ifdef WIN32
@@ -9,20 +9,20 @@
 
 void CreateDumpFile(LPCSTR lpstrDumpFilePathName, EXCEPTION_POINTERS *pException)  
 {  
-	// ´´½¨DumpÎÄ¼ş  
+	// åˆ›å»ºDumpæ–‡ä»¶  
 	HANDLE hDumpFile = CreateFile(lpstrDumpFilePathName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);  
 	if(hDumpFile ==INVALID_HANDLE_VALUE)
 	{
 		return ;
 	}
 
-	// DumpĞÅÏ¢  
+	// Dumpä¿¡æ¯  
 	MINIDUMP_EXCEPTION_INFORMATION dumpInfo;  
 	dumpInfo.ExceptionPointers	= pException;  
 	dumpInfo.ThreadId			= GetCurrentThreadId();  
 	dumpInfo.ClientPointers		= TRUE;  
 
-	// Ğ´ÈëDumpÎÄ¼şÄÚÈİ  
+	// å†™å…¥Dumpæ–‡ä»¶å†…å®¹  
 	MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);  
 
 	CloseHandle(hDumpFile);  
@@ -39,7 +39,7 @@ LONG ApplicationCrashHandler(EXCEPTION_POINTERS *pException)
 	return EXCEPTION_EXECUTE_HANDLER;  
 }  
 
-//Àı×Ó
+//ä¾‹å­
 /*
 	 SetUnhandledExceptionFilter(ApplicationCrashHandler);
 */

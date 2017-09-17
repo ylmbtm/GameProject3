@@ -1,4 +1,4 @@
-#include <stdafx.h>
+﻿#include <stdafx.h>
 #include "GroupMailMgr.h"
 #include "GameService.h"
 #include "Sqlite/CppSQLite3.h"

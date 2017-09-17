@@ -1,4 +1,4 @@
-#ifndef __SIMPLE_MANAGER_H__
+﻿#ifndef __SIMPLE_MANAGER_H__
 #define __SIMPLE_MANAGER_H__
 
 struct CSimpleInfo

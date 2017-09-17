@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "SharedMemory.h"
 #include "CommonConvert.h"
 #include "CommonFunc.h"
@@ -68,9 +68,9 @@ void ShareObject::reset()
 }
 
 /******************************************************************
-Ã¿¿é¹²ÏíÄÚ´æ¶¼ÊÇÓÉÊı¾İÌåºÍÊı¾İÍ·×é³É,Êı¾İÌåÔÚÇ°Ãæ£¬Êı¾İÍ·ÔÚºóÃæTÎªÌåHÎªÍ·
+æ¯å—å…±äº«å†…å­˜éƒ½æ˜¯ç”±æ•°æ®ä½“å’Œæ•°æ®å¤´ç»„æˆ,æ•°æ®ä½“åœ¨å‰é¢ï¼Œæ•°æ®å¤´åœ¨åé¢Tä¸ºä½“Hä¸ºå¤´
 TTTTTTTTTTTTTTTTTTTTTTHHHHHHHHHHHHHHHHHHHHH
-Êı¾İÌåºÍÊı¾İ¿éµÄÊıÁ¿ÊÇÒ»ÑùµÄ
+æ•°æ®ä½“å’Œæ•°æ®å—çš„æ•°é‡æ˜¯ä¸€æ ·çš„
 ********************************************************************/
 
 
@@ -112,13 +112,13 @@ void SharedMemoryBase::InitPage(shareMemoryPage& rPage)
 	char* pdata = rPage.m_pdata;
 	memset(pdata, 0, size);
 
-	//ÉèÖÃ·À»¤ÇøÓò
+	//è®¾ç½®é˜²æŠ¤åŒºåŸŸ
 	for (INT32 i = 0; i != m_countperPage; ++i)
 	{
 		*(pdata + (m_rawblockSize)*i) = BLOCK_CHECK_CODE;
 	}
 
-	//m_pageCountÒÑ¾­°üº¬µ±Ç°Ò³Âë£¬¹ÊĞèÒª¼õ1
+	//m_pageCountå·²ç»åŒ…å«å½“å‰é¡µç ï¼Œæ•…éœ€è¦å‡1
 	UINT32 startindex = m_countperPage * (m_pageCount - 1);
 	for (UINT32 i = startindex; i < m_count; ++i)
 	{
@@ -188,8 +188,8 @@ void SharedMemoryBase::ImportOtherPage()
 		{
 			break;
 		}
-		///Èç¹ûÔ­À´¾ÍÒÑ¾­´æ¹ı£¬³õÊ¼»¯Êı¾İ
-		///ÕÒµ½Í·Êı¾İ¿éµÄÍ·
+		///å¦‚æœåŸæ¥å°±å·²ç»å­˜è¿‡ï¼Œåˆå§‹åŒ–æ•°æ®
+		///æ‰¾åˆ°å¤´æ•°æ®å—çš„å¤´
 		page.m_pBlock = (_SMBlock*)(page.m_pdata + m_rawblockSize * m_countperPage);
 		m_ShareMemoryPageMapping.push_back(page);
 		m_count += m_countperPage;
@@ -198,7 +198,7 @@ void SharedMemoryBase::ImportOtherPage()
 }
 
 
-//´ÓÄÚ´æÖĞ¹¹½¨ĞéÄâ¹²ÏíÄÚ´æ½á¹¹
+//ä»å†…å­˜ä¸­æ„å»ºè™šæ‹Ÿå…±äº«å†…å­˜ç»“æ„
 //SharedMemoryBase::SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len)
 //{
 //	m_pageCount = 1;
@@ -222,9 +222,9 @@ void SharedMemoryBase::ImportOtherPage()
 //}
 
 
-/**@param name ¹²ÏíÄÚ´æÃû×Ö£¬¿ÉÒÔÍ¨¹ıÃû×ÖÕÒ»Ø,ÔİÊ±Èç¹ûÓĞÖ»´ò¿ªÄÚ´æÖĞÒÑ¾­ÓĞµÄ¡£
-*@param count  TµÄ¸öÊı
-*@param noCreate ²»ÔÊĞí´´½¨
+/**@param name å…±äº«å†…å­˜åå­—ï¼Œå¯ä»¥é€šè¿‡åå­—æ‰¾å›,æš‚æ—¶å¦‚æœæœ‰åªæ‰“å¼€å†…å­˜ä¸­å·²ç»æœ‰çš„ã€‚
+*@param count  Tçš„ä¸ªæ•°
+*@param noCreate ä¸å…è®¸åˆ›å»º
 */
 SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawblockSize, unsigned int count, BOOL noCreate/*=false*/)
 	: m_rawblockSize(rawblockSize), m_count(count), m_space(rawblockSize + sizeof(_SMBlock)), m_modulename(name)
@@ -267,13 +267,13 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 			firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 
 
-			///ÕÒµ½Í·Êı¾İ¿éµÄÍ·
+			///æ‰¾åˆ°å¤´æ•°æ®å—çš„å¤´
 			//#ifdef SHARED_BLOCK_CHECK
 			//			firstpage.m_pBlock=(_SMBlock*)(firstpage.m_pdata+(m_rawblockSize+BLOCK_FLAG_SIZE)*m_countperPage);
 			//#else
 			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize * m_countperPage);
 			//#endif
-			///Çå¿ÕËùÓĞÄÚ´æ;
+			///æ¸…ç©ºæ‰€æœ‰å†…å­˜;
 			memset(firstpage.m_pdata, 0, size);
 			InitPage(firstpage);
 			m_ShareMemoryPageMapping.push_back(firstpage);
@@ -368,7 +368,7 @@ void SharedMemoryBase::ProcessCleanDirtyData()
 
 ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 {
-	///Èç¹ûÎ´·ÖÅäÄÚ´æÃ»ÓĞÁË,Ôò¿ªÊ¼´¦ÀíÔàÊı¾İ
+	///å¦‚æœæœªåˆ†é…å†…å­˜æ²¡æœ‰äº†,åˆ™å¼€å§‹å¤„ç†è„æ•°æ®
 	if (m_mapFreeSMBlock.size() == 0)
 	{
 		ProcessCleanDirtyData();
@@ -384,7 +384,7 @@ ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 			return NULL;
 		}
 	}
-	///´ÓÎ´·ÖÅäµÄ¶ÓÁĞÖĞÄÃ³ö£¬¼ÓÈëµ½ÒÑ·ÖÅä¶ÓÁĞµ±ÖĞ
+	///ä»æœªåˆ†é…çš„é˜Ÿåˆ—ä¸­æ‹¿å‡ºï¼ŒåŠ å…¥åˆ°å·²åˆ†é…é˜Ÿåˆ—å½“ä¸­
 	mapFreeSMBlock::iterator it = m_mapFreeSMBlock.begin();
 	while (it != m_mapFreeSMBlock.end())
 	{
@@ -395,7 +395,7 @@ ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 			++it;
 			continue;
 		}
-		///ÅĞ¶ÏÊÇ·ñÊÇÉ¾³ı×´Ì¬
+		///åˆ¤æ–­æ˜¯å¦æ˜¯åˆ é™¤çŠ¶æ€
 		if (!pobject->isDestroy())
 		{
 			m_mapUsedSMBlock.insert(std::make_pair(pobject, pBlock));
@@ -410,7 +410,7 @@ ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 		it++;
 	}
 
-	////ÒÔÏÂÎªĞÂ¼ÓµÄ´úÂë zm
+	////ä»¥ä¸‹ä¸ºæ–°åŠ çš„ä»£ç  zm
 	ProcessCleanDirtyData();
 
 	if (NewPage())

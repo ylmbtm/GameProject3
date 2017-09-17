@@ -1,24 +1,23 @@
-#ifndef _LOGIC_SEVER_MANAGERH_
+ï»¿#ifndef _LOGIC_SEVER_MANAGERH_
 #define _LOGIC_SEVER_MANAGERH_
 
-#include "AVLTree.h"
 #include "DBInterface\CppMysql.h"
 
 enum EServerStatue
 {
-	ESS_NONE		= 0,//Î´Öª
-	ESS_GOOD		= 1,//Á÷³©
-	ESS_BUSY		= 2,//Óµ¼·
-	ESS_MAINTAIN	= 3,//Î¬»¤
-	ESS_SHUTDOWN	= 4,//¹Ø±Õ
-	ESS_REVIEW		= 5,//ÆÀÉó
+	ESS_NONE		= 0,//æœªçŸ¥
+	ESS_GOOD		= 1,//æµç•…
+	ESS_BUSY		= 2,//æ‹¥æŒ¤
+	ESS_MAINTAIN	= 3,//ç»´æŠ¤
+	ESS_SHUTDOWN	= 4,//å…³é—­
+	ESS_REVIEW		= 5,//è¯„å®¡
 };
 
 enum EServerFlag
 {
-	ESF_NONE	= 0, //ÎŞ±ê¼Ç
-	ESS_NEW		= 1, //ĞÂ·ş
-	ESS_SURGEST = 2, //ÍÆ¼ö
+	ESF_NONE	= 0, //æ— æ ‡è®°
+	ESS_NEW		= 1, //æ–°æœ
+	ESS_SURGEST = 2, //æ¨è
 
 };
 
@@ -63,9 +62,9 @@ struct LogicServerNode
 		return TRUE;
 	}
 
-	UINT32		m_dwConnID;   //Á¬½ÓID
+	UINT32		m_dwConnID;   //è¿æ¥ID
 	UINT32		m_dwServerID;
-	UINT32		m_dwPort;   ///¶Ë¿ÚºÅ
+	UINT32		m_dwPort;   ///ç«¯å£å·
 	UINT32		m_Statue;
 	UINT32		m_Flag;
 	UINT32		m_dwCheckVersion;
@@ -73,7 +72,7 @@ struct LogicServerNode
 	std::string m_strIpAddr;
 
 	std::set<std::string> m_CheckIpList;
-	std::set<INT32>       m_CheckChannelList; //¿ÉÒÔ¿´¼ûµÄÇşµÀ
+	std::set<INT32>       m_CheckChannelList; //å¯ä»¥çœ‹è§çš„æ¸ é“
 
 };
 

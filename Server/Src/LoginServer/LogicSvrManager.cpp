@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "LogicSvrManager.h"
 #include "CommonConvert.h"
 #include "Log.h"
@@ -53,6 +53,12 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		pTempNode->m_dwPort     = dwPort;
 		pTempNode->m_strSvrName = strSvrName;
 		insert(std::make_pair(dwServerID, pTempNode));
+
+		char szSql[1024];
+		sprintf_s(szSql, 1024, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
+		m_DBConnection.execSQL(szSql);
+		//CLog::GetInstancePtr()->LogError(szSql);
+
 		return TRUE;
 	}
 

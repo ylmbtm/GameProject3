@@ -1,4 +1,4 @@
-#ifndef _EVENT_MANAGER_H__
+ï»¿#ifndef _EVENT_MANAGER_H__
 #define _EVENT_MANAGER_H__
 
 class CFunctionSlotBase
@@ -122,7 +122,7 @@ public:
 		{
 			if ((*itor)->GetThisAddr() == reinterpret_cast<void*>(pObj))
 			{
-				//·´×¢²á²¢²»ÕæÊµÉ¾³ý£¬Ö»ÊÇ½«thisÖ¸ÕëÖÃ¿Õ
+				//åæ³¨å†Œå¹¶ä¸çœŸå®žåˆ é™¤ï¼Œåªæ˜¯å°†thisæŒ‡é’ˆç½®ç©º
 				(*itor)->EmptyThisAddr();
 			}
 

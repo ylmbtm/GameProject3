@@ -1,4 +1,4 @@
-#ifndef __RANK_MANAGER_H__
+﻿#ifndef __RANK_MANAGER_H__
 #define __RANK_MANAGER_H__
 
 #include "Rank.h"

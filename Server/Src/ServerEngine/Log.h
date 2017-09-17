@@ -34,6 +34,8 @@ public:
 
 	void SetLogLevel(int Level);
 
+	void Flush();
+
 protected:
 	CCritSec			m_CritSec;
 

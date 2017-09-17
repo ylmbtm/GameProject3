@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "DBWriterManager.h"
 
 CDBWriterManager::CDBWriterManager()
@@ -78,7 +78,7 @@ Th_RetName _DBWriteThread(void* pParam)
 	{
 		pDBWriterManager->WriteWork();
 
-		CommonThreadFunc::Sleep(1); //ÐÝÏ¢10Ãë
+		CommonThreadFunc::Sleep(1); //ä¼‘æ¯10ç§’
 	}
 	pDBWriterManager->Uninit();
 	CommonThreadFunc::ExitThread();

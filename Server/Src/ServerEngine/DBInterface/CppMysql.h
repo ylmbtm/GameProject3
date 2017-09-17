@@ -1,4 +1,4 @@
-#ifndef __MYSQL_HELPER_H__
+ï»¿#ifndef __MYSQL_HELPER_H__
 #define __MYSQL_HELPER_H__
 
 #include "mysql.h"
@@ -11,10 +11,10 @@ class CppMySQLQuery
 public:
 	CppMySQLQuery();
 
-	//µ±Ö´ĞĞ¿½±´¹¹Ôìº¯Êıºó£¬À¨ºÅÀïµÄÀàÒÑ¾­ÎŞĞ§£¬²»ÄÜÔÙÊ¹ÓÃ
+	//å½“æ‰§è¡Œæ‹·è´æ„é€ å‡½æ•°åï¼Œæ‹¬å·é‡Œçš„ç±»å·²ç»æ— æ•ˆï¼Œä¸èƒ½å†ä½¿ç”¨
 	CppMySQLQuery(CppMySQLQuery& rQuery);
 
-	// µ±Ö´ĞĞ¸³Öµ¹¹Ôìº¯Êıºó£¬ = ÓÒ±ßµÄÀàÒÑ¾­ÎŞĞ§£¬²»ÄÜÔÙÊ¹ÓÃ
+	// å½“æ‰§è¡Œèµ‹å€¼æ„é€ å‡½æ•°åï¼Œ = å³è¾¹çš„ç±»å·²ç»æ— æ•ˆï¼Œä¸èƒ½å†ä½¿ç”¨
 	CppMySQLQuery& operator=(CppMySQLQuery& rQuery);
 
 	virtual ~CppMySQLQuery();
@@ -25,7 +25,7 @@ public:
 
 	int fieldIndex(const char* szField);
 
-	//0...n-1ÁĞ
+	//0...n-1åˆ—
 	const char* fieldName(int nCol);
 
 	int seekRow(int offerset);
@@ -38,7 +38,7 @@ public:
 	double getFloatField(int nField, double fNullValue = 0.0);
 	double getFloatField(const char* szField, double fNullValue = 0.0);
 
-	//0...n-1ÁĞ
+	//0...n-1åˆ—
 	const char* getStringField(int nField, const char* szNullValue = "");
 	const char* getStringField(const char* szField, const char* szNullValue = "");
 
@@ -73,57 +73,57 @@ public:
 
 	void close();
 
-	/* ·µ»Ø¾ä±ú */
+	/* è¿”å›å¥æŸ„ */
 	MYSQL* getMysql();
 
-	/* ´¦Àí·µ»Ø¶àĞĞµÄ²éÑ¯£¬·µ»ØÓ°ÏìµÄĞĞÊı */
-	//·µ»ØÒıÓÃÊÇÒòÎªÔÚCppMySQLQueryµÄ¸³Öµ¹¹Ôìº¯ÊıÖĞÒª°Ñ³ÉÔ±±äÁ¿_mysql_resÖÃÎª¿Õ
+	/* å¤„ç†è¿”å›å¤šè¡Œçš„æŸ¥è¯¢ï¼Œè¿”å›å½±å“çš„è¡Œæ•° */
+	//è¿”å›å¼•ç”¨æ˜¯å› ä¸ºåœ¨CppMySQLQueryçš„èµ‹å€¼æ„é€ å‡½æ•°ä¸­è¦æŠŠæˆå‘˜å˜é‡_mysql_resç½®ä¸ºç©º
 	CppMySQLQuery& querySQL(const char* sql);
 
-	/* Ö´ĞĞ·Ç·µ»Ø½á¹û²éÑ¯ */
+	/* æ‰§è¡Œéè¿”å›ç»“æœæŸ¥è¯¢ */
 	int execSQL(const char* sql);
 
-	/* ²âÊÔmysql·şÎñÆ÷ÊÇ·ñ´æ»î */
+	/* æµ‹è¯•mysqlæœåŠ¡å™¨æ˜¯å¦å­˜æ´» */
 	int ping();
 
-	/* ¹Ø±Õmysql ·şÎñÆ÷ */
+	/* å…³é—­mysql æœåŠ¡å™¨ */
 	int shutDown();
 
-	/* Ö÷Òª¹¦ÄÜ:ÖØĞÂÆô¶¯mysql ·şÎñÆ÷ */
+	/* ä¸»è¦åŠŸèƒ½:é‡æ–°å¯åŠ¨mysql æœåŠ¡å™¨ */
 	int reboot();
 
-	/*ËµÃ÷:ÊÂÎñÖ§³ÖInnoDB or BDB±íÀàĞÍ*/
-	/* Ö÷Òª¹¦ÄÜ:¿ªÊ¼ÊÂÎñ */
+	/*è¯´æ˜:äº‹åŠ¡æ”¯æŒInnoDB or BDBè¡¨ç±»å‹*/
+	/* ä¸»è¦åŠŸèƒ½:å¼€å§‹äº‹åŠ¡ */
 	int startTransaction();
 
-	/* Ö÷Òª¹¦ÄÜ:Ìá½»ÊÂÎñ */
+	/* ä¸»è¦åŠŸèƒ½:æäº¤äº‹åŠ¡ */
 	int commit();
 
-	/* Ö÷Òª¹¦ÄÜ:»Ø¹öÊÂÎñ */
+	/* ä¸»è¦åŠŸèƒ½:å›æ»šäº‹åŠ¡ */
 	int rollback();
 
-	/* µÃµ½¿Í»§ĞÅÏ¢ */
+	/* å¾—åˆ°å®¢æˆ·ä¿¡æ¯ */
 	const char* getClientInfo();
 
-	/* Ö÷Òª¹¦ÄÜ:µÃµ½¿Í»§°æ±¾ĞÅÏ¢ */
+	/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°å®¢æˆ·ç‰ˆæœ¬ä¿¡æ¯ */
 	const unsigned long  getClientVersion();
 
-	/* Ö÷Òª¹¦ÄÜ:µÃµ½Ö÷»úĞÅÏ¢ */
+	/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°ä¸»æœºä¿¡æ¯ */
 	const char* getHostInfo();
 
-	/* Ö÷Òª¹¦ÄÜ:µÃµ½·şÎñÆ÷ĞÅÏ¢ */
+	/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°æœåŠ¡å™¨ä¿¡æ¯ */
 	const char* getServerInfo();
 
-	/*Ö÷Òª¹¦ÄÜ:µÃµ½·şÎñÆ÷°æ±¾ĞÅÏ¢*/
+	/*ä¸»è¦åŠŸèƒ½:å¾—åˆ°æœåŠ¡å™¨ç‰ˆæœ¬ä¿¡æ¯*/
 	const unsigned long  getServerVersion();
 
-	/*Ö÷Òª¹¦ÄÜ:µÃµ½ µ±Ç°Á¬½ÓµÄÄ¬ÈÏ×Ö·û¼¯*/
+	/*ä¸»è¦åŠŸèƒ½:å¾—åˆ° å½“å‰è¿æ¥çš„é»˜è®¤å­—ç¬¦é›†*/
 	const char*   getCharacterSetName();
 
-	/* ½¨Á¢ĞÂÊı¾İ¿â */
+	/* å»ºç«‹æ–°æ•°æ®åº“ */
 	int createDB(const char* name);
 
-	/* É¾³ıÖÆ¶¨µÄÊı¾İ¿â*/
+	/* åˆ é™¤åˆ¶å®šçš„æ•°æ®åº“*/
 	int dropDB(const char* name);
 
 private:
@@ -131,7 +131,7 @@ private:
 	CppMySQL3DB& operator=(const CppMySQL3DB& db);
 
 private:
-	/* msyql Á¬½Ó¾ä±ú */
+	/* msyql è¿æ¥å¥æŸ„ */
 	MYSQL* _db_ptr;
 	CppMySQLQuery _db_query;
 };

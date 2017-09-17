@@ -1,4 +1,4 @@
-#ifndef __GUILD_MANAGER_H__
+﻿#ifndef __GUILD_MANAGER_H__
 #define __GUILD_MANAGER_H__
 #include "Guild.h"
 

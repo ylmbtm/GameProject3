@@ -1,37 +1,37 @@
-#ifndef __SHARE_MEMORY_H__
+ï»¿#ifndef __SHARE_MEMORY_H__
 #define __SHARE_MEMORY_H__
 #include "../ServerData/ServerStruct.h"
 
 #define BLOCK_CHECK_CODE	0x5A
 
-/**¹²ÏíÄÚ´æµÄ×´Ì¬
+/**å…±äº«å†…å­˜çš„çŠ¶æ€
 */
 enum SharedMemoryState
 {
-	SMS_NONE,  ///Î´Ê¹ÓÃ£¬¿ÕÏĞ×´Ì¬
-	SMS_USE,    //ÒÑ¾­Ê¹ÓÃÁË£¬Êı¾İ¿â·şÎñÆ÷¿ÉÒÔ¶ÁÈ¡ĞŞ¸ÄĞ´ÈëÊı¾İ¿â
-	SMS_LOCK,///Ëø×¡×´Ì¬£¬Âß¼­·şÎñÆ÷ÕıÔÚĞ´Èë
-	SMS_RELEASE,///Âß¼­·şÎñÆ÷ÒÑ¾­ÊÍ·ÅÁË¡£Êı¾İ¿â·şÎñÆ÷Ğ´ÈëĞŞ¸Äºó¿ÉÒÔÖÃÎªSMS_NONE×´Ì¬
-	SMS_DELETE,///É¾³ı±êÖ¾
+	SMS_NONE,  ///æœªä½¿ç”¨ï¼Œç©ºé—²çŠ¶æ€
+	SMS_USE,    //å·²ç»ä½¿ç”¨äº†ï¼Œæ•°æ®åº“æœåŠ¡å™¨å¯ä»¥è¯»å–ä¿®æ”¹å†™å…¥æ•°æ®åº“
+	SMS_LOCK,///é”ä½çŠ¶æ€ï¼Œé€»è¾‘æœåŠ¡å™¨æ­£åœ¨å†™å…¥
+	SMS_RELEASE,///é€»è¾‘æœåŠ¡å™¨å·²ç»é‡Šæ”¾äº†ã€‚æ•°æ®åº“æœåŠ¡å™¨å†™å…¥ä¿®æ”¹åå¯ä»¥ç½®ä¸ºSMS_NONEçŠ¶æ€
+	SMS_DELETE,///åˆ é™¤æ ‡å¿—
 };
 
-///ËùÓĞ·Åµ½sharedMemoryÀïµÄÔªËØ¶¼±ØĞëÊÇ´ÓShareObjectÅÉÉúµÄ
+///æ‰€æœ‰æ”¾åˆ°sharedMemoryé‡Œçš„å…ƒç´ éƒ½å¿…é¡»æ˜¯ä»ShareObjectæ´¾ç”Ÿçš„
 struct ShareObject
 {
 	ShareObject();
 
-	///¿ªÊ¼ĞŞ¸Ä£¬±ê¼ÇÎª±»Õ¼ÓÃ
+	///å¼€å§‹ä¿®æ”¹ï¼Œæ ‡è®°ä¸ºè¢«å ç”¨
 	void lock();
 
-	///ÅĞ¶ÏÊÇ·ñ±»Õ¼ÓĞÓÃ
+	///åˆ¤æ–­æ˜¯å¦è¢«å æœ‰ç”¨
 	BOOL islock()const;
 
-	///±ê¼ÇÎª¸ö¸ÄÍê³É¡£
+	///æ ‡è®°ä¸ºä¸ªæ”¹å®Œæˆã€‚
 	void unlock();
 
 	void useit();
 
-	///±ê¼ÇÎªÒÑ¾­ÊÍ·ÅÁË
+	///æ ‡è®°ä¸ºå·²ç»é‡Šæ”¾äº†
 	void release();
 
 	void destroy();
@@ -42,23 +42,23 @@ struct ShareObject
 
 	time_t getLastMotifyTime();
 
-	///ÊÇ·ñÔÚÊ¹ÓÃ
+	///æ˜¯å¦åœ¨ä½¿ç”¨
 	BOOL isUse() const;
 
 	void reset();
 
 	UINT32					   m_dwCheckCode;
 	SharedMemoryState          m_State;
-	time_t                     m_updatetime;	///×îºóÒ»´ÎĞŞ¸ÄÊ±¼ä
+	time_t                     m_updatetime;	///æœ€åä¸€æ¬¡ä¿®æ”¹æ—¶é—´
 };
 
-///¼ÇÂ¼Ã¿¸öT¿éµÄ×´Ì¬
+///è®°å½•æ¯ä¸ªTå—çš„çŠ¶æ€
 struct _SMBlock
 {
-	UINT32			m_dwIndex;      //Êı¾İµ±Ç°±àºÅ
-	BOOL			m_bUse;         //ÊÇ·ñÔÚÊ¹ÓÃtrueÊÇÕıÔÚÊ¹ÓÃ£¬falseÊÇÃ»ÓĞÊ¹ÓÃ
-	BOOL			m_bNewBlock;	///ÊÇ·ñÊÇ¸Õ¸ÕĞÂ´´½¨µÄÇø¿é
-	time_t			m_beforeTime;   //DS·şÎñÆ÷¸üĞÂÍê³Éºó»ØĞ´µÄĞÅÏ¢Ê±¼ä¡£
+	UINT32			m_dwIndex;      //æ•°æ®å½“å‰ç¼–å·
+	BOOL			m_bUse;         //æ˜¯å¦åœ¨ä½¿ç”¨trueæ˜¯æ­£åœ¨ä½¿ç”¨ï¼Œfalseæ˜¯æ²¡æœ‰ä½¿ç”¨
+	BOOL			m_bNewBlock;	///æ˜¯å¦æ˜¯åˆšåˆšæ–°åˆ›å»ºçš„åŒºå—
+	time_t			m_beforeTime;   //DSæœåŠ¡å™¨æ›´æ–°å®Œæˆåå›å†™çš„ä¿¡æ¯æ—¶é—´ã€‚
 	time_t          m_afterTime;
 	_SMBlock()
 	{
@@ -70,11 +70,11 @@ struct _SMBlock
 	}
 };
 
-///¹²ÏíÄÚ´æÒ³½á¹¹
+///å…±äº«å†…å­˜é¡µç»“æ„
 struct shareMemoryPage
 {
-	char*        m_pdata;///Ö¸¶¨¹²ÏíÄÚ´æµØÖ·
-	_SMBlock*    m_pBlock;///Êı¾İ¿éµÄÍ·Î»ÖÃ
+	char*        m_pdata;///æŒ‡å®šå…±äº«å†…å­˜åœ°å€
+	_SMBlock*    m_pBlock;///æ•°æ®å—çš„å¤´ä½ç½®
 	HANDLE       m_shm;///
 };
 
@@ -89,38 +89,38 @@ public:
 protected:
 
 	typedef std::vector<shareMemoryPage> ShareMemoryPageMapping;
-	///¹²ÏíÄÚ´æÒ³Ó³Éä.
+	///å…±äº«å†…å­˜é¡µæ˜ å°„.
 	ShareMemoryPageMapping m_ShareMemoryPageMapping;
 
-	UINT32			m_countperPage;///Ò³ÃæÈİÄÉTÀàĞÍÊıÁ¿
-	UINT32			m_pageCount;///Ò³ÊıÁ¿
-	UINT32			m_count;///TÀàĞÍµÄ×Ü¸öÊı,TÀàĞÍ±ØĞëÊÇ¶¨³¤µÄ¡£
-	UINT32			m_space;///Ã¿¸öÔªËØµÄ¿í¶È
+	UINT32			m_countperPage;///é¡µé¢å®¹çº³Tç±»å‹æ•°é‡
+	UINT32			m_pageCount;///é¡µæ•°é‡
+	UINT32			m_count;///Tç±»å‹çš„æ€»ä¸ªæ•°,Tç±»å‹å¿…é¡»æ˜¯å®šé•¿çš„ã€‚
+	UINT32			m_space;///æ¯ä¸ªå…ƒç´ çš„å®½åº¦
 	UINT32			m_rawblockSize;
 	std::string		m_modulename;
 	BOOL			isempty;
 
-	///ËùÓĞÊı¾İÍ·µÄ¼¯ºÏ
+	///æ‰€æœ‰æ•°æ®å¤´çš„é›†åˆ
 	typedef  std::map<INT32, _SMBlock*>    mapSMBlock;
-	mapSMBlock                     m_mapSMBlock;///ËùÓĞÊı¾İ¿éÍ·ĞÅÏ¢
+	mapSMBlock                     m_mapSMBlock;///æ‰€æœ‰æ•°æ®å—å¤´ä¿¡æ¯
 
 
 	typedef std::map<void*, _SMBlock*>  mapUsedSMBlock;
-	mapUsedSMBlock                 m_mapUsedSMBlock;	///ËùÓĞÊ¹ÓÃÁË¿éµÄÊı¾İĞÅÏ¢
+	mapUsedSMBlock                 m_mapUsedSMBlock;	///æ‰€æœ‰ä½¿ç”¨äº†å—çš„æ•°æ®ä¿¡æ¯
 
 
 	typedef std::map<INT32, _SMBlock*> mapFreeSMBlock;
-	mapFreeSMBlock                 m_mapFreeSMBlock;///ËùÓĞ¿ÕÏĞµÄ¿éĞÅÏ¢
+	mapFreeSMBlock                 m_mapFreeSMBlock;///æ‰€æœ‰ç©ºé—²çš„å—ä¿¡æ¯
 private:
 
-	///´´½¨Ò»¸öĞÂÒ³
+	///åˆ›å»ºä¸€ä¸ªæ–°é¡µ
 	BOOL NewPage();
 
 
 	/**
-	* @brief		³õÊ¼»¯Êı¾İÇøÓò
-	* @details		Êı¾İÇå0£¬²¢ÉèÖÃ±£»¤ÇøÓò
-	* @param[in]	rPage : ¹²ÏíÄÚ´æÒ³
+	* @brief		åˆå§‹åŒ–æ•°æ®åŒºåŸŸ
+	* @details		æ•°æ®æ¸…0ï¼Œå¹¶è®¾ç½®ä¿æŠ¤åŒºåŸŸ
+	* @param[in]	rPage : å…±äº«å†…å­˜é¡µ
 	* @return		void
 	* @remarks
 	*/
@@ -129,32 +129,32 @@ private:
 
 public:
 
-	///Êı¾İ¿â·şÎñÆ÷²»ĞèÒª³õÊ¼»¯map,Âß¼­·şÎñÆ÷²ÅĞèÒª,ËùÒÔ·Ö¿ª
+	///æ•°æ®åº“æœåŠ¡å™¨ä¸éœ€è¦åˆå§‹åŒ–map,é€»è¾‘æœåŠ¡å™¨æ‰éœ€è¦,æ‰€ä»¥åˆ†å¼€
 	void InitToMap();
 
 
-	/**ÊÇ·ñÊÇÊ×´´¹²ÏíÄÚ´æ*/
+	/**æ˜¯å¦æ˜¯é¦–åˆ›å…±äº«å†…å­˜*/
 	BOOL IsFirstCreated();
 
 
-	/**´Ó¹²ÏíÄÚ´æÀï»Ö¸´ÆäËûÒ³*/
+	/**ä»å…±äº«å†…å­˜é‡Œæ¢å¤å…¶ä»–é¡µ*/
 	void ImportOtherPage();
 
-	/**»ñÈ¡ÊıÁ¿*/
+	/**è·å–æ•°é‡*/
 	const UINT32 GetCount()const;
 
-	/**»ñÈ¡»¹ÓĞ¶àÉÙ¿é¿ÕÏĞÄÚ´æ
+	/**è·å–è¿˜æœ‰å¤šå°‘å—ç©ºé—²å†…å­˜
 	*/
 	UINT32 GetFreeCount()const;
 
-	///»ñÈ¡ÒÑ¾­Ê¹ÓÃÁË¶àÉÙ¿é
+	///è·å–å·²ç»ä½¿ç”¨äº†å¤šå°‘å—
 	UINT32 GetUseCount()const;
 
-	/**Í¨¹ıid»ñÈ¡Ô­Ê¼ÄÚ´æÖĞµÄÃèÊö¿éÖ¸Õë
+	/**é€šè¿‡idè·å–åŸå§‹å†…å­˜ä¸­çš„æè¿°å—æŒ‡é’ˆ
 	*/
 	virtual _SMBlock* GetSMBbyRawIndex(INT32 index);
 
-	/**Í¨¹ıid»ñÈ¡Ô­Ê¼ÄÚ´æÖĞµÄÃèÊö¿éÖ¸Õë
+	/**é€šè¿‡idè·å–åŸå§‹å†…å­˜ä¸­çš„æè¿°å—æŒ‡é’ˆ
 	*/
 	virtual ShareObject*  GetObjectByRawindex(UINT32 index);
 
@@ -163,15 +163,15 @@ public:
 
 	const INT32 GetBlockSize() { return m_rawblockSize; }
 
-	/*´¦ÀíÒÑÓÃÇø¿éÖĞ±»Êı¾İ¿â·şÎñÆ÷ÊÍ·ÅµÄÇø¿é*/
+	/*å¤„ç†å·²ç”¨åŒºå—ä¸­è¢«æ•°æ®åº“æœåŠ¡å™¨é‡Šæ”¾çš„åŒºå—*/
 	void ProcessCleanDirtyData();
 
-	/*´Ó¿ÕÏĞÄÚ´æÖĞ·ÖÅäÒ»¸ö¿é,Èç¹ûÃ»ÓĞÁË·µ»Ø¿Õ
-	@param isNewBlock ÎªtrueÊ±»áÔÚ±£´æÆÚµ÷ÓÃsaveobject µÄCreateĞéº¯Êı
+	/*ä»ç©ºé—²å†…å­˜ä¸­åˆ†é…ä¸€ä¸ªå—,å¦‚æœæ²¡æœ‰äº†è¿”å›ç©º
+	@param isNewBlock ä¸ºtrueæ—¶ä¼šåœ¨ä¿å­˜æœŸè°ƒç”¨saveobject çš„Createè™šå‡½æ•°
 	*/
 	virtual ShareObject* NewObject(BOOL isNewBlock = false);
 
-	/**ÊÍ·ÅÒ»¿éÒÑ¾­²»ÔÙÊ¹ÓÃµÄÄÚ´æ
+	/**é‡Šæ”¾ä¸€å—å·²ç»ä¸å†ä½¿ç”¨çš„å†…å­˜
 	*/
 	virtual BOOL DestoryObject(ShareObject* pobject);
 };
@@ -236,10 +236,10 @@ public:
 		m_MemoryPool = NULL;
 	}
 
-	/**Êı¾İ¿âĞŞ¸Ä*/
+	/**æ•°æ®åº“ä¿®æ”¹*/
 	BOOL SaveModifyToDB(IDataBase* pdb)
 	{
-		///¹²ÏíÄÚ´æ²»´æÔÚÖ±½Ó·µ»Ø
+		///å…±äº«å†…å­˜ä¸å­˜åœ¨ç›´æ¥è¿”å›
 		if (m_MemoryPool == NULL)
 		{
 			m_MemoryPool = new SharedMemory<T>(m_moduleName, m_count, true);
@@ -251,15 +251,15 @@ public:
 
 		if (m_MemoryPool->IsFirstCreated())
 		{
-			///¹²ÏíÄÚ´æ»¹Ã»´´½¨
+			///å…±äº«å†…å­˜è¿˜æ²¡åˆ›å»º
 			delete m_MemoryPool;
 			m_MemoryPool = NULL;
 			return false;
 		}
 
 		INT32 newtimes = 0, writetimes = 0, deletetimes = 0, releasetime = 0;
-		BOOL hasOprate = false; //ÊÇ·ñÓĞ²Ù×÷
-		///»ñÈ¡ËùÓĞĞŞ¸Ä¹ıµÄÊı¾İ,getRawMemoryBlockSize»áÖØĞÂ¼ÆËãËùÓĞ¹²Ïí¿é£¬
+		BOOL hasOprate = false; //æ˜¯å¦æœ‰æ“ä½œ
+		///è·å–æ‰€æœ‰ä¿®æ”¹è¿‡çš„æ•°æ®,getRawMemoryBlockSizeä¼šé‡æ–°è®¡ç®—æ‰€æœ‰å…±äº«å—ï¼Œ
 		UINT32 temblockSize = m_MemoryPool->GetRawMemoryBlockSize();
 		for (UINT32 r = 0; r < temblockSize; r++)
 		{
@@ -285,25 +285,25 @@ public:
 			{
 				continue;
 			}
-			///ÕıÔÚĞŞ¸ÄÊı¾İ,Ìø¹ı
+			///æ­£åœ¨ä¿®æ”¹æ•°æ®,è·³è¿‡
 			if (pdata->islock())
 			{
 				continue;
 			}
-			///ÓÅÏÈ»Øµ÷É¾³ı
+			///ä¼˜å…ˆå›è°ƒåˆ é™¤
 			if (pdata->isDestroy())
 			{
-				///´´½¨Ò»¸ö¸±±¾·¢ËÍÒì²½Ö´ĞĞ,Ìá¸ßÔËĞĞĞ§ÂÊ
+				///åˆ›å»ºä¸€ä¸ªå‰¯æœ¬å‘é€å¼‚æ­¥æ‰§è¡Œ,æé«˜è¿è¡Œæ•ˆç‡
 				pdata->Delete(pdb);
 				m_MemoryPool->DestoryObject(pdata);
 				hasOprate = true;
 				deletetimes++;
 				continue;
 			}
-			///Æä´Î»Øµ÷ĞÂ½¨
+			///å…¶æ¬¡å›è°ƒæ–°å»º
 			if (pBlock->m_bNewBlock)
 			{
-				///´´½¨Ò»¸ö¸±±¾·¢ËÍÒì²½Ö´ĞĞ,Ìá¸ßÔËĞĞĞ§ÂÊ
+				///åˆ›å»ºä¸€ä¸ªå‰¯æœ¬å‘é€å¼‚æ­¥æ‰§è¡Œ,æé«˜è¿è¡Œæ•ˆç‡
 				pBlock->m_beforeTime = time(NULL);
 				pdata->Save(pdb);
 				pBlock->m_bNewBlock = false;
@@ -319,7 +319,7 @@ public:
 			beforeTime = pBlock->m_beforeTime;
 			afterTime = pBlock->m_afterTime;
 			BOOL needsave = false;
-			///±£´æÍê±ÏµÄÊ±¼ä´óÓÚ±£´æÇ°µÄÊ±¼ä,ÄÇÃ´ÉÏÒ»´Î±£´æ³É¹¦µÄ
+			///ä¿å­˜å®Œæ¯•çš„æ—¶é—´å¤§äºä¿å­˜å‰çš„æ—¶é—´,é‚£ä¹ˆä¸Šä¸€æ¬¡ä¿å­˜æˆåŠŸçš„
 			if (afterTime >= beforeTime)
 			{
 				if (lastMotifyTime > beforeTime)
@@ -329,12 +329,12 @@ public:
 			}
 			else
 			{
-				needsave = true;///ÉÏÒ»´Î±£´æÊ§°Ü,Á¢¼´±£´æ
+				needsave = true;///ä¸Šä¸€æ¬¡ä¿å­˜å¤±è´¥,ç«‹å³ä¿å­˜
 			}
 
 			if (needsave)
 			{
-				///´´½¨Ò»¸ö¸±±¾·¢ËÍÒì²½Ö´ĞĞ,Ìá¸ßÔËĞĞĞ§ÂÊ
+				///åˆ›å»ºä¸€ä¸ªå‰¯æœ¬å‘é€å¼‚æ­¥æ‰§è¡Œ,æé«˜è¿è¡Œæ•ˆç‡
 				pBlock->m_beforeTime = time(NULL);
 				pdata->Save(pdb);
 				hasOprate = true;
@@ -346,7 +346,7 @@ public:
 
 			if (pdata->isRelease())
 			{
-				///ÊÍ·ÅµÄÊ±ºòÖ´ĞĞÒ»´Î±£´æ...Èç¹ûÉÏ´ÎÃ»ÓĞ±£´æ³É¹¦»òÕß£¬ÊÍ·ÅÇ°ĞŞ¸ÄÁË¾ÍÔÙ±£´æÒ»´Î
+				///é‡Šæ”¾çš„æ—¶å€™æ‰§è¡Œä¸€æ¬¡ä¿å­˜...å¦‚æœä¸Šæ¬¡æ²¡æœ‰ä¿å­˜æˆåŠŸæˆ–è€…ï¼Œé‡Šæ”¾å‰ä¿®æ”¹äº†å°±å†ä¿å­˜ä¸€æ¬¡
 				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime)) ///change by dsq
 				{
 					pBlock->m_beforeTime = time(NULL);/// add by dsq
@@ -372,8 +372,8 @@ public:
 		return hasOprate;
 	}
 private:
-	SharedMemory<T>*       m_MemoryPool;///Ä£¿éÄÚ´æ³Ø
-	UINT32		           m_count;///¹²ÏíÄÚ´æ´óĞ¡
+	SharedMemory<T>*       m_MemoryPool;///æ¨¡å—å†…å­˜æ± 
+	UINT32		           m_count;///å…±äº«å†…å­˜å¤§å°
 	std::string m_moduleName;
 };
 

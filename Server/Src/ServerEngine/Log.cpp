@@ -216,3 +216,10 @@ void CLog::SetLogLevel( int Level )
 
 	return ;
 }
+
+void CLog::Flush()
+{
+	fflush(m_pLogFile);
+
+	m_LogCount = 0;
+}

@@ -1,4 +1,4 @@
-#ifndef __X_MATH_H_
+﻿#ifndef __X_MATH_H_
 #define __X_MATH_H_
 #include "CommonConvert.h"
 

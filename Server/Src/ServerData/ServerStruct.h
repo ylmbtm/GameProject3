@@ -1,4 +1,4 @@
-#ifndef __SERVER_STRUCT_H__
+﻿#ifndef __SERVER_STRUCT_H__
 #define __SERVER_STRUCT_H__
 
 struct IDataBase

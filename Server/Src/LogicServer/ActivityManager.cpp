@@ -1,4 +1,4 @@
-#include <stdafx.h>
+﻿#include <stdafx.h>
 #include "ActivityManager.h"
 #include "../GameServer/GameService.h"
 #include "Sqlite/CppSQLite3.h"

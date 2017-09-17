@@ -1,4 +1,4 @@
-#ifndef __GROUP_MAIL_MGR_H__
+﻿#ifndef __GROUP_MAIL_MGR_H__
 #define __GROUP_MAIL_MGR_H__
 #include "../ServerData/MailData.h"
 

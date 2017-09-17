@@ -47,7 +47,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	m_StatMsgHandler.Init(0);
+	m_LogMsgHandler.Init(0);
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
@@ -69,7 +69,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	{
 		default:
 		{
-			m_StatMsgHandler.DispatchPacket(pNetPacket);
+			m_LogMsgHandler.DispatchPacket(pNetPacket);
 		}
 		break;
 	}

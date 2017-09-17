@@ -1,4 +1,4 @@
-#ifndef __WS_PLAYER_MANAGER_OBJECT_H__
+﻿#ifndef __WS_PLAYER_MANAGER_OBJECT_H__
 #define __WS_PLAYER_MANAGER_OBJECT_H__
 #include "AVLTree.h"
 #include "Position.h"

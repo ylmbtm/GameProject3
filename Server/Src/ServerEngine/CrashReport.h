@@ -1,7 +1,7 @@
-#ifndef _CRASH_REPORT_H_
+ï»¿#ifndef _CRASH_REPORT_H_
 #define _CRASH_REPORT_H_
 
-/*°²·Åcrash¶¨Î»*/
+/*å®‰æ”¾crashå®šä½*/
 void SetCrashReport(std::string strAppName);
 
 #endif

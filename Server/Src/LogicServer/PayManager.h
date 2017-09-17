@@ -1,4 +1,4 @@
-#ifndef __PAY_MANAGER_H__
+﻿#ifndef __PAY_MANAGER_H__
 #define __PAY_MANAGER_H__
 
 

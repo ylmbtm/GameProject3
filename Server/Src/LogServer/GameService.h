@@ -26,7 +26,7 @@ public:
 
 public:
 
-	CLogMsgHandler		m_StatMsgHandler;
+	CLogMsgHandler		m_LogMsgHandler;
 };
 
 #endif

@@ -1,4 +1,4 @@
-#ifndef __GUILD_HEADER_H__
+﻿#ifndef __GUILD_HEADER_H__
 #define __GUILD_HEADER_H__
 #include "../ServerData/GuildData.h"
 

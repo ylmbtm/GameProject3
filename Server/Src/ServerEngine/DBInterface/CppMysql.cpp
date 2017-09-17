@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include <winsock2.h>
 #include "CppMysql.h"
 #include <stdlib.h>
@@ -32,11 +32,11 @@ CppMySQLQuery& CppMySQLQuery::operator=(CppMySQLQuery& rQuery)
 	_field = NULL;
 	if ( m_MysqlRes != NULL )
 	{
-		//¶¨Î»ÓÎ±êÎ»ÖÃµ½µÚÒ»¸öÎ»ÖÃ
+		//å®šä½æ¸¸æ ‡ä½ç½®åˆ°ç¬¬ä¸€ä¸ªä½ç½®
 		mysql_data_seek(m_MysqlRes, 0);
 		_row =  mysql_fetch_row( m_MysqlRes );
 		_row_count = mysql_num_rows( m_MysqlRes );
-		//µÃµ½×Ö¶ÎÊıÁ¿
+		//å¾—åˆ°å­—æ®µæ•°é‡
 		_field_count = mysql_num_fields( m_MysqlRes );
 	}
 	rQuery.m_MysqlRes = NULL;
@@ -102,12 +102,12 @@ int CppMySQLQuery::fieldIndex(const char* szField)
 		return -1;
 	}
 
-	mysql_field_seek(m_MysqlRes, 0);//¶¨Î»µ½µÚ0ÁĞ
+	mysql_field_seek(m_MysqlRes, 0);//å®šä½åˆ°ç¬¬0åˆ—
 	u_int i = 0;
 	while ( i < _field_count )
 	{
 		_field = mysql_fetch_field( m_MysqlRes );
-		if ( _field != NULL && strcmp(_field->name, szField) == 0 )//ÕÒµ½
+		if ( _field != NULL && strcmp(_field->name, szField) == 0 )//æ‰¾åˆ°
 		{
 			return i;
 		}
@@ -314,13 +314,13 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		goto EXT;
 	}
 
-	//Èç¹ûÁ¬½ÓÊ§°Ü£¬·µ»ØNULL¡£¶ÔÓÚ³É¹¦µÄÁ¬½Ó£¬·µ»ØÖµÓëµÚ1¸ö²ÎÊıµÄÖµÏàÍ¬¡£
+	//å¦‚æœè¿æ¥å¤±è´¥ï¼Œè¿”å›NULLã€‚å¯¹äºæˆåŠŸçš„è¿æ¥ï¼Œè¿”å›å€¼ä¸ç¬¬1ä¸ªå‚æ•°çš„å€¼ç›¸åŒã€‚
 	if ( NULL == mysql_real_connect( _db_ptr, host, user, passwd, db, port, NULL, client_flag) )
 	{
 		goto EXT;
 	}
-	//Ñ¡ÔñÖÆ¶¨µÄÊı¾İ¿âÊ§°Ü
-	//0±íÊ¾³É¹¦£¬·Ç0Öµ±íÊ¾³öÏÖ´íÎó¡£
+	//é€‰æ‹©åˆ¶å®šçš„æ•°æ®åº“å¤±è´¥
+	//0è¡¨ç¤ºæˆåŠŸï¼Œé0å€¼è¡¨ç¤ºå‡ºç°é”™è¯¯ã€‚
 	if ( mysql_select_db( _db_ptr, db ) != 0 )
 	{
 		mysql_close(_db_ptr);
@@ -329,7 +329,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 	}
 	ret = true;
 EXT:
-	//³õÊ¼»¯mysql½á¹¹Ê§°Ü
+	//åˆå§‹åŒ–mysqlç»“æ„å¤±è´¥
 	if ( ret == false && _db_ptr != NULL )
 	{
 		mysql_close( _db_ptr );
@@ -352,7 +352,7 @@ MYSQL* CppMySQL3DB::getMysql()
 	return _db_ptr;
 }
 
-/* ´¦Àí·µ»Ø¶àĞĞµÄ²éÑ¯£¬·µ»ØÓ°ÏìµÄĞĞÊı */
+/* å¤„ç†è¿”å›å¤šè¡Œçš„æŸ¥è¯¢ï¼Œè¿”å›å½±å“çš„è¡Œæ•° */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
 	if ( !mysql_real_query( _db_ptr, sql, strlen(sql) ) )
@@ -360,25 +360,25 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 		_db_query.m_MysqlRes = mysql_store_result( _db_ptr );
 		//   _db_query._row =  mysql_fetch_row( _db_query._mysql_res );
 		//   _db_query._row_count = mysql_num_rows( _db_query._mysql_res );
-		//   //µÃµ½×Ö¶ÎÊıÁ¿
+		//   //å¾—åˆ°å­—æ®µæ•°é‡
 		//   _db_query._field_count = mysql_num_fields( _db_query._mysql_res );
 	}
 	return _db_query;
 }
 
-/* Ö´ĞĞ·Ç·µ»Ø½á¹û²éÑ¯ */
+/* æ‰§è¡Œéè¿”å›ç»“æœæŸ¥è¯¢ */
 int CppMySQL3DB::execSQL(const char* sql)
 {
 	if( !mysql_real_query( _db_ptr, sql, strlen(sql) ) )
 	{
-		//µÃµ½ÊÜÓ°ÏìµÄĞĞÊı
+		//å¾—åˆ°å—å½±å“çš„è¡Œæ•°
 		return (int)mysql_affected_rows(_db_ptr) ;
 	}
 
 	return -1;
 }
 
-/* ²âÊÔmysql·şÎñÆ÷ÊÇ·ñ´æ»î */
+/* æµ‹è¯•mysqlæœåŠ¡å™¨æ˜¯å¦å­˜æ´» */
 int CppMySQL3DB::ping()
 {
 	if( mysql_ping(_db_ptr) == 0 )
@@ -389,7 +389,7 @@ int CppMySQL3DB::ping()
 	return -1;
 }
 
-/* ¹Ø±Õmysql ·şÎñÆ÷ */
+/* å…³é—­mysql æœåŠ¡å™¨ */
 int CppMySQL3DB::shutDown()
 {
 	if( mysql_shutdown(_db_ptr, SHUTDOWN_DEFAULT) == 0 )
@@ -400,7 +400,7 @@ int CppMySQL3DB::shutDown()
 	return -1;
 }
 
-/* Ö÷Òª¹¦ÄÜ:ÖØĞÂÆô¶¯mysql ·şÎñÆ÷ */
+/* ä¸»è¦åŠŸèƒ½:é‡æ–°å¯åŠ¨mysql æœåŠ¡å™¨ */
 int CppMySQL3DB::reboot()
 {
 	if(!mysql_reload(_db_ptr))
@@ -412,9 +412,9 @@ int CppMySQL3DB::reboot()
 }
 
 /*
-* ËµÃ÷:ÊÂÎñÖ§³ÖInnoDB or BDB±íÀàĞÍ
+* è¯´æ˜:äº‹åŠ¡æ”¯æŒInnoDB or BDBè¡¨ç±»å‹
 */
-/* Ö÷Òª¹¦ÄÜ:¿ªÊ¼ÊÂÎñ */
+/* ä¸»è¦åŠŸèƒ½:å¼€å§‹äº‹åŠ¡ */
 int CppMySQL3DB::startTransaction()
 {
 	if(!mysql_real_query(_db_ptr, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION") ))
@@ -425,7 +425,7 @@ int CppMySQL3DB::startTransaction()
 	return -1;
 }
 
-/* Ö÷Òª¹¦ÄÜ:Ìá½»ÊÂÎñ */
+/* ä¸»è¦åŠŸèƒ½:æäº¤äº‹åŠ¡ */
 int CppMySQL3DB::commit()
 {
 	if(!mysql_real_query( _db_ptr, "COMMIT", (unsigned long)strlen("COMMIT") ) )
@@ -436,7 +436,7 @@ int CppMySQL3DB::commit()
 	return -1;
 }
 
-/* Ö÷Òª¹¦ÄÜ:»Ø¹öÊÂÎñ */
+/* ä¸»è¦åŠŸèƒ½:å›æ»šäº‹åŠ¡ */
 int CppMySQL3DB::rollback()
 {
 	if(!mysql_real_query(_db_ptr, "ROLLBACK", (unsigned long)strlen("ROLLBACK") ) )
@@ -447,43 +447,43 @@ int CppMySQL3DB::rollback()
 	return -1;
 }
 
-/* µÃµ½¿Í»§ĞÅÏ¢ */
+/* å¾—åˆ°å®¢æˆ·ä¿¡æ¯ */
 const char* CppMySQL3DB::getClientInfo()
 {
 	return mysql_get_client_info();
 }
 
-/* Ö÷Òª¹¦ÄÜ:µÃµ½¿Í»§°æ±¾ĞÅÏ¢ */
+/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°å®¢æˆ·ç‰ˆæœ¬ä¿¡æ¯ */
 const unsigned long  CppMySQL3DB::getClientVersion()
 {
 	return mysql_get_client_version();
 }
 
-/* Ö÷Òª¹¦ÄÜ:µÃµ½Ö÷»úĞÅÏ¢ */
+/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°ä¸»æœºä¿¡æ¯ */
 const char* CppMySQL3DB::getHostInfo()
 {
 	return mysql_get_host_info(_db_ptr);
 }
 
-/* Ö÷Òª¹¦ÄÜ:µÃµ½·şÎñÆ÷ĞÅÏ¢ */
+/* ä¸»è¦åŠŸèƒ½:å¾—åˆ°æœåŠ¡å™¨ä¿¡æ¯ */
 const char* CppMySQL3DB::getServerInfo()
 {
 	return mysql_get_server_info( _db_ptr );
 }
 
-/*Ö÷Òª¹¦ÄÜ:µÃµ½·şÎñÆ÷°æ±¾ĞÅÏ¢*/
+/*ä¸»è¦åŠŸèƒ½:å¾—åˆ°æœåŠ¡å™¨ç‰ˆæœ¬ä¿¡æ¯*/
 const unsigned long  CppMySQL3DB::getServerVersion()
 {
 	return mysql_get_server_version(_db_ptr);
 }
 
-/*Ö÷Òª¹¦ÄÜ:µÃµ½ µ±Ç°Á¬½ÓµÄÄ¬ÈÏ×Ö·û¼¯*/
+/*ä¸»è¦åŠŸèƒ½:å¾—åˆ° å½“å‰è¿æ¥çš„é»˜è®¤å­—ç¬¦é›†*/
 const char*   CppMySQL3DB::getCharacterSetName()
 {
 	return mysql_character_set_name(_db_ptr);
 }
 
-/* ½¨Á¢ĞÂÊı¾İ¿â */
+/* å»ºç«‹æ–°æ•°æ®åº“ */
 int CppMySQL3DB::createDB(const char* name)
 {
 	char temp[1024];
@@ -496,7 +496,7 @@ int CppMySQL3DB::createDB(const char* name)
 	return -1;
 }
 
-/* É¾³ıÖÆ¶¨µÄÊı¾İ¿â*/
+/* åˆ é™¤åˆ¶å®šçš„æ•°æ®åº“*/
 int CppMySQL3DB::dropDB(const char*  name)
 {
 	char temp[1024];

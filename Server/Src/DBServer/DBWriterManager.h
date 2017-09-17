@@ -1,4 +1,4 @@
-#ifndef _DB_WRITER_H_
+﻿#ifndef _DB_WRITER_H_
 #define _DB_WRITER_H_
 
 #include "SharedMemory.h"

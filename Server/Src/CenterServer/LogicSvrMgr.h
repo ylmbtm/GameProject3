@@ -1,4 +1,4 @@
-#ifndef _LOGIC_SEVER_MANAGERH_CENTER_
+ï»¿#ifndef _LOGIC_SEVER_MANAGERH_CENTER_
 #define _LOGIC_SEVER_MANAGERH_CENTER_
 
 struct LogicServerNode
@@ -9,7 +9,7 @@ struct LogicServerNode
 		m_dwServerID = 0;
 	}
 
-	UINT32		m_dwConnID;   //Á¬½ÓID
+	UINT32		m_dwConnID;   //è¿žæŽ¥ID
 	UINT32		m_dwServerID;
 	std::string m_strSvrName;
 };

@@ -1,4 +1,4 @@
-#ifndef __RANK_LIB__H_
+﻿#ifndef __RANK_LIB__H_
 #define __RANK_LIB__H_
 
 struct TRankItem

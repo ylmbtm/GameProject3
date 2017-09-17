@@ -1,4 +1,4 @@
-#ifndef __CHAT_MANAGER_H__
+﻿#ifndef __CHAT_MANAGER_H__
 #define __CHAT_MANAGER_H__
 
 
