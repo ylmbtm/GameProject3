@@ -134,7 +134,7 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 	{
 		LogicServerNode* pTempNode = itor->second;
 		//如果是评审包
-		if(m_LogicSvrMgr.IsReviewPackage(Req.packagename()))
+		if(m_LogicSvrMgr.IsReviewVersion(Req.clientversion()))
 		{
 			if(pTempNode->m_Statue != ESS_REVIEW)
 			{

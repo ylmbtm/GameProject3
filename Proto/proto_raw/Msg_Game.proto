@@ -1,20 +1,19 @@
 ﻿syntax = "proto3";
 message CheckVersionReq {
-	int32	ClientVerion	= 1;
-	string	PackageName	= 2;
-	int32	Channel		= 3;
+	string	ClientVerion	= 1;
+	int32	Channel		= 2;
 }
 
 message CheckVersionAck {
 	uint32	RetCode		= 1;
-	int32	ClientVerion	= 2;
-	string	PackageName	= 3;
+	string	ClientVerion	= 2;
 }
 
 message AccountRegReq {
 	string	AccountName	= 1;
 	string	Password	= 2;
 	int32	Channel		= 3;
+	string	ClientVerion	= 4;
 }
 
 message AccountRegAck {
@@ -26,6 +25,7 @@ message AccountLoginReq {
 	string	AccountName	= 1;
 	string	Password	= 2;
 	int32	Channel		= 3;
+	string	ClientVerion	= 4;
 }
 
 message AccountLoginAck {
@@ -39,8 +39,7 @@ message AccountLoginAck {
 message ClientServerListReq {
 	uint64	AccountID	= 1;
 	int32	Channel		= 2; //渠道包
-	string	PackageName	= 3; //包名
-	int32	ClientVersion	= 4; //客户端版本号
+	string	ClientVersion	= 3; //客户端版本号
 }
 
 

@@ -22,15 +22,27 @@ BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
 //浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
 std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
 
-std::wstring Utf8ToUnicode(std::string strValue);
+std::wstring Utf8_To_Unicode(std::string strValue);
 
-std::string  UnicodeToUft8(std::wstring wstrValue);
+std::string  Unicode_To_Uft8(std::wstring wstrValue);
+
+std::wstring Ansi_To_Unicode(std::string strValue);
+
+std::string Unicode_To_Ansi(std::wstring strValue);
+
+std::string Utf8_To_Ansi(std::string strValue);
+
+std::string Ansi_To_Uft8(std::string wstrValue);
+
+BOOL IsTextUTF8(const char* str, UINT32 length);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
 
 BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtStr);
 
 BOOL ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat);
+
+UINT32 VersionToInt(std::string &strVersion);
 }
 
 

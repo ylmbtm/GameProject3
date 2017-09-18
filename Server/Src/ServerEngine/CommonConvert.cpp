@@ -136,22 +136,6 @@ std::string CommonConvert::FloatToString(FLOAT fValue, INT32 nPrecision, BOOL bR
 	return std::string(szValue);
 }
 
-std::wstring CommonConvert::Utf8ToUnicode( std::string strValue )
-{
-	std::wstring strResult;
-
-
-	return strResult;
-}
-
-std::string CommonConvert::UnicodeToUft8( std::wstring wstrValue )
-{
-	std::string strResult;
-
-
-	return strResult;
-}
-
 BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::vector<std::string>& vtStr)
 {
 	vtStr.clear();
@@ -215,4 +199,156 @@ BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, 
 	}
 
 	return TRUE;
+ }
+
+ std::wstring CommonConvert::Utf8_To_Unicode( std::string strSrc )
+ {
+	 wchar_t wBuff[102400] = {0};
+#ifdef WIN32
+	 MultiByteToWideChar(CP_UTF8, 0, strSrc.c_str(), -1, wBuff, 102400);
+	 std::wstring strRet = wBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ std::string CommonConvert::Unicode_To_Uft8( std::wstring wstrValue )
+ {
+	 CHAR sBuff[102400] = {0};
+#ifdef WIN32
+	 WideCharToMultiByte(CP_UTF8, 0, wstrValue.c_str(), -1, sBuff, 102400, NULL, NULL);
+	 std::string strRet = sBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ std::wstring CommonConvert::Ansi_To_Unicode( std::string strSrc )
+ {
+	 wchar_t wBuff[102400] = {0};
+	 CHAR sBuff[102400] = {0};
+#ifdef WIN32
+	 MultiByteToWideChar(CP_ACP,  0, strSrc.c_str(), -1, wBuff, 102400);
+	 std::wstring strRet = wBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ std::string CommonConvert::Unicode_To_Ansi( std::wstring strValue )
+ {
+	 CHAR sBuff[102400] = {0};
+#ifdef WIN32
+	 WideCharToMultiByte(CP_ACP, 0, strValue.c_str(), -1, sBuff, 102400, NULL, NULL);
+	 std::string strRet = sBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ std::string CommonConvert::Utf8_To_Ansi( std::string strSrc )
+ {
+	 wchar_t wBuff[102400] = {0};
+	 CHAR sBuff[102400] = {0};
+#ifdef WIN32
+	 MultiByteToWideChar(CP_UTF8, 0, strSrc.c_str(), -1, wBuff, 102400);
+	 WideCharToMultiByte(CP_ACP, 0, wBuff, -1, sBuff, 102400, NULL, NULL);
+	 std::string strRet = sBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ std::string CommonConvert::Ansi_To_Uft8( std::string strSrc )
+ {
+	wchar_t wBuff[102400] = {0};
+	CHAR sBuff[102400] = {0};
+#ifdef WIN32
+	 MultiByteToWideChar(CP_ACP,  0, strSrc.c_str(), -1, wBuff, 102400);
+	 WideCharToMultiByte(CP_UTF8, 0, wBuff, -1, sBuff, 102400, NULL, NULL);
+	 std::string strRet = sBuff;
+	 return strRet;
+#else
+#endif
+ }
+
+ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
+ {
+	 int i;
+	 DWORD nBytes = 0;//UFT8可用1-6个字节编码,ASCII用一个字节
+	 UCHAR chr;
+	 BOOL bAllAscii = TRUE; //如果全部都是ASCII, 说明不是UTF-8
+	 for (i = 0; i < length; i++)
+	 {
+		 chr = *(str + i);
+		 if ((chr & 0x80) != 0) // 判断是否ASCII编码,如果不是,说明有可能是UTF-8,ASCII用7位编码,但用一个字节存,最高位标记为0,o0xxxxxxx
+			 bAllAscii = FALSE;
+		 if (nBytes == 0) //如果不是ASCII码,应该是多字节符,计算字节数
+		 {
+			 if (chr >= 0x80)
+			 {
+				 if (chr >= 0xFC && chr <= 0xFD)
+					 nBytes = 6;
+				 else if (chr >= 0xF8)
+					 nBytes = 5;
+				 else if (chr >= 0xF0)
+					 nBytes = 4;
+				 else if (chr >= 0xE0)
+					 nBytes = 3;
+				 else if (chr >= 0xC0)
+					 nBytes = 2;
+				 else
+				 {
+					 return FALSE;
+				 }
+				 nBytes--;
+			 }
+		 }
+		 else //多字节符的非首字节,应为 10xxxxxx
+		 {
+			 if ((chr & 0xC0) != 0x80)
+			 {
+				 return FALSE;
+			 }
+			 nBytes--;
+		 }
+	 }
+	 if (nBytes > 0) //违返规则
+	 {
+		 return FALSE;
+	 }
+	 if (bAllAscii) //如果全部都是ASCII, 说明不是UTF-8
+	 {
+		 return FALSE;
+	 }
+	 return TRUE;
+ }
+
+ UINT32 CommonConvert::VersionToInt( std::string &strVersion )
+ {
+	 char szBuf[255] = {0};
+	 strncpy(szBuf, strVersion.c_str(), 255);
+
+	 char* pPos = strchr(szBuf, '.');
+	 if(pPos == NULL)
+	 {
+		return 0;
+	 }
+
+	 *pPos = 0;
+	 UINT32 nVersion1 = CommonConvert::StringToInt(szBuf);
+
+	 char* pOldPos = pPos + 1;
+	 pPos = strchr(pPos + 1, '.');
+	 if(pPos == NULL)
+	 {
+		 return 0;
+	 }
+	 *pPos = 0;
+	 UINT32 nVersion2 = CommonConvert::StringToInt(pOldPos);
+
+	 pOldPos = pPos + 1;
+	 UINT32 nVersion3 = CommonConvert::StringToInt(pOldPos);
+
+	 return nVersion1*1000000+nVersion2*1000+nVersion3;
  }

@@ -32,35 +32,11 @@ struct LogicServerNode
 		m_Flag = ESF_NONE;
 	}
 
-	BOOL CheckIP(UINT32 dwIPaddr)
-	{
-		if(m_CheckIpList.size() <= 0)
-		{
-			return TRUE;
-		}
+	BOOL CheckIP(UINT32 dwIPaddr);
 
-		return TRUE;
-	}
+	BOOL CheckChannel(UINT32 dwChannel);
 
-	BOOL CheckChannel(UINT32 dwChannel)
-	{
-		if(m_CheckChannelList.size() <= 0)
-		{
-			return TRUE;
-		}
-
-		return TRUE;
-	}
-
-	BOOL CheckVersion(UINT32 dwVersion)
-	{
-		if(m_dwCheckVersion == 0)
-		{
-			return TRUE;
-		}
-
-		return TRUE;
-	}
+	BOOL CheckVersion(std::string strVersion);
 
 	UINT32		m_dwConnID;   //连接ID
 	UINT32		m_dwServerID;
@@ -89,11 +65,11 @@ public:
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 
-	BOOL	IsReviewPackage(std::string strPackageName);
+	BOOL	IsReviewVersion(std::string strClientVersion);
 
 	BOOL	ReloadServerList();
 
-	BOOL	ReloadReviewPackage();
+	BOOL	ReloadReviewVersion();
 
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 
@@ -103,7 +79,7 @@ public:
 public:
 	UINT32 m_dwRecommendSvrID;
 
-	std::set<std::string> m_setReviewPackage;
+	std::set<std::string> m_setReviewVersion;
 
 	CppMySQL3DB 		m_DBConnection;
 };

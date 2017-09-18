@@ -34,7 +34,7 @@ BOOL LogicSvrManager::Init()
 		return FALSE;
 	}
 
-	if(!ReloadReviewPackage())
+	if(!ReloadReviewVersion())
 	{
 		return FALSE;
 	}
@@ -57,7 +57,6 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		char szSql[1024];
 		sprintf_s(szSql, 1024, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
 		m_DBConnection.execSQL(szSql);
-		//CLog::GetInstancePtr()->LogError(szSql);
 
 		return TRUE;
 	}
@@ -123,9 +122,9 @@ LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
 	return pNode;
 }
 
-BOOL LogicSvrManager::IsReviewPackage(std::string strPackageName)
+BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
 {
-	if(m_setReviewPackage.find(strPackageName) == m_setReviewPackage.end())
+	if(m_setReviewVersion.find(strPackageName) == m_setReviewVersion.end())
 	{
 		return FALSE;
 	}
@@ -199,7 +198,7 @@ BOOL LogicSvrManager::ReloadServerList()
 	return TRUE;
 }
 
-BOOL LogicSvrManager::ReloadReviewPackage()
+BOOL LogicSvrManager::ReloadReviewVersion()
 {
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from review_client");
 	while(!QueryResult.eof())
@@ -207,7 +206,7 @@ BOOL LogicSvrManager::ReloadReviewPackage()
 		UINT32 dwID = QueryResult.getIntField("id");
 		std::string strPackageName = QueryResult.getStringField("review_package");
 
-		m_setReviewPackage.insert(strPackageName);
+		m_setReviewVersion.insert(strPackageName);
 	
 		QueryResult.nextRow();
 	}
@@ -215,3 +214,39 @@ BOOL LogicSvrManager::ReloadReviewPackage()
 	return TRUE;
 }
 
+
+BOOL LogicServerNode::CheckIP( UINT32 dwIPaddr )
+{
+	if(m_CheckIpList.size() <= 0)
+	{
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
+BOOL LogicServerNode::CheckChannel( UINT32 dwChannel )
+{
+	if(m_CheckChannelList.size() <= 0)
+	{
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
+BOOL LogicServerNode::CheckVersion( std::string strVersion )
+{
+	if(m_dwCheckVersion == 0)
+	{
+		return TRUE;
+	}
+
+	UINT32 nVersion = CommonConvert::VersionToInt(strVersion);
+	if(nVersion == 0)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
