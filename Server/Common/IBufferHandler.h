@@ -46,13 +46,28 @@ struct IPacketDispatcher
 
 struct  IThreadCommandHandler
 {
-	virtual BOOL OnCommandHandle(UINT32 dwMsgID, UINT64 u64ConnID, IDataBuffer *pDataBuffer) = 0;
+	virtual BOOL DispatchPacket(NetPacket *pNetPacket) = 0;
 	virtual BOOL OnUpdate(UINT32 dwTick) = 0;
 	virtual BOOL OnThreadBegin() = 0;
 	virtual BOOL OnThreadEnd() = 0;
 };
 
 
+struct NetPacket
+{
+	NetPacket(UINT32 dwConnID = 0, IDataBuffer* pBuffer = NULL, UINT32 dwMsgID = 0 )
+	{
+		m_dwConnID = dwConnID;
+
+		m_pDataBuffer = pBuffer;
+
+		m_dwMsgID = dwMsgID;
+	}
+
+	UINT32       m_dwMsgID;
+	UINT32       m_dwConnID;
+	IDataBuffer* m_pDataBuffer;
+};
 
 
 

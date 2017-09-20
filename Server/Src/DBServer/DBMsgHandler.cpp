@@ -11,6 +11,16 @@
 #include "../Message/Msg_ID.pb.h"
 
 
+Th_RetName _DBWorkThread(void* pParam)
+{
+	CDBMsgHandler* pHandler = (CDBMsgHandler*)pParam;
+
+	pHandler->Run();
+
+	return Th_RetValue;
+}
+
+
 CDBMsgHandler::CDBMsgHandler()
 {
 
@@ -25,6 +35,37 @@ BOOL CDBMsgHandler::Init(UINT32 dwReserved)
 {
 	ERROR_RETURN_FALSE(m_DBManager.Init());
 
+	//m_bRun = TRUE;
+
+	//m_hThread = CommonThreadFunc::CreateThread(_DBWorkThread, this);
+
+	//if (m_hThread != NULL)
+	//{
+	//	return TRUE;
+	//}
+
+	return TRUE;
+}
+
+BOOL CDBMsgHandler::Run()
+{
+	while (m_bRun)
+	{
+		NetPacket* pPacket = NULL;
+
+		while (m_PacketQueue.pop(pPacket))
+		{
+			if (pPacket != NULL && pPacket->m_pDataBuffer != NULL)
+			{
+				DispatchPacket(pPacket);
+
+				pPacket->m_pDataBuffer->Release();
+			}
+		}
+
+		CommonThreadFunc::Sleep(1);
+	}
+
 	return TRUE;
 }
 
@@ -32,6 +73,13 @@ BOOL CDBMsgHandler::Uninit()
 {
 	m_DBManager.Uninit();
 
+	return TRUE;
+}
+
+
+BOOL CDBMsgHandler::AddPacket(NetPacket* pNetPacket)
+{
+	m_PacketQueue.push(pNetPacket);
 	return TRUE;
 }
 

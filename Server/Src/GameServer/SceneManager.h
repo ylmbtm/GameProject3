@@ -29,10 +29,11 @@ public:
 
 	UINT32      MakeCopyID();
 
-	BOOL SendCityReport();
+	BOOL		SendCityReport();
 
-	//*********************消息处理定义开始******************************
+	
 public:
+	//*********************消息处理定义开始******************************
 	BOOL OnMsgCreateSceneReq(NetPacket* pNetPack);
 
 

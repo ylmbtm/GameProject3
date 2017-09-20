@@ -34,13 +34,13 @@ void CCommonWorkThread::Run()
 			m_dwLastTick = dwTick;
 		}
 
-		if(m_MessageQueue.size() <= 0)
+		if(m_PacketQueue.size() <= 0)
 		{
 			//如果没有消息了，来处理更新队列
 			m_pCommandHandler->OnUpdate(dwTick);
 		}
 
-		if(m_MessageQueue.size() <= 0)
+		if(m_PacketQueue.size() <= 0)
 		{
 			CommonThreadFunc::Sleep(50 - dwTick + m_dwLastTick);
 		}
@@ -78,33 +78,23 @@ BOOL CCommonWorkThread::ProcessTimeEvent()
 
 BOOL CCommonWorkThread::ProcessMessage()
 {
-	MsgItem msg;
+	NetPacket *pPacket = NULL;
 
-	while(m_MessageQueue.pop(msg))
+	while(m_PacketQueue.pop(pPacket))
 	{
-		if(msg.pDataBuffer == NULL)
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
+		ASSERT(pPacket->m_dwConnID != 0);
 
-		ASSERT(msg.u64ConnID != 0);
+		m_pCommandHandler->DispatchPacket(pPacket);
 
-		PacketHeader* pPacketHeader = (PacketHeader*)(msg.pDataBuffer->GetBuffer());
-
-		m_pCommandHandler->OnCommandHandle(pPacketHeader->dwMsgID, msg.u64ConnID, msg.pDataBuffer);
-
-		msg.pDataBuffer->Release();
+		pPacket->m_pDataBuffer->Release();
 	}
 
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::AddMessage(UINT64 u64ConnID, IDataBuffer* pDataBuffer)
+BOOL CCommonWorkThread::AddMessage(NetPacket* pNetPacket)
 {
-	ASSERT(u64ConnID != 0);
-	IDataBuffer* pRecvBuffer = pDataBuffer;
-	m_MessageQueue.push(MsgItem(u64ConnID, pRecvBuffer));
+	m_PacketQueue.push(pNetPacket);
 	return TRUE;
 }
 

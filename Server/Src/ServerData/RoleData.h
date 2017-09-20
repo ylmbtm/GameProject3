@@ -41,6 +41,7 @@ struct RoleDataObject : public ShareObject
 	INT32		m_VipExp;			//VIP经验
 	INT32		m_CityCopyID;		//主城副本类型
 	BOOL		m_bDelete;        //是否删除
+	INT64       m_uQQ;            //QQ号
 
 	//签到数据
 	INT32		m_nSignNum;        //签到天数

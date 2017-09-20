@@ -8,21 +8,7 @@
 #include "ConfigFile.h"
 #include "google/protobuf/message.h"
 
-struct NetPacket
-{
-	NetPacket(UINT32 dwConnID = 0, IDataBuffer* pBuffer = NULL, UINT32 dwMsgID = 0 )
-	{
-		m_dwConnID = dwConnID;
 
-		m_pDataBuffer = pBuffer;
-
-		m_dwMsgID = dwMsgID;
-	}
-
-	UINT32       m_dwMsgID;
-	UINT32       m_dwConnID;
-	IDataBuffer* m_pDataBuffer;
-};
 
 class ServiceBase : public IDataHandler//, public CEventFuncManager
 {

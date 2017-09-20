@@ -226,7 +226,6 @@
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameObject\BuffObject.h" />
     <ClInclude Include="GameService.h" />
-    <ClInclude Include="..\..\Common\Utility\Position.h" />
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\BattleResult.h" />

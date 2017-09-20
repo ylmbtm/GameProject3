@@ -1,6 +1,5 @@
 ﻿#ifndef _GAME_SERVICE_H_
 #define _GAME_SERVICE_H_
-#include "ServiceBase.h"
 #include "SceneManager.h"
 
 class CGameService : public IPacketDispatcher
@@ -35,7 +34,9 @@ public:
 	BOOL		ConnectToProxySvr();
 
 	BOOL		RegisterToLogicSvr();
+
 	BOOL		RegisterToProxySvr();
+
 	UINT32      GetServerID();
 protected:
 	CSceneManager		m_SceneManager;

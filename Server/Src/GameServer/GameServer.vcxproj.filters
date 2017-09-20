@@ -95,9 +95,6 @@
     <ClInclude Include="GameService.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\Utility\Position.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
