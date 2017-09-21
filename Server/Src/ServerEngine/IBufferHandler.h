@@ -44,10 +44,9 @@ struct IPacketDispatcher
 	virtual BOOL OnNewConnect(CConnection *pConnection) = 0;
 };
 
-struct  IThreadCommandHandler
+struct  IThreadHandler
 {
 	virtual BOOL DispatchPacket(NetPacket *pNetPacket) = 0;
-	virtual BOOL OnUpdate(UINT32 dwTick) = 0;
 	virtual BOOL OnThreadBegin() = 0;
 	virtual BOOL OnThreadEnd() = 0;
 };

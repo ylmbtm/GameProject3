@@ -23,28 +23,18 @@ void CCommonWorkThread::Run()
 	while (m_bRun)
 	{
 		//这就把所有的消息都处理完了
-		ProcessMessage();
+		NetPacket *pPacket = NULL;
 
-		UINT32 dwTick = CommonFunc::GetTickCount();
-		if((dwTick - m_dwLastTick) >= 50)
+		while(m_PacketQueue.pop(pPacket))
 		{
-			//处理所有的定时器
-			ProcessTimeEvent();
+			ASSERT(pPacket->m_dwConnID != 0);
 
-			m_dwLastTick = dwTick;
+			m_pThreadHandler->DispatchPacket(pPacket);
+
+			pPacket->m_pDataBuffer->Release();
 		}
 
-		if(m_PacketQueue.size() <= 0)
-		{
-			//如果没有消息了，来处理更新队列
-			m_pCommandHandler->OnUpdate(dwTick);
-		}
-
-		if(m_PacketQueue.size() <= 0)
-		{
-			CommonThreadFunc::Sleep(50 - dwTick + m_dwLastTick);
-		}
-
+		CommonThreadFunc::Sleep(1);
 	}
 }
 
@@ -71,26 +61,6 @@ BOOL CCommonWorkThread::Stop()
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::ProcessTimeEvent()
-{
-	return TRUE;
-}
-
-BOOL CCommonWorkThread::ProcessMessage()
-{
-	NetPacket *pPacket = NULL;
-
-	while(m_PacketQueue.pop(pPacket))
-	{
-		ASSERT(pPacket->m_dwConnID != 0);
-
-		m_pCommandHandler->DispatchPacket(pPacket);
-
-		pPacket->m_pDataBuffer->Release();
-	}
-
-	return TRUE;
-}
 
 BOOL CCommonWorkThread::AddMessage(NetPacket* pNetPacket)
 {
@@ -98,33 +68,33 @@ BOOL CCommonWorkThread::AddMessage(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CCommonWorkThread::SetCommandHandler( IThreadCommandHandler* pCommandHandler )
+BOOL CCommonWorkThread::SetThreadHandler( IThreadHandler* pCommandHandler )
 {
-	m_pCommandHandler = pCommandHandler;
+	m_pThreadHandler = pCommandHandler;
 
 	return TRUE;
 }
 
 BOOL CCommonWorkThread::OnThreadBegin()
 {
-	if(m_pCommandHandler == NULL)
+	if(m_pThreadHandler == NULL)
 	{
 		return FALSE;
 	}
 
-	m_pCommandHandler->OnThreadBegin();
+	m_pThreadHandler->OnThreadBegin();
 
 	return TRUE;
 }
 
 BOOL CCommonWorkThread::OnThreadEnd()
 {
-	if(m_pCommandHandler == NULL)
+	if(m_pThreadHandler == NULL)
 	{
 		return FALSE;
 	}
 
-	m_pCommandHandler->OnThreadEnd();
+	m_pThreadHandler->OnThreadEnd();
 
 	return TRUE;
 }

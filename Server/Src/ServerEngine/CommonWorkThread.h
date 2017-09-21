@@ -20,13 +20,9 @@ public:
 
 	void			Run();
 
-	BOOL			ProcessTimeEvent();
-
-	BOOL			ProcessMessage();
-
 	BOOL			AddMessage(NetPacket* pNetPacket);
 
-	BOOL			SetCommandHandler(IThreadCommandHandler* pCommandHandler);
+	BOOL			SetThreadHandler(IThreadHandler* pThreadHandler);
 
 	BOOL			OnThreadBegin();
 
@@ -37,13 +33,11 @@ protected:
 
 	BOOL					m_bRun;
 
-	IThreadCommandHandler*	m_pCommandHandler;
-
-	ArrayLockFreeQueue<NetPacket*>   m_PacketQueue;
+	IThreadHandler*			m_pThreadHandler;
 
 	UINT32					m_dwLastTick;
 
-
+	ArrayLockFreeQueue<NetPacket*>   m_PacketQueue;
 };
 
 #endif //_COMMON_WORK_THREAD_H_

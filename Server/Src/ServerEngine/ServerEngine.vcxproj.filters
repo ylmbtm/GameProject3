@@ -57,9 +57,6 @@
     <ClCompile Include="SharedMemory.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CommonMsgHandler.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="CommonWorkThread.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -129,9 +126,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="AstarFinder.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonMsgHandler.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="CommonWorkThread.h">

@@ -5,6 +5,7 @@
 #include "CommonEvent.h"
 #include "Position.h"
 #include "Log.h"
+#include "CommonThreadFunc.h"
 
 CGameService::CGameService(void)
 {

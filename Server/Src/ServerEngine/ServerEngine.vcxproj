@@ -154,7 +154,6 @@
     <ClCompile Include="AstarFinder.cpp" />
     <ClCompile Include="CommonConvert.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
-    <ClCompile Include="CommonMsgHandler.cpp" />
     <ClCompile Include="CommonSocket.cpp" />
     <ClCompile Include="CommonThreadFunc.cpp" />
     <ClCompile Include="CommonWorkThread.cpp" />
@@ -183,7 +182,6 @@
     <ClInclude Include="AstarFinder.h" />
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
-    <ClInclude Include="CommonMsgHandler.h" />
     <ClInclude Include="CommonMsgQueue.h" />
     <ClInclude Include="CommonSocket.h" />
     <ClInclude Include="CommonThreadFunc.h" />
