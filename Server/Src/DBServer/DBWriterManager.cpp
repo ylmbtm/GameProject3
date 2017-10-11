@@ -29,6 +29,16 @@ BOOL CDBWriterManager::Init()
 	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>("Activity");
 	m_pCounterDataWriter    = new DataWriter<CounterDataObject>("Counter");
 	m_pFriendDataWriter    = new DataWriter<FriendDataObject>("Friend");
+
+
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
+
+	m_DBConnection.SetConnectParam(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
+
 	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
 	return TRUE;
@@ -45,22 +55,22 @@ BOOL CDBWriterManager::Uninit()
 
 void CDBWriterManager::WriteWork()
 {
-	m_pRoleDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pGlobalDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pBagDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pCopyDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pEquipDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pPetDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pPartnerDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pGuildDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pMemberDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pTaskDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pMountDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pMailDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pGroupMailDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pActivityDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pCounterDataWriter->SaveModifyToDB(&m_DBManager);
-	m_pFriendDataWriter->SaveModifyToDB(&m_DBManager);
+	m_pRoleDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pGlobalDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pBagDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pCopyDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pEquipDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pPetDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pPartnerDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pGuildDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pMemberDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pTaskDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pMountDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pMailDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pGroupMailDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pActivityDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pCounterDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pFriendDataWriter->SaveModifyToDB(&m_DBConnection);
 }
 
 BOOL CDBWriterManager::IsStop()
@@ -72,7 +82,9 @@ Th_RetName _DBWriteThread(void* pParam)
 {
 	CDBWriterManager* pDBWriterManager = (CDBWriterManager*)pParam;
 
-	pDBWriterManager->m_DBManager.Init();
+	pDBWriterManager->m_DBConnection.Init();
+
+	pDBWriterManager->m_DBConnection.Reconnect();
 
 	while(!pDBWriterManager->IsStop())
 	{

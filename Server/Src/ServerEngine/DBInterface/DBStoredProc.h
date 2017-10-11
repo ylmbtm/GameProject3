@@ -8,7 +8,7 @@
 class CDBStoredProcedure
 {
 public:
-	CDBStoredProcedure(char const *pzProcedure, int nParam);
+	CDBStoredProcedure(char const *pzProcedure);
 	~CDBStoredProcedure( void );
 
 public:
@@ -32,8 +32,6 @@ public:
     MYSQL_BIND           *m_pMybind;
     size_t                m_nCount;   // count of MYSQL_BIND
 	std::string           m_strSql;
-
-	
 };
 
 #endif // __DB_STORED_PROCEDURE__

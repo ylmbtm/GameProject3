@@ -16,9 +16,6 @@
 #include <algorithm>
 #include <assert.h>
 #include <set>
-
-#include "CheckMacroDefine.h"
-
 #include "Platform.h"
 
 #endif

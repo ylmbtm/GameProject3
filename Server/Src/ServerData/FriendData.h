@@ -1,6 +1,6 @@
 ﻿#ifndef __FRIEND_DATA_OBJECT_H__
 #define __FRIEND_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 
 struct FriendDataObject : public ShareObject
 {
@@ -12,12 +12,17 @@ struct FriendDataObject : public ShareObject
 	UINT64 m_uRoleID;		//角色ID
 	UINT64 m_uFriendID;     //好友ID
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDBInterface* pDB)
 	{
 
 		return TRUE;

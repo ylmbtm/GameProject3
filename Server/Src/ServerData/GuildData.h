@@ -1,7 +1,7 @@
 ﻿#ifndef __GUILD_DATA_OBJECT_H__
 #define __GUILD_DATA_OBJECT_H__
 
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 #include "SharedMemory.h"
 #include "ServerDefine.h"
 struct GuildDataObject : public ShareObject
@@ -16,14 +16,19 @@ struct GuildDataObject : public ShareObject
 	CHAR m_szNotice[GUILD_NOTICE_LEN];
 	INT32  m_Level;
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Update(IDBInterface* pDB)
 	{
 
 
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Delete(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
@@ -42,21 +47,24 @@ struct MemberDataObject : public ShareObject
 	UINT32 m_Pos;
 	UINT32 m_dwJoinTime;
 
+	BOOL Create(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
 
-
-	BOOL Save(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
 	{
 
 
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Delete(IDBInterface* pDB)
 	{
 		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "update player set delete = %d");
 
-		pDB->Execut(szSql);
+		pDB->Execute(szSql);
 
 		return TRUE;
 	}

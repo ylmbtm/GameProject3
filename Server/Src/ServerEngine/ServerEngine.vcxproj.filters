@@ -16,9 +16,6 @@
     <Filter Include="Common">
       <UniqueIdentifier>{fe1551b5-b5b2-4875-b079-2f2e3ce8619f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CmdDefine">
-      <UniqueIdentifier>{4c0e672d-bf1f-4446-ba8a-653968b022ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DBInterface">
       <UniqueIdentifier>{63ab26cc-3f0e-4dcc-b2aa-940e2aa94be7}</UniqueIdentifier>
     </Filter>
@@ -84,9 +81,6 @@
     <ClCompile Include="DBInterface\DBStoredProc.cpp">
       <Filter>DBInterface</Filter>
     </ClCompile>
-    <ClCompile Include="DBInterface\DBStoredProcMgr.cpp">
-      <Filter>DBInterface</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -103,12 +97,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\CheckMacroDefine.h">
-      <Filter>CmdDefine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\TypeDef.h">
-      <Filter>CmdDefine</Filter>
     </ClInclude>
     <ClInclude Include="CrashReport.h">
       <Filter>头文件</Filter>
@@ -161,9 +149,6 @@
     <ClInclude Include="DBInterface\DBStoredProc.h">
       <Filter>DBInterface</Filter>
     </ClInclude>
-    <ClInclude Include="DBInterface\DBStoredProcMgr.h">
-      <Filter>DBInterface</Filter>
-    </ClInclude>
     <ClInclude Include="LockFreeQueue.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -172,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="CommonMsgQueue.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DBInterface\DBInterface.h">
+      <Filter>DBInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

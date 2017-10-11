@@ -88,7 +88,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -196,7 +196,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
@@ -206,7 +205,6 @@
     <ClInclude Include="DBWriterManager.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

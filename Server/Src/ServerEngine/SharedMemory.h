@@ -1,6 +1,6 @@
 ﻿#ifndef __SHARE_MEMORY_H__
 #define __SHARE_MEMORY_H__
-#include "../ServerData/ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 
 #define BLOCK_CHECK_CODE	0x5A
 
@@ -237,7 +237,7 @@ public:
 	}
 
 	/**数据库修改*/
-	BOOL SaveModifyToDB(IDataBase* pdb)
+	BOOL SaveModifyToDB(IDBInterface* pdb)
 	{
 		///共享内存不存在直接返回
 		if (m_MemoryPool == NULL)
@@ -305,7 +305,7 @@ public:
 			{
 				///创建一个副本发送异步执行,提高运行效率
 				pBlock->m_beforeTime = time(NULL);
-				pdata->Save(pdb);
+				pdata->Create(pdb);
 				pBlock->m_bNewBlock = false;
 				pBlock->m_afterTime = time(NULL);
 				hasOprate = true;
@@ -336,7 +336,7 @@ public:
 			{
 				///创建一个副本发送异步执行,提高运行效率
 				pBlock->m_beforeTime = time(NULL);
-				pdata->Save(pdb);
+				pdata->Update(pdb);
 				hasOprate = true;
 				writetimes++;
 				pBlock->m_afterTime = time(NULL);
@@ -350,7 +350,7 @@ public:
 				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime)) ///change by dsq
 				{
 					pBlock->m_beforeTime = time(NULL);/// add by dsq
-					pdata->Save(pdb);
+					pdata->Update(pdb);
 					hasOprate = true;
 					writetimes++;
 					continue;

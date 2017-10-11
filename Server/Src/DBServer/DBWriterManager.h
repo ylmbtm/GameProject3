@@ -1,9 +1,8 @@
-﻿#ifndef _DB_WRITER_H_
-#define _DB_WRITER_H_
+﻿#ifndef _DB_WRITER_MANAGER_H_
+#define _DB_WRITER_MANAGER_H_
 
 #include "SharedMemory.h"
 #include "CommonThreadFunc.h"
-#include "DBManager.h"
 #include "../ServerData/GlobalData.h"
 #include "../ServerData/BagData.h"
 #include "../ServerData/CopyData.h"
@@ -18,6 +17,7 @@
 #include "../ServerData/ActivityData.h"
 #include "../ServerData/CounterData.h"
 #include "../ServerData/FriendData.h"
+#include "DBInterface/DBConnection.h"
 
 Th_RetName _DBWriteThread( void* pParam );
 
@@ -54,11 +54,9 @@ public:
 	DataWriter<CounterDataObject>* m_pCounterDataWriter;
 	DataWriter<FriendDataObject>* m_pFriendDataWriter;
 
-
-	THANDLE  m_hWorkThread;
-	BOOL	 m_Stop;
-	CDBManager m_DBManager;
-
+	BOOL			m_Stop;
+	THANDLE			m_hWorkThread;
+	CDBConnection   m_DBConnection;
 };
 
-#endif //_DB_WRITER_H_
+#endif //_DB_WRITER_MANAGER_H_

@@ -1,8 +1,10 @@
 ﻿#ifndef __GLOBAL_DATA_OBJECT_H__
 #define __GLOBAL_DATA_OBJECT_H__
-#include "ServerStruct.h"
+
+#include "DBInterface/DBInterface.h"
 #include "SharedMemory.h"
 #include "ServerDefine.h"
+
 struct GlobalDataObject : public ShareObject
 {
 	GlobalDataObject()
@@ -14,18 +16,23 @@ struct GlobalDataObject : public ShareObject
 	UINT32 m_dwServerID;        //服务器ID
 	UINT64 m_u64Guid;			//全局GUID
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Update(IDBInterface* pDB)
 	{
 		char szSql[SQL_BUFF_LEN];
 		sprintf_s(szSql, 1024, "REPLACE INTO globaldata (serverid, maxguid) VALUES(%d, %lld);", \
 		          m_dwServerID, m_u64Guid);
 
-		pDB->Execut(szSql);
+		pDB->Execute(szSql);
 
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Delete(IDBInterface* pDB)
 	{
 
 

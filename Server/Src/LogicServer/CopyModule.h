@@ -1,7 +1,6 @@
 ﻿#ifndef __COPY_MODULE_H__
 #define __COPY_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/ServerStruct.h"
 
 struct CopyDataObject;
 class CCopyModule : public CModuleBase

@@ -352,3 +352,26 @@ BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, 
 
 	 return nVersion1*1000000+nVersion2*1000+nVersion3;
  }
+
+ INT32 CommonConvert::CountSymbol(char *pStr, char cSymbol )
+ {
+	if(pStr == NULL)
+	{
+		return 0;
+	}
+
+	INT32 nCount = 0;
+
+	char *pTemp = pStr;
+	while(*pTemp != '\0')
+	{
+		if(*pTemp == cSymbol)
+		{
+			nCount += 1;
+		}
+
+		pTemp+=1;
+	}
+
+	return nCount;
+ }

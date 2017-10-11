@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Sqlite">
-      <UniqueIdentifier>{87c80df1-377a-4ea5-b36e-d3e44e9f5ad0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Proto">
       <UniqueIdentifier>{89ecc123-68d5-42c1-8f21-e8fac16568c5}</UniqueIdentifier>
     </Filter>
@@ -26,9 +23,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
-      <Filter>Sqlite</Filter>
     </ClCompile>
     <ClCompile Include="DBMsgHandler.cpp">
       <Filter>源文件</Filter>
@@ -55,9 +49,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
-      <Filter>Sqlite</Filter>
     </ClInclude>
     <ClInclude Include="DBMsgHandler.h">
       <Filter>头文件</Filter>

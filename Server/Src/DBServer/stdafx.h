@@ -9,9 +9,9 @@
 #include <stdio.h>
 
 #define HAVE_RINT 1
+
 #define MAX_SQL_LEN   260
 
-#include "CheckMacroDefine.h"
 #include "ServerEngine.h"
 
 // TODO: 在此处引用程序需要的其他头文件

@@ -1,6 +1,6 @@
 ﻿#ifndef __COPY_DATA_OBJECT_H__
 #define __COPY_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 struct CopyDataObject : public ShareObject
 {
 	CopyDataObject()
@@ -20,12 +20,17 @@ struct CopyDataObject : public ShareObject
 	UINT32 m_dwResetTimes;
 	UINT32 m_dwStar;
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDBInterface* pDB)
 	{
 		return TRUE;
 	}

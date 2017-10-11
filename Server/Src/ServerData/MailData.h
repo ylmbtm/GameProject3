@@ -1,6 +1,6 @@
 ﻿#ifndef __MAIL_DATA_OBJECT_H__
 #define __MAIL_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 #include "../ServerEngine/SharedMemory.h"
 #include "ServerDefine.h"
 
@@ -18,17 +18,18 @@ struct GroupMailDataObject : public ShareObject
 	UINT32 m_dwItem[MAIL_ITEM_COUNT];    //道具列表
 	UINT32 m_nItemCnt[MAIL_ITEM_COUNT];  //道具个数
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
-
-
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
 	{
+		return TRUE;
+	}
 
-
+	BOOL Delete(IDBInterface* pDB)
+	{
 		return TRUE;
 	}
 };
@@ -51,17 +52,18 @@ struct MailDataObject : public ShareObject
 	CHAR   m_szContent[MAIL_CONTNET_LEN];	//邮件内容
 	CHAR   m_szSender[ROLE_NAME_LEN];		//发送者名字
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
-
-
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
 	{
+		return TRUE;
+	}
 
-
+	BOOL Delete(IDBInterface* pDB)
+	{
 		return TRUE;
 	}
 };

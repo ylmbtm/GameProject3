@@ -1,6 +1,6 @@
 ﻿#ifndef __ACTIVITY_DATA_OBJECT_H__
 #define __ACTIVITY_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 
 //登录奖励
 struct LoginAward
@@ -70,13 +70,17 @@ struct ActivityDataObject : public ShareObject
 		SinRecharge	    m_SinRecharge;
 	} m_Data;
 
-
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDBInterface* pDB)
 	{
 		return TRUE;
 	}

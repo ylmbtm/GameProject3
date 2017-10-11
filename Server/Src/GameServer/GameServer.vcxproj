@@ -238,7 +238,6 @@
     <ClInclude Include="SceneXmlMgr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameObject\SceneObject.h" />
-    <ClInclude Include="..\..\Common\TypeDef.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

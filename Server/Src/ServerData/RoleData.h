@@ -1,8 +1,9 @@
 ﻿#ifndef __ROLE_DATA_OBJECT_H__
 #define __ROLE_DATA_OBJECT_H__
-#include "ServerStruct.h"
 #include "SharedMemory.h"
 #include "ServerDefine.h"
+#include "DBInterface/DBStoredProc.h"
+#include "DBInterface/DBInterface.h"
 struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
@@ -19,12 +20,6 @@ struct RoleDataObject : public ShareObject
 		m_bDelete       = FALSE;        //是否删除
 		m_CarrerID      = 0;
 	}
-
-	std::string GetDataName()
-	{
-
-	}
-
 
 	UINT64		m_uRoleID;			//角色ID
 	UINT64		m_uAccountID;	//账号ID
@@ -48,29 +43,40 @@ struct RoleDataObject : public ShareObject
 	UINT32		m_nSignDay;        //最新的签到时间
 	UINT32		m_RecvAction;	   //领取体力标记
 
-
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
-		char szSql[SQL_BUFF_LEN];
-		sprintf_s(szSql, 1024, "REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(%lld, %lld, '%s', %d, %d, %d,%lld,%d,%lld,%lld,%lld,%lld,%lld,%lld,%lld,%lld);", \
-		          m_uRoleID, m_uAccountID, m_szName, m_CarrerID, m_Level, m_CityCopyID, m_Exp, m_nLangID,
-		          m_Action[0], m_Action[1], m_Action[2], m_Action[3],
-		          m_Actime[0], m_Actime[1], m_Actime[2], m_Actime[3]
-		         );
-
-		pDB->Execut(szSql);
-
-		printf("DB--------------------RoleDataObject::Save");
-
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
 	{
-		char szSql[SQL_BUFF_LEN];
-		sprintf_s(szSql, 1024, "update player set delete = %d");
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) \
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uRoleID);
+		csp.set_uint64(1, m_uAccountID);
+		csp.set_string(2, m_szName, strlen(m_szName));
+		csp.set_int32(3, m_CarrerID);
+		csp.set_int32(4, m_Level);
+		csp.set_int64(5, m_CityCopyID);
+		csp.set_int64(6, m_Exp);
+		csp.set_int32(7, m_nLangID);
+		csp.set_int64(8, m_Action[0]);
+		csp.set_int64(9, m_Action[1]);
+		csp.set_int64(10, m_Action[2]);
+		csp.set_int64(11, m_Action[3]);
+		csp.set_int64(12, m_Actime[0]);
+		csp.set_int64(13, m_Actime[1]);
+		csp.set_int64(14, m_Actime[2]);
+		csp.set_int64(15, m_Actime[3]);
+		pDB->Execute(&csp);
+		return TRUE;
+	}
 
-		pDB->Execut(szSql);
+	BOOL Delete(IDBInterface* pDB)
+	{
+		static CDBStoredProcedure csp("update player set delete = ?");
+		csp.set_uint64(0, m_uRoleID);
+		pDB->Execute(&csp);
 
 		return TRUE;
 	}

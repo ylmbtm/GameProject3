@@ -4,7 +4,7 @@
 //#include "AVLTree.h"
 
 //typedef AVLTree<UINT32, CScene*> SceneMap;
-typedef Hash_Map<UINT32, CScene*>  SceneMap;
+typedef std::map<UINT32, CScene*>  SceneMap;
 
 class CSceneManager
 {
@@ -31,7 +31,7 @@ public:
 
 	BOOL		SendCityReport();
 
-	
+
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgCreateSceneReq(NetPacket* pNetPack);

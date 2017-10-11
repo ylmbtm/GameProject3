@@ -1,6 +1,6 @@
 ﻿#ifndef __EQUIP_DATA_OBJECT_H__
 #define __EQUIP_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 #include "../ServerEngine/SharedMemory.h"
 struct EquipDataObject : public ShareObject
 {
@@ -19,14 +19,19 @@ struct EquipDataObject : public ShareObject
 	INT32  m_StarExp;		//星级经验
 	BOOL   m_IsUsing;       //当前使用中
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Update(IDBInterface* pDB)
 	{
 
 
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Delete(IDBInterface* pDB)
 	{
 
 

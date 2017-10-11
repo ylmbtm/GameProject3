@@ -165,7 +165,6 @@
     <ClCompile Include="DBInterface\DBConnection.cpp" />
     <ClCompile Include="DBInterface\DBRecordSet.cpp" />
     <ClCompile Include="DBInterface\DBStoredProc.cpp" />
-    <ClCompile Include="DBInterface\DBStoredProcMgr.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="NetManager.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
@@ -192,9 +191,9 @@
     <ClInclude Include="DataBuffer.h" />
     <ClInclude Include="DBInterface\CppMysql.h" />
     <ClInclude Include="DBInterface\DBConnection.h" />
+    <ClInclude Include="DBInterface\DBInterface.h" />
     <ClInclude Include="DBInterface\DBRecordSet.h" />
     <ClInclude Include="DBInterface\DBStoredProc.h" />
-    <ClInclude Include="DBInterface\DBStoredProcMgr.h" />
     <ClInclude Include="EventFuncManager.h" />
     <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="LockFreeQueueImpl.h" />
@@ -205,8 +204,6 @@
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimerManager.h" />
-    <ClInclude Include="..\..\Common\CheckMacroDefine.h" />
-    <ClInclude Include="..\..\Common\TypeDef.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

@@ -1,6 +1,6 @@
 ﻿#ifndef __COUNTER_DATA_OBJECT_H__
 #define __COUNTER_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 
 struct CounterDataObject : public ShareObject
 {
@@ -17,12 +17,17 @@ struct CounterDataObject : public ShareObject
 	UINT32 m_dwParam1;		//参数1
 	UINT32 m_dwParam2;		//参数2
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDBInterface* pDB)
 	{
 
 		return TRUE;

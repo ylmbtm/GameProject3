@@ -1,0 +1,1 @@
+for /r .\csvtemp %%i in (*.csv) do iconv.exe -f GBK -t UTF-8 %%i > .\csv\%%~nxi

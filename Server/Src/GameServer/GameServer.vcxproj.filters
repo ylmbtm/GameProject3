@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{8122e15e-269c-4a57-905e-b9c18d3c82c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenelogic">
       <UniqueIdentifier>{4c2736fc-4016-4f7c-90ff-cf96be839041}</UniqueIdentifier>
     </Filter>
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\TypeDef.h">
-      <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_None.h">
       <Filter>Scenelogic</Filter>

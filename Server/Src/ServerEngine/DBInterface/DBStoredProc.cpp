@@ -2,21 +2,22 @@
 #include "DBStoredProc.h"
 #include <cstdio>
 #include <errmsg.h>
+#include "../CommonConvert.h"
 
 
-CDBStoredProcedure::CDBStoredProcedure(char const *pzProcedure, int nParam)
+CDBStoredProcedure::CDBStoredProcedure(char const *pzProcedure)
 {
-	m_nCount = nParam;
-
 	m_pMybind = NULL;
 
 	m_strSql = pzProcedure;
 
-	if(nParam > 0)
-	{
-		m_pMybind = new MYSQL_BIND[nParam];
+	m_nCount = CommonConvert::CountSymbol((char*)pzProcedure, '?');
 
-		memset(m_pMybind, 0, sizeof(MYSQL_BIND)*nParam);
+	if(m_nCount > 0)
+	{
+		m_pMybind = new MYSQL_BIND[m_nCount];
+
+		memset(m_pMybind, 0, sizeof(MYSQL_BIND)*m_nCount);
 	}
 }
 

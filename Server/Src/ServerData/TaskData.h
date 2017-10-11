@@ -1,6 +1,6 @@
 ﻿#ifndef __TASK_DATA_OBJECT_H__
 #define __TASK_DATA_OBJECT_H__
-#include "ServerStruct.h"
+#include "DBInterface/DBInterface.h"
 #include "SharedMemory.h"
 
 struct TaskDataObject : public ShareObject
@@ -15,12 +15,17 @@ struct TaskDataObject : public ShareObject
 	UINT32 m_TaskState;
 	UINT32 m_TaskCondition; //
 
-	BOOL Save(IDataBase* pDB)
+	BOOL Create(IDBInterface* pDB)
 	{
 		return TRUE;
 	}
 
-	BOOL Delete(IDataBase* pDB)
+	BOOL Update(IDBInterface* pDB)
+	{
+		return TRUE;
+	}
+
+	BOOL Delete(IDBInterface* pDB)
 	{
 		return TRUE;
 	}

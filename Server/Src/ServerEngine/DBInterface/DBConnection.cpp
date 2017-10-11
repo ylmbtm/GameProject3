@@ -41,7 +41,6 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 
 	if ( NULL != m_pMySql )
 	{
-		// set character.
 		mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
 		if ( NULL != mysql_real_connect( m_pMySql, szHost, szUser, szPwd, szDb, nPort, NULL, 0 ) )
 		{
@@ -51,9 +50,7 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 			m_strDB.assign( szDb );
 			m_nPort = nPort;
 
-			// set autocommit.
 			mysql_autocommit( m_pMySql, 1 );
-			// set character set.
 			mysql_set_character_set( m_pMySql, "utf8" );
 
 			return true;
@@ -171,7 +168,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 
 	if ( server_status & SERVER_PS_OUT_PARAMS )
 	{
-		//write_log( "此调用存储存在返回参数值，请检查sql语句和存储过程实现!\n" );
 		mysql_stmt_store_result( pMySqlStmt );
 		pDBStoredProcedure->m_DBRecordSet.InitRecordSet(pMySqlStmt, pMySqlResult);
 		//mysql_free_result( pMySqlResult );
@@ -308,6 +304,11 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 	return TRUE;
 }
 
+BOOL CDBConnection::Query( std::string sql )
+{
+	return TRUE;
+}
+
 // reconnect.
 bool CDBConnection::Reconnect( void )
 {
@@ -365,8 +366,6 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 	{
 		case CR_SERVER_GONE_ERROR:
 		{
-			//      //write_log( "mysql server has gone away, errno = %d!\n", m_errno_ );
-
 			if ( Reconnect() )
 			{
 				_ret = true;
@@ -461,4 +460,24 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 int CDBConnection::GetError( void ) const
 {
 	return m_nErrno;
+}
+
+BOOL CDBConnection::Execute( std::string sql )
+{
+	return TRUE;
+}
+
+BOOL CDBConnection::SetConnectParam( char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort )
+{
+	m_strHost.assign( szHost );
+
+	m_strUser.assign( szUser );
+
+	m_strPwd.assign( szPwd );
+
+	m_strDB.assign( szDb );
+
+	m_nPort = nPort;
+
+	return TRUE;
 }

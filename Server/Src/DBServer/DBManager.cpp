@@ -3,6 +3,7 @@
 #include "CommonFunc.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../ServerData/ServerDefine.h"
+#include "Log.h"
 
 
 CDBManager::CDBManager(void)
@@ -15,11 +16,17 @@ CDBManager::~CDBManager(void)
 
 BOOL CDBManager::Init()
 {
-	std::string strCurDir = CommonFunc::GetCurrentDir();
-	strCurDir += "\\GameData.db";
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
 
-	m_DBConnection.open(strCurDir.c_str());
-
+	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("CDBManager::Init Error: Can not open database!!!");
+		return FALSE;
+	}
 	return TRUE;
 
 }
@@ -31,23 +38,13 @@ BOOL CDBManager::Uninit()
 	return TRUE;
 }
 
-
-
-BOOL CDBManager::Execut(std::string sql)
-{
-	m_DBConnection.execDML(sql.c_str());
-
-	return TRUE;
-}
-
-
 BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];
 
 	sprintf_s(szSql, 1024, "select * from player where account_id = %lld", u64AccountID);
 
-	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
 	while(!QueryRes.eof())
 	{
@@ -68,7 +65,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 	sprintf_s(szSql, 1024, "select * from player where id = %lld", u64ID);
 
-	CppSQLite3Query QueryRes = m_DBConnection.execQuery(szSql);
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
 	if(!QueryRes.eof())
 	{
@@ -158,3 +155,4 @@ BOOL CDBManager::GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	return TRUE;
 }
+

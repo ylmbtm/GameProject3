@@ -5,6 +5,7 @@
 #include <my_global.h>
 #include <mysql.h>
 #include <cstdio>
+#include "DBInterface.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "libmysql.lib")
@@ -14,10 +15,7 @@
 
 #define ERROR_SLEEP_TIME 3000 // 执行SQL语句时出错，再次尝试执行间隔时间（毫秒）
 
-class CDBStoredProcedure;
-class sql_result;
-
-class CDBConnection
+class CDBConnection  : public IDBInterface
 {
 public:
 	CDBConnection( void );
@@ -27,20 +25,25 @@ public:
 
 	BOOL	Uninit();
 
+	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
+
 	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
 
-	void	Close( void );
+	void	Close(void);
 
-	BOOL	Execute( CDBStoredProcedure* pDBStoredProcedure);
+	BOOL	Execute(CDBStoredProcedure* pDBStoredProcedure);
 
-	BOOL	Query( CDBStoredProcedure* pDBStoredProcedure);
+	BOOL	Query(CDBStoredProcedure* pDBStoredProcedure);
 
-	int		GetError( void ) const;
+	BOOL	Execute(std::string sql);
 
-protected:
-	bool	Reconnect( void );
+	BOOL	Query(std::string sql);
 
-	bool	ProcError( char const* op_ = NULL, char const* func_ = NULL );
+	int		GetError(void) const;
+
+	bool	Reconnect(void);
+
+	bool	ProcError(char const* op_ = NULL, char const* func_ = NULL);
 
 private:
 	MYSQL*       m_pMySql;
