@@ -1,5 +1,7 @@
 ﻿#ifndef __GUILD_MANAGER_H__
 #define __GUILD_MANAGER_H__
+
+#include "DBInterface/CppMysql.h"
 #include "Guild.h"
 
 class CGuildManager
@@ -9,7 +11,7 @@ class CGuildManager
 public:
 	static CGuildManager* GetInstancePtr();
 
-	BOOL LoadAllGuildData();
+	BOOL LoadAllGuildData(CppMySQL3DB& tDBConnection);
 
 	CGuild* GetGuildByID(UINT64 u64ID);
 

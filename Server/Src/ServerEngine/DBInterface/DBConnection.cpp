@@ -3,6 +3,7 @@
 #include "DBConnection.h"
 #include "DBStoredProc.h"
 #include "../CommonThreadFunc.h"
+#include "../Log.h"
 
 CDBConnection::CDBConnection( void )
 	: m_pMySql( NULL ),
@@ -41,7 +42,7 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 
 	if ( NULL != m_pMySql )
 	{
-		mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
+		//mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
 		if ( NULL != mysql_real_connect( m_pMySql, szHost, szUser, szPwd, szDb, nPort, NULL, 0 ) )
 		{
 			m_strHost.assign( szHost );
@@ -51,19 +52,64 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 			m_nPort = nPort;
 
 			mysql_autocommit( m_pMySql, 1 );
-			mysql_set_character_set( m_pMySql, "utf8" );
-
+			//mysql_set_character_set( m_pMySql, "utf8" );
 			return true;
 		}
 		else
 		{
 			m_nErrno = mysql_errno( m_pMySql );
 			m_strError = mysql_error( m_pMySql );
+
+			CLog::GetInstancePtr()->LogError("CDBConnection::Connect Failed [mysql_real_connect], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+
+			return false;
 		}
 	}
 	else
 	{
 		ASSERT_FAIELD;
+	}
+
+	return false;
+}
+
+// reconnect.
+bool CDBConnection::Reconnect( void )
+{
+	if ( NULL != m_pMySql && 0 == mysql_ping( m_pMySql ) )
+	{
+		return true;
+	}
+	else
+	{
+		Close();
+		m_pMySql = mysql_init( NULL );
+		if ( NULL != m_pMySql )
+		{
+			// set character.
+			//mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
+			if ( NULL != mysql_real_connect( m_pMySql, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0 ) )
+			{
+				// set autocommit.
+				mysql_autocommit( m_pMySql, 1 );
+				// set character set.
+				//mysql_set_character_set( m_pMySql, "utf8" );
+
+				return true;
+			}
+			else
+			{
+				m_nErrno = mysql_errno( m_pMySql );
+				m_strError = mysql_error( m_pMySql );
+				CLog::GetInstancePtr()->LogError("CDBConnection::Connect Failed [mysql_real_connect], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+				return false;
+			}
+		}
+		else
+		{
+			//write_log( "reconnect mysql server failed!" );
+		}
+
 	}
 
 	return false;
@@ -93,6 +139,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno( m_pMySql );
 		m_strError = mysql_error( m_pMySql );
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -106,6 +153,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 
 		pMySqlStmt = NULL;
 
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+
 		return FALSE;
 	}
 
@@ -118,7 +167,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error( m_pMySql );
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
-		ASSERT_FAIELD;
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_param_count], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -131,6 +180,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 			mysql_stmt_close( pMySqlStmt );
 			pMySqlStmt = NULL;
 			ASSERT_FAIELD;
+			CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 			return FALSE;
 		}
 	}
@@ -149,6 +199,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error( m_pMySql );
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		ASSERT_FAIELD;
 		return FALSE;
 	}
@@ -157,11 +208,9 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	MYSQL_RES* pMySqlResult = mysql_stmt_result_metadata( pMySqlStmt );
 	if(pMySqlResult == NULL)
 	{
-		pMySqlResult  = NULL;
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
-		ASSERT_FAIELD;
-		return FALSE;
+		return TRUE;
 	}
 
 	unsigned int server_status = m_pMySql->server_status;
@@ -170,8 +219,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		mysql_stmt_store_result( pMySqlStmt );
 		pDBStoredProcedure->m_DBRecordSet.InitRecordSet(pMySqlStmt, pMySqlResult);
-		//mysql_free_result( pMySqlResult );
-		//mysql_stmt_free_result( pMySqlStmt );
 	}
 	else
 	{
@@ -226,9 +273,8 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 	if(NULL == pMySqlStmt)
 	{
 		m_nErrno = mysql_errno( m_pMySql );
-
 		m_strError = mysql_error( m_pMySql );
-
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -240,7 +286,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
-
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -253,6 +299,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error( m_pMySql );
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -270,6 +317,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error( m_pMySql );
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -291,6 +339,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error( m_pMySql );
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
+		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_store_result], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 		return FALSE;
 	}
 
@@ -307,45 +356,6 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 BOOL CDBConnection::Query( std::string sql )
 {
 	return TRUE;
-}
-
-// reconnect.
-bool CDBConnection::Reconnect( void )
-{
-	if ( NULL != m_pMySql && 0 == mysql_ping( m_pMySql ) )
-	{
-		return true;
-	}
-	else
-	{
-		Close();
-		m_pMySql = mysql_init( NULL );
-		if ( NULL != m_pMySql )
-		{
-			// set character.
-			mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
-			if ( NULL != mysql_real_connect( m_pMySql, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0 ) )
-			{
-				// set autocommit.
-				mysql_autocommit( m_pMySql, 1 );
-				// set character set.
-				mysql_set_character_set( m_pMySql, "utf8" );
-
-				return true;
-			}
-			else
-			{
-				//write_log( "reconnect mysql server failed, errno = %d!\n", mysql_errno( m_pMySql ) );
-			}
-		}
-		else
-		{
-			//write_log( "reconnect mysql server failed!" );
-		}
-
-	}
-
-	return false;
 }
 
 // process error.

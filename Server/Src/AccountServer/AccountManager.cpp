@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
 #include "CommonFunc.h"
-#include "Sqlite/CppSQLite3.h"
 #include "Log.h"
 #include "../ServerData/ServerDefine.h"
 
@@ -174,7 +173,7 @@ BOOL CAccountObjectMgr::IsRun()
 CAccountObject* CAccountObjectMgr::GetAccountObject( std::string name, UINT32 dwChannel )
 {
 	auto range = m_mapNameObj.equal_range(name);
-	for (std::multimap<std::string, CAccountObject*>::iterator itor =range.first; itor!=range.second; ++itor)
+	for (std::multimap<std::string, CAccountObject*>::iterator itor = range.first; itor != range.second; ++itor)
 	{
 		CAccountObject* pObject = itor->second;
 		if(pObject->m_dwChannel == dwChannel)

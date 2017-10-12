@@ -1,8 +1,6 @@
 ﻿#ifndef __CLIENT_OBJECT_H__
 #define __CLIENT_OBJECT_H__
 
-#include "IBufferHandler.h"
-#include "CommandDef.h"
 #include "../../Connector/ClientConnector.h"
 
 #define ST_NONE				0

@@ -2,7 +2,6 @@
 #include "ClientObject.h"
 #include <complex>
 #include "..\Src\Message\Msg_RetCode.pb.h"
-#include "PacketHeader.h"
 #include "..\Src\Message\Msg_Move.pb.h"
 #include "..\Src\Message\Game_Define.pb.h"
 #include "..\Src\Message\Msg_Copy.pb.h"
@@ -10,6 +9,8 @@
 #include "..\Src\Message\Msg_LoginCltData.pb.h"
 #include "..\Src\ServerEngine\XMath.h"
 #include "..\Src\ServerEngine\CommonFunc.h"
+#include "..\Src\ServerEngine\CommandDef.h"
+#include "..\Src\ServerEngine\PacketHeader.h"
 
 int g_LoginReqCount = 0;
 int g_LoginCount = 0;
@@ -187,7 +188,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_AccountLoginOK)
 	{
-		SendSelectSvrReq(202);
+		SendSelectSvrReq(201);
 
 		m_dwHostState = ST_SelectSvr;
 	}

@@ -146,12 +146,12 @@ BOOL LogicSvrManager::ReloadServerList()
 			pNode->m_dwServerID = dwSvrID;
 			insert(std::make_pair(dwSvrID, pNode));
 		}
-
 		pNode->m_strSvrName = QueryResult.getStringField("name");
 		pNode->m_Statue = QueryResult.getIntField("statue");
 		pNode->m_Flag = QueryResult.getIntField("flag");
-		pNode->m_strIpAddr = QueryResult.getIntField("flag");
-		std::string strCheckVersion = QueryResult.getStringField("check_version");
+		pNode->m_strIpAddr = QueryResult.getStringField("ip", "*");
+		pNode->m_dwPort = QueryResult.getIntField("port", 0);
+		std::string strCheckVersion = QueryResult.getStringField("check_version", "*");
 		if(strCheckVersion.empty() || strCheckVersion == "*")
 		{
 			pNode->m_dwCheckVersion = 0;
@@ -161,7 +161,7 @@ BOOL LogicSvrManager::ReloadServerList()
 			pNode->m_dwCheckVersion = 0;
 		}
 
-		std::string strCheckChannel = QueryResult.getStringField("check_chan");
+		std::string strCheckChannel = QueryResult.getStringField("check_chan", "*");
 		if(strCheckChannel.empty() || strCheckChannel == "*")
 		{
 			pNode->m_CheckChannelList.clear();
@@ -177,7 +177,7 @@ BOOL LogicSvrManager::ReloadServerList()
 
 		}
 
-		std::string strCheckIp = QueryResult.getStringField("check_ip");
+		std::string strCheckIp = QueryResult.getStringField("check_ip", "*");
 		if(strCheckIp.empty() || strCheckIp == "*")
 		{
 			pNode->m_CheckIpList.clear();
@@ -204,10 +204,10 @@ BOOL LogicSvrManager::ReloadReviewVersion()
 	while(!QueryResult.eof())
 	{
 		UINT32 dwID = QueryResult.getIntField("id");
-		std::string strPackageName = QueryResult.getStringField("review_package");
+		std::string strVersion = QueryResult.getStringField("client_version");
 
-		m_setReviewVersion.insert(strPackageName);
-	
+		m_setReviewVersion.insert(strVersion);
+
 		QueryResult.nextRow();
 	}
 

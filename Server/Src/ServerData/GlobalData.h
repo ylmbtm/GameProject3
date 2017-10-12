@@ -1,6 +1,6 @@
 ﻿#ifndef __GLOBAL_DATA_OBJECT_H__
 #define __GLOBAL_DATA_OBJECT_H__
-
+#include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
 #include "SharedMemory.h"
 #include "ServerDefine.h"
@@ -18,16 +18,22 @@ struct GlobalDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid) VALUES(?, ?);");
+		csp.set_uint64(0, m_dwServerID);
+		csp.set_uint64(1, m_u64Guid);
+
+		pDB->Execute(&csp);
+
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		char szSql[SQL_BUFF_LEN];
-		sprintf_s(szSql, 1024, "REPLACE INTO globaldata (serverid, maxguid) VALUES(%d, %lld);", \
-		          m_dwServerID, m_u64Guid);
+		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid) VALUES(?, ?);");
+		csp.set_uint64(0, m_dwServerID);
+		csp.set_uint64(1, m_u64Guid);
 
-		pDB->Execute(szSql);
+		pDB->Execute(&csp);
 
 		return TRUE;
 	}

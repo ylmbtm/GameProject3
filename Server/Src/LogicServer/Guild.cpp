@@ -1,7 +1,6 @@
 ﻿#include <stdafx.h>
 #include "Guild.h"
 #include "GameService.h"
-#include "Sqlite/CppSQLite3.h"
 #include "CommonFunc.h"
 #include "Log.h"
 #include "DataPool.h"

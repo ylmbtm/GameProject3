@@ -1,6 +1,7 @@
 ﻿#ifndef __GROUP_MAIL_MGR_H__
 #define __GROUP_MAIL_MGR_H__
 #include "../ServerData/MailData.h"
+#include "DBInterface/CppMysql.h"
 
 class CGroupMailMgr
 {
@@ -11,7 +12,7 @@ public:
 
 	BOOL  SendGroupMail(GroupMailDataObject* pGroupMail);
 
-	BOOL  LoadGroupMailData();
+	BOOL  LoadGroupMailData(CppMySQL3DB& tDBConnection);
 
 public:
 	std::map<UINT64, GroupMailDataObject*> m_mapGroupMailData;

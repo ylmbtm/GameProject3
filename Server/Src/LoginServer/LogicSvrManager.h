@@ -1,7 +1,7 @@
 ﻿#ifndef _LOGIC_SEVER_MANAGERH_
 #define _LOGIC_SEVER_MANAGERH_
 
-#include "DBInterface\CppMysql.h"
+#include "DBInterface/CppMysql.h"
 
 enum EServerStatue
 {

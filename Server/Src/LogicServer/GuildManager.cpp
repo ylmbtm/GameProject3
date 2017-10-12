@@ -1,7 +1,6 @@
 ﻿#include <stdafx.h>
 #include "GuildManager.h"
 #include "GameService.h"
-#include "Sqlite/CppSQLite3.h"
 #include "CommonFunc.h"
 #include "Log.h"
 #include "DataPool.h"
@@ -24,32 +23,17 @@ CGuildManager* CGuildManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CGuildManager::LoadAllGuildData()
+BOOL CGuildManager::LoadAllGuildData(CppMySQL3DB& tDBConnection)
 {
-	CppSQLite3DB	DBConnection;
-	try
-	{
-		std::string strCurDir = CommonFunc::GetCurrentDir();
-		strCurDir += "\\GameData.db";
-		DBConnection.open(strCurDir.c_str());
-	}
-	catch(CppSQLite3Exception& e)
-	{
-		CLog::GetInstancePtr()->LogError("Error : File:%s", e.errorMessage());
-		return FALSE;
-	}
-
-	CppSQLite3Query TableNames = DBConnection.execQuery("SELECT * FROM guild");
-	while(!TableNames.eof())
+	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM guild");
+	while(!QueryResult.eof())
 	{
 		CGuild* pGuid = new CGuild();
 		pGuid->m_pGuildData = g_pGuildDataObjectPool->NewObject(FALSE);
-		pGuid->m_pGuildData->m_uGuid = TableNames.getInt64Field("id");
+		pGuid->m_pGuildData->m_uGuid = QueryResult.getInt64Field("id");
 		m_mapGulidData.insert(std::make_pair(pGuid->m_pGuildData->m_uGuid, pGuid));
-		TableNames.nextRow();
+		QueryResult.nextRow();
 	}
-
-	//DBConnection.close();
 
 	return TRUE;
 }

@@ -45,6 +45,24 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uRoleID);
+		csp.set_uint64(1, m_uAccountID);
+		csp.set_string(2, m_szName, strlen(m_szName));
+		csp.set_int32(3, m_CarrerID);
+		csp.set_int32(4, m_Level);
+		csp.set_int64(5, m_CityCopyID);
+		csp.set_int64(6, m_Exp);
+		csp.set_int32(7, m_nLangID);
+		csp.set_int64(8, m_Action[0]);
+		csp.set_int64(9, m_Action[1]);
+		csp.set_int64(10, m_Action[2]);
+		csp.set_int64(11, m_Action[3]);
+		csp.set_int64(12, m_Actime[0]);
+		csp.set_int64(13, m_Actime[1]);
+		csp.set_int64(14, m_Actime[2]);
+		csp.set_int64(15, m_Actime[3]);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 

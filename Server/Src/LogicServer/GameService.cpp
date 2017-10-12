@@ -13,6 +13,7 @@
 #include "GlobalDataMgr.h"
 #include "GroupMailMgr.h"
 #include "PayManager.h"
+#include "GuildManager.h"
 
 CGameService::CGameService(void)
 {
@@ -60,11 +61,29 @@ BOOL CGameService::Init()
 
 	CreateDataPool();
 
-	CGlobalDataManager::GetInstancePtr()->LoadGlobalData();
+	///////////////////////////////////
+	//服务器启动之前需要加载的数据
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
+	nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
 
-	CSimpleManager::GetInstancePtr()->LoadSimpleData();
+	CppMySQL3DB tDBConnection;
+	if(!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("CGameService::Init Error: Can not open database!!!");
+		return FALSE;
+	}
 
-	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData();
+	CGlobalDataManager::GetInstancePtr()->LoadGlobalData(tDBConnection);
+
+	CSimpleManager::GetInstancePtr()->LoadSimpleData(tDBConnection);
+
+	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData(tDBConnection);
+
+	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
+	///////////////////////////////////////////////
 
 	CPayManager::GetInstancePtr()->InitPayManager();
 

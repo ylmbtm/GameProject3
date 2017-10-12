@@ -61,11 +61,6 @@ struct MemberDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		char szSql[SQL_BUFF_LEN];
-		sprintf_s(szSql, 1024, "update player set delete = %d");
-
-		pDB->Execute(szSql);
-
 		return TRUE;
 	}
 };

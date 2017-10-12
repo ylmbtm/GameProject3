@@ -194,6 +194,11 @@ const char* CppMySQLQuery::getStringField(int nField, const char* szNullValue/*=
 		return szNullValue;
 	}
 
+	if(_row[nField] == NULL)
+	{
+		return szNullValue;
+	}
+
 	return _row[nField];
 }
 
@@ -210,7 +215,7 @@ const char* CppMySQLQuery::getStringField(const char* szField, const char* szNul
 		return szNullValue;
 	}
 
-	return getStringField(nField);
+	return getStringField(nField, szNullValue);
 }
 
 INT64 CppMySQLQuery::getInt64Field(int nField, INT64 nNullValue /*= 0*/)

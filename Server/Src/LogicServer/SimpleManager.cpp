@@ -1,7 +1,6 @@
 ﻿#include <stdafx.h>
 #include "SimpleManager.h"
 #include "GameService.h"
-#include "Sqlite/CppSQLite3.h"
 #include "CommonFunc.h"
 #include "Log.h"
 
@@ -22,31 +21,18 @@ CSimpleManager* CSimpleManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CSimpleManager::LoadSimpleData()
+BOOL CSimpleManager::LoadSimpleData(CppMySQL3DB& tDBConnection)
 {
-	CppSQLite3DB	DBConnection;
-	try
+	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM player");
+	while(!QueryResult.eof())
 	{
-		std::string strCurDir = CommonFunc::GetCurrentDir();
-		strCurDir += "\\GameData.db";
-		DBConnection.open(strCurDir.c_str());
-	}
-	catch(CppSQLite3Exception& e)
-	{
-		CLog::GetInstancePtr()->LogError("Error : File:%s", e.errorMessage());
-		return FALSE;
-	}
+		CSimpleInfo* pInfo = CreateSimpleInfo(QueryResult.getInt64Field("id"),
+		                                      QueryResult.getInt64Field("account_id"),
+		                                      QueryResult.getStringField("name"),
+		                                      QueryResult.getIntField("carrerid"));
 
-	CppSQLite3Query TableNames = DBConnection.execQuery("SELECT * FROM player");
-	while(!TableNames.eof())
-	{
-		CSimpleInfo* pInfo = CreateSimpleInfo(TableNames.getInt64Field("id"),
-		                                      TableNames.getInt64Field("account_id"), TableNames.getStringField("name"), TableNames.getIntField("carrerid"));
-
-		TableNames.nextRow();
+		QueryResult.nextRow();
 	}
-
-	//DBConnection.close();
 
 	return TRUE;
 }

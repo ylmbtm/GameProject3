@@ -1,7 +1,6 @@
 ﻿#include <stdafx.h>
 #include "GlobalDataMgr.h"
 #include "GameService.h"
-#include "Sqlite/CppSQLite3.h"
 #include "CommonFunc.h"
 #include "Log.h"
 #include "DataPool.h"
@@ -23,41 +22,28 @@ CGlobalDataManager* CGlobalDataManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CGlobalDataManager::LoadGlobalData()
+BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 {
-	CppSQLite3DB	DBConnection;
-	try
-	{
-		std::string strCurDir = CommonFunc::GetCurrentDir();
-		strCurDir += "\\GameData.db";
-		DBConnection.open(strCurDir.c_str());
-	}
-	catch(CppSQLite3Exception& e)
-	{
-		CLog::GetInstancePtr()->LogError("Error : File:%s", e.errorMessage());
-		return FALSE;
-	}
-
-	UINT32 dwServerID  = 0;
 	UINT64 dwMaxGuid = 0;
 
-	CppSQLite3Query TableNames = DBConnection.execQuery("SELECT * FROM globaldata");
-	if(!TableNames.eof())
+	CHAR szSql[SQL_BUFF_LEN];
+	sprintf_s(szSql, 1024, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
+
+	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM globaldata");
+	if(!QueryResult.eof())
 	{
-		dwServerID = TableNames.getIntField("serverid");
-		dwMaxGuid = TableNames.getInt64Field("maxguid");
+		dwMaxGuid = QueryResult.getInt64Field("maxguid");
 	}
 
-	if((dwServerID == 0) || (dwMaxGuid == 0))
+	if(dwMaxGuid == 0)
 	{
-		dwServerID = CGameService::GetInstancePtr()->GetServerID();
-		dwMaxGuid  =  dwServerID;
+		dwMaxGuid  =  CGameService::GetInstancePtr()->GetServerID();
 		dwMaxGuid = (dwMaxGuid << 48) + 1;
 	}
 	dwMaxGuid += 100;
-	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewObject(TRUE);
+	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewObject(FALSE);
 	m_pGlobalDataObject->lock();
-	m_pGlobalDataObject->m_dwServerID = dwServerID;
+	m_pGlobalDataObject->m_dwServerID = CGameService::GetInstancePtr()->GetServerID();
 	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;
 	m_pGlobalDataObject->unlock();
 

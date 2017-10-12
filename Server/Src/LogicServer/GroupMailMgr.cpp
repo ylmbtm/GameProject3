@@ -1,7 +1,6 @@
 ﻿#include <stdafx.h>
 #include "GroupMailMgr.h"
 #include "GameService.h"
-#include "Sqlite/CppSQLite3.h"
 #include "CommonFunc.h"
 #include "Log.h"
 #include "DataPool.h"
@@ -29,7 +28,7 @@ BOOL CGroupMailMgr::SendGroupMail(GroupMailDataObject* pGroupMail)
 	return TRUE;
 }
 
-BOOL CGroupMailMgr::LoadGroupMailData()
+BOOL CGroupMailMgr::LoadGroupMailData(CppMySQL3DB& tDBConnection)
 {
 	return TRUE;
 }

@@ -1,9 +1,8 @@
 ﻿#include "StdAfx.h"
 #include "ClientConnector.h"
-#include "CommandDef.h"
-#include "PacketHeader.h"
 #include "google\protobuf\message.h"
 #include "..\Src\ServerEngine\CommonSocket.h"
+#include "..\Src\ServerEngine\PacketHeader.h"
 
 CClientConnector::CClientConnector(void)
 {

@@ -1,6 +1,6 @@
 ﻿#ifndef __SIMPLE_MANAGER_H__
 #define __SIMPLE_MANAGER_H__
-
+#include "DBInterface/CppMysql.h"
 struct CSimpleInfo
 {
 	UINT64 u64RoleID;
@@ -23,7 +23,7 @@ class CSimpleManager
 public:
 	static CSimpleManager* GetInstancePtr();
 
-	BOOL LoadSimpleData();
+	BOOL LoadSimpleData(CppMySQL3DB& tDBConnection);
 
 	CSimpleInfo* GetSimpleInfoByID(UINT64 u64ID);
 
