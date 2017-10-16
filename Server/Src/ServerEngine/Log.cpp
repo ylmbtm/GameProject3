@@ -31,15 +31,11 @@ BOOL CLog::StartLog(std::string strPrefix, std::string strLogDir)
 
 	m_pLogFile = NULL;
 
-	time_t _now;
-	time(&_now);
+	tm CurTime = CommonFunc::GetCurrTmTime();
 
-	tm CurTime;
-	localtime_s(&CurTime, &_now);
+	CHAR szFileName[512];
 
-	CHAR szFileName[256];
-
-	sprintf_s(szFileName, 256, "%s/%s-%02d%02d%02d-%02d%02d%02d.log",  strLogDir.c_str(), strPrefix.c_str(), CurTime.tm_year, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec);
+	sprintf(szFileName, "%s/%s-%02d%02d%02d-%02d%02d%02d.log",  strLogDir.c_str(), strPrefix.c_str(), CurTime.tm_year, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec);
 
 	m_pLogFile = fopen(szFileName, "w+");
 
@@ -81,22 +77,17 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 		return ;
 	}
 
+	tm CurTime = CommonFunc::GetCurrTmTime();
+
 	CHAR szLog[512];
-
-	time_t _now;
-	time(&_now);
-
-	tm CurTime;
-	localtime_s(&CurTime, &_now);
-
-	sprintf_s(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	sprintf(szLog, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsprintf_s(szLog + 26, 512 - 26,  lpszFormat, argList);
+	vsnprintf(szLog + 26, 512 - 26,  lpszFormat, argList);
 	va_end( argList );
 
-	strcat_s(szLog, 512, "\n");
+	strncat(szLog, "\n", 10);
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);
@@ -129,21 +120,15 @@ void CLog::LogError( char* lpszFormat, ... )
 	}
 
 	CHAR szLog[512];
-
-	time_t _now;
-	time(&_now);
-
-	tm CurTime;
-	localtime_s(&CurTime, &_now);
-
-	sprintf_s(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	tm CurTime = CommonFunc::GetCurrTmTime();
+	sprintf(szLog, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsprintf_s(szLog + 26, 512 - 26, lpszFormat, argList);
+	vsnprintf(szLog + 26, 512 - 26, lpszFormat, argList);
 	va_end( argList );
 
-	strcat_s(szLog, 512, "\n");
+	strncat(szLog, "\n", 10);
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);
@@ -177,20 +162,15 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	CHAR szLog[512];
 
-	time_t _now;
-	time(&_now);
-
-	tm CurTime;
-	localtime_s(&CurTime, &_now);
-
-	sprintf_s(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	tm CurTime = CommonFunc::GetCurrTmTime();
+	sprintf(szLog, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsprintf_s(szLog + 26, 512 - 26,  lpszFormat, argList);
+	vsnprintf(szLog + 26, 512 - 26,  lpszFormat, argList);
 	va_end( argList );
 
-	strcat_s(szLog, 512, "\n");
+	strncat(szLog, "\n", 10);
 
 	m_CritSec.Lock();
 	fputs(szLog, m_pLogFile);

@@ -13,31 +13,13 @@ public:
 public:
 	BOOL Load(std::string strFileName);
 
-	std::string GetStringValue(std::string strName)
-	{
-		std::map<std::string,std::string>::iterator itor = m_Values.find(strName);
-		if(itor != m_Values.end())
-		{
-			return itor->second;
-		}
+	std::string GetStringValue(std::string strName);
 
-		return "";
-	}
+	INT32 GetIntValue( std::string VarName);
 
-	INT32 GetIntValue( std::string VarName)
-	{
-		return atoi(GetStringValue(VarName).c_str());
-	}
+	FLOAT GetFloatValue( std::string VarName);
 
-	FLOAT GetFloatValue( std::string VarName)
-	{
-		return (float)atof(GetStringValue(VarName).c_str());
-	}
-
-	DOUBLE GetDoubleValue( std::string VarName)
-	{
-		return atof(GetStringValue(VarName).c_str());
-	}
+	DOUBLE GetDoubleValue( std::string VarName);
 
 private:
 	std::map<std::string,std::string> m_Values;

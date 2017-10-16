@@ -44,27 +44,315 @@ void AddDescriptors();
 void InitDefaults();
 }  // namespace protobuf_Game_5fDefine_2eproto
 
-enum OBJECT_TYPE {
+enum EObjectType {
   OT_NONE = 0,
   OT_PLAYER = 1,
-  OT_MONSTER = 2,
-  OBJECT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  OBJECT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  OT_ROBOT = 2,
+  OT_MONSTER = 3,
+  OT_PET = 4,
+  OT_PARTNER = 5,
+  OT_SUMMON = 6,
+  EObjectType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool OBJECT_TYPE_IsValid(int value);
-const OBJECT_TYPE OBJECT_TYPE_MIN = OT_NONE;
-const OBJECT_TYPE OBJECT_TYPE_MAX = OT_MONSTER;
-const int OBJECT_TYPE_ARRAYSIZE = OBJECT_TYPE_MAX + 1;
+bool EObjectType_IsValid(int value);
+const EObjectType EObjectType_MIN = OT_NONE;
+const EObjectType EObjectType_MAX = OT_SUMMON;
+const int EObjectType_ARRAYSIZE = EObjectType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* OBJECT_TYPE_descriptor();
-inline const ::std::string& OBJECT_TYPE_Name(OBJECT_TYPE value) {
+const ::google::protobuf::EnumDescriptor* EObjectType_descriptor();
+inline const ::std::string& EObjectType_Name(EObjectType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    OBJECT_TYPE_descriptor(), value);
+    EObjectType_descriptor(), value);
 }
-inline bool OBJECT_TYPE_Parse(
-    const ::std::string& name, OBJECT_TYPE* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<OBJECT_TYPE>(
-    OBJECT_TYPE_descriptor(), name, value);
+inline bool EObjectType_Parse(
+    const ::std::string& name, EObjectType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EObjectType>(
+    EObjectType_descriptor(), name, value);
+}
+enum EActionType {
+  AT_NONE = 0,
+  AT_MOVE = 1,
+  AT_WALK = 2,
+  AT_RUN = 3,
+  AT_IDLE = 4,
+  AT_DRIECTONAL = 5,
+  AT_DANCE1 = 6,
+  AT_DANCE2 = 7,
+  AT_DANCE3 = 8,
+  AT_DANCE4 = 9,
+  AT_SKILL_BEGIN = 10000,
+  EActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EActionType_IsValid(int value);
+const EActionType EActionType_MIN = AT_NONE;
+const EActionType EActionType_MAX = AT_SKILL_BEGIN;
+const int EActionType_ARRAYSIZE = EActionType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EActionType_descriptor();
+inline const ::std::string& EActionType_Name(EActionType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EActionType_descriptor(), value);
+}
+inline bool EActionType_Parse(
+    const ::std::string& name, EActionType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EActionType>(
+    EActionType_descriptor(), name, value);
+}
+enum EActionStatue {
+  AS_NONE = 0,
+  AS_HURT = 1,
+  AS_START = 2,
+  AS_END = 268435455,
+  EActionStatue_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EActionStatue_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EActionStatue_IsValid(int value);
+const EActionStatue EActionStatue_MIN = AS_NONE;
+const EActionStatue EActionStatue_MAX = AS_END;
+const int EActionStatue_ARRAYSIZE = EActionStatue_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EActionStatue_descriptor();
+inline const ::std::string& EActionStatue_Name(EActionStatue value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EActionStatue_descriptor(), value);
+}
+inline bool EActionStatue_Parse(
+    const ::std::string& name, EActionStatue* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EActionStatue>(
+    EActionStatue_descriptor(), name, value);
+}
+enum ECampType {
+  CT_NONE = 0,
+  CT_PVE_PLAYER = 1,
+  CT_PVE_ENEMY = 2,
+  CT_PVE_NEUTRAL = 3,
+  CT_PVP_PLAYER1 = 4,
+  CT_PVP_PLAYER2 = 5,
+  CT_PVP_PLAYER3 = 6,
+  CT_PVP_PLAYER4 = 7,
+  CT_PVP_PLAYER5 = 8,
+  CT_CMAP_END = 100,
+  ECampType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ECampType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ECampType_IsValid(int value);
+const ECampType ECampType_MIN = CT_NONE;
+const ECampType ECampType_MAX = CT_CMAP_END;
+const int ECampType_ARRAYSIZE = ECampType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ECampType_descriptor();
+inline const ::std::string& ECampType_Name(ECampType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ECampType_descriptor(), value);
+}
+inline bool ECampType_Parse(
+    const ::std::string& name, ECampType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ECampType>(
+    ECampType_descriptor(), name, value);
+}
+enum ECopyType {
+  CPT_NONE = 0,
+  CPT_LOGIN = 1,
+  CPT_SELROLE = 2,
+  CPT_CITY = 3,
+  CPT_MAIN = 4,
+  CPT_WORLD = 5,
+  CPT_END = 100,
+  ECopyType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ECopyType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ECopyType_IsValid(int value);
+const ECopyType ECopyType_MIN = CPT_NONE;
+const ECopyType ECopyType_MAX = CPT_END;
+const int ECopyType_ARRAYSIZE = ECopyType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ECopyType_descriptor();
+inline const ::std::string& ECopyType_Name(ECopyType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ECopyType_descriptor(), value);
+}
+inline bool ECopyType_Parse(
+    const ::std::string& name, ECopyType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ECopyType>(
+    ECopyType_descriptor(), name, value);
+}
+enum EOBjectStatue {
+  OS_NONE = 0,
+  OS_IDLE = 1,
+  OS_WALK = 2,
+  OS_RUN = 3,
+  OS_DIE = 4,
+  OS_END = 5,
+  EOBjectStatue_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EOBjectStatue_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EOBjectStatue_IsValid(int value);
+const EOBjectStatue EOBjectStatue_MIN = OS_NONE;
+const EOBjectStatue EOBjectStatue_MAX = OS_END;
+const int EOBjectStatue_ARRAYSIZE = EOBjectStatue_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EOBjectStatue_descriptor();
+inline const ::std::string& EOBjectStatue_Name(EOBjectStatue value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EOBjectStatue_descriptor(), value);
+}
+inline bool EOBjectStatue_Parse(
+    const ::std::string& name, EOBjectStatue* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EOBjectStatue>(
+    EOBjectStatue_descriptor(), name, value);
+}
+enum EItemType {
+  IMT_NONE = 0,
+  IMT_MONEY = 1,
+  IMT_ACTION = 2,
+  IMT_NORMAL = 3,
+  IMT_EQUIP = 4,
+  IMT_PET = 5,
+  IMT_PARTNER = 6,
+  EItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EItemType_IsValid(int value);
+const EItemType EItemType_MIN = IMT_NONE;
+const EItemType EItemType_MAX = IMT_PARTNER;
+const int EItemType_ARRAYSIZE = EItemType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EItemType_descriptor();
+inline const ::std::string& EItemType_Name(EItemType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EItemType_descriptor(), value);
+}
+inline bool EItemType_Parse(
+    const ::std::string& name, EItemType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EItemType>(
+    EItemType_descriptor(), name, value);
+}
+enum EBagType {
+  BT_NONE = 0,
+  EBagType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EBagType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EBagType_IsValid(int value);
+const EBagType EBagType_MIN = BT_NONE;
+const EBagType EBagType_MAX = BT_NONE;
+const int EBagType_ARRAYSIZE = EBagType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EBagType_descriptor();
+inline const ::std::string& EBagType_Name(EBagType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EBagType_descriptor(), value);
+}
+inline bool EBagType_Parse(
+    const ::std::string& name, EBagType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EBagType>(
+    EBagType_descriptor(), name, value);
+}
+enum EFunctionType {
+  FUNC_BEGIN_ID = 0,
+  FUNC_END_ID = 150,
+  EFunctionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EFunctionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EFunctionType_IsValid(int value);
+const EFunctionType EFunctionType_MIN = FUNC_BEGIN_ID;
+const EFunctionType EFunctionType_MAX = FUNC_END_ID;
+const int EFunctionType_ARRAYSIZE = EFunctionType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EFunctionType_descriptor();
+inline const ::std::string& EFunctionType_Name(EFunctionType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EFunctionType_descriptor(), value);
+}
+inline bool EFunctionType_Parse(
+    const ::std::string& name, EFunctionType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EFunctionType>(
+    EFunctionType_descriptor(), name, value);
+}
+enum EAttrID {
+  NONE = 0,
+  HP = 1,
+  MP = 2,
+  HP_MAX = 3,
+  MP_MAX = 4,
+  HP_REC = 5,
+  MP_REC = 6,
+  SPEED = 7,
+  ATTACK = 8,
+  ELEMENT = 9,
+  MAGIC_DEF = 10,
+  PHYSIC_DEF = 11,
+  HIT = 12,
+  DODGE = 13,
+  MORE_HURT = 14,
+  LESS_HURT = 15,
+  CRIT_HIT = 16,
+  CRIT_DEF = 17,
+  ICE_DODGE = 18,
+  FLASH_DODGE = 19,
+  FIRE_DODGE = 20,
+  TOXIN_DODGE = 21,
+  EAttrID_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EAttrID_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EAttrID_IsValid(int value);
+const EAttrID EAttrID_MIN = NONE;
+const EAttrID EAttrID_MAX = TOXIN_DODGE;
+const int EAttrID_ARRAYSIZE = EAttrID_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EAttrID_descriptor();
+inline const ::std::string& EAttrID_Name(EAttrID value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EAttrID_descriptor(), value);
+}
+inline bool EAttrID_Parse(
+    const ::std::string& name, EAttrID* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EAttrID>(
+    EAttrID_descriptor(), name, value);
+}
+enum EBuffType {
+  BFT_NONE = 0,
+  EBuffType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EBuffType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EBuffType_IsValid(int value);
+const EBuffType EBuffType_MIN = BFT_NONE;
+const EBuffType EBuffType_MAX = BFT_NONE;
+const int EBuffType_ARRAYSIZE = EBuffType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EBuffType_descriptor();
+inline const ::std::string& EBuffType_Name(EBuffType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EBuffType_descriptor(), value);
+}
+inline bool EBuffType_Parse(
+    const ::std::string& name, EBuffType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EBuffType>(
+    EBuffType_descriptor(), name, value);
+}
+enum EChatChannel {
+  CHL_NONE = 0,
+  CHL_WORLD = 1,
+  CHL_PRIVATE = 2,
+  CHL_GUILD = 3,
+  EChatChannel_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EChatChannel_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EChatChannel_IsValid(int value);
+const EChatChannel EChatChannel_MIN = CHL_NONE;
+const EChatChannel EChatChannel_MAX = CHL_GUILD;
+const int EChatChannel_ARRAYSIZE = EChatChannel_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EChatChannel_descriptor();
+inline const ::std::string& EChatChannel_Name(EChatChannel value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EChatChannel_descriptor(), value);
+}
+inline bool EChatChannel_Parse(
+    const ::std::string& name, EChatChannel* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EChatChannel>(
+    EChatChannel_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -84,10 +372,65 @@ inline bool OBJECT_TYPE_Parse(
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::OBJECT_TYPE> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::EObjectType> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::OBJECT_TYPE>() {
-  return ::OBJECT_TYPE_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::EObjectType>() {
+  return ::EObjectType_descriptor();
+}
+template <> struct is_proto_enum< ::EActionType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EActionType>() {
+  return ::EActionType_descriptor();
+}
+template <> struct is_proto_enum< ::EActionStatue> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EActionStatue>() {
+  return ::EActionStatue_descriptor();
+}
+template <> struct is_proto_enum< ::ECampType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ECampType>() {
+  return ::ECampType_descriptor();
+}
+template <> struct is_proto_enum< ::ECopyType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ECopyType>() {
+  return ::ECopyType_descriptor();
+}
+template <> struct is_proto_enum< ::EOBjectStatue> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EOBjectStatue>() {
+  return ::EOBjectStatue_descriptor();
+}
+template <> struct is_proto_enum< ::EItemType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EItemType>() {
+  return ::EItemType_descriptor();
+}
+template <> struct is_proto_enum< ::EBagType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EBagType>() {
+  return ::EBagType_descriptor();
+}
+template <> struct is_proto_enum< ::EFunctionType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EFunctionType>() {
+  return ::EFunctionType_descriptor();
+}
+template <> struct is_proto_enum< ::EAttrID> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EAttrID>() {
+  return ::EAttrID_descriptor();
+}
+template <> struct is_proto_enum< ::EBuffType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EBuffType>() {
+  return ::EBuffType_descriptor();
+}
+template <> struct is_proto_enum< ::EChatChannel> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EChatChannel>() {
+  return ::EChatChannel_descriptor();
 }
 
 }  // namespace protobuf

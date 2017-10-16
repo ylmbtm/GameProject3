@@ -106,10 +106,10 @@ BOOL CConnection::DoReceive()
 {
 	while(TRUE)
 	{
-		int nBytes = recv(m_hSocket, m_pRecvBuf + m_dwDataLen, CONST_BUFF_SIZE - m_dwDataLen, 0);
+		int nBytes = recv(m_hSocket, m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen, 0);
 		if(nBytes == 0)
 		{
-			if(m_dwDataLen == CONST_BUFF_SIZE)
+			if(m_dwDataLen == RECV_BUF_SIZE)
 			{
 				CLog::GetInstancePtr()->LogError("buffer满了，需要再读一次!!");
 
@@ -572,31 +572,49 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 #else
 BOOL CConnection::DoSend(IDataBuffer* pBuff)
 {
-	///如果正在发送中就直接返回
-	if (m_IsSending)
+	if(pBuff != NULL)
 	{
-		return FALSE;
+		m_SendBuffList.push(pBuff);
+		if(!mCritSending.TryLock())
+		{
+			return FALSE;
+		}
+
+		///如果正在发送中就直接返回
+		if (m_IsSending)
+		{
+			mCritSending.Unlock();
+			return FALSE;
+		}
+	}
+	else
+	{
+		mCritSending.Lock();
+		m_IsSending = FALSE;
 	}
 
 	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
-	IDataBuffer* pBuffer = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
 	int nCurPos = 0;
+
+	IDataBuffer* pBuffer = NULL;
 	while(m_SendBuffList.pop(pBuffer))
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
 		if(pFirstBuff == NULL)
 		{
+			pFirstBuff = pBuffer;
+
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				pSendingBuffer = pBuffer;
 				break;
 			}
 
-			pFirstBuff = pBuffer;
+			pBuffer = NULL;
 		}
 		else
 		{
@@ -614,7 +632,7 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
 			nCurPos += pBuffer->GetTotalLenth();
 			pBuffer->Release();
-
+			pBuffer = NULL;
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				break;
@@ -630,6 +648,7 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 	if(pSendingBuffer == NULL)
 	{
 		m_IsSending = FALSE;
+		mCritSending.Unlock();
 		return FALSE;
 	}
 
@@ -639,7 +658,7 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 	m_IoOverlapSend.dwConnID    = m_dwConnID;
 
 
-	//木多库的处理方式
+	//mudo库的处理方式
 	//返回值为正数， 分为完全发送，和部分发送，部分发送，用另一个缓冲区装着继续发送
 	//返回值为负数   错误码：
 	//

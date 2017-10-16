@@ -9,51 +9,72 @@ message DamagerItem {
   int32 chghp = 6;  
 }
 
-message ActionItem {
+message ActionNtyItem {
 	uint64  ObjectGuid = 1;
 	int32	ObjStatue  = 2;		//实例状态
 	int32	ActorID    = 3;		//类型ID
 	uint64  ControlerID = 4;    //AI控制人的GUID
 	int32   ActionID = 5;
-	int32   ActionState = 6; 
-	float   x = 7;
-	float   y = 8;
-	float   z = 9;
-	float   ft = 10;
-	int32   hp = 11;
-	int32   mp = 12;
-	int32   hpmax = 13;
-	int32   mpmax = 14;
-	repeated DamagerItem DamagerList = 15; 
+	int32   ActionTime = 6; 
+	int32   BuffStatue = 7;     //buf状态
+	float   X = 8;
+	float   Y = 9;
+	float   Z = 10;
+	float   Ft = 11;
+	int32   Hp = 12;
+	int32   Mp = 13;
+	int32   HpMax = 14;
+	int32   MpMax = 15;
+}
+
+
+message ActionReqItem {
+	uint64  ObjectGuid = 1;
+	int32   ActionID = 2;
+
+	int32   IsSkill = 3;
+
+	float   HostX = 4;
+	float   HostY = 5;
+	float   HostZ = 6;
+	float   HostFt = 7;
+
+	float   TargetX = 8;
+	float   TargetY = 9;
+	float   TargetZ = 10;
+	float   TargetFt = 11;
+
+	repeated uint64  TargetObjects = 12;
 }
 
 message ObjectActionReq {
-   repeated ActionItem ActionList = 1;
+   repeated ActionReqItem ActionList = 1;
 }
 
+
 message ObjectActionNty {
-   repeated ActionItem ActionList = 1;
+   repeated ActionNtyItem ActionList = 1;
 }
 
 message NewItem {
 	uint64 ObjectGuid = 1;		//实例ID
 	int32  ObjType    = 2;		//类别
-	int32 ObjStatue  = 3;		//实例状态
+	int32  ObjStatue  = 3;		//实例状态
 	int32  ActorID    = 4;		//类型ID
 	string Name       = 5;
 	int32  Level      = 6;
 	uint64 HostGuid   = 7;		//主人的GUID
     uint64 ControlerID = 8;     //AI控制人的GUID
 	uint64 SummonID = 9;		//招唤者的GUID
-	float  x = 10;
-	float  y = 11;
-	float  z = 12;
-	float  ft = 13;
-	int32  hp = 14;
-	int32  mp = 15;
-	int32  hpmax = 16;
-	int32  mpmax = 17;
-	int32  weapon = 18; //武器
+	float  X = 10;
+	float  Y = 11;
+	float  Z = 12;
+	float  Ft = 13;
+	int32  Hp = 14;
+	int32  Mp = 15;
+	int32  HpMax = 16;
+	int32  MpMax = 17;
+	int32  Weapon = 18; //武器
 }
 
 message ObjectNewNty {
@@ -76,4 +97,18 @@ message HeartBeatAck {
 
 message ObjectDieNotify {
   uint64  ObjectGuid = 1;
+}
+
+
+message ObjectValueChange
+{
+    uint64            TargetGUID  = 1;
+    int32             ValueID     = 2;
+    int32             Value       = 3;
+    bool              Crit        = 4;
+}
+
+message ObjectValueChangeNtf
+{ 
+    repeated ObjectValueChange ChangeList = 1;
 }

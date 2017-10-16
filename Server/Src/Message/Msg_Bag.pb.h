@@ -30,12 +30,30 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
-class BagDataNty;
-class BagDataNtyDefaultTypeInternal;
-extern BagDataNtyDefaultTypeInternal _BagDataNty_default_instance_;
-class BagItem;
-class BagItemDefaultTypeInternal;
-extern BagItemDefaultTypeInternal _BagItem_default_instance_;
+class SetupEquipAck;
+class SetupEquipAckDefaultTypeInternal;
+extern SetupEquipAckDefaultTypeInternal _SetupEquipAck_default_instance_;
+class SetupEquipReq;
+class SetupEquipReqDefaultTypeInternal;
+extern SetupEquipReqDefaultTypeInternal _SetupEquipReq_default_instance_;
+class SetupMountAck;
+class SetupMountAckDefaultTypeInternal;
+extern SetupMountAckDefaultTypeInternal _SetupMountAck_default_instance_;
+class SetupMountReq;
+class SetupMountReqDefaultTypeInternal;
+extern SetupMountReqDefaultTypeInternal _SetupMountReq_default_instance_;
+class SetupPartnerAck;
+class SetupPartnerAckDefaultTypeInternal;
+extern SetupPartnerAckDefaultTypeInternal _SetupPartnerAck_default_instance_;
+class SetupPartnerReq;
+class SetupPartnerReqDefaultTypeInternal;
+extern SetupPartnerReqDefaultTypeInternal _SetupPartnerReq_default_instance_;
+class SetupPetAck;
+class SetupPetAckDefaultTypeInternal;
+extern SetupPetAckDefaultTypeInternal _SetupPetAck_default_instance_;
+class SetupPetReq;
+class SetupPetReqDefaultTypeInternal;
+extern SetupPetReqDefaultTypeInternal _SetupPetReq_default_instance_;
 
 namespace protobuf_Msg_5fBag_2eproto {
 // Internal implementation detail -- do not call these.
@@ -53,39 +71,39 @@ void InitDefaults();
 
 // ===================================================================
 
-class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BagItem) */ {
+class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupEquipReq) */ {
  public:
-  BagItem();
-  virtual ~BagItem();
+  SetupEquipReq();
+  virtual ~SetupEquipReq();
 
-  BagItem(const BagItem& from);
+  SetupEquipReq(const SetupEquipReq& from);
 
-  inline BagItem& operator=(const BagItem& from) {
+  inline SetupEquipReq& operator=(const SetupEquipReq& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BagItem& default_instance();
+  static const SetupEquipReq& default_instance();
 
-  static inline const BagItem* internal_default_instance() {
-    return reinterpret_cast<const BagItem*>(
-               &_BagItem_default_instance_);
+  static inline const SetupEquipReq* internal_default_instance() {
+    return reinterpret_cast<const SetupEquipReq*>(
+               &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     0;
 
-  void Swap(BagItem* other);
+  void Swap(SetupEquipReq* other);
 
   // implements Message ----------------------------------------------
 
-  inline BagItem* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  BagItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const BagItem& from);
-  void MergeFrom(const BagItem& from);
+  void CopyFrom(const SetupEquipReq& from);
+  void MergeFrom(const SetupEquipReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -101,7 +119,7 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(BagItem* other);
+  void InternalSwap(SetupEquipReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -117,76 +135,62 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // uint64 Guid = 1;
-  void clear_guid();
-  static const int kGuidFieldNumber = 1;
-  ::google::protobuf::uint64 guid() const;
-  void set_guid(::google::protobuf::uint64 value);
+  // uint64 upguid = 1;
+  void clear_upguid();
+  static const int kUpguidFieldNumber = 1;
+  ::google::protobuf::uint64 upguid() const;
+  void set_upguid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+  // uint64 downguid = 2;
+  void clear_downguid();
+  static const int kDownguidFieldNumber = 2;
+  ::google::protobuf::uint64 downguid() const;
+  void set_downguid(::google::protobuf::uint64 value);
 
-  // int32 ItemNum = 3;
-  void clear_itemnum();
-  static const int kItemNumFieldNumber = 3;
-  ::google::protobuf::int32 itemnum() const;
-  void set_itemnum(::google::protobuf::int32 value);
-
-  // int32 ItemGuid = 4;
-  void clear_itemguid();
-  static const int kItemGuidFieldNumber = 4;
-  ::google::protobuf::int32 itemguid() const;
-  void set_itemguid(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:BagItem)
+  // @@protoc_insertion_point(class_scope:SetupEquipReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint64 guid_;
-  ::google::protobuf::int32 itemid_;
-  ::google::protobuf::int32 itemnum_;
-  ::google::protobuf::int32 itemguid_;
+  ::google::protobuf::uint64 upguid_;
+  ::google::protobuf::uint64 downguid_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class BagDataNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BagDataNty) */ {
+class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupEquipAck) */ {
  public:
-  BagDataNty();
-  virtual ~BagDataNty();
+  SetupEquipAck();
+  virtual ~SetupEquipAck();
 
-  BagDataNty(const BagDataNty& from);
+  SetupEquipAck(const SetupEquipAck& from);
 
-  inline BagDataNty& operator=(const BagDataNty& from) {
+  inline SetupEquipAck& operator=(const SetupEquipAck& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BagDataNty& default_instance();
+  static const SetupEquipAck& default_instance();
 
-  static inline const BagDataNty* internal_default_instance() {
-    return reinterpret_cast<const BagDataNty*>(
-               &_BagDataNty_default_instance_);
+  static inline const SetupEquipAck* internal_default_instance() {
+    return reinterpret_cast<const SetupEquipAck*>(
+               &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     1;
 
-  void Swap(BagDataNty* other);
+  void Swap(SetupEquipAck* other);
 
   // implements Message ----------------------------------------------
 
-  inline BagDataNty* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  BagDataNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const BagDataNty& from);
-  void MergeFrom(const BagDataNty& from);
+  void CopyFrom(const SetupEquipAck& from);
+  void MergeFrom(const SetupEquipAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -202,7 +206,7 @@ class BagDataNty : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(BagDataNty* other);
+  void InternalSwap(SetupEquipAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -218,37 +222,518 @@ class BagDataNty : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // repeated .BagItem ChangeList = 1;
-  int changelist_size() const;
-  void clear_changelist();
-  static const int kChangeListFieldNumber = 1;
-  const ::BagItem& changelist(int index) const;
-  ::BagItem* mutable_changelist(int index);
-  ::BagItem* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::BagItem >*
-      mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::BagItem >&
-      changelist() const;
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
 
-  // repeated uint64 RemoveList = 2;
-  int removelist_size() const;
-  void clear_removelist();
-  static const int kRemoveListFieldNumber = 2;
-  ::google::protobuf::uint64 removelist(int index) const;
-  void set_removelist(int index, ::google::protobuf::uint64 value);
-  void add_removelist(::google::protobuf::uint64 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
-      removelist() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
-      mutable_removelist();
-
-  // @@protoc_insertion_point(class_scope:BagDataNty)
+  // @@protoc_insertion_point(class_scope:SetupEquipAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::BagItem > changelist_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
-  mutable int _removelist_cached_byte_size_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupPetReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPetReq) */ {
+ public:
+  SetupPetReq();
+  virtual ~SetupPetReq();
+
+  SetupPetReq(const SetupPetReq& from);
+
+  inline SetupPetReq& operator=(const SetupPetReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPetReq& default_instance();
+
+  static inline const SetupPetReq* internal_default_instance() {
+    return reinterpret_cast<const SetupPetReq*>(
+               &_SetupPetReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    2;
+
+  void Swap(SetupPetReq* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPetReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPetReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPetReq& from);
+  void MergeFrom(const SetupPetReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPetReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 upguid = 1;
+  void clear_upguid();
+  static const int kUpguidFieldNumber = 1;
+  ::google::protobuf::uint64 upguid() const;
+  void set_upguid(::google::protobuf::uint64 value);
+
+  // uint64 downguid = 2;
+  void clear_downguid();
+  static const int kDownguidFieldNumber = 2;
+  ::google::protobuf::uint64 downguid() const;
+  void set_downguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPetReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 upguid_;
+  ::google::protobuf::uint64 downguid_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupPetAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPetAck) */ {
+ public:
+  SetupPetAck();
+  virtual ~SetupPetAck();
+
+  SetupPetAck(const SetupPetAck& from);
+
+  inline SetupPetAck& operator=(const SetupPetAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPetAck& default_instance();
+
+  static inline const SetupPetAck* internal_default_instance() {
+    return reinterpret_cast<const SetupPetAck*>(
+               &_SetupPetAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    3;
+
+  void Swap(SetupPetAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPetAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPetAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPetAck& from);
+  void MergeFrom(const SetupPetAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPetAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPetAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPartnerReq) */ {
+ public:
+  SetupPartnerReq();
+  virtual ~SetupPartnerReq();
+
+  SetupPartnerReq(const SetupPartnerReq& from);
+
+  inline SetupPartnerReq& operator=(const SetupPartnerReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPartnerReq& default_instance();
+
+  static inline const SetupPartnerReq* internal_default_instance() {
+    return reinterpret_cast<const SetupPartnerReq*>(
+               &_SetupPartnerReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    4;
+
+  void Swap(SetupPartnerReq* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPartnerReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPartnerReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPartnerReq& from);
+  void MergeFrom(const SetupPartnerReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPartnerReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 upguid = 1;
+  void clear_upguid();
+  static const int kUpguidFieldNumber = 1;
+  ::google::protobuf::uint64 upguid() const;
+  void set_upguid(::google::protobuf::uint64 value);
+
+  // uint64 downguid = 2;
+  void clear_downguid();
+  static const int kDownguidFieldNumber = 2;
+  ::google::protobuf::uint64 downguid() const;
+  void set_downguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPartnerReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 upguid_;
+  ::google::protobuf::uint64 downguid_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPartnerAck) */ {
+ public:
+  SetupPartnerAck();
+  virtual ~SetupPartnerAck();
+
+  SetupPartnerAck(const SetupPartnerAck& from);
+
+  inline SetupPartnerAck& operator=(const SetupPartnerAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPartnerAck& default_instance();
+
+  static inline const SetupPartnerAck* internal_default_instance() {
+    return reinterpret_cast<const SetupPartnerAck*>(
+               &_SetupPartnerAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    5;
+
+  void Swap(SetupPartnerAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPartnerAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPartnerAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPartnerAck& from);
+  void MergeFrom(const SetupPartnerAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPartnerAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPartnerAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupMountReq) */ {
+ public:
+  SetupMountReq();
+  virtual ~SetupMountReq();
+
+  SetupMountReq(const SetupMountReq& from);
+
+  inline SetupMountReq& operator=(const SetupMountReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupMountReq& default_instance();
+
+  static inline const SetupMountReq* internal_default_instance() {
+    return reinterpret_cast<const SetupMountReq*>(
+               &_SetupMountReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    6;
+
+  void Swap(SetupMountReq* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupMountReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupMountReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupMountReq& from);
+  void MergeFrom(const SetupMountReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupMountReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 upguid = 1;
+  void clear_upguid();
+  static const int kUpguidFieldNumber = 1;
+  ::google::protobuf::uint64 upguid() const;
+  void set_upguid(::google::protobuf::uint64 value);
+
+  // uint64 downguid = 2;
+  void clear_downguid();
+  static const int kDownguidFieldNumber = 2;
+  ::google::protobuf::uint64 downguid() const;
+  void set_downguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:SetupMountReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 upguid_;
+  ::google::protobuf::uint64 downguid_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupMountAck) */ {
+ public:
+  SetupMountAck();
+  virtual ~SetupMountAck();
+
+  SetupMountAck(const SetupMountAck& from);
+
+  inline SetupMountAck& operator=(const SetupMountAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupMountAck& default_instance();
+
+  static inline const SetupMountAck* internal_default_instance() {
+    return reinterpret_cast<const SetupMountAck*>(
+               &_SetupMountAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    7;
+
+  void Swap(SetupMountAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SetupMountAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupMountAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupMountAck& from);
+  void MergeFrom(const SetupMountAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupMountAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupMountAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fBag_2eproto::TableStruct;
 };
@@ -258,129 +743,217 @@ class BagDataNty : public ::google::protobuf::Message /* @@protoc_insertion_poin
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// BagItem
+// SetupEquipReq
 
-// uint64 Guid = 1;
-inline void BagItem::clear_guid() {
-  guid_ = GOOGLE_ULONGLONG(0);
+// uint64 upguid = 1;
+inline void SetupEquipReq::clear_upguid() {
+  upguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 BagItem::guid() const {
-  // @@protoc_insertion_point(field_get:BagItem.Guid)
-  return guid_;
+inline ::google::protobuf::uint64 SetupEquipReq::upguid() const {
+  // @@protoc_insertion_point(field_get:SetupEquipReq.upguid)
+  return upguid_;
 }
-inline void BagItem::set_guid(::google::protobuf::uint64 value) {
+inline void SetupEquipReq::set_upguid(::google::protobuf::uint64 value) {
   
-  guid_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.Guid)
-}
-
-// int32 ItemID = 2;
-inline void BagItem::clear_itemid() {
-  itemid_ = 0;
-}
-inline ::google::protobuf::int32 BagItem::itemid() const {
-  // @@protoc_insertion_point(field_get:BagItem.ItemID)
-  return itemid_;
-}
-inline void BagItem::set_itemid(::google::protobuf::int32 value) {
-  
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.ItemID)
+  upguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupEquipReq.upguid)
 }
 
-// int32 ItemNum = 3;
-inline void BagItem::clear_itemnum() {
-  itemnum_ = 0;
+// uint64 downguid = 2;
+inline void SetupEquipReq::clear_downguid() {
+  downguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::int32 BagItem::itemnum() const {
-  // @@protoc_insertion_point(field_get:BagItem.ItemNum)
-  return itemnum_;
+inline ::google::protobuf::uint64 SetupEquipReq::downguid() const {
+  // @@protoc_insertion_point(field_get:SetupEquipReq.downguid)
+  return downguid_;
 }
-inline void BagItem::set_itemnum(::google::protobuf::int32 value) {
+inline void SetupEquipReq::set_downguid(::google::protobuf::uint64 value) {
   
-  itemnum_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.ItemNum)
-}
-
-// int32 ItemGuid = 4;
-inline void BagItem::clear_itemguid() {
-  itemguid_ = 0;
-}
-inline ::google::protobuf::int32 BagItem::itemguid() const {
-  // @@protoc_insertion_point(field_get:BagItem.ItemGuid)
-  return itemguid_;
-}
-inline void BagItem::set_itemguid(::google::protobuf::int32 value) {
-  
-  itemguid_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.ItemGuid)
+  downguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupEquipReq.downguid)
 }
 
 // -------------------------------------------------------------------
 
-// BagDataNty
+// SetupEquipAck
 
-// repeated .BagItem ChangeList = 1;
-inline int BagDataNty::changelist_size() const {
-  return changelist_.size();
+// uint32 RetCode = 1;
+inline void SetupEquipAck::clear_retcode() {
+  retcode_ = 0u;
 }
-inline void BagDataNty::clear_changelist() {
-  changelist_.Clear();
+inline ::google::protobuf::uint32 SetupEquipAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupEquipAck.RetCode)
+  return retcode_;
 }
-inline const ::BagItem& BagDataNty::changelist(int index) const {
-  // @@protoc_insertion_point(field_get:BagDataNty.ChangeList)
-  return changelist_.Get(index);
-}
-inline ::BagItem* BagDataNty::mutable_changelist(int index) {
-  // @@protoc_insertion_point(field_mutable:BagDataNty.ChangeList)
-  return changelist_.Mutable(index);
-}
-inline ::BagItem* BagDataNty::add_changelist() {
-  // @@protoc_insertion_point(field_add:BagDataNty.ChangeList)
-  return changelist_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::BagItem >*
-BagDataNty::mutable_changelist() {
-  // @@protoc_insertion_point(field_mutable_list:BagDataNty.ChangeList)
-  return &changelist_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::BagItem >&
-BagDataNty::changelist() const {
-  // @@protoc_insertion_point(field_list:BagDataNty.ChangeList)
-  return changelist_;
+inline void SetupEquipAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupEquipAck.RetCode)
 }
 
-// repeated uint64 RemoveList = 2;
-inline int BagDataNty::removelist_size() const {
-  return removelist_.size();
+// -------------------------------------------------------------------
+
+// SetupPetReq
+
+// uint64 upguid = 1;
+inline void SetupPetReq::clear_upguid() {
+  upguid_ = GOOGLE_ULONGLONG(0);
 }
-inline void BagDataNty::clear_removelist() {
-  removelist_.Clear();
+inline ::google::protobuf::uint64 SetupPetReq::upguid() const {
+  // @@protoc_insertion_point(field_get:SetupPetReq.upguid)
+  return upguid_;
 }
-inline ::google::protobuf::uint64 BagDataNty::removelist(int index) const {
-  // @@protoc_insertion_point(field_get:BagDataNty.RemoveList)
-  return removelist_.Get(index);
+inline void SetupPetReq::set_upguid(::google::protobuf::uint64 value) {
+  
+  upguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupPetReq.upguid)
 }
-inline void BagDataNty::set_removelist(int index, ::google::protobuf::uint64 value) {
-  removelist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:BagDataNty.RemoveList)
+
+// uint64 downguid = 2;
+inline void SetupPetReq::clear_downguid() {
+  downguid_ = GOOGLE_ULONGLONG(0);
 }
-inline void BagDataNty::add_removelist(::google::protobuf::uint64 value) {
-  removelist_.Add(value);
-  // @@protoc_insertion_point(field_add:BagDataNty.RemoveList)
+inline ::google::protobuf::uint64 SetupPetReq::downguid() const {
+  // @@protoc_insertion_point(field_get:SetupPetReq.downguid)
+  return downguid_;
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
-BagDataNty::removelist() const {
-  // @@protoc_insertion_point(field_list:BagDataNty.RemoveList)
-  return removelist_;
+inline void SetupPetReq::set_downguid(::google::protobuf::uint64 value) {
+  
+  downguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupPetReq.downguid)
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
-BagDataNty::mutable_removelist() {
-  // @@protoc_insertion_point(field_mutable_list:BagDataNty.RemoveList)
-  return &removelist_;
+
+// -------------------------------------------------------------------
+
+// SetupPetAck
+
+// uint32 RetCode = 1;
+inline void SetupPetAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 SetupPetAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupPetAck.RetCode)
+  return retcode_;
+}
+inline void SetupPetAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupPetAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// SetupPartnerReq
+
+// uint64 upguid = 1;
+inline void SetupPartnerReq::clear_upguid() {
+  upguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupPartnerReq::upguid() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerReq.upguid)
+  return upguid_;
+}
+inline void SetupPartnerReq::set_upguid(::google::protobuf::uint64 value) {
+  
+  upguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerReq.upguid)
+}
+
+// uint64 downguid = 2;
+inline void SetupPartnerReq::clear_downguid() {
+  downguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupPartnerReq::downguid() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerReq.downguid)
+  return downguid_;
+}
+inline void SetupPartnerReq::set_downguid(::google::protobuf::uint64 value) {
+  
+  downguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerReq.downguid)
+}
+
+// -------------------------------------------------------------------
+
+// SetupPartnerAck
+
+// uint32 RetCode = 1;
+inline void SetupPartnerAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 SetupPartnerAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerAck.RetCode)
+  return retcode_;
+}
+inline void SetupPartnerAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// SetupMountReq
+
+// uint64 upguid = 1;
+inline void SetupMountReq::clear_upguid() {
+  upguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupMountReq::upguid() const {
+  // @@protoc_insertion_point(field_get:SetupMountReq.upguid)
+  return upguid_;
+}
+inline void SetupMountReq::set_upguid(::google::protobuf::uint64 value) {
+  
+  upguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountReq.upguid)
+}
+
+// uint64 downguid = 2;
+inline void SetupMountReq::clear_downguid() {
+  downguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupMountReq::downguid() const {
+  // @@protoc_insertion_point(field_get:SetupMountReq.downguid)
+  return downguid_;
+}
+inline void SetupMountReq::set_downguid(::google::protobuf::uint64 value) {
+  
+  downguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountReq.downguid)
+}
+
+// -------------------------------------------------------------------
+
+// SetupMountAck
+
+// uint32 RetCode = 1;
+inline void SetupMountAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 SetupMountAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupMountAck.RetCode)
+  return retcode_;
+}
+inline void SetupMountAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountAck.RetCode)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

@@ -86,7 +86,7 @@ public:
 	BOOL			SetLastTick(UINT32 dwTick);
 	UINT64			GenNewGuid();
 
-protected:
+public:
 	UINT32							m_dwPlayerNum;  //副本需要进入的人数
 	UINT32							m_dwLoginNum;   //登录副本的人数
 	UINT32							m_dwCopyGuid;	//当前副本实例ID
@@ -108,8 +108,7 @@ protected:
 	//////////////////////////////////////////////////////////////////////////
 	//攻击伤害计算
 
-	BOOL ProcessActionItem(const ActionItem& Item);
-	BOOL SkillFight(CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject* pDefender);
+	BOOL ProcessActionItem(const ActionReqItem& Item);
 
 	BOOL SendBattleResult();
 	//*********************消息处理定义开始******************************

@@ -60,7 +60,7 @@ BOOL CNetManager::WorkThread_Listen()
 		CConnection* pConnection = AssociateCompletePort(hClientSocket);
 		if(pConnection != NULL)
 		{
-			pConnection->m_dwIpAddr = Con_Addr.sin_addr.S_un.S_addr;
+			pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
 
 			pConnection->SetConnectionOK(TRUE);
 
@@ -477,14 +477,11 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 		}
 		else if(_EventNode.dwEvent == EVENT_WRITE)
 		{
-			pConnection->m_CritSecSendList.Lock();
-			pConnection->m_IsSending = FALSE;
-			pConnection->DoSend();
+			pConnection->DoSend(NULL);
 			struct epoll_event EpollEvent;
 			EpollEvent.data.ptr = pConnection;
 			EpollEvent.events  = EPOLLOUT | EPOLLET;
 			epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(),  &EpollEvent);
-			pConnection->m_CritSecSendList.Unlock();
 		}
 	}
 

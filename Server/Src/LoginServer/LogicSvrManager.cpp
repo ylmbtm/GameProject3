@@ -3,6 +3,7 @@
 #include "CommonConvert.h"
 #include "Log.h"
 #include "CommonSocket.h"
+#include "..\ServerData\ServerDefine.h"
 
 
 LogicSvrManager::LogicSvrManager(void)
@@ -54,8 +55,8 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		pTempNode->m_strSvrName = strSvrName;
 		insert(std::make_pair(dwServerID, pTempNode));
 
-		char szSql[1024];
-		sprintf_s(szSql, 1024, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
+		char szSql[SQL_BUFF_LEN];
+		sprintf(szSql, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
 		m_DBConnection.execSQL(szSql);
 
 		return TRUE;

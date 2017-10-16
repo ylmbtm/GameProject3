@@ -1,21 +1,24 @@
-CC=g++
+CC=g++ -std=c++11
 CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
-		-I../../Common/protobuf/src
+		-I../../Common/protobuf/src \
+		-I../Message/
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
 	-lpthread
 			 
 MY_LIB=-L../Debug \
+	-L../ServerEngine \
 	-lServerEngine
 
 TARGET=../Linux/ProxyServer
 
 SRCS=$(wildcard *.cpp)
+SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)
 

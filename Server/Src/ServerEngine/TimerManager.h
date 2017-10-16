@@ -1,10 +1,11 @@
 ﻿#ifndef _TIMER_MANAGER__
 #define _TIMER_MANAGER__
+#include "CommonFunc.h"
 class CTimerSlotBase
 {
 public:
-	virtual ~CTimerSlotBase(){}
-	virtual BOOL operator()(UINT32 pData){ return TRUE; }
+	virtual ~CTimerSlotBase() {}
+	virtual BOOL operator()(UINT32 pData) { return TRUE; }
 	virtual VOID* GetThisAddr() { return 0; }
 };
 
@@ -15,12 +16,12 @@ class CTimerSlot : public CTimerSlotBase
 {
 	typedef BOOL (T::*FuncType)(UINT32);
 public:
-	CTimerSlot(BOOL (T::*FuncType)(UINT32), T * pObj)
-		:m_pFuncPtr(FuncType), m_pThis(pObj)
+	CTimerSlot(BOOL (T::*FuncType)(UINT32), T* pObj)
+		: m_pFuncPtr(FuncType), m_pThis(pObj)
 	{
 
 	}
-	virtual ~CTimerSlot(){}
+	virtual ~CTimerSlot() {}
 
 	virtual BOOL operator() (UINT32 pData)
 	{
@@ -30,17 +31,17 @@ public:
 			return true;
 		}
 		else
-			return false;
+		{ return false; }
 	}
 
-	virtual VOID* GetThisAddr() 
-	{ 
+	virtual VOID* GetThisAddr()
+	{
 		return reinterpret_cast<VOID*>(m_pThis);
 	}
 
 private:
 	FuncType m_pFuncPtr;
-	T		*m_pThis;
+	T*		m_pThis;
 };
 
 struct TimeEvent
@@ -79,11 +80,11 @@ public:
 	UINT32 m_dwFireTime;  //触发时间
 	UINT32 m_dwSec;
 	UINT32 m_dwData;
-	TimeEvent *m_pPrev; //前一节点
-	TimeEvent *m_pNext; //后一节点
+	TimeEvent* m_pPrev; //前一节点
+	TimeEvent* m_pNext; //后一节点
 	UINT32  m_dwType;   //事件类型,1 绝对时间定时器,2 相对时间定时器
 	INT32   m_dwRepeateTimes;
-	CTimerSlotBase *m_pTimerFuncSlot;
+	CTimerSlotBase* m_pTimerFuncSlot;
 };
 
 class EngineClass TimerManager
@@ -97,9 +98,9 @@ public:
 public:
 
 	template<typename T>
-	BOOL AddFixTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32), T * pObj)
+	BOOL AddFixTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32), T* pObj)
 	{
-		TimeEvent *pNewEvent = NULL;
+		TimeEvent* pNewEvent = NULL;
 		if(m_pFree == NULL)
 		{
 			pNewEvent = new TimeEvent;
@@ -138,7 +139,7 @@ public:
 		//{
 		//	if(pNewEvent->dwFireTime < pInserPos->dwFireTime)
 		//	{
-		//		
+		//
 		//
 		//		return TRUE;
 		//	}
@@ -148,9 +149,9 @@ public:
 	}
 
 	template<typename T>
-	BOOL AddDiffTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32) , T * pObj)
+	BOOL AddDiffTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32), T* pObj)
 	{
-		TimeEvent *pNewEvent = NULL;
+		TimeEvent* pNewEvent = NULL;
 		if(m_pFree == NULL)
 		{
 			pNewEvent = new TimeEvent;
@@ -191,15 +192,15 @@ public:
 
 	VOID UpdateTimer();
 
-	VOID OnTimerEvent( TimeEvent *pEvent );
+	VOID OnTimerEvent( TimeEvent* pEvent );
 
 	BOOL InitTimer();
 
 	BOOL Clear();
 
-	TimeEvent *m_pHead;
+	TimeEvent* m_pHead;
 
-	TimeEvent *m_pFree;
+	TimeEvent* m_pFree;
 
 	UINT32     m_dwCurTime;
 

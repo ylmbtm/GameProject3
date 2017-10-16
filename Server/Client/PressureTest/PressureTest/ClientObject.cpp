@@ -138,7 +138,7 @@ BOOL CClientObject::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	Nty.ParsePartialFromArray(PacketBuf, BufLen);
 	for(int i = 0; i < Nty.actionlist_size(); i++)
 	{
-		const ActionItem& Item = Nty.actionlist(i);
+		const ActionNtyItem& Item = Nty.actionlist(i);
 		float y = Item.ft();
 	}
 
@@ -409,7 +409,7 @@ BOOL CClientObject::MoveForward(FLOAT fDistance)
 VOID CClientObject::TestMove()
 {
 	ObjectActionReq Req;
-	ActionItem* pItem =  Req.add_actionlist();
+	ActionReqItem* pItem =  Req.add_actionlist();
 	pItem->set_actionid(AT_WALK);
 	pItem->set_objectguid(m_RoleIDList[0]);
 
@@ -445,10 +445,10 @@ VOID CClientObject::TestMove()
 		m_ft = abs(m_ft - 90);
 	}
 
-	pItem->set_x(m_x);
-	pItem->set_y(0);
-	pItem->set_z(m_z);
-	pItem->set_ft(m_ft);
+	pItem->set_hostx(m_x);
+	pItem->set_hosty(0);
+	pItem->set_hostz(m_z);
+	pItem->set_hostft(m_ft);
 
 	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }

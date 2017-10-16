@@ -69,6 +69,17 @@ UINT32 CommonFunc::GetCurrTime()
 	return (UINT32)t;
 }
 
+tm CommonFunc::GetCurrTmTime()
+{
+	time_t rawtime;
+	struct tm* timeinfo;
+
+	time (&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	return *timeinfo;
+}
+
 UINT32 CommonFunc::GetDayStartTime()
 {
 	time_t t;
@@ -257,12 +268,12 @@ HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 {
 #ifdef WIN32
 	HANDLE hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, strName.c_str());
-	if(hShare != 0)
+	if(hShare != NULL)
 	{
 		if(GetLastError() == ERROR_ALREADY_EXISTS)
 		{
 			CloseHandle(hShare);
-			hShare = 0;
+			hShare = NULL;
 		}
 	}
 #else
@@ -270,19 +281,19 @@ HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 	HANDLE hShare = shmget(key, nSize, 0666 | IPC_CREAT | IPC_EXCL);
 	if(hShare == -1)
 	{
-		hShare = 0;
+		hShare = NULL;
 	}
 #endif
 	return hShare;
 }
 
-HANDLE CommonFunc::OpenShareMemory(std::string strName, INT32 nSize)
+HANDLE CommonFunc::OpenShareMemory(std::string strName)
 {
 #ifdef WIN32
 	HANDLE hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, strName.c_str());
 #else
 	key_t key = ftok(strName.c_str(), 201);
-	HANDLE hShare = shmget(key, nSize, 0);
+	HANDLE hShare = shmget(key, 0, 0);
 #endif
 	return hShare;
 }

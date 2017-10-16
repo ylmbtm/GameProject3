@@ -81,14 +81,16 @@ BOOL SharedMemoryBase::NewPage()
 
 	shareMemoryPage newpage;
 
-	newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
+	//newpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
+	newpage.m_shm = CommonFunc::CreateShareMemory(pagename, size);
 	if(newpage.m_shm == NULL)
 	{
 		ASSERT_FAIELD;
 		return FALSE;
 	}
 
-	newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+	//newpage.m_pdata = (CHAR*)MapViewOfFile(newpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+	newpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(newpage.m_shm);
 	if(newpage.m_pdata == NULL)
 	{
 		ASSERT_FAIELD;
@@ -178,12 +180,14 @@ void SharedMemoryBase::ImportOtherPage()
 		std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(m_pageCount);
 
 		shareMemoryPage page;
-		page.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
+		//page.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
+		page.m_shm = CommonFunc::OpenShareMemory(pagename);
 		if(page.m_shm == NULL)
 		{
 			break;
 		}
-		page.m_pdata = (CHAR*)MapViewOfFile(page.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+		//page.m_pdata = (CHAR*)MapViewOfFile(page.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+		page.m_pdata = (CHAR*)CommonFunc::GetShareMemory(page.m_shm);
 		if(page.m_pdata == NULL)
 		{
 			break;
@@ -196,31 +200,6 @@ void SharedMemoryBase::ImportOtherPage()
 		m_pageCount++;
 	}
 }
-
-
-//从内存中构建虚拟共享内存结构
-//SharedMemoryBase::SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len)
-//{
-//	m_pageCount = 1;
-//	m_count = len / (rawblockSize + sizeof(_SMBlock));
-
-//	m_countperPage = m_count;
-
-//	m_rawblockSize = rawblockSize;
-
-//	shareMemoryPage firstpage;
-
-//	firstpage.m_pdata = pdata;
-
-//	firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + (m_rawblockSize) * m_count);
-
-//	firstpage.m_shm = NULL;
-
-//	m_ShareMemoryPageMapping.push_back(firstpage);
-
-//	isempty = false;
-//}
-
 
 /**@param name 共享内存名字，可以通过名字找回,暂时如果有只打开内存中已经有的。
 *@param count  T的个数
@@ -236,10 +215,12 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 	std::string pagename = std::string(m_modulename) + CommonConvert::IntToString(0);
 
 	shareMemoryPage firstpage;
-	firstpage.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
+	//firstpage.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
+	firstpage.m_shm = CommonFunc::OpenShareMemory(pagename);
 	if(firstpage.m_shm != NULL)
 	{
-		firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+		//firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+		firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);
 		if(firstpage.m_pdata != NULL)
 		{
 			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize * m_countperPage);
@@ -259,13 +240,14 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, unsigned int rawbloc
 		{
 			shareMemoryPage firstpage;
 
-			firstpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
+			//firstpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
+			firstpage.m_shm = CommonFunc::CreateShareMemory(pagename, size);
 			if(firstpage.m_shm == NULL)
 			{
 				printf("CreateFileMapping Failed!!!!");
 			}
-			firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
-
+			//firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+			firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);
 
 			///找到头数据块的头
 			//#ifdef SHARED_BLOCK_CHECK
@@ -287,7 +269,8 @@ SharedMemoryBase::~SharedMemoryBase()
 {
 	for (unsigned int r = 0; r < (unsigned int)m_ShareMemoryPageMapping.size(); r++)
 	{
-		CloseHandle(m_ShareMemoryPageMapping[r].m_shm);
+		CommonFunc::ReleaseShareMemory(m_ShareMemoryPageMapping[r].m_pdata);
+		CommonFunc::CloseShareMemory(m_ShareMemoryPageMapping[r].m_shm);
 		m_ShareMemoryPageMapping[r].m_shm = INVALID_HANDLE_VALUE;
 	}
 }

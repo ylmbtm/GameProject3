@@ -42,6 +42,18 @@ extern EquipChangeNtyDefaultTypeInternal _EquipChangeNty_default_instance_;
 class EquipItem;
 class EquipItemDefaultTypeInternal;
 extern EquipItemDefaultTypeInternal _EquipItem_default_instance_;
+class MailChangeNty;
+class MailChangeNtyDefaultTypeInternal;
+extern MailChangeNtyDefaultTypeInternal _MailChangeNty_default_instance_;
+class MailItem;
+class MailItemDefaultTypeInternal;
+extern MailItemDefaultTypeInternal _MailItem_default_instance_;
+class MountChangeNty;
+class MountChangeNtyDefaultTypeInternal;
+extern MountChangeNtyDefaultTypeInternal _MountChangeNty_default_instance_;
+class MountItem;
+class MountItemDefaultTypeInternal;
+extern MountItemDefaultTypeInternal _MountItem_default_instance_;
 class PartnerChangeNty;
 class PartnerChangeNtyDefaultTypeInternal;
 extern PartnerChangeNtyDefaultTypeInternal _PartnerChangeNty_default_instance_;
@@ -57,6 +69,12 @@ extern PetItemDefaultTypeInternal _PetItem_default_instance_;
 class RoleLoginAck;
 class RoleLoginAckDefaultTypeInternal;
 extern RoleLoginAckDefaultTypeInternal _RoleLoginAck_default_instance_;
+class TaskChangeNty;
+class TaskChangeNtyDefaultTypeInternal;
+extern TaskChangeNtyDefaultTypeInternal _TaskChangeNty_default_instance_;
+class TaskItem;
+class TaskItemDefaultTypeInternal;
+extern TaskItemDefaultTypeInternal _TaskItem_default_instance_;
 
 namespace protobuf_Msg_5fLoginCltData_2eproto {
 // Internal implementation detail -- do not call these.
@@ -144,23 +162,23 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint64 guid() const;
   void set_guid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
+  // uint64 ItemGuid = 2;
+  void clear_itemguid();
+  static const int kItemGuidFieldNumber = 2;
+  ::google::protobuf::uint64 itemguid() const;
+  void set_itemguid(::google::protobuf::uint64 value);
+
+  // int32 ItemID = 3;
   void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
+  static const int kItemIDFieldNumber = 3;
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
 
-  // int32 ItemNum = 3;
+  // int32 ItemNum = 4;
   void clear_itemnum();
-  static const int kItemNumFieldNumber = 3;
+  static const int kItemNumFieldNumber = 4;
   ::google::protobuf::int32 itemnum() const;
   void set_itemnum(::google::protobuf::int32 value);
-
-  // int32 ItemGuid = 4;
-  void clear_itemguid();
-  static const int kItemGuidFieldNumber = 4;
-  ::google::protobuf::int32 itemguid() const;
-  void set_itemguid(::google::protobuf::int32 value);
 
   // int32 BagType = 5;
   void clear_bagtype();
@@ -179,9 +197,9 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
+  ::google::protobuf::uint64 itemguid_;
   ::google::protobuf::int32 itemid_;
   ::google::protobuf::int32 itemnum_;
-  ::google::protobuf::int32 itemguid_;
   ::google::protobuf::int32 bagtype_;
   bool bind_;
   mutable int _cached_size_;
@@ -365,12 +383,47 @@ class EquipItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
 
+  // int32 StrengthLvl = 3;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 3;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 4;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 4;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 5;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 5;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // int32 RefineExp = 6;
+  void clear_refineexp();
+  static const int kRefineExpFieldNumber = 6;
+  ::google::protobuf::int32 refineexp() const;
+  void set_refineexp(::google::protobuf::int32 value);
+
+  // int32 StarExp = 7;
+  void clear_starexp();
+  static const int kStarExpFieldNumber = 7;
+  ::google::protobuf::int32 starexp() const;
+  void set_starexp(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:EquipItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
+  ::google::protobuf::int32 refineexp_;
+  ::google::protobuf::int32 starexp_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
 };
@@ -440,16 +493,16 @@ class EquipChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // repeated .BagItem ChangeList = 1;
+  // repeated .EquipItem ChangeList = 1;
   int changelist_size() const;
   void clear_changelist();
   static const int kChangeListFieldNumber = 1;
-  const ::BagItem& changelist(int index) const;
-  ::BagItem* mutable_changelist(int index);
-  ::BagItem* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::BagItem >*
+  const ::EquipItem& changelist(int index) const;
+  ::EquipItem* mutable_changelist(int index);
+  ::EquipItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::EquipItem >*
       mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+  const ::google::protobuf::RepeatedPtrField< ::EquipItem >&
       changelist() const;
 
   // repeated uint64 RemoveList = 2;
@@ -468,7 +521,7 @@ class EquipChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::BagItem > changelist_;
+  ::google::protobuf::RepeatedPtrField< ::EquipItem > changelist_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
   mutable int _removelist_cached_byte_size_;
   mutable int _cached_size_;
@@ -552,12 +605,47 @@ class PetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
 
+  // int32 StrengthLvl = 3;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 3;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 4;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 4;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 5;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 5;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // int32 RefineExp = 6;
+  void clear_refineexp();
+  static const int kRefineExpFieldNumber = 6;
+  ::google::protobuf::int32 refineexp() const;
+  void set_refineexp(::google::protobuf::int32 value);
+
+  // int32 StarExp = 7;
+  void clear_starexp();
+  static const int kStarExpFieldNumber = 7;
+  ::google::protobuf::int32 starexp() const;
+  void set_starexp(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:PetItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
+  ::google::protobuf::int32 refineexp_;
+  ::google::protobuf::int32 starexp_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
 };
@@ -627,16 +715,16 @@ class PetChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // repeated .BagItem ChangeList = 1;
+  // repeated .PetItem ChangeList = 1;
   int changelist_size() const;
   void clear_changelist();
   static const int kChangeListFieldNumber = 1;
-  const ::BagItem& changelist(int index) const;
-  ::BagItem* mutable_changelist(int index);
-  ::BagItem* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::BagItem >*
+  const ::PetItem& changelist(int index) const;
+  ::PetItem* mutable_changelist(int index);
+  ::PetItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::PetItem >*
       mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+  const ::google::protobuf::RepeatedPtrField< ::PetItem >&
       changelist() const;
 
   // repeated uint64 RemoveList = 2;
@@ -655,7 +743,7 @@ class PetChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_po
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::BagItem > changelist_;
+  ::google::protobuf::RepeatedPtrField< ::PetItem > changelist_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
   mutable int _removelist_cached_byte_size_;
   mutable int _cached_size_;
@@ -739,12 +827,47 @@ class PartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
 
+  // int32 StrengthLvl = 3;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 3;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 4;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 4;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 5;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 5;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // int32 RefineExp = 6;
+  void clear_refineexp();
+  static const int kRefineExpFieldNumber = 6;
+  ::google::protobuf::int32 refineexp() const;
+  void set_refineexp(::google::protobuf::int32 value);
+
+  // int32 StarExp = 7;
+  void clear_starexp();
+  static const int kStarExpFieldNumber = 7;
+  ::google::protobuf::int32 starexp() const;
+  void set_starexp(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:PartnerItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
+  ::google::protobuf::int32 refineexp_;
+  ::google::protobuf::int32 starexp_;
   mutable int _cached_size_;
   friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
 };
@@ -814,16 +937,16 @@ class PartnerChangeNty : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // repeated .BagItem ChangeList = 1;
+  // repeated .PartnerItem ChangeList = 1;
   int changelist_size() const;
   void clear_changelist();
   static const int kChangeListFieldNumber = 1;
-  const ::BagItem& changelist(int index) const;
-  ::BagItem* mutable_changelist(int index);
-  ::BagItem* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::BagItem >*
+  const ::PartnerItem& changelist(int index) const;
+  ::PartnerItem* mutable_changelist(int index);
+  ::PartnerItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::PartnerItem >*
       mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+  const ::google::protobuf::RepeatedPtrField< ::PartnerItem >&
       changelist() const;
 
   // repeated uint64 RemoveList = 2;
@@ -842,7 +965,596 @@ class PartnerChangeNty : public ::google::protobuf::Message /* @@protoc_insertio
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::BagItem > changelist_;
+  ::google::protobuf::RepeatedPtrField< ::PartnerItem > changelist_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
+  mutable int _removelist_cached_byte_size_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class MountItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MountItem) */ {
+ public:
+  MountItem();
+  virtual ~MountItem();
+
+  MountItem(const MountItem& from);
+
+  inline MountItem& operator=(const MountItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MountItem& default_instance();
+
+  static inline const MountItem* internal_default_instance() {
+    return reinterpret_cast<const MountItem*>(
+               &_MountItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    8;
+
+  void Swap(MountItem* other);
+
+  // implements Message ----------------------------------------------
+
+  inline MountItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  MountItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const MountItem& from);
+  void MergeFrom(const MountItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(MountItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 Guid = 1;
+  void clear_guid();
+  static const int kGuidFieldNumber = 1;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // int32 ItemID = 2;
+  void clear_itemid();
+  static const int kItemIDFieldNumber = 2;
+  ::google::protobuf::int32 itemid() const;
+  void set_itemid(::google::protobuf::int32 value);
+
+  // int32 StrengthLvl = 3;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 3;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 4;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 4;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 5;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 5;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // int32 RefineExp = 6;
+  void clear_refineexp();
+  static const int kRefineExpFieldNumber = 6;
+  ::google::protobuf::int32 refineexp() const;
+  void set_refineexp(::google::protobuf::int32 value);
+
+  // int32 StarExp = 7;
+  void clear_starexp();
+  static const int kStarExpFieldNumber = 7;
+  ::google::protobuf::int32 starexp() const;
+  void set_starexp(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:MountItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 guid_;
+  ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
+  ::google::protobuf::int32 refineexp_;
+  ::google::protobuf::int32 starexp_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class MountChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MountChangeNty) */ {
+ public:
+  MountChangeNty();
+  virtual ~MountChangeNty();
+
+  MountChangeNty(const MountChangeNty& from);
+
+  inline MountChangeNty& operator=(const MountChangeNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MountChangeNty& default_instance();
+
+  static inline const MountChangeNty* internal_default_instance() {
+    return reinterpret_cast<const MountChangeNty*>(
+               &_MountChangeNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    9;
+
+  void Swap(MountChangeNty* other);
+
+  // implements Message ----------------------------------------------
+
+  inline MountChangeNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  MountChangeNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const MountChangeNty& from);
+  void MergeFrom(const MountChangeNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(MountChangeNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .MountItem ChangeList = 1;
+  int changelist_size() const;
+  void clear_changelist();
+  static const int kChangeListFieldNumber = 1;
+  const ::MountItem& changelist(int index) const;
+  ::MountItem* mutable_changelist(int index);
+  ::MountItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::MountItem >*
+      mutable_changelist();
+  const ::google::protobuf::RepeatedPtrField< ::MountItem >&
+      changelist() const;
+
+  // repeated uint64 RemoveList = 2;
+  int removelist_size() const;
+  void clear_removelist();
+  static const int kRemoveListFieldNumber = 2;
+  ::google::protobuf::uint64 removelist(int index) const;
+  void set_removelist(int index, ::google::protobuf::uint64 value);
+  void add_removelist(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      removelist() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_removelist();
+
+  // @@protoc_insertion_point(class_scope:MountChangeNty)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::MountItem > changelist_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
+  mutable int _removelist_cached_byte_size_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class MailItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MailItem) */ {
+ public:
+  MailItem();
+  virtual ~MailItem();
+
+  MailItem(const MailItem& from);
+
+  inline MailItem& operator=(const MailItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MailItem& default_instance();
+
+  static inline const MailItem* internal_default_instance() {
+    return reinterpret_cast<const MailItem*>(
+               &_MailItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    10;
+
+  void Swap(MailItem* other);
+
+  // implements Message ----------------------------------------------
+
+  inline MailItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  MailItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const MailItem& from);
+  void MergeFrom(const MailItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(MailItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 Guid = 1;
+  void clear_guid();
+  static const int kGuidFieldNumber = 1;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:MailItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 guid_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class MailChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MailChangeNty) */ {
+ public:
+  MailChangeNty();
+  virtual ~MailChangeNty();
+
+  MailChangeNty(const MailChangeNty& from);
+
+  inline MailChangeNty& operator=(const MailChangeNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MailChangeNty& default_instance();
+
+  static inline const MailChangeNty* internal_default_instance() {
+    return reinterpret_cast<const MailChangeNty*>(
+               &_MailChangeNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    11;
+
+  void Swap(MailChangeNty* other);
+
+  // implements Message ----------------------------------------------
+
+  inline MailChangeNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  MailChangeNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const MailChangeNty& from);
+  void MergeFrom(const MailChangeNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(MailChangeNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .MailItem ChangeList = 1;
+  int changelist_size() const;
+  void clear_changelist();
+  static const int kChangeListFieldNumber = 1;
+  const ::MailItem& changelist(int index) const;
+  ::MailItem* mutable_changelist(int index);
+  ::MailItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::MailItem >*
+      mutable_changelist();
+  const ::google::protobuf::RepeatedPtrField< ::MailItem >&
+      changelist() const;
+
+  // repeated uint64 RemoveList = 2;
+  int removelist_size() const;
+  void clear_removelist();
+  static const int kRemoveListFieldNumber = 2;
+  ::google::protobuf::uint64 removelist(int index) const;
+  void set_removelist(int index, ::google::protobuf::uint64 value);
+  void add_removelist(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      removelist() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_removelist();
+
+  // @@protoc_insertion_point(class_scope:MailChangeNty)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::MailItem > changelist_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
+  mutable int _removelist_cached_byte_size_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class TaskItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TaskItem) */ {
+ public:
+  TaskItem();
+  virtual ~TaskItem();
+
+  TaskItem(const TaskItem& from);
+
+  inline TaskItem& operator=(const TaskItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TaskItem& default_instance();
+
+  static inline const TaskItem* internal_default_instance() {
+    return reinterpret_cast<const TaskItem*>(
+               &_TaskItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    12;
+
+  void Swap(TaskItem* other);
+
+  // implements Message ----------------------------------------------
+
+  inline TaskItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  TaskItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const TaskItem& from);
+  void MergeFrom(const TaskItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(TaskItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // uint32 TaskID = 2;
+  void clear_taskid();
+  static const int kTaskIDFieldNumber = 2;
+  ::google::protobuf::uint32 taskid() const;
+  void set_taskid(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:TaskItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint32 taskid_;
+  mutable int _cached_size_;
+  friend struct protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class TaskChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TaskChangeNty) */ {
+ public:
+  TaskChangeNty();
+  virtual ~TaskChangeNty();
+
+  TaskChangeNty(const TaskChangeNty& from);
+
+  inline TaskChangeNty& operator=(const TaskChangeNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TaskChangeNty& default_instance();
+
+  static inline const TaskChangeNty* internal_default_instance() {
+    return reinterpret_cast<const TaskChangeNty*>(
+               &_TaskChangeNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    13;
+
+  void Swap(TaskChangeNty* other);
+
+  // implements Message ----------------------------------------------
+
+  inline TaskChangeNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  TaskChangeNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const TaskChangeNty& from);
+  void MergeFrom(const TaskChangeNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(TaskChangeNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .TaskItem ChangeList = 1;
+  int changelist_size() const;
+  void clear_changelist();
+  static const int kChangeListFieldNumber = 1;
+  const ::TaskItem& changelist(int index) const;
+  ::TaskItem* mutable_changelist(int index);
+  ::TaskItem* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::TaskItem >*
+      mutable_changelist();
+  const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
+      changelist() const;
+
+  // repeated uint64 RemoveList = 2;
+  int removelist_size() const;
+  void clear_removelist();
+  static const int kRemoveListFieldNumber = 2;
+  ::google::protobuf::uint64 removelist(int index) const;
+  void set_removelist(int index, ::google::protobuf::uint64 value);
+  void add_removelist(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      removelist() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_removelist();
+
+  // @@protoc_insertion_point(class_scope:TaskChangeNty)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::TaskItem > changelist_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > removelist_;
   mutable int _removelist_cached_byte_size_;
   mutable int _cached_size_;
@@ -870,7 +1582,7 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoleLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    14;
 
   void Swap(RoleLoginAck* other);
 
@@ -986,10 +1698,22 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::PartnerItem >&
       partnerlist() const;
 
-  // repeated .BagItem BagItemList = 17;
+  // repeated .MountItem MountItemList = 17;
+  int mountitemlist_size() const;
+  void clear_mountitemlist();
+  static const int kMountItemListFieldNumber = 17;
+  const ::MountItem& mountitemlist(int index) const;
+  ::MountItem* mutable_mountitemlist(int index);
+  ::MountItem* add_mountitemlist();
+  ::google::protobuf::RepeatedPtrField< ::MountItem >*
+      mutable_mountitemlist();
+  const ::google::protobuf::RepeatedPtrField< ::MountItem >&
+      mountitemlist() const;
+
+  // repeated .BagItem BagItemList = 18;
   int bagitemlist_size() const;
   void clear_bagitemlist();
-  static const int kBagItemListFieldNumber = 17;
+  static const int kBagItemListFieldNumber = 18;
   const ::BagItem& bagitemlist(int index) const;
   ::BagItem* mutable_bagitemlist(int index);
   ::BagItem* add_bagitemlist();
@@ -997,6 +1721,30 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
       mutable_bagitemlist();
   const ::google::protobuf::RepeatedPtrField< ::BagItem >&
       bagitemlist() const;
+
+  // repeated .MailItem MailItemList = 19;
+  int mailitemlist_size() const;
+  void clear_mailitemlist();
+  static const int kMailItemListFieldNumber = 19;
+  const ::MailItem& mailitemlist(int index) const;
+  ::MailItem* mutable_mailitemlist(int index);
+  ::MailItem* add_mailitemlist();
+  ::google::protobuf::RepeatedPtrField< ::MailItem >*
+      mutable_mailitemlist();
+  const ::google::protobuf::RepeatedPtrField< ::MailItem >&
+      mailitemlist() const;
+
+  // repeated .TaskItem TaskItemList = 20;
+  int taskitemlist_size() const;
+  void clear_taskitemlist();
+  static const int kTaskItemListFieldNumber = 20;
+  const ::TaskItem& taskitemlist(int index) const;
+  ::TaskItem* mutable_taskitemlist(int index);
+  ::TaskItem* add_taskitemlist();
+  ::google::protobuf::RepeatedPtrField< ::TaskItem >*
+      mutable_taskitemlist();
+  const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
+      taskitemlist() const;
 
   // string Name = 7;
   void clear_name();
@@ -1079,7 +1827,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedPtrField< ::EquipItem > equiplist_;
   ::google::protobuf::RepeatedPtrField< ::PetItem > petlist_;
   ::google::protobuf::RepeatedPtrField< ::PartnerItem > partnerlist_;
+  ::google::protobuf::RepeatedPtrField< ::MountItem > mountitemlist_;
   ::google::protobuf::RepeatedPtrField< ::BagItem > bagitemlist_;
+  ::google::protobuf::RepeatedPtrField< ::MailItem > mailitemlist_;
+  ::google::protobuf::RepeatedPtrField< ::TaskItem > taskitemlist_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint32 retcode_;
@@ -1115,7 +1866,21 @@ inline void BagItem::set_guid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:BagItem.Guid)
 }
 
-// int32 ItemID = 2;
+// uint64 ItemGuid = 2;
+inline void BagItem::clear_itemguid() {
+  itemguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 BagItem::itemguid() const {
+  // @@protoc_insertion_point(field_get:BagItem.ItemGuid)
+  return itemguid_;
+}
+inline void BagItem::set_itemguid(::google::protobuf::uint64 value) {
+  
+  itemguid_ = value;
+  // @@protoc_insertion_point(field_set:BagItem.ItemGuid)
+}
+
+// int32 ItemID = 3;
 inline void BagItem::clear_itemid() {
   itemid_ = 0;
 }
@@ -1129,7 +1894,7 @@ inline void BagItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BagItem.ItemID)
 }
 
-// int32 ItemNum = 3;
+// int32 ItemNum = 4;
 inline void BagItem::clear_itemnum() {
   itemnum_ = 0;
 }
@@ -1141,20 +1906,6 @@ inline void BagItem::set_itemnum(::google::protobuf::int32 value) {
   
   itemnum_ = value;
   // @@protoc_insertion_point(field_set:BagItem.ItemNum)
-}
-
-// int32 ItemGuid = 4;
-inline void BagItem::clear_itemguid() {
-  itemguid_ = 0;
-}
-inline ::google::protobuf::int32 BagItem::itemguid() const {
-  // @@protoc_insertion_point(field_get:BagItem.ItemGuid)
-  return itemguid_;
-}
-inline void BagItem::set_itemguid(::google::protobuf::int32 value) {
-  
-  itemguid_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.ItemGuid)
 }
 
 // int32 BagType = 5;
@@ -1281,35 +2032,105 @@ inline void EquipItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:EquipItem.ItemID)
 }
 
+// int32 StrengthLvl = 3;
+inline void EquipItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:EquipItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void EquipItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 4;
+inline void EquipItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:EquipItem.RefineLevel)
+  return refinelevel_;
+}
+inline void EquipItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.RefineLevel)
+}
+
+// int32 StarLevel = 5;
+inline void EquipItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:EquipItem.StarLevel)
+  return starlevel_;
+}
+inline void EquipItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.StarLevel)
+}
+
+// int32 RefineExp = 6;
+inline void EquipItem::clear_refineexp() {
+  refineexp_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::refineexp() const {
+  // @@protoc_insertion_point(field_get:EquipItem.RefineExp)
+  return refineexp_;
+}
+inline void EquipItem::set_refineexp(::google::protobuf::int32 value) {
+  
+  refineexp_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.RefineExp)
+}
+
+// int32 StarExp = 7;
+inline void EquipItem::clear_starexp() {
+  starexp_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::starexp() const {
+  // @@protoc_insertion_point(field_get:EquipItem.StarExp)
+  return starexp_;
+}
+inline void EquipItem::set_starexp(::google::protobuf::int32 value) {
+  
+  starexp_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.StarExp)
+}
+
 // -------------------------------------------------------------------
 
 // EquipChangeNty
 
-// repeated .BagItem ChangeList = 1;
+// repeated .EquipItem ChangeList = 1;
 inline int EquipChangeNty::changelist_size() const {
   return changelist_.size();
 }
 inline void EquipChangeNty::clear_changelist() {
   changelist_.Clear();
 }
-inline const ::BagItem& EquipChangeNty::changelist(int index) const {
+inline const ::EquipItem& EquipChangeNty::changelist(int index) const {
   // @@protoc_insertion_point(field_get:EquipChangeNty.ChangeList)
   return changelist_.Get(index);
 }
-inline ::BagItem* EquipChangeNty::mutable_changelist(int index) {
+inline ::EquipItem* EquipChangeNty::mutable_changelist(int index) {
   // @@protoc_insertion_point(field_mutable:EquipChangeNty.ChangeList)
   return changelist_.Mutable(index);
 }
-inline ::BagItem* EquipChangeNty::add_changelist() {
+inline ::EquipItem* EquipChangeNty::add_changelist() {
   // @@protoc_insertion_point(field_add:EquipChangeNty.ChangeList)
   return changelist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::BagItem >*
+inline ::google::protobuf::RepeatedPtrField< ::EquipItem >*
 EquipChangeNty::mutable_changelist() {
   // @@protoc_insertion_point(field_mutable_list:EquipChangeNty.ChangeList)
   return &changelist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+inline const ::google::protobuf::RepeatedPtrField< ::EquipItem >&
 EquipChangeNty::changelist() const {
   // @@protoc_insertion_point(field_list:EquipChangeNty.ChangeList)
   return changelist_;
@@ -1377,35 +2198,105 @@ inline void PetItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PetItem.ItemID)
 }
 
+// int32 StrengthLvl = 3;
+inline void PetItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:PetItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void PetItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 4;
+inline void PetItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:PetItem.RefineLevel)
+  return refinelevel_;
+}
+inline void PetItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.RefineLevel)
+}
+
+// int32 StarLevel = 5;
+inline void PetItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:PetItem.StarLevel)
+  return starlevel_;
+}
+inline void PetItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.StarLevel)
+}
+
+// int32 RefineExp = 6;
+inline void PetItem::clear_refineexp() {
+  refineexp_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::refineexp() const {
+  // @@protoc_insertion_point(field_get:PetItem.RefineExp)
+  return refineexp_;
+}
+inline void PetItem::set_refineexp(::google::protobuf::int32 value) {
+  
+  refineexp_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.RefineExp)
+}
+
+// int32 StarExp = 7;
+inline void PetItem::clear_starexp() {
+  starexp_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::starexp() const {
+  // @@protoc_insertion_point(field_get:PetItem.StarExp)
+  return starexp_;
+}
+inline void PetItem::set_starexp(::google::protobuf::int32 value) {
+  
+  starexp_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.StarExp)
+}
+
 // -------------------------------------------------------------------
 
 // PetChangeNty
 
-// repeated .BagItem ChangeList = 1;
+// repeated .PetItem ChangeList = 1;
 inline int PetChangeNty::changelist_size() const {
   return changelist_.size();
 }
 inline void PetChangeNty::clear_changelist() {
   changelist_.Clear();
 }
-inline const ::BagItem& PetChangeNty::changelist(int index) const {
+inline const ::PetItem& PetChangeNty::changelist(int index) const {
   // @@protoc_insertion_point(field_get:PetChangeNty.ChangeList)
   return changelist_.Get(index);
 }
-inline ::BagItem* PetChangeNty::mutable_changelist(int index) {
+inline ::PetItem* PetChangeNty::mutable_changelist(int index) {
   // @@protoc_insertion_point(field_mutable:PetChangeNty.ChangeList)
   return changelist_.Mutable(index);
 }
-inline ::BagItem* PetChangeNty::add_changelist() {
+inline ::PetItem* PetChangeNty::add_changelist() {
   // @@protoc_insertion_point(field_add:PetChangeNty.ChangeList)
   return changelist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::BagItem >*
+inline ::google::protobuf::RepeatedPtrField< ::PetItem >*
 PetChangeNty::mutable_changelist() {
   // @@protoc_insertion_point(field_mutable_list:PetChangeNty.ChangeList)
   return &changelist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+inline const ::google::protobuf::RepeatedPtrField< ::PetItem >&
 PetChangeNty::changelist() const {
   // @@protoc_insertion_point(field_list:PetChangeNty.ChangeList)
   return changelist_;
@@ -1473,35 +2364,105 @@ inline void PartnerItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PartnerItem.ItemID)
 }
 
+// int32 StrengthLvl = 3;
+inline void PartnerItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void PartnerItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 4;
+inline void PartnerItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.RefineLevel)
+  return refinelevel_;
+}
+inline void PartnerItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.RefineLevel)
+}
+
+// int32 StarLevel = 5;
+inline void PartnerItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.StarLevel)
+  return starlevel_;
+}
+inline void PartnerItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.StarLevel)
+}
+
+// int32 RefineExp = 6;
+inline void PartnerItem::clear_refineexp() {
+  refineexp_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::refineexp() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.RefineExp)
+  return refineexp_;
+}
+inline void PartnerItem::set_refineexp(::google::protobuf::int32 value) {
+  
+  refineexp_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.RefineExp)
+}
+
+// int32 StarExp = 7;
+inline void PartnerItem::clear_starexp() {
+  starexp_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::starexp() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.StarExp)
+  return starexp_;
+}
+inline void PartnerItem::set_starexp(::google::protobuf::int32 value) {
+  
+  starexp_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.StarExp)
+}
+
 // -------------------------------------------------------------------
 
 // PartnerChangeNty
 
-// repeated .BagItem ChangeList = 1;
+// repeated .PartnerItem ChangeList = 1;
 inline int PartnerChangeNty::changelist_size() const {
   return changelist_.size();
 }
 inline void PartnerChangeNty::clear_changelist() {
   changelist_.Clear();
 }
-inline const ::BagItem& PartnerChangeNty::changelist(int index) const {
+inline const ::PartnerItem& PartnerChangeNty::changelist(int index) const {
   // @@protoc_insertion_point(field_get:PartnerChangeNty.ChangeList)
   return changelist_.Get(index);
 }
-inline ::BagItem* PartnerChangeNty::mutable_changelist(int index) {
+inline ::PartnerItem* PartnerChangeNty::mutable_changelist(int index) {
   // @@protoc_insertion_point(field_mutable:PartnerChangeNty.ChangeList)
   return changelist_.Mutable(index);
 }
-inline ::BagItem* PartnerChangeNty::add_changelist() {
+inline ::PartnerItem* PartnerChangeNty::add_changelist() {
   // @@protoc_insertion_point(field_add:PartnerChangeNty.ChangeList)
   return changelist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::BagItem >*
+inline ::google::protobuf::RepeatedPtrField< ::PartnerItem >*
 PartnerChangeNty::mutable_changelist() {
   // @@protoc_insertion_point(field_mutable_list:PartnerChangeNty.ChangeList)
   return &changelist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::BagItem >&
+inline const ::google::protobuf::RepeatedPtrField< ::PartnerItem >&
 PartnerChangeNty::changelist() const {
   // @@protoc_insertion_point(field_list:PartnerChangeNty.ChangeList)
   return changelist_;
@@ -1534,6 +2495,350 @@ PartnerChangeNty::removelist() const {
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
 PartnerChangeNty::mutable_removelist() {
   // @@protoc_insertion_point(field_mutable_list:PartnerChangeNty.RemoveList)
+  return &removelist_;
+}
+
+// -------------------------------------------------------------------
+
+// MountItem
+
+// uint64 Guid = 1;
+inline void MountItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 MountItem::guid() const {
+  // @@protoc_insertion_point(field_get:MountItem.Guid)
+  return guid_;
+}
+inline void MountItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.Guid)
+}
+
+// int32 ItemID = 2;
+inline void MountItem::clear_itemid() {
+  itemid_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::itemid() const {
+  // @@protoc_insertion_point(field_get:MountItem.ItemID)
+  return itemid_;
+}
+inline void MountItem::set_itemid(::google::protobuf::int32 value) {
+  
+  itemid_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.ItemID)
+}
+
+// int32 StrengthLvl = 3;
+inline void MountItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:MountItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void MountItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 4;
+inline void MountItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:MountItem.RefineLevel)
+  return refinelevel_;
+}
+inline void MountItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.RefineLevel)
+}
+
+// int32 StarLevel = 5;
+inline void MountItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:MountItem.StarLevel)
+  return starlevel_;
+}
+inline void MountItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.StarLevel)
+}
+
+// int32 RefineExp = 6;
+inline void MountItem::clear_refineexp() {
+  refineexp_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::refineexp() const {
+  // @@protoc_insertion_point(field_get:MountItem.RefineExp)
+  return refineexp_;
+}
+inline void MountItem::set_refineexp(::google::protobuf::int32 value) {
+  
+  refineexp_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.RefineExp)
+}
+
+// int32 StarExp = 7;
+inline void MountItem::clear_starexp() {
+  starexp_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::starexp() const {
+  // @@protoc_insertion_point(field_get:MountItem.StarExp)
+  return starexp_;
+}
+inline void MountItem::set_starexp(::google::protobuf::int32 value) {
+  
+  starexp_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.StarExp)
+}
+
+// -------------------------------------------------------------------
+
+// MountChangeNty
+
+// repeated .MountItem ChangeList = 1;
+inline int MountChangeNty::changelist_size() const {
+  return changelist_.size();
+}
+inline void MountChangeNty::clear_changelist() {
+  changelist_.Clear();
+}
+inline const ::MountItem& MountChangeNty::changelist(int index) const {
+  // @@protoc_insertion_point(field_get:MountChangeNty.ChangeList)
+  return changelist_.Get(index);
+}
+inline ::MountItem* MountChangeNty::mutable_changelist(int index) {
+  // @@protoc_insertion_point(field_mutable:MountChangeNty.ChangeList)
+  return changelist_.Mutable(index);
+}
+inline ::MountItem* MountChangeNty::add_changelist() {
+  // @@protoc_insertion_point(field_add:MountChangeNty.ChangeList)
+  return changelist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::MountItem >*
+MountChangeNty::mutable_changelist() {
+  // @@protoc_insertion_point(field_mutable_list:MountChangeNty.ChangeList)
+  return &changelist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::MountItem >&
+MountChangeNty::changelist() const {
+  // @@protoc_insertion_point(field_list:MountChangeNty.ChangeList)
+  return changelist_;
+}
+
+// repeated uint64 RemoveList = 2;
+inline int MountChangeNty::removelist_size() const {
+  return removelist_.size();
+}
+inline void MountChangeNty::clear_removelist() {
+  removelist_.Clear();
+}
+inline ::google::protobuf::uint64 MountChangeNty::removelist(int index) const {
+  // @@protoc_insertion_point(field_get:MountChangeNty.RemoveList)
+  return removelist_.Get(index);
+}
+inline void MountChangeNty::set_removelist(int index, ::google::protobuf::uint64 value) {
+  removelist_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MountChangeNty.RemoveList)
+}
+inline void MountChangeNty::add_removelist(::google::protobuf::uint64 value) {
+  removelist_.Add(value);
+  // @@protoc_insertion_point(field_add:MountChangeNty.RemoveList)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+MountChangeNty::removelist() const {
+  // @@protoc_insertion_point(field_list:MountChangeNty.RemoveList)
+  return removelist_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+MountChangeNty::mutable_removelist() {
+  // @@protoc_insertion_point(field_mutable_list:MountChangeNty.RemoveList)
+  return &removelist_;
+}
+
+// -------------------------------------------------------------------
+
+// MailItem
+
+// uint64 Guid = 1;
+inline void MailItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 MailItem::guid() const {
+  // @@protoc_insertion_point(field_get:MailItem.Guid)
+  return guid_;
+}
+inline void MailItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:MailItem.Guid)
+}
+
+// -------------------------------------------------------------------
+
+// MailChangeNty
+
+// repeated .MailItem ChangeList = 1;
+inline int MailChangeNty::changelist_size() const {
+  return changelist_.size();
+}
+inline void MailChangeNty::clear_changelist() {
+  changelist_.Clear();
+}
+inline const ::MailItem& MailChangeNty::changelist(int index) const {
+  // @@protoc_insertion_point(field_get:MailChangeNty.ChangeList)
+  return changelist_.Get(index);
+}
+inline ::MailItem* MailChangeNty::mutable_changelist(int index) {
+  // @@protoc_insertion_point(field_mutable:MailChangeNty.ChangeList)
+  return changelist_.Mutable(index);
+}
+inline ::MailItem* MailChangeNty::add_changelist() {
+  // @@protoc_insertion_point(field_add:MailChangeNty.ChangeList)
+  return changelist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::MailItem >*
+MailChangeNty::mutable_changelist() {
+  // @@protoc_insertion_point(field_mutable_list:MailChangeNty.ChangeList)
+  return &changelist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::MailItem >&
+MailChangeNty::changelist() const {
+  // @@protoc_insertion_point(field_list:MailChangeNty.ChangeList)
+  return changelist_;
+}
+
+// repeated uint64 RemoveList = 2;
+inline int MailChangeNty::removelist_size() const {
+  return removelist_.size();
+}
+inline void MailChangeNty::clear_removelist() {
+  removelist_.Clear();
+}
+inline ::google::protobuf::uint64 MailChangeNty::removelist(int index) const {
+  // @@protoc_insertion_point(field_get:MailChangeNty.RemoveList)
+  return removelist_.Get(index);
+}
+inline void MailChangeNty::set_removelist(int index, ::google::protobuf::uint64 value) {
+  removelist_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MailChangeNty.RemoveList)
+}
+inline void MailChangeNty::add_removelist(::google::protobuf::uint64 value) {
+  removelist_.Add(value);
+  // @@protoc_insertion_point(field_add:MailChangeNty.RemoveList)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+MailChangeNty::removelist() const {
+  // @@protoc_insertion_point(field_list:MailChangeNty.RemoveList)
+  return removelist_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+MailChangeNty::mutable_removelist() {
+  // @@protoc_insertion_point(field_mutable_list:MailChangeNty.RemoveList)
+  return &removelist_;
+}
+
+// -------------------------------------------------------------------
+
+// TaskItem
+
+// uint64 RoleID = 1;
+inline void TaskItem::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 TaskItem::roleid() const {
+  // @@protoc_insertion_point(field_get:TaskItem.RoleID)
+  return roleid_;
+}
+inline void TaskItem::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:TaskItem.RoleID)
+}
+
+// uint32 TaskID = 2;
+inline void TaskItem::clear_taskid() {
+  taskid_ = 0u;
+}
+inline ::google::protobuf::uint32 TaskItem::taskid() const {
+  // @@protoc_insertion_point(field_get:TaskItem.TaskID)
+  return taskid_;
+}
+inline void TaskItem::set_taskid(::google::protobuf::uint32 value) {
+  
+  taskid_ = value;
+  // @@protoc_insertion_point(field_set:TaskItem.TaskID)
+}
+
+// -------------------------------------------------------------------
+
+// TaskChangeNty
+
+// repeated .TaskItem ChangeList = 1;
+inline int TaskChangeNty::changelist_size() const {
+  return changelist_.size();
+}
+inline void TaskChangeNty::clear_changelist() {
+  changelist_.Clear();
+}
+inline const ::TaskItem& TaskChangeNty::changelist(int index) const {
+  // @@protoc_insertion_point(field_get:TaskChangeNty.ChangeList)
+  return changelist_.Get(index);
+}
+inline ::TaskItem* TaskChangeNty::mutable_changelist(int index) {
+  // @@protoc_insertion_point(field_mutable:TaskChangeNty.ChangeList)
+  return changelist_.Mutable(index);
+}
+inline ::TaskItem* TaskChangeNty::add_changelist() {
+  // @@protoc_insertion_point(field_add:TaskChangeNty.ChangeList)
+  return changelist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::TaskItem >*
+TaskChangeNty::mutable_changelist() {
+  // @@protoc_insertion_point(field_mutable_list:TaskChangeNty.ChangeList)
+  return &changelist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
+TaskChangeNty::changelist() const {
+  // @@protoc_insertion_point(field_list:TaskChangeNty.ChangeList)
+  return changelist_;
+}
+
+// repeated uint64 RemoveList = 2;
+inline int TaskChangeNty::removelist_size() const {
+  return removelist_.size();
+}
+inline void TaskChangeNty::clear_removelist() {
+  removelist_.Clear();
+}
+inline ::google::protobuf::uint64 TaskChangeNty::removelist(int index) const {
+  // @@protoc_insertion_point(field_get:TaskChangeNty.RemoveList)
+  return removelist_.Get(index);
+}
+inline void TaskChangeNty::set_removelist(int index, ::google::protobuf::uint64 value) {
+  removelist_.Set(index, value);
+  // @@protoc_insertion_point(field_set:TaskChangeNty.RemoveList)
+}
+inline void TaskChangeNty::add_removelist(::google::protobuf::uint64 value) {
+  removelist_.Add(value);
+  // @@protoc_insertion_point(field_add:TaskChangeNty.RemoveList)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+TaskChangeNty::removelist() const {
+  // @@protoc_insertion_point(field_list:TaskChangeNty.RemoveList)
+  return removelist_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+TaskChangeNty::mutable_removelist() {
+  // @@protoc_insertion_point(field_mutable_list:TaskChangeNty.RemoveList)
   return &removelist_;
 }
 
@@ -1900,7 +3205,37 @@ RoleLoginAck::partnerlist() const {
   return partnerlist_;
 }
 
-// repeated .BagItem BagItemList = 17;
+// repeated .MountItem MountItemList = 17;
+inline int RoleLoginAck::mountitemlist_size() const {
+  return mountitemlist_.size();
+}
+inline void RoleLoginAck::clear_mountitemlist() {
+  mountitemlist_.Clear();
+}
+inline const ::MountItem& RoleLoginAck::mountitemlist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.MountItemList)
+  return mountitemlist_.Get(index);
+}
+inline ::MountItem* RoleLoginAck::mutable_mountitemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MountItemList)
+  return mountitemlist_.Mutable(index);
+}
+inline ::MountItem* RoleLoginAck::add_mountitemlist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.MountItemList)
+  return mountitemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::MountItem >*
+RoleLoginAck::mutable_mountitemlist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MountItemList)
+  return &mountitemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::MountItem >&
+RoleLoginAck::mountitemlist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.MountItemList)
+  return mountitemlist_;
+}
+
+// repeated .BagItem BagItemList = 18;
 inline int RoleLoginAck::bagitemlist_size() const {
   return bagitemlist_.size();
 }
@@ -1930,7 +3265,79 @@ RoleLoginAck::bagitemlist() const {
   return bagitemlist_;
 }
 
+// repeated .MailItem MailItemList = 19;
+inline int RoleLoginAck::mailitemlist_size() const {
+  return mailitemlist_.size();
+}
+inline void RoleLoginAck::clear_mailitemlist() {
+  mailitemlist_.Clear();
+}
+inline const ::MailItem& RoleLoginAck::mailitemlist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.MailItemList)
+  return mailitemlist_.Get(index);
+}
+inline ::MailItem* RoleLoginAck::mutable_mailitemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MailItemList)
+  return mailitemlist_.Mutable(index);
+}
+inline ::MailItem* RoleLoginAck::add_mailitemlist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.MailItemList)
+  return mailitemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::MailItem >*
+RoleLoginAck::mutable_mailitemlist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MailItemList)
+  return &mailitemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::MailItem >&
+RoleLoginAck::mailitemlist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.MailItemList)
+  return mailitemlist_;
+}
+
+// repeated .TaskItem TaskItemList = 20;
+inline int RoleLoginAck::taskitemlist_size() const {
+  return taskitemlist_.size();
+}
+inline void RoleLoginAck::clear_taskitemlist() {
+  taskitemlist_.Clear();
+}
+inline const ::TaskItem& RoleLoginAck::taskitemlist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.TaskItemList)
+  return taskitemlist_.Get(index);
+}
+inline ::TaskItem* RoleLoginAck::mutable_taskitemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.TaskItemList)
+  return taskitemlist_.Mutable(index);
+}
+inline ::TaskItem* RoleLoginAck::add_taskitemlist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.TaskItemList)
+  return taskitemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::TaskItem >*
+RoleLoginAck::mutable_taskitemlist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.TaskItemList)
+  return &taskitemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
+RoleLoginAck::taskitemlist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.TaskItemList)
+  return taskitemlist_;
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

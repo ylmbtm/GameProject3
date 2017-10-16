@@ -7,6 +7,7 @@ MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
 		-I../../Common/protobuf/src
+		-I../Message/
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \

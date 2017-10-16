@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "TimerManager.h"
-#include "CommonFunc.h"
+
 
 TimerManager::TimerManager()
 {

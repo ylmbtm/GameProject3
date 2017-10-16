@@ -20,6 +20,8 @@ BOOL			CreateDir(std::string& strDir);
 //获取当前的秒数
 UINT32			GetCurrTime();
 
+tm				GetCurrTmTime();
+
 //获取当前0点的秒数
 UINT32			GetDayStartTime();
 
@@ -45,7 +47,7 @@ UINT32			GetLastError();
 
 HANDLE          CreateShareMemory(std::string strName, INT32 nSize);
 
-HANDLE			OpenShareMemory(std::string strName, INT32 nSize);
+HANDLE			OpenShareMemory(std::string strName);
 
 CHAR* 			GetShareMemory(HANDLE hShm);
 

@@ -697,10 +697,11 @@ BOOL CDBRecordSet::InitRecordSet(MYSQL_STMT* pMySqlStmt, MYSQL_RES* pResult)
 
 	if (0 != mysql_stmt_bind_result(pMySqlStmt, m_pBinds))
 	{
-		mysql_stmt_close( pMySqlStmt );
-
+		//int nErrno = mysql_errno( m_pMySql );
+		//char *pStrError = mysql_error( m_pMySql );
 		pMySqlStmt = NULL;
-
+		//CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_store_result], ErrorNo:%d, ErrorMsg:%s", nErrno, pStrError);
+		mysql_stmt_close( pMySqlStmt );
 		ASSERT_FAIELD;
 		return FALSE;
 	}

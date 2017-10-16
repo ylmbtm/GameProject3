@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "ConfigFile.h"
+#include "CommonConvert.h"
 
 
 CConfigFile::CConfigFile( void )
@@ -11,16 +12,6 @@ CConfigFile::~CConfigFile( void )
 {
 
 }
-
-inline static BOOL StringTrim(std::string& text)  
-{  
-	if(!text.empty())  
-	{  
-		text.erase(0, text.find_first_not_of((" \n\r\t")));  
-		text.erase(text.find_last_not_of((" \n\r\t")) + 1);  
-	}  
-	return TRUE;  
-}  
 
 BOOL CConfigFile::Load( std::string strFileName )
 {
@@ -53,8 +44,8 @@ BOOL CConfigFile::Load( std::string strFileName )
 		strName.assign(szBuff,pChar-szBuff);
 		std::string strValue = pChar+1;
 
-		StringTrim(strName);
-		StringTrim(strValue);
+		CommonConvert::StringTrim(strName);
+		CommonConvert::StringTrim(strValue);
 
 		m_Values.insert(std::make_pair(strName, strValue));
 
@@ -72,6 +63,32 @@ CConfigFile* CConfigFile::GetInstancePtr()
 	static CConfigFile ConfigFile;
 
 	return &ConfigFile;
+}
+
+std::string CConfigFile::GetStringValue( std::string strName )
+{
+	std::map<std::string,std::string>::iterator itor = m_Values.find(strName);
+	if(itor != m_Values.end())
+	{
+		return itor->second;
+	}
+
+	return "";
+}
+
+INT32 CConfigFile::GetIntValue( std::string VarName )
+{
+	return atoi(GetStringValue(VarName).c_str());
+}
+
+FLOAT CConfigFile::GetFloatValue( std::string VarName )
+{
+	return (float)atof(GetStringValue(VarName).c_str());
+}
+
+DOUBLE CConfigFile::GetDoubleValue( std::string VarName )
+{
+	return atof(GetStringValue(VarName).c_str());
 }
 
 

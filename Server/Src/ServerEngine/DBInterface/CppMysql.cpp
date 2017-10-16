@@ -103,7 +103,7 @@ int CppMySQLQuery::fieldIndex(const char* szField)
 	}
 
 	mysql_field_seek(m_MysqlRes, 0);//定位到第0列
-	u_int i = 0;
+	int i = 0;
 	while ( i < _field_count )
 	{
 		_field = mysql_fetch_field( m_MysqlRes );

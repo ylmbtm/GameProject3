@@ -45,6 +45,9 @@ BOOL ReplaceString(std::string& str, const std::string& pattern, const std::stri
 UINT32 VersionToInt(std::string &strVersion);
 
 INT32  CountSymbol(char *pStr, char cSymbol);
+
+BOOL StringTrim(std::string& strValue);
+
 }
 
 

@@ -42,7 +42,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];
 
-	sprintf_s(szSql, 1024, "select * from player where account_id = %lld", u64AccountID);
+	sprintf(szSql, "select * from player where account_id = %lld", u64AccountID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
@@ -63,7 +63,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];
 
-	sprintf_s(szSql, 1024, "select * from player where id = %lld", u64ID);
+	sprintf(szSql, "select * from player where id = %lld", u64ID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 

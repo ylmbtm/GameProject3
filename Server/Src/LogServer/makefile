@@ -1,10 +1,11 @@
-CC=g++
+CC=g++ -std=c++11
 CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
-		-I../../Common/protobuf/src
+		-I../../Common/protobuf/src \
+		-I../Message/
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
@@ -12,11 +13,13 @@ CC_LIB=-L/usr/lib \
 			 
 MY_LIB=-L../Debug \
 	-L../Linux \
+	-L../ServerEngine \
 	-lServerEngine
 
 TARGET=../Linux/LogServer
 
 SRCS=$(wildcard *.cpp)
+SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)
 

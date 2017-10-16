@@ -48,12 +48,25 @@ enum MessageRetCode {
   MRC_SUCCESSED = 0,
   MRC_FAILED = 1,
   MRC_DISCONNECT = 2,
+  MRC_ACCOUNT_EXIST = 3,
+  MRC_INVALID_PASSWORD = 4,
+  MRC_INVALID_NAME = 5,
+  MRC_INVALID_ROLEID = 6,
+  MRC_INVALID_ITEMID = 7,
+  MRC_INVALID_COPYID = 8,
+  MRC_INVALID_PETID = 9,
+  MRC_INVALID_PARTNERID = 10,
+  MRC_INVALID_EQUIP_ID = 11,
+  MRC_NOT_ENOUGH_ACTOIN = 12,
+  MRC_NOT_ENOUGH_MONEY = 13,
+  MRC_NOT_ENOUGH_ITEM = 14,
+  MRC_NOT_ENOUGH_TIMES = 15,
   MessageRetCode_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageRetCode_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MessageRetCode_IsValid(int value);
 const MessageRetCode MessageRetCode_MIN = MRC_SUCCESSED;
-const MessageRetCode MessageRetCode_MAX = MRC_DISCONNECT;
+const MessageRetCode MessageRetCode_MAX = MRC_NOT_ENOUGH_TIMES;
 const int MessageRetCode_ARRAYSIZE = MessageRetCode_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageRetCode_descriptor();

@@ -37,6 +37,8 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <stdarg.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
 
 #define WSAEWOULDBLOCK 		EWOULDBLOCK
 #define WSAEINPROGRESS 		EINPROGRESS

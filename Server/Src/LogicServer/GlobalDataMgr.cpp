@@ -27,7 +27,7 @@ BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 	UINT64 dwMaxGuid = 0;
 
 	CHAR szSql[SQL_BUFF_LEN];
-	sprintf_s(szSql, 1024, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
+	sprintf_s(szSql, SQL_BUFF_LEN, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
 
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM globaldata");
 	if(!QueryResult.eof())
