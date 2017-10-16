@@ -87,6 +87,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\BulletObject.cpp">
+      <Filter>SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SkillObject.cpp">
+      <Filter>SceneObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -151,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="..\Message\Game_Define.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SkillObject.h">
+      <Filter>SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BulletObject.h">
+      <Filter>SceneObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

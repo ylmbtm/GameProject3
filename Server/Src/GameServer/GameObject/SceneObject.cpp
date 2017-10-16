@@ -19,6 +19,10 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 	m_dwObjType = dwObjType;
 	m_dwCamp = dwCamp;
 	m_strName = strName;
+
+	m_bDataChange = FALSE;
+
+	m_SkillObject.SetHostObject(this);
 }
 
 CSceneObject::~CSceneObject()
@@ -262,6 +266,51 @@ BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 	pBuffObject->OnAddBuff();
 
 	m_mapBuff.insert(std::make_pair(dwBuffID, pBuffObject));
+
+	return TRUE;
+}
+
+BOOL CSceneObject::StartSkill(const ActionReqItem& Item)
+{
+	ERROR_RETURN_FALSE(m_pScene != NULL);
+
+	m_x = Item.hostx();
+	m_y = Item.hosty();
+	m_z = Item.hostz();
+	m_ft = Item.hostft();
+
+	ActionNtyItem* pSvrItem = m_pScene->m_ObjectActionNty.add_actionlist();
+	ERROR_RETURN_TRUE(pSvrItem != NULL);
+	pSvrItem->set_objectguid(Item.objectguid());
+	pSvrItem->set_objstatue(m_dwObjState);			//实例状态
+	pSvrItem->set_actorid(m_dwActorID);				//类型ID
+	pSvrItem->set_controlerid(m_uControlerID);		//AI控制人的GUID
+	pSvrItem->set_actionid(Item.actionid());
+	pSvrItem->set_actiontime(0);
+	pSvrItem->set_x(m_x);
+	pSvrItem->set_y(m_y);
+	pSvrItem->set_z(m_z);
+	pSvrItem->set_ft(m_ft);
+	pSvrItem->set_hp(GetHp());
+	pSvrItem->set_mp(GetMp());
+	pSvrItem->set_hpmax(1000);
+	pSvrItem->set_mpmax(1000);
+
+	m_bDataChange = FALSE;
+
+	return TRUE;
+}
+
+BOOL CSceneObject::StartAction(const ActionReqItem& Item)
+{
+	ERROR_RETURN_FALSE(m_pScene != NULL);
+
+	m_x = Item.hostx();
+	m_y = Item.hosty();
+	m_z = Item.hostz();
+	m_ft = Item.hostft();
+
+	m_bDataChange = TRUE;
 
 	return TRUE;
 }

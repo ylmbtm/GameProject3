@@ -17,7 +17,7 @@ public:
 	BOOL OnAddBuff();
 	BOOL OnRemoveBuff();
 	BOOL OnEffect();
-	BOOL OnUpdate(UINT32 dwData);
+	BOOL OnUpdate(UINT32 dwTick);
 
 public:
 	UINT32  m_dwBuffID;    //buffID

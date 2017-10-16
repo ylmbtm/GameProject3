@@ -102,7 +102,7 @@ BOOL CBuffObject::OnEffect()
 	return TRUE;
 }
 
-BOOL CBuffObject::OnUpdate( UINT32 dwData )
+BOOL CBuffObject::OnUpdate( UINT32 dwTick )
 {
 	return TRUE;
 }

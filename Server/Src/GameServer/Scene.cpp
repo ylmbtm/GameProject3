@@ -19,6 +19,7 @@
 #include "SceneXmlMgr.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
+#include "GameObject/SkillObject.h"
 
 
 CScene::CScene()
@@ -105,7 +106,7 @@ BOOL CScene::OnMsgObjectActionReq( NetPacket* pNetPacket )
 
 	for(int i = 0; i < Req.actionlist_size(); i++)
 	{
-		const ActionItem& Item = Req.actionlist(i);
+		const ActionReqItem& Item = Req.actionlist(i);
 		ProcessActionItem(Item);
 	}
 
@@ -168,7 +169,6 @@ BOOL CScene::OnMsgUseMpBottleReq(NetPacket* pNetPacket)
 	CSceneObject* pObject = GetPlayer(pHeader->u64TargetID);
 	ERROR_RETURN_TRUE(pObject != NULL);
 
-
 	return TRUE;
 }
 
@@ -225,14 +225,19 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-
-
 BOOL CScene::OnUpdate( UINT32 dwTick )
 {
 	if(m_pSceneLogic->IsFinished())
 	{
 		//己经结束不再处理
 		return TRUE;
+	}
+
+	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		pSceneObject->OnUpdate(dwTick);
 	}
 
 	//同步所有对象的状态
@@ -991,110 +996,27 @@ CSceneObject* CScene::GetOwnPlayer()
 	return itor->second;
 }
 
-BOOL CScene::SkillFight( CSceneObject* pAttacker, UINT32 dwSkillID, CSceneObject* pDefender )
-{
-	ERROR_RETURN_FALSE(pAttacker != NULL);
-	ERROR_RETURN_FALSE(pDefender != NULL);
-	ERROR_RETURN_FALSE(dwSkillID != 0);
-
-	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(dwSkillID, 1);
-	ERROR_RETURN_FALSE(pSkillInfo != NULL);
-
-	UINT32 dwCurTime = CommonFunc::GetTickCount();
-
-	UINT32 dwTime = pAttacker->GetLastSkillTime(dwSkillID);
-	if(dwCurTime - dwTime < pSkillInfo->CD * 1000)
-	{
-		CLog::GetInstancePtr()->LogError("玩家作弊!!!");
-
-		return FALSE;
-	}
-
-	StBuffInfo* pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(pSkillInfo->SelfBuffID);
-	ERROR_RETURN_FALSE(pBuffInfo != NULL);
-
-	pAttacker->AddBuff(pSkillInfo->SelfBuffID);
-
-	pDefender->AddBuff(pSkillInfo->TargetBuffID);
-
-	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
-	//先判断是否命中
-	if (dwRandValue > (800 + pAttacker->m_Propertys[8] - pDefender->m_Propertys[7]) && dwRandValue > 500)
-	{
-		//未命中
-		return TRUE;
-	}
-
-	//判断是否爆击
-	dwRandValue = CommonFunc::GetRandNum(1);
-	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (pAttacker->m_Propertys[9] - pAttacker->m_Propertys[10]) || dwRandValue < 10)
-	{
-		bCriticalHit = TRUE;
-	}
-
-	//最终伤害加成
-	UINT32 dwFinalAdd = pAttacker->m_Propertys[6] - pDefender->m_Propertys[5] + 1000;
-
-	//伤害随机
-	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 hurt = (pSkillInfo->Percent * (pAttacker->m_Propertys[5] - pDefender->m_Propertys[6]) + pSkillInfo->Fix);
-	UINT32 dwHurt = pAttacker->m_Propertys[1] - pDefender->m_Propertys[1];
-	if (dwHurt <= 0)
-	{
-		dwHurt = 1;
-	}
-	else
-	{
-		dwHurt = dwHurt * dwFightRand / 1000;
-		dwHurt = dwHurt * dwFinalAdd / 1000;
-		if (bCriticalHit)
-		{
-			dwHurt = dwHurt * 15 / 10;
-		}
-	}
-
-	pDefender->m_Propertys[HP] -= dwHurt;
-	if (pDefender->m_Propertys[HP] <= 0)
-	{
-		pDefender->m_Propertys[HP] = 0;
-	}
-
-	return TRUE;
-}
-
-BOOL CScene::ProcessActionItem( const  ActionItem& Item )
+BOOL CScene::ProcessActionItem(const  ActionReqItem& Item )
 {
 	CSceneObject* pSceneObj = GetPlayer(Item.objectguid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
-	pSceneObj->m_x = Item.x();
-	pSceneObj->m_y = Item.y();
-	pSceneObj->m_z = Item.z();
-	pSceneObj->m_ft = Item.ft();
 
-	if(Item.actionstate()&AS_HURT)
+	if(Item.isskill())
 	{
-		for(int i = 0; i < Item.damagerlist_size(); i++)
-		{
-			const DamagerItem& damager  = Item.damagerlist(i);
-			CSceneObject* pDamager = GetPlayer(damager.objectguid());
-			if(pDamager == NULL)
-			{
-				CLog::GetInstancePtr()->LogError("Error: CScene::ProcessActionItem Can not find Damager id:%d", damager.objectguid());
-				continue;
-			}
-
-			SkillFight(pSceneObj, Item.actionid(), pDamager);
-		}
+		pSceneObj->StartSkill(Item);
+	}
+	else
+	{
+		pSceneObj->StartAction(Item);
 	}
 
-	ActionItem* pSvrItem = m_ObjectActionNty.add_actionlist();
-	ERROR_RETURN_TRUE(pSvrItem != NULL);
-	pSvrItem->CopyFrom(Item);
-	pSvrItem->set_hp(pSceneObj->GetHp());
-	pSvrItem->set_mp(pSceneObj->GetMp());
-	pSvrItem->set_hpmax(1000);
-	pSvrItem->set_mpmax(1000);
+	//ActionNtyItem* pSvrItem = m_ObjectActionNty.add_actionlist();
+	//ERROR_RETURN_TRUE(pSvrItem != NULL);
+	//pSvrItem
+	//pSvrItem->set_hp(pSceneObj->GetHp());
+	//pSvrItem->set_mp(pSceneObj->GetMp());
+	//pSvrItem->set_hpmax(1000);
+	//pSvrItem->set_mpmax(1000);
 
 	return TRUE;
 }

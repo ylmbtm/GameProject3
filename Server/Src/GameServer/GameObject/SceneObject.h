@@ -3,6 +3,7 @@
 #include "Position.h"
 #include "../Message/Msg_Move.pb.h"
 #include "../ServerData/ServerDefine.h"
+#include "SkillObject.h"
 class CScene;
 class ResultPlayer;
 class CBuffObject;
@@ -67,8 +68,11 @@ public:
 	INT32			m_dwCamp;						//阵营
 	FLOAT			m_x, m_y, m_z, m_ft;			//对象坐标, 朝向
 	UINT32          m_dwObjState;					//对象当前的状态
+	UINT32          m_dwBuffState;					//对象的Buff状态
 	INT32			m_dwLevel;						//等级
-	INT32           m_Propertys[PROPERTY_NUM];	//15个属性的数值
+	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
+
+	BOOL			m_bDataChange;					//数据发生改变
 
 	UINT64          m_uHostGuid;					//主人的GUID
 	UINT64          m_uControlerID;					//AI控制人的GUID
@@ -77,24 +81,27 @@ public:
 	BOOL			m_bIsCampCheck;					//是否影响阵营结算
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
 
-
+	//////////////////////////////////////////////////////////////////////////
+	//技能
 	std::map<UINT32, UINT32> m_mapSkillTime;
+	CSkillObject			 m_SkillObject;
+	BOOL					 StartSkill(const ActionReqItem& Item);
+	BOOL					 StartAction(const ActionReqItem& Item);
+	//////////////////////////////////////////////////////////////////////////
 
 
-
-
-	//对象的一些标记
 	//////////////////////////////////////////////////////////
-	CScene*			m_pScene;  //所在场景
+	//对象的一些标记
+	CScene*			m_pScene;   //所在场景
 	BOOL            m_bEnter;   //玩家是否己经进入副本
 
 	//对象的副本结算数据
 	////////////////////////////////////////////////////////////////
-	UINT32			m_dwResult;   //0:未结算，1:胜利，2: 失败 3: 平局
-	UINT32			m_dwKill;
-	UINT32          m_dwDeath;
-	UINT32			m_dwHeal;
-	UINT32          m_dwDamage;
+	UINT32			m_dwResult;		//0:未结算，1:胜利，2: 失败 3: 平局
+	UINT32			m_dwKill;		//击杀数
+	UINT32          m_dwDeath;		//被杀次数
+	UINT32			m_dwHeal;		//治疗值
+	UINT32          m_dwDamage;		//总伤害值
 
 	//对象的连接情况，仅玩家有效
 	////////////////////////////////////////////////////////////////
