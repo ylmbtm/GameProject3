@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LuaManager.h"
-#include "../Src/ServerEngine/CommonFunc.h"
+#include "CommonFunc.h"
 
 LuaManager::LuaManager()
 {
@@ -468,3 +468,21 @@ BOOL LuaManager::RegisterFunction(const char* name, lua_CFunction fn)
 
 	return TRUE;
 }
+
+
+/*
+LuaManager luamgr;
+
+luamgr.Init();
+luamgr.RegisterFunction("TestAdd", ToLua_TestAdd);
+luamgr.LoadAllLua("F:\\GameRoot\\Server\\Lua\\Debug");
+
+int value = luamgr.GetGlobalVarInt("a");
+
+
+int a = 10;
+int b = 20;
+int c = 0;
+TestLuaClass LuaClass;
+luamgr.CallLuaFunction("add", "iip=i", a, b, &LuaClass, &c);
+*/
