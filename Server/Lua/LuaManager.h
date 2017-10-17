@@ -12,29 +12,35 @@ public:
 
 	BOOL	Init();
 
-	BOOL	LoadScriptFile(const char *pszLuaFile);
+	BOOL	Attach(lua_State* L);
 
-	BOOL	LoadScriptFile(std::vector<std::string> &vtScriptList);
+	BOOL	Deattch();
 
-	BOOL	CallLuaFunction(std::string strFuncName, char *pStrParamSig, ...);
+	BOOL	LoadScriptFile(const char* pszLuaFile);
 
-	BOOL	GetStackParams(char *pStrParamSig, ...);
+	BOOL	LoadScriptFile(std::vector<std::string>& vtScriptList);
 
-	BOOL    RegisterFunction(const char *libname, const luaL_Reg *l);
+	BOOL	CallLuaFunction(std::string strFuncName, char* pStrParamSig, ...);
+
+	BOOL	GetStackParams(char* pStrParamSig, ...);
+
+	BOOL    RegisterFunction(const char* libname, const luaL_Reg* l);
+
+	BOOL	RegisterFunction(const char* name, lua_CFunction fn);
 
 	//获取堆栈脚本变量
-	BOOL	GetStackValue_Ptr(INT32 nStackIndex, VOID* &ptrValue);
-	BOOL	GetStackValue_Int(INT32 nStackIndex, INT32 &intValue);
-	BOOL	GetStackValue_Double(INT32 nStackIndex, DOUBLE &doubleValue);
-	BOOL    GetStackValue_String(INT32 nStackIndex, const CHAR* &strValue);
+	BOOL	GetStackValue_Ptr(INT32 nStackIndex, VOID*& ptrValue);
+	BOOL	GetStackValue_Int(INT32 nStackIndex, INT32& intValue);
+	BOOL	GetStackValue_Double(INT32 nStackIndex, DOUBLE& doubleValue);
+	BOOL    GetStackValue_String(INT32 nStackIndex, const CHAR*& strValue);
 
 	//获取全局脚本变量
-	INT32	GetGlobalVarInt(const char *pszVarName);
-	BOOL	GetGlobalVarBoolean(const char *pszVarName);
-	DOUBLE  GetGlobalVarDouble(const char *pszVarName);
-	const CHAR*	GetGlobalVarString(const char *pszVarName);
+	INT32	GetGlobalVarInt(const char* pszVarName);
+	BOOL	GetGlobalVarBoolean(const char* pszVarName);
+	DOUBLE  GetGlobalVarDouble(const char* pszVarName);
+	const CHAR*	GetGlobalVarString(const char* pszVarName);
 	lua_State* GetLuaState();
-	
+
 protected:
 	lua_State*			m_pLuaState;
 };
