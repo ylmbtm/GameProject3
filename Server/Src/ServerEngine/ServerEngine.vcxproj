@@ -199,6 +199,7 @@
     <ClInclude Include="LockFreeQueueImpl.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="NetManager.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="ServerEngine.h" />
     <ClInclude Include="ServiceBase.h" />
     <ClInclude Include="SharedMemory.h" />

@@ -1,6 +1,15 @@
 #ifndef __LUA_MANAGER_H__
 #define __LUA_MANAGER_H__
 
+extern "C"
+{
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+}
+
+#pragma comment(lib, "lua5.1.lib")
+
 class LuaManager
 {
 public:
@@ -15,6 +24,8 @@ public:
 	BOOL	Attach(lua_State* L);
 
 	BOOL	Deattch();
+
+	BOOL	LoadAllLua(const char* pszDir);
 
 	BOOL	LoadScriptFile(const char* pszLuaFile);
 

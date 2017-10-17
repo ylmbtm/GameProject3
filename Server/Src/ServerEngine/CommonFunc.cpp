@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommonFunc.h"
-
+#include <io.h>
 
 UINT32 CommonFunc::GetProcessorNum()
 {
@@ -178,6 +178,93 @@ BOOL CommonFunc::CreateDir( std::string& strDir )
 	}
 
 	return FALSE;
+}
+
+BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion)
+{
+	if (pszDir == NULL || pszFileType == NULL)
+	{
+		return FALSE;
+	}
+
+	char   szTem[1024] = { 0 };
+	char   szDir[1024] = { 0 };
+	strcpy(szTem, pszDir);
+	if (szTem[strlen(szTem) - 1] != '\\' || szTem[strlen(szTem) - 1] != '/')
+	{
+		strcat(szTem, "/");
+	}
+
+	strcpy(szDir, szTem);
+	strcat(szDir, pszFileType);
+
+#ifdef WIN32
+	struct _finddata_t  tFileInfo = { 0 };
+	long long hFile = _findfirst(szDir, &tFileInfo);
+	if (hFile == -1)
+	{
+		return FALSE;
+	}
+
+	do
+	{
+		if (strcmp(tFileInfo.name, ".") == 0 || strcmp(tFileInfo.name, "..") == 0)
+		{
+			continue;
+		}
+
+		if ((tFileInfo.attrib   &  _A_SUBDIR) && bRecursion)
+		{
+			char   szSub[1024] = { 0 };
+			strcpy(szSub, pszDir);
+			if (szSub[strlen(szSub) - 1] != '\\' || szSub[strlen(szSub) - 1] != '/')
+			{
+				strcat(szSub, "/");
+			}
+			strcat(szSub, tFileInfo.name);
+			GetDirFiles(szSub, pszFileType, vtFileList, bRecursion);
+		}
+		else
+		{
+			vtFileList.push_back(std::string(szTem) + std::string(tFileInfo.name));
+		}
+	}
+	while (_findnext(hFile, &tFileInfo) == 0);
+	_findclose(hFile);
+
+#else
+
+	DIR* pDirInfo;
+	struct dirent* tFileInfo;
+	struct stat statbuf;
+	if((pDirInfo = opendir(pszDir)) == NULL)
+	{
+		return FALSE;
+	}
+
+	while((tFileInfo = readdir(pDirInfo)) != NULL)
+	{
+		if (strcmp(".", tFileInfo->d_name) == 0 || strcmp("..", tFileInfo->d_name) == 0)
+		{
+			continue;
+		}
+
+		lstat(tFileInfo->d_name, &statbuf);
+		if((S_IFDIR & statbuf.st_mode) && bRecursion)
+		{
+			GetDirFiles(tFileInfo->d_name, pszFileType, vtFileList, bRecursion);
+		}
+		else
+		{
+			vtFileList.push_back(std::string(szTem) + std::string(tFileInfo->d_name));
+		}
+	}
+
+	closedir(pDirInfo);
+
+#endif
+
+	return TRUE;
 }
 
 UINT32 CommonFunc::GetCurThreadID()

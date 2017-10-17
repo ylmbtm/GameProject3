@@ -17,6 +17,8 @@ BOOL			SetCurrentWorkPath(std::string strPath);
 
 BOOL			CreateDir(std::string& strDir);
 
+BOOL			GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion);
+
 //获取当前的秒数
 UINT32			GetCurrTime();
 

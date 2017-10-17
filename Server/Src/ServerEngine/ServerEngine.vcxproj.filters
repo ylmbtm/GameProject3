@@ -161,6 +161,9 @@
     <ClInclude Include="DBInterface\DBInterface.h">
       <Filter>DBInterface</Filter>
     </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

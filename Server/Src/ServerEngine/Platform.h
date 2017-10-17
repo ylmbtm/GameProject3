@@ -39,6 +39,7 @@
 #include <stdarg.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <dirent.h>
 
 #define WSAEWOULDBLOCK 		EWOULDBLOCK
 #define WSAEINPROGRESS 		EINPROGRESS

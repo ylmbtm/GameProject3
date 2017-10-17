@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "LuaManager.h"
+#include "../Src/ServerEngine/CommonFunc.h"
 
 LuaManager::LuaManager()
 {
@@ -52,6 +53,15 @@ BOOL LuaManager::Deattch()
 	m_pLuaState = NULL;
 
 	return TRUE;
+}
+
+BOOL LuaManager::LoadAllLua(const char* pszDir)
+{
+	std::vector<std::string> vtFiles;
+
+	CommonFunc::GetDirFiles(pszDir, "*.lua", vtFiles, TRUE);
+
+	return LoadScriptFile(vtFiles);
 }
 
 lua_State* LuaManager::GetLuaState()
