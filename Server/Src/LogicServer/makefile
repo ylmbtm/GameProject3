@@ -19,6 +19,7 @@ MY_LIB=-L../Debug \
 TARGET=LogicServer
 
 SRCS=$(wildcard *.cpp)
+SRCS:=$(SRCS) $(wildcard ../ConfigData/*.cpp)
 #SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
 SRCS2=$(wildcard ../Message/*.cc)
 

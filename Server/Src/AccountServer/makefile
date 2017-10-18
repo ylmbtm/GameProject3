@@ -12,15 +12,14 @@ CC_LIB=-L/usr/lib \
 	-L/usr/lib/mysql \
 	-lpthread -lprotobuf -lmysqlclient
 			 
-MY_LIB=-L../Debug \
-     -L../Linux \
-	 -L../ServerEngine \
-	 -lServerEngine 
+MY_LIB=	-L../Debug \
+     	-L../Linux \
+	-L../ServerEngine \
+	-lServerEngine 
 
 TARGET=AccountServer
 
 SRCS=$(wildcard *.cpp)
-#SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
 SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)
