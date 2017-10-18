@@ -1,6 +1,6 @@
 ﻿#ifndef __GLOBAL_DATA_MGR_H__
 #define __GLOBAL_DATA_MGR_H__
-#include "DBInterface\CppMysql.h"
+#include "DBInterface/CppMysql.h"
 
 struct GlobalDataObject;
 class CGlobalDataManager

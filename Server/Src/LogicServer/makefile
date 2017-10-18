@@ -3,16 +3,18 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common 
-					 
+		-I../../Common \
+		-I../../Common/Mysql \
+		-I../../Common/Sqlite 
+		
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread -lprotobuf
+	-lpthread -lprotobuf -lmysqlclient -lsqlite3
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \
 	-lServerEngine
-	-lsqlite3
+	
 
 TARGET=LogicServer
 

@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#define HAVE_RINT 1
+
 #include "CheckMacroDefine.h"
 #include "ServerEngine.h"
 #endif

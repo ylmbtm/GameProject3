@@ -2,10 +2,10 @@
 #include "TaskModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "..\ConfigData\ConfigData.h"
+#include "../ConfigData/ConfigData.h"
 #include "Log.h"
 #include "PlayerObject.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "../Message/Msg_ID.pb.h"
 
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {

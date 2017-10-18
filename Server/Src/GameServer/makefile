@@ -3,11 +3,12 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common 
+		-I../../Common \
+		-I../../Common/Sqlite 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread -lprotobuf
+	-lpthread -lprotobuf -lsqlite3
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \
@@ -15,17 +16,32 @@ MY_LIB=-L../Debug \
 
 TARGET=GameServer
 
+
+
 SRCS=$(wildcard ./*.cpp)
 SRCS:=$(SRCS) $(wildcard ./GameObject/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
+SRCS:=$(SRCS) $(wildcard ./SceneLogic/*.cpp)
+
+SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)
+OBJS2=$(SRCS2:.cc=.o)
+
+OBJS:=$(OBJS) $(OBJS2)
+
+default:$(TARGET)
 
 $(TARGET):$(OBJS)
-	$(CC) -g -o $(TARGET) $(OBJS) $(CC_LIB) $(MY_LIB)
-	mv $(OBJS) ../Linux
+	$(CC) -g -o $@ $^ $(MY_LIB) $(CC_LIB)
+	#mv $(OBJS) ../Linux
 
-$(OBJS):%.o:%.cpp
+#$(OBJS):%.o:%.cpp
+#	$(CC) -g -w -c $< -o $@ $(CC_INCLUDE) $(MY_INCLUDE)
+
+%.o:%.cpp
+	$(CC) -g -w -c $< -o $@ $(CC_INCLUDE) $(MY_INCLUDE)
+
+%.o:%.cc
 	$(CC) -g -w -c $< -o $@ $(CC_INCLUDE) $(MY_INCLUDE)
 	
 clean:

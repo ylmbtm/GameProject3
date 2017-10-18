@@ -3,7 +3,7 @@
 #include "CommonConvert.h"
 #include "Log.h"
 #include "CommonSocket.h"
-#include "..\ServerData\ServerDefine.h"
+#include "../ServerData/ServerDefine.h"
 
 
 LogicSvrManager::LogicSvrManager(void)

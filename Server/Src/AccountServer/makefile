@@ -8,14 +8,14 @@ MY_INCLUDE=-I$(PWD) \
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
+	-L/usr/lib64\mysql \
 	-L/usr/lib/mysql \
-	-lpthread -lprotobuf
+	-lpthread -lprotobuf -lmysqlclient
 			 
 MY_LIB=-L../Debug \
      -L../Linux \
 	 -L../ServerEngine \
-	-lmysqlclient \
-	-lServerEngine \
+	 -lServerEngine 
 
 TARGET=AccountServer
 

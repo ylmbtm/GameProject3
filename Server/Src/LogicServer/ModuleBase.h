@@ -2,7 +2,7 @@
 #define __CMODULE_BASE_H__
 #include "AVLTree.h"
 #include "Position.h"
-#include "../Message/Msg_LoginDbData.pb.h"
+#include "../Message/Msg_LoginDBData.pb.h"
 #include "../Message/Msg_LoginCltData.pb.h"
 #include "../ServerData/ServerDefine.h"
 

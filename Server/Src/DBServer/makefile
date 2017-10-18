@@ -7,14 +7,13 @@ MY_INCLUDE=-I$(PWD) \
 		-I../../Common/Mysql 
 					 
 CC_LIB=-L/usr/lib \
-	   -L/usr/lib64\mysql \
-	   -L/lib \
-	   -L/usr/lib/mysql \
-	   -lpthread -lprotobuf
+		-L/lib \
+	    -L/usr/lib64\mysql \
+	    -L/usr/lib/mysql \
+	    -lpthread -lprotobuf -lmysqlclient
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \
-	-lmysqlclient \
 	-lServerEngine \
 
 TARGET=DBServer

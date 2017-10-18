@@ -3,10 +3,13 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common 
+		-I../../Common \
+		-I../../Common/Mysql
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
+	-L/usr/lib64\mysql \
+	-L/usr/lib/mysql \
 	-lpthread -lprotobuf
 			 
 MY_LIB=-L../Debug \
