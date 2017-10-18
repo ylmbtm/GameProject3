@@ -21,7 +21,7 @@ TARGET=libServerEngine.a
 OBJPATH=./Linux/
 
 SRCS= $(wildcard ./*.cpp)
-SRCS= $(wildcard ./DBInterface/*.cpp)
+SRCS:=$(SRCS) $(wildcard ./DBInterface/*.cpp)
 #//SRCS=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.cpp))
 
 OBJS=$(SRCS:.cpp=.o)
