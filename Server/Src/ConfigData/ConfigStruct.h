@@ -216,11 +216,18 @@ struct StSkillInfo
 
 struct StBuffInfo
 {
-	UINT32 BuffID;		//! 任务ID
-	UINT32 BuffType;    //! Buff类型
-	UINT32 BuffEffect;  //! Buff目标需要加的特效
-	INT32  PtyValue[PROPERTY_NUM];	//加属性值
-	INT32  PtyPercent[PROPERTY_NUM];  //加属性百分比
+	UINT32 BuffID;						//BuffID
+	UINT32 BuffEffect;					//Buff目标需要加的特效
+	INT32  PtyValue[PROPERTY_NUM];		//加属性值
+	INT32  PtyPercent[PROPERTY_NUM];	//加属性百分比
+	INT32  TotalTime;                   //总时长(ms)
+	INT32  Interval;					//间隔时长
+	BOOL   OverLay;				        //是否可以叠加
+	BOOL   AddLua;
+	BOOL   TickLua;
+	BOOL   RemoveLua;
+
+
 };
 
 

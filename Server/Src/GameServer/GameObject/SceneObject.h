@@ -54,6 +54,8 @@ public:
 	//buff的处理
 	BOOL			AddBuff(UINT32 dwBuffID);
 	BOOL			RemoveBuff(UINT32 dwBuffID);
+
+	BOOL			UpdateBuff(UINT32 dwTick);
 	std::map<UINT32, CBuffObject*> m_mapBuff;
 	//////////////////////////////////////////////////////////////////////////
 

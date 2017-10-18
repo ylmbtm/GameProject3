@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "CommonFunc.h"
-#include <io.h>
 
 UINT32 CommonFunc::GetProcessorNum()
 {
@@ -339,7 +338,7 @@ INT32 CommonFunc::GetRandNum(INT32 nType)
 		}
 	}
 
-	return  vtGlobalRankValue[nRandIndex[nType]++];
+	return  vtGlobalRankValue[(nRandIndex[nType]++) % 10000];
 }
 
 UINT32 CommonFunc::GetLastError()

@@ -109,6 +109,7 @@ BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLe
 
 BOOL CSceneObject::OnUpdate( UINT32 dwTick )
 {
+	UpdateBuff(dwTick);
 
 	return TRUE;
 }
@@ -261,11 +262,37 @@ BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 {
 	CBuffObject* pBuffObject = new CBuffObject(this, dwBuffID);
+
 	ERROR_RETURN_FALSE(pBuffObject != NULL);
 
 	pBuffObject->OnAddBuff();
 
 	m_mapBuff.insert(std::make_pair(dwBuffID, pBuffObject));
+
+	return TRUE;
+}
+
+BOOL CSceneObject::UpdateBuff(UINT32 dwTick)
+{
+	for(std::map<UINT32, CBuffObject*>::iterator itor = m_mapBuff.begin(); itor != m_mapBuff.end();)
+	{
+		CBuffObject* pBuffObject = itor->second;
+		ERROR_CONTINUE_EX(pBuffObject != NULL);
+
+		pBuffObject->OnUpdate(dwTick);
+
+		if(pBuffObject->IsOver())
+		{
+			delete pBuffObject;
+
+			itor = m_mapBuff.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
+	}
+
 
 	return TRUE;
 }

@@ -11,6 +11,7 @@
 
 
 #ifdef OS_PLATFORM_WINDOWS
+#include <io.h>
 #include <direct.h>
 #include <process.h>
 #include <ws2tcpip.h>
