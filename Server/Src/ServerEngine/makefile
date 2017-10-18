@@ -4,12 +4,10 @@ CC_INCLUDE=-I/usr/include
 DEFS = -DSERVER_ENGINE
 	 
 MY_INCLUDE=-I$(PWD) \
-		-I../../Common \
-		-I../../Common/protobuf/src 
+		-I../../Common 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread
 			 
 MY_LIB=
 

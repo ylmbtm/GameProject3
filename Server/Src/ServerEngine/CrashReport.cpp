@@ -48,4 +48,11 @@ void  SetCrashReport(std::string strAppName)
 	g_AppName = strAppName;
 	g_preFilter = SetUnhandledExceptionFilter(CrashCallBack);
 }
+
+#else
+void  SetCrashReport(std::string strAppName)
+{
+	return ;
+}
+
 #endif

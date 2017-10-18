@@ -5,12 +5,6 @@
 #include "GameService.h"
 #include "CrashReport.h"
 
-#ifdef _DEBUG
-#pragma comment(lib, "ServerEngine_d.lib")
-#else
-#pragma comment(lib, "ServerEngine.lib")
-#endif
-
 int main(int argc, char* argv[])
 {
 	SetCrashReport("CenterServer");

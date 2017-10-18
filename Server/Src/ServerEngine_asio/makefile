@@ -5,13 +5,10 @@ DEFS = -DSERVER_ENGINE
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common \
-		-I../../Common/protobuf/src
-		-I../Message/
+		-I../../Common 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread
 			 
 MY_LIB=
 

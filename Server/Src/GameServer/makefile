@@ -3,19 +3,17 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common \
-		-I../../Common/protobuf/src \
-		-I../Message/
+		-I../../Common 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread
+	-lpthread -lprotobuf
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \
 	-lServerEngine
 
-TARGET=../Linux/GameServer
+TARGET=GameServer
 
 SRCS=$(wildcard ./*.cpp)
 SRCS:=$(SRCS) $(wildcard ./GameObject/*.cpp)
