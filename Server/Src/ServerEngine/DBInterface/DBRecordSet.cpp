@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "DBRecordSet.h"
-#include <cstdio>
 
 CDBRecordSet::CDBRecordSet( void )
 {

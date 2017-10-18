@@ -1,8 +1,7 @@
 ﻿#include "stdafx.h"
-#include <winsock2.h>
 #include "CppMysql.h"
 #include <stdlib.h>
-#include <Strsafe.h>
+#include "../CommonConvert.h"
 
 CppMySQLQuery::CppMySQLQuery()
 {
@@ -235,7 +234,7 @@ INT64 CppMySQLQuery::getInt64Field(int nField, INT64 nNullValue /*= 0*/)
 		return nNullValue;
 	}
 
-	return _atoi64(_row[nField]);
+	return CommonConvert::StringToInt64(_row[nField]);
 }
 
 INT64 CppMySQLQuery::getInt64Field(const char* szField, INT64 nNullValue /*= 0*/)
@@ -256,7 +255,7 @@ INT64 CppMySQLQuery::getInt64Field(const char* szField, INT64 nNullValue /*= 0*/
 		return nNullValue;
 	}
 
-	return _atoi64(filed);
+	return CommonConvert::StringToInt64(filed);
 }
 
 double CppMySQLQuery::getFloatField(int nField, double fNullValue/*=0.0*/)

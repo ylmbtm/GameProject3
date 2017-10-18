@@ -1,11 +1,9 @@
 ﻿#include "stdafx.h"
 #include "DBStoredProc.h"
-#include <cstdio>
-#include <errmsg.h>
 #include "../CommonConvert.h"
 
 
-CDBStoredProcedure::CDBStoredProcedure(char const *pzProcedure)
+CDBStoredProcedure::CDBStoredProcedure(char const* pzProcedure)
 {
 	m_pMybind = NULL;
 
@@ -27,7 +25,7 @@ CDBStoredProcedure::~CDBStoredProcedure( void )
 	{
 		for(size_t i = 0; i < m_nCount; ++i)
 		{
-			MYSQL_BIND *pTemp = &m_pMybind[i];
+			MYSQL_BIND* pTemp = &m_pMybind[i];
 
 			delete pTemp->buffer;
 		}
@@ -39,7 +37,7 @@ CDBStoredProcedure::~CDBStoredProcedure( void )
 // set bool value.
 void CDBStoredProcedure::set_bool( size_t idx_, my_bool bval_ )
 {
-    MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new my_bool;
@@ -55,7 +53,7 @@ void CDBStoredProcedure::set_bool( size_t idx_, my_bool bval_ )
 // set int8 value.
 void CDBStoredProcedure::set_int8( size_t idx_, int8 i8_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new int8;
@@ -71,7 +69,7 @@ void CDBStoredProcedure::set_int8( size_t idx_, int8 i8_ )
 // set uint8 value.
 void CDBStoredProcedure::set_uint8( size_t idx_, uint8 ui8_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new uint8;
@@ -87,7 +85,7 @@ void CDBStoredProcedure::set_uint8( size_t idx_, uint8 ui8_ )
 // set int16 value.
 void CDBStoredProcedure::set_int16( size_t idx_, int16 i16_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new int16;
@@ -103,7 +101,7 @@ void CDBStoredProcedure::set_int16( size_t idx_, int16 i16_ )
 // set uint16 value.
 void CDBStoredProcedure::set_uint16( size_t idx_, uint16 ui16_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new uint16;
@@ -119,7 +117,7 @@ void CDBStoredProcedure::set_uint16( size_t idx_, uint16 ui16_ )
 // set int32 value.
 void CDBStoredProcedure::set_int32( size_t idx_, int32 i32_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new int32;
@@ -135,7 +133,7 @@ void CDBStoredProcedure::set_int32( size_t idx_, int32 i32_ )
 // set uint32 value.
 void CDBStoredProcedure::set_uint32( size_t idx_, uint32 ui32_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new uint32;
@@ -151,7 +149,7 @@ void CDBStoredProcedure::set_uint32( size_t idx_, uint32 ui32_ )
 // set int64 value.
 void CDBStoredProcedure::set_int64( size_t idx_, int64 i64_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new int64;
@@ -167,7 +165,7 @@ void CDBStoredProcedure::set_int64( size_t idx_, int64 i64_ )
 // set uint64 value.
 void CDBStoredProcedure::set_uint64( size_t idx_, uint64 ui64_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new uint64;
@@ -183,7 +181,7 @@ void CDBStoredProcedure::set_uint64( size_t idx_, uint64 ui64_ )
 // set float value.
 void CDBStoredProcedure::set_float( size_t idx_, float fval_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new float;
@@ -199,7 +197,7 @@ void CDBStoredProcedure::set_float( size_t idx_, float fval_ )
 // set double value.
 void CDBStoredProcedure::set_double( size_t idx_, double dval_ )
 {
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = new double;
@@ -213,14 +211,14 @@ void CDBStoredProcedure::set_double( size_t idx_, double dval_ )
 }
 
 // set string.
-void CDBStoredProcedure::set_string( size_t idx_, char const *str_, size_t sz_ )
+void CDBStoredProcedure::set_string( size_t idx_, char const* str_, size_t sz_ )
 {
-    if ( NULL == str_ )
-    {
+	if ( NULL == str_ )
+	{
 		return ;
 	}
-	
-	MYSQL_BIND *temp = &m_pMybind[idx_];
+
+	MYSQL_BIND* temp = &m_pMybind[idx_];
 	if(temp->buffer == NULL)
 	{
 		temp->buffer = malloc(256);
@@ -234,29 +232,29 @@ void CDBStoredProcedure::set_string( size_t idx_, char const *str_, size_t sz_ )
 }
 
 // set blob.
-void CDBStoredProcedure::set_blob( size_t idx_, void const *ptr_, size_t sz_ )
+void CDBStoredProcedure::set_blob( size_t idx_, void const* ptr_, size_t sz_ )
 {
- /*   if ( NULL != ptr_ )
-    {
-        param_t *_ptr = &m_params_[idx_];
+	/*   if ( NULL != ptr_ )
+	   {
+	       param_t *_ptr = &m_params_[idx_];
 
-        _ptr->buf.assign( (char*)ptr_, sz_ );
-        _ptr->type = MYSQL_TYPE_BLOB;
-        _ptr->is_unsigned = 0;
-        _ptr->is_null_val = 0;
-    }*/
+	       _ptr->buf.assign( (char*)ptr_, sz_ );
+	       _ptr->type = MYSQL_TYPE_BLOB;
+	       _ptr->is_unsigned = 0;
+	       _ptr->is_null_val = 0;
+	   }*/
 }
 
 // set blob.
-void CDBStoredProcedure::set_medium_blob( size_t idx_, void const *ptr_, size_t sz_ )
+void CDBStoredProcedure::set_medium_blob( size_t idx_, void const* ptr_, size_t sz_ )
 {
-/*	if ( NULL != ptr_ )
-	{
-		param_t *_ptr = &m_params_[idx_];
+	/*	if ( NULL != ptr_ )
+		{
+			param_t *_ptr = &m_params_[idx_];
 
-		_ptr->buf.assign( (char*)ptr_, sz_ );
-		_ptr->type = MYSQL_TYPE_MEDIUM_BLOB;
-		_ptr->is_unsigned = 0;
-		_ptr->is_null_val = 0;
-	}*/
+			_ptr->buf.assign( (char*)ptr_, sz_ );
+			_ptr->type = MYSQL_TYPE_MEDIUM_BLOB;
+			_ptr->is_unsigned = 0;
+			_ptr->is_null_val = 0;
+		}*/
 }

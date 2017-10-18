@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
-#include <errmsg.h>
 #include "DBConnection.h"
 #include "DBStoredProc.h"
 #include "../CommonThreadFunc.h"
 #include "../Log.h"
+#include <errmsg.h>
 
 CDBConnection::CDBConnection( void )
 	: m_pMySql( NULL ),
