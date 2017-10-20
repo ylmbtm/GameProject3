@@ -6,7 +6,7 @@
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "CommonSocket.h"
-#include "..\Message\Msg_ID.pb.h"
+#include "../Message/Msg_ID.pb.h"
 #include "Log.h"
 
 CHttpMsgHandler::CHttpMsgHandler()

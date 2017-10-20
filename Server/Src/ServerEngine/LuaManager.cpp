@@ -107,7 +107,6 @@ const CHAR* LuaManager::GetGlobalVarString( const char* pszVarName )
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
-
 	if(!lua_isstring(m_pLuaState, -1))
 	{
 		lua_settop(m_pLuaState, 0);

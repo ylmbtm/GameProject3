@@ -1,30 +1,25 @@
-﻿//------------------------------------------------------------------------------
-// File: bThdUtil.h
-//------------------------------------------------------------------------------
-#ifndef __COMMONEVENT__
+﻿#ifndef __COMMONEVENT__
 #define __COMMONEVENT__
 
 #ifdef WIN32
-// wrapper for whatever critical section we have
-class CCommonEvent 
+
+class CCommonEvent
 {
-    // make copy constructor and assignment operator inaccessible
+	CCommonEvent(const CCommonEvent& refEvent);
+	CCommonEvent& operator=(const CCommonEvent& refEvent);
 
-    CCommonEvent(const CCommonEvent &refEvent);
-    CCommonEvent &operator=(const CCommonEvent &refEvent);
-
-    HANDLE m_hEvent;
+	HANDLE m_hEvent;
 
 public:
-    CCommonEvent() 
+	CCommonEvent()
 	{
 
-    };
+	};
 
-    ~CCommonEvent() 
+	~CCommonEvent()
 	{
 		CloseHandle(m_hEvent);
-    };
+	};
 
 	BOOL InitEvent(BOOL bManualReset, BOOL bInitialState)
 	{
@@ -36,14 +31,14 @@ public:
 		return TRUE;
 	}
 
-    void SetEvent() 
+	void SetEvent()
 	{
 		::SetEvent(m_hEvent);
-    }
+	}
 
-    INT32 Wait() 
+	INT32 Wait()
 	{
-        DWORD dwRet = WaitForSingleObject(m_hEvent, INFINITE);
+		DWORD dwRet = WaitForSingleObject(m_hEvent, INFINITE);
 		if (dwRet == WAIT_OBJECT_0)
 		{
 			return 0;
@@ -55,7 +50,7 @@ public:
 		}
 
 		return -1;
-    };
+	};
 
 	INT32 Wait(UINT32 dwMS)
 	{
@@ -78,27 +73,23 @@ public:
 #else //LINUX
 
 #include <pthread.h>
-class CCommonEvent 
+class CCommonEvent
 {
-    // make copy constructor and assignment operator inaccessible
+	CCommonEvent(const CCommonEvent& refEvent);
+	CCommonEvent& operator=(const CCommonEvent& refEvent);
 
-	CCommonEvent(const CCommonEvent &refEvent);
-	CCommonEvent &operator=(const CCommonEvent &refEvent);
-
-    pthread_mutex_t mutex;
+	pthread_mutex_t mutex;
 
 	pthread_cond_t  cond;
 
 	BOOL bManualReset, bInitialState;
-
-
 public:
-	CCommonEvent() 
+	CCommonEvent()
 	{
-		
+
 	};
 
-	~CCommonEvent() 
+	~CCommonEvent()
 	{
 		pthread_mutex_destroy (&mutex);
 
@@ -109,7 +100,7 @@ public:
 	{
 		pthread_mutex_init (&mutex, NULL);
 
-		pthread_cond_init(&cond, NULL); 
+		pthread_cond_init(&cond, NULL);
 
 		bManualReset = bManualReset;
 
@@ -118,12 +109,12 @@ public:
 		return TRUE;
 	}
 
-	void SetEvent() 
+	void SetEvent()
 	{
 		pthread_cond_broadcast(&cond);
 	};
 
-	void Wait() 
+	void Wait()
 	{
 		pthread_mutex_lock (&mutex);
 		pthread_cond_wait(&cond, &mutex);

@@ -4,11 +4,12 @@ CC_INCLUDE=-I/usr/include
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
-		-I../../Common/Sqlite 
+		-I../../Common/Sqlite \
+		-I../../Common/Lua
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread -lprotobuf -lsqlite3
+	-lpthread -lprotobuf -lsqlite3 -llua
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \

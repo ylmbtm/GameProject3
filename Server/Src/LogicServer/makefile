@@ -5,11 +5,12 @@ MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../../Common \
 		-I../../Common/Mysql \
-		-I../../Common/Sqlite 
+		-I../../Common/Sqlite  \
+		-I../../Common/Lua
 		
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread -lprotobuf -lmysqlclient -lsqlite3
+	-lpthread -lprotobuf -lmysqlclient -lsqlite3 -llua
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \

@@ -81,6 +81,9 @@
     <ClCompile Include="DBInterface\DBStoredProc.cpp">
       <Filter>DBInterface</Filter>
     </ClCompile>
+    <ClCompile Include="LuaManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -162,6 +165,9 @@
       <Filter>DBInterface</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

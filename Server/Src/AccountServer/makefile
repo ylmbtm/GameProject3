@@ -13,7 +13,6 @@ CC_LIB=-L/usr/lib \
 	-lpthread -lprotobuf -lmysqlclient
 			 
 MY_LIB=	-L../Debug \
-     	-L../Linux \
 	-L../ServerEngine \
 	-lServerEngine 
 
