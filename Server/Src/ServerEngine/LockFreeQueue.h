@@ -39,7 +39,7 @@
 #ifndef __ARRAY_LOCK_FREE_QUEUE_H__
 #define __ARRAY_LOCK_FREE_QUEUE_H__
 
-#include "atomic_ops.h" // atomic operations wrappers
+#include "atomic_ops.h" // atomic operations wrappers 
 
 #define ARRAY_LOCK_FREE_Q_DEFAULT_SIZE (1<<16) // 2^17 = 131,072
 
@@ -72,7 +72,7 @@
 ///            When that value is incremented it will be set to 0, that is the 
 ///            last 4 elements of the queue are not used when the counter rolls
 ///            over to 0
-template <typename ELEM_T, UINT32 Q_SIZE = ARRAY_LOCK_FREE_Q_DEFAULT_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE = ARRAY_LOCK_FREE_Q_DEFAULT_SIZE>
 class ArrayLockFreeQueue
 {
 public:
@@ -88,7 +88,7 @@ public:
     /// the preprocessor variable in this header file called 'ARRAY_LOCK_FREE_Q_KEEP_REAL_SIZE'
     /// it enables a reliable size though it hits overall performance of the queue 
     /// (when the reliable size variable is on it's got an impact of about 20% in time)
-    UINT32 size();
+	UINT64 size();
 
     /// @brief push an element at the tail of the queue
     /// @param the element to insert in the queue
@@ -110,14 +110,14 @@ private:
 
 #ifdef ARRAY_LOCK_FREE_Q_KEEP_REAL_SIZE
     /// @brief number of elements in the queue
-    volatile UINT32 m_count;
+    volatile UINT64 m_count;
 #endif
 
     /// @brief where a new element will be inserted
-    volatile UINT32 m_writeIndex;
+    volatile UINT64 m_writeIndex;
 
     /// @brief where the next element where be extracted from
-    volatile UINT32 m_readIndex;
+    volatile UINT64 m_readIndex;
 
     /// @brief maximum read index for multiple producer queues
     /// If it's not the same as m_writeIndex it means
@@ -127,11 +127,11 @@ private:
     /// to wait for those other threads to save the data into the queue
     ///
     /// note this index is only used for MultipleProducerThread queues
-    volatile UINT32 m_maximumReadIndex;
+    volatile UINT64 m_maximumReadIndex;
 
     /// @brief calculate the index in the circular array that corresponds
     /// to a particular "count" value
-    inline UINT32 countToIndex(UINT32 a_count);
+    inline UINT64 countToIndex(UINT64 a_count);
 };
 
 // include the implementation file

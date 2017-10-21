@@ -76,7 +76,7 @@
 #elif ( !defined (WINVER) || (WINVER >= 0x0501) ) && ( !defined (_WIN32_WINNT) || (_WIN32_WINNT >= 0x0501) )
 #define AtomicAdd(a_ptr,a_count) InterlockedExchangeAdd64((volatile LONGLONG*)a_ptr,(LONGLONG)a_count)
 #define AtomicSub(a_ptr,a_count) InterlockedExchangeAdd64((volatile LONGLONG*)a_ptr,(LONGLONG)a_count * (-1))
-#define CAS(a_ptr, a_oldVal, a_newVal) (a_oldVal == InterlockedCompareExchange64((volatile LONGLONG*)a_ptr,(LONGLONG)a_newVal, (LONGLONG)a_oldVal))
+#define CAS(a_ptr, a_oldVal, a_newVal) (a_oldVal == InterlockedCompareExchange64((volatile LONGLONG*)a_ptr,*(LONGLONG*)&a_newVal, *(LONGLONG*)&a_oldVal))
 #else
 #error Atomic functions such as CAS or AtomicAdd are not defined for your compiler. Please add them in atomic_ops.h
 #endif // #if !defined (_WIN64) && defined (_M_IX86) && (_M_IX86 >= 500)

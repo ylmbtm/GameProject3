@@ -180,7 +180,12 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(nConnID != 0);
 
 	UINT32 SvrConnID = m_LogicSvrMgr.GetLogicConnID(Req.serverid());
-	ERROR_RETURN_TRUE(SvrConnID != 0);
+	if (SvrConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用。", Req.serverid());
+		return FALSE;
+	}
+
 
 	ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req));
 

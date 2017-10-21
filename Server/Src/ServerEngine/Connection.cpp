@@ -783,7 +783,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	pConnection->Clear();
 
-	dwConnID += m_vtConnList.size();
+	dwConnID += (UINT32)m_vtConnList.size();
 
 	pConnection->SetConnectionID(dwConnID);
 

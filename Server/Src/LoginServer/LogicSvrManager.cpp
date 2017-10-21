@@ -65,6 +65,7 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 	pNode->m_dwConnID = dwConnID;
 	pNode->m_dwServerID = dwServerID;
 	pNode->m_strSvrName = strSvrName;
+	pNode->m_dwPort = dwPort;
 
 	return TRUE;
 }

@@ -29,7 +29,12 @@ INT64 CommonConvert::StringToInt64(const char* pStr)
 		return 0;
 	}
 
-	return atol(pStr);
+
+#ifdef WIN32
+	return _atoi64(pStr);
+#else
+	return atoll(pStr);
+#endif
 }
 
 INT32 CommonConvert::StringToInt(const char* pStr)

@@ -97,7 +97,7 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 
 
-	if(m_LogCount >= 3)
+	//if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 
@@ -136,9 +136,7 @@ void CLog::LogError( char* lpszFormat, ... )
 	m_CritSec.Unlock();
 	printf(szLog);
 
-
-
-	if(m_LogCount >= 3)
+	//if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 
@@ -178,9 +176,7 @@ void CLog::LogInfo( char* lpszFormat, ... )
 	m_CritSec.Unlock();
 	printf(szLog);
 
-
-
-	if(m_LogCount >= 3)
+	//if(m_LogCount >= 3)
 	{
 		fflush(m_pLogFile);
 

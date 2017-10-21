@@ -48,7 +48,7 @@
 #define sched_yield SwitchToThread
 #endif
 
-template <typename ELEM_T, UINT32 Q_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE>
 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::ArrayLockFreeQueue() :
     m_writeIndex(0),
     m_readIndex(0),
@@ -59,28 +59,28 @@ ArrayLockFreeQueue<ELEM_T, Q_SIZE>::ArrayLockFreeQueue() :
 #endif
 }
 
-template <typename ELEM_T, UINT32 Q_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE>
 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::~ArrayLockFreeQueue()
 {
 }
 
-template <typename ELEM_T, UINT32 Q_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE>
 inline
-UINT32 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::countToIndex(UINT32 a_count)
+UINT64 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::countToIndex(UINT64 a_count)
 {
     // if Q_SIZE is a power of 2 this statement could be also written as 
     // return (a_count & (Q_SIZE - 1));
     return (a_count % Q_SIZE);
 }
 
-template <typename ELEM_T, UINT32 Q_SIZE>
-UINT32 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::size()
+template <typename ELEM_T, UINT64 Q_SIZE>
+UINT64 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::size()
 {
 #ifdef ARRAY_LOCK_FREE_Q_KEEP_REAL_SIZE
     return m_count;
 #else
-    UINT32 currentWriteIndex = m_writeIndex;
-    UINT32 currentReadIndex  = m_readIndex;
+	UINT64 currentWriteIndex = m_writeIndex;
+	UINT64 currentReadIndex  = m_readIndex;
 
     // let's think of a scenario where this function returns bogus data
     // 1. when the statement 'currentWriteIndex = m_writeIndex' is run
@@ -105,11 +105,12 @@ UINT32 ArrayLockFreeQueue<ELEM_T, Q_SIZE>::size()
 #endif // ARRAY_LOCK_FREE_Q_KEEP_REAL_SIZE
 }
 
-template <typename ELEM_T, UINT32 Q_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE>
 bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::push(const ELEM_T &a_data)
 {
-    UINT32 currentReadIndex;
-    UINT32 currentWriteIndex;
+	UINT64 currentReadIndex;
+	UINT64 currentWriteIndex;
+	UINT64 tempValue;
 
     do
     {
@@ -121,8 +122,8 @@ bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::push(const ELEM_T &a_data)
             // the queue is full
             return false;
         }
-
-    } while (!CAS(&m_writeIndex, currentWriteIndex, (currentWriteIndex + 1)));
+		tempValue = currentWriteIndex + 1;
+    } while (!CAS(&m_writeIndex, currentWriteIndex, tempValue));
 
     // We know now that this index is reserved for us. Use it to save the data
     m_theQueue[countToIndex(currentWriteIndex)] = a_data;
@@ -131,7 +132,8 @@ bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::push(const ELEM_T &a_data)
     // inserting in the queue. It might fail if there are more than 1 producer threads because this
     // operation has to be done in the same order as the previous CAS
 
-    while (!CAS(&m_maximumReadIndex, currentWriteIndex,(currentWriteIndex + 1)))
+	tempValue = currentWriteIndex + 1;
+    while (!CAS(&m_maximumReadIndex, currentWriteIndex, tempValue))
     {
         // this is a good place to yield the thread in case there are more
         // software threads than hardware processors and you have more
@@ -149,11 +151,12 @@ bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::push(const ELEM_T &a_data)
     return true;
 }
 
-template <typename ELEM_T, UINT32 Q_SIZE>
+template <typename ELEM_T, UINT64 Q_SIZE>
 bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::pop(ELEM_T &a_data)
 {
-    UINT32 currentMaximumReadIndex;
-    UINT32 currentReadIndex;
+	UINT64 currentMaximumReadIndex;
+	UINT64 currentReadIndex;
+	UINT64 tempVale = 0;
 
     do
     {
@@ -177,7 +180,8 @@ bool ArrayLockFreeQueue<ELEM_T, Q_SIZE>::pop(ELEM_T &a_data)
         // try to perfrom now the CAS operation on the read index. If we succeed
         // a_data already contains what m_readIndex pointed to before we 
         // increased it
-        if (CAS(&m_readIndex, currentReadIndex, (currentReadIndex + 1)))
+		tempVale = currentReadIndex + 1;
+        if (CAS(&m_readIndex, currentReadIndex, tempVale))
         {
             // got here. The value was retrieved from the queue. Note that the
             // data inside the m_queue array is not deleted nor reseted
