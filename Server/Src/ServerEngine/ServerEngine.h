@@ -2,7 +2,6 @@
 #define _SERVER_ENGINE_H_
 
 #include <map>
-#include <hash_map>
 #include <vector>
 #include <string>
 #include <list>

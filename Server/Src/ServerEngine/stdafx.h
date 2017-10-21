@@ -9,7 +9,6 @@
 #include <stdio.h>
 
 #include <map>
-#include <hash_map>
 #include <vector>
 #include <string>
 #include <list>

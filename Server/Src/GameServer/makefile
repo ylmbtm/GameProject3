@@ -23,7 +23,6 @@ SRCS=$(wildcard ./*.cpp)
 SRCS:=$(SRCS) $(wildcard ./GameObject/*.cpp)
 SRCS:=$(SRCS) $(wildcard ./SceneLogic/*.cpp)
 SRCS:=$(SRCS) $(wildcard ../ConfigData/*.cpp)
-SRCS:=$(SRCS) $(wildcard ../../Common/Sqlite/*.cpp)
 
 SRCS2=$(wildcard ../Message/*.cc)
 

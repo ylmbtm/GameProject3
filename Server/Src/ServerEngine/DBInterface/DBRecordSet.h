@@ -2,6 +2,7 @@
 #ifndef _SQL_RESULT_H_
 #define _SQL_RESULT_H_
 
+#include <my_global.h>
 #include <mysql.h>
 
 class CDBRecordSet
@@ -18,10 +19,10 @@ public:
 
 public:
 	// next.
-	bool MoveNext( void );
+	BOOL MoveNext( void );
 
 	// count.
-	size_t GetRowCount( void );
+	int32 GetRowCount( void );
 
 	bool get_bool( size_t idx_ );
 	int8 get_int8( size_t idx_ );

@@ -15,17 +15,17 @@ CDBRecordSet::~CDBRecordSet( void )
 
 }
 
-bool CDBRecordSet::MoveNext( void )
+BOOL CDBRecordSet::MoveNext( void )
 {
 	if(0 == mysql_stmt_fetch(m_pMySqlStmt))
 	{
-		return true;
+		return TRUE;
 	}
 
-	return false;
+	return FALSE;
 }
 
-size_t CDBRecordSet::GetRowCount(void)
+int32 CDBRecordSet::GetRowCount(void)
 {
 	if(m_pMySqlStmt == NULL)
 	{
@@ -33,7 +33,7 @@ size_t CDBRecordSet::GetRowCount(void)
 		return 0;
 	}
 
-	m_nRowCount  = (size_t)mysql_stmt_num_rows(m_pMySqlStmt);
+	m_nRowCount  = (int32)mysql_stmt_num_rows(m_pMySqlStmt);
 
 	return m_nRowCount;
 }
@@ -88,7 +88,7 @@ int8 CDBRecordSet::get_int8( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 
 	int8 Ret = 0;
@@ -134,7 +134,7 @@ uint8 CDBRecordSet::get_uint8( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 
 	switch ( pTemp->buffer_type )
@@ -179,7 +179,7 @@ int16 CDBRecordSet::get_int16( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -223,7 +223,7 @@ uint16 CDBRecordSet::get_uint16( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -267,7 +267,7 @@ int32 CDBRecordSet::get_int32( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -311,7 +311,7 @@ uint32 CDBRecordSet::get_uint32( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 
 	switch ( pTemp->buffer_type )
@@ -356,7 +356,7 @@ int64 CDBRecordSet::get_int64( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -400,7 +400,7 @@ uint64 CDBRecordSet::get_uint64( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -443,7 +443,7 @@ float CDBRecordSet::get_float( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -487,7 +487,7 @@ double CDBRecordSet::get_double( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return 0;
 	}
 	switch ( pTemp->buffer_type )
 	{
@@ -529,7 +529,7 @@ char* CDBRecordSet::get_string( size_t idx_ )
 
 	if(pTemp->is_null_value)
 	{
-		return false;
+		return NULL;
 	}
 
 	return (char*)pTemp->buffer;

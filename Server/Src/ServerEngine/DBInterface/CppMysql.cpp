@@ -34,7 +34,7 @@ CppMySQLQuery& CppMySQLQuery::operator=(CppMySQLQuery& rQuery)
 		//定位游标位置到第一个位置
 		mysql_data_seek(m_MysqlRes, 0);
 		_row =  mysql_fetch_row( m_MysqlRes );
-		_row_count = mysql_num_rows( m_MysqlRes );
+		_row_count = (int)mysql_num_rows( m_MysqlRes );
 		//得到字段数量
 		_field_count = mysql_num_fields( m_MysqlRes );
 	}

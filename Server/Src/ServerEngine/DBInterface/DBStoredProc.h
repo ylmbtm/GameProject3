@@ -1,7 +1,6 @@
 ﻿#ifndef __DB_STORED_PROCEDURE__
 #define __DB_STORED_PROCEDURE__
 
-#include <mysql.h>
 #include "DBRecordSet.h"
 
 class CDBStoredProcedure

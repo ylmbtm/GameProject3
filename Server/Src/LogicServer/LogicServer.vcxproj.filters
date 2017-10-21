@@ -54,9 +54,6 @@
     <ClCompile Include="DataPool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="CopyModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -141,6 +138,9 @@
     <ClCompile Include="..\Message\Msg_ID.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
+      <Filter>ConfigData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -181,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\RoleData.h">
       <Filter>ServerData</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CopyModule.h">
       <Filter>头文件</Filter>
@@ -313,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_ID.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConfigData\CppSQLite3.h">
+      <Filter>ConfigData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

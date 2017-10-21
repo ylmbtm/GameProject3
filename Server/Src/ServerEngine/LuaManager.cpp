@@ -31,7 +31,7 @@ BOOL LuaManager::Init()
 		m_pLuaState = luaL_newstate();
 		if (m_pLuaState == NULL)
 		{
-			_ASSERT(FALSE);
+			ASSERT_FAIELD;
 			return FALSE;
 		}
 
@@ -71,7 +71,7 @@ lua_State* LuaManager::GetLuaState()
 
 INT32 LuaManager::GetGlobalVarInt( const char* pszVarName )
 {
-	_ASSERT(m_pLuaState != NULL);
+	ASSERT(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -87,7 +87,7 @@ INT32 LuaManager::GetGlobalVarInt( const char* pszVarName )
 
 BOOL LuaManager::GetGlobalVarBoolean( const char* pszVarName )
 {
-	_ASSERT(m_pLuaState != NULL);
+	ASSERT(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -103,7 +103,7 @@ BOOL LuaManager::GetGlobalVarBoolean( const char* pszVarName )
 
 const CHAR* LuaManager::GetGlobalVarString( const char* pszVarName )
 {
-	_ASSERT(m_pLuaState != NULL);
+	ASSERT(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -119,7 +119,7 @@ const CHAR* LuaManager::GetGlobalVarString( const char* pszVarName )
 
 DOUBLE LuaManager::GetGlobalVarDouble( const char* pszVarName )
 {
-	_ASSERT(m_pLuaState != NULL);
+	ASSERT(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -187,7 +187,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 {
 	if(pStrParamSig == NULL)
 	{
-		_ASSERT(FALSE);
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -195,7 +195,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 	char* pOutParam = strchr(pStrParamSig, '=');
 	if(pOutParam == NULL)
 	{
-		_ASSERT(FALSE);
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -211,7 +211,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 	{
 		va_end(VarList);
 		lua_settop(m_pLuaState, nStackTop);
-		_ASSERT(FALSE);
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -254,7 +254,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				break;
 			default:
 			{
-				_ASSERT(FALSE);
+				ASSERT_FAIELD;
 			}
 			break;
 		}
@@ -278,27 +278,27 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 		switch(cParmSig)
 		{
 			case 'd':
-				_ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
+				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, double*) = lua_tonumber(m_pLuaState, nRetIndex);
 				break;
 			case 'i':
-				_ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
+				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, int*) = lua_tointeger(m_pLuaState, nRetIndex);
 				break;
 			case 'f':
-				_ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
+				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, float*) = lua_tonumber(m_pLuaState, nRetIndex);
 				break;
 			case 's':
-				_ASSERT(lua_isstring(m_pLuaState, nRetIndex));
+				ASSERT(lua_isstring(m_pLuaState, nRetIndex));
 				*va_arg(VarList, const char**) = lua_tostring(m_pLuaState, nRetIndex);
 				break;
 			case 'p':
-				_ASSERT(lua_isuserdata(m_pLuaState, nRetIndex));
+				ASSERT(lua_isuserdata(m_pLuaState, nRetIndex));
 				*va_arg(VarList, void**) = lua_touserdata(m_pLuaState, nRetIndex);
 				break;
 			case 'b':
-				_ASSERT(lua_isboolean(m_pLuaState, nRetIndex));
+				ASSERT(lua_isboolean(m_pLuaState, nRetIndex));
 				*va_arg(VarList, bool*) = lua_toboolean(m_pLuaState, nRetIndex);
 				break;
 			case 0:
@@ -306,7 +306,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				break;
 			default:
 			{
-				_ASSERT(FALSE);
+				ASSERT_FAIELD;
 			}
 			break;
 		}
@@ -325,7 +325,7 @@ BOOL LuaManager::LoadScriptFile(const char* pszLuaFile)
 {
 	if(m_pLuaState == NULL)
 	{
-		_ASSERT(FALSE);
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -363,7 +363,7 @@ BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
 	{
 		va_end(VarList);
 		lua_settop(m_pLuaState, 0);
-		_ASSERT(FALSE);
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -456,7 +456,7 @@ BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
 
 BOOL LuaManager::RegisterFunction( const char* libname, const luaL_Reg* l )
 {
-	luaL_register(m_pLuaState, libname, l);
+	//luaL_register(m_pLuaState, libname, l);
 
 	return TRUE;
 }

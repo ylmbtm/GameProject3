@@ -66,9 +66,6 @@
     <ClCompile Include="..\ConfigData\ConfigData.cpp">
       <Filter>ConfigData</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Common\Sqlite\CppSQLite3.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Message\Msg_Move.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\SkillObject.cpp">
       <Filter>SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
+      <Filter>ConfigData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +137,6 @@
     <ClInclude Include="..\ConfigData\ConfigStruct.h">
       <Filter>ConfigData</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Common\Sqlite\CppSQLite3.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Message\Msg_Move.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
@@ -163,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\BulletObject.h">
       <Filter>SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConfigData\CppSQLite3.h">
+      <Filter>ConfigData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

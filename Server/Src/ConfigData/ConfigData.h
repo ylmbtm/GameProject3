@@ -1,6 +1,6 @@
 ﻿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
-#include "Sqlite/CppSQLite3.h"
+#include "CppSQLite3.h"
 #include "../ConfigData/ConfigStruct.h"
 class CConfigData;
 
