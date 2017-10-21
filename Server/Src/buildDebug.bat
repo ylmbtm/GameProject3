@@ -1,1 +1,0 @@
-buildconsole ./Test.sln /prj="*" /OpenMonitor /cfg="Debug|Win32" /All /ShowCmd /ShowTime
