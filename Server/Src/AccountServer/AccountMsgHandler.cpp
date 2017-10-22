@@ -75,7 +75,6 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_EXIST);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
-		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_ACCOUNT_EXIST");
 		return TRUE;
 	}
 

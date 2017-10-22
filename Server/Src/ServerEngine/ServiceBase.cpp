@@ -212,6 +212,8 @@ BOOL ServiceBase::Update()
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
 
+	CLog::GetInstancePtr()->Flush();
+
 	m_dwReadIndex = (m_dwReadIndex + 1) % 2;
 
 	return TRUE;

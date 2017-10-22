@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GameService.h"
 #include "CrashReport.h"
+#include "CommonConvert.h"
 
 int main(int argc, char* argv[])
 {
@@ -14,8 +15,8 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	UINT32 dwSvrID = atoi(argv[1]);
-	UINT32 dwPort = atoi(argv[2]);
+	UINT32 dwSvrID = CommonConvert::StringToInt(argv[1]);
+	UINT32 dwPort = CommonConvert::StringToInt(argv[2]);
 
 	if((dwSvrID <= 0) || (dwPort <= 0))
 	{
