@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "ClientObject.h"
-#include <complex>
 #include "..\Src\Message\Msg_RetCode.pb.h"
 #include "..\Src\Message\Msg_Move.pb.h"
 #include "..\Src\Message\Game_Define.pb.h"
@@ -161,7 +160,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			//m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			//m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
 			m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
 
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 8080);	   //account
