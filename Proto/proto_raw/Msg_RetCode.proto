@@ -4,23 +4,24 @@ enum MessageRetCode {
    MRC_FAILED = 1;				//未知原因失败
    MRC_DISCONNECT = 2;			//连接断开
    MRC_ACCOUNT_EXIST = 3;		//账号己存在
+   MRC_NAME_EXIST = 4;		    //角色名己存在
 
    //无效的ID
-   MRC_INVALID_PASSWORD = 4;	//无效的密码
-   MRC_INVALID_NAME = 5;		//无效的名字
-   MRC_INVALID_ROLEID = 6;		//无效的角色ID
-   MRC_INVALID_ITEMID = 7;		//无效的物品ID
-   MRC_INVALID_COPYID = 8;		//无效的副本ID
-   MRC_INVALID_PETID = 9;		//无效的宠物ID
-   MRC_INVALID_PARTNERID = 10;  //无效的伙伴ID
-   MRC_INVALID_EQUIP_ID = 11;   //无效的装备ID
+   MRC_INVALID_PASSWORD = 5;	//无效的密码
+   MRC_INVALID_NAME = 6;		//无效的名字
+   MRC_INVALID_ROLEID = 7;		//无效的角色ID
+   MRC_INVALID_ITEMID = 8;		//无效的物品ID
+   MRC_INVALID_COPYID = 9;		//无效的副本ID
+   MRC_INVALID_PETID = 10;		//无效的宠物ID
+   MRC_INVALID_PARTNERID = 11;  //无效的伙伴ID
+   MRC_INVALID_EQUIP_ID = 12;   //无效的装备ID
 
   
    //不足的条件
-   MRC_NOT_ENOUGH_ACTOIN = 12;
-   MRC_NOT_ENOUGH_MONEY = 13;
-   MRC_NOT_ENOUGH_ITEM = 14;
-   MRC_NOT_ENOUGH_TIMES = 15;
+   MRC_NOT_ENOUGH_ACTOIN = 13;
+   MRC_NOT_ENOUGH_MONEY = 14;
+   MRC_NOT_ENOUGH_ITEM = 15;
+   MRC_NOT_ENOUGH_TIMES = 16;
 	
 }
 

@@ -120,6 +120,21 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	//检验名字是否可用
 	ERROR_RETURN_TRUE(Req.accountid() != 0);
 
+	RoleCreateAck Ack;
+
+	Ack.set_accountid(Req.accountid());
+	Ack.set_roleid(0);
+	Ack.set_carrer(Req.carrer());
+	Ack.set_name(Req.name());
+
+	if (CSimpleManager::GetInstancePtr()->CheckNameExist(Req.name()))
+	{
+		Ack.set_retcode(MRC_NAME_EXIST);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
+
+
 	UINT64 u64RoleID = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	ERROR_RETURN_TRUE(u64RoleID != 0);
 
@@ -132,12 +147,8 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	pRoleModule->InitBaseData(u64RoleID, Req.name(), Req.carrer(), Req.accountid(), Req.channel());
 	pPlayer->OnCreate(u64RoleID);
 
-	RoleCreateAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	Ack.set_accountid(Req.accountid());
 	Ack.set_roleid(u64RoleID);
-	Ack.set_carrer(Req.carrer());
-	Ack.set_name(Req.name());
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID,  MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 	return TRUE;
 }

@@ -45,7 +45,7 @@ BOOL CGameService::Init()
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
-		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
+		CLog::GetInstancePtr()->LogError("加载 servercfg.ini文件失败!");
 		return FALSE;
 	}
 
@@ -57,9 +57,17 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
+	if (!CConfigData::GetInstancePtr()->LoadConfigData("Config.db"))
+	{
+		CLog::GetInstancePtr()->LogError("加载静态配制数据失败!");
+		return FALSE;
+	}
 
-	CreateDataPool();
+	if (!CreateDataPool())
+	{
+		CLog::GetInstancePtr()->LogError("初始化共享内存池失败!");
+		return FALSE;
+	}
 
 	///////////////////////////////////
 	//服务器启动之前需要加载的数据
@@ -72,7 +80,7 @@ BOOL CGameService::Init()
 	CppMySQL3DB tDBConnection;
 	if(!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		CLog::GetInstancePtr()->LogError("CGameService::Init Error: Can not open database!!!");
+		CLog::GetInstancePtr()->LogError("连接数据库服务器GameSvrDB失败!");
 		return FALSE;
 	}
 
@@ -85,7 +93,11 @@ BOOL CGameService::Init()
 	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
 	///////////////////////////////////////////////
 
-	CPayManager::GetInstancePtr()->InitPayManager();
+	if (!CPayManager::GetInstancePtr()->InitPayManager())
+	{
+		CLog::GetInstancePtr()->LogError("初始化支付管理器失败!");
+		return FALSE;
+	}
 
 	ConnectToLogServer();
 

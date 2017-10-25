@@ -266,4 +266,19 @@ public:
 
 typedef Vector3D CPoint3D;
 
+// BOOL IsPointInCircularSector(FLOAT cx, FLOAT cy, FLOAT ft, FLOAT r, FLOAT theta, FLOAT tx, FLOAT ty)
+// {
+// 	FLOAT dx = tx - cx;
+// 	FLOAT dy = ty - cy;
+//
+// 	if(r * r < (dx * dx + dy * dy))
+// 	{
+// 		return FALSE;
+// 	}
+//
+//
+//
+// }
+
+
 #endif //_MAP_H_

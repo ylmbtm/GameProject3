@@ -144,6 +144,7 @@
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="XMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

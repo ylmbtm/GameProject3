@@ -20,5 +20,9 @@ del /s /q *.res
 del /s /q *.ncb
 del /s /q *.exp
 del /s /q *.exe
+del /s /q *.tlog
+del /s /q *.manifest
+del /s /q *.cache
+del /s /q *.lastbuildstate
 cd Src
 del /s /q *.lib

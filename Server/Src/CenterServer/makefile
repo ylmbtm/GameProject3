@@ -29,7 +29,7 @@ default:$(TARGET)
 
 $(TARGET):$(OBJS)
 	$(CC) -g -o $@ $^ $(MY_LIB) $(CC_LIB)
-	#mv $(OBJS) ../Linux
+	mv $(OBJS) ../Linux
 
 #$(OBJS):%.o:%.cpp
 #	$(CC) -g -w -c $< -o $@ $(CC_INCLUDE) $(MY_INCLUDE)

@@ -8,7 +8,7 @@ MY_INCLUDE=-I$(PWD) \
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-L/usr/lib64\mysql \
+	-L/usr/lib64/mysql \
 	-L/usr/lib/mysql \
 	-lpthread -lprotobuf -lmysqlclient
 			 
@@ -30,7 +30,7 @@ default:$(TARGET)
 
 $(TARGET):$(OBJS)
 	$(CC) -g -o $@ $^ $(MY_LIB) $(CC_LIB)
-	#mv $(OBJS) ../Linux
+	mv $(OBJS) ../Linux
 
 #$(OBJS):%.o:%.cpp
 #	$(CC) -g -w -c $< -o $@ $(CC_INCLUDE) $(MY_INCLUDE)
