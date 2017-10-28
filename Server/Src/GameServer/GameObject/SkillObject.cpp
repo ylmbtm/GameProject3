@@ -22,7 +22,7 @@ CSkillObject::~CSkillObject()
 }
 
 
-BOOL CSkillObject::OnUpdate( UINT32 dwTick )
+BOOL CSkillObject::OnUpdate( UINT64 dwTick )
 {
 	if(dwTick - m_dwStartTick)
 	{
@@ -69,9 +69,9 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(m_dwSkillID, 1);
 	ERROR_RETURN_FALSE(pSkillInfo != NULL);
 
-	UINT32 dwCurTime = CommonFunc::GetTickCount();
+	UINT64 dwCurTime = CommonFunc::GetTickCount();
 
-	UINT32 dwTime = m_pSceneObject->GetLastSkillTime(m_dwSkillID);
+	UINT64 dwTime = m_pSceneObject->GetLastSkillTime(m_dwSkillID);
 	if(dwCurTime - dwTime < pSkillInfo->CD * 1000)
 	{
 		CLog::GetInstancePtr()->LogError("玩家作弊!!!");

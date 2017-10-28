@@ -20,22 +20,22 @@ BOOL			CreateDir(std::string& strDir);
 BOOL			GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion);
 
 //获取当前的秒数
-UINT32			GetCurrTime();
+UINT64			GetCurrTime();
 
 tm				GetCurrTmTime();
 
 //获取当前0点的秒数
-UINT32			GetDayStartTime();
+UINT64			GetDayStartTime();
 
 //获取当前0点的秒数
-UINT32			GetWeekStartTime();
+UINT64			GetWeekStartTime();
 
 //获取一个由年月日组合的一个唯一值
 UINT32			GetCurrDate();
 
-UINT32			GetTickCount();
+UINT32			GetTickCount32();
 
-UINT64			GetTickCount64();
+UINT64			GetTickCount();
 
 UINT32			GetCurThreadID();
 

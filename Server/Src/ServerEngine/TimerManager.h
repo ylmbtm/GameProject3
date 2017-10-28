@@ -77,7 +77,7 @@ public:
 		}
 	}
 
-	UINT32 m_dwFireTime;  //触发时间
+	UINT64 m_dwFireTime;  //触发时间
 	UINT32 m_dwSec;
 	UINT32 m_dwData;
 	TimeEvent* m_pPrev; //前一节点
@@ -202,9 +202,9 @@ public:
 
 	TimeEvent* m_pFree;
 
-	UINT32     m_dwCurTime;
+	UINT64     m_dwCurTime;
 
-	UINT32     m_dwInitTime;  //定时器开始工作时间(不对开始工作时间之间的定时器发生作用)
+	UINT64     m_dwInitTime;  //定时器开始工作时间(不对开始工作时间之间的定时器发生作用)
 public:
 };
 

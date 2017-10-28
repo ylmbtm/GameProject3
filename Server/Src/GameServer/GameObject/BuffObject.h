@@ -17,7 +17,7 @@ public:
 	BOOL OnAddBuff();
 	BOOL OnRemoveBuff();
 	BOOL OnEffect();
-	BOOL OnUpdate(UINT32 dwTick);
+	BOOL OnUpdate(UINT64 dwTick);
 	BOOL IsOver();
 
 public:

@@ -25,7 +25,7 @@ public:
 
 	UINT32			GetCopyType();
 
-	BOOL            OnUpdate( UINT32 dwTick );
+	BOOL            OnUpdate( UINT64 dwTick );
 
 	BOOL			CreateSceneLogic(UINT32 dwCopyType);
 
@@ -80,10 +80,10 @@ public:
 	BOOL			IsFinished();
 	BOOL            IsAllDataReady();
 	BOOL			IsAllLoginReady();
-	UINT32			GetStartTime();
-	UINT32			GetCreateTime();
-	UINT32          GetLastTick();
-	BOOL			SetLastTick(UINT32 dwTick);
+	UINT64			GetStartTime();
+	UINT64			GetCreateTime();
+	UINT64          GetLastTick();
+	BOOL			SetLastTick(UINT64 dwTick);
 	UINT64			GenNewGuid();
 
 public:
@@ -92,9 +92,9 @@ public:
 	UINT32							m_dwCopyGuid;	//当前副本实例ID
 	UINT32							m_dwCopyID;		//当前副本TYPE
 	UINT32							m_dwCopyType;	//逻辑类型
-	UINT32                          m_dwCreateTime; //副本创建时间
-	UINT32							m_dwStartTime;  //副本开始时间
-	UINT32							m_dwLastTick;	//上一个tick时间
+	UINT64                          m_dwCreateTime; //副本创建时间
+	UINT64							m_dwStartTime;  //副本开始时间
+	UINT64							m_dwLastTick;	//上一个tick时间
 	UINT64							m_uMaxGuid;	//场景里的最大GUID
 
 	SceneLogicBase*					m_pSceneLogic;

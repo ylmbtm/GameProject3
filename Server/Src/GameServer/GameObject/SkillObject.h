@@ -13,7 +13,7 @@ public:
 	~CSkillObject();
 
 public:
-	BOOL OnUpdate(UINT32 dwTick);
+	BOOL OnUpdate(UINT64 dwTick);
 
 	BOOL Start();
 
@@ -24,7 +24,7 @@ public:
 	BOOL SkillFight(CSceneObject* pTarget);
 
 public:
-	UINT32  m_dwStartTick; //开始时间
+	UINT64  m_dwStartTick; //开始时间
 	UINT32  m_dwSkillID;   //技能ID
 
 	CSceneObject* m_pSceneObject;

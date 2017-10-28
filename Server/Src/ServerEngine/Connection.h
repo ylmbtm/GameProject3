@@ -93,12 +93,12 @@ public:
 
 	CConnection*                m_pNext;
 
-	UINT32						m_LastRecvTick;
+	UINT64						m_LastRecvTick;
 
 	ArrayLockFreeQueue < IDataBuffer*, 1 << 10 > m_SendBuffList;
 
-    BOOL				        m_IsSending;
-    CCritSec                    mCritSending;
+	BOOL				        m_IsSending;
+	CCritSec                    mCritSending;
 
 };
 

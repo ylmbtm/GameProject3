@@ -12,7 +12,7 @@ CBulletObject::~CBulletObject()
 	m_pSceneObject = NULL;
 }
 
-BOOL CBulletObject::OnUpdate(UINT32 dwTick)
+BOOL CBulletObject::OnUpdate(UINT64 dwTick)
 {
 	return TRUE;
 }

@@ -108,7 +108,7 @@ BOOL CBuffObject::OnEffect()
 	return TRUE;
 }
 
-BOOL CBuffObject::OnUpdate( UINT32 dwTick )
+BOOL CBuffObject::OnUpdate( UINT64 dwTick )
 {
 	if(m_bOver)
 	{

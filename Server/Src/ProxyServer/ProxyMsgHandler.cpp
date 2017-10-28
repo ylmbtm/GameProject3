@@ -263,7 +263,7 @@ BOOL CProxyMsgHandler::OnMsgBroadMessageNty(NetPacket* pPacket)
 
 	for(int i = 0; i < Nty.connid_size(); i++)
 	{
-		ServiceBase::GetInstancePtr()->SendMsgRawData(Nty.connid(i), Nty.msgid(), 0, 0, Nty.msgdata().c_str(), Nty.msgdata().size());
+		ServiceBase::GetInstancePtr()->SendMsgRawData(Nty.connid(i), Nty.msgid(), 0, 0, Nty.msgdata().c_str(), (UINT32)Nty.msgdata().size());
 	}
 
 	return TRUE;

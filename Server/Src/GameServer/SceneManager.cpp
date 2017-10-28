@@ -106,7 +106,7 @@ CScene* CSceneManager::GetSceneByCopyGuid( UINT32 dwCopyGuid )
 	return NULL;
 }
 
-BOOL CSceneManager::OnUpdate( UINT32 dwTick )
+BOOL CSceneManager::OnUpdate( UINT64 dwTick )
 {
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
 	{

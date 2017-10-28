@@ -107,7 +107,7 @@ BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLe
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
 
-BOOL CSceneObject::OnUpdate( UINT32 dwTick )
+BOOL CSceneObject::OnUpdate( UINT64 dwTick )
 {
 	UpdateBuff(dwTick);
 
@@ -272,7 +272,7 @@ BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 	return TRUE;
 }
 
-BOOL CSceneObject::UpdateBuff(UINT32 dwTick)
+BOOL CSceneObject::UpdateBuff(UINT64 dwTick)
 {
 	for(std::map<UINT32, CBuffObject*>::iterator itor = m_mapBuff.begin(); itor != m_mapBuff.end();)
 	{

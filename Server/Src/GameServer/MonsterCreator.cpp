@@ -40,7 +40,7 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 	return TRUE;
 }
 
-BOOL MonsterCreator::OnUpdate(UINT32 dwTick)
+BOOL MonsterCreator::OnUpdate(UINT64 dwTick)
 {
 	if(m_dwCurWave == -1)
 	{

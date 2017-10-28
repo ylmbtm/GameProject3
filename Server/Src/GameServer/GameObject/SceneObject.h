@@ -17,7 +17,7 @@ public:
 	BOOL			SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 	BOOL			SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
 	BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
-	BOOL			OnUpdate(UINT32 dwTick);
+	BOOL			OnUpdate(UINT64 dwTick);
 	BOOL            SaveNewObject(ObjectNewNty& Nty);
 
 	//以下为对象的操作方法
@@ -55,7 +55,7 @@ public:
 	BOOL			AddBuff(UINT32 dwBuffID);
 	BOOL			RemoveBuff(UINT32 dwBuffID);
 
-	BOOL			UpdateBuff(UINT32 dwTick);
+	BOOL			UpdateBuff(UINT64 dwTick);
 	std::map<UINT32, CBuffObject*> m_mapBuff;
 	//////////////////////////////////////////////////////////////////////////
 

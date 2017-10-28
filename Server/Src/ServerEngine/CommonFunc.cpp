@@ -59,13 +59,13 @@ BOOL CommonFunc::SetCurrentWorkPath(std::string strPath)
 	return TRUE;
 }
 
-UINT32 CommonFunc::GetCurrTime()
+UINT64 CommonFunc::GetCurrTime()
 {
 	time_t t;
 
 	t = time(0);
 
-	return (UINT32)t;
+	return (UINT64)t;
 }
 
 tm CommonFunc::GetCurrTmTime()
@@ -79,7 +79,7 @@ tm CommonFunc::GetCurrTmTime()
 	return *timeinfo;
 }
 
-UINT32 CommonFunc::GetDayStartTime()
+UINT64 CommonFunc::GetDayStartTime()
 {
 	time_t t;
 	t = time(0);
@@ -88,10 +88,10 @@ UINT32 CommonFunc::GetDayStartTime()
 	t_tm->tm_min = 0;
 	t_tm->tm_sec = 0;
 	t = mktime(t_tm);
-	return (UINT32)t;
+	return (UINT64)t;
 }
 
-UINT32 CommonFunc::GetWeekStartTime()
+UINT64 CommonFunc::GetWeekStartTime()
 {
 	time_t t;
 	t = time(0);
@@ -101,7 +101,7 @@ UINT32 CommonFunc::GetWeekStartTime()
 	t_tm->tm_sec = 0;
 	t_tm->tm_wday = 0;
 	t = mktime(t_tm);
-	return (UINT32)t;
+	return (UINT64)t;
 }
 
 UINT32 CommonFunc::GetCurrDate()
@@ -119,7 +119,7 @@ UINT32 CommonFunc::GetCurrDate()
 
 
 
-UINT32 CommonFunc::GetTickCount()
+UINT32 CommonFunc::GetTickCount32()
 {
 #ifdef WIN32
 	return ::GetTickCount();
@@ -137,7 +137,7 @@ UINT32 CommonFunc::GetTickCount()
 #endif
 }
 
-UINT64 CommonFunc::GetTickCount64()
+UINT64 CommonFunc::GetTickCount()
 {
 #if WINVER < 0x0501
 	return GetTickCount();

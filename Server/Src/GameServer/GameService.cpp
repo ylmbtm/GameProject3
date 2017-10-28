@@ -133,7 +133,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	UINT32 dwTickCount = 0;
+	UINT64 dwTickCount = 0;
 	while(TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();

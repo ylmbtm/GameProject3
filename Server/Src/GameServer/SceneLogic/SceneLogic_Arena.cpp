@@ -28,7 +28,7 @@ BOOL SceneLogic_Arena::OnObjectCreate(CSceneObject* pObject)
 	}
 
 	return TRUE;
-}
+} 
 
 BOOL SceneLogic_Arena::OnObjectDie(CSceneObject* pObject)
 {

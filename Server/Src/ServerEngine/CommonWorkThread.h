@@ -35,7 +35,7 @@ protected:
 
 	IThreadHandler*			m_pThreadHandler;
 
-	UINT32					m_dwLastTick;
+	UINT64					m_dwLastTick;
 
 	ArrayLockFreeQueue<NetPacket*>   m_PacketQueue;
 };

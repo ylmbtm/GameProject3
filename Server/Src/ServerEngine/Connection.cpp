@@ -820,7 +820,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
 	return TRUE;
-	UINT32 curTick = CommonFunc::GetTickCount();
+	UINT64 curTick = CommonFunc::GetTickCount();
 
 	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{

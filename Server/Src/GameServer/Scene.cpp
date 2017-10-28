@@ -225,7 +225,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CScene::OnUpdate( UINT32 dwTick )
+BOOL CScene::OnUpdate( UINT64 dwTick )
 {
 	if(m_pSceneLogic->IsFinished())
 	{
@@ -733,22 +733,22 @@ BOOL CScene::IsAllLoginReady()
 	return TRUE;
 }
 
-UINT32 CScene::GetStartTime()
+UINT64 CScene::GetStartTime()
 {
 	return m_dwStartTime;
 }
 
-UINT32 CScene::GetCreateTime()
+UINT64 CScene::GetCreateTime()
 {
 	return m_dwCreateTime;
 }
 
-UINT32 CScene::GetLastTick()
+UINT64 CScene::GetLastTick()
 {
 	return m_dwLastTick;
 }
 
-BOOL CScene::SetLastTick(UINT32 dwTick)
+BOOL CScene::SetLastTick(UINT64 dwTick)
 {
 	m_dwLastTick = dwTick;
 	return TRUE;
