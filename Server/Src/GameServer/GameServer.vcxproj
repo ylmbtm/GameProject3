@@ -113,8 +113,11 @@
     </ClCompile>
     <ClCompile Include="GameObject\BuffObject.cpp" />
     <ClCompile Include="GameObject\BulletObject.cpp" />
+    <ClCompile Include="GameObject\MapObject.cpp" />
     <ClCompile Include="GameObject\SkillObject.cpp" />
     <ClCompile Include="GameService.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MonsterCreator.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -142,8 +145,11 @@
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
     <ClInclude Include="GameObject\BuffObject.h" />
     <ClInclude Include="GameObject\BulletObject.h" />
+    <ClInclude Include="GameObject\MapObject.h" />
     <ClInclude Include="GameObject\SkillObject.h" />
     <ClInclude Include="GameService.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="GridManager.h" />
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\BattleResult.h" />

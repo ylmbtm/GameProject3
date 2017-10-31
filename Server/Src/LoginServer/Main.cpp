@@ -15,6 +15,8 @@ int main(int argc, char* argv[])
 
 	CGameService::GetInstancePtr()->Uninit();
 
+	UnSetCrashReport();
+
 	return 0;
 }
 

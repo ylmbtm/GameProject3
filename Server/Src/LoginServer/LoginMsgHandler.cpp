@@ -141,6 +141,13 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 				continue;
 			}
 		}
+		else
+		{
+			if (pTempNode->m_Statue == ESS_REVIEW)
+			{
+				continue;
+			}
+		}
 
 		if(!pTempNode->CheckIP(dwIpAddr))
 		{
@@ -241,7 +248,7 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 {
 	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(),Req.serverport(), Req.servername());
+	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.serverport(), Req.servername());
 	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);

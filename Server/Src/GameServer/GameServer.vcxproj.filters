@@ -93,6 +93,15 @@
     <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
       <Filter>ConfigData</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\MapObject.cpp">
+      <Filter>SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GridManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -163,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="..\ConfigData\CppSQLite3.h">
       <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\MapObject.h">
+      <Filter>SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GridManager.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -760,31 +760,6 @@ UINT64 CScene::GenNewGuid()
 	return m_uMaxGuid;
 }
 
-//BOOL CScene::SyncObjectState()
-//{
-//	if(m_ObjectActionNty.actionlist_size() <= 0)
-//	{
-//		return TRUE;
-//	}
-//
-//	char szBuff[102400] = {0};
-//	m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize());
-//	m_ObjectActionNty.Clear();
-//	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-//	{
-//		CSceneObject* pObj = itor->second;
-//		ASSERT(pObj != NULL);
-//
-//		if(!pObj->IsConnected())
-//		{
-//			continue;
-//		}
-//
-//		pObj->SendMsgRawData(MSG_OBJECT_ACTION_NTY, szBuff, m_ObjectActionNty.ByteSize());
-//	}
-//
-//	return TRUE;
-//}
 
 BOOL CScene::SyncObjectState()
 {
@@ -794,7 +769,7 @@ BOOL CScene::SyncObjectState()
 	}
 
 	char szBuff[102400] = {0};
-	m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize());
+	ERROR_RETURN_FALSE(m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize()));
 
 
 	BroadMessageNotify Nty;

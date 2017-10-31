@@ -49,10 +49,23 @@ void  SetCrashReport(std::string strAppName)
 	g_preFilter = SetUnhandledExceptionFilter(CrashCallBack);
 }
 
+void UnSetCrashReport()
+{
+	SetUnhandledExceptionFilter(g_preFilter);
+
+	return;
+}
+
+
 #else
 void  SetCrashReport(std::string strAppName)
 {
 	return ;
+}
+
+void UnSetCrashReport()
+{
+	return;
 }
 
 #endif

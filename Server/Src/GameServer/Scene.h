@@ -95,7 +95,7 @@ public:
 	UINT64                          m_dwCreateTime; //副本创建时间
 	UINT64							m_dwStartTime;  //副本开始时间
 	UINT64							m_dwLastTick;	//上一个tick时间
-	UINT64							m_uMaxGuid;	//场景里的最大GUID
+	UINT64							m_uMaxGuid;	    //场景里的最大GUID
 
 	SceneLogicBase*					m_pSceneLogic;
 	MonsterCreator*					m_pMonsterCreator;
