@@ -111,6 +111,8 @@ BOOL CSceneObject::OnUpdate( UINT64 dwTick )
 {
 	UpdateBuff(dwTick);
 
+	m_SkillObject.OnUpdate(dwTick);
+
 	return TRUE;
 }
 

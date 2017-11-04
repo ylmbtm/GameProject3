@@ -325,9 +325,11 @@ BOOL CConfigData::ReadLanguage(CppSQLite3Query& QueryData)
 
 std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 {
+	static std::string strNull = "null";
+
 	if((dwLang < 0) || (dwLang > 14))
 	{
-		return m_strNull;
+		return strNull;
 	}
 
 	std::map<UINT32, StLocalString>::iterator itor = m_mapLanguage.find(dwID);
@@ -336,7 +338,13 @@ std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 		return itor->second.Language[dwLang];
 	}
 
-	return m_strNull;
+	return strNull;
+}
+
+std::string& CConfigData::GetLanguageText(std::string strID, UINT32 dwLang)
+{
+	static std::string strNull = "null";
+	return strNull;
 }
 
 BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)

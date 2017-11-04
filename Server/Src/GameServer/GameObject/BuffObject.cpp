@@ -9,6 +9,7 @@
 #include "../ConfigData/ConfigData.h"
 #include "../ConfigData/ConfigStruct.h"
 #include "SceneObject.h"
+#include "LuaManager.h"
 
 CBuffObject::CBuffObject(CSceneObject* pObject, UINT32 dwBuffID)
 {
@@ -29,32 +30,18 @@ CBuffObject::~CBuffObject()
 BOOL CBuffObject::OnAddBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
-// 	switch(m_pBuffInfo->BuffType)
-// 	{
-// 		case BFT_NONE:
-// 		{
-// 			m_pSceneObject->m_dwObjState |= m_pBuffInfo->BuffEffect;
-// 		}
-// 		break;
-//
-// 		default:
-// 		{
-//
-// 		}
-// 	}
 
-	for(int i = 0; i < PROPERTY_NUM; i++)
+	m_pSceneObject->m_dwObjState |= m_pBuffInfo->ChangeStaute;
+
+	m_pSceneObject->m_dwBuffState |= m_pBuffInfo->BuffEffect;
+
+
+	OnEffect(TRUE);
+
+	if (!m_pBuffInfo->LuaAdd.empty() && (m_pBuffInfo->LuaAdd.size() > 1))
 	{
-		m_PtyChange[i] += m_pSceneObject->m_Propertys[i] * m_pBuffInfo->PtyPercent[i] / 10000;
-		m_PtyChange[i] += m_pBuffInfo->PtyValue[i];
-
-		m_pSceneObject->m_Propertys[i] += m_PtyChange[i];
+		//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->LuaAdd, "pp=", m_pSceneObject, this);
 	}
-
-
-	//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->AddLua, "pp=", m_pSceneObject, this);
-
-	//TimerManager::GetInstancePtr()->AddDiffTimer(1, m_dwBuffID, &CBuffObject::OnUpdate, this);
 
 	return TRUE;
 }
@@ -62,49 +49,38 @@ BOOL CBuffObject::OnAddBuff()
 BOOL CBuffObject::OnRemoveBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
-// 	switch(m_pBuffInfo->BuffType)
-// 	{
-// 		case BFT_NONE:
-// 		{
-//
-//
-// 		}
-// 		break;
-//
-// 		default:
-// 		{
-//
-// 		}
-// 	}
 
+	m_pSceneObject->m_dwObjState &= ~m_pBuffInfo->ChangeStaute;
+	m_pSceneObject->m_dwBuffState &= ~m_pBuffInfo->BuffEffect;
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		m_pSceneObject->m_Propertys[i] -= m_PtyChange[i];
 	}
 
-	//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->RemoveLua, "pp=", m_pSceneObject, this);
+	if (!m_pBuffInfo->LuaRemove.empty() && (m_pBuffInfo->LuaRemove.size() > 1))
+	{
+		//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->LuaRemove, "pp=", m_pSceneObject, this);
+	}
 
 	return TRUE;
 }
 
-BOOL CBuffObject::OnEffect()
+BOOL CBuffObject::OnEffect(BOOL bFirst)
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
-// 	switch(m_pBuffInfo->BuffType)
-// 	{
-// 		case BFT_NONE:
-// 		{
-//
-//
-// 		}
-// 		break;
-//
-// 		default:
-// 		{
-//
-// 		}
-// 	}
-	//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->TickLua, "pp=", m_pSceneObject, this);
+
+	for (int i = 0; i < PROPERTY_NUM; i++)
+	{
+		m_PtyChange[i] += m_pSceneObject->m_Propertys[i] * m_pBuffInfo->PtyPercent[i] / 10000;
+		m_PtyChange[i] += m_pBuffInfo->PtyValue[i];
+
+		m_pSceneObject->m_Propertys[i] += m_PtyChange[i];
+	}
+
+	if (!bFirst && !m_pBuffInfo->LuaTick.empty() && (m_pBuffInfo->LuaTick.size() > 1))
+	{
+		//LuaManager::GetInstancePtr()->CallLua(m_pBuffInfo->TickLua, "pp=", m_pSceneObject, this);
+	}
 	return TRUE;
 }
 

@@ -222,10 +222,11 @@ struct StBuffInfo
 	INT32  PtyPercent[PROPERTY_NUM];	//加属性百分比
 	INT32  TotalTime;                   //总时长(ms)
 	INT32  Interval;					//间隔时长
+	UINT32 ChangeStaute;				//修改玩家的状态
 	BOOL   OverLay;				        //是否可以叠加
-	BOOL   AddLua;
-	BOOL   TickLua;
-	BOOL   RemoveLua;
+	std::string   LuaAdd;						//是否有lua事件
+	std::string   LuaTick;						//是否有lua事件
+	std::string   LuaRemove;					//是否有lua事件
 
 
 };

@@ -71,10 +71,10 @@ public:
 
 	//语言配制表
 	///////////////////////////////////////////////
-	std::string m_strNull;
 	std::map<UINT32, StLocalString> m_mapLanguage;
 	BOOL ReadLanguage(CppSQLite3Query& QueryData);
 	std::string& GetLanguageText(UINT32 dwID, UINT32 dwLang);
+	std::string& GetLanguageText(std::string strID, UINT32 dwLang);
 
 	//掉落表
 	///////////////////////////////////////////////
