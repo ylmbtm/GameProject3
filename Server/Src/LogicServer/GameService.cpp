@@ -218,7 +218,7 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 
 	if(pConn->GetConnectionID() == m_dwCenterID)
 	{
-		RegisterToLoginSvr();
+		RegisterToCenterSvr();
 	}
 
 	return TRUE;

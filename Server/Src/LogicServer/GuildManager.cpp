@@ -97,3 +97,4 @@ MemberDataObject* CGuildManager::GetGuildLeader(UINT64 uGuildID)
 
 	return pGuild->GetLeader();
 }
+

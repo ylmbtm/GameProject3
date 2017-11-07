@@ -17,7 +17,7 @@ public:
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgPhpWebReq(NetPacket* pNetPacket);
-
+	BOOL OnMsUpdateServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
 

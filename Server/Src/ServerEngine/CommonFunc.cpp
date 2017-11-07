@@ -119,6 +119,22 @@ UINT32 CommonFunc::GetCurrDate()
 
 
 
+time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
+{
+	time_t timer;
+	time(&timer);
+	tm* t_tm = localtime(&timer);
+
+	tm newtm;
+	newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear;
+	newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth;
+	newtm.tm_mday = (nDay < 0) ? t_tm->tm_mday : nDay;
+	newtm.tm_hour = (nHour < 0) ? t_tm->tm_hour : nHour;
+	newtm.tm_min = (nMin < 0) ? t_tm->tm_min : nMin;
+	newtm.tm_sec = (nSec < 0) ? t_tm->tm_sec : nSec;
+	return mktime(&newtm);;
+}
+
 UINT32 CommonFunc::GetTickCount32()
 {
 #ifdef WIN32

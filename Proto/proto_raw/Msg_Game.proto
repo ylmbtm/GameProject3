@@ -62,6 +62,7 @@ message SvrRegToSvrReq {
 	string	ServerName	= 2;
 	string	ServerIp	= 3;
 	int32	ServerPort	= 4;
+	int32   HttpPort    = 5;
 }
 
 message SvrRegToSvrAck {

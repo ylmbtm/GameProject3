@@ -33,6 +33,8 @@ UINT64			GetWeekStartTime();
 //获取一个由年月日组合的一个唯一值
 UINT32			GetCurrDate();
 
+time_t			YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec);
+
 UINT32			GetTickCount32();
 
 UINT64			GetTickCount();

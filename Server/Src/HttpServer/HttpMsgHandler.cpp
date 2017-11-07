@@ -29,8 +29,6 @@ BOOL CHttpMsgHandler::Uninit()
 	return TRUE;
 }
 
-
-
 BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
@@ -53,4 +51,12 @@ BOOL CHttpMsgHandler::OnMsgPhpWebReq(NetPacket* pNetPacket)
 	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, 12345, 0, 0, sz, 20);
 
 	return TRUE;
+}
+
+BOOL CHttpMsgHandler::OnMsUpdateServerReq(NetPacket* pNetPacket)
+{
+
+
+	return TRUE;
+
 }
