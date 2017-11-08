@@ -3,12 +3,6 @@
 
 #include "mysql.h"
 
-#ifdef _DEBUG
-#pragma comment(lib, "libmysql.lib")
-#else
-#pragma comment(lib, "libmysql.lib")
-#endif
-
 class CppMySQL3DB;
 
 class CppMySQLQuery

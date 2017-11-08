@@ -57,6 +57,25 @@ FLOAT  CommonConvert::StringToFloat(char* pStr)
 	return (FLOAT)atof(pStr);
 }
 
+DOUBLE CommonConvert::StringToDouble(char* pStr)
+{
+	if (pStr == NULL)
+	{
+		return 0;
+	}
+
+	return strtod(pStr, NULL);
+}
+
+std::string CommonConvert::DoubleToString(DOUBLE dValue)
+{
+	CHAR szValue[64] = { 0 };
+
+	sprintf(szValue, "%f", dValue);
+
+	return std::string(szValue);
+}
+
 FLOAT  CommonConvert::StringToFloat(const char* pStr)
 {
 	if(pStr == NULL)

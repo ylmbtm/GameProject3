@@ -111,8 +111,6 @@ BOOL CConnection::DoReceive()
 		{
 			if(m_dwDataLen == RECV_BUF_SIZE)
 			{
-				CLog::GetInstancePtr()->LogError("buffer满了，需要再读一次!!");
-
 				if(!ExtractBuffer())
 				{
 					return FALSE;
@@ -120,9 +118,6 @@ BOOL CConnection::DoReceive()
 
 				continue;
 			}
-
-			CLog::GetInstancePtr()->LogError("收到数据为0， 判断是对方关闭################!!");
-
 			return FALSE;
 		}
 		else if(nBytes < 0)

@@ -15,8 +15,8 @@ enum MessageID {
 	MSG_CHECK_VERSION_REQ			= 1000001;    //版本验证
 	MSG_CHECK_VERSION_ACK			= 1000002;    //版本验证返回
 
-	MSG_ACCOUNT_REG_REQ			= 1000003;    //注册账号
-	MSG_ACCOUNT_REG_ACK			= 1000004;    //注册账号返回
+	MSG_ACCOUNT_REG_REQ			    = 1000003;    //注册账号
+	MSG_ACCOUNT_REG_ACK			    = 1000004;    //注册账号返回
 
 	MSG_ACCOUNT_LOGIN_REQ			= 1000005;    //账号登录
 	MSG_ACCOUNT_LOGIN_ACK			= 1000006;    //账号登录返回
@@ -24,8 +24,8 @@ enum MessageID {
 	MSG_ACCOUNT_LOGINREG_REQ		= 1000007;    //账号登录
 	MSG_ACCOUNT_LOGINREG_ACK		= 1000008;    //账号登录返回
 
-	MSG_SERVER_LIST_REQ			= 1000009;	 //服务器列表请求
-	MSG_SERVER_LIST_ACK			= 1000010;   //服务器列表的返回
+	MSG_SERVER_LIST_REQ			    = 1000009;	 //服务器列表请求
+	MSG_SERVER_LIST_ACK			    = 1000010;   //服务器列表的返回
 	
 	MSG_SELECT_SERVER_REQ			= 1000011;	//选择服务器请求
 	MSG_SELECT_SERVER_ACK			= 1000012;	//选择服务器请求返回
@@ -38,6 +38,8 @@ enum MessageID {
 	
 	MSG_PHP_WEB_REQ					= 1000017;   //封号请求
 	MSG_PHP_WEB_ACK					= 1000018;   //封号请求
+
+	MSG_LOG_DATA_NTF				= 1000019;
 
 	MSG_LOGINSVR_MSGID_END			= 1999999;
 	

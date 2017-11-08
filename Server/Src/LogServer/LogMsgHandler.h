@@ -1,4 +1,5 @@
-﻿#ifndef _LOG_MSG_HANDLER_H_
+﻿#include "DBInterface\CppMysql.h"
+#ifndef _LOG_MSG_HANDLER_H_
 #define _LOG_MSG_HANDLER_H_
 
 class CLogMsgHandler
@@ -12,17 +13,18 @@ public:
 
 	BOOL		Uninit();
 
+	BOOL		OnUpdate(UINT64 dwTick);
+
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 	//*********************消息处理定义开始******************************
 public:
-	//BOOL OnMsgSvrRunningStateReq(NetPacket *pPacket);
+	BOOL OnLogDataNtf(NetPacket* pNetPacket);
 
+	CppMySQL3DB     m_DBConnection;
 
-	//*********************消息处理定义结束******************************
-	//日志处理函数
-	//BOOL OnSvrReport_NormalLog(NetPacket* pNetPacket);
+	UINT32			m_nWriteCount;
 
-	BOOL OnTestMsgReq(NetPacket* pNetPacket);
+	UINT64          m_nLastWriteTime;
 
 };
 

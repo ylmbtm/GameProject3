@@ -86,9 +86,14 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
+	UINT64 dwTickCount = 0;
 	while(TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();
+
+		dwTickCount = CommonFunc::GetTickCount();
+
+		m_LogMsgHandler.OnUpdate(dwTickCount);
 
 		CommonThreadFunc::Sleep(1);
 	}

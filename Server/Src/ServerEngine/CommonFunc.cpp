@@ -427,3 +427,16 @@ BOOL CommonFunc::CloseShareMemory(HANDLE hShm)
 	return (0 == shmctl(hShm, IPC_RMID, 0));
 #endif
 }
+
+BOOL CommonFunc::DbgTrace(char* format, ...)
+{
+#ifdef WIN32 && _DEBUG
+	char szLog[1024] = { 0 };
+	va_list argptr;
+	va_start(argptr, format);
+	vsnprintf(szLog, 1023, format, argptr);
+	va_end(argptr);
+
+	OutputDebugString(szLog);
+#endif
+}

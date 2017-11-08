@@ -59,6 +59,7 @@ BOOL 			ReleaseShareMemory(CHAR* pMem);
 
 BOOL			CloseShareMemory(HANDLE hShm);
 
+BOOL			DbgTrace(char* format, ...);
 }
 
 

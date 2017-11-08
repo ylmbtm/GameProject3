@@ -98,7 +98,7 @@ protected:
 	UINT32			m_space;///每个元素的宽度
 	UINT32			m_rawblockSize;
 	std::string		m_modulename;
-	BOOL			isempty;
+	BOOL			m_bEmpty;
 
 	///所有数据头的集合
 	typedef  std::map<INT32, _SMBlock*>    mapSMBlock;

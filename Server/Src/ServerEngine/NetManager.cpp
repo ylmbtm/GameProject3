@@ -52,8 +52,7 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
-
+			ASSERT_FAIELD;
 			break;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
@@ -194,13 +193,12 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 								break;
 							}
 							pConnection->Close();
-							CLog::GetInstancePtr()->LogError("收到的数据格式错误%x!", pConnection);
 						}
 					}
 					else
 					{
-						ASSERT_FAIELD;
 						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
+						ASSERT_FAIELD;
 					}
 				}
 			}
@@ -221,8 +219,8 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				}
 				else
 				{
-					ASSERT_FAIELD;
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND,连接指针为空。");
+					ASSERT_FAIELD;
 				}
 			}
 			break;

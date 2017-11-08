@@ -28,7 +28,6 @@ BOOL CDBManager::Init()
 		return FALSE;
 	}
 	return TRUE;
-
 }
 
 BOOL CDBManager::Uninit()
