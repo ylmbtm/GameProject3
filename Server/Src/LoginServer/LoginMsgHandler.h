@@ -21,7 +21,6 @@ public:
 	BOOL OnMsgCheckVersionReq(NetPacket* pPacket);
 	BOOL OnMsgAccountRegReq(NetPacket* pPacket);
 	BOOL OnMsgAccountLoginReq(NetPacket* pPacket);
-	BOOL OnMsgAccountLoginRegReq(NetPacket* pPacket);
 	BOOL OnMsgServerListReq(NetPacket* pPacket);
 	BOOL OnMsgSelectServerReq(NetPacket* pPacket);
 

@@ -438,5 +438,8 @@ BOOL CommonFunc::DbgTrace(char* format, ...)
 	va_end(argptr);
 
 	OutputDebugString(szLog);
+
 #endif
+
+	return TRUE;
 }

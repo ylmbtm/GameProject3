@@ -120,6 +120,29 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 			Ack.set_lastsvrid(pAccObj->m_dwLastSvrID);
 			Ack.set_accountid(pAccObj->m_ID);
 		}
+
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
+
+	//如果没有这个账号，就要判断是从哪里来到登录请求
+	if (Req.fromchannel() == 1)
+	{
+		UINT64 u64ID = 0;
+		UINT32 dwChannel = 0;
+		std::string strPwd;
+		pAccObj = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
+		if (pAccObj == NULL)
+		{
+			Ack.set_retcode(MRC_FAILED);
+			CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccontLoginReq RetCode:MRC_FAILED");
+		}
+		else
+		{
+			Ack.set_retcode(MRC_SUCCESSED);
+			Ack.set_accountid(pAccObj->m_ID);
+			Ack.set_lastsvrid(0);
+		}
 	}
 	else
 	{

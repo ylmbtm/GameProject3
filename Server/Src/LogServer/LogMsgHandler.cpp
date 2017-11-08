@@ -49,12 +49,18 @@ BOOL CLogMsgHandler::OnUpdate(UINT64 dwTick)
 		m_nLastWriteTime = dwTick;
 	}
 
+	if (m_nWriteCount <= 0)
+	{
+		return TRUE;
+	}
 
 	if (dwTick - m_nLastWriteTime > 1000)
 	{
 		m_DBConnection.commit();
+		m_DBConnection.ping();
 		m_DBConnection.startTransaction();
 		m_nLastWriteTime = dwTick;
+		m_nWriteCount = 0;
 	}
 
 	return TRUE;
@@ -78,15 +84,27 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 {
 	char* pSql = pNetPacket->m_pDataBuffer->GetData();
+	*(pSql + pNetPacket->m_pDataBuffer->GetBodyLenth()) = 0;
 
-	m_DBConnection.execSQL(pSql);
+	if (m_DBConnection.execSQL(pSql) <= 0)
+	{
+		CLog::GetInstancePtr()->LogError(pSql);
+		if (m_DBConnection.ping() < 0)
+		{
+			m_DBConnection.close();
+			m_DBConnection.reconnect();
+		}
+
+	}
 
 	m_nWriteCount += 1;
 
 	if (m_nWriteCount > 1000)
 	{
 		m_DBConnection.commit();
+		m_DBConnection.ping();
 		m_DBConnection.startTransaction();
+		m_nWriteCount = 0;
 	}
 
 	return TRUE;

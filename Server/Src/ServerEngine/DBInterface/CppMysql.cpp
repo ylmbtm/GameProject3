@@ -415,6 +415,39 @@ int CppMySQL3DB::reboot()
 	return -1;
 }
 
+int CppMySQL3DB::reconnect()
+{
+	bool ret = false;
+	_db_ptr = mysql_init(NULL);
+	if (NULL == _db_ptr)
+	{
+		goto EXT;
+	}
+
+	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
+	if (NULL == mysql_real_connect(_db_ptr, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0))
+	{
+		goto EXT;
+	}
+	//选择制定的数据库失败
+	//0表示成功，非0值表示出现错误。
+	if (mysql_select_db(_db_ptr, m_strDB.c_str()) != 0)
+	{
+		mysql_close(_db_ptr);
+		_db_ptr = NULL;
+		goto EXT;
+	}
+	ret = true;
+EXT:
+	//初始化mysql结构失败
+	if (ret == false && _db_ptr != NULL)
+	{
+		mysql_close(_db_ptr);
+		_db_ptr = NULL;
+	}
+	return ret;
+}
+
 /*
 * 说明:事务支持InnoDB or BDB表类型
 */

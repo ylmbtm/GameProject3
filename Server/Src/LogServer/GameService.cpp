@@ -65,14 +65,10 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-		default:
-		{
-			m_LogMsgHandler.DispatchPacket(pNetPacket);
-		}
-		break;
-	}
+	//switch(pNetPacket->m_dwMsgID)
+	//{
+	m_LogMsgHandler.DispatchPacket(pNetPacket);
+	//}
 
 	return TRUE;
 }

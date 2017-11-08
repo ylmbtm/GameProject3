@@ -92,6 +92,9 @@ public:
 	/* 主要功能:重新启动mysql 服务器 */
 	int reboot();
 
+	/* 主要功能:重新连接mysql 服务器 */
+	int reconnect();
+
 	/*说明:事务支持InnoDB or BDB表类型*/
 	/* 主要功能:开始事务 */
 	int startTransaction();
@@ -134,6 +137,13 @@ private:
 	/* msyql 连接句柄 */
 	MYSQL* _db_ptr;
 	CppMySQLQuery _db_query;
+
+
+	std::string  m_strHost;
+	std::string  m_strUser;
+	std::string  m_strPwd;
+	std::string  m_strDB;
+	int          m_nPort;
 };
 
 #endif //__MYSQL_HELPER_H__

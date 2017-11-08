@@ -25,7 +25,8 @@ message AccountLoginReq {
 	string	AccountName	= 1;
 	string	Password	= 2;
 	int32	Channel		= 3;
-	string	ClientVerion	= 4;
+	string	ClientVerion= 4;
+	uint32  FromChannel = 5;
 }
 
 message AccountLoginAck {
