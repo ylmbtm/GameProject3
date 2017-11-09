@@ -6,7 +6,7 @@
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "CommonSocket.h"
-#include "StaticPlayerMgr.h"
+#include "ProxyPlayerMgr.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"

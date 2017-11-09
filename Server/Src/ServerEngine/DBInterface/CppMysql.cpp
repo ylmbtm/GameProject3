@@ -383,36 +383,36 @@ int CppMySQL3DB::execSQL(const char* sql)
 }
 
 /* 测试mysql服务器是否存活 */
-int CppMySQL3DB::ping()
+bool CppMySQL3DB::ping()
 {
 	if( mysql_ping(_db_ptr) == 0 )
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 /* 关闭mysql 服务器 */
-int CppMySQL3DB::shutDown()
+bool CppMySQL3DB::shutDown()
 {
 	if( mysql_shutdown(_db_ptr, SHUTDOWN_DEFAULT) == 0 )
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 /* 主要功能:重新启动mysql 服务器 */
-int CppMySQL3DB::reboot()
+bool CppMySQL3DB::reboot()
 {
 	if(!mysql_reload(_db_ptr))
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 int CppMySQL3DB::reconnect()
@@ -452,36 +452,36 @@ EXT:
 * 说明:事务支持InnoDB or BDB表类型
 */
 /* 主要功能:开始事务 */
-int CppMySQL3DB::startTransaction()
+bool CppMySQL3DB::startTransaction()
 {
 	if(!mysql_real_query(_db_ptr, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION") ))
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 /* 主要功能:提交事务 */
-int CppMySQL3DB::commit()
+bool CppMySQL3DB::commit()
 {
 	if(!mysql_real_query( _db_ptr, "COMMIT", (unsigned long)strlen("COMMIT") ) )
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 /* 主要功能:回滚事务 */
-int CppMySQL3DB::rollback()
+bool CppMySQL3DB::rollback()
 {
 	if(!mysql_real_query(_db_ptr, "ROLLBACK", (unsigned long)strlen("ROLLBACK") ) )
 	{
-		return 0;
+		return true;
 	}
 
-	return -1;
+	return false;
 }
 
 /* 得到客户信息 */

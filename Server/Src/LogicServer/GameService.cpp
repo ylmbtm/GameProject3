@@ -135,7 +135,7 @@ BOOL CGameService::Run()
 
 BOOL CGameService::SendCmdToDBConnection(IDataBuffer* pBuffer)
 {
-	return TRUE;
+	return ServiceBase::GetInstancePtr()->SendMsgBuffer(CGameService::GetInstancePtr()->GetDBConnID(), pBuffer);
 }
 
 

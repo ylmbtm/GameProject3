@@ -21,9 +21,6 @@
     <ClCompile Include="GameService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="StaticPlayerMgr.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -39,12 +36,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ProxyPlayerMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticPlayerMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -58,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="ProxyPlayerMgr.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

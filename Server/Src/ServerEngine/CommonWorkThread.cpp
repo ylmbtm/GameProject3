@@ -8,9 +8,9 @@
 
 CCommonWorkThread::CCommonWorkThread()
 {
-	m_bRun			= FALSE;
+	m_bRun = FALSE;
 
-	m_dwLastTick	= CommonFunc::GetTickCount();
+	m_dwLastTick = CommonFunc::GetTickCount();
 }
 
 CCommonWorkThread::~CCommonWorkThread()
@@ -23,7 +23,7 @@ void CCommonWorkThread::Run()
 	while (m_bRun)
 	{
 		//这就把所有的消息都处理完了
-		NetPacket *pPacket = NULL;
+		NetPacket* pPacket = NULL;
 
 		while(m_PacketQueue.pop(pPacket))
 		{

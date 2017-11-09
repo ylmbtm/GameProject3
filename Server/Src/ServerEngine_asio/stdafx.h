@@ -9,13 +9,15 @@
 #include <stdio.h>
 
 #include <map>
-#include <hash_map>
 #include <vector>
 #include <string>
 #include <list>
 #include <algorithm>
 #include <assert.h>
 #include <set>
+
+#include "CheckMacroDefine.h"
+
 #include "Platform.h"
 
 #endif

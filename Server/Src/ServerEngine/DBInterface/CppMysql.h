@@ -84,26 +84,26 @@ public:
 	int execSQL(const char* sql);
 
 	/* 测试mysql服务器是否存活 */
-	int ping();
+	bool ping();
 
 	/* 关闭mysql 服务器 */
-	int shutDown();
+	bool shutDown();
 
 	/* 主要功能:重新启动mysql 服务器 */
-	int reboot();
+	bool reboot();
 
 	/* 主要功能:重新连接mysql 服务器 */
 	int reconnect();
 
 	/*说明:事务支持InnoDB or BDB表类型*/
 	/* 主要功能:开始事务 */
-	int startTransaction();
+	bool startTransaction();
 
 	/* 主要功能:提交事务 */
-	int commit();
+	bool commit();
 
 	/* 主要功能:回滚事务 */
-	int rollback();
+	bool rollback();
 
 	/* 得到客户信息 */
 	const char* getClientInfo();

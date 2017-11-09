@@ -108,7 +108,7 @@
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ProxyMsgHandler.cpp" />
-    <ClCompile Include="StaticPlayerMgr.cpp" />
+    <ClCompile Include="ProxyPlayerMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -119,7 +119,7 @@
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="ProxyMsgHandler.h" />
-    <ClInclude Include="StaticPlayerMgr.h" />
+    <ClInclude Include="ProxyPlayerMgr.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

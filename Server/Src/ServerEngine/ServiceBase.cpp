@@ -178,13 +178,7 @@ BOOL ServiceBase::Update()
 	NetPacket item;
 	while(m_DataQueue[m_dwReadIndex].pop(item))
 	{
-		//UINT32 dwTick = GetTickCount();
 		m_pPacketDispatcher->DispatchPacket(&item);
-
-		//if((GetTickCount() - dwTick) >10)
-		//{
-		//	CLog::GetInstancePtr()->LogError("messageid:%d, costtime:%d", item.m_dwMsgID, GetTickCount() - dwTick);
-		//}
 
 		item.m_pDataBuffer->Release();
 
@@ -195,7 +189,6 @@ BOOL ServiceBase::Update()
 
 	if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
 	{
-		//CLog::GetInstancePtr()->LogError("fps:%d, packetnum:%d", m_dwFps , m_dwPackNum);
 		m_dwFps = 0;
 		m_dwPackNum = 0;
 		m_dwLastTick = CommonFunc::GetTickCount();

@@ -4,10 +4,11 @@
 #include "../Message/Msg_Move.pb.h"
 #include "../ServerData/ServerDefine.h"
 #include "SkillObject.h"
+#include "MapObject.h"
 class CScene;
 class ResultPlayer;
 class CBuffObject;
-class CSceneObject
+class CSceneObject : public CMapObject
 {
 public:
 	CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 ObjType, UINT32 dwCamp, std::string strName);

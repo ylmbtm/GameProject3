@@ -187,7 +187,7 @@ void CppSQLite3Binary::setEncoded(const unsigned char* pBuf)
 {
 	clear();
 
-	mnEncodedLen = strlen((const char*)pBuf);
+	mnEncodedLen = (int)strlen((const char*)pBuf);
 	mnBufferLen = mnEncodedLen + 1; // Allow for NULL terminator
 
 	mpBuf = (unsigned char*)malloc(mnBufferLen);

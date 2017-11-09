@@ -1004,6 +1004,12 @@ class AccountLoginReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 channel() const;
   void set_channel(::google::protobuf::int32 value);
 
+  // uint32 FromChannel = 5;
+  void clear_fromchannel();
+  static const int kFromChannelFieldNumber = 5;
+  ::google::protobuf::uint32 fromchannel() const;
+  void set_fromchannel(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:AccountLoginReq)
  private:
 
@@ -1012,6 +1018,7 @@ class AccountLoginReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::internal::ArenaStringPtr password_;
   ::google::protobuf::internal::ArenaStringPtr clientverion_;
   ::google::protobuf::int32 channel_;
+  ::google::protobuf::uint32 fromchannel_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAccountLoginReqImpl();
@@ -1636,6 +1643,12 @@ class SvrRegToSvrReq : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::int32 serverport() const;
   void set_serverport(::google::protobuf::int32 value);
 
+  // int32 HttpPort = 5;
+  void clear_httpport();
+  static const int kHttpPortFieldNumber = 5;
+  ::google::protobuf::int32 httpport() const;
+  void set_httpport(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:SvrRegToSvrReq)
  private:
 
@@ -1644,6 +1657,7 @@ class SvrRegToSvrReq : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::ArenaStringPtr serverip_;
   ::google::protobuf::int32 serverid_;
   ::google::protobuf::int32 serverport_;
+  ::google::protobuf::int32 httpport_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSvrRegToSvrReqImpl();
@@ -7820,6 +7834,20 @@ inline void AccountLoginReq::set_allocated_clientverion(::std::string* clientver
   // @@protoc_insertion_point(field_set_allocated:AccountLoginReq.ClientVerion)
 }
 
+// uint32 FromChannel = 5;
+inline void AccountLoginReq::clear_fromchannel() {
+  fromchannel_ = 0u;
+}
+inline ::google::protobuf::uint32 AccountLoginReq::fromchannel() const {
+  // @@protoc_insertion_point(field_get:AccountLoginReq.FromChannel)
+  return fromchannel_;
+}
+inline void AccountLoginReq::set_fromchannel(::google::protobuf::uint32 value) {
+  
+  fromchannel_ = value;
+  // @@protoc_insertion_point(field_set:AccountLoginReq.FromChannel)
+}
+
 // -------------------------------------------------------------------
 
 // AccountLoginAck
@@ -8301,6 +8329,20 @@ inline void SvrRegToSvrReq::set_serverport(::google::protobuf::int32 value) {
   
   serverport_ = value;
   // @@protoc_insertion_point(field_set:SvrRegToSvrReq.ServerPort)
+}
+
+// int32 HttpPort = 5;
+inline void SvrRegToSvrReq::clear_httpport() {
+  httpport_ = 0;
+}
+inline ::google::protobuf::int32 SvrRegToSvrReq::httpport() const {
+  // @@protoc_insertion_point(field_get:SvrRegToSvrReq.HttpPort)
+  return httpport_;
+}
+inline void SvrRegToSvrReq::set_httpport(::google::protobuf::int32 value) {
+  
+  httpport_ = value;
+  // @@protoc_insertion_point(field_set:SvrRegToSvrReq.HttpPort)
 }
 
 // -------------------------------------------------------------------

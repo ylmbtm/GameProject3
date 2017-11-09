@@ -48,7 +48,7 @@ protected:
 
 
 	//以下用于统计
-	UINT32								m_dwLastTick;
+	UINT64								m_dwLastTick;
 	UINT32								m_dwPackNum;
 	UINT32								m_dwFps;
 };

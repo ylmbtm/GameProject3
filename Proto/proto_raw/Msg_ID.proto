@@ -21,8 +21,8 @@ enum MessageID {
 	MSG_ACCOUNT_LOGIN_REQ			= 1000005;    //账号登录
 	MSG_ACCOUNT_LOGIN_ACK			= 1000006;    //账号登录返回
 	
-	MSG_DB_EXE_SQL_REQ				= 1000007;    //账号登录
-	MSG_DB_EXE_SQL_ACK				= 1000008;    //账号登录返回
+	MSG_DB_EXE_SQL_REQ				= 1000007;    //执行Sql语句请求
+	MSG_DB_EXE_SQL_ACK				= 1000008;    //执行Sql语句请求返回
 	
 	MSG_SERVER_LIST_REQ			    = 1000009;	 //服务器列表请求
 	MSG_SERVER_LIST_ACK			    = 1000010;   //服务器列表的返回
