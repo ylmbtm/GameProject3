@@ -293,7 +293,6 @@ public:
 			///优先回调删除
 			if (pdata->isDestroy())
 			{
-				///创建一个副本发送异步执行,提高运行效率
 				pdata->Delete(pdb);
 				m_MemoryPool->DestoryObject(pdata);
 				hasOprate = true;
@@ -303,7 +302,6 @@ public:
 			///其次回调新建
 			if (pBlock->m_bNewBlock)
 			{
-				///创建一个副本发送异步执行,提高运行效率
 				pBlock->m_beforeTime = time(NULL);
 				pdata->Create(pdb);
 				pBlock->m_bNewBlock = false;
@@ -334,7 +332,6 @@ public:
 
 			if (needsave)
 			{
-				///创建一个副本发送异步执行,提高运行效率
 				pBlock->m_beforeTime = time(NULL);
 				pdata->Update(pdb);
 				hasOprate = true;

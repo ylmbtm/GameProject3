@@ -466,6 +466,16 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 	return _ret;
 }
 
+bool CDBConnection::Ping()
+{
+	if (mysql_ping(m_pMySql) == 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 // errno.
 int CDBConnection::GetError( void ) const
 {

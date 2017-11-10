@@ -1,6 +1,6 @@
-﻿#include <stdafx.h>
+﻿#include "stdafx.h"
 #include "ActivityManager.h"
-#include "../GameServer/GameService.h"
+#include "GameService.h"
 #include "CommonFunc.h"
 #include "Log.h"
 #include "DataPool.h"

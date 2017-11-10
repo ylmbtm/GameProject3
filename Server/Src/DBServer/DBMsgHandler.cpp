@@ -9,6 +9,7 @@
 #include "CommonSocket.h"
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 
 Th_RetName _DBWorkThread(void* pParam)
@@ -103,7 +104,7 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CDBMsgHandler::OnUpdate(UINT32 dwTick)
+BOOL CDBMsgHandler::OnUpdate(UINT64 dwTick)
 {
 	return TRUE;
 }
@@ -126,6 +127,8 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
 	DBRoleLoginAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	Ack.set_roleid(Req.roleid());
 	m_DBManager.GetRoleData(Req.roleid(),		Ack);
 	m_DBManager.GetBagData(Req.roleid(),		Ack);
 	m_DBManager.GetCopyData(Req.roleid(),		Ack);

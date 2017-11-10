@@ -56,7 +56,7 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		insert(std::make_pair(dwServerID, pTempNode));
 
 		char szSql[SQL_BUFF_LEN];
-		sprintf(szSql, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
+		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
 		m_DBConnection.execSQL(szSql);
 
 		return TRUE;

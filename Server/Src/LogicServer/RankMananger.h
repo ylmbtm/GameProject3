@@ -5,6 +5,7 @@
 
 class CRankManager
 {
+private:
 	CRankManager();
 	~CRankManager();
 public:

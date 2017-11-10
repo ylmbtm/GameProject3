@@ -524,7 +524,7 @@ const char*   CppMySQL3DB::getCharacterSetName()
 int CppMySQL3DB::createDB(const char* name)
 {
 	char temp[1024];
-	sprintf(temp, "CREATE DATABASE %s", name);
+	snprintf(temp, 1024, "CREATE DATABASE %s", name);
 	if(!mysql_real_query( _db_ptr, temp, strlen(temp)) )
 	{
 		return 0;
@@ -538,7 +538,7 @@ int CppMySQL3DB::dropDB(const char*  name)
 {
 	char temp[1024];
 
-	sprintf(temp, "DROP DATABASE %s", name);
+	snprintf(temp, 1024, "DROP DATABASE %s", name);
 	if(!mysql_real_query( _db_ptr, temp, strlen(temp)) )
 	{
 		return 0;

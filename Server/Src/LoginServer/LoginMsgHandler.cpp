@@ -72,7 +72,8 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 
 	CheckVersionAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket )
@@ -158,7 +159,9 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		pClientNode->set_svrflag(pTempNode->m_Flag);
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
+
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
@@ -174,7 +177,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 	if (SvrConnID == 0)
 	{
 		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用。", Req.serverid());
-		return FALSE;
+		return TRUE;
 	}
 
 
@@ -225,7 +228,9 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket* pPacket )
 		Ack.set_lastsvrname(pNode->m_strSvrName);
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_LOGIN_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_ACCOUNT_LOGIN_ACK, 0, 0, Ack);
+
+	return TRUE;
 }
 
 BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)

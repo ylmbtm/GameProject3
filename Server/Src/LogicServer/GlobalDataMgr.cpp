@@ -1,4 +1,4 @@
-﻿#include <stdafx.h>
+﻿#include "stdafx.h"
 #include "GlobalDataMgr.h"
 #include "GameService.h"
 #include "CommonFunc.h"
@@ -27,7 +27,7 @@ BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 	UINT64 dwMaxGuid = 0;
 
 	CHAR szSql[SQL_BUFF_LEN];
-	sprintf(szSql, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
+	snprintf(szSql, SQL_BUFF_LEN, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
 
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM globaldata");
 	if(!QueryResult.eof())

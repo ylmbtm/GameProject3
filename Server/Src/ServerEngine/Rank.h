@@ -7,6 +7,11 @@ struct TRankItem
 	UINT64 RankValue;
 };
 
+bool RankItemCompare(TRankItem a, TRankItem b)
+{
+	return a.RankValue < b.RankValue;
+}
+
 class TRanker
 {
 public:
@@ -18,16 +23,16 @@ public:
 
 	int SearchInsert(UINT64 RankValue)
 	{
-		int nLen = m_vtRankList.size();
+		INT32 nLen = (INT32)m_vtRankList.size();
 		if(nLen == 0)
 		{
 			return 0;
 		}
 
-		int left = 0, right = nLen - 1;
+		INT32 left = 0, right = nLen - 1;
 		while(left <= right)
 		{
-			int mid = left + (right - left) / 2;
+			INT32 mid = left + (right - left) / 2;
 			if(RankValue == m_vtRankList[mid].RankValue)
 			{
 				return mid;
@@ -56,7 +61,7 @@ public:
 
 	INT32 SetRankItem(UINT64 RankID, UINT64 RankValue)
 	{
-		INT32 nCount = m_vtRankList.size();
+		INT32 nCount = (INT32)m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount - 1].RankValue;
 		if (RankValue <= MinValue)
 		{
@@ -95,12 +100,42 @@ public:
 
 	void SetRankItemEx(UINT64 RankID, UINT64 OldRankValue, UINT64 NewRankValue)
 	{
+		INT32 nCount = (INT32)m_vtRankList.size();
+		UINT64 uMinValue = m_vtRankList[nCount - 1].RankValue;
+		INT32 nMyIndex = -1;
+
+		if (OldRankValue >= uMinValue)
+		{
+			for ( INT32 i = 0; i < nCount; i++)
+			{
+				if (RankID == m_vtRankList[i].RankID)
+				{
+					nMyIndex = i;
+					break;
+				}
+			}
+		}
+
+		if (nMyIndex >= 0)
+		{
+			m_vtRankList[nMyIndex].RankValue = NewRankValue;
+			std::sort(m_vtRankList.begin(), m_vtRankList.end(), RankItemCompare);
+			return;
+		}
+
+		if (NewRankValue > uMinValue)
+		{
+			m_vtRankList[nCount - 1].RankID = RankID;
+			m_vtRankList[nCount - 1].RankValue = NewRankValue;
+			std::sort(m_vtRankList.begin(), m_vtRankList.end(), RankItemCompare);
+		}
+
 		return ;
 	}
 
 	INT32 GetRankIndex(UINT64 RankID, UINT64 RankValue)
 	{
-		INT32 nCount = m_vtRankList.size();
+		INT32 nCount = (INT32)m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount - 1].RankValue;
 		if (RankValue <= MinValue)
 		{

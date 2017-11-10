@@ -1,4 +1,4 @@
-﻿#include <stdafx.h>
+﻿#include "stdafx.h"
 #include "RankMananger.h"
 #include "GameService.h"
 #include "CommonFunc.h"

@@ -42,6 +42,8 @@ public:
 
 	bool	ProcError(char const* op_ = NULL, char const* func_ = NULL);
 
+	bool    Ping();
+
 private:
 	MYSQL*       m_pMySql;
 	std::string  m_strHost;

@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "GameSvrMgr.h"
 #include "CommandDef.h"
-#include "../LogicServer/GameService.h"
+#include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "Log.h"

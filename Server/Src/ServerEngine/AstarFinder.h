@@ -1,17 +1,15 @@
 ﻿#ifndef __ASTAR_FINDER_H__
 #define __ASTAR_FINDER_H__
 
-#define TILESIZE 1  // change this also to reflect tile size. 64x64.
+#define TILESIZE 1			// change this also to reflect tile size. 64x64.
 #define MAPDATANOCOPY		//use the pointer for mapdata
 
 //说明
-/*
- 对TileMap来说， 每一位表示一块方各，当位为1表示不可通行， 0:表示可以通行
-*/
+/* 对TileMap来说， 每一位表示一块方各，当位为1表示不可通行， 0:表示可以通行*/
 
 
 
-class AstarFinder
+class EngineClass AstarFinder
 {
 	struct NODE       // node structure
 	{

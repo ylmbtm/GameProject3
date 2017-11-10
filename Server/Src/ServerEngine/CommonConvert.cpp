@@ -71,7 +71,7 @@ std::string CommonConvert::DoubleToString(DOUBLE dValue)
 {
 	CHAR szValue[64] = { 0 };
 
-	sprintf(szValue, "%f", dValue);
+	snprintf(szValue, 64, "%f", dValue);
 
 	return std::string(szValue);
 }
@@ -90,7 +90,7 @@ std::string CommonConvert::IntToString(INT32 nValue)
 {
 	CHAR szValue[64] = {0};
 
-	sprintf(szValue, "%d", nValue);
+	snprintf(szValue, 64, "%d", nValue);
 
 	return std::string(szValue);
 }
@@ -147,7 +147,7 @@ std::string CommonConvert::FloatToString(FLOAT fValue, INT32 nPrecision, BOOL bR
 		fValue += fRoundValue;
 	}
 
-	sprintf(szValue, "%f", fValue);
+	snprintf(szValue, 64, "%f", fValue);
 
 	CHAR* pChar = strchr(szValue, '.');
 	if(pChar == NULL)

@@ -1,4 +1,4 @@
-﻿#include <stdafx.h>
+﻿#include "stdafx.h"
 #include "ConfigData.h"
 #include "CommonConvert.h"
 #include "CommonFunc.h"
@@ -61,7 +61,7 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 	{
 		DataFuncNode dataNode = (*itor);
-		sprintf(szSql, "select * from %s;", dataNode.m_strTbName.c_str());
+		snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
 		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
 		(this->*dataNode.m_pDataFunc)(Tabledatas);
 	}
@@ -92,7 +92,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 			continue;
 		}
 
-		sprintf(szSql, "select * from %s;", dataNode.m_strTbName.c_str());
+		snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
 		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
 		(this->*dataNode.m_pDataFunc)(Tabledatas);
 	}

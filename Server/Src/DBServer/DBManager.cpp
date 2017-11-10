@@ -41,7 +41,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];
 
-	sprintf(szSql, "select * from player where account_id = %lld", u64AccountID);
+	snprintf(szSql, SQL_BUFF_LEN, "select * from player where account_id = %lld", u64AccountID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
@@ -62,16 +62,13 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];
 
-	sprintf(szSql, "select * from player where id = %lld", u64ID);
+	snprintf(szSql, SQL_BUFF_LEN, "select * from player where id = %lld", u64ID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
 	if(!QueryRes.eof())
 	{
 		DBRoleData* pData = Ack.mutable_roledata();
-		Ack.set_retcode(MRC_SUCCESSED);
-		Ack.set_roleid(QueryRes.getInt64Field("id", 0));
-
 		pData->set_roleid(QueryRes.getInt64Field("id", 0));
 		pData->set_name(QueryRes.getStringField("name"));
 		pData->set_carrerid(QueryRes.getIntField("carrerid", 0));
