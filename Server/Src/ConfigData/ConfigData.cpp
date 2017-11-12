@@ -53,7 +53,7 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 	}
 	catch(CppSQLite3Exception& e)
 	{
-		printf("%s", e.errorMessage());
+		CLog::GetInstancePtr()->LogError("CConfigData::LoadConfigData Failed!!!");
 		return FALSE;
 	}
 
@@ -79,7 +79,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 	}
 	catch(CppSQLite3Exception& e)
 	{
-		printf("%s", e.errorMessage());
+		CLog::GetInstancePtr()->LogError("CConfigData::ReloadConfigData Failed!!!");
 		return FALSE;
 	}
 

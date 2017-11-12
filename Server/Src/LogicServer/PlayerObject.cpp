@@ -189,11 +189,15 @@ BOOL CPlayerObject::DestroyAllModule()
 
 BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
+	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
 }
 
 BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
 {
+	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
 

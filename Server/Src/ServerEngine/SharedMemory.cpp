@@ -230,8 +230,8 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, UINT32 rawblockSize,
 		}
 		else
 		{
-			UINT32 dwError = CommonFunc::GetLastError();
-			printf("---error---:%d", dwError);
+			//UINT32 dwError = CommonFunc::GetLastError();
+			//printf("---error---:%d", dwError);
 		}
 	}
 	else
@@ -244,7 +244,7 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, UINT32 rawblockSize,
 			firstpage.m_shm = CommonFunc::CreateShareMemory(pagename, size);
 			if(firstpage.m_shm == NULL)
 			{
-				printf("CreateFileMapping Failed!!!!");
+				ASSERT_FAIELD;
 			}
 			//firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 			firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);

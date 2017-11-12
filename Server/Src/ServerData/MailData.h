@@ -14,7 +14,7 @@ struct GroupMailDataObject : public ShareObject
 	UINT64 m_uGuid;							//邮件ID
 	CHAR   m_szTitle[MAIL_TITLE_LEN];		//邮件标题
 	CHAR   m_szContent[MAIL_CONTNET_LEN];	//邮件内容
-	UINT32 m_dwTime;						//邮件时间
+	UINT64 m_dwTime;						//邮件时间
 	UINT32 m_dwMailType;					//邮件类型
 	UINT32 m_dwItem[MAIL_ITEM_COUNT];		//道具列表
 	UINT32 m_nItemCnt[MAIL_ITEM_COUNT];		//道具个数
@@ -47,7 +47,7 @@ struct MailDataObject : public ShareObject
 
 	UINT64 m_uRoleID;						//角色ID
 	UINT64 m_uGuid;							//邮件ID
-	UINT32 m_dwTime;						//邮件时间
+	UINT64 m_dwTime;						//邮件时间
 	UINT64 m_uSenderID;						//发送者ID
 	UINT32 m_dwItem[MAIL_ITEM_COUNT];		//道具列表
 	UINT32 m_nItemCnt[MAIL_ITEM_COUNT];		//道具个数

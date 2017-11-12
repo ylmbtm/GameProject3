@@ -3,7 +3,7 @@
 
 CDBWriterManager::CDBWriterManager()
 {
-
+	m_Stop = FALSE;
 }
 
 CDBWriterManager::~CDBWriterManager()
@@ -36,24 +36,25 @@ BOOL CDBWriterManager::Init()
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
 
-	m_DBConnection.Init();
-
 	m_DBConnection.SetConnectParam(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
 
-	m_DBConnection.Reconnect();
+	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
 
 	return TRUE;
 }
 
 BOOL CDBWriterManager::Uninit()
 {
-	m_DBConnection.Close();
+	m_Stop = TRUE;
+
+	CommonThreadFunc::WaitThreadExit(m_hWorkThread);
 
 	return TRUE;
 }
 
 void CDBWriterManager::SaveDataToDB()
 {
+	m_DBConnection.Ping();
 	m_pRoleDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pGlobalDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pBagDataWriter->SaveModifyToDB(&m_DBConnection);
@@ -72,5 +73,27 @@ void CDBWriterManager::SaveDataToDB()
 	m_pFriendDataWriter->SaveModifyToDB(&m_DBConnection);
 }
 
+BOOL CDBWriterManager::IsStop()
+{
+	return m_Stop;
+}
 
+Th_RetName _DBWriteThread(void* pParam)
+{
+	CDBWriterManager* pDBWriterManager = (CDBWriterManager*)pParam;
 
+	pDBWriterManager->m_DBConnection.Init();
+
+	pDBWriterManager->m_DBConnection.Reconnect();
+
+	while (!pDBWriterManager->IsStop())
+	{
+		pDBWriterManager->SaveDataToDB();
+
+		CommonThreadFunc::Sleep(1); //休息10秒
+	}
+	pDBWriterManager->Uninit();
+	CommonThreadFunc::ExitThread();
+
+	return Th_RetValue;
+}

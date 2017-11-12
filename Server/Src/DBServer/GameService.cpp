@@ -97,8 +97,6 @@ BOOL CGameService::Run()
 	{
 		ServiceBase::GetInstancePtr()->Update();
 
-		m_DBWriterManger.SaveDataToDB();
-
 		CommonThreadFunc::Sleep(1);
 	}
 

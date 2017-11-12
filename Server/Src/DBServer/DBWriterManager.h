@@ -19,6 +19,8 @@
 #include "../ServerData/FriendData.h"
 #include "DBInterface/DBConnection.h"
 
+Th_RetName _DBWriteThread(void* pParam);
+
 class CDBWriterManager
 {
 
@@ -32,6 +34,8 @@ public:
 	BOOL Uninit();
 
 	void SaveDataToDB();
+
+	BOOL IsStop();
 public:
 	DataWriter<RoleDataObject>* m_pRoleDataWriter;
 	DataWriter<GlobalDataObject>* m_pGlobalDataWriter;
@@ -50,6 +54,8 @@ public:
 	DataWriter<CounterDataObject>* m_pCounterDataWriter;
 	DataWriter<FriendDataObject>* m_pFriendDataWriter;
 
+	BOOL			m_Stop;
+	THANDLE			m_hWorkThread;
 	CDBConnection   m_DBConnection;
 };
 

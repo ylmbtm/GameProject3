@@ -230,11 +230,9 @@ public:
 		CDataBuffer<SIZE>* pBufferNode = pList;
 		if(pBufferNode == NULL)
 		{
-			printf("O---空列表---O\n");
 			return ;
 		}
 
-		printf("Begin");
 		BOOL bNext = TRUE;
 		while(pBufferNode)
 		{
@@ -259,8 +257,6 @@ public:
 				pBufferNode = pBufferNode->m_pPrev;
 			}
 		}
-
-		printf("<-End\n");
 
 		return ;
 	}
