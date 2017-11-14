@@ -38,9 +38,9 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 
 	m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
 
+	m_pRoleDataObject->m_uCreateTime = CommonFunc::GetCurrTime();
+
 	m_pRoleDataObject->unlock();
-
-
 
 	m_dwActorID = pInfo->dwActorID;
 
@@ -78,11 +78,18 @@ BOOL CRoleModule::OnLogin()
 	{
 		UpdateAction(i + 1);
 	}
+
+	m_pRoleDataObject->m_uLogonTime = CommonFunc::GetCurrTime();
+
 	return TRUE;
 }
 
 BOOL CRoleModule::OnLogout()
 {
+	ERROR_RETURN_FALSE(m_pRoleDataObject == NULL);
+
+	m_pRoleDataObject->m_uLogoffTime = CommonFunc::GetCurrTime();
+
 	return TRUE;
 }
 

@@ -59,15 +59,31 @@ CSimpleInfo* CSimpleManager::GetSimpleInfoByID( UINT64 u64ID )
 	return NULL;
 }
 
-UINT32 CSimpleManager::GetPlayerLogoffTime( UINT64 u64ID )
+UINT64 CSimpleManager::GetCreateTime(UINT64 u64ID)
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
 
-	return pInfo->dwLogoffTime;
+	return pInfo->uCreateTime;
 }
 
-UINT32 CSimpleManager::Get_FightValue( UINT64 u64ID )
+UINT64 CSimpleManager::GetLogonTime(UINT64 u64ID)
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_NULL(pInfo != NULL);
+
+	return pInfo->uLogonTime;
+}
+
+UINT64 CSimpleManager::GetLogoffTime( UINT64 u64ID )
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_NULL(pInfo != NULL);
+
+	return pInfo->uLogoffTime;
+}
+
+UINT32 CSimpleManager::GetFightValue( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
@@ -75,7 +91,7 @@ UINT32 CSimpleManager::Get_FightValue( UINT64 u64ID )
 	return pInfo->dwFightValue;
 }
 
-BOOL CSimpleManager::Set_FightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel )
+BOOL CSimpleManager::SetFightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
@@ -86,7 +102,7 @@ BOOL CSimpleManager::Set_FightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLeve
 	return TRUE;
 }
 
-BOOL CSimpleManager::Set_PlayerName( UINT64 u64ID, std::string strName )
+BOOL CSimpleManager::SetPlayerName( UINT64 u64ID, std::string strName )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
@@ -95,17 +111,37 @@ BOOL CSimpleManager::Set_PlayerName( UINT64 u64ID, std::string strName )
 	return TRUE;
 }
 
-BOOL CSimpleManager::Set_LogoffTime( UINT64 u64ID, UINT32 dwTime )
+BOOL CSimpleManager::SetLogoffTime( UINT64 u64ID, UINT64 uTime )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->dwLogoffTime = dwTime;
+	pInfo->uLogoffTime = uTime;
 
 	return TRUE;
 }
 
-BOOL CSimpleManager::Set_VipLevel( UINT64 u64ID, UINT32 dwVipLvl )
+BOOL CSimpleManager::SetCreateTime(UINT64 u64ID, UINT64 uTime)
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+
+	pInfo->uCreateTime = uTime;
+
+	return TRUE;
+}
+
+BOOL CSimpleManager::SetLogonTime(UINT64 u64ID, UINT64 uTime)
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+
+	pInfo->uLogonTime = uTime;
+
+	return TRUE;
+}
+
+BOOL CSimpleManager::SetVipLevel( UINT64 u64ID, UINT32 dwVipLvl )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
@@ -115,22 +151,12 @@ BOOL CSimpleManager::Set_VipLevel( UINT64 u64ID, UINT32 dwVipLvl )
 	return TRUE;
 }
 
-BOOL CSimpleManager::Set_LoginDay( UINT64 u64ID, UINT32 dwDay )
+BOOL CSimpleManager::SetGuildID( UINT64 u64ID, UINT64 guildid )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->dwLoginDay = dwDay;
-
-	return TRUE;
-}
-
-BOOL CSimpleManager::Set_GuildID( UINT64 u64ID, UINT32 guildid )
-{
-	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	ERROR_RETURN_FALSE(pInfo != NULL);
-
-	pInfo->dwGuildID = guildid;
+	pInfo->uGuildID = guildid;
 
 	return TRUE;
 }
@@ -146,11 +172,11 @@ BOOL CSimpleManager::CheckNameExist(std::string strName)
 	return FALSE;
 }
 
-UINT32 CSimpleManager::Get_GuildID( UINT64 u64ID )
+UINT64 CSimpleManager::GetGuildID( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
-	return  pInfo->dwGuildID;
+	return  pInfo->uGuildID;
 }
 
 CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID)
@@ -161,6 +187,7 @@ CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, st
 	pInfo->Name = strName;
 	pInfo->dwCarrerID = dwCarrerID;
 	pInfo->IsOnline = TRUE;
+	pInfo->uCreateTime = CommonFunc::GetCurrTime();
 
 	m_mapID2Simple.insert(std::make_pair(u64ID, pInfo));
 	m_mapName2ID.insert(std::make_pair(strName, u64ID));

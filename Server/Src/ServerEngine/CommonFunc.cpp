@@ -140,24 +140,18 @@ UINT32 CommonFunc::GetTickCount32()
 #ifdef WIN32
 	return ::GetTickCount();
 #else
-
 	UINT32 dwTickCount = 0;;
 	struct timespec on;
 	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
 		dwTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
 	}
-
 	return dwTickCount;
-
 #endif
 }
 
 UINT64 CommonFunc::GetTickCount()
 {
-#if WINVER < 0x0501
-	return GetTickCount();
-#else
 #ifdef WIN32
 	return ::GetTickCount64();
 #else
@@ -169,7 +163,6 @@ UINT64 CommonFunc::GetTickCount()
 	}
 
 	return dwTickCount;
-#endif
 #endif
 }
 
@@ -276,9 +269,7 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
 	}
 
 	closedir(pDirInfo);
-
 #endif
-
 	return TRUE;
 }
 
@@ -313,12 +304,6 @@ UINT32 CommonFunc::GetFreePhysMemory()
 #endif
 
 	return dwFreeSize;
-}
-
-
-INT32 CommonFunc::FloatToInt(FLOAT value)
-{
-	return 0;
 }
 
 INT32 CommonFunc::GetRandNum(INT32 nType)

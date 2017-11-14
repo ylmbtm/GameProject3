@@ -37,6 +37,9 @@ struct RoleDataObject : public ShareObject
 	INT32		m_CityCopyID;		//主城副本类型
 	BOOL		m_bDelete;        //是否删除
 	INT64       m_uQQ;            //QQ号
+	UINT64      m_uCreateTime;	  //角色创建时间
+	UINT64      m_uLogonTime;	  //本次登录时间
+	UINT64      m_uLogoffTime;	  //离线时间
 
 	//签到数据
 	INT32		m_nSignNum;        //签到天数
@@ -45,7 +48,8 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime) \
+			VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
 		csp.set_string(2, m_szName, strlen(m_szName));
@@ -62,6 +66,10 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(13, m_Actime[1]);
 		csp.set_int64(14, m_Actime[2]);
 		csp.set_int64(15, m_Actime[3]);
+
+		csp.set_int64(16, m_uCreateTime);
+		csp.set_int64(17, m_uLogonTime);
+		csp.set_int64(18, m_uLogoffTime);
 		pDB->Execute(&csp);
 		return TRUE;
 	}

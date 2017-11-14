@@ -43,8 +43,6 @@ UINT32			GetCurThreadID();
 
 UINT32			GetFreePhysMemory();
 
-INT32           FloatToInt(FLOAT value);
-
 INT32           GetRandNum(INT32 nType);
 
 UINT32			GetLastError();

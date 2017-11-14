@@ -3,17 +3,18 @@
 #include "DBInterface/CppMysql.h"
 struct CSimpleInfo
 {
-	UINT64 u64RoleID;
-	UINT64 u64AccountID;
-	UINT32 dwGuildID;
-	UINT32 dwCarrerID;
+	UINT64	u64RoleID;
+	UINT64	u64AccountID;
+	UINT64	uGuildID;
+	UINT32	dwCarrerID;
 	std::string Name ;
-	UINT32 dwLevel;
-	UINT32 dwVipLevel;
-	UINT32 dwFightValue;
-	UINT32 dwLogoffTime;
-	UINT32 dwLoginDay;
-	BOOL IsOnline;
+	UINT32	dwLevel;
+	UINT32	dwVipLevel;
+	UINT32	dwFightValue;
+	UINT64	uLogoffTime;
+	UINT64	uLogonTime;
+	UINT64	uCreateTime;
+	BOOL	IsOnline;
 };
 
 class CSimpleManager
@@ -23,36 +24,39 @@ class CSimpleManager
 public:
 	static CSimpleManager* GetInstancePtr();
 
-	BOOL LoadSimpleData(CppMySQL3DB& tDBConnection);
-
 	CSimpleInfo* GetSimpleInfoByID(UINT64 u64ID);
-
-	UINT64 GetRoleIDByName(std::string Name);
-
-	UINT32 GetPlayerLogoffTime(UINT64 u64ID);
-
-	UINT32 Get_FightValue(UINT64 u64ID);
-
-	BOOL Set_FightValue(UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel);
-
-	BOOL Set_PlayerName(UINT64 u64ID, std::string strName);
-
-	BOOL Set_LogoffTime(UINT64 u64ID, UINT32 dwTime);
-
-	BOOL Set_VipLevel(UINT64 u64ID, UINT32 dwVipLvl);
-
-	BOOL Set_LoginDay(UINT64 u64ID, UINT32 dwDay);
-
-	BOOL Set_GuildID(UINT64 u64ID, UINT32 guildid);
-
-	BOOL CheckNameExist(std::string strName);
-
-	UINT32 Get_GuildID(UINT64 u64ID);
 
 	CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID);
 
+	BOOL	LoadSimpleData(CppMySQL3DB& tDBConnection);
+
+	UINT64	GetRoleIDByName(std::string Name);
+
+	UINT64	GetCreateTime(UINT64 u64ID);
+	UINT64	GetLogonTime(UINT64 u64ID);
+	UINT64	GetLogoffTime(UINT64 u64ID);
+
+	BOOL	SetCreateTime(UINT64 u64ID, UINT64 dwTime);
+	BOOL	SetLogonTime(UINT64 u64ID, UINT64 dwTime);
+	BOOL	SetLogoffTime(UINT64 u64ID, UINT64 dwTime);
+
+	UINT32	GetFightValue(UINT64 u64ID);
+
+	BOOL	SetFightValue(UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel);
+
+	BOOL	SetPlayerName(UINT64 u64ID, std::string strName);
+
+	BOOL	SetVipLevel(UINT64 u64ID, UINT32 dwVipLvl);
+
+	BOOL	SetGuildID(UINT64 u64ID, UINT64 guildid);
+
+	BOOL	CheckNameExist(std::string strName);
+
+	UINT64	GetGuildID(UINT64 u64ID);
+
 public:
 	std::map<UINT64, CSimpleInfo*> m_mapID2Simple;
+
 	std::map<std::string, UINT64>  m_mapName2ID;
 
 };
