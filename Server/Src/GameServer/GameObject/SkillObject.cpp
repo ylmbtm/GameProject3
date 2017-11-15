@@ -12,6 +12,7 @@ CSkillObject::CSkillObject()
 	m_pSceneObject = NULL;
 	m_dwStartTick = 0;
 	m_dwSkillID = 0;
+	m_pSkillInfo = NULL;
 }
 
 CSkillObject::~CSkillObject()
@@ -19,6 +20,7 @@ CSkillObject::~CSkillObject()
 	m_pSceneObject = NULL;
 	m_dwStartTick = 0;
 	m_dwSkillID = 0;
+	m_pSkillInfo = NULL;
 }
 
 
@@ -32,19 +34,13 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 	return TRUE;
 }
 
-BOOL CSkillObject::Start()
+BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 {
-	std::vector<CSceneObject*> vtTargets;
+	m_dwSkillID = dwSkillID;
 
-	for(auto itor = vtTargets.begin(); itor != vtTargets.end(); itor++)
-	{
-		CSceneObject* pTarget = *itor;
-		ERROR_CONTINUE_EX(pTarget != NULL);
+	m_pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(dwSkillID, 0);
 
-		SkillFight(pTarget);
-
-
-	}
+	m_dwStartTick = CommonFunc::GetTickCount();
 
 	return TRUE;
 }
@@ -69,15 +65,6 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(m_dwSkillID, 1);
 	ERROR_RETURN_FALSE(pSkillInfo != NULL);
 
-	UINT64 dwCurTime = CommonFunc::GetTickCount();
-
-	UINT64 dwTime = m_pSceneObject->GetLastSkillTime(m_dwSkillID);
-	if(dwCurTime - dwTime < pSkillInfo->CD * 1000)
-	{
-		CLog::GetInstancePtr()->LogError("玩家作弊!!!");
-
-		return FALSE;
-	}
 
 	StBuffInfo* pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(pSkillInfo->SelfBuffID);
 	ERROR_RETURN_FALSE(pBuffInfo != NULL);

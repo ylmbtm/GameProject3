@@ -73,22 +73,20 @@ inline bool EObjectType_Parse(
 }
 enum EActionType {
   AT_NONE = 0,
-  AT_MOVE = 1,
+  AT_IDLE = 1,
   AT_WALK = 2,
   AT_RUN = 3,
-  AT_IDLE = 4,
-  AT_DRIECTONAL = 5,
-  AT_DANCE1 = 6,
-  AT_DANCE2 = 7,
-  AT_DANCE3 = 8,
-  AT_DANCE4 = 9,
-  AT_SKILL_BEGIN = 10000,
+  AT_MOVE = 4,
+  AT_DANCE1 = 5,
+  AT_DANCE2 = 6,
+  AT_DANCE3 = 7,
+  AT_DANCE4 = 8,
   EActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EActionType_IsValid(int value);
 const EActionType EActionType_MIN = AT_NONE;
-const EActionType EActionType_MAX = AT_SKILL_BEGIN;
+const EActionType EActionType_MAX = AT_DANCE4;
 const int EActionType_ARRAYSIZE = EActionType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EActionType_descriptor();

@@ -2,6 +2,7 @@
 #define __SKILL_OBJECT_H__
 
 #include "../ServerData/ServerDefine.h"
+#include "../ConfigData/ConfigStruct.h"
 
 class CSceneObject;
 
@@ -15,7 +16,7 @@ public:
 public:
 	BOOL OnUpdate(UINT64 uTick);
 
-	BOOL Start();
+	BOOL StartSkill(UINT32 dwSkillID);
 
 	BOOL GetTargets();
 
@@ -24,10 +25,10 @@ public:
 	BOOL SkillFight(CSceneObject* pTarget);
 
 public:
-	UINT64  m_dwStartTick; //开始时间
-	UINT32  m_dwSkillID;   //技能ID
-
-	CSceneObject* m_pSceneObject;
+	UINT64			m_dwStartTick; //开始时间
+	UINT32			m_dwSkillID;   //技能ID
+	StSkillInfo*	m_pSkillInfo;
+	CSceneObject*	m_pSceneObject;
 };
 
 #endif //__SKILL_OBJECT_H__

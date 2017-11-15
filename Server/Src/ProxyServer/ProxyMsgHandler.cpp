@@ -42,6 +42,10 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_REQ,			OnMsgGameSvrRegister);
 			PROCESS_MESSAGE_ITEM(MSG_BROAD_MESSAGE_NOTIFY,			OnMsgBroadMessageNty);
+			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,				OnMsgEnterSceneReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,				OnMsgRoleLoginAck);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,				OnMsgRoleLogoutReq);
+
 		case MSG_ROLE_LIST_REQ:
 		case MSG_ROLE_CREATE_REQ:
 		case MSG_ROLE_DELETE_REQ:
@@ -50,28 +54,6 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		{
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-		}
-		break;
-		case MSG_ROLE_LOGIN_ACK:
-		{
-			CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
-			ERROR_RETURN_TRUE(pConnection != NULL);
-			pConnection->SetConnectionData(pPacketHeader->u64TargetID);
-			RelayToConnect(pPacketHeader->dwUserData, pNetPacket->m_pDataBuffer);
-		}
-		break;
-		case MSG_ROLE_LOGOUT_REQ:
-		{
-			RelayToLogicServer(pNetPacket->m_pDataBuffer);
-			CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
-			ERROR_RETURN_TRUE(pConnection != NULL);
-			pConnection->SetConnectionData(0);
-		}
-		break;
-		case MSG_ENTER_SCENE_REQ:
-		{
-			//创建proxyplayer对象
-			OnMsgEnterSceneReq(pNetPacket);
 		}
 		break;
 		case MSG_ROLE_OTHER_LOGIN_NTY:
@@ -266,5 +248,29 @@ BOOL CProxyMsgHandler::OnMsgBroadMessageNty(NetPacket* pPacket)
 		ServiceBase::GetInstancePtr()->SendMsgRawData(Nty.connid(i), Nty.msgid(), 0, 0, Nty.msgdata().c_str(), (UINT32)Nty.msgdata().size());
 	}
 
+	return TRUE;
+}
+
+BOOL CProxyMsgHandler::OnMsgRoleLoginAck(NetPacket* pPacket)
+{
+	PacketHeader* pPacketHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_FALSE(pPacketHeader != NULL);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+	ERROR_RETURN_TRUE(pConnection != NULL);
+	pConnection->SetConnectionData(pPacketHeader->u64TargetID);
+	RelayToConnect(pPacketHeader->dwUserData, pPacket->m_pDataBuffer);
+	return TRUE;
+}
+
+BOOL CProxyMsgHandler::OnMsgRoleLogoutReq(NetPacket* pPacket)
+{
+	PacketHeader* pPacketHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_FALSE(pPacketHeader != NULL);
+
+	RelayToLogicServer(pPacket->m_pDataBuffer);
+
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+	ERROR_RETURN_TRUE(pConnection != NULL);
+	pConnection->SetConnectionData(0);
 	return TRUE;
 }

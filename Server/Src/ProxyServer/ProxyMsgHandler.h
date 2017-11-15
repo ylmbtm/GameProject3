@@ -36,6 +36,8 @@ public:
 	BOOL		OnMsgGameSvrRegister(NetPacket* pPacket);
 	BOOL		OnMsgEnterSceneReq(NetPacket* pPacket);
 	BOOL		OnMsgBroadMessageNty(NetPacket* pPacket);
+	BOOL		OnMsgRoleLoginAck(NetPacket* pPacket);
+	BOOL		OnMsgRoleLogoutReq(NetPacket* pPacket);
 public:
 	std::map<UINT32, UINT32> m_mapSvrIDtoConnID;
 

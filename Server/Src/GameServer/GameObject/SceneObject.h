@@ -46,8 +46,7 @@ public:
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
 
-	UINT32			GetLastSkillTime(UINT32 dwSkillID);
-	BOOL			SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime);
+
 
 	BOOL			SaveBattleResult(ResultPlayer* pResult);
 
@@ -62,10 +61,12 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//技能
-	std::map<UINT32, UINT32> m_mapSkillTime;
+	std::map<UINT32, UINT64> m_mapSkillTime;
 	CSkillObject	m_SkillObject;
-	BOOL			ProcessSkill(const SkillCastReq& Req);
-	BOOL			ProcessAction(const ActionReqItem& Item);
+	UINT32			ProcessSkill(const SkillCastReq& Req);
+	UINT32			ProcessAction(const ActionReqItem& Item);
+	UINT64			GetLastSkillTick(UINT32 dwSkillID);
+	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -76,6 +77,7 @@ public:
 	UINT32          m_dwActorID;					//对象ID
 	UINT32          m_dwObjType;					//对象类型 玩家，宠物， NPC之类的
 	INT32			m_dwCamp;						//阵营
+	UINT32			m_dwActionID;					//当前动作ID
 	FLOAT			m_x, m_y, m_z, m_ft;			//对象坐标, 朝向
 	UINT32          m_dwObjectState;				//对象当前的状态
 	UINT32          m_dwBuffState;					//对象的Buff状态

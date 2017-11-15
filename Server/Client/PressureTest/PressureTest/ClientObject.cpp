@@ -159,8 +159,8 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
-			//m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
+			//m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
+			m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
 
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 8080);	   //account
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);  //game
@@ -186,7 +186,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_AccountLoginOK)
 	{
-		SendSelectSvrReq(202);
+		SendSelectSvrReq(201);
 
 		m_dwHostState = ST_SelectSvr;
 	}
@@ -206,7 +206,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_EnterSceneOK)
 	{
-		//TestMove();
+		TestMove();
 		//TestCopy();
 	}
 
@@ -382,23 +382,23 @@ BOOL CClientObject::MoveForward(FLOAT fDistance)
 {
 	if(m_ft <= 90.0f)
 	{
-		m_x += fDistance * sin(m_ft * PI / 180);
-		m_z -= fDistance * cos(m_ft * PI / 180);
+		m_x += fDistance * sin(m_ft * PI / 180); //+
+		m_z += fDistance * cos(m_ft * PI / 180); //+
 	}
 	else if(m_ft <= 180.0f)
 	{
-		m_x += fDistance * sin(m_ft * PI / 180);
-		m_z += fDistance * cos(m_ft * PI / 180);
+		m_x += fDistance * sin(m_ft * PI / 180);  //+
+		m_z += fDistance * cos(m_ft * PI / 180);  //-
 	}
 	else if(m_ft <= 270.0f)
 	{
-		m_x += fDistance * sin(m_ft * PI / 180);
-		m_z += fDistance * cos(m_ft * PI / 180);
+		m_x += fDistance * sin(m_ft * PI / 180); //-
+		m_z += fDistance * cos(m_ft * PI / 180); //-
 	}
 	else if(m_ft <= 360.0f)
 	{
-		m_x += fDistance * sin(m_ft * PI / 180);
-		m_z += fDistance * cos(m_ft * PI / 180);
+		m_x += fDistance * sin(m_ft * PI / 180); //-
+		m_z += fDistance * cos(m_ft * PI / 180); //+
 	}
 
 	return TRUE;
@@ -438,7 +438,6 @@ VOID CClientObject::TestMove()
 	}
 	if(m_z < 0)
 	{
-		0;
 		m_z = 0;
 		m_ft = abs(m_ft - 90);
 	}

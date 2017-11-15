@@ -68,7 +68,7 @@ message NewItem {
 	string Name       	= 6;		//名字
 	int32  Level      	= 7;		//等级
 	uint64 HostGuid   	= 8;		//主人的GUID
-    uint64 ControlerID 	= 9;     	//AI控制人的GUID
+	uint64 ControlerID 	= 9;     	//AI控制人的GUID
 	uint64 SummonID 	= 10;		//招唤者的GUID
 	float  X 			= 11;		
 	float  Y 			= 12;

@@ -6,6 +6,9 @@
 #include "Log.h"
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "CommonFunc.h"
+#include "../ConfigData/ConfigData.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
@@ -228,6 +231,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	ActionNtyItem* pItem = Nty.add_actionlist();
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_actorid(m_dwActorID);
+	pItem->set_actionid(m_dwActionID);
 	pItem->set_buffstate(m_dwBuffState);
 	pItem->set_objectstate(m_dwObjectState);
 	pItem->set_level(m_dwLevel);
@@ -263,7 +267,7 @@ BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
 	return TRUE;
 }
 
-UINT32 CSceneObject::GetLastSkillTime(UINT32 dwSkillID)
+UINT64 CSceneObject::GetLastSkillTick(UINT32 dwSkillID)
 {
 	auto itor = m_mapSkillTime.find(dwSkillID);
 	if(itor != m_mapSkillTime.end())
@@ -274,7 +278,7 @@ UINT32 CSceneObject::GetLastSkillTime(UINT32 dwSkillID)
 	return 0;
 }
 
-BOOL CSceneObject::SetLastSkillTime(UINT32 dwSkillID, UINT32 dwTime)
+BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
 {
 	m_mapSkillTime.insert(std::make_pair(dwSkillID, dwTime));
 
@@ -328,9 +332,22 @@ BOOL CSceneObject::UpdateBuff(UINT64 uTick)
 	return TRUE;
 }
 
-BOOL CSceneObject::ProcessSkill(const SkillCastReq& Req)
+UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 {
-	ERROR_RETURN_FALSE(m_pScene != NULL);
+	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
+
+	//检查CD是否可用
+	UINT64 uCurTick = CommonFunc::GetTickCount();
+	UINT64 uLastTick = GetLastSkillTick(Req.skillid());
+
+	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(Req.skillid(), 0);
+	if (uCurTick - uLastTick < pSkillInfo->CD * 1000)
+	{
+		CLog::GetInstancePtr()->LogError("玩家作弊!!!");
+		return MRC_FAILED;
+	}
+
+	m_SkillObject.StartSkill(Req.skillid());
 
 	m_x		= Req.hostx();
 	m_y		= Req.hosty();
@@ -339,19 +356,19 @@ BOOL CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
 
-	return TRUE;
+	return MRC_SUCCESSED;
 }
 
-BOOL CSceneObject::ProcessAction(const ActionReqItem& Item)
+UINT32 CSceneObject::ProcessAction(const ActionReqItem& Item)
 {
-	ERROR_RETURN_FALSE(m_pScene != NULL);
+	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
 
-	m_x = Item.hostx();
-	m_y = Item.hosty();
-	m_z = Item.hostz();
-	m_ft = Item.hostft();
+	m_x				= Item.hostx();
+	m_y				= Item.hosty();
+	m_z				= Item.hostz();
+	m_ft			= Item.hostft();
+	m_dwActionID	= Item.actionid();
+	m_bDataChange	= TRUE;
 
-	m_bDataChange = TRUE;
-
-	return TRUE;
+	return MRC_SUCCESSED;
 }

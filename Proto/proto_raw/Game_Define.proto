@@ -10,19 +10,15 @@ enum EObjectType {
 }
 
 enum EActionType {
-    AT_NONE   = 0;    //无动作
-	AT_MOVE   = 1;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
-	AT_WALK   = 2;    //走
-	AT_RUN    = 3;    //跑
-	AT_IDLE   = 4;    //原地不动
-	AT_DRIECTONAL = 5; //方向改变
-	AT_DANCE1 = 6;  //跳舞动作1;
-	AT_DANCE2 = 7;  //跳舞动作2;
-	AT_DANCE3 = 8;  //跳舞动作3;
-	AT_DANCE4 = 9;  //跳舞动作4;
-
-
-	AT_SKILL_BEGIN = 10000;  //技能动作开始
+    AT_NONE		= 0;    //无动作
+	AT_IDLE		= 1;    //原地不动
+	AT_WALK		= 2;    //走
+	AT_RUN		= 3;    //跑
+	AT_MOVE		= 4;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
+	AT_DANCE1	= 5;  //跳舞动作1;
+	AT_DANCE2	= 6;  //跳舞动作2;
+	AT_DANCE3	= 7;  //跳舞动作3;
+	AT_DANCE4	= 8;  //跳舞动作4;
 }
 
 enum EActionStatue {

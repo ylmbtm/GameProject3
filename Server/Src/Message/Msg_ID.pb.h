@@ -140,7 +140,7 @@ enum MessageID {
   MSG_ENTER_SCENE_ACK = 3000012,
   MSG_LEAVE_SCENE_REQ = 3000013,
   MSG_LEAVE_SCENE_ACK = 3000014,
-  MSG_SKILL_CAST_REQ = 30000105,
+  MSG_SKILL_CAST_REQ = 3000015,
   MSG_SKILL_CAST_ACK = 3000016,
   MSG_SKILL_CAST_NTF = 3000017,
   MSG_OBJECT_NEW_NTF = 3000018,
@@ -236,7 +236,7 @@ enum MessageID {
 };
 bool MessageID_IsValid(int value);
 const MessageID MessageID_MIN = MSG_BEGIN;
-const MessageID MessageID_MAX = MSG_SKILL_CAST_REQ;
+const MessageID MessageID_MAX = MSG_SCENESVR_MSGID_END;
 const int MessageID_ARRAYSIZE = MessageID_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageID_descriptor();
