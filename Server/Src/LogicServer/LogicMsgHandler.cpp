@@ -18,6 +18,7 @@
 #include "../ConfigData/ConfigData.h"
 #include "CommonConvert.h"
 #include "BagModule.h"
+#include "../ServerData/RoleData.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -38,6 +39,46 @@ BOOL CLogicMsgHandler::Init(UINT32 dwReserved)
 
 BOOL CLogicMsgHandler::Uninit()
 {
+	return TRUE;
+}
+
+BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
+{
+	if (CPlayerManager::GetInstancePtr()->GetCount() < 3000)
+	{
+		return TRUE;
+	}
+
+	//开始要清理人员了
+	UINT64 uMinLeaveTime = 0x0fffffffff;
+	UINT64 uRoleID = 0;
+
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		ERROR_RETURN_FALSE(pTempObj != NULL);
+
+		if(pTempObj->IsOnline())
+		{
+			continue;
+		}
+
+		CRoleModule* pRoleModule = (CRoleModule*)pTempObj->GetModuleByType(MT_ROLE);
+		ERROR_RETURN_FALSE(pRoleModule != NULL);
+
+		if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
+		{
+			uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
+			uRoleID = pTempObj->GetObjectID();
+		}
+	}
+
+	CPlayerManager::GetInstancePtr()->ReleasePlayer(uRoleID);
+
 	return TRUE;
 }
 

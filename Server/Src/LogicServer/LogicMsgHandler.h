@@ -18,6 +18,7 @@ public:
 
 	BOOL Uninit();
 
+	BOOL OnUpdate(UINT64 uTick);
 
 public:
 	BOOL ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam);

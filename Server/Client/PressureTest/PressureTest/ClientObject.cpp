@@ -12,8 +12,8 @@
 #include "..\Src\ServerEngine\PacketHeader.h"
 
 int g_LoginReqCount = 0;
-int g_LoginCount = 0;
-int g_EnterCount = 0;
+int g_LoginCount	= 0;
+int g_EnterCount	= 0;
 
 CClientObject::CClientObject(void)
 {
@@ -45,9 +45,9 @@ BOOL CClientObject::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LIST_ACK,			OnMsgRoleListAck);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_NOTIFY_INTO_SCENE,		OnMsgNotifyIntoScene);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_CREATE_ACK,		OnMsgCreateRoleAck);
-			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_NEW_NTY,			OnMsgObjectNewNty);
-			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_ACTION_NTY,		OnMsgObjectActionNty);
-			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTY,		OnMsgObjectRemoveNty);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_NEW_NTF,			OnMsgObjectNewNty);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_ACTION_NTF,		OnMsgObjectActionNty);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTF,		OnMsgObjectRemoveNty);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ENTER_SCENE_ACK,		OnCmdEnterSceneAck);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LOGIN_ACK,			OnMsgRoleLoginAck);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_OTHER_LOGIN_NTY,	OnMsgOtherLoginNty);
@@ -122,10 +122,10 @@ BOOL CClientObject::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 	{
 		const NewItem& item = Nty.newlist(i);
 
-		printf("x:%f", item.x());
-		printf("y:%f", item.y());
-		printf("y:%f\n", item.z());
-		printf("actorid:%d\n", item.actorid());
+		//printf("x:%f", item.x());
+		//printf("y:%f", item.y());
+		//printf("z:%f\n", item.z());
+		//printf("actorid:%d\n", item.actorid());
 	}
 
 	return TRUE;
@@ -138,10 +138,9 @@ BOOL CClientObject::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	for(int i = 0; i < Nty.actionlist_size(); i++)
 	{
 		const ActionNtyItem& Item = Nty.actionlist(i);
-		float y = Item.ft();
+
+		printf("x:%f, z:%f, ft:%f\n", Item.hostx(), Item.hostz(), Item.hostft());
 	}
-
-
 
 	return TRUE;
 }
@@ -160,8 +159,8 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			//m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
-			m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
+			m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
 
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 8080);	   //account
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 9008);  //game
@@ -187,7 +186,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_AccountLoginOK)
 	{
-		SendSelectSvrReq(201);
+		SendSelectSvrReq(202);
 
 		m_dwHostState = ST_SelectSvr;
 	}
@@ -207,7 +206,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_EnterSceneOK)
 	{
-		TestMove();
+		//TestMove();
 		//TestCopy();
 	}
 
@@ -412,13 +411,13 @@ VOID CClientObject::TestMove()
 	pItem->set_actionid(AT_WALK);
 	pItem->set_objectguid(m_RoleIDList[0]);
 
-	UINT32 dwTimeDiff = CommonFunc::GetTickCount() - m_dwMoveTime;
+	UINT64 dwTimeDiff = CommonFunc::GetTickCount() - m_uMoveTime;
 	if(dwTimeDiff < 160)
 	{
 		return ;
 	}
 
-	m_dwMoveTime = CommonFunc::GetTickCount();
+	m_uMoveTime = CommonFunc::GetTickCount();
 
 	MoveForward(1.0f);
 

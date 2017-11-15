@@ -36,20 +36,24 @@ namespace protobuf_Msg_5fMove_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[12];
+  static const ::google::protobuf::internal::ParseTable schema[14];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
-void InitDefaultsActionNtyItemImpl();
-void InitDefaultsActionNtyItem();
-void InitDefaultsActionReqItemImpl();
-void InitDefaultsActionReqItem();
+void InitDefaultsSkillCastReqImpl();
+void InitDefaultsSkillCastReq();
+void InitDefaultsSkillCastAckImpl();
+void InitDefaultsSkillCastAck();
 void InitDefaultsObjectActionReqImpl();
 void InitDefaultsObjectActionReq();
 void InitDefaultsObjectActionNtyImpl();
 void InitDefaultsObjectActionNty();
+void InitDefaultsActionReqItemImpl();
+void InitDefaultsActionReqItem();
+void InitDefaultsActionNtyItemImpl();
+void InitDefaultsActionNtyItem();
 void InitDefaultsNewItemImpl();
 void InitDefaultsNewItem();
 void InitDefaultsObjectNewNtyImpl();
@@ -67,10 +71,12 @@ void InitDefaultsObjectValueChange();
 void InitDefaultsObjectValueChangeNtfImpl();
 void InitDefaultsObjectValueChangeNtf();
 inline void InitDefaults() {
-  InitDefaultsActionNtyItem();
-  InitDefaultsActionReqItem();
+  InitDefaultsSkillCastReq();
+  InitDefaultsSkillCastAck();
   InitDefaultsObjectActionReq();
   InitDefaultsObjectActionNty();
+  InitDefaultsActionReqItem();
+  InitDefaultsActionNtyItem();
   InitDefaultsNewItem();
   InitDefaultsObjectNewNty();
   InitDefaultsObjectRemoveNty();
@@ -117,27 +123,33 @@ extern ObjectValueChangeDefaultTypeInternal _ObjectValueChange_default_instance_
 class ObjectValueChangeNtf;
 class ObjectValueChangeNtfDefaultTypeInternal;
 extern ObjectValueChangeNtfDefaultTypeInternal _ObjectValueChangeNtf_default_instance_;
+class SkillCastAck;
+class SkillCastAckDefaultTypeInternal;
+extern SkillCastAckDefaultTypeInternal _SkillCastAck_default_instance_;
+class SkillCastReq;
+class SkillCastReqDefaultTypeInternal;
+extern SkillCastReqDefaultTypeInternal _SkillCastReq_default_instance_;
 
 // ===================================================================
 
-class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ActionNtyItem) */ {
+class SkillCastReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillCastReq) */ {
  public:
-  ActionNtyItem();
-  virtual ~ActionNtyItem();
+  SkillCastReq();
+  virtual ~SkillCastReq();
 
-  ActionNtyItem(const ActionNtyItem& from);
+  SkillCastReq(const SkillCastReq& from);
 
-  inline ActionNtyItem& operator=(const ActionNtyItem& from) {
+  inline SkillCastReq& operator=(const SkillCastReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ActionNtyItem(ActionNtyItem&& from) noexcept
-    : ActionNtyItem() {
+  SkillCastReq(SkillCastReq&& from) noexcept
+    : SkillCastReq() {
     *this = ::std::move(from);
   }
 
-  inline ActionNtyItem& operator=(ActionNtyItem&& from) noexcept {
+  inline SkillCastReq& operator=(SkillCastReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -147,30 +159,30 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ActionNtyItem& default_instance();
+  static const SkillCastReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ActionNtyItem* internal_default_instance() {
-    return reinterpret_cast<const ActionNtyItem*>(
-               &_ActionNtyItem_default_instance_);
+  static inline const SkillCastReq* internal_default_instance() {
+    return reinterpret_cast<const SkillCastReq*>(
+               &_SkillCastReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     0;
 
-  void Swap(ActionNtyItem* other);
-  friend void swap(ActionNtyItem& a, ActionNtyItem& b) {
+  void Swap(SkillCastReq* other);
+  friend void swap(SkillCastReq& a, SkillCastReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ActionNtyItem* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SkillCastReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ActionNtyItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SkillCastReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ActionNtyItem& from);
-  void MergeFrom(const ActionNtyItem& from);
+  void CopyFrom(const SkillCastReq& from);
+  void MergeFrom(const SkillCastReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -186,7 +198,7 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ActionNtyItem* other);
+  void InternalSwap(SkillCastReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -202,207 +214,10 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // uint64 ObjectGuid = 1;
-  void clear_objectguid();
-  static const int kObjectGuidFieldNumber = 1;
-  ::google::protobuf::uint64 objectguid() const;
-  void set_objectguid(::google::protobuf::uint64 value);
-
-  // int32 ObjStatue = 2;
-  void clear_objstatue();
-  static const int kObjStatueFieldNumber = 2;
-  ::google::protobuf::int32 objstatue() const;
-  void set_objstatue(::google::protobuf::int32 value);
-
-  // int32 ActorID = 3;
-  void clear_actorid();
-  static const int kActorIDFieldNumber = 3;
-  ::google::protobuf::int32 actorid() const;
-  void set_actorid(::google::protobuf::int32 value);
-
-  // uint64 ControlerID = 4;
-  void clear_controlerid();
-  static const int kControlerIDFieldNumber = 4;
-  ::google::protobuf::uint64 controlerid() const;
-  void set_controlerid(::google::protobuf::uint64 value);
-
-  // int32 ActionID = 5;
-  void clear_actionid();
-  static const int kActionIDFieldNumber = 5;
-  ::google::protobuf::int32 actionid() const;
-  void set_actionid(::google::protobuf::int32 value);
-
-  // int32 ActionTime = 6;
-  void clear_actiontime();
-  static const int kActionTimeFieldNumber = 6;
-  ::google::protobuf::int32 actiontime() const;
-  void set_actiontime(::google::protobuf::int32 value);
-
-  // int32 BuffStatue = 7;
-  void clear_buffstatue();
-  static const int kBuffStatueFieldNumber = 7;
-  ::google::protobuf::int32 buffstatue() const;
-  void set_buffstatue(::google::protobuf::int32 value);
-
-  // float X = 8;
-  void clear_x();
-  static const int kXFieldNumber = 8;
-  float x() const;
-  void set_x(float value);
-
-  // float Y = 9;
-  void clear_y();
-  static const int kYFieldNumber = 9;
-  float y() const;
-  void set_y(float value);
-
-  // float Z = 10;
-  void clear_z();
-  static const int kZFieldNumber = 10;
-  float z() const;
-  void set_z(float value);
-
-  // float Ft = 11;
-  void clear_ft();
-  static const int kFtFieldNumber = 11;
-  float ft() const;
-  void set_ft(float value);
-
-  // int32 Hp = 12;
-  void clear_hp();
-  static const int kHpFieldNumber = 12;
-  ::google::protobuf::int32 hp() const;
-  void set_hp(::google::protobuf::int32 value);
-
-  // int32 Mp = 13;
-  void clear_mp();
-  static const int kMpFieldNumber = 13;
-  ::google::protobuf::int32 mp() const;
-  void set_mp(::google::protobuf::int32 value);
-
-  // int32 HpMax = 14;
-  void clear_hpmax();
-  static const int kHpMaxFieldNumber = 14;
-  ::google::protobuf::int32 hpmax() const;
-  void set_hpmax(::google::protobuf::int32 value);
-
-  // int32 MpMax = 15;
-  void clear_mpmax();
-  static const int kMpMaxFieldNumber = 15;
-  ::google::protobuf::int32 mpmax() const;
-  void set_mpmax(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:ActionNtyItem)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint64 objectguid_;
-  ::google::protobuf::int32 objstatue_;
-  ::google::protobuf::int32 actorid_;
-  ::google::protobuf::uint64 controlerid_;
-  ::google::protobuf::int32 actionid_;
-  ::google::protobuf::int32 actiontime_;
-  ::google::protobuf::int32 buffstatue_;
-  float x_;
-  float y_;
-  float z_;
-  float ft_;
-  ::google::protobuf::int32 hp_;
-  ::google::protobuf::int32 mp_;
-  ::google::protobuf::int32 hpmax_;
-  ::google::protobuf::int32 mpmax_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsActionNtyItemImpl();
-};
-// -------------------------------------------------------------------
-
-class ActionReqItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ActionReqItem) */ {
- public:
-  ActionReqItem();
-  virtual ~ActionReqItem();
-
-  ActionReqItem(const ActionReqItem& from);
-
-  inline ActionReqItem& operator=(const ActionReqItem& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  ActionReqItem(ActionReqItem&& from) noexcept
-    : ActionReqItem() {
-    *this = ::std::move(from);
-  }
-
-  inline ActionReqItem& operator=(ActionReqItem&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const ActionReqItem& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ActionReqItem* internal_default_instance() {
-    return reinterpret_cast<const ActionReqItem*>(
-               &_ActionReqItem_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
-
-  void Swap(ActionReqItem* other);
-  friend void swap(ActionReqItem& a, ActionReqItem& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline ActionReqItem* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  ActionReqItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ActionReqItem& from);
-  void MergeFrom(const ActionReqItem& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ActionReqItem* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated uint64 TargetObjects = 12;
+  // repeated uint64 TargetObjects = 11;
   int targetobjects_size() const;
   void clear_targetobjects();
-  static const int kTargetObjectsFieldNumber = 12;
+  static const int kTargetObjectsFieldNumber = 11;
   ::google::protobuf::uint64 targetobjects(int index) const;
   void set_targetobjects(int index, ::google::protobuf::uint64 value);
   void add_targetobjects(::google::protobuf::uint64 value);
@@ -417,75 +232,68 @@ class ActionReqItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 objectguid() const;
   void set_objectguid(::google::protobuf::uint64 value);
 
-  // int32 ActionID = 2;
-  void clear_actionid();
-  static const int kActionIDFieldNumber = 2;
-  ::google::protobuf::int32 actionid() const;
-  void set_actionid(::google::protobuf::int32 value);
+  // int32 SkillID = 2;
+  void clear_skillid();
+  static const int kSkillIDFieldNumber = 2;
+  ::google::protobuf::int32 skillid() const;
+  void set_skillid(::google::protobuf::int32 value);
 
-  // int32 IsSkill = 3;
-  void clear_isskill();
-  static const int kIsSkillFieldNumber = 3;
-  ::google::protobuf::int32 isskill() const;
-  void set_isskill(::google::protobuf::int32 value);
-
-  // float HostX = 4;
+  // float HostX = 3;
   void clear_hostx();
-  static const int kHostXFieldNumber = 4;
+  static const int kHostXFieldNumber = 3;
   float hostx() const;
   void set_hostx(float value);
 
-  // float HostY = 5;
+  // float HostY = 4;
   void clear_hosty();
-  static const int kHostYFieldNumber = 5;
+  static const int kHostYFieldNumber = 4;
   float hosty() const;
   void set_hosty(float value);
 
-  // float HostZ = 6;
+  // float HostZ = 5;
   void clear_hostz();
-  static const int kHostZFieldNumber = 6;
+  static const int kHostZFieldNumber = 5;
   float hostz() const;
   void set_hostz(float value);
 
-  // float HostFt = 7;
+  // float HostFt = 6;
   void clear_hostft();
-  static const int kHostFtFieldNumber = 7;
+  static const int kHostFtFieldNumber = 6;
   float hostft() const;
   void set_hostft(float value);
 
-  // float TargetX = 8;
+  // float TargetX = 7;
   void clear_targetx();
-  static const int kTargetXFieldNumber = 8;
+  static const int kTargetXFieldNumber = 7;
   float targetx() const;
   void set_targetx(float value);
 
-  // float TargetY = 9;
+  // float TargetY = 8;
   void clear_targety();
-  static const int kTargetYFieldNumber = 9;
+  static const int kTargetYFieldNumber = 8;
   float targety() const;
   void set_targety(float value);
 
-  // float TargetZ = 10;
+  // float TargetZ = 9;
   void clear_targetz();
-  static const int kTargetZFieldNumber = 10;
+  static const int kTargetZFieldNumber = 9;
   float targetz() const;
   void set_targetz(float value);
 
-  // float TargetFt = 11;
+  // float TargetFt = 10;
   void clear_targetft();
-  static const int kTargetFtFieldNumber = 11;
+  static const int kTargetFtFieldNumber = 10;
   float targetft() const;
   void set_targetft(float value);
 
-  // @@protoc_insertion_point(class_scope:ActionReqItem)
+  // @@protoc_insertion_point(class_scope:SkillCastReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > targetobjects_;
   mutable int _targetobjects_cached_byte_size_;
   ::google::protobuf::uint64 objectguid_;
-  ::google::protobuf::int32 actionid_;
-  ::google::protobuf::int32 isskill_;
+  ::google::protobuf::int32 skillid_;
   float hostx_;
   float hosty_;
   float hostz_;
@@ -496,7 +304,106 @@ class ActionReqItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   float targetft_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsActionReqItemImpl();
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsSkillCastReqImpl();
+};
+// -------------------------------------------------------------------
+
+class SkillCastAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillCastAck) */ {
+ public:
+  SkillCastAck();
+  virtual ~SkillCastAck();
+
+  SkillCastAck(const SkillCastAck& from);
+
+  inline SkillCastAck& operator=(const SkillCastAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SkillCastAck(SkillCastAck&& from) noexcept
+    : SkillCastAck() {
+    *this = ::std::move(from);
+  }
+
+  inline SkillCastAck& operator=(SkillCastAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SkillCastAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SkillCastAck* internal_default_instance() {
+    return reinterpret_cast<const SkillCastAck*>(
+               &_SkillCastAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    1;
+
+  void Swap(SkillCastAck* other);
+  friend void swap(SkillCastAck& a, SkillCastAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SkillCastAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SkillCastAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SkillCastAck& from);
+  void MergeFrom(const SkillCastAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SkillCastAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SkillCastAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsSkillCastAckImpl();
 };
 // -------------------------------------------------------------------
 
@@ -710,6 +617,337 @@ class ObjectActionNty : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class ActionReqItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ActionReqItem) */ {
+ public:
+  ActionReqItem();
+  virtual ~ActionReqItem();
+
+  ActionReqItem(const ActionReqItem& from);
+
+  inline ActionReqItem& operator=(const ActionReqItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ActionReqItem(ActionReqItem&& from) noexcept
+    : ActionReqItem() {
+    *this = ::std::move(from);
+  }
+
+  inline ActionReqItem& operator=(ActionReqItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ActionReqItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ActionReqItem* internal_default_instance() {
+    return reinterpret_cast<const ActionReqItem*>(
+               &_ActionReqItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    4;
+
+  void Swap(ActionReqItem* other);
+  friend void swap(ActionReqItem& a, ActionReqItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ActionReqItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  ActionReqItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const ActionReqItem& from);
+  void MergeFrom(const ActionReqItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(ActionReqItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // int32 ActionID = 2;
+  void clear_actionid();
+  static const int kActionIDFieldNumber = 2;
+  ::google::protobuf::int32 actionid() const;
+  void set_actionid(::google::protobuf::int32 value);
+
+  // float HostX = 3;
+  void clear_hostx();
+  static const int kHostXFieldNumber = 3;
+  float hostx() const;
+  void set_hostx(float value);
+
+  // float HostY = 4;
+  void clear_hosty();
+  static const int kHostYFieldNumber = 4;
+  float hosty() const;
+  void set_hosty(float value);
+
+  // float HostZ = 5;
+  void clear_hostz();
+  static const int kHostZFieldNumber = 5;
+  float hostz() const;
+  void set_hostz(float value);
+
+  // float HostFt = 6;
+  void clear_hostft();
+  static const int kHostFtFieldNumber = 6;
+  float hostft() const;
+  void set_hostft(float value);
+
+  // @@protoc_insertion_point(class_scope:ActionReqItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  ::google::protobuf::int32 actionid_;
+  float hostx_;
+  float hosty_;
+  float hostz_;
+  float hostft_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsActionReqItemImpl();
+};
+// -------------------------------------------------------------------
+
+class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ActionNtyItem) */ {
+ public:
+  ActionNtyItem();
+  virtual ~ActionNtyItem();
+
+  ActionNtyItem(const ActionNtyItem& from);
+
+  inline ActionNtyItem& operator=(const ActionNtyItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ActionNtyItem(ActionNtyItem&& from) noexcept
+    : ActionNtyItem() {
+    *this = ::std::move(from);
+  }
+
+  inline ActionNtyItem& operator=(ActionNtyItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ActionNtyItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ActionNtyItem* internal_default_instance() {
+    return reinterpret_cast<const ActionNtyItem*>(
+               &_ActionNtyItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    5;
+
+  void Swap(ActionNtyItem* other);
+  friend void swap(ActionNtyItem& a, ActionNtyItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ActionNtyItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  ActionNtyItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const ActionNtyItem& from);
+  void MergeFrom(const ActionNtyItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(ActionNtyItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // int32 ActionID = 2;
+  void clear_actionid();
+  static const int kActionIDFieldNumber = 2;
+  ::google::protobuf::int32 actionid() const;
+  void set_actionid(::google::protobuf::int32 value);
+
+  // int32 ObjectState = 3;
+  void clear_objectstate();
+  static const int kObjectStateFieldNumber = 3;
+  ::google::protobuf::int32 objectstate() const;
+  void set_objectstate(::google::protobuf::int32 value);
+
+  // int32 BuffState = 4;
+  void clear_buffstate();
+  static const int kBuffStateFieldNumber = 4;
+  ::google::protobuf::int32 buffstate() const;
+  void set_buffstate(::google::protobuf::int32 value);
+
+  // float HostX = 5;
+  void clear_hostx();
+  static const int kHostXFieldNumber = 5;
+  float hostx() const;
+  void set_hostx(float value);
+
+  // float HostY = 6;
+  void clear_hosty();
+  static const int kHostYFieldNumber = 6;
+  float hosty() const;
+  void set_hosty(float value);
+
+  // float HostZ = 7;
+  void clear_hostz();
+  static const int kHostZFieldNumber = 7;
+  float hostz() const;
+  void set_hostz(float value);
+
+  // float HostFt = 8;
+  void clear_hostft();
+  static const int kHostFtFieldNumber = 8;
+  float hostft() const;
+  void set_hostft(float value);
+
+  // int32 ActorID = 9;
+  void clear_actorid();
+  static const int kActorIDFieldNumber = 9;
+  ::google::protobuf::int32 actorid() const;
+  void set_actorid(::google::protobuf::int32 value);
+
+  // uint64 ControlerID = 11;
+  void clear_controlerid();
+  static const int kControlerIDFieldNumber = 11;
+  ::google::protobuf::uint64 controlerid() const;
+  void set_controlerid(::google::protobuf::uint64 value);
+
+  // int32 Level = 10;
+  void clear_level();
+  static const int kLevelFieldNumber = 10;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
+
+  // int32 Hp = 12;
+  void clear_hp();
+  static const int kHpFieldNumber = 12;
+  ::google::protobuf::int32 hp() const;
+  void set_hp(::google::protobuf::int32 value);
+
+  // int32 Mp = 13;
+  void clear_mp();
+  static const int kMpFieldNumber = 13;
+  ::google::protobuf::int32 mp() const;
+  void set_mp(::google::protobuf::int32 value);
+
+  // int32 HpMax = 14;
+  void clear_hpmax();
+  static const int kHpMaxFieldNumber = 14;
+  ::google::protobuf::int32 hpmax() const;
+  void set_hpmax(::google::protobuf::int32 value);
+
+  // int32 MpMax = 15;
+  void clear_mpmax();
+  static const int kMpMaxFieldNumber = 15;
+  ::google::protobuf::int32 mpmax() const;
+  void set_mpmax(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:ActionNtyItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  ::google::protobuf::int32 actionid_;
+  ::google::protobuf::int32 objectstate_;
+  ::google::protobuf::int32 buffstate_;
+  float hostx_;
+  float hosty_;
+  float hostz_;
+  float hostft_;
+  ::google::protobuf::int32 actorid_;
+  ::google::protobuf::uint64 controlerid_;
+  ::google::protobuf::int32 level_;
+  ::google::protobuf::int32 hp_;
+  ::google::protobuf::int32 mp_;
+  ::google::protobuf::int32 hpmax_;
+  ::google::protobuf::int32 mpmax_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsActionNtyItemImpl();
+};
+// -------------------------------------------------------------------
+
 class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:NewItem) */ {
  public:
   NewItem();
@@ -745,7 +983,7 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_NewItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(NewItem* other);
   friend void swap(NewItem& a, NewItem& b) {
@@ -792,9 +1030,9 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // string Name = 5;
+  // string Name = 6;
   void clear_name();
-  static const int kNameFieldNumber = 5;
+  static const int kNameFieldNumber = 6;
   const ::std::string& name() const;
   void set_name(const ::std::string& value);
   #if LANG_CXX11
@@ -818,93 +1056,99 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 objtype() const;
   void set_objtype(::google::protobuf::int32 value);
 
-  // int32 ObjStatue = 3;
-  void clear_objstatue();
-  static const int kObjStatueFieldNumber = 3;
-  ::google::protobuf::int32 objstatue() const;
-  void set_objstatue(::google::protobuf::int32 value);
+  // int32 ObjectState = 3;
+  void clear_objectstate();
+  static const int kObjectStateFieldNumber = 3;
+  ::google::protobuf::int32 objectstate() const;
+  void set_objectstate(::google::protobuf::int32 value);
 
-  // int32 ActorID = 4;
+  // int32 BuffState = 4;
+  void clear_buffstate();
+  static const int kBuffStateFieldNumber = 4;
+  ::google::protobuf::int32 buffstate() const;
+  void set_buffstate(::google::protobuf::int32 value);
+
+  // int32 ActorID = 5;
   void clear_actorid();
-  static const int kActorIDFieldNumber = 4;
+  static const int kActorIDFieldNumber = 5;
   ::google::protobuf::int32 actorid() const;
   void set_actorid(::google::protobuf::int32 value);
 
-  // int32 Level = 6;
-  void clear_level();
-  static const int kLevelFieldNumber = 6;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
-
-  // uint64 HostGuid = 7;
+  // uint64 HostGuid = 8;
   void clear_hostguid();
-  static const int kHostGuidFieldNumber = 7;
+  static const int kHostGuidFieldNumber = 8;
   ::google::protobuf::uint64 hostguid() const;
   void set_hostguid(::google::protobuf::uint64 value);
 
-  // uint64 ControlerID = 8;
+  // uint64 ControlerID = 9;
   void clear_controlerid();
-  static const int kControlerIDFieldNumber = 8;
+  static const int kControlerIDFieldNumber = 9;
   ::google::protobuf::uint64 controlerid() const;
   void set_controlerid(::google::protobuf::uint64 value);
 
-  // uint64 SummonID = 9;
-  void clear_summonid();
-  static const int kSummonIDFieldNumber = 9;
-  ::google::protobuf::uint64 summonid() const;
-  void set_summonid(::google::protobuf::uint64 value);
+  // int32 Level = 7;
+  void clear_level();
+  static const int kLevelFieldNumber = 7;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
 
-  // float X = 10;
+  // float X = 11;
   void clear_x();
-  static const int kXFieldNumber = 10;
+  static const int kXFieldNumber = 11;
   float x() const;
   void set_x(float value);
 
-  // float Y = 11;
+  // uint64 SummonID = 10;
+  void clear_summonid();
+  static const int kSummonIDFieldNumber = 10;
+  ::google::protobuf::uint64 summonid() const;
+  void set_summonid(::google::protobuf::uint64 value);
+
+  // float Y = 12;
   void clear_y();
-  static const int kYFieldNumber = 11;
+  static const int kYFieldNumber = 12;
   float y() const;
   void set_y(float value);
 
-  // float Z = 12;
+  // float Z = 13;
   void clear_z();
-  static const int kZFieldNumber = 12;
+  static const int kZFieldNumber = 13;
   float z() const;
   void set_z(float value);
 
-  // float Ft = 13;
+  // float Ft = 14;
   void clear_ft();
-  static const int kFtFieldNumber = 13;
+  static const int kFtFieldNumber = 14;
   float ft() const;
   void set_ft(float value);
 
-  // int32 Hp = 14;
+  // int32 Hp = 15;
   void clear_hp();
-  static const int kHpFieldNumber = 14;
+  static const int kHpFieldNumber = 15;
   ::google::protobuf::int32 hp() const;
   void set_hp(::google::protobuf::int32 value);
 
-  // int32 Mp = 15;
+  // int32 Mp = 16;
   void clear_mp();
-  static const int kMpFieldNumber = 15;
+  static const int kMpFieldNumber = 16;
   ::google::protobuf::int32 mp() const;
   void set_mp(::google::protobuf::int32 value);
 
-  // int32 HpMax = 16;
+  // int32 HpMax = 17;
   void clear_hpmax();
-  static const int kHpMaxFieldNumber = 16;
+  static const int kHpMaxFieldNumber = 17;
   ::google::protobuf::int32 hpmax() const;
   void set_hpmax(::google::protobuf::int32 value);
 
-  // int32 MpMax = 17;
+  // int32 MpMax = 18;
   void clear_mpmax();
-  static const int kMpMaxFieldNumber = 17;
+  static const int kMpMaxFieldNumber = 18;
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
-  // int32 Weapon = 18;
+  // int32 Weapon = 19;
   void clear_weapon();
-  static const int kWeaponFieldNumber = 18;
+  static const int kWeaponFieldNumber = 19;
   ::google::protobuf::int32 weapon() const;
   void set_weapon(::google::protobuf::int32 value);
 
@@ -915,13 +1159,14 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 objtype_;
-  ::google::protobuf::int32 objstatue_;
+  ::google::protobuf::int32 objectstate_;
+  ::google::protobuf::int32 buffstate_;
   ::google::protobuf::int32 actorid_;
-  ::google::protobuf::int32 level_;
   ::google::protobuf::uint64 hostguid_;
   ::google::protobuf::uint64 controlerid_;
-  ::google::protobuf::uint64 summonid_;
+  ::google::protobuf::int32 level_;
   float x_;
+  ::google::protobuf::uint64 summonid_;
   float y_;
   float z_;
   float ft_;
@@ -971,7 +1216,7 @@ class ObjectNewNty : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_ObjectNewNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(ObjectNewNty* other);
   friend void swap(ObjectNewNty& a, ObjectNewNty& b) {
@@ -1076,7 +1321,7 @@ class ObjectRemoveNty : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectRemoveNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(ObjectRemoveNty* other);
   friend void swap(ObjectRemoveNty& a, ObjectRemoveNty& b) {
@@ -1182,7 +1427,7 @@ class HeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    9;
 
   void Swap(HeartBeatReq* other);
   friend void swap(HeartBeatReq& a, HeartBeatReq& b) {
@@ -1281,7 +1526,7 @@ class HeartBeatAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    10;
 
   void Swap(HeartBeatAck* other);
   friend void swap(HeartBeatAck& a, HeartBeatAck& b) {
@@ -1387,7 +1632,7 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectDieNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    11;
 
   void Swap(ObjectDieNotify* other);
   friend void swap(ObjectDieNotify& a, ObjectDieNotify& b) {
@@ -1486,7 +1731,7 @@ class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_inserti
                &_ObjectValueChange_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(ObjectValueChange* other);
   friend void swap(ObjectValueChange& a, ObjectValueChange& b) {
@@ -1606,7 +1851,7 @@ class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_inse
                &_ObjectValueChangeNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(ObjectValueChangeNtf* other);
   friend void swap(ObjectValueChangeNtf& a, ObjectValueChangeNtf& b) {
@@ -1683,404 +1928,194 @@ class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_inse
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ActionNtyItem
+// SkillCastReq
 
 // uint64 ObjectGuid = 1;
-inline void ActionNtyItem::clear_objectguid() {
+inline void SkillCastReq::clear_objectguid() {
   objectguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 ActionNtyItem::objectguid() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjectGuid)
+inline ::google::protobuf::uint64 SkillCastReq::objectguid() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.ObjectGuid)
   return objectguid_;
 }
-inline void ActionNtyItem::set_objectguid(::google::protobuf::uint64 value) {
+inline void SkillCastReq::set_objectguid(::google::protobuf::uint64 value) {
   
   objectguid_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjectGuid)
+  // @@protoc_insertion_point(field_set:SkillCastReq.ObjectGuid)
 }
 
-// int32 ObjStatue = 2;
-inline void ActionNtyItem::clear_objstatue() {
-  objstatue_ = 0;
+// int32 SkillID = 2;
+inline void SkillCastReq::clear_skillid() {
+  skillid_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::objstatue() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjStatue)
-  return objstatue_;
+inline ::google::protobuf::int32 SkillCastReq::skillid() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.SkillID)
+  return skillid_;
 }
-inline void ActionNtyItem::set_objstatue(::google::protobuf::int32 value) {
+inline void SkillCastReq::set_skillid(::google::protobuf::int32 value) {
   
-  objstatue_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjStatue)
+  skillid_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.SkillID)
 }
 
-// int32 ActorID = 3;
-inline void ActionNtyItem::clear_actorid() {
-  actorid_ = 0;
+// float HostX = 3;
+inline void SkillCastReq::clear_hostx() {
+  hostx_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::actorid() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ActorID)
-  return actorid_;
+inline float SkillCastReq::hostx() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.HostX)
+  return hostx_;
 }
-inline void ActionNtyItem::set_actorid(::google::protobuf::int32 value) {
+inline void SkillCastReq::set_hostx(float value) {
   
-  actorid_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ActorID)
+  hostx_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.HostX)
 }
 
-// uint64 ControlerID = 4;
-inline void ActionNtyItem::clear_controlerid() {
-  controlerid_ = GOOGLE_ULONGLONG(0);
+// float HostY = 4;
+inline void SkillCastReq::clear_hosty() {
+  hosty_ = 0;
 }
-inline ::google::protobuf::uint64 ActionNtyItem::controlerid() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ControlerID)
-  return controlerid_;
+inline float SkillCastReq::hosty() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.HostY)
+  return hosty_;
 }
-inline void ActionNtyItem::set_controlerid(::google::protobuf::uint64 value) {
+inline void SkillCastReq::set_hosty(float value) {
   
-  controlerid_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ControlerID)
+  hosty_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.HostY)
 }
 
-// int32 ActionID = 5;
-inline void ActionNtyItem::clear_actionid() {
-  actionid_ = 0;
+// float HostZ = 5;
+inline void SkillCastReq::clear_hostz() {
+  hostz_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::actionid() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ActionID)
-  return actionid_;
+inline float SkillCastReq::hostz() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.HostZ)
+  return hostz_;
 }
-inline void ActionNtyItem::set_actionid(::google::protobuf::int32 value) {
+inline void SkillCastReq::set_hostz(float value) {
   
-  actionid_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ActionID)
+  hostz_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.HostZ)
 }
 
-// int32 ActionTime = 6;
-inline void ActionNtyItem::clear_actiontime() {
-  actiontime_ = 0;
+// float HostFt = 6;
+inline void SkillCastReq::clear_hostft() {
+  hostft_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::actiontime() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ActionTime)
-  return actiontime_;
+inline float SkillCastReq::hostft() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.HostFt)
+  return hostft_;
 }
-inline void ActionNtyItem::set_actiontime(::google::protobuf::int32 value) {
+inline void SkillCastReq::set_hostft(float value) {
   
-  actiontime_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ActionTime)
+  hostft_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.HostFt)
 }
 
-// int32 BuffStatue = 7;
-inline void ActionNtyItem::clear_buffstatue() {
-  buffstatue_ = 0;
+// float TargetX = 7;
+inline void SkillCastReq::clear_targetx() {
+  targetx_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::buffstatue() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.BuffStatue)
-  return buffstatue_;
+inline float SkillCastReq::targetx() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.TargetX)
+  return targetx_;
 }
-inline void ActionNtyItem::set_buffstatue(::google::protobuf::int32 value) {
+inline void SkillCastReq::set_targetx(float value) {
   
-  buffstatue_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.BuffStatue)
+  targetx_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.TargetX)
 }
 
-// float X = 8;
-inline void ActionNtyItem::clear_x() {
-  x_ = 0;
+// float TargetY = 8;
+inline void SkillCastReq::clear_targety() {
+  targety_ = 0;
 }
-inline float ActionNtyItem::x() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.X)
-  return x_;
+inline float SkillCastReq::targety() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.TargetY)
+  return targety_;
 }
-inline void ActionNtyItem::set_x(float value) {
+inline void SkillCastReq::set_targety(float value) {
   
-  x_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.X)
+  targety_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.TargetY)
 }
 
-// float Y = 9;
-inline void ActionNtyItem::clear_y() {
-  y_ = 0;
+// float TargetZ = 9;
+inline void SkillCastReq::clear_targetz() {
+  targetz_ = 0;
 }
-inline float ActionNtyItem::y() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.Y)
-  return y_;
+inline float SkillCastReq::targetz() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.TargetZ)
+  return targetz_;
 }
-inline void ActionNtyItem::set_y(float value) {
+inline void SkillCastReq::set_targetz(float value) {
   
-  y_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.Y)
+  targetz_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.TargetZ)
 }
 
-// float Z = 10;
-inline void ActionNtyItem::clear_z() {
-  z_ = 0;
+// float TargetFt = 10;
+inline void SkillCastReq::clear_targetft() {
+  targetft_ = 0;
 }
-inline float ActionNtyItem::z() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.Z)
-  return z_;
+inline float SkillCastReq::targetft() const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.TargetFt)
+  return targetft_;
 }
-inline void ActionNtyItem::set_z(float value) {
+inline void SkillCastReq::set_targetft(float value) {
   
-  z_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.Z)
+  targetft_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastReq.TargetFt)
 }
 
-// float Ft = 11;
-inline void ActionNtyItem::clear_ft() {
-  ft_ = 0;
+// repeated uint64 TargetObjects = 11;
+inline int SkillCastReq::targetobjects_size() const {
+  return targetobjects_.size();
 }
-inline float ActionNtyItem::ft() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.Ft)
-  return ft_;
+inline void SkillCastReq::clear_targetobjects() {
+  targetobjects_.Clear();
 }
-inline void ActionNtyItem::set_ft(float value) {
-  
-  ft_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.Ft)
+inline ::google::protobuf::uint64 SkillCastReq::targetobjects(int index) const {
+  // @@protoc_insertion_point(field_get:SkillCastReq.TargetObjects)
+  return targetobjects_.Get(index);
 }
-
-// int32 Hp = 12;
-inline void ActionNtyItem::clear_hp() {
-  hp_ = 0;
+inline void SkillCastReq::set_targetobjects(int index, ::google::protobuf::uint64 value) {
+  targetobjects_.Set(index, value);
+  // @@protoc_insertion_point(field_set:SkillCastReq.TargetObjects)
 }
-inline ::google::protobuf::int32 ActionNtyItem::hp() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.Hp)
-  return hp_;
+inline void SkillCastReq::add_targetobjects(::google::protobuf::uint64 value) {
+  targetobjects_.Add(value);
+  // @@protoc_insertion_point(field_add:SkillCastReq.TargetObjects)
 }
-inline void ActionNtyItem::set_hp(::google::protobuf::int32 value) {
-  
-  hp_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.Hp)
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+SkillCastReq::targetobjects() const {
+  // @@protoc_insertion_point(field_list:SkillCastReq.TargetObjects)
+  return targetobjects_;
 }
-
-// int32 Mp = 13;
-inline void ActionNtyItem::clear_mp() {
-  mp_ = 0;
-}
-inline ::google::protobuf::int32 ActionNtyItem::mp() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.Mp)
-  return mp_;
-}
-inline void ActionNtyItem::set_mp(::google::protobuf::int32 value) {
-  
-  mp_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.Mp)
-}
-
-// int32 HpMax = 14;
-inline void ActionNtyItem::clear_hpmax() {
-  hpmax_ = 0;
-}
-inline ::google::protobuf::int32 ActionNtyItem::hpmax() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.HpMax)
-  return hpmax_;
-}
-inline void ActionNtyItem::set_hpmax(::google::protobuf::int32 value) {
-  
-  hpmax_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.HpMax)
-}
-
-// int32 MpMax = 15;
-inline void ActionNtyItem::clear_mpmax() {
-  mpmax_ = 0;
-}
-inline ::google::protobuf::int32 ActionNtyItem::mpmax() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.MpMax)
-  return mpmax_;
-}
-inline void ActionNtyItem::set_mpmax(::google::protobuf::int32 value) {
-  
-  mpmax_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.MpMax)
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+SkillCastReq::mutable_targetobjects() {
+  // @@protoc_insertion_point(field_mutable_list:SkillCastReq.TargetObjects)
+  return &targetobjects_;
 }
 
 // -------------------------------------------------------------------
 
-// ActionReqItem
+// SkillCastAck
 
-// uint64 ObjectGuid = 1;
-inline void ActionReqItem::clear_objectguid() {
-  objectguid_ = GOOGLE_ULONGLONG(0);
+// uint32 RetCode = 1;
+inline void SkillCastAck::clear_retcode() {
+  retcode_ = 0u;
 }
-inline ::google::protobuf::uint64 ActionReqItem::objectguid() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.ObjectGuid)
-  return objectguid_;
+inline ::google::protobuf::uint32 SkillCastAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SkillCastAck.RetCode)
+  return retcode_;
 }
-inline void ActionReqItem::set_objectguid(::google::protobuf::uint64 value) {
+inline void SkillCastAck::set_retcode(::google::protobuf::uint32 value) {
   
-  objectguid_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.ObjectGuid)
-}
-
-// int32 ActionID = 2;
-inline void ActionReqItem::clear_actionid() {
-  actionid_ = 0;
-}
-inline ::google::protobuf::int32 ActionReqItem::actionid() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.ActionID)
-  return actionid_;
-}
-inline void ActionReqItem::set_actionid(::google::protobuf::int32 value) {
-  
-  actionid_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.ActionID)
-}
-
-// int32 IsSkill = 3;
-inline void ActionReqItem::clear_isskill() {
-  isskill_ = 0;
-}
-inline ::google::protobuf::int32 ActionReqItem::isskill() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.IsSkill)
-  return isskill_;
-}
-inline void ActionReqItem::set_isskill(::google::protobuf::int32 value) {
-  
-  isskill_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.IsSkill)
-}
-
-// float HostX = 4;
-inline void ActionReqItem::clear_hostx() {
-  hostx_ = 0;
-}
-inline float ActionReqItem::hostx() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.HostX)
-  return hostx_;
-}
-inline void ActionReqItem::set_hostx(float value) {
-  
-  hostx_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.HostX)
-}
-
-// float HostY = 5;
-inline void ActionReqItem::clear_hosty() {
-  hosty_ = 0;
-}
-inline float ActionReqItem::hosty() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.HostY)
-  return hosty_;
-}
-inline void ActionReqItem::set_hosty(float value) {
-  
-  hosty_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.HostY)
-}
-
-// float HostZ = 6;
-inline void ActionReqItem::clear_hostz() {
-  hostz_ = 0;
-}
-inline float ActionReqItem::hostz() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.HostZ)
-  return hostz_;
-}
-inline void ActionReqItem::set_hostz(float value) {
-  
-  hostz_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.HostZ)
-}
-
-// float HostFt = 7;
-inline void ActionReqItem::clear_hostft() {
-  hostft_ = 0;
-}
-inline float ActionReqItem::hostft() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.HostFt)
-  return hostft_;
-}
-inline void ActionReqItem::set_hostft(float value) {
-  
-  hostft_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.HostFt)
-}
-
-// float TargetX = 8;
-inline void ActionReqItem::clear_targetx() {
-  targetx_ = 0;
-}
-inline float ActionReqItem::targetx() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.TargetX)
-  return targetx_;
-}
-inline void ActionReqItem::set_targetx(float value) {
-  
-  targetx_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.TargetX)
-}
-
-// float TargetY = 9;
-inline void ActionReqItem::clear_targety() {
-  targety_ = 0;
-}
-inline float ActionReqItem::targety() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.TargetY)
-  return targety_;
-}
-inline void ActionReqItem::set_targety(float value) {
-  
-  targety_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.TargetY)
-}
-
-// float TargetZ = 10;
-inline void ActionReqItem::clear_targetz() {
-  targetz_ = 0;
-}
-inline float ActionReqItem::targetz() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.TargetZ)
-  return targetz_;
-}
-inline void ActionReqItem::set_targetz(float value) {
-  
-  targetz_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.TargetZ)
-}
-
-// float TargetFt = 11;
-inline void ActionReqItem::clear_targetft() {
-  targetft_ = 0;
-}
-inline float ActionReqItem::targetft() const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.TargetFt)
-  return targetft_;
-}
-inline void ActionReqItem::set_targetft(float value) {
-  
-  targetft_ = value;
-  // @@protoc_insertion_point(field_set:ActionReqItem.TargetFt)
-}
-
-// repeated uint64 TargetObjects = 12;
-inline int ActionReqItem::targetobjects_size() const {
-  return targetobjects_.size();
-}
-inline void ActionReqItem::clear_targetobjects() {
-  targetobjects_.Clear();
-}
-inline ::google::protobuf::uint64 ActionReqItem::targetobjects(int index) const {
-  // @@protoc_insertion_point(field_get:ActionReqItem.TargetObjects)
-  return targetobjects_.Get(index);
-}
-inline void ActionReqItem::set_targetobjects(int index, ::google::protobuf::uint64 value) {
-  targetobjects_.Set(index, value);
-  // @@protoc_insertion_point(field_set:ActionReqItem.TargetObjects)
-}
-inline void ActionReqItem::add_targetobjects(::google::protobuf::uint64 value) {
-  targetobjects_.Add(value);
-  // @@protoc_insertion_point(field_add:ActionReqItem.TargetObjects)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
-ActionReqItem::targetobjects() const {
-  // @@protoc_insertion_point(field_list:ActionReqItem.TargetObjects)
-  return targetobjects_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
-ActionReqItem::mutable_targetobjects() {
-  // @@protoc_insertion_point(field_mutable_list:ActionReqItem.TargetObjects)
-  return &targetobjects_;
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastAck.RetCode)
 }
 
 // -------------------------------------------------------------------
@@ -2153,6 +2188,308 @@ ObjectActionNty::actionlist() const {
 
 // -------------------------------------------------------------------
 
+// ActionReqItem
+
+// uint64 ObjectGuid = 1;
+inline void ActionReqItem::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 ActionReqItem::objectguid() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.ObjectGuid)
+  return objectguid_;
+}
+inline void ActionReqItem::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.ObjectGuid)
+}
+
+// int32 ActionID = 2;
+inline void ActionReqItem::clear_actionid() {
+  actionid_ = 0;
+}
+inline ::google::protobuf::int32 ActionReqItem::actionid() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.ActionID)
+  return actionid_;
+}
+inline void ActionReqItem::set_actionid(::google::protobuf::int32 value) {
+  
+  actionid_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.ActionID)
+}
+
+// float HostX = 3;
+inline void ActionReqItem::clear_hostx() {
+  hostx_ = 0;
+}
+inline float ActionReqItem::hostx() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.HostX)
+  return hostx_;
+}
+inline void ActionReqItem::set_hostx(float value) {
+  
+  hostx_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.HostX)
+}
+
+// float HostY = 4;
+inline void ActionReqItem::clear_hosty() {
+  hosty_ = 0;
+}
+inline float ActionReqItem::hosty() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.HostY)
+  return hosty_;
+}
+inline void ActionReqItem::set_hosty(float value) {
+  
+  hosty_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.HostY)
+}
+
+// float HostZ = 5;
+inline void ActionReqItem::clear_hostz() {
+  hostz_ = 0;
+}
+inline float ActionReqItem::hostz() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.HostZ)
+  return hostz_;
+}
+inline void ActionReqItem::set_hostz(float value) {
+  
+  hostz_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.HostZ)
+}
+
+// float HostFt = 6;
+inline void ActionReqItem::clear_hostft() {
+  hostft_ = 0;
+}
+inline float ActionReqItem::hostft() const {
+  // @@protoc_insertion_point(field_get:ActionReqItem.HostFt)
+  return hostft_;
+}
+inline void ActionReqItem::set_hostft(float value) {
+  
+  hostft_ = value;
+  // @@protoc_insertion_point(field_set:ActionReqItem.HostFt)
+}
+
+// -------------------------------------------------------------------
+
+// ActionNtyItem
+
+// uint64 ObjectGuid = 1;
+inline void ActionNtyItem::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 ActionNtyItem::objectguid() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjectGuid)
+  return objectguid_;
+}
+inline void ActionNtyItem::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjectGuid)
+}
+
+// int32 ActionID = 2;
+inline void ActionNtyItem::clear_actionid() {
+  actionid_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::actionid() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ActionID)
+  return actionid_;
+}
+inline void ActionNtyItem::set_actionid(::google::protobuf::int32 value) {
+  
+  actionid_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ActionID)
+}
+
+// int32 ObjectState = 3;
+inline void ActionNtyItem::clear_objectstate() {
+  objectstate_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::objectstate() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjectState)
+  return objectstate_;
+}
+inline void ActionNtyItem::set_objectstate(::google::protobuf::int32 value) {
+  
+  objectstate_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjectState)
+}
+
+// int32 BuffState = 4;
+inline void ActionNtyItem::clear_buffstate() {
+  buffstate_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::buffstate() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.BuffState)
+  return buffstate_;
+}
+inline void ActionNtyItem::set_buffstate(::google::protobuf::int32 value) {
+  
+  buffstate_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.BuffState)
+}
+
+// float HostX = 5;
+inline void ActionNtyItem::clear_hostx() {
+  hostx_ = 0;
+}
+inline float ActionNtyItem::hostx() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.HostX)
+  return hostx_;
+}
+inline void ActionNtyItem::set_hostx(float value) {
+  
+  hostx_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.HostX)
+}
+
+// float HostY = 6;
+inline void ActionNtyItem::clear_hosty() {
+  hosty_ = 0;
+}
+inline float ActionNtyItem::hosty() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.HostY)
+  return hosty_;
+}
+inline void ActionNtyItem::set_hosty(float value) {
+  
+  hosty_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.HostY)
+}
+
+// float HostZ = 7;
+inline void ActionNtyItem::clear_hostz() {
+  hostz_ = 0;
+}
+inline float ActionNtyItem::hostz() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.HostZ)
+  return hostz_;
+}
+inline void ActionNtyItem::set_hostz(float value) {
+  
+  hostz_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.HostZ)
+}
+
+// float HostFt = 8;
+inline void ActionNtyItem::clear_hostft() {
+  hostft_ = 0;
+}
+inline float ActionNtyItem::hostft() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.HostFt)
+  return hostft_;
+}
+inline void ActionNtyItem::set_hostft(float value) {
+  
+  hostft_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.HostFt)
+}
+
+// int32 ActorID = 9;
+inline void ActionNtyItem::clear_actorid() {
+  actorid_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::actorid() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ActorID)
+  return actorid_;
+}
+inline void ActionNtyItem::set_actorid(::google::protobuf::int32 value) {
+  
+  actorid_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ActorID)
+}
+
+// int32 Level = 10;
+inline void ActionNtyItem::clear_level() {
+  level_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::level() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.Level)
+  return level_;
+}
+inline void ActionNtyItem::set_level(::google::protobuf::int32 value) {
+  
+  level_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.Level)
+}
+
+// uint64 ControlerID = 11;
+inline void ActionNtyItem::clear_controlerid() {
+  controlerid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 ActionNtyItem::controlerid() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ControlerID)
+  return controlerid_;
+}
+inline void ActionNtyItem::set_controlerid(::google::protobuf::uint64 value) {
+  
+  controlerid_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ControlerID)
+}
+
+// int32 Hp = 12;
+inline void ActionNtyItem::clear_hp() {
+  hp_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::hp() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.Hp)
+  return hp_;
+}
+inline void ActionNtyItem::set_hp(::google::protobuf::int32 value) {
+  
+  hp_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.Hp)
+}
+
+// int32 Mp = 13;
+inline void ActionNtyItem::clear_mp() {
+  mp_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::mp() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.Mp)
+  return mp_;
+}
+inline void ActionNtyItem::set_mp(::google::protobuf::int32 value) {
+  
+  mp_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.Mp)
+}
+
+// int32 HpMax = 14;
+inline void ActionNtyItem::clear_hpmax() {
+  hpmax_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::hpmax() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.HpMax)
+  return hpmax_;
+}
+inline void ActionNtyItem::set_hpmax(::google::protobuf::int32 value) {
+  
+  hpmax_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.HpMax)
+}
+
+// int32 MpMax = 15;
+inline void ActionNtyItem::clear_mpmax() {
+  mpmax_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::mpmax() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.MpMax)
+  return mpmax_;
+}
+inline void ActionNtyItem::set_mpmax(::google::protobuf::int32 value) {
+  
+  mpmax_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.MpMax)
+}
+
+// -------------------------------------------------------------------
+
 // NewItem
 
 // uint64 ObjectGuid = 1;
@@ -2183,21 +2520,35 @@ inline void NewItem::set_objtype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.ObjType)
 }
 
-// int32 ObjStatue = 3;
-inline void NewItem::clear_objstatue() {
-  objstatue_ = 0;
+// int32 ObjectState = 3;
+inline void NewItem::clear_objectstate() {
+  objectstate_ = 0;
 }
-inline ::google::protobuf::int32 NewItem::objstatue() const {
-  // @@protoc_insertion_point(field_get:NewItem.ObjStatue)
-  return objstatue_;
+inline ::google::protobuf::int32 NewItem::objectstate() const {
+  // @@protoc_insertion_point(field_get:NewItem.ObjectState)
+  return objectstate_;
 }
-inline void NewItem::set_objstatue(::google::protobuf::int32 value) {
+inline void NewItem::set_objectstate(::google::protobuf::int32 value) {
   
-  objstatue_ = value;
-  // @@protoc_insertion_point(field_set:NewItem.ObjStatue)
+  objectstate_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.ObjectState)
 }
 
-// int32 ActorID = 4;
+// int32 BuffState = 4;
+inline void NewItem::clear_buffstate() {
+  buffstate_ = 0;
+}
+inline ::google::protobuf::int32 NewItem::buffstate() const {
+  // @@protoc_insertion_point(field_get:NewItem.BuffState)
+  return buffstate_;
+}
+inline void NewItem::set_buffstate(::google::protobuf::int32 value) {
+  
+  buffstate_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.BuffState)
+}
+
+// int32 ActorID = 5;
 inline void NewItem::clear_actorid() {
   actorid_ = 0;
 }
@@ -2211,7 +2562,7 @@ inline void NewItem::set_actorid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.ActorID)
 }
 
-// string Name = 5;
+// string Name = 6;
 inline void NewItem::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -2264,7 +2615,7 @@ inline void NewItem::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:NewItem.Name)
 }
 
-// int32 Level = 6;
+// int32 Level = 7;
 inline void NewItem::clear_level() {
   level_ = 0;
 }
@@ -2278,7 +2629,7 @@ inline void NewItem::set_level(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Level)
 }
 
-// uint64 HostGuid = 7;
+// uint64 HostGuid = 8;
 inline void NewItem::clear_hostguid() {
   hostguid_ = GOOGLE_ULONGLONG(0);
 }
@@ -2292,7 +2643,7 @@ inline void NewItem::set_hostguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.HostGuid)
 }
 
-// uint64 ControlerID = 8;
+// uint64 ControlerID = 9;
 inline void NewItem::clear_controlerid() {
   controlerid_ = GOOGLE_ULONGLONG(0);
 }
@@ -2306,7 +2657,7 @@ inline void NewItem::set_controlerid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.ControlerID)
 }
 
-// uint64 SummonID = 9;
+// uint64 SummonID = 10;
 inline void NewItem::clear_summonid() {
   summonid_ = GOOGLE_ULONGLONG(0);
 }
@@ -2320,7 +2671,7 @@ inline void NewItem::set_summonid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.SummonID)
 }
 
-// float X = 10;
+// float X = 11;
 inline void NewItem::clear_x() {
   x_ = 0;
 }
@@ -2334,7 +2685,7 @@ inline void NewItem::set_x(float value) {
   // @@protoc_insertion_point(field_set:NewItem.X)
 }
 
-// float Y = 11;
+// float Y = 12;
 inline void NewItem::clear_y() {
   y_ = 0;
 }
@@ -2348,7 +2699,7 @@ inline void NewItem::set_y(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Y)
 }
 
-// float Z = 12;
+// float Z = 13;
 inline void NewItem::clear_z() {
   z_ = 0;
 }
@@ -2362,7 +2713,7 @@ inline void NewItem::set_z(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Z)
 }
 
-// float Ft = 13;
+// float Ft = 14;
 inline void NewItem::clear_ft() {
   ft_ = 0;
 }
@@ -2376,7 +2727,7 @@ inline void NewItem::set_ft(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Ft)
 }
 
-// int32 Hp = 14;
+// int32 Hp = 15;
 inline void NewItem::clear_hp() {
   hp_ = 0;
 }
@@ -2390,7 +2741,7 @@ inline void NewItem::set_hp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Hp)
 }
 
-// int32 Mp = 15;
+// int32 Mp = 16;
 inline void NewItem::clear_mp() {
   mp_ = 0;
 }
@@ -2404,7 +2755,7 @@ inline void NewItem::set_mp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Mp)
 }
 
-// int32 HpMax = 16;
+// int32 HpMax = 17;
 inline void NewItem::clear_hpmax() {
   hpmax_ = 0;
 }
@@ -2418,7 +2769,7 @@ inline void NewItem::set_hpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.HpMax)
 }
 
-// int32 MpMax = 17;
+// int32 MpMax = 18;
 inline void NewItem::clear_mpmax() {
   mpmax_ = 0;
 }
@@ -2432,7 +2783,7 @@ inline void NewItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.MpMax)
 }
 
-// int32 Weapon = 18;
+// int32 Weapon = 19;
 inline void NewItem::clear_weapon() {
   weapon_ = 0;
 }
@@ -2679,6 +3030,10 @@ ObjectValueChangeNtf::changelist() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

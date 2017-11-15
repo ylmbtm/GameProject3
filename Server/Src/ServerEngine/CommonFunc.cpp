@@ -155,14 +155,14 @@ UINT64 CommonFunc::GetTickCount()
 #ifdef WIN32
 	return ::GetTickCount64();
 #else
-	UINT64 dwTickCount = 0;;
+	UINT64 uTickCount = 0;;
 	struct timespec on;
 	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
-		dwTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
+		uTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
 	}
 
-	return dwTickCount;
+	return uTickCount;
 #endif
 }
 

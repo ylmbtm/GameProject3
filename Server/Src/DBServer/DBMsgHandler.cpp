@@ -104,7 +104,7 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CDBMsgHandler::OnUpdate(UINT64 dwTick)
+BOOL CDBMsgHandler::OnUpdate(UINT64 uTick)
 {
 	return TRUE;
 }

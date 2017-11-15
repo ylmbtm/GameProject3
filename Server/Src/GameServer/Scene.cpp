@@ -82,6 +82,7 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
+			PROCESS_MESSAGE_ITEMEX(MSG_SKILL_CAST_REQ,		OnMsgSkillCastReq);
 			PROCESS_MESSAGE_ITEMEX(MSG_OBJECT_ACTION_REQ,	OnMsgObjectActionReq);
 			PROCESS_MESSAGE_ITEM(MSG_HEART_BEAT_REQ,		OnMsgHeartBeatReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
@@ -108,6 +109,26 @@ BOOL CScene::OnMsgObjectActionReq( NetPacket* pNetPacket )
 	{
 		const ActionReqItem& Item = Req.actionlist(i);
 		ProcessActionItem(Item);
+	}
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
+{
+	SkillCastReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject* pSceneObj = GetPlayer(Req.objectguid());
+	ERROR_RETURN_TRUE(pSceneObj != NULL);
+
+	UINT32 dwRetCode = pSceneObj->ProcessSkill(Req);
+	if (dwRetCode != MRC_SUCCESSED)
+	{
+		SkillCastAck Ack;
+		Ack.set_retcode(dwRetCode);
+		pSceneObj->SendMsgProtoBuf(MSG_SKILL_CAST_ACK, Ack);
 	}
 
 	return TRUE;
@@ -181,7 +202,7 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 
 	//先把玩家的完整包组装好
 	ObjectNewNty Nty;
-	pSceneObject->SaveNewObject(Nty);
+	pSceneObject->SaveNewData(Nty);
 
 	char szBuff[10240] = {0};
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
@@ -201,8 +222,35 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 			continue;
 		}
 
-		pOther->SendMsgRawData(MSG_OBJECT_NEW_NTY, szBuff, Nty.ByteSize());
+		pOther->SendMsgRawData(MSG_OBJECT_NEW_NTF, szBuff, Nty.ByteSize());
 	}
+
+	return TRUE;
+}
+
+BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+{
+	char szBuff[102400] = { 0 };
+	ERROR_RETURN_FALSE(pdata.SerializePartialToArray(szBuff, pdata.ByteSize()));
+
+	BroadMessageNotify Nty;
+	Nty.set_msgdata(szBuff, pdata.ByteSize());
+	Nty.set_msgid(dwMsgID);
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pObj = itor->second;
+		ASSERT(pObj != NULL);
+
+		if (!pObj->IsConnected())
+		{
+			continue;
+		}
+
+		Nty.add_connid(pObj->m_dwClientConnID);
+	}
+
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetProxyConnID(), MSG_BROAD_MESSAGE_NOTIFY, 0, 0, Nty);
 
 	return TRUE;
 }
@@ -225,7 +273,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CScene::OnUpdate( UINT64 dwTick )
+BOOL CScene::OnUpdate( UINT64 uTick )
 {
 	if(m_pSceneLogic->IsFinished())
 	{
@@ -237,7 +285,7 @@ BOOL CScene::OnUpdate( UINT64 dwTick )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
-		pSceneObject->OnUpdate(dwTick);
+		pSceneObject->OnUpdate(uTick);
 	}
 
 	//同步所有对象的状态
@@ -248,9 +296,9 @@ BOOL CScene::OnUpdate( UINT64 dwTick )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
-		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjState != OS_DIE)
+		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjectState != OS_DIE)
 		{
-			pSceneObject->m_dwObjState = OS_DIE;
+			pSceneObject->m_dwObjectState |= OS_DIE;
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
 		}
@@ -261,9 +309,9 @@ BOOL CScene::OnUpdate( UINT64 dwTick )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
-		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjState != OS_DIE)
+		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjectState != OS_DIE)
 		{
-			pSceneObject->m_dwObjState = OS_DIE;
+			pSceneObject->m_dwObjectState |= OS_DIE;
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
@@ -275,12 +323,11 @@ BOOL CScene::OnUpdate( UINT64 dwTick )
 		}
 	}
 
-	m_pMonsterCreator->OnUpdate(dwTick);
+	m_pMonsterCreator->OnUpdate(uTick);
 
-	m_pSceneLogic->Update(dwTick);
+	m_pSceneLogic->Update(uTick);
 
 	return TRUE;
-
 }
 
 BOOL CScene::CreateSceneLogic(UINT32 dwCopyType)
@@ -452,7 +499,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 		}
 
 
-		pOther->SaveNewObject(Nty);
+		pOther->SaveNewData(Nty);
 	}
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
@@ -470,7 +517,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 			pOther->m_uControlerID = pSceneObject->GetObjectGUID();
 		}
 
-		pOther->SaveNewObject(Nty);
+		pOther->SaveNewData(Nty);
 	}
 
 	if(Nty.newlist_size() <= 0)
@@ -478,7 +525,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 		return TRUE;
 	}
 
-	pSceneObject->SendMsgProtoBuf(MSG_OBJECT_NEW_NTY, Nty);
+	pSceneObject->SendMsgProtoBuf(MSG_OBJECT_NEW_NTF, Nty);
 
 	return TRUE;
 }
@@ -546,7 +593,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject* pSceneObject )
 			continue;
 		}
 
-		pOther->SendMsgRawData(MSG_OBJECT_REMOVE_NTY, szBuff, Nty.ByteSize());
+		pOther->SendMsgRawData(MSG_OBJECT_REMOVE_NTF, szBuff, Nty.ByteSize());
 	}
 
 	return TRUE;
@@ -748,9 +795,9 @@ UINT64 CScene::GetLastTick()
 	return m_dwLastTick;
 }
 
-BOOL CScene::SetLastTick(UINT64 dwTick)
+BOOL CScene::SetLastTick(UINT64 uTick)
 {
-	m_dwLastTick = dwTick;
+	m_dwLastTick = uTick;
 	return TRUE;
 }
 
@@ -763,19 +810,33 @@ UINT64 CScene::GenNewGuid()
 
 BOOL CScene::SyncObjectState()
 {
-	if(m_ObjectActionNty.actionlist_size() <= 0)
+	ObjectActionNty ActionNty;
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pObj = itor->second;
+		ASSERT(pObj != NULL);
+
+		if (!pObj->IsChanged())
+		{
+			continue;
+		}
+
+		pObj->SaveUpdateData(ActionNty);
+	}
+
+	if (ActionNty.actionlist_size() <= 0)
 	{
 		return TRUE;
 	}
 
-	char szBuff[102400] = {0};
-	ERROR_RETURN_FALSE(m_ObjectActionNty.SerializePartialToArray(szBuff, m_ObjectActionNty.ByteSize()));
 
+	char szBuff[102400] = {0};
+	ERROR_RETURN_FALSE(ActionNty.SerializePartialToArray(szBuff, ActionNty.ByteSize()));
 
 	BroadMessageNotify Nty;
-	Nty.set_msgdata(szBuff, m_ObjectActionNty.ByteSize());
-	Nty.set_msgid(MSG_OBJECT_ACTION_NTY);
-	m_ObjectActionNty.Clear();
+	Nty.set_msgdata(szBuff, ActionNty.ByteSize());
+	Nty.set_msgid(MSG_OBJECT_ACTION_NTF);
+	ActionNty.Clear();
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
@@ -975,24 +1036,7 @@ BOOL CScene::ProcessActionItem(const  ActionReqItem& Item )
 {
 	CSceneObject* pSceneObj = GetPlayer(Item.objectguid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
-
-	if(Item.isskill())
-	{
-		pSceneObj->StartSkill(Item);
-	}
-	else
-	{
-		pSceneObj->StartAction(Item);
-	}
-
-	//ActionNtyItem* pSvrItem = m_ObjectActionNty.add_actionlist();
-	//ERROR_RETURN_TRUE(pSvrItem != NULL);
-	//pSvrItem
-	//pSvrItem->set_hp(pSceneObj->GetHp());
-	//pSvrItem->set_mp(pSceneObj->GetMp());
-	//pSvrItem->set_hpmax(1000);
-	//pSvrItem->set_mpmax(1000);
-
+	pSceneObj->ProcessAction(Item);
 	return TRUE;
 }
 

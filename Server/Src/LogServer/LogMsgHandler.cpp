@@ -42,11 +42,11 @@ BOOL CLogMsgHandler::Uninit()
 	return TRUE;
 }
 
-BOOL CLogMsgHandler::OnUpdate(UINT64 dwTick)
+BOOL CLogMsgHandler::OnUpdate(UINT64 uTick)
 {
 	if (m_nLastWriteTime == 0)
 	{
-		m_nLastWriteTime = dwTick;
+		m_nLastWriteTime = uTick;
 	}
 
 	if (m_nWriteCount <= 0)
@@ -54,12 +54,12 @@ BOOL CLogMsgHandler::OnUpdate(UINT64 dwTick)
 		return TRUE;
 	}
 
-	if (dwTick - m_nLastWriteTime > 1000)
+	if (uTick - m_nLastWriteTime > 1000)
 	{
 		m_DBConnection.commit();
 		m_DBConnection.ping();
 		m_DBConnection.startTransaction();
-		m_nLastWriteTime = dwTick;
+		m_nLastWriteTime = uTick;
 		m_nWriteCount = 0;
 	}
 

@@ -3,6 +3,20 @@
 #include "DBInterface/CppMysql.h"
 struct CSimpleInfo
 {
+	CSimpleInfo()
+	{
+		u64RoleID		= 0;
+		u64AccountID	= 0;
+		uGuildID		= 0;
+		dwCarrerID		= 0;
+		dwLevel			= 0;
+		dwVipLevel		= 0;
+		dwFightValue	= 0;
+		uLogoffTime		= 0;
+		uLogonTime		= 0;
+		uCreateTime		= 0;
+		IsOnline		= 0;
+	}
 	UINT64	u64RoleID;
 	UINT64	u64AccountID;
 	UINT64	uGuildID;
@@ -27,6 +41,8 @@ public:
 	CSimpleInfo* GetSimpleInfoByID(UINT64 u64ID);
 
 	CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID);
+
+	BOOL		AddSimpleInfo(CSimpleInfo* pInfo);
 
 	BOOL	LoadSimpleData(CppMySQL3DB& tDBConnection);
 

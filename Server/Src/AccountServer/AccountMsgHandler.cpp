@@ -180,7 +180,7 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 		if(Req.seal())
 		{
 			pAccObj->m_SealStatue = SS_NO;
-			pAccObj->m_SealTime = CommonFunc::GetCurrTime() + Req.sealtime();
+			pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + Req.sealtime();
 		}
 		else
 		{

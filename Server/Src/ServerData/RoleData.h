@@ -8,9 +8,9 @@ struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
 	{
-		m_uRoleID			= 0;			//角色ID
+		m_uRoleID		= 0;			//角色ID
 		m_uAccountID	= 0;			//账号ID
-		m_Level		= 0;				//等级
+		m_Level			= 0;				//等级
 		m_Exp			= 0;			//经验
 		m_nLangID		= 0;			//语言ID
 		m_u64Fight		= 0;			//战力
@@ -19,6 +19,9 @@ struct RoleDataObject : public ShareObject
 		m_CityCopyID	= 0;			//主城副本类型
 		m_bDelete       = FALSE;        //是否删除
 		m_CarrerID      = 0;
+		m_uCreateTime	= 0;
+		m_uLogonTime	= 0;	  //本次登录时间
+		m_uLogoffTime	= 0;	  //离线时间
 	}
 
 	UINT64		m_uRoleID;			//角色ID
@@ -49,7 +52,7 @@ struct RoleDataObject : public ShareObject
 	BOOL Create(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime) \
-			VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
 		csp.set_string(2, m_szName, strlen(m_szName));
@@ -66,7 +69,6 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(13, m_Actime[1]);
 		csp.set_int64(14, m_Actime[2]);
 		csp.set_int64(15, m_Actime[3]);
-
 		csp.set_int64(16, m_uCreateTime);
 		csp.set_int64(17, m_uLogonTime);
 		csp.set_int64(18, m_uLogoffTime);
@@ -76,8 +78,8 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4) \
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime) \
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
 		csp.set_string(2, m_szName, strlen(m_szName));
@@ -94,6 +96,9 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(13, m_Actime[1]);
 		csp.set_int64(14, m_Actime[2]);
 		csp.set_int64(15, m_Actime[3]);
+		csp.set_int64(16, m_uCreateTime);
+		csp.set_int64(17, m_uLogonTime);
+		csp.set_int64(18, m_uLogoffTime);
 		pDB->Execute(&csp);
 		return TRUE;
 	}

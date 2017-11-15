@@ -22,9 +22,9 @@ CSkillObject::~CSkillObject()
 }
 
 
-BOOL CSkillObject::OnUpdate( UINT64 dwTick )
+BOOL CSkillObject::OnUpdate( UINT64 uTick )
 {
-	if(dwTick - m_dwStartTick)
+	if(uTick - m_dwStartTick)
 	{
 
 	}

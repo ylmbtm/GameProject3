@@ -14,7 +14,7 @@ public:
 	~CBulletObject();
 
 public:
-	BOOL OnUpdate( UINT64 dwTick);
+	BOOL OnUpdate( UINT64 uTick);
 
 public:
 	UINT32  m_dwStartTick; //开始时间

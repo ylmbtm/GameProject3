@@ -26,10 +26,19 @@ BOOL CSimpleManager::LoadSimpleData(CppMySQL3DB& tDBConnection)
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM player");
 	while(!QueryResult.eof())
 	{
-		CSimpleInfo* pInfo = CreateSimpleInfo(QueryResult.getInt64Field("id"),
-		                                      QueryResult.getInt64Field("account_id"),
-		                                      QueryResult.getStringField("name"),
-		                                      QueryResult.getIntField("carrerid"));
+		CSimpleInfo* pInfo	= new CSimpleInfo();
+		pInfo->u64RoleID	= QueryResult.getInt64Field("id");
+		pInfo->u64AccountID = QueryResult.getInt64Field("account_id");
+		pInfo->Name			= QueryResult.getStringField("name");
+		pInfo->dwCarrerID	= QueryResult.getIntField("carrerid");
+		pInfo->uCreateTime	= QueryResult.getInt64Field("createtime");
+		pInfo->uLogonTime	= QueryResult.getInt64Field("logontime");
+		pInfo->uLogoffTime	= QueryResult.getInt64Field("logofftime");
+		pInfo->uGuildID		= QueryResult.getInt64Field("guildid");
+		pInfo->dwLevel		= QueryResult.getInt64Field("level");
+		pInfo->dwVipLevel	= QueryResult.getInt64Field("viplevel");
+
+		AddSimpleInfo(pInfo);
 
 		QueryResult.nextRow();
 	}
@@ -188,9 +197,24 @@ CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, st
 	pInfo->dwCarrerID = dwCarrerID;
 	pInfo->IsOnline = TRUE;
 	pInfo->uCreateTime = CommonFunc::GetCurrTime();
+	pInfo->dwVipLevel = 0;
+	pInfo->dwLevel = 0;
+	pInfo->dwFightValue = 0;
 
 	m_mapID2Simple.insert(std::make_pair(u64ID, pInfo));
+
 	m_mapName2ID.insert(std::make_pair(strName, u64ID));
 
 	return pInfo;
+}
+
+BOOL CSimpleManager::AddSimpleInfo(CSimpleInfo* pInfo)
+{
+	ERROR_RETURN_FALSE(pInfo != NULL);
+
+	m_mapID2Simple.insert(std::make_pair(pInfo->u64RoleID, pInfo));
+
+	m_mapName2ID.insert(std::make_pair(pInfo->Name, pInfo->u64RoleID));
+
+	return TRUE;
 }

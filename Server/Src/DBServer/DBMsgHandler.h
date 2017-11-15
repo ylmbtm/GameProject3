@@ -16,7 +16,7 @@ public:
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL OnUpdate( UINT64 dwTick );
+	BOOL OnUpdate( UINT64 uTick );
 
 	BOOL Init(UINT32 dwReserved);
 

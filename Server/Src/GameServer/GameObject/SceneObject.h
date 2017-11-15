@@ -18,8 +18,9 @@ public:
 	BOOL			SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 	BOOL			SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
 	BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
-	BOOL			OnUpdate(UINT64 dwTick);
-	BOOL            SaveNewObject(ObjectNewNty& Nty);
+	BOOL			OnUpdate(UINT64 uTick);
+	BOOL            SaveNewData(ObjectNewNty& Nty);
+	BOOL			SaveUpdateData(ObjectActionNty& Nty);
 
 	//以下为对象的操作方法
 public:
@@ -35,7 +36,7 @@ public:
 	VOID            AddMp(UINT32 dwValue);
 	VOID            SubMp(UINT32 dwValue);
 
-
+	BOOL			IsChanged();
 
 	BOOL			IsConnected();
 
@@ -55,22 +56,28 @@ public:
 	//buff的处理
 	BOOL			AddBuff(UINT32 dwBuffID);
 	BOOL			RemoveBuff(UINT32 dwBuffID);
-
-	BOOL			UpdateBuff(UINT64 dwTick);
+	BOOL			UpdateBuff(UINT64 uTick);
 	std::map<UINT32, CBuffObject*> m_mapBuff;
 	//////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////
+	//技能
+	std::map<UINT32, UINT32> m_mapSkillTime;
+	CSkillObject	m_SkillObject;
+	BOOL			ProcessSkill(const SkillCastReq& Req);
+	BOOL			ProcessAction(const ActionReqItem& Item);
+	//////////////////////////////////////////////////////////////////////////
 
 public:
 	//对象的基本信息
 	//////////////////////////////////////////////////////////
+	std::string     m_strName;						//对象的名字
 	UINT64          m_uGuid;						//实例ID, 对玩家是角色ID
 	UINT32          m_dwActorID;					//对象ID
 	UINT32          m_dwObjType;					//对象类型 玩家，宠物， NPC之类的
-	std::string     m_strName;						//对象的名字
 	INT32			m_dwCamp;						//阵营
 	FLOAT			m_x, m_y, m_z, m_ft;			//对象坐标, 朝向
-	UINT32          m_dwObjState;					//对象当前的状态
+	UINT32          m_dwObjectState;				//对象当前的状态
 	UINT32          m_dwBuffState;					//对象的Buff状态
 	INT32			m_dwLevel;						//等级
 	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
@@ -83,15 +90,6 @@ public:
 
 	BOOL			m_bIsCampCheck;					//是否影响阵营结算
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
-
-	//////////////////////////////////////////////////////////////////////////
-	//技能
-	std::map<UINT32, UINT32> m_mapSkillTime;
-	CSkillObject			 m_SkillObject;
-	BOOL					 StartSkill(const ActionReqItem& Item);
-	BOOL					 StartAction(const ActionReqItem& Item);
-	//////////////////////////////////////////////////////////////////////////
-
 
 	//////////////////////////////////////////////////////////
 	//对象的一些标记

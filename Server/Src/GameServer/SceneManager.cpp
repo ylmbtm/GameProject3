@@ -106,20 +106,20 @@ CScene* CSceneManager::GetSceneByCopyGuid( UINT32 dwCopyGuid )
 	return NULL;
 }
 
-BOOL CSceneManager::OnUpdate( UINT64 dwTick )
+BOOL CSceneManager::OnUpdate( UINT64 uTick )
 {
 	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
 	{
 		CScene* pScene = itor->second;
 
-		if((pScene->GetLastTick() > dwTick) && (pScene->GetLastTick() - dwTick < FPS_TIME_TICK))
+		if((pScene->GetLastTick() > uTick) && (pScene->GetLastTick() - uTick < FPS_TIME_TICK))
 		{
 			continue;
 		}
 
-		pScene->SetLastTick(dwTick);
+		pScene->SetLastTick(uTick);
 
-		pScene->OnUpdate(dwTick);
+		pScene->OnUpdate(uTick);
 
 		if(pScene->IsFinished())
 		{

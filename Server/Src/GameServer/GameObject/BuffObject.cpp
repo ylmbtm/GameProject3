@@ -31,7 +31,7 @@ BOOL CBuffObject::OnAddBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
 
-	m_pSceneObject->m_dwObjState |= m_pBuffInfo->ChangeStaute;
+	m_pSceneObject->m_dwObjectState |= m_pBuffInfo->ChangeStaute;
 
 	m_pSceneObject->m_dwBuffState |= m_pBuffInfo->BuffEffect;
 
@@ -50,7 +50,7 @@ BOOL CBuffObject::OnRemoveBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
 
-	m_pSceneObject->m_dwObjState &= ~m_pBuffInfo->ChangeStaute;
+	m_pSceneObject->m_dwObjectState &= ~m_pBuffInfo->ChangeStaute;
 	m_pSceneObject->m_dwBuffState &= ~m_pBuffInfo->BuffEffect;
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
@@ -84,7 +84,7 @@ BOOL CBuffObject::OnEffect(BOOL bFirst)
 	return TRUE;
 }
 
-BOOL CBuffObject::OnUpdate( UINT64 dwTick )
+BOOL CBuffObject::OnUpdate( UINT64 uTick )
 {
 	if(m_bOver)
 	{
@@ -93,14 +93,14 @@ BOOL CBuffObject::OnUpdate( UINT64 dwTick )
 
 	if(m_pBuffInfo->Interval != 0)
 	{
-		if((dwTick - m_dwLastTime) > m_pBuffInfo->Interval)
+		if((uTick - m_dwLastTime) > m_pBuffInfo->Interval)
 		{
 			OnEffect();
 			m_dwLastTime += m_pBuffInfo->Interval;
 		}
 	}
 
-	if((dwTick - m_dwStartTime) > m_pBuffInfo->TotalTime)
+	if((uTick - m_dwStartTime) > m_pBuffInfo->TotalTime)
 	{
 		OnRemoveBuff();
 		m_bOver = TRUE;

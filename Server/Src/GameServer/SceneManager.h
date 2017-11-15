@@ -25,7 +25,7 @@ public:
 
 	BOOL        DispatchPacket(NetPacket* pNetPack);
 
-	BOOL		OnUpdate( UINT64 dwTick );
+	BOOL		OnUpdate( UINT64 uTick );
 
 	UINT32      MakeCopyID();
 

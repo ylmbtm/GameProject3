@@ -26,7 +26,7 @@ public:
 
 	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
 
-	virtual BOOL Update(UINT64 dwTick);
+	virtual BOOL Update(UINT64 uTick);
 
 	virtual BOOL OnTimeUP();
 

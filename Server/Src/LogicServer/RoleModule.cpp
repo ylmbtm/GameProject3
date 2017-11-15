@@ -74,22 +74,24 @@ BOOL CRoleModule::OnLogin()
 	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 	m_dwActorID = pInfo->dwActorID;
+
+	m_pRoleDataObject->lock();
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		UpdateAction(i + 1);
 	}
 
 	m_pRoleDataObject->m_uLogonTime = CommonFunc::GetCurrTime();
-
+	m_pRoleDataObject->unlock();
 	return TRUE;
 }
 
 BOOL CRoleModule::OnLogout()
 {
-	ERROR_RETURN_FALSE(m_pRoleDataObject == NULL);
-
+	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
+	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uLogoffTime = CommonFunc::GetCurrTime();
-
+	m_pRoleDataObject->unlock();
 	return TRUE;
 }
 
@@ -113,6 +115,9 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->m_VipExp = Ack.roledata().vipexp();
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
 	m_pRoleDataObject->m_CityCopyID = Ack.roledata().citycopyid();
+	m_pRoleDataObject->m_uCreateTime = Ack.roledata().createtime();
+	m_pRoleDataObject->m_uLogonTime = Ack.roledata().logontime();
+	m_pRoleDataObject->m_uLogoffTime = Ack.roledata().logofftime();
 
 	if(m_pRoleDataObject->m_CityCopyID == 0)
 	{
@@ -370,7 +375,7 @@ BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 		//CLog::GetInstancePtr()->LogError("UpdateAction error  action not max, but starttime is 0");
 	}
 
-	UINT32 dwTimeElapse = CommonFunc::GetCurrTime() - m_pRoleDataObject->m_Actime[dwActionID - 1];
+	UINT64 dwTimeElapse = CommonFunc::GetCurrTime() - m_pRoleDataObject->m_Actime[dwActionID - 1];
 
 	if (dwTimeElapse < CConfigData::GetInstancePtr()->GetActoinUnitTime(dwActionID))
 	{

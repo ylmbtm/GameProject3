@@ -14,8 +14,8 @@ struct CAccountObject
 	UINT32      m_dwLastSvrID;
 	UINT32      m_dwChannel;	//渠道ID
 	UINT32		m_SealStatue;	//封禁状态
-	UINT64		m_SealTime;     //封禁结束时间
-	UINT64      m_dwCreateTime; //创建时间
+	UINT64		m_uSealTime;    //封禁结束时间
+	UINT64      m_uCreateTime;  //创建时间
 };
 
 

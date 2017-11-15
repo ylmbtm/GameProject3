@@ -39,6 +39,8 @@ public:
 
 	BOOL		NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dwParm2);
 
+	BOOL		IsOnline();
+
 public: //全部是操作方法
 	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
 	BOOL		SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
@@ -80,6 +82,7 @@ public:
 	UINT64			m_u64ID;
 	UINT32			m_dwProxyConnID;
 	UINT32			m_dwClientConnID;
+	BOOL			m_IsOnline;
 	std::vector<CModuleBase*> m_MoudleList;
 
 public:

@@ -4,12 +4,14 @@
 #include "../Message/Msg_Copy.pb.h"
 #include "BuffObject.h"
 #include "Log.h"
+#include "../Message/Msg_Move.pb.h"
+#include "../Message/Msg_ID.pb.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
 	m_dwProxyConnID = 0;
 	m_dwClientConnID = 0;
-	m_dwObjState = 0;
+	m_dwObjectState = 0;
 	m_bEnter = FALSE;
 
 	memset(m_Propertys, 0, sizeof(m_Propertys));
@@ -107,11 +109,11 @@ BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLe
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
 
-BOOL CSceneObject::OnUpdate( UINT64 dwTick )
+BOOL CSceneObject::OnUpdate( UINT64 uTick )
 {
-	UpdateBuff(dwTick);
+	UpdateBuff(uTick);
 
-	m_SkillObject.OnUpdate(dwTick);
+	m_SkillObject.OnUpdate(uTick);
 
 	return TRUE;
 }
@@ -156,6 +158,11 @@ VOID CSceneObject::SubMp( UINT32 dwValue )
 	}
 }
 
+BOOL CSceneObject::IsChanged()
+{
+	return m_bDataChange;
+}
+
 UINT64 CSceneObject::GetObjectGUID()
 {
 	return m_uGuid;
@@ -191,12 +198,14 @@ VOID CSceneObject::SetEnterCopy()
 	m_bEnter = TRUE;
 }
 
-BOOL CSceneObject::SaveNewObject( ObjectNewNty& Nty )
+BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 {
 	NewItem* pItem = Nty.add_newlist();
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
+	pItem->set_buffstate(m_dwBuffState);
+	pItem->set_objectstate(m_dwObjectState);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
 	pItem->set_summonid(m_uSummonerID);
@@ -205,12 +214,33 @@ BOOL CSceneObject::SaveNewObject( ObjectNewNty& Nty )
 	pItem->set_x(m_x);
 	pItem->set_x(m_y);
 	pItem->set_z(m_z);
-	pItem->set_ft(m_ft);;
+	pItem->set_ft(m_ft);
 	pItem->set_hp(m_Propertys[HP]);
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);
 	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	m_bDataChange = FALSE;
+	return TRUE;
+}
 
+BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
+{
+	ActionNtyItem* pItem = Nty.add_actionlist();
+	pItem->set_objectguid(m_uGuid);
+	pItem->set_actorid(m_dwActorID);
+	pItem->set_buffstate(m_dwBuffState);
+	pItem->set_objectstate(m_dwObjectState);
+	pItem->set_level(m_dwLevel);
+	pItem->set_controlerid(m_uControlerID);
+	pItem->set_hostx(m_x);
+	pItem->set_hosty(m_y);
+	pItem->set_hostz(m_z);
+	pItem->set_hostft(m_ft);
+	pItem->set_hp(m_Propertys[HP]);
+	pItem->set_mp(m_Propertys[MP]);
+	pItem->set_hpmax(m_Propertys[HP_MAX]);
+	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	m_bDataChange = FALSE;
 	return TRUE;
 }
 
@@ -274,14 +304,14 @@ BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 	return TRUE;
 }
 
-BOOL CSceneObject::UpdateBuff(UINT64 dwTick)
+BOOL CSceneObject::UpdateBuff(UINT64 uTick)
 {
 	for(std::map<UINT32, CBuffObject*>::iterator itor = m_mapBuff.begin(); itor != m_mapBuff.end();)
 	{
 		CBuffObject* pBuffObject = itor->second;
 		ERROR_CONTINUE_EX(pBuffObject != NULL);
 
-		pBuffObject->OnUpdate(dwTick);
+		pBuffObject->OnUpdate(uTick);
 
 		if(pBuffObject->IsOver())
 		{
@@ -295,42 +325,24 @@ BOOL CSceneObject::UpdateBuff(UINT64 dwTick)
 		}
 	}
 
-
 	return TRUE;
 }
 
-BOOL CSceneObject::StartSkill(const ActionReqItem& Item)
+BOOL CSceneObject::ProcessSkill(const SkillCastReq& Req)
 {
 	ERROR_RETURN_FALSE(m_pScene != NULL);
 
-	m_x = Item.hostx();
-	m_y = Item.hosty();
-	m_z = Item.hostz();
-	m_ft = Item.hostft();
+	m_x		= Req.hostx();
+	m_y		= Req.hosty();
+	m_z		= Req.hostz();
+	m_ft	= Req.hostft();
 
-	ActionNtyItem* pSvrItem = m_pScene->m_ObjectActionNty.add_actionlist();
-	ERROR_RETURN_TRUE(pSvrItem != NULL);
-	pSvrItem->set_objectguid(Item.objectguid());
-	pSvrItem->set_objstatue(m_dwObjState);			//实例状态
-	pSvrItem->set_actorid(m_dwActorID);				//类型ID
-	pSvrItem->set_controlerid(m_uControlerID);		//AI控制人的GUID
-	pSvrItem->set_actionid(Item.actionid());
-	pSvrItem->set_actiontime(0);
-	pSvrItem->set_x(m_x);
-	pSvrItem->set_y(m_y);
-	pSvrItem->set_z(m_z);
-	pSvrItem->set_ft(m_ft);
-	pSvrItem->set_hp(GetHp());
-	pSvrItem->set_mp(GetMp());
-	pSvrItem->set_hpmax(1000);
-	pSvrItem->set_mpmax(1000);
-
-	m_bDataChange = FALSE;
+	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
 
 	return TRUE;
 }
 
-BOOL CSceneObject::StartAction(const ActionReqItem& Item)
+BOOL CSceneObject::ProcessAction(const ActionReqItem& Item)
 {
 	ERROR_RETURN_FALSE(m_pScene != NULL);
 

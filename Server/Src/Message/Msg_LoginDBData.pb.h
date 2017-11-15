@@ -384,6 +384,24 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 citycopyid() const;
   void set_citycopyid(::google::protobuf::int32 value);
 
+  // uint64 CreateTime = 16;
+  void clear_createtime();
+  static const int kCreateTimeFieldNumber = 16;
+  ::google::protobuf::uint64 createtime() const;
+  void set_createtime(::google::protobuf::uint64 value);
+
+  // uint64 LogonTime = 17;
+  void clear_logontime();
+  static const int kLogonTimeFieldNumber = 17;
+  ::google::protobuf::uint64 logontime() const;
+  void set_logontime(::google::protobuf::uint64 value);
+
+  // uint64 LogoffTime = 18;
+  void clear_logofftime();
+  static const int kLogoffTimeFieldNumber = 18;
+  ::google::protobuf::uint64 logofftime() const;
+  void set_logofftime(::google::protobuf::uint64 value);
+
   // @@protoc_insertion_point(class_scope:DBRoleData)
  private:
 
@@ -405,6 +423,9 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int64 fightvalue_;
   ::google::protobuf::int32 vipexp_;
   ::google::protobuf::int32 citycopyid_;
+  ::google::protobuf::uint64 createtime_;
+  ::google::protobuf::uint64 logontime_;
+  ::google::protobuf::uint64 logofftime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBRoleDataImpl();
@@ -3375,6 +3396,48 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
 DBRoleData::mutable_actime() {
   // @@protoc_insertion_point(field_mutable_list:DBRoleData.Actime)
   return &actime_;
+}
+
+// uint64 CreateTime = 16;
+inline void DBRoleData::clear_createtime() {
+  createtime_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBRoleData::createtime() const {
+  // @@protoc_insertion_point(field_get:DBRoleData.CreateTime)
+  return createtime_;
+}
+inline void DBRoleData::set_createtime(::google::protobuf::uint64 value) {
+  
+  createtime_ = value;
+  // @@protoc_insertion_point(field_set:DBRoleData.CreateTime)
+}
+
+// uint64 LogonTime = 17;
+inline void DBRoleData::clear_logontime() {
+  logontime_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBRoleData::logontime() const {
+  // @@protoc_insertion_point(field_get:DBRoleData.LogonTime)
+  return logontime_;
+}
+inline void DBRoleData::set_logontime(::google::protobuf::uint64 value) {
+  
+  logontime_ = value;
+  // @@protoc_insertion_point(field_set:DBRoleData.LogonTime)
+}
+
+// uint64 LogoffTime = 18;
+inline void DBRoleData::clear_logofftime() {
+  logofftime_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBRoleData::logofftime() const {
+  // @@protoc_insertion_point(field_get:DBRoleData.LogoffTime)
+  return logofftime_;
+}
+inline void DBRoleData::set_logofftime(::google::protobuf::uint64 value) {
+  
+  logofftime_ = value;
+  // @@protoc_insertion_point(field_set:DBRoleData.LogoffTime)
 }
 
 // -------------------------------------------------------------------

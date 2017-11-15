@@ -45,7 +45,3 @@ BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 	return Delete(u64RoleID);
 }
 
-BOOL CPlayerManager::DeletePlayer(UINT64 u64RoleID)
-{
-	return TRUE;
-}

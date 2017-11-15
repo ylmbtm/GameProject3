@@ -101,7 +101,7 @@ BOOL SceneLogicBase::OnObjectDie(CSceneObject* pObject)
 	return TRUE;
 }
 
-BOOL SceneLogicBase::Update(UINT64 dwTick)
+BOOL SceneLogicBase::Update(UINT64 uTick)
 {
 	if(CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_dwLastTime)
 	{

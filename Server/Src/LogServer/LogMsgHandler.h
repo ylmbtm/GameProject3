@@ -13,7 +13,7 @@ public:
 
 	BOOL		Uninit();
 
-	BOOL		OnUpdate(UINT64 dwTick);
+	BOOL		OnUpdate(UINT64 uTick);
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 	//*********************消息处理定义开始******************************

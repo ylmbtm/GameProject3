@@ -86,7 +86,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 	pObj->m_strPassword		= strPwd;
 	pObj->m_ID				= m_u64MaxID;
 	pObj->m_dwChannel		= dwChannel;
-	pObj->m_dwCreateTime	= CommonFunc::GetCurrTime();
+	pObj->m_uCreateTime	= CommonFunc::GetCurrTime();
 
 	m_mapNameObj.insert(std::make_pair(strName, pObj));
 
@@ -138,7 +138,7 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 		while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
 		{
 			snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, channel, create_time) values('%lld','%s','%s', '%d', '%lld')",
-			         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwChannel, pAccount->m_dwCreateTime);
+			         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwChannel, pAccount->m_uCreateTime);
 
 			if(m_DBConnection.execSQL(szSql) < 0)
 			{

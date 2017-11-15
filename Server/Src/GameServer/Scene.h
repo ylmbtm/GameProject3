@@ -25,13 +25,15 @@ public:
 
 	UINT32			GetCopyType();
 
-	BOOL            OnUpdate( UINT64 dwTick );
+	BOOL            OnUpdate( UINT64 uTick );
 
 	BOOL			CreateSceneLogic(UINT32 dwCopyType);
 
 	BOOL			DestroySceneLogic(UINT32 dwCopyType);
 
 	BOOL            BroadNewObject(CSceneObject* pSceneObject);
+
+	BOOL            BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 	BOOL            BroadRemoveObject(CSceneObject* pSceneObject);
 
@@ -83,7 +85,7 @@ public:
 	UINT64			GetStartTime();
 	UINT64			GetCreateTime();
 	UINT64          GetLastTick();
-	BOOL			SetLastTick(UINT64 dwTick);
+	BOOL			SetLastTick(UINT64 uTick);
 	UINT64			GenNewGuid();
 
 public:
@@ -103,8 +105,6 @@ public:
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
 	std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
 
-	ObjectActionNty                  m_ObjectActionNty;
-
 	//////////////////////////////////////////////////////////////////////////
 	//攻击伤害计算
 
@@ -116,12 +116,13 @@ public:
 	BOOL OnMsgTransRoleDataReq(NetPacket* pNetPacket);
 	BOOL OnMsgEnterSceneReq(NetPacket* pNetPacket);
 	BOOL OnMsgLeaveSceneReq(NetPacket* pNetPacket);
-	BOOL OnMsgObjectActionReq(NetPacket* pNetPacket);
 	BOOL OnMsgRoleDisconnect(NetPacket* pNetPacket);
 	BOOL OnMsgHeartBeatReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseHpBottleReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseMpBottleReq(NetPacket* pNetPacket);
 	BOOL OnMsgBattleChatReq(NetPacket* pNetPacket);
+	BOOL OnMsgObjectActionReq(NetPacket* pNetPacket);
+	BOOL OnMsgSkillCastReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

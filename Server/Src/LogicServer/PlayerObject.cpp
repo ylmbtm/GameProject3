@@ -37,13 +37,13 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_u64ID             = u64ID;
 	m_dwProxyConnID     = 0;
 	m_dwClientConnID    = 0;
-	m_dwCopyGuid          = 0;      //当前的副本ID
+	m_dwCopyGuid        = 0;      //当前的副本ID
 	m_dwCopyID			= 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_dwToCopyGuid      = 0;        //正在前往的副本ID
 	m_dwToCopyID        = 0;         //正在前往的副本ID
 	m_dwToCopySvrID     = 0;
-
+	m_IsOnline			= FALSE;
 
 	return CreateAllModule();
 }
@@ -51,15 +51,15 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 BOOL CPlayerObject::Uninit()
 {
 	DestroyAllModule();
-	m_u64ID             = 0;
-	m_dwProxyConnID     = 0;
-	m_dwClientConnID    = 0;
+	m_u64ID             = 0;		//角色ID
+	m_dwProxyConnID     = 0;		//网关服的连接ID
+	m_dwClientConnID    = 0;		//客户端的连接ID
 	m_dwCopyGuid        = 0;        //当前的副本ID
 	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_dwToCopyGuid      = 0;        //正在前往的副本ID
 	m_dwToCopyID        = 0;        //正在前往的副本类型
-
+	m_IsOnline			= FALSE;
 	return TRUE;
 }
 
@@ -343,6 +343,17 @@ BOOL CPlayerObject::NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dw
 	CTaskModule* pTaskModule = (CTaskModule*)GetModuleByType(MT_TASK);
 	pTaskModule->OnTaskEvent((ETaskEvent)dwEventID, dwParam1, dwParam2);
 	return TRUE;
+}
+
+BOOL CPlayerObject::IsOnline()
+{
+	if (m_IsOnline && m_dwProxyConnID == 0)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
+	return m_IsOnline;
 }
 
 BOOL CPlayerObject::CalcFightDataInfo()

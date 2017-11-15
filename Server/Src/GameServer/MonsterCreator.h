@@ -63,7 +63,7 @@ public:
 
 	BOOL		ReadFromXml(rapidxml::xml_node<char>* pNode);
 
-	BOOL		OnUpdate(UINT64 dwTick);
+	BOOL		OnUpdate(UINT64 uTick);
 
 	BOOL		GenMonsterWave(INT32 dwWaveIndex);
 

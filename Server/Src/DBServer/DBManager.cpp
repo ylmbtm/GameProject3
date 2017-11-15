@@ -92,6 +92,9 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->add_money(QueryRes.getInt64Field("money6", 0));
 		pData->add_money(QueryRes.getInt64Field("money7", 0));
 		pData->add_money(QueryRes.getInt64Field("money8", 0));
+		pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
+		pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
+		pData->set_logofftime(QueryRes.getIntField("logofftime", 0));
 	}
 
 	return TRUE;

@@ -1,71 +1,84 @@
 syntax = "proto3";
 
-message ActionNtyItem {
-	uint64  ObjectGuid = 1;
-	int32	ObjStatue  = 2;		//实例状态
-	int32	ActorID    = 3;		//类型ID
-	uint64  ControlerID = 4;    //AI控制人的GUID
-	int32   ActionID = 5;
-	int32   ActionTime = 6; 
-	int32   BuffStatue = 7;     //buf状态
-	float   X = 8;
-	float   Y = 9;
-	float   Z = 10;
-	float   Ft = 11;
-	int32   Hp = 12;
-	int32   Mp = 13;
-	int32   HpMax = 14;
-	int32   MpMax = 15;
+//请求释放技能
+message SkillCastReq
+{	
+	uint64  ObjectGuid 	= 1;
+	int32   SkillID 	= 2;
+	float   HostX 		= 3;
+	float   HostY 		= 4;
+	float   HostZ 		= 5;
+	float   HostFt 		= 6;
+	float   TargetX 	= 7;
+	float   TargetY 	= 8;
+	float   TargetZ 	= 9;
+	float   TargetFt 	= 10;
+	repeated uint64  TargetObjects = 11;
 }
 
-
-message ActionReqItem {
-	uint64  ObjectGuid = 1;
-	int32   ActionID = 2;
-
-	int32   IsSkill = 3;
-
-	float   HostX = 4;
-	float   HostY = 5;
-	float   HostZ = 6;
-	float   HostFt = 7;
-
-	float   TargetX = 8;
-	float   TargetY = 9;
-	float   TargetZ = 10;
-	float   TargetFt = 11;
-
-	repeated uint64  TargetObjects = 12;
+//请求释放技能返回(如要释放是允许则没有这个返回)
+message SkillCastAck
+{	
+	uint32 RetCode = 1;  //是否释放成功, 失败原因。
 }
 
+//移动动作请求
 message ObjectActionReq {
    repeated ActionReqItem ActionList = 1;
 }
 
-
+//移动动作请求
 message ObjectActionNty {
    repeated ActionNtyItem ActionList = 1;
 }
 
+message ActionReqItem {
+	uint64  ObjectGuid   = 1;
+	int32   ActionID     = 2;
+	float   HostX 		 = 3;
+	float   HostY 		 = 4;
+	float   HostZ 		 = 5;
+	float   HostFt 		 = 6;
+}
+
+message ActionNtyItem {
+	uint64  ObjectGuid	= 1;
+	int32   ActionID	= 2;
+	int32	ObjectState	= 3;		//实例状态
+	int32	BuffState	= 4;		//特效状态
+	float   HostX		= 5;
+	float   HostY		= 6;
+	float   HostZ		= 7;
+	float   HostFt		= 8;
+	int32	ActorID		= 9;		//Actor ID
+	int32	Level		= 10;		//等级
+	uint64	ControlerID	= 11;     	//AI控制人的GUID
+	int32	Hp			= 12;
+	int32	Mp			= 13;
+	int32	HpMax		= 14;
+	int32	MpMax		= 15;
+}
+
 message NewItem {
-	uint64 ObjectGuid = 1;		//实例ID
-	int32  ObjType    = 2;		//类别
-	int32  ObjStatue  = 3;		//实例状态
-	int32  ActorID    = 4;		//类型ID
-	string Name       = 5;
-	int32  Level      = 6;
-	uint64 HostGuid   = 7;		//主人的GUID
-    uint64 ControlerID = 8;     //AI控制人的GUID
-	uint64 SummonID = 9;		//招唤者的GUID
-	float  X = 10;
-	float  Y = 11;
-	float  Z = 12;
-	float  Ft = 13;
-	int32  Hp = 14;
-	int32  Mp = 15;
-	int32  HpMax = 16;
-	int32  MpMax = 17;
-	int32  Weapon = 18; //武器
+	uint64 ObjectGuid 	= 1;		//实例ID
+	int32  ObjType    	= 2;		//对象类别
+	int32  ObjectState  = 3;		//实例状态
+	int32  BuffState 	= 4;		//特效状态
+	int32  ActorID    	= 5;		//Actor ID
+	string Name       	= 6;		//名字
+	int32  Level      	= 7;		//等级
+	uint64 HostGuid   	= 8;		//主人的GUID
+    uint64 ControlerID 	= 9;     	//AI控制人的GUID
+	uint64 SummonID 	= 10;		//招唤者的GUID
+	float  X 			= 11;		
+	float  Y 			= 12;
+	float  Z 			= 13;
+	float  Ft 			= 14;
+	int32  Hp 			= 15;
+	int32  Mp 			= 16;
+	int32  HpMax 		= 17;
+	int32  MpMax 		= 18;
+	int32  Weapon 		= 19; //武器
 }
 
 message ObjectNewNty {
@@ -85,11 +98,9 @@ message HeartBeatAck {
   uint32  ServerTime = 2;
 }
 
-
 message ObjectDieNotify {
   uint64  ObjectGuid = 1;
 }
-
 
 message ObjectValueChange
 {
