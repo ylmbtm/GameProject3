@@ -29,6 +29,8 @@ public:
 	UINT32			m_dwSkillID;   //技能ID
 	StSkillInfo*	m_pSkillInfo;
 	CSceneObject*	m_pSceneObject;
+
+	std::vector<CSceneObject*> m_vtTargets;
 };
 
 #endif //__SKILL_OBJECT_H__

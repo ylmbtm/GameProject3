@@ -15,7 +15,7 @@ struct CSimpleInfo
 		uLogoffTime		= 0;
 		uLogonTime		= 0;
 		uCreateTime		= 0;
-		IsOnline		= 0;
+		IsOnline		= FALSE;
 	}
 	UINT64	u64RoleID;
 	UINT64	u64AccountID;
@@ -42,7 +42,7 @@ public:
 
 	CSimpleInfo* CreateSimpleInfo(UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID);
 
-	BOOL		AddSimpleInfo(CSimpleInfo* pInfo);
+	BOOL	AddSimpleInfo(CSimpleInfo* pInfo);
 
 	BOOL	LoadSimpleData(CppMySQL3DB& tDBConnection);
 

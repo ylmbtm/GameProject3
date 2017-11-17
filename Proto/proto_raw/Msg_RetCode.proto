@@ -22,6 +22,12 @@ enum MessageRetCode {
    MRC_NOT_ENOUGH_MONEY = 14;
    MRC_NOT_ENOUGH_ITEM = 15;
    MRC_NOT_ENOUGH_TIMES = 16;
+   
+   
+   
+   //技能
+   MRC_SKILL_CD_ERROR = 17;
+   MRC_INVALID_SKILL_ID = 18;  //无效的技能ID
 	
 }
 

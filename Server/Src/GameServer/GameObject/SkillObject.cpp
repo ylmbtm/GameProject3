@@ -42,6 +42,21 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 
 	m_dwStartTick = CommonFunc::GetTickCount();
 
+	//计算攻击目标
+	//1.直接带有目标， 2.需要自己计算目标
+	//2.只给自己加buff的技能
+	//3.只给目标加buff的技能
+	//4.加血的技能
+	//5.位移技能
+	//6.波次技能(闪电链)
+	//7.产生子弹的技能
+	GetTargets();
+
+	for (int i = 0; i < m_vtTargets.size(); i++)
+	{
+		SkillFight(m_vtTargets.at(i));
+	}
+
 	return TRUE;
 }
 
@@ -60,18 +75,11 @@ BOOL CSkillObject::SetHostObject(CSceneObject* pObject)
 BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 {
 	ERROR_RETURN_FALSE(m_pSceneObject != NULL);
+	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
 	ERROR_RETURN_FALSE(pTarget != NULL);
 
-	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(m_dwSkillID, 1);
-	ERROR_RETURN_FALSE(pSkillInfo != NULL);
-
-
-	StBuffInfo* pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(pSkillInfo->SelfBuffID);
-	ERROR_RETURN_FALSE(pBuffInfo != NULL);
-
-	m_pSceneObject->AddBuff(pSkillInfo->SelfBuffID);
-
-	pTarget->AddBuff(pSkillInfo->TargetBuffID);
+	m_pSceneObject->AddBuff(m_pSkillInfo->SelfBuffID);
+	pTarget->AddBuff(m_pSkillInfo->TargetBuffID);
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
@@ -94,7 +102,7 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 hurt = (pSkillInfo->Percent * (m_pSceneObject->m_Propertys[5] - pTarget->m_Propertys[6]) + pSkillInfo->Fix);
+	INT32 hurt = (m_pSkillInfo->Percent * (m_pSceneObject->m_Propertys[5] - pTarget->m_Propertys[6]) + m_pSkillInfo->Fix);
 	UINT32 dwHurt = m_pSceneObject->m_Propertys[1] - pTarget->m_Propertys[1];
 	if (dwHurt <= 0)
 	{

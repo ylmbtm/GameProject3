@@ -37,6 +37,24 @@ BOOL CreateDataPool()
 	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>("Activity", 1024);
 	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>("Counter", 1024);
 	g_pFriendDataObjectPool    = new SharedMemory<FriendDataObject>("Friend", 1024);
+
+
+	g_pRoleDataObjectPool->InitToMap();
+	g_pGlobalDataObjectPool->InitToMap();
+	g_pBagDataObjectPool->InitToMap();
+	g_pCopyDataObjectPool->InitToMap();
+	g_pEquipDataObjectPool->InitToMap();
+	g_pPetDataObjectPool->InitToMap();
+	g_pPartnerDataObjectPool->InitToMap();
+	g_pGuildDataObjectPool->InitToMap();
+	g_pMemberDataObjectPool->InitToMap();
+	g_pTaskDataObjectPool->InitToMap();
+	g_pMountDataObjectPool->InitToMap();
+	g_pMailDataObjectPool->InitToMap();
+	g_pGroupMailDataObjectPool->InitToMap();
+	g_pActivityDataObjectPool->InitToMap();
+	g_pCounterDataObjectPool->InitToMap();
+	g_pFriendDataObjectPool->InitToMap();
 	return TRUE;
 }
 

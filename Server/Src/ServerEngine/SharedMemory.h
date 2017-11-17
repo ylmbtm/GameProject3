@@ -158,7 +158,6 @@ public:
 	*/
 	virtual ShareObject*  GetObjectByRawindex(UINT32 index);
 
-
 	const UINT32 GetRawMemoryBlockSize();
 
 	const INT32 GetBlockSize() { return m_rawblockSize; }
@@ -171,8 +170,7 @@ public:
 	*/
 	virtual ShareObject* NewObject(BOOL isNewBlock = false);
 
-	/**释放一块已经不再使用的内存
-	*/
+	/**释放一块已经不再使用的内存*/
 	virtual BOOL DestoryObject(ShareObject* pobject);
 };
 
@@ -185,12 +183,6 @@ public:
 	{
 
 	}
-
-	//SharedMemory(const std::string& name, char* pdata, INT32 len)
-	//	: SharedMemoryBase(sizeof(T), pdata, len)
-	//{
-
-	//}
 
 	T*  GetObjectByRawindex(UINT32 index)
 	{

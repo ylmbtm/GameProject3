@@ -195,7 +195,6 @@ CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, st
 	pInfo->u64AccountID = u64AccID;
 	pInfo->Name = strName;
 	pInfo->dwCarrerID = dwCarrerID;
-	pInfo->IsOnline = TRUE;
 	pInfo->uCreateTime = CommonFunc::GetCurrTime();
 	pInfo->dwVipLevel = 0;
 	pInfo->dwLevel = 0;

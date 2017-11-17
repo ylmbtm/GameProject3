@@ -101,7 +101,7 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 	if(m_dwProxyConnID == pConn->GetConnectionID())
 	{
-		m_dwProxyConnID = NULL;
+		m_dwProxyConnID = 0;
 		ConnectToProxySvr();
 		CLog::GetInstancePtr()->LogInfo("与代理服断开连接!");
 	}

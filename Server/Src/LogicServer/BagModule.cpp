@@ -104,6 +104,12 @@ BOOL CBagModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 	return TRUE;
 }
 
+BOOL CBagModule::ReadFromShareMemory(BagDataObject* pObject)
+{
+	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	return TRUE;
+}
+
 BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 {
 	StItemInfo* pItemInfo = CConfigData::GetInstancePtr()->GetItemInfo(dwItemID);

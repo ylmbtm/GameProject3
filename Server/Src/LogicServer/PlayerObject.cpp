@@ -94,6 +94,9 @@ BOOL CPlayerObject::OnLogin()
 		ERROR_RETURN_FALSE(pBase != NULL);
 		pBase->OnLogin();
 	}
+
+	m_IsOnline = TRUE;
+
 	return TRUE;
 }
 
@@ -105,6 +108,9 @@ BOOL CPlayerObject::OnLogout()
 		ERROR_RETURN_FALSE(pBase != NULL);
 		pBase->OnLogout();
 	}
+
+	m_IsOnline = FALSE;
+
 	return TRUE;
 }
 

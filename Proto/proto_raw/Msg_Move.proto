@@ -102,15 +102,14 @@ message ObjectDieNotify {
   uint64  ObjectGuid = 1;
 }
 
-message ObjectValueChange
+message ObjectHPChange
 {
-    uint64            TargetGUID  = 1;
-    int32             ValueID     = 2;
+    uint64            ObjectGuid  = 1;
     int32             Value       = 3;
     bool              Crit        = 4;
 }
 
-message ObjectValueChangeNtf
+message ObjectHPChangeNtf
 { 
-    repeated ObjectValueChange ChangeList = 1;
+    repeated ObjectHPChange ChangeList = 1;
 }

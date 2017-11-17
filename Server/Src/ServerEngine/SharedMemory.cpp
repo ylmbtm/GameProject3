@@ -250,11 +250,8 @@ SharedMemoryBase::SharedMemoryBase(const std::string& name, UINT32 rawblockSize,
 			firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);
 
 			///找到头数据块的头
-			//#ifdef SHARED_BLOCK_CHECK
-			//			firstpage.m_pBlock=(_SMBlock*)(firstpage.m_pdata+(m_rawblockSize+BLOCK_FLAG_SIZE)*m_countperPage);
-			//#else
 			firstpage.m_pBlock = (_SMBlock*)(firstpage.m_pdata + m_rawblockSize * m_countperPage);
-			//#endif
+
 			///清空所有内存;
 			memset(firstpage.m_pdata, 0, size);
 			InitPage(firstpage);
@@ -304,20 +301,15 @@ _SMBlock* SharedMemoryBase::GetSMBbyRawIndex(INT32 index)
 
 ShareObject* SharedMemoryBase::GetObjectByRawindex(UINT32 index)
 {
-	if (index < m_count)
+	if (index >= m_count)
 	{
-		UINT32 whichpage = index / m_countperPage;
-		UINT32 pageindex = index % m_countperPage;
-		shareMemoryPage& page = m_ShareMemoryPageMapping[whichpage];
-		return reinterpret_cast<ShareObject*>(page.m_pdata + m_rawblockSize * pageindex);
+		return NULL;
 	}
-	else
-	{
-// 		std::string str = "index<count,get sharObject error,index:" + Helper::CommonConvert(index) + "count:" + Helper::CommonConvert(m_count);
-// 		str += "shareName:" + m_modulename;
-// 		xLogMessager::getSingleton().logMessage(str, Log_ErrorLevel);///add by dsq
-	}
-	return NULL;
+
+	UINT32 whichpage = index / m_countperPage;
+	UINT32 pageindex = index % m_countperPage;
+	shareMemoryPage& page = m_ShareMemoryPageMapping[whichpage];
+	return reinterpret_cast<ShareObject*>(page.m_pdata + m_rawblockSize * pageindex);
 }
 
 

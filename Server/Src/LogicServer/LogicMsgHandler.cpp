@@ -230,6 +230,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(Req.roleid() != 0);
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	if(pPlayer == NULL)
 	{
@@ -276,6 +277,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginAck(NetPacket* pNetPacket)
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+	ERROR_RETURN_TRUE(Ack.roleid() != 0);
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->CreatePlayer(Ack.roleid());
 	pPlayer->Init(Ack.roleid());
 	pPlayer->SetConnectID((UINT32)pHeader->u64TargetID, pHeader->dwUserData);

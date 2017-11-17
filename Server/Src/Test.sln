@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CenterServer", "CenterServe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HttpServer", "HttpServer\HttpServer.vcxproj", "{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WatchServer", "WatchServer\WatchServer.vcxproj", "{398AED55-152C-4102-BA05-511AEC1AA780}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,10 @@ Global
 		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Debug|x64.Build.0 = Debug|x64
 		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Release|x64.ActiveCfg = Release|x64
 		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Release|x64.Build.0 = Release|x64
+		{398AED55-152C-4102-BA05-511AEC1AA780}.Debug|x64.ActiveCfg = Debug|x64
+		{398AED55-152C-4102-BA05-511AEC1AA780}.Debug|x64.Build.0 = Debug|x64
+		{398AED55-152C-4102-BA05-511AEC1AA780}.Release|x64.ActiveCfg = Release|x64
+		{398AED55-152C-4102-BA05-511AEC1AA780}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

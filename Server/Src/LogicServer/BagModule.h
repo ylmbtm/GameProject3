@@ -26,6 +26,10 @@ public:
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
+
+	BOOL ReadFromShareMemory(BagDataObject* pObject);
+
+
 public:
 
 	BOOL AddItem(UINT32 dwItemID, INT32 nCount);

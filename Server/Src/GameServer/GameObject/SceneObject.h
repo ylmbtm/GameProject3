@@ -67,6 +67,7 @@ public:
 	UINT32			ProcessAction(const ActionReqItem& Item);
 	UINT64			GetLastSkillTick(UINT32 dwSkillID);
 	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
+	BOOL			StartSkill(UINT32 dwSkillID);
 	//////////////////////////////////////////////////////////////////////////
 
 public:
