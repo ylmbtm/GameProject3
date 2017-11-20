@@ -41,6 +41,8 @@ UINT64			GetTickCount();
 
 UINT32			GetCurThreadID();
 
+UINT32			GetCurProcessID();
+
 UINT32			GetFreePhysMemory();
 
 INT32           GetRandNum(INT32 nType);

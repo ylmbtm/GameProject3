@@ -26,6 +26,12 @@ public:
 public:
 
 	CHttpMsgHandler		m_HttpMsgHandler;
+
+
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif

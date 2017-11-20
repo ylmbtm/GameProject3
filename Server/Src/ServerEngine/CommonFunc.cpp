@@ -284,6 +284,17 @@ UINT32 CommonFunc::GetCurThreadID()
 	return dwThreadID;
 }
 
+UINT32 CommonFunc::GetCurProcessID()
+{
+	UINT32 dwProcessID = 0;
+#ifdef WIN32
+	dwProcessID = ::GetCurrentProcessId();
+#else
+	dwProcessID = (UINT32)getpid()();
+#endif
+	return dwProcessID;
+}
+
 UINT32 CommonFunc::GetFreePhysMemory()
 {
 	UINT32 dwFreeSize = 0;

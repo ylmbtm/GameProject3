@@ -373,3 +373,31 @@ message BroadMessageNotify {
 	repeated uint32 ConnID = 2;
     bytes MsgData = 3;	
 }
+
+
+message LogicRegToLoginReq {
+	int32	ServerID	= 1;
+	string	ServerName	= 2;
+	string	ServerIp	= 3;
+	int32	ServerPort	= 4;
+	int32   HttpPort    = 5;
+	int32   WatchPort   = 6;
+}
+
+message LogicRegToLoginAck {
+	uint32	RetCode	= 1;
+	string	NewSvrName	= 2;
+}
+
+
+message WatchHeartBeatReq {
+	uint32	Data = 1;
+	
+}
+
+message WatchHeartBeatAck {
+	uint32	RetCode	= 1;
+	uint32  Data = 2;
+	uint64  ProcessID = 3;
+}
+

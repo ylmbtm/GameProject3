@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[58];
+  static const ::google::protobuf::internal::ParseTable schema[62];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -158,6 +158,14 @@ void InitDefaultsCommonAckImpl();
 void InitDefaultsCommonAck();
 void InitDefaultsBroadMessageNotifyImpl();
 void InitDefaultsBroadMessageNotify();
+void InitDefaultsLogicRegToLoginReqImpl();
+void InitDefaultsLogicRegToLoginReq();
+void InitDefaultsLogicRegToLoginAckImpl();
+void InitDefaultsLogicRegToLoginAck();
+void InitDefaultsWatchHeartBeatReqImpl();
+void InitDefaultsWatchHeartBeatReq();
+void InitDefaultsWatchHeartBeatAckImpl();
+void InitDefaultsWatchHeartBeatAck();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -217,6 +225,10 @@ inline void InitDefaults() {
   InitDefaultsCommonReq();
   InitDefaultsCommonAck();
   InitDefaultsBroadMessageNotify();
+  InitDefaultsLogicRegToLoginReq();
+  InitDefaultsLogicRegToLoginAck();
+  InitDefaultsWatchHeartBeatReq();
+  InitDefaultsWatchHeartBeatAck();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -300,6 +312,12 @@ extern LeaveSceneAckDefaultTypeInternal _LeaveSceneAck_default_instance_;
 class LeaveSceneReq;
 class LeaveSceneReqDefaultTypeInternal;
 extern LeaveSceneReqDefaultTypeInternal _LeaveSceneReq_default_instance_;
+class LogicRegToLoginAck;
+class LogicRegToLoginAckDefaultTypeInternal;
+extern LogicRegToLoginAckDefaultTypeInternal _LogicRegToLoginAck_default_instance_;
+class LogicRegToLoginReq;
+class LogicRegToLoginReqDefaultTypeInternal;
+extern LogicRegToLoginReqDefaultTypeInternal _LogicRegToLoginReq_default_instance_;
 class NearByRoleItem;
 class NearByRoleItemDefaultTypeInternal;
 extern NearByRoleItemDefaultTypeInternal _NearByRoleItem_default_instance_;
@@ -393,6 +411,12 @@ extern UseMpBottleAckDefaultTypeInternal _UseMpBottleAck_default_instance_;
 class UseMpBottleReq;
 class UseMpBottleReqDefaultTypeInternal;
 extern UseMpBottleReqDefaultTypeInternal _UseMpBottleReq_default_instance_;
+class WatchHeartBeatAck;
+class WatchHeartBeatAckDefaultTypeInternal;
+extern WatchHeartBeatAckDefaultTypeInternal _WatchHeartBeatAck_default_instance_;
+class WatchHeartBeatReq;
+class WatchHeartBeatReqDefaultTypeInternal;
+extern WatchHeartBeatReqDefaultTypeInternal _WatchHeartBeatReq_default_instance_;
 
 // ===================================================================
 
@@ -7299,6 +7323,482 @@ class BroadMessageNotify : public ::google::protobuf::Message /* @@protoc_insert
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsBroadMessageNotifyImpl();
 };
+// -------------------------------------------------------------------
+
+class LogicRegToLoginReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LogicRegToLoginReq) */ {
+ public:
+  LogicRegToLoginReq();
+  virtual ~LogicRegToLoginReq();
+
+  LogicRegToLoginReq(const LogicRegToLoginReq& from);
+
+  inline LogicRegToLoginReq& operator=(const LogicRegToLoginReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LogicRegToLoginReq(LogicRegToLoginReq&& from) noexcept
+    : LogicRegToLoginReq() {
+    *this = ::std::move(from);
+  }
+
+  inline LogicRegToLoginReq& operator=(LogicRegToLoginReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogicRegToLoginReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LogicRegToLoginReq* internal_default_instance() {
+    return reinterpret_cast<const LogicRegToLoginReq*>(
+               &_LogicRegToLoginReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    58;
+
+  void Swap(LogicRegToLoginReq* other);
+  friend void swap(LogicRegToLoginReq& a, LogicRegToLoginReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LogicRegToLoginReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  LogicRegToLoginReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const LogicRegToLoginReq& from);
+  void MergeFrom(const LogicRegToLoginReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(LogicRegToLoginReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string ServerName = 2;
+  void clear_servername();
+  static const int kServerNameFieldNumber = 2;
+  const ::std::string& servername() const;
+  void set_servername(const ::std::string& value);
+  #if LANG_CXX11
+  void set_servername(::std::string&& value);
+  #endif
+  void set_servername(const char* value);
+  void set_servername(const char* value, size_t size);
+  ::std::string* mutable_servername();
+  ::std::string* release_servername();
+  void set_allocated_servername(::std::string* servername);
+
+  // string ServerIp = 3;
+  void clear_serverip();
+  static const int kServerIpFieldNumber = 3;
+  const ::std::string& serverip() const;
+  void set_serverip(const ::std::string& value);
+  #if LANG_CXX11
+  void set_serverip(::std::string&& value);
+  #endif
+  void set_serverip(const char* value);
+  void set_serverip(const char* value, size_t size);
+  ::std::string* mutable_serverip();
+  ::std::string* release_serverip();
+  void set_allocated_serverip(::std::string* serverip);
+
+  // int32 ServerID = 1;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 1;
+  ::google::protobuf::int32 serverid() const;
+  void set_serverid(::google::protobuf::int32 value);
+
+  // int32 ServerPort = 4;
+  void clear_serverport();
+  static const int kServerPortFieldNumber = 4;
+  ::google::protobuf::int32 serverport() const;
+  void set_serverport(::google::protobuf::int32 value);
+
+  // int32 HttpPort = 5;
+  void clear_httpport();
+  static const int kHttpPortFieldNumber = 5;
+  ::google::protobuf::int32 httpport() const;
+  void set_httpport(::google::protobuf::int32 value);
+
+  // int32 WatchPort = 6;
+  void clear_watchport();
+  static const int kWatchPortFieldNumber = 6;
+  ::google::protobuf::int32 watchport() const;
+  void set_watchport(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:LogicRegToLoginReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr servername_;
+  ::google::protobuf::internal::ArenaStringPtr serverip_;
+  ::google::protobuf::int32 serverid_;
+  ::google::protobuf::int32 serverport_;
+  ::google::protobuf::int32 httpport_;
+  ::google::protobuf::int32 watchport_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicRegToLoginReqImpl();
+};
+// -------------------------------------------------------------------
+
+class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LogicRegToLoginAck) */ {
+ public:
+  LogicRegToLoginAck();
+  virtual ~LogicRegToLoginAck();
+
+  LogicRegToLoginAck(const LogicRegToLoginAck& from);
+
+  inline LogicRegToLoginAck& operator=(const LogicRegToLoginAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LogicRegToLoginAck(LogicRegToLoginAck&& from) noexcept
+    : LogicRegToLoginAck() {
+    *this = ::std::move(from);
+  }
+
+  inline LogicRegToLoginAck& operator=(LogicRegToLoginAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogicRegToLoginAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LogicRegToLoginAck* internal_default_instance() {
+    return reinterpret_cast<const LogicRegToLoginAck*>(
+               &_LogicRegToLoginAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    59;
+
+  void Swap(LogicRegToLoginAck* other);
+  friend void swap(LogicRegToLoginAck& a, LogicRegToLoginAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LogicRegToLoginAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  LogicRegToLoginAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const LogicRegToLoginAck& from);
+  void MergeFrom(const LogicRegToLoginAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(LogicRegToLoginAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string NewSvrName = 2;
+  void clear_newsvrname();
+  static const int kNewSvrNameFieldNumber = 2;
+  const ::std::string& newsvrname() const;
+  void set_newsvrname(const ::std::string& value);
+  #if LANG_CXX11
+  void set_newsvrname(::std::string&& value);
+  #endif
+  void set_newsvrname(const char* value);
+  void set_newsvrname(const char* value, size_t size);
+  ::std::string* mutable_newsvrname();
+  ::std::string* release_newsvrname();
+  void set_allocated_newsvrname(::std::string* newsvrname);
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:LogicRegToLoginAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr newsvrname_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicRegToLoginAckImpl();
+};
+// -------------------------------------------------------------------
+
+class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:WatchHeartBeatReq) */ {
+ public:
+  WatchHeartBeatReq();
+  virtual ~WatchHeartBeatReq();
+
+  WatchHeartBeatReq(const WatchHeartBeatReq& from);
+
+  inline WatchHeartBeatReq& operator=(const WatchHeartBeatReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WatchHeartBeatReq(WatchHeartBeatReq&& from) noexcept
+    : WatchHeartBeatReq() {
+    *this = ::std::move(from);
+  }
+
+  inline WatchHeartBeatReq& operator=(WatchHeartBeatReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WatchHeartBeatReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WatchHeartBeatReq* internal_default_instance() {
+    return reinterpret_cast<const WatchHeartBeatReq*>(
+               &_WatchHeartBeatReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    60;
+
+  void Swap(WatchHeartBeatReq* other);
+  friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WatchHeartBeatReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  WatchHeartBeatReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const WatchHeartBeatReq& from);
+  void MergeFrom(const WatchHeartBeatReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(WatchHeartBeatReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 Data = 1;
+  void clear_data();
+  static const int kDataFieldNumber = 1;
+  ::google::protobuf::uint32 data() const;
+  void set_data(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:WatchHeartBeatReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 data_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsWatchHeartBeatReqImpl();
+};
+// -------------------------------------------------------------------
+
+class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:WatchHeartBeatAck) */ {
+ public:
+  WatchHeartBeatAck();
+  virtual ~WatchHeartBeatAck();
+
+  WatchHeartBeatAck(const WatchHeartBeatAck& from);
+
+  inline WatchHeartBeatAck& operator=(const WatchHeartBeatAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WatchHeartBeatAck(WatchHeartBeatAck&& from) noexcept
+    : WatchHeartBeatAck() {
+    *this = ::std::move(from);
+  }
+
+  inline WatchHeartBeatAck& operator=(WatchHeartBeatAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WatchHeartBeatAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WatchHeartBeatAck* internal_default_instance() {
+    return reinterpret_cast<const WatchHeartBeatAck*>(
+               &_WatchHeartBeatAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    61;
+
+  void Swap(WatchHeartBeatAck* other);
+  friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WatchHeartBeatAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  WatchHeartBeatAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const WatchHeartBeatAck& from);
+  void MergeFrom(const WatchHeartBeatAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(WatchHeartBeatAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // uint32 Data = 2;
+  void clear_data();
+  static const int kDataFieldNumber = 2;
+  ::google::protobuf::uint32 data() const;
+  void set_data(::google::protobuf::uint32 value);
+
+  // uint64 ProcessID = 3;
+  void clear_processid();
+  static const int kProcessIDFieldNumber = 3;
+  ::google::protobuf::uint64 processid() const;
+  void set_processid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:WatchHeartBeatAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  ::google::protobuf::uint32 data_;
+  ::google::protobuf::uint64 processid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsWatchHeartBeatAckImpl();
+};
 // ===================================================================
 
 
@@ -11446,9 +11946,318 @@ inline void BroadMessageNotify::set_allocated_msgdata(::std::string* msgdata) {
   // @@protoc_insertion_point(field_set_allocated:BroadMessageNotify.MsgData)
 }
 
+// -------------------------------------------------------------------
+
+// LogicRegToLoginReq
+
+// int32 ServerID = 1;
+inline void LogicRegToLoginReq::clear_serverid() {
+  serverid_ = 0;
+}
+inline ::google::protobuf::int32 LogicRegToLoginReq::serverid() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.ServerID)
+  return serverid_;
+}
+inline void LogicRegToLoginReq::set_serverid(::google::protobuf::int32 value) {
+  
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.ServerID)
+}
+
+// string ServerName = 2;
+inline void LogicRegToLoginReq::clear_servername() {
+  servername_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LogicRegToLoginReq::servername() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.ServerName)
+  return servername_.GetNoArena();
+}
+inline void LogicRegToLoginReq::set_servername(const ::std::string& value) {
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.ServerName)
+}
+#if LANG_CXX11
+inline void LogicRegToLoginReq::set_servername(::std::string&& value) {
+  
+  servername_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LogicRegToLoginReq.ServerName)
+}
+#endif
+inline void LogicRegToLoginReq::set_servername(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LogicRegToLoginReq.ServerName)
+}
+inline void LogicRegToLoginReq::set_servername(const char* value, size_t size) {
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LogicRegToLoginReq.ServerName)
+}
+inline ::std::string* LogicRegToLoginReq::mutable_servername() {
+  
+  // @@protoc_insertion_point(field_mutable:LogicRegToLoginReq.ServerName)
+  return servername_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LogicRegToLoginReq::release_servername() {
+  // @@protoc_insertion_point(field_release:LogicRegToLoginReq.ServerName)
+  
+  return servername_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LogicRegToLoginReq::set_allocated_servername(::std::string* servername) {
+  if (servername != NULL) {
+    
+  } else {
+    
+  }
+  servername_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), servername);
+  // @@protoc_insertion_point(field_set_allocated:LogicRegToLoginReq.ServerName)
+}
+
+// string ServerIp = 3;
+inline void LogicRegToLoginReq::clear_serverip() {
+  serverip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LogicRegToLoginReq::serverip() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.ServerIp)
+  return serverip_.GetNoArena();
+}
+inline void LogicRegToLoginReq::set_serverip(const ::std::string& value) {
+  
+  serverip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.ServerIp)
+}
+#if LANG_CXX11
+inline void LogicRegToLoginReq::set_serverip(::std::string&& value) {
+  
+  serverip_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LogicRegToLoginReq.ServerIp)
+}
+#endif
+inline void LogicRegToLoginReq::set_serverip(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  serverip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LogicRegToLoginReq.ServerIp)
+}
+inline void LogicRegToLoginReq::set_serverip(const char* value, size_t size) {
+  
+  serverip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LogicRegToLoginReq.ServerIp)
+}
+inline ::std::string* LogicRegToLoginReq::mutable_serverip() {
+  
+  // @@protoc_insertion_point(field_mutable:LogicRegToLoginReq.ServerIp)
+  return serverip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LogicRegToLoginReq::release_serverip() {
+  // @@protoc_insertion_point(field_release:LogicRegToLoginReq.ServerIp)
+  
+  return serverip_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LogicRegToLoginReq::set_allocated_serverip(::std::string* serverip) {
+  if (serverip != NULL) {
+    
+  } else {
+    
+  }
+  serverip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), serverip);
+  // @@protoc_insertion_point(field_set_allocated:LogicRegToLoginReq.ServerIp)
+}
+
+// int32 ServerPort = 4;
+inline void LogicRegToLoginReq::clear_serverport() {
+  serverport_ = 0;
+}
+inline ::google::protobuf::int32 LogicRegToLoginReq::serverport() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.ServerPort)
+  return serverport_;
+}
+inline void LogicRegToLoginReq::set_serverport(::google::protobuf::int32 value) {
+  
+  serverport_ = value;
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.ServerPort)
+}
+
+// int32 HttpPort = 5;
+inline void LogicRegToLoginReq::clear_httpport() {
+  httpport_ = 0;
+}
+inline ::google::protobuf::int32 LogicRegToLoginReq::httpport() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.HttpPort)
+  return httpport_;
+}
+inline void LogicRegToLoginReq::set_httpport(::google::protobuf::int32 value) {
+  
+  httpport_ = value;
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.HttpPort)
+}
+
+// int32 WatchPort = 6;
+inline void LogicRegToLoginReq::clear_watchport() {
+  watchport_ = 0;
+}
+inline ::google::protobuf::int32 LogicRegToLoginReq::watchport() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginReq.WatchPort)
+  return watchport_;
+}
+inline void LogicRegToLoginReq::set_watchport(::google::protobuf::int32 value) {
+  
+  watchport_ = value;
+  // @@protoc_insertion_point(field_set:LogicRegToLoginReq.WatchPort)
+}
+
+// -------------------------------------------------------------------
+
+// LogicRegToLoginAck
+
+// uint32 RetCode = 1;
+inline void LogicRegToLoginAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 LogicRegToLoginAck::retcode() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginAck.RetCode)
+  return retcode_;
+}
+inline void LogicRegToLoginAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:LogicRegToLoginAck.RetCode)
+}
+
+// string NewSvrName = 2;
+inline void LogicRegToLoginAck::clear_newsvrname() {
+  newsvrname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LogicRegToLoginAck::newsvrname() const {
+  // @@protoc_insertion_point(field_get:LogicRegToLoginAck.NewSvrName)
+  return newsvrname_.GetNoArena();
+}
+inline void LogicRegToLoginAck::set_newsvrname(const ::std::string& value) {
+  
+  newsvrname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:LogicRegToLoginAck.NewSvrName)
+}
+#if LANG_CXX11
+inline void LogicRegToLoginAck::set_newsvrname(::std::string&& value) {
+  
+  newsvrname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LogicRegToLoginAck.NewSvrName)
+}
+#endif
+inline void LogicRegToLoginAck::set_newsvrname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  newsvrname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LogicRegToLoginAck.NewSvrName)
+}
+inline void LogicRegToLoginAck::set_newsvrname(const char* value, size_t size) {
+  
+  newsvrname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LogicRegToLoginAck.NewSvrName)
+}
+inline ::std::string* LogicRegToLoginAck::mutable_newsvrname() {
+  
+  // @@protoc_insertion_point(field_mutable:LogicRegToLoginAck.NewSvrName)
+  return newsvrname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LogicRegToLoginAck::release_newsvrname() {
+  // @@protoc_insertion_point(field_release:LogicRegToLoginAck.NewSvrName)
+  
+  return newsvrname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LogicRegToLoginAck::set_allocated_newsvrname(::std::string* newsvrname) {
+  if (newsvrname != NULL) {
+    
+  } else {
+    
+  }
+  newsvrname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), newsvrname);
+  // @@protoc_insertion_point(field_set_allocated:LogicRegToLoginAck.NewSvrName)
+}
+
+// -------------------------------------------------------------------
+
+// WatchHeartBeatReq
+
+// uint32 Data = 1;
+inline void WatchHeartBeatReq::clear_data() {
+  data_ = 0u;
+}
+inline ::google::protobuf::uint32 WatchHeartBeatReq::data() const {
+  // @@protoc_insertion_point(field_get:WatchHeartBeatReq.Data)
+  return data_;
+}
+inline void WatchHeartBeatReq::set_data(::google::protobuf::uint32 value) {
+  
+  data_ = value;
+  // @@protoc_insertion_point(field_set:WatchHeartBeatReq.Data)
+}
+
+// -------------------------------------------------------------------
+
+// WatchHeartBeatAck
+
+// uint32 RetCode = 1;
+inline void WatchHeartBeatAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 WatchHeartBeatAck::retcode() const {
+  // @@protoc_insertion_point(field_get:WatchHeartBeatAck.RetCode)
+  return retcode_;
+}
+inline void WatchHeartBeatAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:WatchHeartBeatAck.RetCode)
+}
+
+// uint32 Data = 2;
+inline void WatchHeartBeatAck::clear_data() {
+  data_ = 0u;
+}
+inline ::google::protobuf::uint32 WatchHeartBeatAck::data() const {
+  // @@protoc_insertion_point(field_get:WatchHeartBeatAck.Data)
+  return data_;
+}
+inline void WatchHeartBeatAck::set_data(::google::protobuf::uint32 value) {
+  
+  data_ = value;
+  // @@protoc_insertion_point(field_set:WatchHeartBeatAck.Data)
+}
+
+// uint64 ProcessID = 3;
+inline void WatchHeartBeatAck::clear_processid() {
+  processid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 WatchHeartBeatAck::processid() const {
+  // @@protoc_insertion_point(field_get:WatchHeartBeatAck.ProcessID)
+  return processid_;
+}
+inline void WatchHeartBeatAck::set_processid(::google::protobuf::uint64 value) {
+  
+  processid_ = value;
+  // @@protoc_insertion_point(field_set:WatchHeartBeatAck.ProcessID)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

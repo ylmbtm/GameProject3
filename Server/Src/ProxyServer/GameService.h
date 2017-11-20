@@ -18,28 +18,26 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection *pConn);
+	BOOL		OnNewConnect(CConnection* pConn);
 
-	BOOL		OnCloseConnect(CConnection *pConn);
+	BOOL		OnCloseConnect(CConnection* pConn);
 
-	BOOL		DispatchPacket( NetPacket *pNetPacket);
+	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	UINT32		GetLogicConnID();
 
 	BOOL		ConnectToLogicSvr();
 public:
-
-public:
 	//处理普通的网络连接
 	CProxyMsgHandler	m_ProxyMsgHandler;
 
-	//本服务器的信息
-	std::string         m_strIpAddr;
-	UINT16              m_sPort;
+	UINT32				m_dwLogicConnID;
+
 
 public:
-protected:
-	UINT32			m_dwLogicConnID;
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif

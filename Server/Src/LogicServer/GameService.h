@@ -52,6 +52,12 @@ public:
 	UINT32			m_dwLoginConnID;
 	UINT32			m_dwDBConnID;
 	UINT32          m_dwCenterID;   //中心服的连接ID
+
+
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif

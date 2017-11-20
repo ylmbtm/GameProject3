@@ -22,16 +22,21 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection *pConn);
+	BOOL		OnNewConnect(CConnection* pConn);
 
-	BOOL		OnCloseConnect(CConnection *pConn);
+	BOOL		OnCloseConnect(CConnection* pConn);
 
-	BOOL		DispatchPacket( NetPacket *pNetPacket);
+	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 public:
 	CDBMsgHandler		m_DBMsgHandler;
 
-	CDBWriterManager    m_DBWriterManger;     
+	CDBWriterManager    m_DBWriterManger;
+
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif

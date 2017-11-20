@@ -84,6 +84,9 @@
     <ClCompile Include="Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DFA.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -171,6 +174,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="XMath.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DFA.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

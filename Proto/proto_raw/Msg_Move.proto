@@ -3,28 +3,28 @@ syntax = "proto3";
 //请求释放技能
 message SkillCastReq
 {	
-	uint64  ObjectGuid 	= 1;
-	int32   SkillID 	= 2;
-	float   HostX 		= 3;
-	float   HostY 		= 4;
-	float   HostZ 		= 5;
-	float   HostFt 		= 6;
-	float   TargetX 	= 7;
-	float   TargetY 	= 8;
-	float   TargetZ 	= 9;
-	float   TargetFt 	= 10;
-	repeated uint64  TargetObjects = 11;
+	uint64	ObjectGuid	= 1;
+	int32	SkillID		= 2;
+	float	HostX		= 3;
+	float	HostY		= 4;
+	float	HostZ		= 5;
+	float	HostFt		= 6;
+	float	TargetX		= 7;
+	float	TargetY		= 8;
+	float	TargetZ		= 9;
+	float	TargetFt	= 10;
+	repeated	uint64	TargetObjects = 11;
 }
 
 //请求释放技能返回(如要释放是允许则没有这个返回)
 message SkillCastAck
 {	
-	uint32 RetCode = 1;  //是否释放成功, 失败原因。
+	uint32	RetCode = 1;  //是否释放成功, 失败原因。
 }
 
 //移动动作请求
 message ObjectActionReq {
-   repeated ActionReqItem ActionList = 1;
+   repeated	ActionReqItem ActionList = 1;
 }
 
 //移动动作请求
@@ -33,12 +33,12 @@ message ObjectActionNty {
 }
 
 message ActionReqItem {
-	uint64  ObjectGuid   = 1;
-	int32   ActionID     = 2;
-	float   HostX 		 = 3;
-	float   HostY 		 = 4;
-	float   HostZ 		 = 5;
-	float   HostFt 		 = 6;
+	uint64	ObjectGuid	= 1;
+	int32	ActionID	= 2;
+	float	HostX		= 3;
+	float	HostY		= 4;
+	float	HostZ		= 5;
+	float	HostFt		= 6;
 }
 
 message ActionNtyItem {
@@ -60,25 +60,25 @@ message ActionNtyItem {
 }
 
 message NewItem {
-	uint64 ObjectGuid 	= 1;		//实例ID
-	int32  ObjType    	= 2;		//对象类别
-	int32  ObjectState  = 3;		//实例状态
-	int32  BuffState 	= 4;		//特效状态
-	int32  ActorID    	= 5;		//Actor ID
-	string Name       	= 6;		//名字
-	int32  Level      	= 7;		//等级
-	uint64 HostGuid   	= 8;		//主人的GUID
-	uint64 ControlerID 	= 9;     	//AI控制人的GUID
+	uint64 ObjectGuid	= 1;		//实例ID
+	int32  ObjType		= 2;		//对象类别
+	int32  ObjectState	= 3;		//实例状态
+	int32  BuffState	= 4;		//特效状态
+	int32  ActorID		= 5;		//Actor ID
+	string Name			= 6;		//名字
+	int32  Level		= 7;		//等级
+	uint64 HostGuid		= 8;		//主人的GUID
+	uint64 ControlerID	= 9;     	//AI控制人的GUID
 	uint64 SummonID 	= 10;		//招唤者的GUID
-	float  X 			= 11;		
-	float  Y 			= 12;
-	float  Z 			= 13;
-	float  Ft 			= 14;
-	int32  Hp 			= 15;
-	int32  Mp 			= 16;
-	int32  HpMax 		= 17;
-	int32  MpMax 		= 18;
-	int32  Weapon 		= 19; 		//武器
+	float  X			= 11;		
+	float  Y			= 12;
+	float  Z			= 13;
+	float  Ft			= 14;
+	int32  Hp			= 15;
+	int32  Mp			= 16;
+	int32  HpMax		= 17;
+	int32  MpMax		= 18;
+	int32  Weapon		= 19; 		//武器
 }
 
 message ObjectNewNty {
@@ -104,9 +104,9 @@ message ObjectDieNotify {
 
 message ObjectHPChange
 {
-    uint64            ObjectGuid  = 1;
-    int32             Value       = 3;
-    bool              Crit        = 4;
+	uint64		ObjectGuid	= 1;
+	int32		Value		= 3;
+	bool		Crit		= 4;
 }
 
 message ObjectHPChangeNtf

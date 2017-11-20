@@ -102,6 +102,7 @@
     <ClCompile Include="DBInterface\DBConnection.cpp" />
     <ClCompile Include="DBInterface\DBRecordSet.cpp" />
     <ClCompile Include="DBInterface\DBStoredProc.cpp" />
+    <ClCompile Include="DFA.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="LuaManager.cpp" />
     <ClCompile Include="NetManager.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="DBInterface\DBInterface.h" />
     <ClInclude Include="DBInterface\DBRecordSet.h" />
     <ClInclude Include="DBInterface\DBStoredProc.h" />
+    <ClInclude Include="DFA.h" />
     <ClInclude Include="EventFuncManager.h" />
     <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="LockFreeQueueImpl.h" />

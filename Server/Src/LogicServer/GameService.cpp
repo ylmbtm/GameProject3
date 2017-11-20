@@ -14,7 +14,9 @@
 #include "GroupMailMgr.h"
 #include "PayManager.h"
 #include "GuildManager.h"
-
+#include "../Message/Msg_Game.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Msg_ID.pb.h"
 CGameService::CGameService(void)
 {
 
@@ -188,7 +190,7 @@ BOOL CGameService::ConnectToCenterSvr()
 
 BOOL CGameService::RegisterToLoginSvr()
 {
-	SvrRegToSvrReq Req;
+	LogicRegToLoginReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
@@ -197,6 +199,8 @@ BOOL CGameService::RegisterToLoginSvr()
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);
 	Req.set_servername(strSvrName);
+	Req.set_httpport(dwPort);
+	Req.set_watchport(dwPort);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
@@ -298,4 +302,18 @@ UINT32 CGameService::GetServerID()
 UINT32 CGameService::GetCenterID()
 {
 	return m_dwCenterID;
+}
+BOOL CGameService::OnMsgWatchHeartBeatReq(NetPacket* pNetPacket)
+{
+	WatchHeartBeatReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
+	WatchHeartBeatAck Ack;
+
+	Ack.set_data(Req.data());
+	Ack.set_retcode(MRC_SUCCESSED);
+	Ack.set_processid(CommonFunc::GetCurProcessID());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_WATCH_HEART_BEAT_ACK, 0, 0, Ack);
+
+	return TRUE;
 }

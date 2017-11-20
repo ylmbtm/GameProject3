@@ -5,8 +5,9 @@
 #include "CommonEvent.h"
 #include "CommonThreadFunc.h"
 #include "Log.h"
-
-
+#include "../Message/Msg_Game.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Msg_ID.pb.h"
 CGameService::CGameService(void)
 {
 
@@ -65,10 +66,15 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	//switch(pNetPacket->m_dwMsgID)
-	//{
-	m_LogMsgHandler.DispatchPacket(pNetPacket);
-	//}
+	switch(pNetPacket->m_dwMsgID)
+	{
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
+		default:
+		{
+			m_LogMsgHandler.DispatchPacket(pNetPacket);
+		}
+
+	}
 
 	return TRUE;
 }
@@ -97,3 +103,17 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
+BOOL CGameService::OnMsgWatchHeartBeatReq(NetPacket* pNetPacket)
+{
+	WatchHeartBeatReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
+	WatchHeartBeatAck Ack;
+
+	Ack.set_data(Req.data());
+	Ack.set_retcode(MRC_SUCCESSED);
+	Ack.set_processid(CommonFunc::GetCurProcessID());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_WATCH_HEART_BEAT_ACK, 0, 0, Ack);
+
+	return TRUE;
+}

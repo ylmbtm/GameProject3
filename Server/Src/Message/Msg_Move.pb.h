@@ -66,10 +66,10 @@ void InitDefaultsHeartBeatAckImpl();
 void InitDefaultsHeartBeatAck();
 void InitDefaultsObjectDieNotifyImpl();
 void InitDefaultsObjectDieNotify();
-void InitDefaultsObjectValueChangeImpl();
-void InitDefaultsObjectValueChange();
-void InitDefaultsObjectValueChangeNtfImpl();
-void InitDefaultsObjectValueChangeNtf();
+void InitDefaultsObjectHPChangeImpl();
+void InitDefaultsObjectHPChange();
+void InitDefaultsObjectHPChangeNtfImpl();
+void InitDefaultsObjectHPChangeNtf();
 inline void InitDefaults() {
   InitDefaultsSkillCastReq();
   InitDefaultsSkillCastAck();
@@ -83,8 +83,8 @@ inline void InitDefaults() {
   InitDefaultsHeartBeatReq();
   InitDefaultsHeartBeatAck();
   InitDefaultsObjectDieNotify();
-  InitDefaultsObjectValueChange();
-  InitDefaultsObjectValueChangeNtf();
+  InitDefaultsObjectHPChange();
+  InitDefaultsObjectHPChangeNtf();
 }
 }  // namespace protobuf_Msg_5fMove_2eproto
 class ActionNtyItem;
@@ -111,18 +111,18 @@ extern ObjectActionReqDefaultTypeInternal _ObjectActionReq_default_instance_;
 class ObjectDieNotify;
 class ObjectDieNotifyDefaultTypeInternal;
 extern ObjectDieNotifyDefaultTypeInternal _ObjectDieNotify_default_instance_;
+class ObjectHPChange;
+class ObjectHPChangeDefaultTypeInternal;
+extern ObjectHPChangeDefaultTypeInternal _ObjectHPChange_default_instance_;
+class ObjectHPChangeNtf;
+class ObjectHPChangeNtfDefaultTypeInternal;
+extern ObjectHPChangeNtfDefaultTypeInternal _ObjectHPChangeNtf_default_instance_;
 class ObjectNewNty;
 class ObjectNewNtyDefaultTypeInternal;
 extern ObjectNewNtyDefaultTypeInternal _ObjectNewNty_default_instance_;
 class ObjectRemoveNty;
 class ObjectRemoveNtyDefaultTypeInternal;
 extern ObjectRemoveNtyDefaultTypeInternal _ObjectRemoveNty_default_instance_;
-class ObjectValueChange;
-class ObjectValueChangeDefaultTypeInternal;
-extern ObjectValueChangeDefaultTypeInternal _ObjectValueChange_default_instance_;
-class ObjectValueChangeNtf;
-class ObjectValueChangeNtfDefaultTypeInternal;
-extern ObjectValueChangeNtfDefaultTypeInternal _ObjectValueChangeNtf_default_instance_;
 class SkillCastAck;
 class SkillCastAckDefaultTypeInternal;
 extern SkillCastAckDefaultTypeInternal _SkillCastAck_default_instance_;
@@ -1696,24 +1696,24 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectValueChange) */ {
+class ObjectHPChange : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectHPChange) */ {
  public:
-  ObjectValueChange();
-  virtual ~ObjectValueChange();
+  ObjectHPChange();
+  virtual ~ObjectHPChange();
 
-  ObjectValueChange(const ObjectValueChange& from);
+  ObjectHPChange(const ObjectHPChange& from);
 
-  inline ObjectValueChange& operator=(const ObjectValueChange& from) {
+  inline ObjectHPChange& operator=(const ObjectHPChange& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ObjectValueChange(ObjectValueChange&& from) noexcept
-    : ObjectValueChange() {
+  ObjectHPChange(ObjectHPChange&& from) noexcept
+    : ObjectHPChange() {
     *this = ::std::move(from);
   }
 
-  inline ObjectValueChange& operator=(ObjectValueChange&& from) noexcept {
+  inline ObjectHPChange& operator=(ObjectHPChange&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1723,30 +1723,30 @@ class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_inserti
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ObjectValueChange& default_instance();
+  static const ObjectHPChange& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ObjectValueChange* internal_default_instance() {
-    return reinterpret_cast<const ObjectValueChange*>(
-               &_ObjectValueChange_default_instance_);
+  static inline const ObjectHPChange* internal_default_instance() {
+    return reinterpret_cast<const ObjectHPChange*>(
+               &_ObjectHPChange_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     12;
 
-  void Swap(ObjectValueChange* other);
-  friend void swap(ObjectValueChange& a, ObjectValueChange& b) {
+  void Swap(ObjectHPChange* other);
+  friend void swap(ObjectHPChange& a, ObjectHPChange& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ObjectValueChange* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline ObjectHPChange* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ObjectValueChange* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  ObjectHPChange* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ObjectValueChange& from);
-  void MergeFrom(const ObjectValueChange& from);
+  void CopyFrom(const ObjectHPChange& from);
+  void MergeFrom(const ObjectHPChange& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -1762,7 +1762,7 @@ class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ObjectValueChange* other);
+  void InternalSwap(ObjectHPChange* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1778,17 +1778,11 @@ class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // uint64 TargetGUID = 1;
-  void clear_targetguid();
-  static const int kTargetGUIDFieldNumber = 1;
-  ::google::protobuf::uint64 targetguid() const;
-  void set_targetguid(::google::protobuf::uint64 value);
-
-  // int32 ValueID = 2;
-  void clear_valueid();
-  static const int kValueIDFieldNumber = 2;
-  ::google::protobuf::int32 valueid() const;
-  void set_valueid(::google::protobuf::int32 value);
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
 
   // int32 Value = 3;
   void clear_value();
@@ -1802,38 +1796,37 @@ class ObjectValueChange : public ::google::protobuf::Message /* @@protoc_inserti
   bool crit() const;
   void set_crit(bool value);
 
-  // @@protoc_insertion_point(class_scope:ObjectValueChange)
+  // @@protoc_insertion_point(class_scope:ObjectHPChange)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint64 targetguid_;
-  ::google::protobuf::int32 valueid_;
+  ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 value_;
   bool crit_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectValueChangeImpl();
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectHPChangeImpl();
 };
 // -------------------------------------------------------------------
 
-class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectValueChangeNtf) */ {
+class ObjectHPChangeNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectHPChangeNtf) */ {
  public:
-  ObjectValueChangeNtf();
-  virtual ~ObjectValueChangeNtf();
+  ObjectHPChangeNtf();
+  virtual ~ObjectHPChangeNtf();
 
-  ObjectValueChangeNtf(const ObjectValueChangeNtf& from);
+  ObjectHPChangeNtf(const ObjectHPChangeNtf& from);
 
-  inline ObjectValueChangeNtf& operator=(const ObjectValueChangeNtf& from) {
+  inline ObjectHPChangeNtf& operator=(const ObjectHPChangeNtf& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ObjectValueChangeNtf(ObjectValueChangeNtf&& from) noexcept
-    : ObjectValueChangeNtf() {
+  ObjectHPChangeNtf(ObjectHPChangeNtf&& from) noexcept
+    : ObjectHPChangeNtf() {
     *this = ::std::move(from);
   }
 
-  inline ObjectValueChangeNtf& operator=(ObjectValueChangeNtf&& from) noexcept {
+  inline ObjectHPChangeNtf& operator=(ObjectHPChangeNtf&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1843,30 +1836,30 @@ class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_inse
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ObjectValueChangeNtf& default_instance();
+  static const ObjectHPChangeNtf& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ObjectValueChangeNtf* internal_default_instance() {
-    return reinterpret_cast<const ObjectValueChangeNtf*>(
-               &_ObjectValueChangeNtf_default_instance_);
+  static inline const ObjectHPChangeNtf* internal_default_instance() {
+    return reinterpret_cast<const ObjectHPChangeNtf*>(
+               &_ObjectHPChangeNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     13;
 
-  void Swap(ObjectValueChangeNtf* other);
-  friend void swap(ObjectValueChangeNtf& a, ObjectValueChangeNtf& b) {
+  void Swap(ObjectHPChangeNtf* other);
+  friend void swap(ObjectHPChangeNtf& a, ObjectHPChangeNtf& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ObjectValueChangeNtf* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline ObjectHPChangeNtf* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ObjectValueChangeNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  ObjectHPChangeNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ObjectValueChangeNtf& from);
-  void MergeFrom(const ObjectValueChangeNtf& from);
+  void CopyFrom(const ObjectHPChangeNtf& from);
+  void MergeFrom(const ObjectHPChangeNtf& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -1882,7 +1875,7 @@ class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_inse
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ObjectValueChangeNtf* other);
+  void InternalSwap(ObjectHPChangeNtf* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1898,26 +1891,26 @@ class ObjectValueChangeNtf : public ::google::protobuf::Message /* @@protoc_inse
 
   // accessors -------------------------------------------------------
 
-  // repeated .ObjectValueChange ChangeList = 1;
+  // repeated .ObjectHPChange ChangeList = 1;
   int changelist_size() const;
   void clear_changelist();
   static const int kChangeListFieldNumber = 1;
-  const ::ObjectValueChange& changelist(int index) const;
-  ::ObjectValueChange* mutable_changelist(int index);
-  ::ObjectValueChange* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::ObjectValueChange >*
+  const ::ObjectHPChange& changelist(int index) const;
+  ::ObjectHPChange* mutable_changelist(int index);
+  ::ObjectHPChange* add_changelist();
+  ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >*
       mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::ObjectValueChange >&
+  const ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >&
       changelist() const;
 
-  // @@protoc_insertion_point(class_scope:ObjectValueChangeNtf)
+  // @@protoc_insertion_point(class_scope:ObjectHPChangeNtf)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::ObjectValueChange > changelist_;
+  ::google::protobuf::RepeatedPtrField< ::ObjectHPChange > changelist_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectValueChangeNtfImpl();
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectHPChangeNtfImpl();
 };
 // ===================================================================
 
@@ -2935,95 +2928,81 @@ inline void ObjectDieNotify::set_objectguid(::google::protobuf::uint64 value) {
 
 // -------------------------------------------------------------------
 
-// ObjectValueChange
+// ObjectHPChange
 
-// uint64 TargetGUID = 1;
-inline void ObjectValueChange::clear_targetguid() {
-  targetguid_ = GOOGLE_ULONGLONG(0);
+// uint64 ObjectGuid = 1;
+inline void ObjectHPChange::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 ObjectValueChange::targetguid() const {
-  // @@protoc_insertion_point(field_get:ObjectValueChange.TargetGUID)
-  return targetguid_;
+inline ::google::protobuf::uint64 ObjectHPChange::objectguid() const {
+  // @@protoc_insertion_point(field_get:ObjectHPChange.ObjectGuid)
+  return objectguid_;
 }
-inline void ObjectValueChange::set_targetguid(::google::protobuf::uint64 value) {
+inline void ObjectHPChange::set_objectguid(::google::protobuf::uint64 value) {
   
-  targetguid_ = value;
-  // @@protoc_insertion_point(field_set:ObjectValueChange.TargetGUID)
-}
-
-// int32 ValueID = 2;
-inline void ObjectValueChange::clear_valueid() {
-  valueid_ = 0;
-}
-inline ::google::protobuf::int32 ObjectValueChange::valueid() const {
-  // @@protoc_insertion_point(field_get:ObjectValueChange.ValueID)
-  return valueid_;
-}
-inline void ObjectValueChange::set_valueid(::google::protobuf::int32 value) {
-  
-  valueid_ = value;
-  // @@protoc_insertion_point(field_set:ObjectValueChange.ValueID)
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:ObjectHPChange.ObjectGuid)
 }
 
 // int32 Value = 3;
-inline void ObjectValueChange::clear_value() {
+inline void ObjectHPChange::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 ObjectValueChange::value() const {
-  // @@protoc_insertion_point(field_get:ObjectValueChange.Value)
+inline ::google::protobuf::int32 ObjectHPChange::value() const {
+  // @@protoc_insertion_point(field_get:ObjectHPChange.Value)
   return value_;
 }
-inline void ObjectValueChange::set_value(::google::protobuf::int32 value) {
+inline void ObjectHPChange::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:ObjectValueChange.Value)
+  // @@protoc_insertion_point(field_set:ObjectHPChange.Value)
 }
 
 // bool Crit = 4;
-inline void ObjectValueChange::clear_crit() {
+inline void ObjectHPChange::clear_crit() {
   crit_ = false;
 }
-inline bool ObjectValueChange::crit() const {
-  // @@protoc_insertion_point(field_get:ObjectValueChange.Crit)
+inline bool ObjectHPChange::crit() const {
+  // @@protoc_insertion_point(field_get:ObjectHPChange.Crit)
   return crit_;
 }
-inline void ObjectValueChange::set_crit(bool value) {
+inline void ObjectHPChange::set_crit(bool value) {
   
   crit_ = value;
-  // @@protoc_insertion_point(field_set:ObjectValueChange.Crit)
+  // @@protoc_insertion_point(field_set:ObjectHPChange.Crit)
 }
 
 // -------------------------------------------------------------------
 
-// ObjectValueChangeNtf
+// ObjectHPChangeNtf
 
-// repeated .ObjectValueChange ChangeList = 1;
-inline int ObjectValueChangeNtf::changelist_size() const {
+// repeated .ObjectHPChange ChangeList = 1;
+inline int ObjectHPChangeNtf::changelist_size() const {
   return changelist_.size();
 }
-inline void ObjectValueChangeNtf::clear_changelist() {
+inline void ObjectHPChangeNtf::clear_changelist() {
   changelist_.Clear();
 }
-inline const ::ObjectValueChange& ObjectValueChangeNtf::changelist(int index) const {
-  // @@protoc_insertion_point(field_get:ObjectValueChangeNtf.ChangeList)
+inline const ::ObjectHPChange& ObjectHPChangeNtf::changelist(int index) const {
+  // @@protoc_insertion_point(field_get:ObjectHPChangeNtf.ChangeList)
   return changelist_.Get(index);
 }
-inline ::ObjectValueChange* ObjectValueChangeNtf::mutable_changelist(int index) {
-  // @@protoc_insertion_point(field_mutable:ObjectValueChangeNtf.ChangeList)
+inline ::ObjectHPChange* ObjectHPChangeNtf::mutable_changelist(int index) {
+  // @@protoc_insertion_point(field_mutable:ObjectHPChangeNtf.ChangeList)
   return changelist_.Mutable(index);
 }
-inline ::ObjectValueChange* ObjectValueChangeNtf::add_changelist() {
-  // @@protoc_insertion_point(field_add:ObjectValueChangeNtf.ChangeList)
+inline ::ObjectHPChange* ObjectHPChangeNtf::add_changelist() {
+  // @@protoc_insertion_point(field_add:ObjectHPChangeNtf.ChangeList)
   return changelist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::ObjectValueChange >*
-ObjectValueChangeNtf::mutable_changelist() {
-  // @@protoc_insertion_point(field_mutable_list:ObjectValueChangeNtf.ChangeList)
+inline ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >*
+ObjectHPChangeNtf::mutable_changelist() {
+  // @@protoc_insertion_point(field_mutable_list:ObjectHPChangeNtf.ChangeList)
   return &changelist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::ObjectValueChange >&
-ObjectValueChangeNtf::changelist() const {
-  // @@protoc_insertion_point(field_list:ObjectValueChangeNtf.ChangeList)
+inline const ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >&
+ObjectHPChangeNtf::changelist() const {
+  // @@protoc_insertion_point(field_list:ObjectHPChangeNtf.ChangeList)
   return changelist_;
 }
 

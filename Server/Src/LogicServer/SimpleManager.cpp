@@ -35,8 +35,8 @@ BOOL CSimpleManager::LoadSimpleData(CppMySQL3DB& tDBConnection)
 		pInfo->uLogonTime	= QueryResult.getInt64Field("logontime");
 		pInfo->uLogoffTime	= QueryResult.getInt64Field("logofftime");
 		pInfo->uGuildID		= QueryResult.getInt64Field("guildid");
-		pInfo->dwLevel		= QueryResult.getInt64Field("level");
-		pInfo->dwVipLevel	= QueryResult.getInt64Field("viplevel");
+		pInfo->dwLevel		= QueryResult.getIntField("level");
+		pInfo->dwVipLevel	= QueryResult.getIntField("viplevel");
 
 		AddSimpleInfo(pInfo);
 

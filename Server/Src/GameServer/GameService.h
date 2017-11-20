@@ -49,6 +49,7 @@ public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgDefautReq(NetPacket* pNetPacket);
 	BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

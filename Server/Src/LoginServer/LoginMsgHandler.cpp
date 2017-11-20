@@ -235,10 +235,10 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket* pPacket )
 
 BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 {
-	SvrRegToSvrReq Req;
+	LogicRegToLoginReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.serverport(), Req.servername());
-	SvrRegToSvrAck Ack;
+	LogicRegToLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
 	return TRUE;

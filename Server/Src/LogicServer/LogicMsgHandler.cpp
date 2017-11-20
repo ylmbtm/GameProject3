@@ -409,7 +409,7 @@ BOOL CLogicMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
 
 BOOL CLogicMsgHandler::OnMsgRegToLoginAck(NetPacket* pNetPacket)
 {
-	SvrRegToSvrAck Ack;
+	LogicRegToLoginAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 

@@ -1,23 +1,23 @@
 syntax = "proto3";
 
 message DBRoleData {
-	uint64	AccountID = 1;
-	uint64	RoleID = 2;
-	int32	CarrerID = 3;
-	int32	Level = 4;
-	int64	Exp = 5;
-	string	Name = 6;
-	int32	LangID = 7;
-	int32	VipLvl = 8;
-	int32	VipExp = 9;
-	int64	FightValue =  10;
-	int32	CityCopyID = 11;
-	repeated int64 Money = 13;
-	repeated int64 Action = 14;
-	repeated int64 Actime = 15;
-	uint64	CreateTime = 16;
-	uint64  LogonTime = 17;
-	uint64  LogoffTime = 18;
+	uint64		AccountID	= 1;
+	uint64		RoleID		= 2;
+	int32		CarrerID	= 3;
+	int32		Level		= 4;
+	int64		Exp			= 5;
+	string		Name		= 6;
+	int32		LangID		= 7;
+	int32		VipLvl		= 8;
+	int32		VipExp		= 9;
+	int64		FightValue	= 10;
+	int32		CityCopyID	= 11;
+	repeated	int64 Money	= 13;
+	repeated	int64 Action= 14;
+	repeated	int64 Actime= 15;
+	uint64		CreateTime	= 16;
+	uint64		LogonTime	= 17;
+	uint64		LogoffTime	= 18;
 }
 
 message DBBagItem {
@@ -102,7 +102,7 @@ message DBMailData {
 
 
 message DBActivityItem {
-	uint64  RoleID = 1;			//角色ID
+	uint64	RoleID = 1;			//角色ID
 	uint32	ActivityID = 2;  //活动ID
 	uint32	ActivityType = 3;//活动类型
 	uint32	StartTime = 4;    //参与时间
@@ -149,12 +149,12 @@ message DBRoleLoginAck {
 	DBCopyData			CopyData	= 5;
 	DBEquipData			EquipData	= 6;
 	DBPetData			PetData		= 7;
-	DBPartnerData		PartnerData = 8;
+	DBPartnerData		PartnerData	= 8;
 	DBTaskData			TaskData	= 9;
 	DBMailData			MailData	= 10;
 	DBMountData			MountData	= 11;
-	DBActivityData		ActivityData = 12;
-	DBCounterData		CounterData = 13;
-	DBFriendData		FriendData = 14;
+	DBActivityData		ActivityData= 12;
+	DBCounterData		CounterData	= 13;
+	DBFriendData		FriendData	= 14;
 }
 

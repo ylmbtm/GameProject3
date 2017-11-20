@@ -19,11 +19,11 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection *pConn);
+	BOOL		OnNewConnect(CConnection* pConn);
 
-	BOOL		OnCloseConnect(CConnection *pConn);
+	BOOL		OnCloseConnect(CConnection* pConn);
 
-	BOOL		DispatchPacket( NetPacket *pNetPacket);
+	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	BOOL        SendCmdToAccountConnection(UINT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
@@ -33,10 +33,14 @@ public:
 
 public:
 	CLoginMsgHandler	m_LoginMsgHandler;
-
-
 	UINT32              m_dwLogSvrConnID;
 	UINT32              m_dwAccountConnID;
+
+
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	//*********************消息处理定义结束******************************
 };
 
 #endif
