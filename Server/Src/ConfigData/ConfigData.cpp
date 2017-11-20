@@ -53,7 +53,7 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 	}
 	catch(CppSQLite3Exception& e)
 	{
-		CLog::GetInstancePtr()->LogError("CConfigData::LoadConfigData Failed!!!");
+		CLog::GetInstancePtr()->LogError("CConfigData::LoadConfigData Failed!!!, Reason:%s", e.errorMessage());
 		return FALSE;
 	}
 
@@ -79,7 +79,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 	}
 	catch(CppSQLite3Exception& e)
 	{
-		CLog::GetInstancePtr()->LogError("CConfigData::ReloadConfigData Failed!!!");
+		CLog::GetInstancePtr()->LogError("CConfigData::ReloadConfigData Failed!!!, Reason:%s", e.errorMessage());
 		return FALSE;
 	}
 
@@ -101,8 +101,6 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 
 	return TRUE;
 }
-
-
 
 BOOL CConfigData::ReadConstantData(CppSQLite3Query& QueryData)
 {
@@ -371,7 +369,6 @@ BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)
 				stValue.FixItems.push_back(item);
 			}
 		}
-
 
 		if (strRatioDrop != "NULL")
 		{

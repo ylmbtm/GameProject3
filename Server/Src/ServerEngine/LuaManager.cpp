@@ -217,7 +217,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 
 	BOOL	bInParamEnd		= FALSE;
 	int		nInParamCount	= 0;
-	int		nOutParamCount  = strlen(pOutParam);
+	int		nOutParamCount  = (int)strlen(pOutParam);
 
 	while(!bInParamEnd)
 	{
@@ -283,11 +283,11 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				break;
 			case 'i':
 				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
-				*va_arg(VarList, int*) = lua_tointeger(m_pLuaState, nRetIndex);
+				*va_arg(VarList, int*) = (int)lua_tointeger(m_pLuaState, nRetIndex);
 				break;
 			case 'f':
 				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
-				*va_arg(VarList, float*) = lua_tonumber(m_pLuaState, nRetIndex);
+				*va_arg(VarList, float*) = (float)lua_tonumber(m_pLuaState, nRetIndex);
 				break;
 			case 's':
 				ASSERT(lua_isstring(m_pLuaState, nRetIndex));

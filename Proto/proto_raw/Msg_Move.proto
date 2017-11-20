@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-//ÇëÇóÊÍ·Å¼¼ÄÜ
+//è¯·æ±‚é‡Šæ”¾æŠ€èƒ½
 message SkillCastReq
 {	
 	uint64  ObjectGuid 	= 1;
@@ -16,18 +16,18 @@ message SkillCastReq
 	repeated uint64  TargetObjects = 11;
 }
 
-//ÇëÇóÊÍ·Å¼¼ÄÜ·µ»Ø(ÈçÒªÊÍ·ÅÊÇÔÊĞíÔòÃ»ÓĞÕâ¸ö·µ»Ø)
+//è¯·æ±‚é‡Šæ”¾æŠ€èƒ½è¿”å›(å¦‚è¦é‡Šæ”¾æ˜¯å…è®¸åˆ™æ²¡æœ‰è¿™ä¸ªè¿”å›)
 message SkillCastAck
 {	
-	uint32 RetCode = 1;  //ÊÇ·ñÊÍ·Å³É¹¦, Ê§°ÜÔ­Òò¡£
+	uint32 RetCode = 1;  //æ˜¯å¦é‡Šæ”¾æˆåŠŸ, å¤±è´¥åŸå› ã€‚
 }
 
-//ÒÆ¶¯¶¯×÷ÇëÇó
+//ç§»åŠ¨åŠ¨ä½œè¯·æ±‚
 message ObjectActionReq {
    repeated ActionReqItem ActionList = 1;
 }
 
-//ÒÆ¶¯¶¯×÷ÇëÇó
+//ç§»åŠ¨åŠ¨ä½œè¯·æ±‚
 message ObjectActionNty {
    repeated ActionNtyItem ActionList = 1;
 }
@@ -44,15 +44,15 @@ message ActionReqItem {
 message ActionNtyItem {
 	uint64  ObjectGuid	= 1;
 	int32   ActionID	= 2;
-	int32	ObjectState	= 3;		//ÊµÀı×´Ì¬
-	int32	BuffState	= 4;		//ÌØĞ§×´Ì¬
+	int32	ObjectState	= 3;		//å®ä¾‹çŠ¶æ€
+	int32	BuffState	= 4;		//ç‰¹æ•ˆçŠ¶æ€
 	float   HostX		= 5;
 	float   HostY		= 6;
 	float   HostZ		= 7;
 	float   HostFt		= 8;
 	int32	ActorID		= 9;		//Actor ID
-	int32	Level		= 10;		//µÈ¼¶
-	uint64	ControlerID	= 11;     	//AI¿ØÖÆÈËµÄGUID
+	int32	Level		= 10;		//ç­‰çº§
+	uint64	ControlerID	= 11;     	//AIæ§åˆ¶äººçš„GUID
 	int32	Hp			= 12;
 	int32	Mp			= 13;
 	int32	HpMax		= 14;
@@ -60,16 +60,16 @@ message ActionNtyItem {
 }
 
 message NewItem {
-	uint64 ObjectGuid 	= 1;		//ÊµÀıID
-	int32  ObjType    	= 2;		//¶ÔÏóÀà±ğ
-	int32  ObjectState  = 3;		//ÊµÀı×´Ì¬
-	int32  BuffState 	= 4;		//ÌØĞ§×´Ì¬
+	uint64 ObjectGuid 	= 1;		//å®ä¾‹ID
+	int32  ObjType    	= 2;		//å¯¹è±¡ç±»åˆ«
+	int32  ObjectState  = 3;		//å®ä¾‹çŠ¶æ€
+	int32  BuffState 	= 4;		//ç‰¹æ•ˆçŠ¶æ€
 	int32  ActorID    	= 5;		//Actor ID
-	string Name       	= 6;		//Ãû×Ö
-	int32  Level      	= 7;		//µÈ¼¶
-	uint64 HostGuid   	= 8;		//Ö÷ÈËµÄGUID
-	uint64 ControlerID 	= 9;     	//AI¿ØÖÆÈËµÄGUID
-	uint64 SummonID 	= 10;		//ÕĞ»½ÕßµÄGUID
+	string Name       	= 6;		//åå­—
+	int32  Level      	= 7;		//ç­‰çº§
+	uint64 HostGuid   	= 8;		//ä¸»äººçš„GUID
+	uint64 ControlerID 	= 9;     	//AIæ§åˆ¶äººçš„GUID
+	uint64 SummonID 	= 10;		//æ‹›å”¤è€…çš„GUID
 	float  X 			= 11;		
 	float  Y 			= 12;
 	float  Z 			= 13;
@@ -78,7 +78,7 @@ message NewItem {
 	int32  Mp 			= 16;
 	int32  HpMax 		= 17;
 	int32  MpMax 		= 18;
-	int32  Weapon 		= 19; //ÎäÆ÷
+	int32  Weapon 		= 19; 		//æ­¦å™¨
 }
 
 message ObjectNewNty {
