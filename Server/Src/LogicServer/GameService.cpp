@@ -270,6 +270,22 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
+	BOOL bHandled = TRUE;
+	switch (pNetPacket->m_dwMsgID)
+	{
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
+		default:
+		{
+			bHandled = FALSE;
+		}
+		break;
+	}
+
+	if (bHandled)
+	{
+		return TRUE;
+	}
+
 	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;

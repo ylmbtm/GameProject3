@@ -18,8 +18,6 @@ public:
 
 	BOOL StartSkill(UINT32 dwSkillID);
 
-	BOOL GetTargets();
-
 	BOOL SetHostObject(CSceneObject* pObject);
 
 	BOOL SkillFight(CSceneObject* pTarget);
@@ -29,8 +27,6 @@ public:
 	UINT32			m_dwSkillID;   //技能ID
 	StSkillInfo*	m_pSkillInfo;
 	CSceneObject*	m_pSceneObject;
-
-	std::vector<CSceneObject*> m_vtTargets;
 };
 
 #endif //__SKILL_OBJECT_H__

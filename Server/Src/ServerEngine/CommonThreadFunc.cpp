@@ -4,11 +4,11 @@
 
 
 
-THANDLE CommonThreadFunc::CreateThread( Th_RetName (*pThreadFunc) (void *),  void *pArg)
+THANDLE CommonThreadFunc::CreateThread( Th_RetName (*pThreadFunc) (void*),  void* pArg)
 {
 	THANDLE hThread = (THANDLE)0;
 #ifdef WIN32
-	hThread = (THANDLE)_beginthread(pThreadFunc, 0 , pArg); 
+	hThread = (THANDLE)_beginthread(pThreadFunc, 0, pArg);
 #else
 	pthread_create(&hThread, NULL, pThreadFunc, pArg);
 #endif
@@ -26,14 +26,12 @@ void CommonThreadFunc::ExitThread()
 
 BOOL CommonThreadFunc::WaitThreadExit( THANDLE hThread )
 {
-
 #ifdef WIN32
 	WaitForSingleObject(hThread, INFINITE);
 #else
-	void *pStatue = NULL;
+	void* pStatue = NULL;
 	pthread_join(hThread, &pStatue);
 #endif
-
 	return TRUE;
 }
 
@@ -44,7 +42,7 @@ VOID CommonThreadFunc::Sleep( UINT32 dwMilliseconds )
 #else
 	struct timespec req;
 	req.tv_sec = 0;
-	req.tv_nsec= dwMilliseconds * 1000000;
+	req.tv_nsec = dwMilliseconds * 1000000;
 	if(-1 == nanosleep(&req, NULL))
 	{
 		return ;

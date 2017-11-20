@@ -50,20 +50,18 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 	//5.位移技能
 	//6.波次技能(闪电链)
 	//7.产生子弹的技能
-	GetTargets();
 
-	for (int i = 0; i < m_vtTargets.size(); i++)
+	//先依据阵营和规则取出伤害的目标
+	std::vector<CSceneObject*>& vtTargets = m_pSceneObject->GetAffectTargets();
+
+	for (int i = 0; i < vtTargets.size(); i++)
 	{
-		SkillFight(m_vtTargets.at(i));
+		SkillFight(vtTargets.at(i));
 	}
 
 	return TRUE;
 }
 
-BOOL CSkillObject::GetTargets()
-{
-	return TRUE;
-}
 
 BOOL CSkillObject::SetHostObject(CSceneObject* pObject)
 {
@@ -78,7 +76,10 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
 	ERROR_RETURN_FALSE(pTarget != NULL);
 
+	//给自己添加buff
 	m_pSceneObject->AddBuff(m_pSkillInfo->SelfBuffID);
+
+	//给敌人添加buff
 	pTarget->AddBuff(m_pSkillInfo->TargetBuffID);
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);

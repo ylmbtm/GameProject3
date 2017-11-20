@@ -13,17 +13,17 @@ typedef HANDLE THANDLE;
 #define Th_RetValue
 #endif
 
-typedef Th_RetName *ThreadFunc( void *pParam );
+typedef Th_RetName* ThreadFunc( void* pParam );
 
 namespace CommonThreadFunc
 {
-	THANDLE		CreateThread( Th_RetName (*pThreadFunc)(void *),  void *pArg);
+THANDLE		CreateThread( Th_RetName (*pThreadFunc)(void*),  void* pArg);
 
-	VOID		ExitThread();
+VOID		ExitThread();
 
-	BOOL		WaitThreadExit(THANDLE hThread);
+BOOL		WaitThreadExit(THANDLE hThread);
 
-	VOID		Sleep(UINT32 dwMilliseconds);
+VOID		Sleep(UINT32 dwMilliseconds);
 }
 
 

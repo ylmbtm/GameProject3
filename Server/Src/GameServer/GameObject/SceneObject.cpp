@@ -235,6 +235,16 @@ BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
 
 }
 
+std::vector<CSceneObject*>& CSceneObject::GetAffectTargets()
+{
+	m_vtTargets.clear();
+
+
+
+
+	return m_vtTargets;
+}
+
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 {
 	pResult->set_objectid(m_uGuid);

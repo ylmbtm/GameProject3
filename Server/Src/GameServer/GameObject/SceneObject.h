@@ -61,6 +61,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//技能
+	std::vector<CSceneObject*> m_vtTargets;
 	std::map<UINT32, UINT64> m_mapSkillTime;
 	CSkillObject	m_SkillObject;
 	UINT32			ProcessSkill(const SkillCastReq& Req);
@@ -68,6 +69,7 @@ public:
 	UINT64			GetLastSkillTick(UINT32 dwSkillID);
 	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
 	BOOL			StartSkill(UINT32 dwSkillID);
+	std::vector<CSceneObject*>&  GetAffectTargets();
 	//////////////////////////////////////////////////////////////////////////
 
 public:

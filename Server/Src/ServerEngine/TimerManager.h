@@ -116,7 +116,7 @@ public:
 		pNewEvent->m_pPrev = NULL;
 
 		pNewEvent->m_dwData = dwData;
-		pNewEvent->m_dwFireTime = CommonFunc::GetDayStartTime() + dwSec;
+		pNewEvent->m_dwFireTime = CommonFunc::GetDayBeginTime() + dwSec;
 
 		pNewEvent->m_dwSec = dwSec;
 		pNewEvent->m_dwType = 1;
@@ -168,7 +168,7 @@ public:
 
 		pNewEvent->m_dwData = dwData;
 
-		pNewEvent->m_dwFireTime = CommonFunc::GetDayStartTime() + dwSec;
+		pNewEvent->m_dwFireTime = CommonFunc::GetDayBeginTime() + dwSec;
 		pNewEvent->m_dwSec = dwSec;
 		pNewEvent->m_dwType = 2;
 

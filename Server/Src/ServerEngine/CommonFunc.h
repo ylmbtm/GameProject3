@@ -19,19 +19,15 @@ BOOL			CreateDir(std::string& strDir);
 
 BOOL			GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion);
 
-//获取当前的秒数
-UINT64			GetCurrTime();
+BOOL			IsSameDay(UINT64 uTime);
+
+UINT64			GetCurrTime(); //获取当前的秒数
 
 tm				GetCurrTmTime();
 
-//获取当前0点的秒数
-UINT64			GetDayStartTime();
+UINT64			GetDayBeginTime(); //获取当前0点的秒数
 
-//获取当前0点的秒数
-UINT64			GetWeekStartTime();
-
-//获取一个由年月日组合的一个唯一值
-UINT32			GetCurrDate();
+UINT64			GetWeekBeginTime(); //获取当前0点的秒数
 
 time_t			YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec);
 
@@ -60,6 +56,8 @@ BOOL 			ReleaseShareMemory(CHAR* pMem);
 BOOL			CloseShareMemory(HANDLE hShm);
 
 BOOL			DbgTrace(char* format, ...);
+
+BOOL			KillProcess(UINT32 dwPid);
 }
 
 

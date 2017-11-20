@@ -227,8 +227,15 @@ struct StBuffInfo
 	std::string   LuaAdd;						//是否有lua事件
 	std::string   LuaTick;						//是否有lua事件
 	std::string   LuaRemove;					//是否有lua事件
+};
 
-
+struct StBulletInfo
+{
+	UINT32 BulletID;					//子弹
+	FLOAT  Speed;						//速度
+	FLOAT  AceSpeed;					//加速度
+	FLOAT  Angle;						//角度
+	FLOAT  LifeTime;					//生存时间
 };
 
 

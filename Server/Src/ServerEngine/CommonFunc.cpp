@@ -79,7 +79,7 @@ tm CommonFunc::GetCurrTmTime()
 	return *timeinfo;
 }
 
-UINT64 CommonFunc::GetDayStartTime()
+UINT64 CommonFunc::GetDayBeginTime()
 {
 	time_t t;
 	t = time(0);
@@ -91,7 +91,7 @@ UINT64 CommonFunc::GetDayStartTime()
 	return (UINT64)t;
 }
 
-UINT64 CommonFunc::GetWeekStartTime()
+UINT64 CommonFunc::GetWeekBeginTime()
 {
 	time_t t;
 	t = time(0);
@@ -103,21 +103,6 @@ UINT64 CommonFunc::GetWeekStartTime()
 	t = mktime(t_tm);
 	return (UINT64)t;
 }
-
-UINT32 CommonFunc::GetCurrDate()
-{
-	time_t t = time(0);
-
-	struct tm* pTm = localtime(&t);
-
-	pTm->tm_year += 1900;
-
-	UINT32 dwCurDate = (pTm->tm_year << 16) | (pTm->tm_mon << 8) | (pTm->tm_mday);
-
-	return dwCurDate;
-}
-
-
 
 time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
 {
@@ -271,6 +256,11 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
 	closedir(pDirInfo);
 #endif
 	return TRUE;
+}
+
+BOOL CommonFunc::IsSameDay(UINT64 uTime)
+{
+	return ((uTime - _timezone) / 86400) == ((GetCurrTime() - _timezone) / 86400);
 }
 
 UINT32 CommonFunc::GetCurThreadID()
@@ -437,5 +427,32 @@ BOOL CommonFunc::DbgTrace(char* format, ...)
 
 #endif
 
+	return TRUE;
+}
+
+BOOL CommonFunc::KillProcess(UINT32 dwPid)
+{
+#ifdef WIN32
+	HANDLE hPrc;
+	if (0 == dwPid)
+	{
+		return FALSE;
+	}
+
+	hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);
+
+	if (!TerminateProcess(hPrc, 0))
+	{
+		CloseHandle(hPrc);
+		return FALSE;
+	}
+	else
+	{
+		WaitForSingleObject(hPrc, 200);
+	}
+	CloseHandle(hPrc);
+#else
+	kill(dwPid, SIGKILL);
+#endif
 	return TRUE;
 }
