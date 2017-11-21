@@ -143,7 +143,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		return FALSE;
 	}
 
-	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), pDBStoredProcedure->m_strSql.size()))
+	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
 	{
 		m_nErrno = mysql_errno( m_pMySql );
 
@@ -278,7 +278,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 		return FALSE;
 	}
 
-	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), pDBStoredProcedure->m_strSql.size()))
+	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
 	{
 		m_nErrno = mysql_errno( m_pMySql );
 

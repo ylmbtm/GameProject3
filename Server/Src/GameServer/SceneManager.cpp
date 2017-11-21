@@ -3,7 +3,6 @@
 #include "CommandDef.h"
 #include "Log.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "../Message/Msg_ID.pb.h"

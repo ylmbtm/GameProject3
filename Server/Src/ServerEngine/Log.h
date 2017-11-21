@@ -34,6 +34,8 @@ public:
 
 	void SetLogLevel(int Level);
 
+	void SetTitle(char* lpszFormat, ...);
+
 	void Flush();
 
 protected:
@@ -41,9 +43,11 @@ protected:
 
 	INT32				m_LogCount;
 
-	FILE* m_pLogFile;
+	FILE*				m_pLogFile;
 
 	INT32				m_LogLevel;
+
+	std::string         m_strPrefix;
 };
 
 #define LOG_ERROR  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);

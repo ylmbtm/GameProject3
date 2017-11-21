@@ -3,7 +3,6 @@
 #include "CommandDef.h"
 #include "Log.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "../Scene.h"
 
 
@@ -28,7 +27,7 @@ CMapObject::~CMapObject()
 BOOL CMapObject::SetUpdate()
 {
 	//m_pScene->AddToUpdateList(this);
-	
+
 	return TRUE;
 }
 
@@ -38,7 +37,7 @@ CScene* CMapObject::GetScene()
 	return m_pScene;
 }
 
-VOID CMapObject::SetScene( CScene *pScene )
+VOID CMapObject::SetScene( CScene* pScene )
 {
 	m_pScene = pScene;
 

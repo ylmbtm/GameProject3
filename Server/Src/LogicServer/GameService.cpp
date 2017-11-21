@@ -3,7 +3,6 @@
 #include "CommandDef.h"
 #include "Log.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "TimerManager.h"
 #include "CommonThreadFunc.h"
 #include "../Message/Msg_ID.pb.h"

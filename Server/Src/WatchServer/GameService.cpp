@@ -2,7 +2,6 @@
 #include "GameService.h"
 #include "CommandDef.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "CommonThreadFunc.h"
 #include "Log.h"
 
@@ -56,11 +55,15 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
+	m_WatchMsgHandler.OnNewConnect(pConn);
+
 	return TRUE;
 }
 
 BOOL CGameService::OnCloseConnect(CConnection* pConn)
 {
+	m_WatchMsgHandler.OnCloseConnect(pConn);
+
 	return TRUE;
 }
 

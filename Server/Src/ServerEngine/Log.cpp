@@ -4,6 +4,7 @@
 
 CLog::CLog(void)
 {
+	m_LogLevel = 0;
 }
 
 CLog::~CLog(void)
@@ -20,15 +21,14 @@ CLog* CLog::GetInstancePtr()
 
 BOOL CLog::StartLog(std::string strPrefix, std::string strLogDir)
 {
-#ifdef WIN32
-	SetConsoleTitle(strPrefix.c_str());
-#endif
-
 	if(!CommonFunc::CreateDir(strLogDir))
 	{
 		return FALSE;
 	}
-
+	m_strPrefix = strPrefix;
+#ifdef WIN32
+	SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS);
+#endif
 	m_pLogFile = NULL;
 
 	tm CurTime = CommonFunc::GetCurrTmTime();
@@ -171,6 +171,24 @@ void CLog::SetLogLevel( int Level )
 	m_LogLevel = Level;
 
 	return ;
+}
+
+void CLog::SetTitle(char* lpszFormat, ...)
+{
+#ifdef WIN32
+	CHAR szLog[512] = {0};
+	snprintf(szLog, 512, "%s: ", m_strPrefix.c_str());
+
+	INT32 nSize = strlen(szLog);
+
+	va_list argList;
+	va_start(argList, lpszFormat);
+	vsnprintf(szLog + nSize, 512 - nSize, lpszFormat, argList);
+	va_end(argList);
+
+	SetConsoleTitle(szLog);
+#endif
+	return;
 }
 
 void CLog::Flush()

@@ -2,7 +2,6 @@
 #include "GameService.h"
 #include "CommandDef.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "Position.h"
 #include "Log.h"
 #include "CommonThreadFunc.h"

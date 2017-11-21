@@ -3,7 +3,6 @@
 #include "CommandDef.h"
 #include "Log.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "../Message/Game_Define.pb.h"
 #include "TimerManager.h"
 #include "../ConfigData/ConfigData.h"

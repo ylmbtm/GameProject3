@@ -27,7 +27,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 
 	m_bDataChange = FALSE;
 
-	m_SkillObject.SetHostObject(this);
+	m_SkillObject.SetCastObject(this);
 }
 
 CSceneObject::~CSceneObject()

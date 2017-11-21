@@ -9,7 +9,7 @@
 
 CSkillObject::CSkillObject()
 {
-	m_pSceneObject = NULL;
+	m_pCastObject = NULL;
 	m_dwStartTick = 0;
 	m_dwSkillID = 0;
 	m_pSkillInfo = NULL;
@@ -17,7 +17,7 @@ CSkillObject::CSkillObject()
 
 CSkillObject::~CSkillObject()
 {
-	m_pSceneObject = NULL;
+	m_pCastObject = NULL;
 	m_dwStartTick = 0;
 	m_dwSkillID = 0;
 	m_pSkillInfo = NULL;
@@ -52,7 +52,7 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 	//7.产生子弹的技能
 
 	//先依据阵营和规则取出伤害的目标
-	std::vector<CSceneObject*>& vtTargets = m_pSceneObject->GetAffectTargets();
+	std::vector<CSceneObject*>& vtTargets = m_pCastObject->GetAffectTargets();
 
 	for (int i = 0; i < vtTargets.size(); i++)
 	{
@@ -63,28 +63,28 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 }
 
 
-BOOL CSkillObject::SetHostObject(CSceneObject* pObject)
+BOOL CSkillObject::SetCastObject(CSceneObject* pObject)
 {
-	m_pSceneObject = pObject;
+	m_pCastObject = pObject;
 
 	return TRUE;
 }
 
 BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 {
-	ERROR_RETURN_FALSE(m_pSceneObject != NULL);
+	ERROR_RETURN_FALSE(m_pCastObject != NULL);
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
 	ERROR_RETURN_FALSE(pTarget != NULL);
 
 	//给自己添加buff
-	m_pSceneObject->AddBuff(m_pSkillInfo->SelfBuffID);
+	m_pCastObject->AddBuff(m_pSkillInfo->SelfBuffID);
 
 	//给敌人添加buff
 	pTarget->AddBuff(m_pSkillInfo->TargetBuffID);
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
-	if (dwRandValue > (800 + m_pSceneObject->m_Propertys[8] - pTarget->m_Propertys[7]) && dwRandValue > 500)
+	if (dwRandValue > (800 + m_pCastObject->m_Propertys[8] - pTarget->m_Propertys[7]) && dwRandValue > 500)
 	{
 		//未命中
 		return TRUE;
@@ -93,18 +93,18 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 	//判断是否爆击
 	dwRandValue = CommonFunc::GetRandNum(1);
 	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (m_pSceneObject->m_Propertys[9] - m_pSceneObject->m_Propertys[10]) || dwRandValue < 10)
+	if (dwRandValue < (m_pCastObject->m_Propertys[9] - m_pCastObject->m_Propertys[10]) || dwRandValue < 10)
 	{
 		bCriticalHit = TRUE;
 	}
 
 	//最终伤害加成
-	UINT32 dwFinalAdd = m_pSceneObject->m_Propertys[6] - pTarget->m_Propertys[5] + 1000;
+	UINT32 dwFinalAdd = m_pCastObject->m_Propertys[6] - pTarget->m_Propertys[5] + 1000;
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 hurt = (m_pSkillInfo->Percent * (m_pSceneObject->m_Propertys[5] - pTarget->m_Propertys[6]) + m_pSkillInfo->Fix);
-	UINT32 dwHurt = m_pSceneObject->m_Propertys[1] - pTarget->m_Propertys[1];
+	INT32 hurt = (m_pSkillInfo->Percent * (m_pCastObject->m_Propertys[5] - pTarget->m_Propertys[6]) + m_pSkillInfo->Fix);
+	UINT32 dwHurt = m_pCastObject->m_Propertys[1] - pTarget->m_Propertys[1];
 	if (dwHurt <= 0)
 	{
 		dwHurt = 1;

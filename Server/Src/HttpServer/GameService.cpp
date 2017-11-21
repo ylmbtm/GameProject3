@@ -2,7 +2,6 @@
 #include "GameService.h"
 #include "CommandDef.h"
 #include "CommonFunc.h"
-#include "CommonEvent.h"
 #include "CommonThreadFunc.h"
 #include "Log.h"
 #include "../Message/Msg_Game.pb.h"
