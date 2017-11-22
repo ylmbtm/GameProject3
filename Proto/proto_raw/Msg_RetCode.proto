@@ -28,6 +28,7 @@ enum MessageRetCode {
    //技能
    MRC_SKILL_CD_ERROR = 17;
    MRC_INVALID_SKILL_ID = 18;  //无效的技能ID
+   MRC_INVALID_TARGET_ID = 19;  //无效的目标ID
 	
 }
 

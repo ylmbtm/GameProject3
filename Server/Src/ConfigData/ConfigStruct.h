@@ -201,42 +201,42 @@ struct StTaskInfo
 };
 
 
-struct StSkillInfo
-{
-	UINT32 SkillID;		//! 任务ID
-	UINT32 Level;		//! 任务类型
-	UINT32 CD;			//! 任务条件
-	UINT32 CostMp;		//! 消耗魔法值
-	UINT32 Fix;			//! 增加固定攻击
-	UINT32 Percent;		//! 增加百分比伤害
-	UINT32 SelfBuffID;  //! 给自己加的BuffID;
-	UINT32 TargetBuffID;//! 给目标上的BuffID;
-};
+// struct StSkillInfo
+// {
+// 	UINT32 SkillID;		//! 任务ID
+// 	UINT32 Level;		//! 任务类型
+// 	UINT32 CD;			//! 任务条件
+// 	UINT32 CostMp;		//! 消耗魔法值
+// 	UINT32 Fix;			//! 增加固定攻击
+// 	UINT32 Percent;		//! 增加百分比伤害
+// 	UINT32 SelfBuffID;  //! 给自己加的BuffID;
+// 	UINT32 TargetBuffID;//! 给目标上的BuffID;
+// };
 
+//
+// struct StBuffInfo
+// {
+// 	UINT32 BuffID;						//BuffID
+// 	UINT32 BuffEffect;					//Buff目标需要加的特效
+// 	INT32  PtyValue[PROPERTY_NUM];		//加属性值
+// 	INT32  PtyPercent[PROPERTY_NUM];	//加属性百分比
+// 	INT32  TotalTime;                   //总时长(ms)
+// 	INT32  Interval;					//间隔时长
+// 	UINT32 ChangeStaute;				//修改玩家的状态
+// 	BOOL   OverLay;				        //是否可以叠加
+// 	std::string   LuaAdd;						//是否有lua事件
+// 	std::string   LuaTick;						//是否有lua事件
+// 	std::string   LuaRemove;					//是否有lua事件
+// };
 
-struct StBuffInfo
-{
-	UINT32 BuffID;						//BuffID
-	UINT32 BuffEffect;					//Buff目标需要加的特效
-	INT32  PtyValue[PROPERTY_NUM];		//加属性值
-	INT32  PtyPercent[PROPERTY_NUM];	//加属性百分比
-	INT32  TotalTime;                   //总时长(ms)
-	INT32  Interval;					//间隔时长
-	UINT32 ChangeStaute;				//修改玩家的状态
-	BOOL   OverLay;				        //是否可以叠加
-	std::string   LuaAdd;						//是否有lua事件
-	std::string   LuaTick;						//是否有lua事件
-	std::string   LuaRemove;					//是否有lua事件
-};
-
-struct StBulletInfo
-{
-	UINT32 BulletID;					//子弹
-	FLOAT  Speed;						//速度
-	FLOAT  AceSpeed;					//加速度
-	FLOAT  Angle;						//角度
-	FLOAT  LifeTime;					//生存时间
-};
+// struct StBulletInfo
+// {
+// 	UINT32 BulletID;					//子弹
+// 	FLOAT  Speed;						//速度
+// 	FLOAT  AceSpeed;					//加速度
+// 	FLOAT  Angle;						//角度
+// 	FLOAT  LifeTime;					//生存时间
+// };
 
 
 struct StStoreItemInfo

@@ -3,29 +3,32 @@
 #include "CommonConvert.h"
 
 #define PI			3.1415926f
+#define TWO_PI		6.2831852f
+#define DEG_TO_RAD	0.0174533f
+#define RAD_TO_DEG	57.2957805f
 
-class CPoint2D
+class Vector2D
 {
 public:
 	float m_x;
 	float m_y;
 
 
-	CPoint2D(float _x = 0.0f, float _y = 0.0f )
+	Vector2D(float _x = 0.0f, float _y = 0.0f )
 	{
 		m_x = _x;
 		m_y = _y;
 	}
 
 
-	CPoint2D&  operator *=(float v)
+	Vector2D&  operator *=(float v)
 	{
 		m_x *= v;
 		m_y *= v;
 		return *this;
 	}
 
-	CPoint2D& operator /=(float v)
+	Vector2D& operator /=(float v)
 	{
 		m_x /= v;
 		m_y /= v;
@@ -33,7 +36,7 @@ public:
 	}
 
 
-	inline  CPoint2D& operator -=(float v)
+	inline  Vector2D& operator -=(float v)
 	{
 		m_x -= v;
 		m_y -= v;
@@ -41,21 +44,28 @@ public:
 	}
 
 
-	inline  CPoint2D& operator +=(float v)
+	inline  Vector2D& operator +=(float v)
 	{
 		m_x += v;
 		m_y += v;
 		return *this;
 	}
 
-	inline  CPoint2D& operator +=(const  CPoint2D& v)
+	inline  Vector2D& operator +=(const  Vector2D& v)
 	{
 		m_x += v.m_x;
 		m_y += v.m_y;
 		return *this;
 	}
 
-	inline  bool operator ==(CPoint2D& pt)
+	inline  Vector2D& operator -=(const  Vector2D& v)
+	{
+		m_x -= v.m_x;
+		m_y -= v.m_y;
+		return *this;
+	}
+
+	inline  bool operator ==(Vector2D& pt)
 	{
 		if(pt.m_x == m_x && pt.m_y == m_y)
 		{
@@ -65,20 +75,46 @@ public:
 	}
 
 
-	float GetDistance(CPoint2D pos)
+	inline Vector2D operator - (const Vector2D& rkVector) const
 	{
-		return sqrt(float(pow(fabs(pos.m_x - m_x), 2) + pow(fabs(pos.m_y - m_y), 2)));
+		return Vector2D(
+		           m_x - rkVector.m_x,
+		           m_y - rkVector.m_y);
 	}
 
-	CPoint2D& Normalized()
+	float Length() const
 	{
-		float mo = sqrt(m_x * m_x + m_y * m_y);
-		if(mo >= 0.0001f)
+		return sqrtf(m_x * m_x + m_y * m_y);
+	}
+
+	float SquaredLength() const
+	{
+		return m_x * m_x + m_y * m_y;
+	}
+
+	float Distance(Vector2D pos)
+	{
+		return (*this - pos).Length();
+	}
+
+	float Normalized()
+	{
+		float fLength = sqrtf(m_x * m_x + m_y * m_y);
+
+		if (fLength > 1e-08)
 		{
-			m_x = m_x / mo;
-			m_y = m_y / mo;
+			float fInvLength = 1.0f / fLength;
+			m_x *= fInvLength;
+			m_y *= fInvLength;
 		}
-		return *this;
+
+		return fLength;
+	}
+
+
+	float AngleBetween(const Vector2D& dest)
+	{
+		return acos((m_x * dest.m_x + m_y * dest.m_y) / Length() / dest.Length());
 	}
 
 	BOOL From(std::string str)
@@ -89,38 +125,7 @@ public:
 	}
 };
 
-
-inline CPoint2D operator +(const CPoint2D& pos, float v)
-{
-	return CPoint2D(pos.m_x + v, pos.m_y + v);
-}
-
-
-inline CPoint2D operator +(const CPoint2D& pos, const CPoint2D& v)
-{
-	return CPoint2D(pos.m_x + v.m_x, pos.m_y + v.m_y);
-}
-inline CPoint2D operator -(const CPoint2D& pos, const CPoint2D& v)
-{
-	return CPoint2D(pos.m_x - v.m_x, pos.m_y - v.m_y);
-}
-
-inline CPoint2D operator -(const CPoint2D& pos, float v)
-{
-	return CPoint2D(pos.m_x - v, pos.m_y - v);
-}
-
-inline CPoint2D operator *(const CPoint2D& pos, float v)
-{
-	return CPoint2D(pos.m_x * v, pos.m_y * v);
-}
-
-inline CPoint2D operator / (const CPoint2D& pos, float v)
-{
-	return CPoint2D(pos.m_x / v, pos.m_y / v);
-}
-
-
+typedef Vector2D CPoint2D;
 
 class Rect2D
 {
@@ -190,6 +195,23 @@ public:
 		return *this;
 	}
 
+	inline Vector3D operator * (const Vector3D& rhs) const
+	{
+		return Vector3D(
+		           m_x * rhs.m_x,
+		           m_y * rhs.m_y,
+		           m_z * rhs.m_z);
+	}
+
+
+	inline Vector3D operator / (const Vector3D& rhs) const
+	{
+		return Vector3D(
+		           m_x / rhs.m_x,
+		           m_y / rhs.m_y,
+		           m_z / rhs.m_z);
+	}
+
 	Vector3D& operator*(const Vector3D& v)
 	{
 		m_x *= v.m_x;
@@ -222,7 +244,18 @@ public:
 		return *this;
 	}
 
-	float Dot(const Vector3D& v)
+	bool operator == (const Vector3D& rkVector) const
+	{
+		return (m_x == rkVector.m_x && m_y == rkVector.m_y && m_z == rkVector.m_z);
+	}
+
+	bool operator != (const Vector3D& rkVector) const
+	{
+		return (m_x != rkVector.m_x || m_y != rkVector.m_y || m_z != rkVector.m_z);
+	}
+
+	//点集
+	float DotProduct(const Vector3D& v)
 	{
 		return m_x * v.m_x +
 		       m_y * v.m_y +
@@ -231,21 +264,34 @@ public:
 
 	float Length()
 	{
-		return sqrtf(Dot(*this));
+		return sqrtf(m_x * m_x + m_y * m_y + m_z * m_z);
 	}
 
-	void Normalize()
-	{
-		float len = Length();
 
-		if (len < 0.0)
+	void Reset()
+	{
+		m_x = 0.0f;
+		m_y = 0.0f;
+		m_z = 0.0f;
+	}
+
+	float SquaredLength() const
+	{
+		return m_x * m_x + m_y * m_y + m_z * m_z;
+	}
+
+	float Normalize()
+	{
+		float fLength = Length();
+		if (fLength > 1e-08)
 		{
-			len = 1;
+			float fInvLength = 1.0f / fLength;
+			m_x *= fInvLength;
+			m_y *= fInvLength;
+			m_z *= fInvLength;
 		}
 
-		m_x /= len;
-		m_y /= len;
-		m_z /= len;
+		return fLength;
 	}
 
 	Vector3D CrossProduct(const Vector3D& v)
@@ -255,11 +301,50 @@ public:
 		                m_x * v.m_y - m_y * v.m_x);
 	}
 
+
+	float AngleBetween(Vector3D& dest)
+	{
+		float lenProduct = Length();
+		lenProduct *= dest.Length();
+
+		if (lenProduct < 1e-6f)
+		{
+			lenProduct = 1e-6f;
+		}
+
+		float f = DotProduct(dest) / lenProduct;
+
+		if (f > 1.0f)
+		{
+			f = 1.0f;
+		}
+		else if (f < -1.0f)
+		{
+			f = -1.0f;
+		}
+		return acosf(f);
+	}
+
+
+	float Distance2D(Vector3D pos)
+	{
+		float dx = m_x - pos.m_x;
+		float dz = m_z - pos.m_z;
+		return sqrtf(dx * dx + dz * dz);
+	}
+
+	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
+	{
+		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));
+	}
+
 	BOOL From(const char* pStr)
 	{
 		return CommonConvert::StringToPos((CHAR*)pStr, m_x, m_y, m_z);
 	}
 
+	static inline float DegreesToRadians(float degrees) { return degrees * DEG_TO_RAD; }
+	static inline float RadiansToDegrees(float radians) { return radians * RAD_TO_DEG; }
 
 	float m_x, m_y, m_z;
 };

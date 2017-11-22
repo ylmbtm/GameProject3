@@ -40,7 +40,6 @@ BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 {
 	m_dwProxyConnID = dwProxyID;
 	m_dwClientConnID = dwClientID;
-
 	return TRUE;
 }
 
@@ -156,9 +155,9 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_summonid(m_uSummonerID);
 	pItem->set_controlerid(m_uControlerID);
 	pItem->set_hostguid(m_uHostGuid);
-	pItem->set_x(m_x);
-	pItem->set_x(m_y);
-	pItem->set_z(m_z);
+	pItem->set_x(m_Pos.m_x);
+	pItem->set_x(m_Pos.m_y);
+	pItem->set_z(m_Pos.m_z);
 	pItem->set_ft(m_ft);
 	pItem->set_hp(m_Propertys[HP]);
 	pItem->set_mp(m_Propertys[MP]);
@@ -178,9 +177,9 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_objectstate(m_dwObjectState);
 	pItem->set_level(m_dwLevel);
 	pItem->set_controlerid(m_uControlerID);
-	pItem->set_hostx(m_x);
-	pItem->set_hosty(m_y);
-	pItem->set_hostz(m_z);
+	pItem->set_hostx(m_Pos.m_x);
+	pItem->set_hosty(m_Pos.m_y);
+	pItem->set_hostz(m_Pos.m_z);
 	pItem->set_hostft(m_ft);
 	pItem->set_hp(m_Propertys[HP]);
 	pItem->set_mp(m_Propertys[MP]);
@@ -202,9 +201,9 @@ BOOL CSceneObject::IsDie()
 
 BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
 {
-	m_x = x;
-	m_y = y;
-	m_z = z;
+	m_Pos.m_x = x;
+	m_Pos.m_y = y;
+	m_Pos.m_z = z;
 	m_ft = ft;
 	return TRUE;
 }
@@ -243,6 +242,55 @@ std::vector<CSceneObject*>& CSceneObject::GetAffectTargets()
 
 
 	return m_vtTargets;
+}
+
+BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
+{
+	FLOAT fdistance = m_Pos.Distance2D(hitPoint);
+	if (fdistance > radius/* + target.Radius*/)
+	{
+		return false;
+	}
+	return true;
+}
+
+BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint)
+{
+	float xMin = hitPoint.m_x - length / 2;
+	if (m_Pos.m_x <= xMin)
+	{
+		return false;
+	}
+
+	float xMax = hitPoint.m_x + length / 2;
+	if (m_Pos.m_x >= xMin)
+	{
+		return false;
+	}
+
+	float zMin = hitPoint.m_z - width / 2;
+	if (m_Pos.m_z <= zMin)
+	{
+		return false;
+	}
+
+	float zMax = hitPoint.m_z + width / 2;
+	if (m_Pos.m_z >= zMin)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
+{
+	Vector3D dir = m_Pos - hitPoint;
+	if (dir.SquaredLength() > radius * radius)
+	{
+		return false;
+	}
+	return true;
 }
 
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
@@ -311,10 +359,17 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 	//3. 技能是否可以打中指定的目标.(带有目标的技能要检查目标是否合法)
 	for (int i = 0; i < Req.targetobjects_size(); i++)
 	{
-
+		CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
+		ERROR_RETURN_CODE(pTempObject != NULL, MRC_INVALID_TARGET_ID);
+		m_SkillObject.AddTargetObject(pTempObject);
 	}
 
+	//4. 扣除放技能需要的东西
+
+
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
+
+
 
 	UINT32 dwRetCode = m_SkillObject.StartSkill(Req.skillid());
 	if (MRC_SUCCESSED != dwRetCode)
@@ -324,10 +379,10 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	SetLastSkillTick(Req.skillid(), uCurTick);
 
-	m_x		= Req.hostx();
-	m_y		= Req.hosty();
-	m_z		= Req.hostz();
-	m_ft	= Req.hostft();
+	m_Pos.m_x		= Req.hostx();
+	m_Pos.m_y		= Req.hosty();
+	m_Pos.m_z		= Req.hostz();
+	m_ft			= Req.hostft();
 
 
 
@@ -338,9 +393,9 @@ UINT32 CSceneObject::ProcessAction(const ActionReqItem& Item)
 {
 	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
 
-	m_x				= Item.hostx();
-	m_y				= Item.hosty();
-	m_z				= Item.hostz();
+	m_Pos.m_x		= Item.hostx();
+	m_Pos.m_y		= Item.hosty();
+	m_Pos.m_z		= Item.hostz();
 	m_ft			= Item.hostft();
 	m_dwActionID	= Item.actionid();
 	m_bDataChange	= TRUE;

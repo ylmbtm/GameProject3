@@ -5,6 +5,7 @@
 #include "../ServerData/ServerDefine.h"
 #include "SkillObject.h"
 #include "MapObject.h"
+#include "XMath.h"
 class CScene;
 class ResultPlayer;
 class CBuffObject;
@@ -70,6 +71,13 @@ public:
 	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
 	BOOL			StartSkill(UINT32 dwSkillID);
 	std::vector<CSceneObject*>&  GetAffectTargets();
+
+	BOOL IsInCircle(float radius, float height, Vector3D hitPoint);
+
+	BOOL IsInBox(float length, float width, Vector3D hitPoint);
+
+	BOOL IsInSphere(float radius, Vector3D hitPoint);
+
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -81,7 +89,8 @@ public:
 	UINT32          m_dwObjType;					//对象类型 玩家，宠物， NPC之类的
 	INT32			m_dwCamp;						//阵营
 	UINT32			m_dwActionID;					//当前动作ID
-	FLOAT			m_x, m_y, m_z, m_ft;			//对象坐标, 朝向
+	Vector3D		m_Pos;							//位置
+	FLOAT			m_ft;							//对象坐标, 朝向
 	UINT32          m_dwObjectState;				//对象当前的状态
 	UINT32          m_dwBuffState;					//对象的Buff状态
 	INT32			m_dwLevel;						//等级

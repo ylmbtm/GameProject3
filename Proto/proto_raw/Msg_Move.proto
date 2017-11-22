@@ -22,6 +22,26 @@ message SkillCastAck
 	uint32	RetCode = 1;  //是否释放成功, 失败原因。
 }
 
+//技能释放结果
+message SkillResultItem
+{	
+	uint64	ObjectGuid	= 1;	//目标的ID
+	int32	SkillID		= 2;	//被哪个技能击中了
+	int32   ActionID    = 3;	//现在需要什么动作
+	float	OrgX		= 4;	//被击中时的坐标
+	float	OrgY		= 5;	//被击中时的坐标
+	float	OrgZ		= 6;	//被击中时的坐标
+	float	OrgFt		= 7;	//被击中时的朝向
+	int32   HpChange    = 8;	//变化的血量
+	bool	bCrit		= 9;    //是否爆击
+}
+
+//技能释放结果
+message SkillResultNtf
+{	
+	repeated SkillResultItem ItemList = 1;
+}
+
 //移动动作请求
 message ObjectActionReq {
    repeated	ActionReqItem ActionList = 1;
@@ -102,16 +122,4 @@ message HeartBeatAck {
 
 message ObjectDieNotify {
   uint64  ObjectGuid = 1;
-}
-
-message ObjectHPChange
-{
-	uint64		ObjectGuid	= 1;
-	int32		Value		= 3;
-	bool		Crit		= 4;
-}
-
-message ObjectHPChangeNtf
-{ 
-    repeated ObjectHPChange ChangeList = 1;
 }

@@ -3,7 +3,7 @@
 #include "GameObject/SceneObject.h"
 #include "SceneLogic/SceneLogic_Base.h"
 #include "../Message/Msg_Game.pb.h"
-
+#include "GameObject/BulletObject.h"
 class MonsterCreator;
 
 class CScene
@@ -44,8 +44,6 @@ public:
 	BOOL            SyncObjectState();
 	INT32	        GetPlayerCount();
 	INT32			GetConnectCount();
-
-
 
 	CSceneObject*   GetPlayer(UINT64 uID);
 	BOOL            AddPlayer(CSceneObject* pSceneObject);
@@ -104,7 +102,7 @@ public:
 
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
 	std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
-
+	std::map<UINT64, CBulletObject*> m_BulletMap;		//子弹管理器
 	//////////////////////////////////////////////////////////////////////////
 	//攻击伤害计算
 

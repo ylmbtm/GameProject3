@@ -449,9 +449,9 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	Ack.set_camp(pSceneObj->m_dwCamp);
 
-	Ack.set_x(pSceneObj->m_x);
-	Ack.set_y(pSceneObj->m_y);
-	Ack.set_z(pSceneObj->m_z);
+	Ack.set_x(pSceneObj->m_Pos.m_x);
+	Ack.set_y(pSceneObj->m_Pos.m_y);
+	Ack.set_z(pSceneObj->m_Pos.m_z);
 	Ack.set_ft(0);
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);

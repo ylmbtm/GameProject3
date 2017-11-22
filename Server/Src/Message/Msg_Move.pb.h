@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fMove_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[14];
+  static const ::google::protobuf::internal::ParseTable schema[16];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -46,6 +46,10 @@ void InitDefaultsSkillCastReqImpl();
 void InitDefaultsSkillCastReq();
 void InitDefaultsSkillCastAckImpl();
 void InitDefaultsSkillCastAck();
+void InitDefaultsSkillResultItemImpl();
+void InitDefaultsSkillResultItem();
+void InitDefaultsSkillResultNtfImpl();
+void InitDefaultsSkillResultNtf();
 void InitDefaultsObjectActionReqImpl();
 void InitDefaultsObjectActionReq();
 void InitDefaultsObjectActionNtyImpl();
@@ -73,6 +77,8 @@ void InitDefaultsObjectHPChangeNtf();
 inline void InitDefaults() {
   InitDefaultsSkillCastReq();
   InitDefaultsSkillCastAck();
+  InitDefaultsSkillResultItem();
+  InitDefaultsSkillResultNtf();
   InitDefaultsObjectActionReq();
   InitDefaultsObjectActionNty();
   InitDefaultsActionReqItem();
@@ -129,6 +135,12 @@ extern SkillCastAckDefaultTypeInternal _SkillCastAck_default_instance_;
 class SkillCastReq;
 class SkillCastReqDefaultTypeInternal;
 extern SkillCastReqDefaultTypeInternal _SkillCastReq_default_instance_;
+class SkillResultItem;
+class SkillResultItemDefaultTypeInternal;
+extern SkillResultItemDefaultTypeInternal _SkillResultItem_default_instance_;
+class SkillResultNtf;
+class SkillResultNtfDefaultTypeInternal;
+extern SkillResultNtfDefaultTypeInternal _SkillResultNtf_default_instance_;
 
 // ===================================================================
 
@@ -407,6 +419,266 @@ class SkillCastAck : public ::google::protobuf::Message /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
+class SkillResultItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillResultItem) */ {
+ public:
+  SkillResultItem();
+  virtual ~SkillResultItem();
+
+  SkillResultItem(const SkillResultItem& from);
+
+  inline SkillResultItem& operator=(const SkillResultItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SkillResultItem(SkillResultItem&& from) noexcept
+    : SkillResultItem() {
+    *this = ::std::move(from);
+  }
+
+  inline SkillResultItem& operator=(SkillResultItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SkillResultItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SkillResultItem* internal_default_instance() {
+    return reinterpret_cast<const SkillResultItem*>(
+               &_SkillResultItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    2;
+
+  void Swap(SkillResultItem* other);
+  friend void swap(SkillResultItem& a, SkillResultItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SkillResultItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SkillResultItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SkillResultItem& from);
+  void MergeFrom(const SkillResultItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SkillResultItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // int32 SkillID = 2;
+  void clear_skillid();
+  static const int kSkillIDFieldNumber = 2;
+  ::google::protobuf::int32 skillid() const;
+  void set_skillid(::google::protobuf::int32 value);
+
+  // int32 ActionID = 3;
+  void clear_actionid();
+  static const int kActionIDFieldNumber = 3;
+  ::google::protobuf::int32 actionid() const;
+  void set_actionid(::google::protobuf::int32 value);
+
+  // float OrgX = 4;
+  void clear_orgx();
+  static const int kOrgXFieldNumber = 4;
+  float orgx() const;
+  void set_orgx(float value);
+
+  // float OrgY = 5;
+  void clear_orgy();
+  static const int kOrgYFieldNumber = 5;
+  float orgy() const;
+  void set_orgy(float value);
+
+  // float OrgZ = 6;
+  void clear_orgz();
+  static const int kOrgZFieldNumber = 6;
+  float orgz() const;
+  void set_orgz(float value);
+
+  // float OrgFt = 7;
+  void clear_orgft();
+  static const int kOrgFtFieldNumber = 7;
+  float orgft() const;
+  void set_orgft(float value);
+
+  // int32 HpChange = 8;
+  void clear_hpchange();
+  static const int kHpChangeFieldNumber = 8;
+  ::google::protobuf::int32 hpchange() const;
+  void set_hpchange(::google::protobuf::int32 value);
+
+  // bool bCrit = 9;
+  void clear_bcrit();
+  static const int kBCritFieldNumber = 9;
+  bool bcrit() const;
+  void set_bcrit(bool value);
+
+  // @@protoc_insertion_point(class_scope:SkillResultItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  ::google::protobuf::int32 skillid_;
+  ::google::protobuf::int32 actionid_;
+  float orgx_;
+  float orgy_;
+  float orgz_;
+  float orgft_;
+  ::google::protobuf::int32 hpchange_;
+  bool bcrit_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsSkillResultItemImpl();
+};
+// -------------------------------------------------------------------
+
+class SkillResultNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillResultNtf) */ {
+ public:
+  SkillResultNtf();
+  virtual ~SkillResultNtf();
+
+  SkillResultNtf(const SkillResultNtf& from);
+
+  inline SkillResultNtf& operator=(const SkillResultNtf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SkillResultNtf(SkillResultNtf&& from) noexcept
+    : SkillResultNtf() {
+    *this = ::std::move(from);
+  }
+
+  inline SkillResultNtf& operator=(SkillResultNtf&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SkillResultNtf& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SkillResultNtf* internal_default_instance() {
+    return reinterpret_cast<const SkillResultNtf*>(
+               &_SkillResultNtf_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    3;
+
+  void Swap(SkillResultNtf* other);
+  friend void swap(SkillResultNtf& a, SkillResultNtf& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SkillResultNtf* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SkillResultNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SkillResultNtf& from);
+  void MergeFrom(const SkillResultNtf& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SkillResultNtf* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .SkillResultItem ItemList = 1;
+  int itemlist_size() const;
+  void clear_itemlist();
+  static const int kItemListFieldNumber = 1;
+  const ::SkillResultItem& itemlist(int index) const;
+  ::SkillResultItem* mutable_itemlist(int index);
+  ::SkillResultItem* add_itemlist();
+  ::google::protobuf::RepeatedPtrField< ::SkillResultItem >*
+      mutable_itemlist();
+  const ::google::protobuf::RepeatedPtrField< ::SkillResultItem >&
+      itemlist() const;
+
+  // @@protoc_insertion_point(class_scope:SkillResultNtf)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::SkillResultItem > itemlist_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsSkillResultNtfImpl();
+};
+// -------------------------------------------------------------------
+
 class ObjectActionReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectActionReq) */ {
  public:
   ObjectActionReq();
@@ -442,7 +714,7 @@ class ObjectActionReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectActionReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    4;
 
   void Swap(ObjectActionReq* other);
   friend void swap(ObjectActionReq& a, ObjectActionReq& b) {
@@ -547,7 +819,7 @@ class ObjectActionNty : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectActionNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(ObjectActionNty* other);
   friend void swap(ObjectActionNty& a, ObjectActionNty& b) {
@@ -652,7 +924,7 @@ class ActionReqItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_ActionReqItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(ActionReqItem* other);
   friend void swap(ActionReqItem& a, ActionReqItem& b) {
@@ -786,7 +1058,7 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_ActionNtyItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(ActionNtyItem* other);
   friend void swap(ActionNtyItem& a, ActionNtyItem& b) {
@@ -990,7 +1262,7 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_NewItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(NewItem* other);
   friend void swap(NewItem& a, NewItem& b) {
@@ -1230,7 +1502,7 @@ class ObjectNewNty : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_ObjectNewNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    9;
 
   void Swap(ObjectNewNty* other);
   friend void swap(ObjectNewNty& a, ObjectNewNty& b) {
@@ -1335,7 +1607,7 @@ class ObjectRemoveNty : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectRemoveNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    10;
 
   void Swap(ObjectRemoveNty* other);
   friend void swap(ObjectRemoveNty& a, ObjectRemoveNty& b) {
@@ -1441,7 +1713,7 @@ class HeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    11;
 
   void Swap(HeartBeatReq* other);
   friend void swap(HeartBeatReq& a, HeartBeatReq& b) {
@@ -1540,7 +1812,7 @@ class HeartBeatAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(HeartBeatAck* other);
   friend void swap(HeartBeatAck& a, HeartBeatAck& b) {
@@ -1646,7 +1918,7 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectDieNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(ObjectDieNotify* other);
   friend void swap(ObjectDieNotify& a, ObjectDieNotify& b) {
@@ -1745,7 +2017,7 @@ class ObjectHPChange : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ObjectHPChange_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    14;
 
   void Swap(ObjectHPChange* other);
   friend void swap(ObjectHPChange& a, ObjectHPChange& b) {
@@ -1858,7 +2130,7 @@ class ObjectHPChangeNtf : public ::google::protobuf::Message /* @@protoc_inserti
                &_ObjectHPChangeNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    15;
 
   void Swap(ObjectHPChangeNtf* other);
   friend void swap(ObjectHPChangeNtf& a, ObjectHPChangeNtf& b) {
@@ -2123,6 +2395,170 @@ inline void SkillCastAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
   // @@protoc_insertion_point(field_set:SkillCastAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// SkillResultItem
+
+// uint64 ObjectGuid = 1;
+inline void SkillResultItem::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SkillResultItem::objectguid() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.ObjectGuid)
+  return objectguid_;
+}
+inline void SkillResultItem::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.ObjectGuid)
+}
+
+// int32 SkillID = 2;
+inline void SkillResultItem::clear_skillid() {
+  skillid_ = 0;
+}
+inline ::google::protobuf::int32 SkillResultItem::skillid() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.SkillID)
+  return skillid_;
+}
+inline void SkillResultItem::set_skillid(::google::protobuf::int32 value) {
+  
+  skillid_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.SkillID)
+}
+
+// int32 ActionID = 3;
+inline void SkillResultItem::clear_actionid() {
+  actionid_ = 0;
+}
+inline ::google::protobuf::int32 SkillResultItem::actionid() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.ActionID)
+  return actionid_;
+}
+inline void SkillResultItem::set_actionid(::google::protobuf::int32 value) {
+  
+  actionid_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.ActionID)
+}
+
+// float OrgX = 4;
+inline void SkillResultItem::clear_orgx() {
+  orgx_ = 0;
+}
+inline float SkillResultItem::orgx() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.OrgX)
+  return orgx_;
+}
+inline void SkillResultItem::set_orgx(float value) {
+  
+  orgx_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.OrgX)
+}
+
+// float OrgY = 5;
+inline void SkillResultItem::clear_orgy() {
+  orgy_ = 0;
+}
+inline float SkillResultItem::orgy() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.OrgY)
+  return orgy_;
+}
+inline void SkillResultItem::set_orgy(float value) {
+  
+  orgy_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.OrgY)
+}
+
+// float OrgZ = 6;
+inline void SkillResultItem::clear_orgz() {
+  orgz_ = 0;
+}
+inline float SkillResultItem::orgz() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.OrgZ)
+  return orgz_;
+}
+inline void SkillResultItem::set_orgz(float value) {
+  
+  orgz_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.OrgZ)
+}
+
+// float OrgFt = 7;
+inline void SkillResultItem::clear_orgft() {
+  orgft_ = 0;
+}
+inline float SkillResultItem::orgft() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.OrgFt)
+  return orgft_;
+}
+inline void SkillResultItem::set_orgft(float value) {
+  
+  orgft_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.OrgFt)
+}
+
+// int32 HpChange = 8;
+inline void SkillResultItem::clear_hpchange() {
+  hpchange_ = 0;
+}
+inline ::google::protobuf::int32 SkillResultItem::hpchange() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.HpChange)
+  return hpchange_;
+}
+inline void SkillResultItem::set_hpchange(::google::protobuf::int32 value) {
+  
+  hpchange_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.HpChange)
+}
+
+// bool bCrit = 9;
+inline void SkillResultItem::clear_bcrit() {
+  bcrit_ = false;
+}
+inline bool SkillResultItem::bcrit() const {
+  // @@protoc_insertion_point(field_get:SkillResultItem.bCrit)
+  return bcrit_;
+}
+inline void SkillResultItem::set_bcrit(bool value) {
+  
+  bcrit_ = value;
+  // @@protoc_insertion_point(field_set:SkillResultItem.bCrit)
+}
+
+// -------------------------------------------------------------------
+
+// SkillResultNtf
+
+// repeated .SkillResultItem ItemList = 1;
+inline int SkillResultNtf::itemlist_size() const {
+  return itemlist_.size();
+}
+inline void SkillResultNtf::clear_itemlist() {
+  itemlist_.Clear();
+}
+inline const ::SkillResultItem& SkillResultNtf::itemlist(int index) const {
+  // @@protoc_insertion_point(field_get:SkillResultNtf.ItemList)
+  return itemlist_.Get(index);
+}
+inline ::SkillResultItem* SkillResultNtf::mutable_itemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:SkillResultNtf.ItemList)
+  return itemlist_.Mutable(index);
+}
+inline ::SkillResultItem* SkillResultNtf::add_itemlist() {
+  // @@protoc_insertion_point(field_add:SkillResultNtf.ItemList)
+  return itemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::SkillResultItem >*
+SkillResultNtf::mutable_itemlist() {
+  // @@protoc_insertion_point(field_mutable_list:SkillResultNtf.ItemList)
+  return &itemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::SkillResultItem >&
+SkillResultNtf::itemlist() const {
+  // @@protoc_insertion_point(field_list:SkillResultNtf.ItemList)
+  return itemlist_;
 }
 
 // -------------------------------------------------------------------
@@ -3051,6 +3487,10 @@ ObjectHPChangeNtf::changelist() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

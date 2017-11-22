@@ -325,5 +325,6 @@ void CWatchMsgHandler::PrintServerStatus()
 				break;
 		}
 	}
+
 	CLog::GetInstancePtr()->SetTitle(" 进程总数：%d  连接成功数： %d  等待启动数： %d", m_vtProcessVec.size(), connCount, waitStartCount);
 }
