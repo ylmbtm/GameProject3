@@ -23,6 +23,9 @@ BOOL CBulletObject::OnUpdate(UINT64 uTick)
 	m_Pos.m_z = m_vz * (uTick - m_uLastTick) / 1000;
 
 
+
+
+
 	return TRUE;
 }
 

@@ -98,6 +98,13 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
+BOOL CScene::ProcessActionItem(const  ActionReqItem& Item)
+{
+	CSceneObject* pSceneObj = GetPlayer(Item.objectguid());
+	ERROR_RETURN_TRUE(pSceneObj != NULL);
+	pSceneObj->ProcessAction(Item);
+	return TRUE;
+}
 
 BOOL CScene::OnMsgObjectActionReq( NetPacket* pNetPacket )
 {
@@ -205,6 +212,7 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 	pSceneObject->SaveNewData(Nty);
 
 	char szBuff[10240] = {0};
+	ERROR_RETURN_FALSE(Nty.ByteSize() < 10240);
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
@@ -230,7 +238,8 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 
 BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	char szBuff[102400] = { 0 };
+	char szBuff[10240] = { 0 };
+	ERROR_RETURN_FALSE(pdata.ByteSize() < 10240);
 	ERROR_RETURN_FALSE(pdata.SerializePartialToArray(szBuff, pdata.ByteSize()));
 
 	BroadMessageNotify Nty;
@@ -240,7 +249,7 @@ BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata
 	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		ASSERT(pObj != NULL);
+		ERROR_RETURN_FALSE(pObj != NULL);
 
 		if (!pObj->IsConnected())
 		{
@@ -576,6 +585,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject* pSceneObject )
 	Nty.add_removelist(pSceneObject->GetObjectGUID());
 
 	char szBuff[10240] = {0};
+	ERROR_RETURN_FALSE(Nty.ByteSize() < 10240);
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
@@ -814,7 +824,7 @@ BOOL CScene::SyncObjectState()
 	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		ASSERT(pObj != NULL);
+		ERROR_RETURN_FALSE(pObj != NULL);
 
 		if (!pObj->IsChanged())
 		{
@@ -830,7 +840,8 @@ BOOL CScene::SyncObjectState()
 	}
 
 
-	char szBuff[102400] = {0};
+	char szBuff[10240] = {0};
+	ERROR_RETURN_FALSE(ActionNty.ByteSize() < 10240);
 	ERROR_RETURN_FALSE(ActionNty.SerializePartialToArray(szBuff, ActionNty.ByteSize()));
 
 	BroadMessageNotify Nty;
@@ -841,8 +852,7 @@ BOOL CScene::SyncObjectState()
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		ASSERT(pObj != NULL);
-
+		ERROR_RETURN_FALSE(pObj != NULL);
 		if(!pObj->IsConnected())
 		{
 			continue;
@@ -870,6 +880,7 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 	pObject->SetPos(x, y, z, ft);
+	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -890,7 +901,7 @@ BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 
 	pObject->m_strName = roleData.name();
 	pObject->m_uGuid = roleData.roleid();
 	pObject->m_dwCamp = dwCamp;
-
+	pObject->m_pScene = this;
 	for(int i = 0; i < roleData.propertys_size(); i++)
 	{
 		pObject->m_Propertys[i] = roleData.propertys(i);
@@ -909,6 +920,7 @@ BOOL CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCam
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(petData.petguid(), petData.actorid(), OT_PET, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
+	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -921,6 +933,7 @@ BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, 
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), partnerData.actorid(), OT_PARTNER, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
+	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -933,10 +946,18 @@ BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, F
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;
+	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	pObject->SetPos(x, y, z, ft);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
+	return TRUE;
+}
+
+BOOL CScene::CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti)
+{
+	//CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, Angle, dwType, Fix, Muti);
+	//m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
 	return TRUE;
 }
 
@@ -1030,14 +1051,6 @@ CSceneObject* CScene::GetOwnPlayer()
 	}
 
 	return itor->second;
-}
-
-BOOL CScene::ProcessActionItem(const  ActionReqItem& Item )
-{
-	CSceneObject* pSceneObj = GetPlayer(Item.objectguid());
-	ERROR_RETURN_TRUE(pSceneObj != NULL);
-	pSceneObj->ProcessAction(Item);
-	return TRUE;
 }
 
 BOOL CScene::SendBattleResult()

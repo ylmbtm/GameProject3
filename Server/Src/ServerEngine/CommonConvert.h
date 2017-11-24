@@ -19,7 +19,10 @@ DOUBLE StringToDouble(char* pStr);
 
 std::string DoubleToString(DOUBLE dValue);
 
+std::string IntToString(UINT32 nValue);
 std::string IntToString(INT32 nValue);
+std::string IntToString(UINT64 nValue);
+std::string IntToString(INT64 nValue);
 
 BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
 

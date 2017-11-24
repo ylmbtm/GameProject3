@@ -333,6 +333,11 @@ public:
 		return sqrtf(dx * dx + dz * dz);
 	}
 
+	float AngleBetween2D(Vector3D& dest)
+	{
+		return acosf((m_x * dest.m_x + m_z * dest.m_z) / sqrtf(m_x * m_x + m_z * m_z) / sqrtf(dest.m_x * dest.m_x + dest.m_z * dest.m_z));
+	}
+
 	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
 	{
 		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));

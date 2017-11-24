@@ -7,6 +7,7 @@
 #include "CommonFunc.h"
 #include "../Message/Game_Define.pb.h"
 #include "../ConfigData/ConfigStruct.h"
+#include "../Scene.h"
 
 CSkillObject::CSkillObject()
 {
@@ -27,35 +28,48 @@ CSkillObject::~CSkillObject()
 
 BOOL CSkillObject::OnUpdate( UINT64 uTick )
 {
-	//if(uTick - m_dwStartTick)
-	//{
-	//
-	//}
+	if (m_dwSkillID == 0 || m_pSkillInfo == NULL)
+	{
+		return TRUE;
+	}
 
-	UINT64 uEscape = uTick - m_dwStartTick;
+	if (m_dwEventIndex >= m_pSkillInfo->vtEvents.size())
+	{
+		return TRUE;
+	}
 
-	if(uEscape > m_pSkillInfo->vtEvents[m_dwEventIndex].TrigerTime)
+	UINT64 uElaspedTick = uTick - m_dwStartTick;
+	if(uElaspedTick > m_pSkillInfo->vtEvents[m_dwEventIndex].TrigerTime)
 	{
 		ProcessEvent(m_pSkillInfo->vtEvents[m_dwEventIndex]);
 		m_dwEventIndex += 1;
 	}
 
+	if (uElaspedTick > m_pSkillInfo->uDuration)
+	{
+		//响应技能结束
+		OnSkillComplete();
+	}
+
+	return TRUE;
+}
+
+BOOL CSkillObject::OnSkillComplete()
+{
 	return TRUE;
 }
 
 BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 {
-	m_dwSkillID = dwSkillID;
-
 	m_pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(dwSkillID, 0);
+
+	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
+
+	m_dwSkillID = dwSkillID;
 
 	m_dwStartTick = CommonFunc::GetTickCount();
 
 	m_dwEventIndex = 0;
-
-	m_vtTargets.clear();
-
-	m_TargetPos.Reset();
 
 	//计算攻击目标
 	//1.直接带有目标， 2.需要自己计算目标
@@ -78,6 +92,15 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
 }
 
 
+BOOL CSkillObject::StopSkill()
+{
+	m_dwSkillID = 0;
+	m_pSkillInfo = 0;
+	m_dwEventIndex = 0;
+	m_vtTargets.clear();
+	return TRUE;
+}
+
 BOOL CSkillObject::SetCastObject(CSceneObject* pObject)
 {
 	m_pCastObject = pObject;
@@ -92,7 +115,7 @@ BOOL CSkillObject::AddTargetObject(CSceneObject* pObject)
 	return TRUE;
 }
 
-BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
+BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 {
 	ERROR_RETURN_FALSE(m_pCastObject != NULL);
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
@@ -119,23 +142,23 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 hurt = 0;//(m_pSkillInfo-> * (m_pCastObject->m_Propertys[5] - pTarget->m_Propertys[6]) + m_pSkillInfo->Fix);
-	UINT32 dwHurt = m_pCastObject->m_Propertys[1] - pTarget->m_Propertys[1];
-	if (dwHurt <= 0)
+	INT32 nHurt = SkillEvent.AttackMuti * m_pCastObject->m_Propertys[5] + SkillEvent.AttackFix;
+	nHurt = nHurt - pTarget->m_Propertys[1];
+	if (nHurt <= 0)
 	{
-		dwHurt = 1;
+		nHurt = 1;
 	}
 	else
 	{
-		dwHurt = dwHurt * dwFightRand / 1000;
-		dwHurt = dwHurt * dwFinalAdd / 1000;
+		nHurt = nHurt * dwFightRand / 1000;
+		nHurt = nHurt * dwFinalAdd / 1000;
 		if (bCriticalHit)
 		{
-			dwHurt = dwHurt * 15 / 10;
+			nHurt = nHurt * 15 / 10;
 		}
 	}
 
-	pTarget->m_Propertys[HP] -= dwHurt;
+	pTarget->m_Propertys[HP] -= nHurt;
 	if (pTarget->m_Propertys[HP] <= 0)
 	{
 		pTarget->m_Propertys[HP] = 0;
@@ -143,39 +166,53 @@ BOOL CSkillObject::SkillFight(CSceneObject* pTarget)
 	return TRUE;
 }
 
-BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
+BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 {
 	switch (SkillEvent.RangeType)
 	{
 		case TYPE_OBJECTS:
 		{
-
+			//什么都不需要做，直接使用客户端传过来的目标列表
 		}
 		break;
 		case TYPE_CIRCLE:
 		{
-
+			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
+			FLOAT radius	= SkillEvent.RangeParams[0];
+			FLOAT hAngle	= SkillEvent.RangeParams[1];
+			FLOAT height	= SkillEvent.RangeParams[2];
+			FLOAT offsetX	= SkillEvent.RangeParams[3];
+			FLOAT offsetZ	= SkillEvent.RangeParams[4];
 		}
 		break;
 		case TYPE_CYLINDER:
 		{
-			FLOAT radius = SkillEvent.RangeParams[0];
-			FLOAT hAngle = SkillEvent.RangeParams[1];
-			FLOAT height = SkillEvent.RangeParams[2];
-			FLOAT offsetX = SkillEvent.RangeParams[3];
-			FLOAT offsetZ = SkillEvent.RangeParams[4];
+			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
+			FLOAT radius	= SkillEvent.RangeParams[0];
+			FLOAT hAngle	= SkillEvent.RangeParams[1];
+			FLOAT height	= SkillEvent.RangeParams[2];
+			FLOAT offsetX	= SkillEvent.RangeParams[3];
+			FLOAT offsetZ	= SkillEvent.RangeParams[4];
 		}
 		break;
 		case TYPE_BOX:
 		{
-			FLOAT length = SkillEvent.RangeParams[0];
-			FLOAT width = SkillEvent.RangeParams[1];
-			FLOAT height = SkillEvent.RangeParams[2];
-			FLOAT offsetX = SkillEvent.RangeParams[3];
-			FLOAT offsetZ = SkillEvent.RangeParams[4];
+			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
+			FLOAT length	= SkillEvent.RangeParams[0];
+			FLOAT width		= SkillEvent.RangeParams[1];
+			FLOAT height	= SkillEvent.RangeParams[2];
+			FLOAT offsetX	= SkillEvent.RangeParams[3];
+			FLOAT offsetZ	= SkillEvent.RangeParams[4];
 		}
 		break;
 	}
+
+	return TRUE;
+}
+
+BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
+{
+	CalcTargetObjects(SkillEvent);
 
 	if (SkillEvent.SelfBuffID != 0)
 	{
@@ -191,12 +228,18 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 			pTempObject->AddBuff(SkillEvent.TargetBuffID);
 		}
 
-		SkillFight(pTempObject);
+		SkillFight(SkillEvent, pTempObject);
 	}
 
-	for (auto itor = SkillEvent.vtBullets.begin(); itor != SkillEvent.vtBullets.end(); ++itor)
+	for (INT32 nIndex = 0; nIndex < SkillEvent.vtBullets.size(); nIndex++)
 	{
+		StBullet& data = SkillEvent.vtBullets.at(nIndex);
 
+		CScene* pScene = m_pCastObject->GetScene();
+
+		ERROR_RETURN_FALSE(pScene != NULL);
+
+		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType, data.AttackFix, data.AttackMuti);
 	}
 
 	return TRUE;

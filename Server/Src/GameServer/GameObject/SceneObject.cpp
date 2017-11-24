@@ -24,6 +24,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 	m_dwObjType = dwObjType;
 	m_dwCamp = dwCamp;
 	m_strName = strName;
+	m_pScene = NULL;
 
 	m_bDataChange = FALSE;
 
@@ -32,7 +33,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 
 CSceneObject::~CSceneObject()
 {
-
+	m_pScene = NULL;
 }
 
 
@@ -234,14 +235,13 @@ BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
 
 }
 
-std::vector<CSceneObject*>& CSceneObject::GetAffectTargets()
+BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETargetType eType)
 {
-	m_vtTargets.clear();
+	vtTargets.clear();
 
 
 
-
-	return m_vtTargets;
+	return TRUE;
 }
 
 BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
@@ -256,30 +256,6 @@ BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
 
 BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint)
 {
-	float xMin = hitPoint.m_x - length / 2;
-	if (m_Pos.m_x <= xMin)
-	{
-		return false;
-	}
-
-	float xMax = hitPoint.m_x + length / 2;
-	if (m_Pos.m_x >= xMin)
-	{
-		return false;
-	}
-
-	float zMin = hitPoint.m_z - width / 2;
-	if (m_Pos.m_z <= zMin)
-	{
-		return false;
-	}
-
-	float zMax = hitPoint.m_z + width / 2;
-	if (m_Pos.m_z >= zMin)
-	{
-		return false;
-	}
-
 	return true;
 }
 
@@ -290,6 +266,24 @@ BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
 	{
 		return false;
 	}
+	return true;
+}
+
+BOOL CSceneObject::IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir)
+{
+	float maxDis = radius;// +target.Radius;
+	if (m_Pos.Distance2D(hitPoint) > maxDis)
+	{
+		return false;
+	}
+
+	Vector3D vtDir = m_Pos - hitPoint;
+
+	if (vtDir.AngleBetween2D(hitDir) > hAngle / 2)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -342,7 +336,11 @@ BOOL CSceneObject::UpdateBuff(UINT64 uTick)
 
 UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 {
-	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
+	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
+
+	return MRC_SUCCESSED;
+
+	ERROR_RETURN_CODE(m_pScene != NULL, MRC_FAILED);
 
 	//1. 技能是否存在
 	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(Req.skillid(), 0);
@@ -356,7 +354,15 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 		return MRC_SKILL_CD_ERROR;
 	}
 
-	//3. 技能是否可以打中指定的目标.(带有目标的技能要检查目标是否合法)
+	//3. 扣除放技能需要的东西
+	if (GetMp() < pSkillInfo->CostMp)
+	{
+		//	return MRC_SKILL_CD_ERROR;
+	}
+
+	m_SkillObject.StopSkill(); //停止当前的技能
+
+	//4. 技能是否可以打中指定的目标.(带有目标的技能要检查目标是否合法)
 	for (int i = 0; i < Req.targetobjects_size(); i++)
 	{
 		CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
@@ -364,12 +370,7 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 		m_SkillObject.AddTargetObject(pTempObject);
 	}
 
-	//4. 扣除放技能需要的东西
-
-
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
-
-
 
 	UINT32 dwRetCode = m_SkillObject.StartSkill(Req.skillid());
 	if (MRC_SUCCESSED != dwRetCode)

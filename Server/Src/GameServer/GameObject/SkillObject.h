@@ -16,13 +16,19 @@ public:
 public:
 	BOOL OnUpdate(UINT64 uTick);
 
+	BOOL OnSkillComplete();
+
 	BOOL StartSkill(UINT32 dwSkillID);
+
+	BOOL StopSkill();
 
 	BOOL SetCastObject(CSceneObject* pObject);
 
 	BOOL AddTargetObject(CSceneObject* pObject);
 
-	BOOL SkillFight(CSceneObject* pTarget);
+	BOOL SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget);
+
+	BOOL CalcTargetObjects(StSkillEvent& SkillEvent);
 
 	BOOL ProcessEvent(StSkillEvent& SkillEvent);
 

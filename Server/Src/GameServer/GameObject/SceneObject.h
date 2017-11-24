@@ -62,7 +62,6 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//技能
-	std::vector<CSceneObject*> m_vtTargets;
 	std::map<UINT32, UINT64> m_mapSkillTime;
 	CSkillObject	m_SkillObject;
 	UINT32			ProcessSkill(const SkillCastReq& Req);
@@ -70,14 +69,15 @@ public:
 	UINT64			GetLastSkillTick(UINT32 dwSkillID);
 	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
 	BOOL			StartSkill(UINT32 dwSkillID);
-	std::vector<CSceneObject*>&  GetAffectTargets();
+	BOOL			GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETargetType eType);
 
-	BOOL IsInCircle(float radius, float height, Vector3D hitPoint);
+	BOOL			IsInCircle(float radius, float height, Vector3D hitPoint);
 
-	BOOL IsInBox(float length, float width, Vector3D hitPoint);
+	BOOL			IsInBox(float length, float width, Vector3D hitPoint);
 
-	BOOL IsInSphere(float radius, Vector3D hitPoint);
+	BOOL			IsInSphere(float radius, Vector3D hitPoint);
 
+	BOOL			IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir);
 	//////////////////////////////////////////////////////////////////////////
 
 public:

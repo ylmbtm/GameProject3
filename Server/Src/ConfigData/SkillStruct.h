@@ -8,6 +8,7 @@ enum ECenterType
 	TYPE_TARGET_POS		= 1,//以客户端选定的位置为中心
 	TYPE_CASTER_POS		= 2,//以施法者为中心
 	TYPE_CASTER_OFFSET	= 3,//以施法者为中心的偏移位置为中心
+	TYPE_NO_CENTER		= 4,//无特定中心(中心在玩家)
 };
 
 enum ERangeType
@@ -17,7 +18,6 @@ enum ERangeType
 	TYPE_CIRCLE			= 3,//圆形圆柱
 	TYPE_BOX			= 4,//矩形区域
 };
-
 
 enum EBulletType
 {
@@ -32,21 +32,32 @@ enum EBulletType
 	TYPE_BOUNDCE		= 8,//弹跳飞弹
 };
 
-enum EHitTargetType
+enum ETargetType
 {
-	HIT_TARGET_RELATION_TYPE_NONE = 0,// 无
-	HIT_TARGET_RELATION_TYPE_FRIEND = 1,// 需要目标是友方才能释放
-	HIT_TARGET_RELATION_TYPE_ENEMY = 2,// 需要目标是敌方才能释放
-	HIT_TARGET_RELATION_TYPE_APPOINTNPC = 3,// 需要目标是指定Npc才能释放
+	ETT_ALL			= 0,// 目标是任意的
+	ETT_FRIEND		= 1,// 目标是友方
+	ETT_ENEMY		= 2,// 目标是敌方
+	ETT_APPOINTNPC	= 3,// 目标是指定Npc
 };
 
-enum ESelectTargetPolicy
+enum ESelectPolicy
 {
-	TYPE_SELECT_DEFAULT = 0,//默认
-	TYPE_SELECT_BY_MOREHEALTH = 1,//按血量比例最高
-	TYPE_SELECT_BY_LESSHEALTH = 2,//按血量比例最低
-	TYPE_SELECT_BY_MOREDISTANCE = 3,//按距离比例最高
-	TYPE_SELECT_BY_LESSDISTANCE = 4,//按距离比例最低
+	ESP_DEFAULT			= 0,//默认
+	ESP_BY_MOREHEALTH	= 1,//按血量比例最高
+	ESP_BY_LESSHEALTH	= 2,//按血量比例最低
+	ESP_BY_MOREDISTANCE = 3,//按距离比例最高
+	ESP_BY_LESSDISTANCE = 4,//按距离比例最低
+};
+
+enum EObjectStatue
+{
+	EOS_DEAD			= 1,//死亡
+	EOS_NOT_MOVE		= 2,//不能移动
+	EOS_NOT_CAST		= 4,//不能放技能
+	EOS_NOT_BEHURT		= 8,//不能被攻击
+	EOS_NOT_BECONTROL	= 16,//无法被控制
+	EOS_STEALTH			= 32,//隐身
+	EOS_BLIND			= 64,//瞎的
 };
 
 struct StBullet
@@ -68,6 +79,8 @@ struct StSkillEvent
 	FLOAT  AttackMuti;					//加成伤害
 	FLOAT  RangeParams[5];				//范围参数
 	UINT32 RangeType;					//范围类型
+	UINT32 CenterType;					//中心点类型
+	ETargetType TargetType;				//目标关系
 	std::vector<StBullet> vtBullets;	//子弹列表
 };
 
@@ -77,6 +90,7 @@ struct StSkillInfo
 	UINT32 Level;						//技能类型
 	UINT32 CD;							//技能CD
 	UINT32 CostMp;						//消耗魔法值
+	UINT64 uDuration;					//技能持续总时间
 	std::vector<StSkillEvent> vtEvents; //技能事件列表
 };
 

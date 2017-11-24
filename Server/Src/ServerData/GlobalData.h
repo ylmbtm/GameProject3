@@ -29,10 +29,9 @@ struct GlobalDataObject : public ShareObject
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid) VALUES(?, ?);");
-		csp.set_uint64(0, m_dwServerID);
-		csp.set_uint64(1, m_u64Guid);
-
+		static CDBStoredProcedure csp("update globaldata set maxguid = ? where serverid = ?;");
+		csp.set_uint64(0, m_u64Guid);
+		csp.set_uint64(1, m_dwServerID);
 		pDB->Execute(&csp);
 
 		return TRUE;

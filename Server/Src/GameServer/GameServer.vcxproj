@@ -139,6 +139,7 @@
     <ClInclude Include="..\ConfigData\ConfigData.h" />
     <ClInclude Include="..\ConfigData\ConfigStruct.h" />
     <ClInclude Include="..\ConfigData\CppSQLite3.h" />
+    <ClInclude Include="..\ConfigData\SkillStruct.h" />
     <ClInclude Include="..\Message\Game_Define.pb.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />

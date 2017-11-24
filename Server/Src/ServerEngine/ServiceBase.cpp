@@ -94,9 +94,9 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 {
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
-	char szBuff[10240] = {0};
+	char szBuff[102400] = {0};
 
-	ERROR_RETURN_FALSE(pdata.ByteSize() < 10240);
+	ERROR_RETURN_FALSE(pdata.ByteSize() < 102400);
 
 	pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
 

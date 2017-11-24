@@ -95,6 +95,33 @@ std::string CommonConvert::IntToString(INT32 nValue)
 	return std::string(szValue);
 }
 
+std::string CommonConvert::IntToString(INT64 uValue)
+{
+	CHAR szValue[64] = { 0 };
+
+	snprintf(szValue, 64, "%lld", uValue);
+
+	return std::string(szValue);
+}
+
+std::string CommonConvert::IntToString(UINT32 nValue)
+{
+	CHAR szValue[64] = { 0 };
+
+	snprintf(szValue, 64, "%d", nValue);
+
+	return std::string(szValue);
+}
+
+std::string CommonConvert::IntToString(UINT64 uValue)
+{
+	CHAR szValue[64] = { 0 };
+
+	snprintf(szValue, 64, "%lld", uValue);
+
+	return std::string(szValue);
+}
+
 BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
 {
 	if(pStr == NULL)

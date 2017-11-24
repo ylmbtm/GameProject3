@@ -35,6 +35,22 @@ void HttpParameter::ParseStringToMap(const std::string& strParam)
 	}
 }
 
+std::string HttpParameter::GetResultString()
+{
+	std::string strTemp;
+	strTemp.reserve(1024);
+
+	for (auto itor = m_ParameterMap.begin(); itor != m_ParameterMap.end(); itor++)
+	{
+		strTemp += itor->first;
+		strTemp += "=";
+		strTemp += itor->second;
+		strTemp += "&";
+	}
+
+	return strTemp;
+}
+
 bool HttpParameter::HasKey(const std::string& strKey) const
 {
 	auto itor = m_ParameterMap.find(strKey);
@@ -90,3 +106,26 @@ bool HttpParameter::GetFloatValue(const std::string& strKey, FLOAT& floatValue) 
 	return false;
 }
 
+bool HttpParameter::SetKeyValue(const std::string& strKey, INT32 intValue)
+{
+	m_ParameterMap.insert(std::make_pair(strKey, CommonConvert::IntToString(intValue)));
+	return true;
+}
+
+bool HttpParameter::SetKeyValue(const std::string& strKey, std::string& strValue)
+{
+	m_ParameterMap.insert(std::make_pair(strKey, strValue));
+	return true;
+}
+
+bool HttpParameter::SetKeyValue(const std::string& strKey, INT64 longValue)
+{
+	m_ParameterMap.insert(std::make_pair(strKey, CommonConvert::IntToString(longValue)));
+	return true;
+}
+
+bool HttpParameter::SetKeyValue(const std::string& strKey, FLOAT floatValue)
+{
+	m_ParameterMap.insert(std::make_pair(strKey, CommonConvert::FloatToString(floatValue)));
+	return true;
+}
