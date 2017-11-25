@@ -30,7 +30,6 @@ std::string CommonFunc::GetCurrentDir()
 std::string CommonFunc::GetCurrentExeDir()
 {
 	char szPath[1024];
-
 #ifdef WIN32
 	ZeroMemory(szPath, 1024);
 	GetModuleFileName(NULL, szPath, 1024);
@@ -430,7 +429,7 @@ BOOL CommonFunc::DbgTrace(char* format, ...)
 	return TRUE;
 }
 
-BOOL CommonFunc::KillProcess(UINT32 dwPid)
+BOOL CommonFunc::KillProcess(UINT64 dwPid)
 {
 #ifdef WIN32
 	HANDLE hPrc;
@@ -439,7 +438,7 @@ BOOL CommonFunc::KillProcess(UINT32 dwPid)
 		return FALSE;
 	}
 
-	hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);
+	hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)dwPid);
 
 	if (!TerminateProcess(hPrc, 0))
 	{

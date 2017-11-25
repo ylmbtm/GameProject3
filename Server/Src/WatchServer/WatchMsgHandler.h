@@ -1,19 +1,23 @@
 ﻿#ifndef _WATCH_MSG_HANDLER_H_
 #define _WATCH_MSG_HANDLER_H_
 
-enum ProcessStatus
+#include "../ConfigData/ConfigStruct.h"
+#include "RapidXml.h"
+
+enum EProcessStatus
 {
-	stop,
-	start,
-	connSucceed,
-	connClose,
-	waitStart,
+	EPS_Init,
+	EPS_Stop,
+	EPS_Start,
+	EPS_ConnSucceed,
+	EPS_ConnClose,
+	EPS_WaitStart,
 };
 
 struct ServerProcessInfo
 {
 	UINT64			ProcessID;
-	INT32			ConnID;
+	UINT32			ConnID;
 	INT32			Port;
 	INT32			KillAll;
 	UINT64			SendTime;
@@ -21,7 +25,7 @@ struct ServerProcessInfo
 	std::string		Params;
 	std::string		serverName;
 	std::string		BootUpParameter;
-	ProcessStatus	ProscessStatus;
+	EProcessStatus	ProscessStatus;
 };
 
 class CWatchMsgHandler
@@ -43,6 +47,8 @@ public:
 
 	BOOL		OnCloseConnect(CConnection* pConn);
 
+	BOOL        KillWatchProcess();
+
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsUpdateServerReq(NetPacket* pNetPacket);  //更新服务器
@@ -57,7 +63,7 @@ protected:
 
 	BOOL BootUpProcessList();
 
-	BOOL CheckProcessStatus(INT64 uTick);
+	BOOL CheckProcessStatus(UINT64 uTick);
 
 	BOOL KillProcess(ServerProcessInfo& processData);
 
@@ -67,11 +73,21 @@ protected:
 
 	void PrintServerStatus();
 
+	BOOL GetWatchStatus();
+
+	void SetWatchStatus(bool flag);
+
+	bool CanStartServer();
+
+	bool CancloseServer();
+
 private:
 
 	std::vector<ServerProcessInfo> m_vtProcessVec;
 
 	UINT64 m_uCheckProcessTime;
+
+	BOOL m_bStartWatch;
 };
 
 #endif //_WATCH_MSG_HANDLER_H_

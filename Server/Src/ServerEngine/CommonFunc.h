@@ -57,7 +57,7 @@ BOOL			CloseShareMemory(HANDLE hShm);
 
 BOOL			DbgTrace(char* format, ...);
 
-BOOL			KillProcess(UINT32 dwPid);
+BOOL			KillProcess(UINT64 dwPid);
 }
 
 

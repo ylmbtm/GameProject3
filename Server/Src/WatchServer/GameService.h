@@ -17,11 +17,15 @@ public:
 
 	BOOL		Run();
 
+	void		KillWatchProcess(void);
+
 	BOOL		OnNewConnect(CConnection* pConn);
 
 	BOOL		OnCloseConnect(CConnection* pConn);
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
+
+	BOOL		AutoRun();
 
 public:
 

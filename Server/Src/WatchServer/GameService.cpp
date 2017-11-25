@@ -48,7 +48,11 @@ BOOL CGameService::Init()
 	}
 
 	m_WatchMsgHandler.Init(0);
+
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+
+	AutoRun();
+
 	return TRUE;
 }
 
@@ -81,6 +85,24 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
+BOOL CGameService::AutoRun()
+{
+#ifdef WIN32
+	HKEY hKey;
+	LPCTSTR lpRun = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+	long lRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, lpRun, 0, KEY_WRITE, &hKey);
+	ERROR_RETURN_FALSE(lRet == ERROR_SUCCESS);
+	char pFileName[MAX_PATH] = { 0 };
+	DWORD dwRet = GetModuleFileName(NULL, pFileName, MAX_PATH);
+	lRet = RegSetValueEx(hKey, "SetAutoRun", 0, REG_SZ, (BYTE*)pFileName, dwRet);
+	ERROR_RETURN_FALSE(lRet == ERROR_SUCCESS);
+	RegCloseKey(hKey);
+#else
+
+#endif
+	return TRUE;
+}
+
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
@@ -105,3 +127,7 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
+void CGameService::KillWatchProcess(void)
+{
+	m_WatchMsgHandler.KillWatchProcess();
+}

@@ -62,48 +62,45 @@ bool HttpParameter::HasKey(const std::string& strKey) const
 	return false;
 }
 
-bool HttpParameter::GetIntValue(const std::string& strKey, INT32& intValue) const
+INT32 HttpParameter::GetIntValue(const std::string& strKey) const
 {
 	auto itor = m_ParameterMap.find(strKey);
 	if(itor != m_ParameterMap.end())
 	{
-		intValue = CommonConvert::StringToInt(itor->second.c_str());
-		return true;
+		return CommonConvert::StringToInt(itor->second.c_str());
 	}
-	return false;
+	return 0;
 }
 
-bool HttpParameter::GetStrValue(const std::string& strKey, std::string& strValue) const
+std::string HttpParameter::GetStrValue(const std::string& strKey) const
 {
 	auto it = m_ParameterMap.find(strKey);
 	if(it != m_ParameterMap.end())
 	{
-		strValue = (it->second);
-		return true;
+		return it->second;
 	}
-	return false;
+	return "";
 }
 
-bool HttpParameter::GetLongValue(const std::string& strKey, INT64& longValue) const
+INT64 HttpParameter::GetLongValue(const std::string& strKey) const
 {
 	auto it = m_ParameterMap.find(strKey);
 	if(it != m_ParameterMap.end())
 	{
-		longValue = CommonConvert::StringToInt64(it->second.c_str());
-		return true;
+		return CommonConvert::StringToInt64(it->second.c_str());
 	}
-	return false;
+
+	return 0;
 }
 
-bool HttpParameter::GetFloatValue(const std::string& strKey, FLOAT& floatValue) const
+FLOAT HttpParameter::GetFloatValue(const std::string& strKey) const
 {
 	auto it = m_ParameterMap.find(strKey);
 	if(it != m_ParameterMap.end())
 	{
-		floatValue = CommonConvert::StringToFloat(it->second.c_str());
-		return true;
+		return CommonConvert::StringToFloat(it->second.c_str());
 	}
-	return false;
+	return 0.0f;
 }
 
 bool HttpParameter::SetKeyValue(const std::string& strKey, INT32 intValue)

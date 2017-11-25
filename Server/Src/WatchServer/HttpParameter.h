@@ -8,27 +8,27 @@ public:
 
 	~HttpParameter(void);
 
-	void ParseStringToMap(const std::string& strParam);
+	void		ParseStringToMap(const std::string& strParam);
 
 	std::string GetResultString();
 
-	bool HasKey(const std::string& strKey) const;
+	bool		HasKey(const std::string& strKey) const;
 
-	bool GetIntValue(const std::string& strKey, INT32& intValue) const;
+	INT32		GetIntValue(const std::string& strKey) const;
 
-	bool GetStrValue(const std::string& strKey, std::string& strValue) const;
+	std::string GetStrValue(const std::string& strKey) const;
 
-	bool GetLongValue(const std::string& strKey, INT64& longValue) const;
+	INT64		GetLongValue(const std::string& strKey) const;
 
-	bool GetFloatValue(const std::string& strKey, FLOAT& floatValue) const;
+	FLOAT		GetFloatValue(const std::string& strKey) const;
 
-	bool SetKeyValue(const std::string& strKey, INT32 intValue);
+	bool		SetKeyValue(const std::string& strKey, INT32 intValue);
 
-	bool SetKeyValue(const std::string& strKey, std::string& strValue);
+	bool		SetKeyValue(const std::string& strKey, std::string& strValue);
 
-	bool SetKeyValue(const std::string& strKey, INT64 longValue);
+	bool		SetKeyValue(const std::string& strKey, INT64 longValue);
 
-	bool SetKeyValue(const std::string& strKey, FLOAT floatValue);
+	bool		SetKeyValue(const std::string& strKey, FLOAT floatValue);
 
 
 

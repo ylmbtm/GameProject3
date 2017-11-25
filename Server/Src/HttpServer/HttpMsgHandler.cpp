@@ -31,7 +31,7 @@ BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_PHP_WEB_REQ,		OnMsgPhpWebReq);
+		//PROCESS_MESSAGE_ITEM(MSG_PHP_WEB_REQ,		OnMsgPhpWebReq);
 		default:
 		{
 

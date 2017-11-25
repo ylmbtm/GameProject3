@@ -40,9 +40,9 @@ public:
 	BOOL			IsChanged();
 
 	BOOL			IsConnected();
-
 	BOOL            IsEnterCopy();
 	VOID			SetEnterCopy();
+
 	BOOL            IsDie();
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);

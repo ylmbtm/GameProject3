@@ -192,12 +192,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 
 BOOL CSceneObject::IsDie()
 {
-	if(m_Propertys[HP] <= 0)
-	{
-		return TRUE;
-	}
-
-	return FALSE;
+	return m_dwObjectState & EOS_DEAD;
 }
 
 BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
