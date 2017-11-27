@@ -42,10 +42,10 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ, OnMsgStartServerReq)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ, OnMsgStopServerReq)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK, OnMsgServerHeartAck)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_SVR_PHP_REQ, OnMsgWatchWebReq)
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ,	OnMsgStartServerReq)
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK,	OnMsgServerHeartAck)
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_SVR_PHP_REQ,		OnMsgWatchWebReq)
 		default:
 		{
 
@@ -374,7 +374,7 @@ BOOL CWatchMsgHandler::ReadProcessList()
 
 BOOL CWatchMsgHandler::GetProcessBootUpPar(std::string& bootUpPar, std::string& servername, std::string& pars)
 {
-	if (servername == "")
+	if (servername == "" || servername.empty())
 	{
 		CLog::GetInstancePtr()->LogError(" processList.xml Name  为空");
 		return FALSE;

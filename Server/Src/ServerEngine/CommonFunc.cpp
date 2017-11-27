@@ -15,7 +15,7 @@ UINT32 CommonFunc::GetProcessorNum()
 	return dwNum;
 }
 
-std::string CommonFunc::GetCurrentDir()
+std::string CommonFunc::GetCurrentWorkDir()
 {
 	char szPath[1024];
 
@@ -29,20 +29,21 @@ std::string CommonFunc::GetCurrentDir()
 
 std::string CommonFunc::GetCurrentExeDir()
 {
-	char szPath[1024];
+	char szPath[1024] = {0}, szLink[1024] = { 0 };
 #ifdef WIN32
 	ZeroMemory(szPath, 1024);
 	GetModuleFileName(NULL, szPath, 1024);
 	char* p = strrchr(szPath, '\\');
 	*p = 0;
 #else
-
+	snprintf(link, 1024, "/proc/%d/exe", getpid());/////////////
+	readlink(link, path, sizeof(path));//////////////
 #endif
 	return std::string(szPath);
 }
 
 
-BOOL CommonFunc::SetCurrentWorkPath(std::string strPath)
+BOOL CommonFunc::SetCurrentWorkDir(std::string strPath)
 {
 	if (strPath.empty())
 	{
@@ -52,9 +53,8 @@ BOOL CommonFunc::SetCurrentWorkPath(std::string strPath)
 #ifdef WIN32
 	SetCurrentDirectory(strPath.c_str());
 #else
-
+	chdir(strPath.c_str(););
 #endif
-
 	return TRUE;
 }
 

@@ -64,6 +64,8 @@ struct StBullet
 {
 	UINT32 BulletID;	//子弹ID
 	FLOAT  Angle;		//角度
+	FLOAT  Speed;       //速度
+	FLOAT  AccSpd;		//加速度
 	UINT32 BulletType;	//子弹类型
 	FLOAT  AttackFix;	//固定伤害
 	FLOAT  AttackMuti;	//加成伤害

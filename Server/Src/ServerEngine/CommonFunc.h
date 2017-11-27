@@ -9,11 +9,11 @@ namespace CommonFunc
 {
 UINT32			GetProcessorNum();
 
-std::string		GetCurrentDir();
+std::string		GetCurrentWorkDir();
+
+BOOL			SetCurrentWorkDir(std::string strPath);
 
 std::string		GetCurrentExeDir();
-
-BOOL			SetCurrentWorkPath(std::string strPath);
 
 BOOL			CreateDir(std::string& strDir);
 

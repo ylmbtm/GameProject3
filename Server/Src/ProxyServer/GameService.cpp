@@ -27,7 +27,7 @@ CGameService* CGameService::GetInstancePtr()
 
 BOOL CGameService::Init()
 {
-	CommonFunc::SetCurrentWorkPath("");
+	CommonFunc::SetCurrentWorkDir("");
 
 	if(!CLog::GetInstancePtr()->StartLog("ProxyServer", "log"))
 	{

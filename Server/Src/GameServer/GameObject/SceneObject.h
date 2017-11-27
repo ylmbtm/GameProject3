@@ -73,7 +73,7 @@ public:
 
 	BOOL			IsInCircle(float radius, float height, Vector3D hitPoint);
 
-	BOOL			IsInBox(float length, float width, Vector3D hitPoint);
+	BOOL			IsInBox(float length, float width, Vector3D hitPoint, FLOAT ft);
 
 	BOOL			IsInSphere(float radius, Vector3D hitPoint);
 

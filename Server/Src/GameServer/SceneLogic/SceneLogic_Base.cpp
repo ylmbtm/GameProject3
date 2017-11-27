@@ -32,7 +32,7 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 
 			if(strcmp(pAttr->name(), "Pos") == 0)
 			{
-				pt.From(pAttr->value());
+				pt.FromString(pAttr->value());
 			}
 		}
 

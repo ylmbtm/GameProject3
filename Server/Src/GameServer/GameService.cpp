@@ -29,7 +29,7 @@ CGameService* CGameService::GetInstancePtr()
 
 BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 {
-	CommonFunc::SetCurrentWorkPath("");
+	CommonFunc::SetCurrentWorkDir("");
 
 	if(!CLog::GetInstancePtr()->StartLog("GameServer", "log"))
 	{

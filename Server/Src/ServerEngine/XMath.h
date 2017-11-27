@@ -112,12 +112,47 @@ public:
 	}
 
 
+	FLOAT DistanceToSegment(Vector2D pt1, Vector2D pt2)
+	{
+		FLOAT cross = (pt2.m_x - pt1.m_x) * (m_x - pt1.m_x) + (pt2.m_y - pt1.m_y) * (m_y - pt1.m_y);
+		if (cross <= 0)
+		{
+			return sqrtf((m_x - pt1.m_x) * (m_x - pt1.m_x) + (m_y - pt1.m_y) * (m_y - pt1.m_y));
+		}
+
+		FLOAT d2 = (pt2.m_x - pt1.m_x) * (pt2.m_x - pt1.m_x) + (pt2.m_y - pt1.m_y) * (pt2.m_y - pt1.m_y);
+		if (cross >= d2)
+		{
+			return sqrtf((m_x - pt2.m_x) * (m_x - pt2.m_x) + (m_y - pt2.m_y) * (m_y - pt2.m_y));
+		}
+
+		FLOAT r = cross / d2;
+		FLOAT px = pt1.m_x + (pt2.m_x - pt1.m_x) * r;
+		FLOAT py = pt1.m_y + (pt2.m_y - pt1.m_y) * r;
+
+		return sqrtf((m_x - px) * (m_x - px) + (py - pt1.m_y) * (py - pt1.m_y));
+	}
+
 	float AngleBetween(const Vector2D& dest)
 	{
 		return acos((m_x * dest.m_x + m_y * dest.m_y) / Length() / dest.Length());
 	}
 
-	BOOL From(std::string str)
+	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
+	{
+		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));
+	}
+
+	void Rotate(FLOAT radianAngle)
+	{
+		float tmx = 0, tmy = 0;
+		tmx = m_x * cos(radianAngle) - m_y * sin(radianAngle);
+		tmy = m_x * sin(radianAngle) + m_y * cos(radianAngle);
+		m_x = tmx;
+		m_y = tmy;
+	}
+
+	BOOL FromString(std::string str)
 	{
 		m_x = CommonConvert::StringToFloat(str.substr(0, str.find_first_of(',')).c_str());
 		m_y = CommonConvert::StringToFloat(str.substr(str.find_last_of(',')).c_str());
@@ -343,7 +378,7 @@ public:
 		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));
 	}
 
-	BOOL From(const char* pStr)
+	BOOL FromString(const char* pStr)
 	{
 		return CommonConvert::StringToPos((CHAR*)pStr, m_x, m_y, m_z);
 	}

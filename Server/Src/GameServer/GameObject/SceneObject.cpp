@@ -244,14 +244,45 @@ BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
 	FLOAT fdistance = m_Pos.Distance2D(hitPoint);
 	if (fdistance > radius/* + target.Radius*/)
 	{
-		return false;
+		return FALSE;
 	}
-	return true;
+	return TRUE;
 }
 
-BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint)
+BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint, FLOAT ft)
 {
-	return true;
+	float radius = 1.0f;
+
+	CPoint2D A(-width / 2, -length / 2), B(-width / 2, length / 2), C(width / 2, length / 2), D(width / 2, -length / 2);
+
+	A.Rotate(ft * DEG_TO_RAD);
+	B.Rotate(ft * DEG_TO_RAD);
+	C.Rotate(ft * DEG_TO_RAD);
+	D.Rotate(ft * DEG_TO_RAD);
+
+	CPoint2D rolept(m_Pos.m_x, m_Pos.m_y);
+
+	if (rolept.DistanceToSegment(A, B) < radius)
+	{
+		return TRUE;
+	}
+
+	if (rolept.DistanceToSegment(B, C) < radius)
+	{
+		return TRUE;
+	}
+
+	if (rolept.DistanceToSegment(C, D) < radius)
+	{
+		return TRUE;
+	}
+
+	if (rolept.DistanceToSegment(D, A) < radius)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
@@ -259,9 +290,9 @@ BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
 	Vector3D dir = m_Pos - hitPoint;
 	if (dir.SquaredLength() > radius * radius)
 	{
-		return false;
+		return FALSE;
 	}
-	return true;
+	return TRUE;
 }
 
 BOOL CSceneObject::IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir)
@@ -269,17 +300,17 @@ BOOL CSceneObject::IsInSector(float radius, float hAngle, Vector3D hitPoint, Vec
 	float maxDis = radius;// +target.Radius;
 	if (m_Pos.Distance2D(hitPoint) > maxDis)
 	{
-		return false;
+		return FALSE;
 	}
 
 	Vector3D vtDir = m_Pos - hitPoint;
 
 	if (vtDir.AngleBetween2D(hitDir) > hAngle / 2)
 	{
-		return false;
+		return FALSE;
 	}
 
-	return true;
+	return TRUE;
 }
 
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
