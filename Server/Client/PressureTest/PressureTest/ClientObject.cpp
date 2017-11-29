@@ -26,7 +26,7 @@ CClientObject::CClientObject(void)
 	m_z = 13;
 
 	m_ft = PI * 2 * (rand() % 360) / 360;
-
+	m_uSkillTime = 0;
 	m_ClientConnector.RegisterMsgHandler((IMessageHandler*)this);
 }
 
@@ -46,7 +46,7 @@ BOOL CClientObject::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_NOTIFY_INTO_SCENE,		OnMsgNotifyIntoScene);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_CREATE_ACK,		OnMsgCreateRoleAck);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_NEW_NTF,			OnMsgObjectNewNty);
-			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_ACTION_NTF,		OnMsgObjectActionNty);
+			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_CHANGE_NTF,		OnMsgObjectChangeNty);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_OBJECT_REMOVE_NTF,		OnMsgObjectRemoveNty);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ENTER_SCENE_ACK,		OnCmdEnterSceneAck);
 			PROCESS_MESSAGE_ITEM_CLIENT(MSG_ROLE_LOGIN_ACK,			OnMsgRoleLoginAck);
@@ -131,7 +131,7 @@ BOOL CClientObject::OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 	return TRUE;
 }
 
-BOOL CClientObject::OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
+BOOL CClientObject::OnMsgObjectChangeNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
 {
 	ObjectActionNty Nty;
 	Nty.ParsePartialFromArray(PacketBuf, BufLen);
@@ -159,8 +159,8 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
 			m_ClientConnector.SetClientID(0);
-			//m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
-			m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
+			m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
+			//m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
 		}
 
 		if(m_ClientConnector.GetConnectState() == Succ_Connect)
@@ -180,7 +180,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_AccountLoginOK)
 	{
-		SendSelectSvrReq(201);
+		SendSelectSvrReq(202);
 
 		m_dwHostState = ST_SelectSvr;
 	}
@@ -411,6 +411,18 @@ VOID CClientObject::TestMove()
 		return ;
 	}
 
+	if (m_uSkillTime == 0)
+	{
+		m_uSkillTime = CommonFunc::GetTickCount();
+	}
+
+	dwTimeDiff = CommonFunc::GetTickCount() - m_uSkillTime;
+	if (dwTimeDiff > 3000)
+	{
+		TestCastSkill();
+	}
+
+
 	m_uMoveTime = CommonFunc::GetTickCount();
 
 	MoveForward(1.0f);
@@ -418,22 +430,26 @@ VOID CClientObject::TestMove()
 	if(m_x > 10)
 	{
 		m_x = 10;
-		m_ft = abs(m_ft - 90);
+		m_ft += rand() % 10000;
+		m_ft = (int)m_ft % 360;
 	}
 	if(m_z > 20)
 	{
 		m_z = 20;
-		m_ft = abs(m_ft - 90);
+		m_ft += rand() % 10000;
+		m_ft = (int)m_ft % 360;
 	}
 	if(m_x < -10)
 	{
 		m_x = -10;
-		m_ft = abs(m_ft - 90);
+		m_ft += rand() % 10000;
+		m_ft = (int)m_ft % 360;
 	}
 	if(m_z < 0)
 	{
 		m_z = 0;
-		m_ft = abs(m_ft - 90);
+		m_ft += rand() % 10000;
+		m_ft = (int)m_ft % 360;
 	}
 
 	pItem->set_hostx(m_x);
@@ -442,6 +458,15 @@ VOID CClientObject::TestMove()
 	pItem->set_hostft(m_ft);
 
 	m_ClientConnector.SendData(MSG_OBJECT_ACTION_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
+}
+
+VOID CClientObject::TestCastSkill()
+{
+	SkillCastReq Req;
+	Req.set_objectguid(m_RoleIDList[0]);
+	Req.set_skillid(2002);
+
+	m_ClientConnector.SendData(MSG_SKILL_CAST_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }
 
 BOOL CClientObject::SendRoleLogoutReq( UINT64 u64CharID )

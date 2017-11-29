@@ -111,6 +111,27 @@ message ObjectRemoveNty {
   repeated uint64 RemoveList = 1;
 }
 
+//子弹对象
+message BulletItem
+{	
+	uint64	ObjectGuid	= 1;	//对象ID
+	int32	BulletID	= 2;	//子弹的ID
+	float	X			= 3;	//坐标X
+	float	Y			= 4;	//坐标Y
+	float	Z			= 5;	//坐标X
+	float	VX			= 6;	//方向X
+	float	VZ			= 7;	//方向Y
+	float   Speed		= 8;	//速度
+	float   AccSpeed	= 9;    //加速度
+	float   LeftTime	= 10;   //剩余时间
+}
+
+//技能释放结果
+message BulletNewNtf
+{	
+	repeated BulletItem ItemList = 1;
+}
+
 message HeartBeatReq {
   uint32  TimeStamp = 1;
 }

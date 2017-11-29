@@ -39,9 +39,11 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 	}
 
 	UINT64 uElaspedTick = uTick - m_dwStartTick;
+
 	if(uElaspedTick > m_pSkillInfo->vtEvents[m_dwEventIndex].TrigerTime)
 	{
 		ProcessEvent(m_pSkillInfo->vtEvents[m_dwEventIndex]);
+
 		m_dwEventIndex += 1;
 	}
 

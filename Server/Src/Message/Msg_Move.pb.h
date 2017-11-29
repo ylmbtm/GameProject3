@@ -64,16 +64,16 @@ void InitDefaultsObjectNewNtyImpl();
 void InitDefaultsObjectNewNty();
 void InitDefaultsObjectRemoveNtyImpl();
 void InitDefaultsObjectRemoveNty();
+void InitDefaultsBulletItemImpl();
+void InitDefaultsBulletItem();
+void InitDefaultsBulletNewNtfImpl();
+void InitDefaultsBulletNewNtf();
 void InitDefaultsHeartBeatReqImpl();
 void InitDefaultsHeartBeatReq();
 void InitDefaultsHeartBeatAckImpl();
 void InitDefaultsHeartBeatAck();
 void InitDefaultsObjectDieNotifyImpl();
 void InitDefaultsObjectDieNotify();
-void InitDefaultsObjectHPChangeImpl();
-void InitDefaultsObjectHPChange();
-void InitDefaultsObjectHPChangeNtfImpl();
-void InitDefaultsObjectHPChangeNtf();
 inline void InitDefaults() {
   InitDefaultsSkillCastReq();
   InitDefaultsSkillCastAck();
@@ -86,11 +86,11 @@ inline void InitDefaults() {
   InitDefaultsNewItem();
   InitDefaultsObjectNewNty();
   InitDefaultsObjectRemoveNty();
+  InitDefaultsBulletItem();
+  InitDefaultsBulletNewNtf();
   InitDefaultsHeartBeatReq();
   InitDefaultsHeartBeatAck();
   InitDefaultsObjectDieNotify();
-  InitDefaultsObjectHPChange();
-  InitDefaultsObjectHPChangeNtf();
 }
 }  // namespace protobuf_Msg_5fMove_2eproto
 class ActionNtyItem;
@@ -99,6 +99,12 @@ extern ActionNtyItemDefaultTypeInternal _ActionNtyItem_default_instance_;
 class ActionReqItem;
 class ActionReqItemDefaultTypeInternal;
 extern ActionReqItemDefaultTypeInternal _ActionReqItem_default_instance_;
+class BulletItem;
+class BulletItemDefaultTypeInternal;
+extern BulletItemDefaultTypeInternal _BulletItem_default_instance_;
+class BulletNewNtf;
+class BulletNewNtfDefaultTypeInternal;
+extern BulletNewNtfDefaultTypeInternal _BulletNewNtf_default_instance_;
 class HeartBeatAck;
 class HeartBeatAckDefaultTypeInternal;
 extern HeartBeatAckDefaultTypeInternal _HeartBeatAck_default_instance_;
@@ -117,12 +123,6 @@ extern ObjectActionReqDefaultTypeInternal _ObjectActionReq_default_instance_;
 class ObjectDieNotify;
 class ObjectDieNotifyDefaultTypeInternal;
 extern ObjectDieNotifyDefaultTypeInternal _ObjectDieNotify_default_instance_;
-class ObjectHPChange;
-class ObjectHPChangeDefaultTypeInternal;
-extern ObjectHPChangeDefaultTypeInternal _ObjectHPChange_default_instance_;
-class ObjectHPChangeNtf;
-class ObjectHPChangeNtfDefaultTypeInternal;
-extern ObjectHPChangeNtfDefaultTypeInternal _ObjectHPChangeNtf_default_instance_;
 class ObjectNewNty;
 class ObjectNewNtyDefaultTypeInternal;
 extern ObjectNewNtyDefaultTypeInternal _ObjectNewNty_default_instance_;
@@ -1678,6 +1678,273 @@ class ObjectRemoveNty : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BulletItem) */ {
+ public:
+  BulletItem();
+  virtual ~BulletItem();
+
+  BulletItem(const BulletItem& from);
+
+  inline BulletItem& operator=(const BulletItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  BulletItem(BulletItem&& from) noexcept
+    : BulletItem() {
+    *this = ::std::move(from);
+  }
+
+  inline BulletItem& operator=(BulletItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BulletItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BulletItem* internal_default_instance() {
+    return reinterpret_cast<const BulletItem*>(
+               &_BulletItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    11;
+
+  void Swap(BulletItem* other);
+  friend void swap(BulletItem& a, BulletItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BulletItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  BulletItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const BulletItem& from);
+  void MergeFrom(const BulletItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(BulletItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // int32 BulletID = 2;
+  void clear_bulletid();
+  static const int kBulletIDFieldNumber = 2;
+  ::google::protobuf::int32 bulletid() const;
+  void set_bulletid(::google::protobuf::int32 value);
+
+  // float X = 3;
+  void clear_x();
+  static const int kXFieldNumber = 3;
+  float x() const;
+  void set_x(float value);
+
+  // float Y = 4;
+  void clear_y();
+  static const int kYFieldNumber = 4;
+  float y() const;
+  void set_y(float value);
+
+  // float Z = 5;
+  void clear_z();
+  static const int kZFieldNumber = 5;
+  float z() const;
+  void set_z(float value);
+
+  // float VX = 6;
+  void clear_vx();
+  static const int kVXFieldNumber = 6;
+  float vx() const;
+  void set_vx(float value);
+
+  // float VZ = 7;
+  void clear_vz();
+  static const int kVZFieldNumber = 7;
+  float vz() const;
+  void set_vz(float value);
+
+  // float Speed = 8;
+  void clear_speed();
+  static const int kSpeedFieldNumber = 8;
+  float speed() const;
+  void set_speed(float value);
+
+  // float AccSpeed = 9;
+  void clear_accspeed();
+  static const int kAccSpeedFieldNumber = 9;
+  float accspeed() const;
+  void set_accspeed(float value);
+
+  // float LeftTime = 10;
+  void clear_lefttime();
+  static const int kLeftTimeFieldNumber = 10;
+  float lefttime() const;
+  void set_lefttime(float value);
+
+  // @@protoc_insertion_point(class_scope:BulletItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  ::google::protobuf::int32 bulletid_;
+  float x_;
+  float y_;
+  float z_;
+  float vx_;
+  float vz_;
+  float speed_;
+  float accspeed_;
+  float lefttime_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsBulletItemImpl();
+};
+// -------------------------------------------------------------------
+
+class BulletNewNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BulletNewNtf) */ {
+ public:
+  BulletNewNtf();
+  virtual ~BulletNewNtf();
+
+  BulletNewNtf(const BulletNewNtf& from);
+
+  inline BulletNewNtf& operator=(const BulletNewNtf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  BulletNewNtf(BulletNewNtf&& from) noexcept
+    : BulletNewNtf() {
+    *this = ::std::move(from);
+  }
+
+  inline BulletNewNtf& operator=(BulletNewNtf&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BulletNewNtf& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BulletNewNtf* internal_default_instance() {
+    return reinterpret_cast<const BulletNewNtf*>(
+               &_BulletNewNtf_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    12;
+
+  void Swap(BulletNewNtf* other);
+  friend void swap(BulletNewNtf& a, BulletNewNtf& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BulletNewNtf* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  BulletNewNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const BulletNewNtf& from);
+  void MergeFrom(const BulletNewNtf& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(BulletNewNtf* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .BulletItem ItemList = 1;
+  int itemlist_size() const;
+  void clear_itemlist();
+  static const int kItemListFieldNumber = 1;
+  const ::BulletItem& itemlist(int index) const;
+  ::BulletItem* mutable_itemlist(int index);
+  ::BulletItem* add_itemlist();
+  ::google::protobuf::RepeatedPtrField< ::BulletItem >*
+      mutable_itemlist();
+  const ::google::protobuf::RepeatedPtrField< ::BulletItem >&
+      itemlist() const;
+
+  // @@protoc_insertion_point(class_scope:BulletNewNtf)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::BulletItem > itemlist_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsBulletNewNtfImpl();
+};
+// -------------------------------------------------------------------
+
 class HeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:HeartBeatReq) */ {
  public:
   HeartBeatReq();
@@ -1713,7 +1980,7 @@ class HeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(HeartBeatReq* other);
   friend void swap(HeartBeatReq& a, HeartBeatReq& b) {
@@ -1812,7 +2079,7 @@ class HeartBeatAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    14;
 
   void Swap(HeartBeatAck* other);
   friend void swap(HeartBeatAck& a, HeartBeatAck& b) {
@@ -1918,7 +2185,7 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
                &_ObjectDieNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    15;
 
   void Swap(ObjectDieNotify* other);
   friend void swap(ObjectDieNotify& a, ObjectDieNotify& b) {
@@ -1979,224 +2246,6 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectDieNotifyImpl();
-};
-// -------------------------------------------------------------------
-
-class ObjectHPChange : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectHPChange) */ {
- public:
-  ObjectHPChange();
-  virtual ~ObjectHPChange();
-
-  ObjectHPChange(const ObjectHPChange& from);
-
-  inline ObjectHPChange& operator=(const ObjectHPChange& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  ObjectHPChange(ObjectHPChange&& from) noexcept
-    : ObjectHPChange() {
-    *this = ::std::move(from);
-  }
-
-  inline ObjectHPChange& operator=(ObjectHPChange&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const ObjectHPChange& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ObjectHPChange* internal_default_instance() {
-    return reinterpret_cast<const ObjectHPChange*>(
-               &_ObjectHPChange_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
-
-  void Swap(ObjectHPChange* other);
-  friend void swap(ObjectHPChange& a, ObjectHPChange& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline ObjectHPChange* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  ObjectHPChange* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ObjectHPChange& from);
-  void MergeFrom(const ObjectHPChange& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ObjectHPChange* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint64 ObjectGuid = 1;
-  void clear_objectguid();
-  static const int kObjectGuidFieldNumber = 1;
-  ::google::protobuf::uint64 objectguid() const;
-  void set_objectguid(::google::protobuf::uint64 value);
-
-  // int32 Value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  ::google::protobuf::int32 value() const;
-  void set_value(::google::protobuf::int32 value);
-
-  // bool Crit = 4;
-  void clear_crit();
-  static const int kCritFieldNumber = 4;
-  bool crit() const;
-  void set_crit(bool value);
-
-  // @@protoc_insertion_point(class_scope:ObjectHPChange)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint64 objectguid_;
-  ::google::protobuf::int32 value_;
-  bool crit_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectHPChangeImpl();
-};
-// -------------------------------------------------------------------
-
-class ObjectHPChangeNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectHPChangeNtf) */ {
- public:
-  ObjectHPChangeNtf();
-  virtual ~ObjectHPChangeNtf();
-
-  ObjectHPChangeNtf(const ObjectHPChangeNtf& from);
-
-  inline ObjectHPChangeNtf& operator=(const ObjectHPChangeNtf& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  ObjectHPChangeNtf(ObjectHPChangeNtf&& from) noexcept
-    : ObjectHPChangeNtf() {
-    *this = ::std::move(from);
-  }
-
-  inline ObjectHPChangeNtf& operator=(ObjectHPChangeNtf&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const ObjectHPChangeNtf& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ObjectHPChangeNtf* internal_default_instance() {
-    return reinterpret_cast<const ObjectHPChangeNtf*>(
-               &_ObjectHPChangeNtf_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
-
-  void Swap(ObjectHPChangeNtf* other);
-  friend void swap(ObjectHPChangeNtf& a, ObjectHPChangeNtf& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline ObjectHPChangeNtf* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  ObjectHPChangeNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ObjectHPChangeNtf& from);
-  void MergeFrom(const ObjectHPChangeNtf& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ObjectHPChangeNtf* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .ObjectHPChange ChangeList = 1;
-  int changelist_size() const;
-  void clear_changelist();
-  static const int kChangeListFieldNumber = 1;
-  const ::ObjectHPChange& changelist(int index) const;
-  ::ObjectHPChange* mutable_changelist(int index);
-  ::ObjectHPChange* add_changelist();
-  ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >*
-      mutable_changelist();
-  const ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >&
-      changelist() const;
-
-  // @@protoc_insertion_point(class_scope:ObjectHPChangeNtf)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::ObjectHPChange > changelist_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectHPChangeNtfImpl();
 };
 // ===================================================================
 
@@ -3338,6 +3387,184 @@ ObjectRemoveNty::mutable_removelist() {
 
 // -------------------------------------------------------------------
 
+// BulletItem
+
+// uint64 ObjectGuid = 1;
+inline void BulletItem::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 BulletItem::objectguid() const {
+  // @@protoc_insertion_point(field_get:BulletItem.ObjectGuid)
+  return objectguid_;
+}
+inline void BulletItem::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.ObjectGuid)
+}
+
+// int32 BulletID = 2;
+inline void BulletItem::clear_bulletid() {
+  bulletid_ = 0;
+}
+inline ::google::protobuf::int32 BulletItem::bulletid() const {
+  // @@protoc_insertion_point(field_get:BulletItem.BulletID)
+  return bulletid_;
+}
+inline void BulletItem::set_bulletid(::google::protobuf::int32 value) {
+  
+  bulletid_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.BulletID)
+}
+
+// float X = 3;
+inline void BulletItem::clear_x() {
+  x_ = 0;
+}
+inline float BulletItem::x() const {
+  // @@protoc_insertion_point(field_get:BulletItem.X)
+  return x_;
+}
+inline void BulletItem::set_x(float value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.X)
+}
+
+// float Y = 4;
+inline void BulletItem::clear_y() {
+  y_ = 0;
+}
+inline float BulletItem::y() const {
+  // @@protoc_insertion_point(field_get:BulletItem.Y)
+  return y_;
+}
+inline void BulletItem::set_y(float value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.Y)
+}
+
+// float Z = 5;
+inline void BulletItem::clear_z() {
+  z_ = 0;
+}
+inline float BulletItem::z() const {
+  // @@protoc_insertion_point(field_get:BulletItem.Z)
+  return z_;
+}
+inline void BulletItem::set_z(float value) {
+  
+  z_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.Z)
+}
+
+// float VX = 6;
+inline void BulletItem::clear_vx() {
+  vx_ = 0;
+}
+inline float BulletItem::vx() const {
+  // @@protoc_insertion_point(field_get:BulletItem.VX)
+  return vx_;
+}
+inline void BulletItem::set_vx(float value) {
+  
+  vx_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.VX)
+}
+
+// float VZ = 7;
+inline void BulletItem::clear_vz() {
+  vz_ = 0;
+}
+inline float BulletItem::vz() const {
+  // @@protoc_insertion_point(field_get:BulletItem.VZ)
+  return vz_;
+}
+inline void BulletItem::set_vz(float value) {
+  
+  vz_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.VZ)
+}
+
+// float Speed = 8;
+inline void BulletItem::clear_speed() {
+  speed_ = 0;
+}
+inline float BulletItem::speed() const {
+  // @@protoc_insertion_point(field_get:BulletItem.Speed)
+  return speed_;
+}
+inline void BulletItem::set_speed(float value) {
+  
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.Speed)
+}
+
+// float AccSpeed = 9;
+inline void BulletItem::clear_accspeed() {
+  accspeed_ = 0;
+}
+inline float BulletItem::accspeed() const {
+  // @@protoc_insertion_point(field_get:BulletItem.AccSpeed)
+  return accspeed_;
+}
+inline void BulletItem::set_accspeed(float value) {
+  
+  accspeed_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.AccSpeed)
+}
+
+// float LeftTime = 10;
+inline void BulletItem::clear_lefttime() {
+  lefttime_ = 0;
+}
+inline float BulletItem::lefttime() const {
+  // @@protoc_insertion_point(field_get:BulletItem.LeftTime)
+  return lefttime_;
+}
+inline void BulletItem::set_lefttime(float value) {
+  
+  lefttime_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.LeftTime)
+}
+
+// -------------------------------------------------------------------
+
+// BulletNewNtf
+
+// repeated .BulletItem ItemList = 1;
+inline int BulletNewNtf::itemlist_size() const {
+  return itemlist_.size();
+}
+inline void BulletNewNtf::clear_itemlist() {
+  itemlist_.Clear();
+}
+inline const ::BulletItem& BulletNewNtf::itemlist(int index) const {
+  // @@protoc_insertion_point(field_get:BulletNewNtf.ItemList)
+  return itemlist_.Get(index);
+}
+inline ::BulletItem* BulletNewNtf::mutable_itemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:BulletNewNtf.ItemList)
+  return itemlist_.Mutable(index);
+}
+inline ::BulletItem* BulletNewNtf::add_itemlist() {
+  // @@protoc_insertion_point(field_add:BulletNewNtf.ItemList)
+  return itemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::BulletItem >*
+BulletNewNtf::mutable_itemlist() {
+  // @@protoc_insertion_point(field_mutable_list:BulletNewNtf.ItemList)
+  return &itemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::BulletItem >&
+BulletNewNtf::itemlist() const {
+  // @@protoc_insertion_point(field_list:BulletNewNtf.ItemList)
+  return itemlist_;
+}
+
+// -------------------------------------------------------------------
+
 // HeartBeatReq
 
 // uint32 TimeStamp = 1;
@@ -3402,86 +3629,6 @@ inline void ObjectDieNotify::set_objectguid(::google::protobuf::uint64 value) {
   
   objectguid_ = value;
   // @@protoc_insertion_point(field_set:ObjectDieNotify.ObjectGuid)
-}
-
-// -------------------------------------------------------------------
-
-// ObjectHPChange
-
-// uint64 ObjectGuid = 1;
-inline void ObjectHPChange::clear_objectguid() {
-  objectguid_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 ObjectHPChange::objectguid() const {
-  // @@protoc_insertion_point(field_get:ObjectHPChange.ObjectGuid)
-  return objectguid_;
-}
-inline void ObjectHPChange::set_objectguid(::google::protobuf::uint64 value) {
-  
-  objectguid_ = value;
-  // @@protoc_insertion_point(field_set:ObjectHPChange.ObjectGuid)
-}
-
-// int32 Value = 3;
-inline void ObjectHPChange::clear_value() {
-  value_ = 0;
-}
-inline ::google::protobuf::int32 ObjectHPChange::value() const {
-  // @@protoc_insertion_point(field_get:ObjectHPChange.Value)
-  return value_;
-}
-inline void ObjectHPChange::set_value(::google::protobuf::int32 value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:ObjectHPChange.Value)
-}
-
-// bool Crit = 4;
-inline void ObjectHPChange::clear_crit() {
-  crit_ = false;
-}
-inline bool ObjectHPChange::crit() const {
-  // @@protoc_insertion_point(field_get:ObjectHPChange.Crit)
-  return crit_;
-}
-inline void ObjectHPChange::set_crit(bool value) {
-  
-  crit_ = value;
-  // @@protoc_insertion_point(field_set:ObjectHPChange.Crit)
-}
-
-// -------------------------------------------------------------------
-
-// ObjectHPChangeNtf
-
-// repeated .ObjectHPChange ChangeList = 1;
-inline int ObjectHPChangeNtf::changelist_size() const {
-  return changelist_.size();
-}
-inline void ObjectHPChangeNtf::clear_changelist() {
-  changelist_.Clear();
-}
-inline const ::ObjectHPChange& ObjectHPChangeNtf::changelist(int index) const {
-  // @@protoc_insertion_point(field_get:ObjectHPChangeNtf.ChangeList)
-  return changelist_.Get(index);
-}
-inline ::ObjectHPChange* ObjectHPChangeNtf::mutable_changelist(int index) {
-  // @@protoc_insertion_point(field_mutable:ObjectHPChangeNtf.ChangeList)
-  return changelist_.Mutable(index);
-}
-inline ::ObjectHPChange* ObjectHPChangeNtf::add_changelist() {
-  // @@protoc_insertion_point(field_add:ObjectHPChangeNtf.ChangeList)
-  return changelist_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >*
-ObjectHPChangeNtf::mutable_changelist() {
-  // @@protoc_insertion_point(field_mutable_list:ObjectHPChangeNtf.ChangeList)
-  return &changelist_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::ObjectHPChange >&
-ObjectHPChangeNtf::changelist() const {
-  // @@protoc_insertion_point(field_list:ObjectHPChangeNtf.ChangeList)
-  return changelist_;
 }
 
 #ifdef __GNUC__

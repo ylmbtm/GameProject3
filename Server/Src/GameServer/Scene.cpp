@@ -20,6 +20,7 @@
 #include "../ConfigData/ConfigStruct.h"
 #include "../ConfigData/ConfigData.h"
 #include "GameObject/SkillObject.h"
+#include "GameObject/BulletObject.h"
 
 
 CScene::CScene()
@@ -236,6 +237,16 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 	return TRUE;
 }
 
+BOOL CScene::BroadNewBullet(CBulletObject* pBulletObject)
+{
+	BulletNewNtf Ntf;
+	pBulletObject->SaveNewData(Ntf);
+
+	BroadMessage(MSG_BULLET_NEW_NTF, Ntf);
+
+	return TRUE;
+}
+
 BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	char szBuff[10240] = { 0 };
@@ -297,6 +308,29 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 		pSceneObject->OnUpdate(uTick);
 	}
 
+	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); ++itor)
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		pSceneObject->OnUpdate(uTick);
+	}
+
+	for (auto itor = m_BulletMap.begin(); itor != m_BulletMap.end();)
+	{
+		CBulletObject* pBulletObject = itor->second;
+		ERROR_CONTINUE_EX(pBulletObject != NULL);
+		pBulletObject->OnUpdate(uTick);
+
+		if (pBulletObject->IsFinished())
+		{
+			itor = m_BulletMap.erase(itor);
+		}
+		else
+		{
+			++itor;
+		}
+	}
+
 	//同步所有对象的状态
 	SyncObjectState();
 
@@ -305,7 +339,7 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
-		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjectState != OS_DIE)
+		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
 			pSceneObject->m_dwObjectState |= OS_DIE;
 			m_pSceneLogic->OnObjectDie(pSceneObject);
@@ -318,7 +352,7 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
-		if(pSceneObject->GetHp() <= 0 && pSceneObject->m_dwObjectState != OS_DIE)
+		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
 			pSceneObject->m_dwObjectState |= OS_DIE;
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
@@ -834,11 +868,24 @@ BOOL CScene::SyncObjectState()
 		pObj->SaveUpdateData(ActionNty);
 	}
 
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject* pObj = itor->second;
+		ERROR_RETURN_FALSE(pObj != NULL);
+
+		if (!pObj->IsChanged())
+		{
+			continue;
+		}
+
+		pObj->SaveUpdateData(ActionNty);
+	}
+
 	if (ActionNty.actionlist_size() <= 0)
 	{
 		return TRUE;
 	}
-
 
 	char szBuff[10240] = {0};
 	ERROR_RETURN_FALSE(ActionNty.ByteSize() < 10240);
@@ -846,7 +893,7 @@ BOOL CScene::SyncObjectState()
 
 	BroadMessageNotify Nty;
 	Nty.set_msgdata(szBuff, ActionNty.ByteSize());
-	Nty.set_msgid(MSG_OBJECT_ACTION_NTF);
+	Nty.set_msgid(MSG_OBJECT_CHANGE_NTF);
 	ActionNty.Clear();
 
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
@@ -867,10 +914,10 @@ BOOL CScene::SyncObjectState()
 }
 
 
-BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
+CSceneObject* CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
-	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
@@ -884,10 +931,10 @@ BOOL CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, F
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
-	return TRUE;
+	return pObject;
 }
 
-BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp )
+CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp )
 {
 	CSceneObject* pObject = GetPlayer(roleData.roleid());
 	if(pObject == NULL)
@@ -911,39 +958,39 @@ BOOL CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 
 
 	m_pSceneLogic->OnObjectCreate(pObject);
 	BroadNewObject(pObject);
-	return TRUE;
+	return pObject;
 }
 
-BOOL CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp )
+CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp )
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
-	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(petData.petguid(), petData.actorid(), OT_PET, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
-	return TRUE;
+	return pObject;
 }
 
-BOOL CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp  )
+CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp  )
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
-	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), partnerData.actorid(), OT_PARTNER, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
 	pObject->m_pScene = this;
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
-	return TRUE;
+	return pObject;
 }
 
-BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
+CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
 	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
-	ERROR_RETURN_FALSE(pActorInfo != NULL);
+	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;
 	pObject->m_pScene = this;
@@ -951,14 +998,18 @@ BOOL CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, F
 	pObject->SetPos(x, y, z, ft);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
-	return TRUE;
+	return pObject;
 }
 
-BOOL CScene::CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti)
+CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti)
 {
-	//CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, Angle, dwType, Fix, Muti);
-	//m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
-	return TRUE;
+	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, Angle, Fix, Muti, NULL);
+
+	m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
+
+	BroadNewBullet(pBullet);
+
+	return pBullet;
 }
 
 BOOL CScene::IsCampAllDie(UINT32 dwCamp)
@@ -968,7 +1019,7 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 		CSceneObject* pObj = itor->second;
 		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
 		{
-			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
+			if(!pObj->IsDead() && pObj->m_bIsCampCheck)
 			{
 				return FALSE;
 			}
@@ -980,7 +1031,7 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 		CSceneObject* pObj = itor->second;
 		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
 		{
-			if(!pObj->IsDie() && pObj->m_bIsCampCheck)
+			if(!pObj->IsDead() && pObj->m_bIsCampCheck)
 			{
 				return FALSE;
 			}
@@ -997,7 +1048,7 @@ BOOL CScene::IsMonsterAllDie()
 		CSceneObject* pObj = itor->second;
 		if((pObj != NULL) && (pObj->GetObjType() == OT_MONSTER))
 		{
-			if(!pObj->IsDie() && pObj->m_bIsMonsCheck)
+			if(!pObj->IsDead() && pObj->m_bIsMonsCheck)
 			{
 				return FALSE;
 			}

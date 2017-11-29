@@ -43,7 +43,7 @@ public:
 	BOOL            IsEnterCopy();
 	VOID			SetEnterCopy();
 
-	BOOL            IsDie();
+	BOOL            IsDead();
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
 
@@ -72,11 +72,8 @@ public:
 	BOOL			GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETargetType eType);
 
 	BOOL			IsInCircle(float radius, float height, Vector3D hitPoint);
-
 	BOOL			IsInBox(float length, float width, Vector3D hitPoint, FLOAT ft);
-
 	BOOL			IsInSphere(float radius, Vector3D hitPoint);
-
 	BOOL			IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir);
 	//////////////////////////////////////////////////////////////////////////
 

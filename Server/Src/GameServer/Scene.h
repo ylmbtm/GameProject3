@@ -33,6 +33,8 @@ public:
 
 	BOOL            BroadNewObject(CSceneObject* pSceneObject);
 
+	BOOL            BroadNewBullet(CBulletObject* pBulletObject);
+
 	BOOL            BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 	BOOL            BroadRemoveObject(CSceneObject* pSceneObject);
@@ -62,18 +64,18 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//创建角色相关对象
-	BOOL            CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp );
-	BOOL            CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp );
-	BOOL            CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp );
+	CSceneObject*	CreatePlayer(const TransRoleData& roleData, UINT64 uHostID, UINT32 dwCamp );
+	CSceneObject*	CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp );
+	CSceneObject*	CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp );
 
 	//创建怪物对象
-	BOOL            CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
+	CSceneObject*	CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
 
 	//创建召唤对象
-	BOOL            CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
+	CSceneObject*	CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
 
 	//创建子弹对象
-	BOOL			CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti);
+	CBulletObject*	CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti);
 
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.

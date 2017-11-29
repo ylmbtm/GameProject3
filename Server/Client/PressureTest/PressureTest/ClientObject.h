@@ -69,7 +69,7 @@ public:
 	BOOL OnMsgOtherLoginNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
-	BOOL OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectChangeNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
 
@@ -100,9 +100,11 @@ public:
 	UINT32				m_dwCopyID;
 	UINT32				m_dwToCopyID;
 	UINT64              m_uMoveTime;
+	UINT64				m_uSkillTime;
 
 public:
 	VOID  TestMove();
+	VOID  TestCastSkill();
 	VOID  TestCopy();
 	VOID  TestExitCopy();
 

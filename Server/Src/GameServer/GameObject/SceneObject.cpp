@@ -157,7 +157,7 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_controlerid(m_uControlerID);
 	pItem->set_hostguid(m_uHostGuid);
 	pItem->set_x(m_Pos.m_x);
-	pItem->set_x(m_Pos.m_y);
+	pItem->set_y(m_Pos.m_y);
 	pItem->set_z(m_Pos.m_z);
 	pItem->set_ft(m_ft);
 	pItem->set_hp(m_Propertys[HP]);
@@ -190,7 +190,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	return TRUE;
 }
 
-BOOL CSceneObject::IsDie()
+BOOL CSceneObject::IsDead()
 {
 	return m_dwObjectState & EOS_DEAD;
 }
@@ -220,14 +220,6 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
 	m_mapSkillTime.insert(std::make_pair(dwSkillID, dwTime));
 
 	return TRUE;
-}
-
-BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
-{
-	m_SkillObject.StartSkill(dwSkillID);
-
-	return TRUE;
-
 }
 
 BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETargetType eType)
@@ -260,7 +252,7 @@ BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint, FLOAT f
 	C.Rotate(ft * DEG_TO_RAD);
 	D.Rotate(ft * DEG_TO_RAD);
 
-	CPoint2D rolept(m_Pos.m_x, m_Pos.m_y);
+	CPoint2D rolept(m_Pos.m_x, m_Pos.m_z);
 
 	if (rolept.DistanceToSegment(A, B) < radius)
 	{
@@ -358,6 +350,24 @@ BOOL CSceneObject::UpdateBuff(UINT64 uTick)
 	}
 
 	return TRUE;
+}
+
+
+BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
+{
+	SkillCastReq Req;
+	Req.set_skillid(dwSkillID);
+	Req.set_objectguid(m_uGuid);
+	Req.set_hostx(m_Pos.m_x);
+	Req.set_hosty(m_Pos.m_y);
+	Req.set_hostz(m_Pos.m_z);
+
+	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
+
+	m_SkillObject.StartSkill(dwSkillID);
+
+	return TRUE;
+
 }
 
 UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)

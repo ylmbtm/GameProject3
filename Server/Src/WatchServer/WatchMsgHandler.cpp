@@ -26,9 +26,9 @@ CWatchMsgHandler::~CWatchMsgHandler()
 
 BOOL CWatchMsgHandler::Init(UINT32 dwReserved)
 {
-	ReadProcessList();
+	LoadProcessList();
 
-	SetWatchStatus(CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_statue"));
+	SetStartWatch(CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_statue"));
 
 	return TRUE;
 }
@@ -119,7 +119,7 @@ BOOL CWatchMsgHandler::OnMsgStartServerReq(NetPacket* pNetPacket)
 	{
 		BootUpProcessList();
 
-		SetWatchStatus(TRUE);
+		SetStartWatch(TRUE);
 	}
 	else
 	{
@@ -134,7 +134,7 @@ BOOL CWatchMsgHandler::OnMsgStopServerReq(NetPacket* pNetPacket)
 {
 	if (CancloseServer())
 	{
-		SetWatchStatus(FALSE);
+		SetStartWatch(FALSE);
 		for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
 		{
 			ServerProcessInfo& serverData = m_vtProcessVec[i];
@@ -179,14 +179,14 @@ BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
 		{
 			BootUpProcessList();
 
-			SetWatchStatus(TRUE);
+			SetStartWatch(TRUE);
 		}
 	}
 	else if (strAction == "StopServer")
 	{
 		if (CancloseServer())
 		{
-			SetWatchStatus(FALSE);
+			SetStartWatch(FALSE);
 			for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
 			{
 				ServerProcessInfo& serverData = m_vtProcessVec[i];
@@ -201,11 +201,11 @@ BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
 	{
 
 	}
-
-
-// 	char sz[20] = "succeed";
-// 	char sz[20] = "failed";
-// 	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, MSG_WATCH_HEART_BEAT_ACK, 0, 0, sz, 20);
+	else if (strAction == "UpdateInfo")
+	{
+		char sz[20] = "123569";
+		ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, 12345, 0, 0, sz, 20);
+	}
 	return TRUE;
 }
 
@@ -245,9 +245,9 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT64 uTick)
 		return TRUE;
 	}
 
-	for (INT32 index = 0; index < m_vtProcessVec.size(); index++)
+	for (INT32 nIndex = 0; nIndex < m_vtProcessVec.size(); nIndex++)
 	{
-		ServerProcessInfo& serverInfo = m_vtProcessVec[index];
+		ServerProcessInfo& serverInfo = m_vtProcessVec[nIndex];
 		if (serverInfo.ProscessStatus == EPS_Start || serverInfo.ProscessStatus == EPS_Init)
 		{
 			CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr("127.0.0.1", serverInfo.Port);
@@ -284,7 +284,7 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT64 uTick)
 			else
 			{
 				WatchHeartBeatReq Req;
-				Req.set_data(index);
+				Req.set_data(nIndex);
 				ServiceBase::GetInstancePtr()->SendMsgProtoBuf(serverInfo.ConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
 				serverInfo.SendTime = uTick;
 			}
@@ -330,7 +330,7 @@ BOOL CWatchMsgHandler::KillProcess(ServerProcessInfo& processData)
 }
 
 
-BOOL CWatchMsgHandler::ReadProcessList()
+BOOL CWatchMsgHandler::LoadProcessList()
 {
 	std::string strPath = "ProcessList.xml";
 	FILE* pFile = fopen(strPath.c_str(), "rb");
@@ -411,14 +411,14 @@ void CWatchMsgHandler::PrintServerStatus()
 	CLog::GetInstancePtr()->SetTitle(" 进程总数：%d  连接成功数： %d  等待启动数： %d", m_vtProcessVec.size(), connCount, waitStartCount);
 }
 
-BOOL CWatchMsgHandler::GetWatchStatus()
+BOOL CWatchMsgHandler::GetStartWatch()
 {
 	return m_bStartWatch;
 }
 
-void CWatchMsgHandler::SetWatchStatus(bool flag)
+void CWatchMsgHandler::SetStartWatch(BOOL bStart)
 {
-	m_bStartWatch = flag;
+	m_bStartWatch = bStart;
 }
 
 bool CWatchMsgHandler::CanStartServer()
@@ -444,3 +444,5 @@ bool CWatchMsgHandler::CancloseServer()
 	}
 	return true;
 }
+
+

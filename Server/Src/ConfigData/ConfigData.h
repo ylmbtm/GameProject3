@@ -129,17 +129,6 @@ public:
 	BOOL ReadTaskInfo(CppSQLite3Query& QueryData);
 	StTaskInfo* GetTaskInfo(UINT32 dwTaskID);
 
-	//技能
-	std::map<UINT32, StSkillInfo> m_mapSkillInfo;
-	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
-	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
-
-	//Buff
-	std::map<UINT32, StBuffInfo> m_mapBuffInfo;
-	BOOL ReadBuffInfo(CppSQLite3Query& QueryData);
-	StBuffInfo* GetBuffInfo(UINT32 dwBuffID);
-
-
 	//商店表
 	std::map<UINT32, std::map<UINT32, StStoreItemInfo>> m_mapStoreInfo ;
 	BOOL ReadStoreInfo(CppSQLite3Query& QueryData);
@@ -149,6 +138,18 @@ public:
 	std::map <UINT32, StActivityInfo> m_mapActivityInfo;
 	BOOL ReadActivityInfo(CppSQLite3Query& QueryData);
 	StActivityInfo* GetActivityInfo(UINT32 dwActivityType);
+
+	//=================================================================
+	//技能
+	std::map<UINT32, StSkillInfo> m_mapSkillInfo;
+	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
+	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
+
+	//Buff
+	std::map<UINT32, StBuffInfo> m_mapBuffInfo;
+	BOOL ReadBuffInfo(CppSQLite3Query& QueryData);
+	StBuffInfo* GetBuffInfo(UINT32 dwBuffID);
+	//=================================================================
 public:
 
 	CppSQLite3DB	m_DBConnection;

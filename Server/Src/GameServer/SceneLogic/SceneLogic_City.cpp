@@ -22,7 +22,7 @@ BOOL SceneLogic_City::OnObjectCreate(CSceneObject* pObject)
 	ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
-		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, 0, m_vtBornPos[pObject->m_dwCamp].m_y);
+		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, 0, m_vtBornPos[pObject->m_dwCamp].m_z);
 	}
 	return TRUE;
 }

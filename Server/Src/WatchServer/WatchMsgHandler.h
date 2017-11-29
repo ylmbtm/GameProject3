@@ -67,15 +67,15 @@ protected:
 
 	BOOL KillProcess(ServerProcessInfo& processData);
 
-	BOOL ReadProcessList();
+	BOOL LoadProcessList();
 
 	BOOL GetProcessBootUpPar(std::string& bootUpPar, std::string& servername, std::string& pars);
 
 	void PrintServerStatus();
 
-	BOOL GetWatchStatus();
+	BOOL GetStartWatch();
 
-	void SetWatchStatus(bool flag);
+	void SetStartWatch(BOOL bStart);
 
 	bool CanStartServer();
 

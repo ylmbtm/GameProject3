@@ -9,7 +9,7 @@ CSceneXmlManager::CSceneXmlManager()
 
 CSceneXmlManager::~CSceneXmlManager()
 {
-
+	Uninit();
 }
 
 CSceneXmlManager* CSceneXmlManager::GetInstancePtr()
@@ -56,6 +56,15 @@ BOOL CSceneXmlManager::Init()
 
 BOOL CSceneXmlManager::Uninit()
 {
+	for (auto itor = m_mapDocument.begin(); itor != m_mapDocument.end(); ++itor)
+	{
+		rapidxml::xml_document<char>* pXMLDoc = itor->second;
+
+		delete pXMLDoc;
+	}
+
+	m_mapDocument.clear();
+
 	return TRUE;
 }
 
