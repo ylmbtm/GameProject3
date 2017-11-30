@@ -44,6 +44,8 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
+	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("game_log_level"));
+
 	m_dwServerID = dwServerID;
 
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");

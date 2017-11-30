@@ -87,7 +87,7 @@ BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 	if (m_DBConnection.execSQL(pSql) <= 0)
 	{
 		CLog::GetInstancePtr()->LogError(pSql);
-		if (m_DBConnection.ping() < 0)
+		if (!m_DBConnection.ping())
 		{
 			m_DBConnection.close();
 			m_DBConnection.reconnect();

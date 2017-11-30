@@ -179,17 +179,18 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 		break;
 		case TYPE_CIRCLE:
 		{
-			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
 			FLOAT radius	= SkillEvent.RangeParams[0];
 			FLOAT hAngle	= SkillEvent.RangeParams[1];
 			FLOAT height	= SkillEvent.RangeParams[2];
 			FLOAT offsetX	= SkillEvent.RangeParams[3];
 			FLOAT offsetZ	= SkillEvent.RangeParams[4];
+
+
+
 		}
 		break;
 		case TYPE_CYLINDER:
 		{
-			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
 			FLOAT radius	= SkillEvent.RangeParams[0];
 			FLOAT hAngle	= SkillEvent.RangeParams[1];
 			FLOAT height	= SkillEvent.RangeParams[2];
@@ -199,7 +200,6 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 		break;
 		case TYPE_BOX:
 		{
-			m_pCastObject->GetAffectTargets(m_vtTargets, SkillEvent.TargetType);
 			FLOAT length	= SkillEvent.RangeParams[0];
 			FLOAT width		= SkillEvent.RangeParams[1];
 			FLOAT height	= SkillEvent.RangeParams[2];

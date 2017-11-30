@@ -4,6 +4,7 @@
 class CGrid;
 class CScene;
 
+/*
 template <typename TContainer, typename TElem>
 class CNodeLink
 {
@@ -20,6 +21,9 @@ public:
 	TContainer*	m_pContainer;
 };
 
+CNodeLink<CGrid, CMapObject>	m_GridLink;
+*/
+
 class CMapObject
 {
 public:
@@ -34,9 +38,16 @@ public:
 
 	VOID		SetScene(CScene* pScene);
 
-public:
-	//CNodeLink<CGrid, CMapObject>	m_GridLink;
+	CMapObject* NextObject();
 
+	CMapObject* PrevObject();
+
+	//for (CSceneObject* pSceneObject = grid.GetHeadObject(); pSceneObject != NULL; pSceneObject = (CSceneObject*)pSceneObject->NextObject())
+	//{
+	//
+	//}
+
+public:
 	CMapObject*		m_pObjectNext;
 	CMapObject*		m_pObjectPrev;
 

@@ -41,6 +41,8 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("account_log_level"));
+
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))

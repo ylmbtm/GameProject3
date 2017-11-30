@@ -105,7 +105,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("update player set delete = ?");
+		static CDBStoredProcedure csp("update player set delete = 1 where id = ?");
 		csp.set_uint64(0, m_uRoleID);
 		pDB->Execute(&csp);
 

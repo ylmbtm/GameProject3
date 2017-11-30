@@ -42,6 +42,8 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("proxy_log_level"));
+
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))

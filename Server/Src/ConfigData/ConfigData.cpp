@@ -233,7 +233,7 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 
 	while(!QueryData.eof())
 	{
-		StActor stValue;
+		StActorInfo stValue;
 		stValue.dwID = QueryData.getIntField("Id");
 		int nIndex  = QueryData.fieldIndex("P1");
 		for(int i = 0; i < PROPERTY_NUM; i++)
@@ -248,10 +248,10 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StActor* CConfigData::GetActorInfo(UINT32 dwActorID)
+StActorInfo* CConfigData::GetActorInfo(UINT32 dwActorID)
 {
 	ERROR_RETURN_NULL(dwActorID != 0);
-	std::map<UINT32, StActor>::iterator itor = m_mapActor.find(dwActorID);
+	std::map<UINT32, StActorInfo>::iterator itor = m_mapActor.find(dwActorID);
 	if(itor != m_mapActor.end())
 	{
 		return &itor->second;

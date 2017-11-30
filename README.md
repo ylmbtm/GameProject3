@@ -2,7 +2,8 @@ Mmorpg Game Engine
 ===========
 
 email : ylmbtm@163.com
-QQ    : 191342599
+QQ群  : 45139128
+
 
 介绍
 一套简单的服务器框架

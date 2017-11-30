@@ -61,6 +61,11 @@ message ActionReqItem {
 	float	HostFt		= 6;
 }
 
+
+message ObjectActionAck {
+   repeated	ActionReqItem ActionList = 1;
+}
+
 message ActionNtyItem {
 	uint64	ObjectGuid	= 1;
 	int32	ActionID	= 2;

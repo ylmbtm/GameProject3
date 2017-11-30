@@ -32,13 +32,6 @@ enum EBulletType
 	TYPE_BOUNDCE		= 8,//弹跳飞弹
 };
 
-enum ETargetType
-{
-	ETT_ALL			= 0,// 目标是任意的
-	ETT_FRIEND		= 1,// 目标是友方
-	ETT_ENEMY		= 2,// 目标是敌方
-	ETT_APPOINTNPC	= 3,// 目标是指定Npc
-};
 
 enum ESelectPolicy
 {
@@ -82,17 +75,18 @@ struct StSkillEvent
 	FLOAT  RangeParams[5];				//范围参数
 	UINT32 RangeType;					//范围类型
 	UINT32 CenterType;					//中心点类型
-	ETargetType TargetType;				//目标关系
 	std::vector<StBullet> vtBullets;	//子弹列表
 };
 
 struct StSkillInfo
 {
-	UINT32 SkillID;						//技能ID
-	UINT32 Level;						//技能类型
-	UINT32 CD;							//技能CD
-	UINT32 CostMp;						//消耗魔法值
-	UINT64 uDuration;					//技能持续总时间
+	UINT32		SkillID;		//技能ID
+	UINT32		Level;			//技能类型
+	UINT32		CD;				//技能CD
+	UINT32		CostMp;			//消耗魔法值
+	UINT64		uDuration;		//技能持续总时间
+	FLOAT		AttackFix;		//固定伤害
+	FLOAT		AttackMuti;		//加成伤害
 	std::vector<StSkillEvent> vtEvents; //技能事件列表
 };
 
@@ -120,4 +114,80 @@ struct StBulletInfo
 	FLOAT  LifeTime;					//生存时间
 };
 
+/*
+
+BOOL LoadSkillData()
+{
+	std::string xmlName = "";
+	rapidxml::xml_document<char>* pXmlDoc = new rapidxml::xml_document<char>();
+	ERROR_RETURN_FALSE(pXmlDoc != NULL);
+
+	for ()
+	{
+
+	}
+
+	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Root");
+	ERROR_RETURN_FALSE(pXmlRoot != NULL);
+
+
+	for (auto pSkillNode = pXmlRoot->first_node("Skill"); pSkillNode != NULL; pSkillNode = pSkillNode->next_sibling("Skill"))
+	{
+
+	}
+}
+
+
+BOOL ParseDocument(rapidxml::xml_document<char>* pXmlDoc)
+{
+
+
+	return TRUE;
+}
+
+BOOL ParseSkill(rapidxml::xml_node<char>* pXmlNode)
+{
+
+
+	return TRUE;
+}
+
+
+BOOL ParseActScope(rapidxml::xml_node<char>* pXmlNode)
+{
+	for (auto pResultNode = pXmlNode->first_node(); pResultNode != NULL; pResultNode = pResultNode->next_sibling())
+	{
+		if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+		else if (pResultNode->name() == "ActDamage")
+		{
+
+		}
+	}
+
+	return TRUE;
+}
+*/
 #endif //__CONFIG_STRUCT_H__

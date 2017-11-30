@@ -67,7 +67,7 @@ BOOL CLog::CloseLog()
 
 void CLog::LogWarnning( char* lpszFormat, ... )
 {
-	if(m_LogLevel > Log_Info)
+	if(m_LogLevel >= Log_Info)
 	{
 		return ;
 	}
@@ -101,7 +101,7 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 void CLog::LogError( char* lpszFormat, ... )
 {
-	if(m_LogLevel > Log_Error)
+	if(m_LogLevel >= Log_Error)
 	{
 		return ;
 	}
@@ -134,7 +134,7 @@ void CLog::LogError( char* lpszFormat, ... )
 
 void CLog::LogInfo( char* lpszFormat, ... )
 {
-	if(m_LogLevel > Log_Info)
+	if(m_LogLevel >= Log_Info)
 	{
 		return ;
 	}
@@ -179,7 +179,7 @@ void CLog::SetTitle(char* lpszFormat, ...)
 	CHAR szLog[512] = {0};
 	snprintf(szLog, 512, "%s: ", m_strPrefix.c_str());
 
-	INT32 nSize = strlen(szLog);
+	UINT32 nSize = (UINT32)strlen(szLog);
 
 	va_list argList;
 	va_start(argList, lpszFormat);

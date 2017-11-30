@@ -916,7 +916,7 @@ BOOL CScene::SyncObjectState()
 
 CSceneObject* CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
 	for(int i = 0; i < PROPERTY_NUM; i++)
@@ -963,7 +963,7 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 
 CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp )
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
+	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(petData.petguid(), petData.actorid(), OT_PET, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
@@ -976,7 +976,7 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 
 CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp  )
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
+	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), partnerData.actorid(), OT_PARTNER, dwCamp, pActorInfo->strName);
 	pObject->m_uHostGuid = uHostID;
@@ -989,7 +989,7 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 
 CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
-	StActor* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
 	pObject->m_uSummonerID = uSummonerID;

@@ -60,9 +60,9 @@ public:
 
 	//角色
 	///////////////////////////////////////////////
-	std::map<UINT32, StActor> m_mapActor;
+	std::map<UINT32, StActorInfo> m_mapActor;
 	BOOL ReadActor(CppSQLite3Query& QueryData);
-	StActor* GetActorInfo(UINT32 dwActorID);
+	StActorInfo* GetActorInfo(UINT32 dwActorID);
 
 	//副本
 	///////////////////////////////////////////////

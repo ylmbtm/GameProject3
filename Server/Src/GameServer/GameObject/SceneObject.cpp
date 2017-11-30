@@ -222,7 +222,8 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
 	return TRUE;
 }
 
-BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETargetType eType)
+
+BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets)
 {
 	vtTargets.clear();
 
@@ -233,8 +234,11 @@ BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets, ETarg
 
 BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
 {
+	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(m_dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+
 	FLOAT fdistance = m_Pos.Distance2D(hitPoint);
-	if (fdistance > radius/* + target.Radius*/)
+	if (fdistance > radius  + pActorInfo->fRadius)
 	{
 		return FALSE;
 	}

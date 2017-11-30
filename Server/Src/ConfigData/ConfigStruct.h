@@ -42,16 +42,18 @@ struct StLocalString
 	std::string Language[MAX_LANGUAGE_NUM];
 };
 
-struct StActor
+struct StActorInfo
 {
-	StActor()
+	StActorInfo()
 	{
-
+		dwID = 0;
+		fRadius = 0;
 	}
 	UINT32  dwID;
 	INT32   Propertys[PROPERTY_NUM];
 	std::string strName;
 
+	FLOAT   fRadius;
 };
 
 struct StCarrerInfo

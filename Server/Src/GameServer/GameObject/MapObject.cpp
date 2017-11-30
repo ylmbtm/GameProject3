@@ -43,3 +43,13 @@ VOID CMapObject::SetScene( CScene* pScene )
 
 	return ;
 }
+
+CMapObject* CMapObject::NextObject()
+{
+	return m_pObjectNext;
+}
+
+CMapObject* CMapObject::PrevObject()
+{
+	return m_pObjectPrev;
+}

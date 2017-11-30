@@ -65,9 +65,9 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 	}
 
 	m_dwLastTick = 0;
-	m_dwPackNum = 0;
+	m_dwRecvNum = 0;
 	m_dwFps = 0;
-
+	m_dwSendNum = 0;
 	return TRUE;
 }
 
@@ -87,6 +87,7 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
 {
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
+	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
 }
 
@@ -99,19 +100,20 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 	ERROR_RETURN_FALSE(pdata.ByteSize() < 102400);
 
 	pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
-
+	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.GetCachedSize());
 }
 
 BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen)
 {
 	ERROR_RETURN_FALSE(dwConnID != 0);
-
+	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
 }
 
 BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 {
+	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
 }
 
@@ -182,15 +184,17 @@ BOOL ServiceBase::Update()
 
 		item.m_pDataBuffer->Release();
 
-		m_dwPackNum += 1;
+		m_dwRecvNum += 1;
 	}
 
 	m_dwFps += 1;
 
 	if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
 	{
+		CLog::GetInstancePtr()->SetTitle("[FPS:%d]-[RecvNum:%d]--[SendNum:%d]", m_dwFps, m_dwRecvNum, m_dwSendNum);
 		m_dwFps = 0;
-		m_dwPackNum = 0;
+		m_dwRecvNum = 0;
+		m_dwSendNum = 0;
 		m_dwLastTick = CommonFunc::GetTickCount();
 	}
 
@@ -206,6 +210,8 @@ BOOL ServiceBase::Update()
 	TimerManager::GetInstancePtr()->UpdateTimer();
 
 	CLog::GetInstancePtr()->Flush();
+
+
 
 	m_dwReadIndex = (m_dwReadIndex + 1) % 2;
 
