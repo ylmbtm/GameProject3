@@ -359,7 +359,7 @@ MYSQL* CppMySQL3DB::getMysql()
 /* 处理返回多行的查询，返回影响的行数 */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
-	if ( !mysql_real_query( _db_ptr, sql, strlen(sql) ) )
+	if ( !mysql_real_query( _db_ptr, sql, (unsigned long)strlen(sql) ) )
 	{
 		_db_query.m_MysqlRes = mysql_store_result( _db_ptr );
 		//   _db_query._row =  mysql_fetch_row( _db_query._mysql_res );
@@ -373,7 +373,7 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 /* 执行非返回结果查询 */
 int CppMySQL3DB::execSQL(const char* sql)
 {
-	if( !mysql_real_query( _db_ptr, sql, strlen(sql) ) )
+	if( !mysql_real_query( _db_ptr, sql, (unsigned long)strlen(sql) ) )
 	{
 		//得到受影响的行数
 		return (int)mysql_affected_rows(_db_ptr) ;
@@ -525,7 +525,7 @@ int CppMySQL3DB::createDB(const char* name)
 {
 	char temp[1024];
 	snprintf(temp, 1024, "CREATE DATABASE %s", name);
-	if(!mysql_real_query( _db_ptr, temp, strlen(temp)) )
+	if(!mysql_real_query( _db_ptr, temp, (unsigned long)strlen(temp)) )
 	{
 		return 0;
 	}
@@ -539,7 +539,7 @@ int CppMySQL3DB::dropDB(const char*  name)
 	char temp[1024];
 
 	snprintf(temp, 1024, "DROP DATABASE %s", name);
-	if(!mysql_real_query( _db_ptr, temp, strlen(temp)) )
+	if(!mysql_real_query( _db_ptr, temp, (unsigned long)strlen(temp)) )
 	{
 		return 0;
 	}

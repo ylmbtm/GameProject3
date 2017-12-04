@@ -98,6 +98,7 @@ public:
 	UINT64          m_uHostGuid;					//主人的GUID
 	UINT64          m_uControlerID;					//AI控制人的GUID
 	UINT64          m_uSummonerID;					//招唤者的GUID
+	UINT64          m_uLastMoveTick;
 
 	BOOL			m_bIsCampCheck;					//是否影响阵营结算
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
@@ -108,12 +109,6 @@ public:
 	BOOL            m_bEnter;   //玩家是否己经进入副本
 
 	//对象的副本结算数据
-	////////////////////////////////////////////////////////////////
-	UINT32			m_dwResult;		//0:未结算，1:胜利，2: 失败 3: 平局
-	UINT32			m_dwKill;		//击杀数
-	UINT32          m_dwDeath;		//被杀次数
-	UINT32			m_dwHeal;		//治疗值
-	UINT32          m_dwDamage;		//总伤害值
 
 	//对象的连接情况，仅玩家有效
 	////////////////////////////////////////////////////////////////

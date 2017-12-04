@@ -12,23 +12,24 @@
 
 CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
 {
-	m_dwProxyConnID = 0;
-	m_dwClientConnID = 0;
-	m_dwObjectState = 0;
-	m_bEnter = FALSE;
+	m_dwProxyConnID		= 0;
+	m_dwClientConnID	= 0;
+	m_dwObjectState		= 0;
+	m_bEnter			= FALSE;
 
-	memset(m_Propertys, 0, sizeof(m_Propertys));
+	m_uGuid				= uGuid;
+	m_dwActorID			= dwActorID;
+	m_dwObjType			= dwObjType;
+	m_dwCamp			= dwCamp;
+	m_strName			= strName;
+	m_pScene			= NULL;
 
-	m_uGuid = uGuid;
-	m_dwActorID = dwActorID;
-	m_dwObjType = dwObjType;
-	m_dwCamp = dwCamp;
-	m_strName = strName;
-	m_pScene = NULL;
-
-	m_bDataChange = FALSE;
+	m_bDataChange		= FALSE;
+	m_uLastMoveTick		= 0;
 
 	m_SkillObject.SetCastObject(this);
+
+	memset(m_Propertys, 0, sizeof(m_Propertys));
 }
 
 CSceneObject::~CSceneObject()
@@ -313,8 +314,8 @@ BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 {
 	pResult->set_objectid(m_uGuid);
 	pResult->set_actorid(m_dwActorID);
-	pResult->set_result(m_dwResult);
-	pResult->set_damage(m_dwDamage);
+// 	pResult->set_result(m_dwResult);
+// 	pResult->set_damage(m_dwDamage);
 
 	return TRUE;
 }

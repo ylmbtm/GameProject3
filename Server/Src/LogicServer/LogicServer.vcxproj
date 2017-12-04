@@ -171,7 +171,6 @@
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_ID.pb.h" />
-    <ClInclude Include="..\Message\Msg_Login.pb.h" />
     <ClInclude Include="..\Message\Msg_LoginCltData.pb.h" />
     <ClInclude Include="..\Message\Msg_LoginDBData.pb.h" />
     <ClInclude Include="..\Message\Msg_RetCode.pb.h" />

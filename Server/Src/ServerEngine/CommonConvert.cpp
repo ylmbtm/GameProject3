@@ -325,7 +325,7 @@ std::string CommonConvert::Ansi_To_Uft8( std::string strSrc )
 
 BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 {
-	INT32 i;
+	UINT32 i;
 	UINT32 nBytes = 0;//UFT8可用1-6个字节编码,ASCII用一个字节
 	UINT8 chr;
 	BOOL bAllAscii = TRUE; //如果全部都是ASCII, 说明不是UTF-8

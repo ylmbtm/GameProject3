@@ -12,7 +12,12 @@ CDBRecordSet::CDBRecordSet( void )
 
 CDBRecordSet::~CDBRecordSet( void )
 {
-
+	ClearRecordSet();
+	m_nRowCount = 0;
+	m_pMySqlStmt = 0;
+	m_pResult = 0;
+	m_nFieldNum = 0;
+	m_pBinds = 0;
 }
 
 BOOL CDBRecordSet::MoveNext( void )
@@ -657,7 +662,7 @@ BOOL CDBRecordSet::InitRecordSet(MYSQL_STMT* pMySqlStmt, MYSQL_RES* pResult)
 	m_pMySqlStmt = pMySqlStmt;
 	m_pResult    = pResult;
 
-	m_nRowCount  = (size_t)mysql_stmt_num_rows(m_pMySqlStmt);
+	m_nRowCount  = (int)mysql_stmt_num_rows(m_pMySqlStmt);
 	if(m_nRowCount <= 0)
 	{
 		return TRUE;
@@ -711,6 +716,17 @@ BOOL CDBRecordSet::InitRecordSet(MYSQL_STMT* pMySqlStmt, MYSQL_RES* pResult)
 
 BOOL CDBRecordSet::ClearRecordSet()
 {
+	for (int i = 0; i < m_nFieldNum; i++)
+	{
+		MYSQL_BIND* pTemp = &m_pBinds[i];
+		free(pTemp->buffer);
+		pTemp->buffer = NULL;
+	}
+
+	delete[]m_pBinds;
+
+	m_pBinds = NULL;
+
 	if(m_pResult != NULL)
 	{
 		mysql_free_result( m_pResult );
@@ -724,6 +740,9 @@ BOOL CDBRecordSet::ClearRecordSet()
 
 		m_pMySqlStmt = NULL;
 	}
+
+
+	m_nFieldNum = 0;
 
 	return TRUE;
 }

@@ -415,15 +415,13 @@ BOOL CommonFunc::CloseShareMemory(HANDLE hShm)
 
 BOOL CommonFunc::DbgTrace(char* format, ...)
 {
-#ifdef WIN32 && _DEBUG
+#if (defined WIN32) && (defined _DEBUG)
 	char szLog[1024] = { 0 };
 	va_list argptr;
 	va_start(argptr, format);
 	vsnprintf(szLog, 1023, format, argptr);
 	va_end(argptr);
-
 	OutputDebugString(szLog);
-
 #endif
 
 	return TRUE;
