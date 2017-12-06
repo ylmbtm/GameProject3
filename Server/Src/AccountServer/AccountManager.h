@@ -36,19 +36,19 @@ public:
 
 	BOOL				AddAccountObject(UINT64 u64ID, std::string strName, std::string strPwd, UINT32 dwChannel);
 
-	CAccountObject*		GetAccountObjectByName(std::string name);
-
 	CAccountObject*		GetAccountObject(std::string name, UINT32 dwChannel);
 
 	BOOL				SaveAccountChange();
 
-	BOOL				Close();
+	BOOL				Init();
+
+	BOOL				Uninit();
 
 	BOOL				IsRun();
 
 public:
 
-	std::multimap<std::string, CAccountObject*>	m_mapNameObj;
+	std::map<std::string, CAccountObject*>	m_mapNameObj;
 
 	ArrayLockFreeQueue<CAccountObject*>		m_ArrChangedAccount;
 
@@ -59,6 +59,8 @@ public:
 	HANDLE				m_hThread;
 
 	UINT64				m_u64MaxID;
+
+	BOOL				m_bCrossChannel;   //是否区分渠道
 };
 
 #endif //__DB_ACCOUNT_OBJECT_H__

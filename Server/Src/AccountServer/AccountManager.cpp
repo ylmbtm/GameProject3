@@ -3,6 +3,7 @@
 #include "CommonFunc.h"
 #include "Log.h"
 #include "../ServerData/ServerDefine.h"
+#include "CommonConvert.h"
 
 Th_RetName _SaveAccountThread( void* pParam )
 {
@@ -20,8 +21,9 @@ Th_RetName _SaveAccountThread( void* pParam )
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
-	m_IsRun		= FALSE;
-	m_hThread	= NULL;
+	m_IsRun			= FALSE;
+	m_hThread		= NULL;
+	m_bCrossChannel = FALSE;
 }
 
 CAccountObjectMgr::~CAccountObjectMgr()
@@ -37,6 +39,7 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
+	m_bCrossChannel = CConfigFile::GetInstancePtr()->GetIntValue("account_cross_channel");
 
 	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
@@ -88,7 +91,14 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std:
 	pObj->m_dwChannel		= dwChannel;
 	pObj->m_uCreateTime	= CommonFunc::GetCurrTime();
 
-	m_mapNameObj.insert(std::make_pair(strName, pObj));
+	if (m_bCrossChannel)
+	{
+		m_mapNameObj.insert(std::make_pair(strName, pObj));
+	}
+	else
+	{
+		m_mapNameObj.insert(std::make_pair(strName + CommonConvert::IntToString(dwChannel), pObj));
+	}
 
 	m_ArrChangedAccount.push(pObj);
 
@@ -111,20 +121,16 @@ BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std:
 	pObj->m_ID = u64ID;
 	pObj->m_dwChannel = dwChannel;
 
-	m_mapNameObj.insert(std::make_pair(strName, pObj));
-
-	return TRUE;
-}
-
-CAccountObject* CAccountObjectMgr::GetAccountObjectByName(std::string name)
-{
-	std::multimap<std::string, CAccountObject*>::iterator itor = m_mapNameObj.find(name);
-	if(itor != m_mapNameObj.end())
+	if (m_bCrossChannel)
 	{
-		return itor->second;
+		m_mapNameObj.insert(std::make_pair(strName, pObj));
+	}
+	else
+	{
+		m_mapNameObj.insert(std::make_pair(strName + CommonConvert::IntToString(dwChannel), pObj));
 	}
 
-	return NULL;
+	return TRUE;
 }
 
 BOOL CAccountObjectMgr::SaveAccountChange()
@@ -152,7 +158,14 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 	return TRUE;
 }
 
-BOOL CAccountObjectMgr::Close()
+BOOL CAccountObjectMgr::Init()
+{
+	ERROR_RETURN_FALSE(LoadCacheAccount());
+
+	return TRUE;
+}
+
+BOOL CAccountObjectMgr::Uninit()
 {
 	m_IsRun = FALSE;
 
@@ -161,6 +174,8 @@ BOOL CAccountObjectMgr::Close()
 	m_mapNameObj.clear();
 
 	m_DBConnection.close();
+
+	Clear();
 
 	return TRUE;
 }
@@ -172,13 +187,20 @@ BOOL CAccountObjectMgr::IsRun()
 
 CAccountObject* CAccountObjectMgr::GetAccountObject( std::string name, UINT32 dwChannel )
 {
-	auto range = m_mapNameObj.equal_range(name);
-	for (std::multimap<std::string, CAccountObject*>::iterator itor = range.first; itor != range.second; ++itor)
+	if (m_bCrossChannel)
 	{
-		CAccountObject* pObject = itor->second;
-		if(pObject->m_dwChannel == dwChannel)
+		auto itor = m_mapNameObj.find(name);
+		if (itor != m_mapNameObj.end())
 		{
-			return pObject;
+			return itor->second;
+		}
+	}
+	else
+	{
+		auto itor = m_mapNameObj.find(name + CommonConvert::IntToString(dwChannel));
+		if (itor != m_mapNameObj.end())
+		{
+			return itor->second;
 		}
 	}
 

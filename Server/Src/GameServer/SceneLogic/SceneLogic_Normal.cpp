@@ -59,7 +59,7 @@ BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject* pPlayer)
 		ASSERT_FAIELD;
 	}
 
-	pPlayer->m_dwResult = CR_LOST;
+	//pPlayer->m_dwResult = CR_LOST;
 
 	//发送战斗结果
 	m_bFinished = TRUE;

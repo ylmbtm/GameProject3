@@ -141,6 +141,9 @@
     <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
       <Filter>ConfigData</Filter>
     </ClCompile>
+    <ClCompile Include="LogManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -156,9 +159,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PlayerManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Message\Msg_Login.pb.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="BagModule.h">
@@ -313,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="..\ConfigData\CppSQLite3.h">
       <Filter>ConfigData</Filter>
+    </ClInclude>
+    <ClInclude Include="LogManager.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

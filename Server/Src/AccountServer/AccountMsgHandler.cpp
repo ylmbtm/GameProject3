@@ -25,15 +25,13 @@ CAccountMsgHandler::~CAccountMsgHandler()
 
 BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
-	m_AccountManager.LoadCacheAccount();
+	m_AccountManager.Init();
 
 	return TRUE;
 }
 
 BOOL CAccountMsgHandler::Uninit()
 {
-	m_AccountManager.Close();
-
 	return TRUE;
 }
 
@@ -68,7 +66,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 
 	AccountRegAck Ack;
 
-	CAccountObject* pAccount = m_AccountManager.GetAccountObjectByName(Req.accountname());
+	CAccountObject* pAccount = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 	if(pAccount != NULL)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_EXIST);
@@ -108,7 +106,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	//由于实际运营中存在不同渠道的accountname一样的情况，所有需要增加渠道参数
 	//CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 
-	CAccountObject* pAccObj = m_AccountManager.GetAccountObjectByName(Req.accountname());
+	CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 	if(pAccObj != NULL)
 	{
 		ERROR_RETURN_FALSE(pAccObj->m_ID != 0);
@@ -166,7 +164,7 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	CAccountObject* pAccObj = NULL;
 	if(Req.accountid() == 0)
 	{
-		pAccObj = m_AccountManager.GetAccountObjectByName(Req.accountname());
+		pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), 0);
 	}
 	else
 	{

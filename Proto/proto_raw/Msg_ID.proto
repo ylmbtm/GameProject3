@@ -4,13 +4,14 @@ enum MessageID {
 	MSG_BEGIN						= 0;
 	MSG_HEART						= 1;
 
-	MSG_CONNECT_SUCCESS				= 2;    //连接成功
-	MSG_DISCONNECT_NTY				= 3;    //断开连接
+	MSG_NEW_CONNECTION				= 2;    //新连接通知
+	MSG_DIS_CONNECTION				= 3;	//断开连接通知
+	
 
 	//============================================================================================
 	// 				一般消息定义
 	//============================================================================================
-	MSG_LOGINSVR_MSGID_BEGIN		= 1000000;
+	MSG_NORMAL_MSGID_BEGIN		= 1000000;
 
 	MSG_CHECK_VERSION_REQ			= 1000001;    //版本验证
 	MSG_CHECK_VERSION_ACK			= 1000002;    //版本验证返回
@@ -56,7 +57,9 @@ enum MessageID {
 	MSG_WATCH_STOP_SVR_REQ			= 1000028;
 	MSG_WATCH_STOP_SVR_ACK			= 1000029;
 
-	MSG_LOGINSVR_MSGID_END			= 1999999;
+	MSG_DISCONNECT_NTY				= 1000030;    //断开连接
+
+	MSG_NORMAL_MSGID_END			= 1999999;
 	
 	//============================================================================================
 	// 				Cient <==> LogicSVR
@@ -265,7 +268,10 @@ enum MessageID {
 	MSG_REQ_ADDHERO_EXP         = 2001;//增加经验
 	MSG_ACK_ADDHERO_EXP         = 2002;//增加经验
 
-    MSG_ENTER_VIEW_NTF          = 3001;//对象进入视野
-    MSG_LEAVE_VIEW_NTF          = 3002;//对象离开视野        
+	MSG_ENTER_VIEW_NTF          = 3001;//对象进入视野
+	MSG_LEAVE_VIEW_NTF          = 3002;//对象离开视野  
+	MSG_ACTOR_VALUECHANGE_NTF   = 3003;
+	MSG_ACTOR_SKILLCAST_NTF     = 3004;
+	MSG_ACTOR_DIE_NTF           = 3005;
 }
 

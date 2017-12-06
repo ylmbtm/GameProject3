@@ -143,6 +143,7 @@
     <ClCompile Include="GroupMailMgr.cpp" />
     <ClCompile Include="Guild.cpp" />
     <ClCompile Include="GuildManager.cpp" />
+    <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="MailModule.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="GroupMailMgr.h" />
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />
+    <ClInclude Include="LogManager.h" />
     <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />
     <ClInclude Include="MountModule.h" />

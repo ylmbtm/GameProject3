@@ -28,7 +28,7 @@ BOOL SceneLogic_Arena::OnObjectCreate(CSceneObject* pObject)
 	}
 
 	return TRUE;
-} 
+}
 
 BOOL SceneLogic_Arena::OnObjectDie(CSceneObject* pObject)
 {
@@ -51,7 +51,7 @@ BOOL SceneLogic_Arena::OnPlayerEnter(CSceneObject* pPlayer)
 
 BOOL SceneLogic_Arena::OnPlayerLeave(CSceneObject* pPlayer)
 {
-	pPlayer->m_dwResult = CR_LOST;
+	//pPlayer->m_dwResult = CR_LOST;
 
 	//发送战斗结果
 	m_bFinished = TRUE;
