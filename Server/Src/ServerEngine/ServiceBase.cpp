@@ -12,11 +12,12 @@
 #include "PacketHeader.h"
 #include "Log.h"
 
+#define NEW_CONNECTION 1
+#define CLOSE_CONNECTION 2
+
 ServiceBase::ServiceBase(void)
 {
 	m_pPacketDispatcher = NULL;
-	m_dwReadIndex = 0;
-	m_dwWriteIndex = 1;
 }
 
 ServiceBase::~ServiceBase(void)
@@ -34,10 +35,9 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnection)
 {
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	if(!m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)))
+	if(!m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)))
 	{
-		AtomicAdd(&m_dwWriteIndex, 1);
-		ERROR_RETURN_FALSE(m_DataQueue[m_dwWriteIndex % 2].push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)));
+		//处理太慢，消息太多
 	}
 	return TRUE;
 }
@@ -131,12 +131,8 @@ CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
-	m_CloseConList.push(pConnection);
 
-	if(m_dwReadIndex == (m_dwWriteIndex % 2))
-	{
-		AtomicAdd(&m_dwWriteIndex, 1);
-	}
+	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, CLOSE_CONNECTION));
 
 	return TRUE;
 }
@@ -145,12 +141,7 @@ BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
-	m_NewConList.push(pConnection);
-
-	if(m_dwReadIndex == (m_dwWriteIndex % 2))
-	{
-		AtomicAdd(&m_dwWriteIndex, 1);
-	}
+	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, NEW_CONNECTION));
 
 	return TRUE;
 }
@@ -171,20 +162,27 @@ BOOL ServiceBase::Update()
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
 	//处理新连接的通知
-	CConnection* pConnection = NULL;
-	while(m_NewConList.pop(pConnection))
-	{
-		m_pPacketDispatcher->OnNewConnect(pConnection);
-	}
-
 	NetPacket item;
-	while(m_DataQueue[m_dwReadIndex].pop(item))
+	while(m_DataQueue.pop(item))
 	{
-		m_pPacketDispatcher->DispatchPacket(&item);
+		if (item.m_dwMsgID == NEW_CONNECTION)
+		{
+			m_pPacketDispatcher->OnNewConnect((CConnection*)item.m_pDataBuffer);
+		}
+		else if (item.m_dwMsgID == CLOSE_CONNECTION)
+		{
+			m_pPacketDispatcher->OnCloseConnect((CConnection*)item.m_pDataBuffer);
+			//发送通知
+			CConnectionMgr::GetInstancePtr()->DeleteConnection((CConnection*)item.m_pDataBuffer);
+		}
+		else
+		{
+			m_pPacketDispatcher->DispatchPacket(&item);
 
-		item.m_pDataBuffer->Release();
+			item.m_pDataBuffer->Release();
 
-		m_dwRecvNum += 1;
+			m_dwRecvNum += 1;
+		}
 	}
 
 	m_dwFps += 1;
@@ -198,22 +196,9 @@ BOOL ServiceBase::Update()
 		m_dwLastTick = CommonFunc::GetTickCount();
 	}
 
-	//处理断开的连接
-	while(m_CloseConList.pop(pConnection))
-	{
-		//发送通知
-		m_pPacketDispatcher->OnCloseConnect(pConnection);
-		//发送通知
-		CConnectionMgr::GetInstancePtr()->DeleteConnection(pConnection);
-	}
-
 	TimerManager::GetInstancePtr()->UpdateTimer();
 
 	CLog::GetInstancePtr()->Flush();
-
-
-
-	m_dwReadIndex = (m_dwReadIndex + 1) % 2;
 
 	return TRUE;
 }

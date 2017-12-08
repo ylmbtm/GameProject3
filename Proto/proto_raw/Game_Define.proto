@@ -10,11 +10,11 @@ enum EObjectType {
 }
 
 enum EActionType {
-    AT_NONE		= 0;    //无动作
-	AT_IDLE		= 1;    //原地不动
+    AT_NONE		= 0;    //无
+	AT_IDLE		= 1;    //静
 	AT_WALK		= 2;    //走
 	AT_RUN		= 3;    //跑
-	AT_MOVE		= 4;    //移动(只同步坐标和方向，血，蓝，其它的保持客户端当前状态走或跑)
+	AT_FLY		= 4;    //飞
 	AT_DANCE1	= 5;  //跳舞动作1;
 	AT_DANCE2	= 6;  //跳舞动作2;
 	AT_DANCE3	= 7;  //跳舞动作3;

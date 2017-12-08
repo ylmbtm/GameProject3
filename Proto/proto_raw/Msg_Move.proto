@@ -68,8 +68,8 @@ message ObjectActionAck {
 
 message ActionNtyItem {
 	uint64	ObjectGuid	= 1;
-	int32	ActionID	= 2;
-	int32	Camp		= 3;
+	int32	ActionID	= 2;		
+	int32	Camp		= 3;		//阵营
 	int32	ObjectState	= 4;		//实例状态
 	int32	BuffState	= 5;		//特效状态
 	float	HostX		= 6;
@@ -91,7 +91,7 @@ message NewItem {
 	int32	ObjectState	= 3;		//实例状态
 	int32	BuffState	= 4;		//特效状态
 	int32	ActorID		= 5;		//Actor ID
-	int32	Camp		= 6;
+	int32	Camp		= 6;		//阵营
 	string	Name		= 7;		//名字
 	int32	Level		= 8;		//等级
 	uint64	HostGuid	= 9;		//主人的GUID
