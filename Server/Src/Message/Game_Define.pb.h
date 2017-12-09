@@ -76,7 +76,7 @@ enum EActionType {
   AT_IDLE = 1,
   AT_WALK = 2,
   AT_RUN = 3,
-  AT_MOVE = 4,
+  AT_FLY = 4,
   AT_DANCE1 = 5,
   AT_DANCE2 = 6,
   AT_DANCE3 = 7,
@@ -177,30 +177,36 @@ inline bool ECopyType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ECopyType>(
     ECopyType_descriptor(), name, value);
 }
-enum EOBjectStatue {
-  OS_NONE = 0,
-  OS_IDLE = 1,
-  OS_WALK = 2,
-  OS_RUN = 3,
-  OS_DIE = 4,
-  OS_END = 5,
-  EOBjectStatue_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  EOBjectStatue_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum EOBjectStatus {
+  EOS_NONE = 0,
+  EOS_DEAD = 1,
+  EOS_IDLE = 2,
+  EOS_WALK = 3,
+  EOS_RUN = 4,
+  EOS_FLY = 5,
+  EOS_NOT_MOVE = 6,
+  EOS_NOT_CAST = 7,
+  EOS_NOT_BEHURT = 8,
+  EOS_NOT_BECONTROL = 9,
+  EOS_STEALTH = 10,
+  EOS_BLIND = 11,
+  EOBjectStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EOBjectStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool EOBjectStatue_IsValid(int value);
-const EOBjectStatue EOBjectStatue_MIN = OS_NONE;
-const EOBjectStatue EOBjectStatue_MAX = OS_END;
-const int EOBjectStatue_ARRAYSIZE = EOBjectStatue_MAX + 1;
+bool EOBjectStatus_IsValid(int value);
+const EOBjectStatus EOBjectStatus_MIN = EOS_NONE;
+const EOBjectStatus EOBjectStatus_MAX = EOS_BLIND;
+const int EOBjectStatus_ARRAYSIZE = EOBjectStatus_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EOBjectStatue_descriptor();
-inline const ::std::string& EOBjectStatue_Name(EOBjectStatue value) {
+const ::google::protobuf::EnumDescriptor* EOBjectStatus_descriptor();
+inline const ::std::string& EOBjectStatus_Name(EOBjectStatus value) {
   return ::google::protobuf::internal::NameOfEnum(
-    EOBjectStatue_descriptor(), value);
+    EOBjectStatus_descriptor(), value);
 }
-inline bool EOBjectStatue_Parse(
-    const ::std::string& name, EOBjectStatue* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EOBjectStatue>(
-    EOBjectStatue_descriptor(), name, value);
+inline bool EOBjectStatus_Parse(
+    const ::std::string& name, EOBjectStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EOBjectStatus>(
+    EOBjectStatus_descriptor(), name, value);
 }
 enum EItemType {
   IMT_NONE = 0,
@@ -400,10 +406,10 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ECopyType>() {
   return ::ECopyType_descriptor();
 }
-template <> struct is_proto_enum< ::EOBjectStatue> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::EOBjectStatus> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::EOBjectStatue>() {
-  return ::EOBjectStatue_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::EOBjectStatus>() {
+  return ::EOBjectStatus_descriptor();
 }
 template <> struct is_proto_enum< ::EItemType> : ::google::protobuf::internal::true_type {};
 template <>

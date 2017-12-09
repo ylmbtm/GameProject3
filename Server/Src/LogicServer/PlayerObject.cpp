@@ -225,7 +225,7 @@ UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 	ERROR_RETURN_CODE(m_u64ID != 0, MRC_INVALID_COPYID);
 
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
-	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_FAILED);
+	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
 
 	if(!pRoleModule->CheckActionEnough(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum))
 	{
@@ -233,10 +233,10 @@ UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 	}
 
 	CCopyModule* pCopyModule = (CCopyModule*)GetModuleByType(MT_COPY);
-	ERROR_RETURN_CODE(pCopyModule != NULL, MRC_FAILED);
+	ERROR_RETURN_CODE(pCopyModule != NULL, MRC_UNKNOW_ERROR);
 
 	CopyDataObject* pObject = pCopyModule->GetCopyData(dwCopyID);
-	ERROR_RETURN_CODE(pObject != NULL, MRC_FAILED);
+	ERROR_RETURN_CODE(pObject != NULL, MRC_UNKNOW_ERROR);
 
 	if(pObject->m_dwBattleTimes >= pCopyInfo->dwBattleTimes)
 	{

@@ -1276,39 +1276,45 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 actorid() const;
   void set_actorid(::google::protobuf::int32 value);
 
-  // int32 Level = 11;
-  void clear_level();
-  static const int kLevelFieldNumber = 11;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
+  // int32 MountID = 11;
+  void clear_mountid();
+  static const int kMountIDFieldNumber = 11;
+  ::google::protobuf::int32 mountid() const;
+  void set_mountid(::google::protobuf::int32 value);
 
-  // uint64 ControlerID = 12;
+  // uint64 ControlerID = 13;
   void clear_controlerid();
-  static const int kControlerIDFieldNumber = 12;
+  static const int kControlerIDFieldNumber = 13;
   ::google::protobuf::uint64 controlerid() const;
   void set_controlerid(::google::protobuf::uint64 value);
 
-  // int32 Hp = 13;
+  // int32 Level = 12;
+  void clear_level();
+  static const int kLevelFieldNumber = 12;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
+
+  // int32 Hp = 14;
   void clear_hp();
-  static const int kHpFieldNumber = 13;
+  static const int kHpFieldNumber = 14;
   ::google::protobuf::int32 hp() const;
   void set_hp(::google::protobuf::int32 value);
 
-  // int32 Mp = 14;
+  // int32 Mp = 15;
   void clear_mp();
-  static const int kMpFieldNumber = 14;
+  static const int kMpFieldNumber = 15;
   ::google::protobuf::int32 mp() const;
   void set_mp(::google::protobuf::int32 value);
 
-  // int32 HpMax = 15;
+  // int32 HpMax = 16;
   void clear_hpmax();
-  static const int kHpMaxFieldNumber = 15;
+  static const int kHpMaxFieldNumber = 16;
   ::google::protobuf::int32 hpmax() const;
   void set_hpmax(::google::protobuf::int32 value);
 
-  // int32 MpMax = 16;
+  // int32 MpMax = 17;
   void clear_mpmax();
-  static const int kMpMaxFieldNumber = 16;
+  static const int kMpMaxFieldNumber = 17;
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
@@ -1326,8 +1332,9 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   float hostz_;
   float hostft_;
   ::google::protobuf::int32 actorid_;
-  ::google::protobuf::int32 level_;
+  ::google::protobuf::int32 mountid_;
   ::google::protobuf::uint64 controlerid_;
+  ::google::protobuf::int32 level_;
   ::google::protobuf::int32 hp_;
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
@@ -1420,9 +1427,9 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // string Name = 7;
+  // string Name = 8;
   void clear_name();
-  static const int kNameFieldNumber = 7;
+  static const int kNameFieldNumber = 8;
   const ::std::string& name() const;
   void set_name(const ::std::string& value);
   #if LANG_CXX11
@@ -1464,87 +1471,93 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 actorid() const;
   void set_actorid(::google::protobuf::int32 value);
 
-  // int32 Camp = 6;
+  // int32 MountID = 6;
+  void clear_mountid();
+  static const int kMountIDFieldNumber = 6;
+  ::google::protobuf::int32 mountid() const;
+  void set_mountid(::google::protobuf::int32 value);
+
+  // int32 Camp = 7;
   void clear_camp();
-  static const int kCampFieldNumber = 6;
+  static const int kCampFieldNumber = 7;
   ::google::protobuf::int32 camp() const;
   void set_camp(::google::protobuf::int32 value);
 
-  // int32 Level = 8;
-  void clear_level();
-  static const int kLevelFieldNumber = 8;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
-
-  // uint64 HostGuid = 9;
+  // uint64 HostGuid = 10;
   void clear_hostguid();
-  static const int kHostGuidFieldNumber = 9;
+  static const int kHostGuidFieldNumber = 10;
   ::google::protobuf::uint64 hostguid() const;
   void set_hostguid(::google::protobuf::uint64 value);
 
-  // uint64 ControlerID = 10;
+  // uint64 ControlerID = 11;
   void clear_controlerid();
-  static const int kControlerIDFieldNumber = 10;
+  static const int kControlerIDFieldNumber = 11;
   ::google::protobuf::uint64 controlerid() const;
   void set_controlerid(::google::protobuf::uint64 value);
 
-  // uint64 SummonID = 11;
-  void clear_summonid();
-  static const int kSummonIDFieldNumber = 11;
-  ::google::protobuf::uint64 summonid() const;
-  void set_summonid(::google::protobuf::uint64 value);
+  // int32 Level = 9;
+  void clear_level();
+  static const int kLevelFieldNumber = 9;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
 
-  // float X = 12;
+  // float X = 13;
   void clear_x();
-  static const int kXFieldNumber = 12;
+  static const int kXFieldNumber = 13;
   float x() const;
   void set_x(float value);
 
-  // float Y = 13;
+  // uint64 SummonID = 12;
+  void clear_summonid();
+  static const int kSummonIDFieldNumber = 12;
+  ::google::protobuf::uint64 summonid() const;
+  void set_summonid(::google::protobuf::uint64 value);
+
+  // float Y = 14;
   void clear_y();
-  static const int kYFieldNumber = 13;
+  static const int kYFieldNumber = 14;
   float y() const;
   void set_y(float value);
 
-  // float Z = 14;
+  // float Z = 15;
   void clear_z();
-  static const int kZFieldNumber = 14;
+  static const int kZFieldNumber = 15;
   float z() const;
   void set_z(float value);
 
-  // float Ft = 15;
+  // float Ft = 16;
   void clear_ft();
-  static const int kFtFieldNumber = 15;
+  static const int kFtFieldNumber = 16;
   float ft() const;
   void set_ft(float value);
 
-  // int32 Hp = 16;
+  // int32 Hp = 17;
   void clear_hp();
-  static const int kHpFieldNumber = 16;
+  static const int kHpFieldNumber = 17;
   ::google::protobuf::int32 hp() const;
   void set_hp(::google::protobuf::int32 value);
 
-  // int32 Mp = 17;
+  // int32 Mp = 18;
   void clear_mp();
-  static const int kMpFieldNumber = 17;
+  static const int kMpFieldNumber = 18;
   ::google::protobuf::int32 mp() const;
   void set_mp(::google::protobuf::int32 value);
 
-  // int32 HpMax = 18;
+  // int32 HpMax = 19;
   void clear_hpmax();
-  static const int kHpMaxFieldNumber = 18;
+  static const int kHpMaxFieldNumber = 19;
   ::google::protobuf::int32 hpmax() const;
   void set_hpmax(::google::protobuf::int32 value);
 
-  // int32 MpMax = 19;
+  // int32 MpMax = 20;
   void clear_mpmax();
-  static const int kMpMaxFieldNumber = 19;
+  static const int kMpMaxFieldNumber = 20;
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
-  // int32 Weapon = 20;
+  // int32 Weapon = 21;
   void clear_weapon();
-  static const int kWeaponFieldNumber = 20;
+  static const int kWeaponFieldNumber = 21;
   ::google::protobuf::int32 weapon() const;
   void set_weapon(::google::protobuf::int32 value);
 
@@ -1558,12 +1571,13 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 objectstate_;
   ::google::protobuf::int32 buffstate_;
   ::google::protobuf::int32 actorid_;
+  ::google::protobuf::int32 mountid_;
   ::google::protobuf::int32 camp_;
-  ::google::protobuf::int32 level_;
   ::google::protobuf::uint64 hostguid_;
   ::google::protobuf::uint64 controlerid_;
-  ::google::protobuf::uint64 summonid_;
+  ::google::protobuf::int32 level_;
   float x_;
+  ::google::protobuf::uint64 summonid_;
   float y_;
   float z_;
   float ft_;
@@ -3055,7 +3069,21 @@ inline void ActionNtyItem::set_actorid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.ActorID)
 }
 
-// int32 Level = 11;
+// int32 MountID = 11;
+inline void ActionNtyItem::clear_mountid() {
+  mountid_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::mountid() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.MountID)
+  return mountid_;
+}
+inline void ActionNtyItem::set_mountid(::google::protobuf::int32 value) {
+  
+  mountid_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.MountID)
+}
+
+// int32 Level = 12;
 inline void ActionNtyItem::clear_level() {
   level_ = 0;
 }
@@ -3069,7 +3097,7 @@ inline void ActionNtyItem::set_level(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.Level)
 }
 
-// uint64 ControlerID = 12;
+// uint64 ControlerID = 13;
 inline void ActionNtyItem::clear_controlerid() {
   controlerid_ = GOOGLE_ULONGLONG(0);
 }
@@ -3083,7 +3111,7 @@ inline void ActionNtyItem::set_controlerid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.ControlerID)
 }
 
-// int32 Hp = 13;
+// int32 Hp = 14;
 inline void ActionNtyItem::clear_hp() {
   hp_ = 0;
 }
@@ -3097,7 +3125,7 @@ inline void ActionNtyItem::set_hp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.Hp)
 }
 
-// int32 Mp = 14;
+// int32 Mp = 15;
 inline void ActionNtyItem::clear_mp() {
   mp_ = 0;
 }
@@ -3111,7 +3139,7 @@ inline void ActionNtyItem::set_mp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.Mp)
 }
 
-// int32 HpMax = 15;
+// int32 HpMax = 16;
 inline void ActionNtyItem::clear_hpmax() {
   hpmax_ = 0;
 }
@@ -3125,7 +3153,7 @@ inline void ActionNtyItem::set_hpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.HpMax)
 }
 
-// int32 MpMax = 16;
+// int32 MpMax = 17;
 inline void ActionNtyItem::clear_mpmax() {
   mpmax_ = 0;
 }
@@ -3213,7 +3241,21 @@ inline void NewItem::set_actorid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.ActorID)
 }
 
-// int32 Camp = 6;
+// int32 MountID = 6;
+inline void NewItem::clear_mountid() {
+  mountid_ = 0;
+}
+inline ::google::protobuf::int32 NewItem::mountid() const {
+  // @@protoc_insertion_point(field_get:NewItem.MountID)
+  return mountid_;
+}
+inline void NewItem::set_mountid(::google::protobuf::int32 value) {
+  
+  mountid_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.MountID)
+}
+
+// int32 Camp = 7;
 inline void NewItem::clear_camp() {
   camp_ = 0;
 }
@@ -3227,7 +3269,7 @@ inline void NewItem::set_camp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Camp)
 }
 
-// string Name = 7;
+// string Name = 8;
 inline void NewItem::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3280,7 +3322,7 @@ inline void NewItem::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:NewItem.Name)
 }
 
-// int32 Level = 8;
+// int32 Level = 9;
 inline void NewItem::clear_level() {
   level_ = 0;
 }
@@ -3294,7 +3336,7 @@ inline void NewItem::set_level(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Level)
 }
 
-// uint64 HostGuid = 9;
+// uint64 HostGuid = 10;
 inline void NewItem::clear_hostguid() {
   hostguid_ = GOOGLE_ULONGLONG(0);
 }
@@ -3308,7 +3350,7 @@ inline void NewItem::set_hostguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.HostGuid)
 }
 
-// uint64 ControlerID = 10;
+// uint64 ControlerID = 11;
 inline void NewItem::clear_controlerid() {
   controlerid_ = GOOGLE_ULONGLONG(0);
 }
@@ -3322,7 +3364,7 @@ inline void NewItem::set_controlerid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.ControlerID)
 }
 
-// uint64 SummonID = 11;
+// uint64 SummonID = 12;
 inline void NewItem::clear_summonid() {
   summonid_ = GOOGLE_ULONGLONG(0);
 }
@@ -3336,7 +3378,7 @@ inline void NewItem::set_summonid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:NewItem.SummonID)
 }
 
-// float X = 12;
+// float X = 13;
 inline void NewItem::clear_x() {
   x_ = 0;
 }
@@ -3350,7 +3392,7 @@ inline void NewItem::set_x(float value) {
   // @@protoc_insertion_point(field_set:NewItem.X)
 }
 
-// float Y = 13;
+// float Y = 14;
 inline void NewItem::clear_y() {
   y_ = 0;
 }
@@ -3364,7 +3406,7 @@ inline void NewItem::set_y(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Y)
 }
 
-// float Z = 14;
+// float Z = 15;
 inline void NewItem::clear_z() {
   z_ = 0;
 }
@@ -3378,7 +3420,7 @@ inline void NewItem::set_z(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Z)
 }
 
-// float Ft = 15;
+// float Ft = 16;
 inline void NewItem::clear_ft() {
   ft_ = 0;
 }
@@ -3392,7 +3434,7 @@ inline void NewItem::set_ft(float value) {
   // @@protoc_insertion_point(field_set:NewItem.Ft)
 }
 
-// int32 Hp = 16;
+// int32 Hp = 17;
 inline void NewItem::clear_hp() {
   hp_ = 0;
 }
@@ -3406,7 +3448,7 @@ inline void NewItem::set_hp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Hp)
 }
 
-// int32 Mp = 17;
+// int32 Mp = 18;
 inline void NewItem::clear_mp() {
   mp_ = 0;
 }
@@ -3420,7 +3462,7 @@ inline void NewItem::set_mp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.Mp)
 }
 
-// int32 HpMax = 18;
+// int32 HpMax = 19;
 inline void NewItem::clear_hpmax() {
   hpmax_ = 0;
 }
@@ -3434,7 +3476,7 @@ inline void NewItem::set_hpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.HpMax)
 }
 
-// int32 MpMax = 19;
+// int32 MpMax = 20;
 inline void NewItem::clear_mpmax() {
   mpmax_ = 0;
 }
@@ -3448,7 +3490,7 @@ inline void NewItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.MpMax)
 }
 
-// int32 Weapon = 20;
+// int32 Weapon = 21;
 inline void NewItem::clear_weapon() {
   weapon_ = 0;
 }

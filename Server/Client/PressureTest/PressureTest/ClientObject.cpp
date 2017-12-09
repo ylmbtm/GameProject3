@@ -24,7 +24,7 @@ CClientObject::CClientObject(void)
 	m_x = 0;
 	m_y = 0;
 	m_z = 13;
-
+	m_dwCarrerID = 0;
 	m_ft = PI * 2 * (rand() % 360) / 360;
 	m_uSkillTime = 0;
 	m_ClientConnector.RegisterMsgHandler((IMessageHandler*)this);
@@ -263,7 +263,7 @@ BOOL CClientObject::OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 
-	if(Ack.retcode() == MRC_FAILED)
+	if(Ack.retcode() == MRC_UNKNOW_ERROR)
 	{
 		MessageBox(NULL, "登录失败! 密码或账号不对!!", "提示", MB_OK);
 		m_dwHostState = ST_Overed;
@@ -306,7 +306,7 @@ BOOL CClientObject::OnMsgRoleListAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufL
 	{
 		m_dwHostState = ST_RoleCreate;
 
-		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), rand() % 4 + 1);
+		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), m_dwCarrerID);
 	}
 
 	return TRUE;
@@ -453,7 +453,7 @@ VOID CClientObject::TestMove()
 	}
 
 	pItem->set_hostx(m_x);
-	pItem->set_hosty(0);
+	pItem->set_hosty(-2.45);
 	pItem->set_hostz(m_z);
 	pItem->set_hostft(m_ft);
 
@@ -464,7 +464,7 @@ VOID CClientObject::TestCastSkill()
 {
 	SkillCastReq Req;
 	Req.set_objectguid(m_RoleIDList[0]);
-	Req.set_skillid(2002);
+	Req.set_skillid(2004);
 
 	m_ClientConnector.SendData(MSG_SKILL_CAST_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 }

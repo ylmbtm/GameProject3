@@ -89,6 +89,7 @@ public:
 	std::string         m_strAccountName;
 	std::string			m_strPassword;
 	std::string			m_strRoleName;
+	UINT32				m_dwCarrerID;
 
 	FLOAT               m_x;
 	FLOAT				m_y;

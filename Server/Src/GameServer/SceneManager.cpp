@@ -185,7 +185,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	Ack.set_copytype(Req.copytype());
 	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum()))
 	{
-		Ack.set_retcode(MRC_FAILED);
+		Ack.set_retcode(MRC_UNKNOW_ERROR);
 	}
 	else
 	{

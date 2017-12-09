@@ -80,7 +80,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	pAccount = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 	if(pAccount == NULL)
 	{
-		Ack.set_retcode(MRC_FAILED);
+		Ack.set_retcode(MRC_UNKNOW_ERROR);
 		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_FAILED");
 	}
 	else
@@ -130,7 +130,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 		pAccObj = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
 		if (pAccObj == NULL)
 		{
-			Ack.set_retcode(MRC_FAILED);
+			Ack.set_retcode(MRC_UNKNOW_ERROR);
 			CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccontLoginReq RetCode:MRC_FAILED");
 		}
 		else
@@ -142,7 +142,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	}
 	else
 	{
-		Ack.set_retcode(MRC_FAILED);
+		Ack.set_retcode(MRC_UNKNOW_ERROR);
 		Ack.set_lastsvrid(0);
 		Ack.set_accountid(0);
 	}
@@ -187,7 +187,7 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	}
 	else
 	{
-		Ack.set_retcode(MRC_FAILED);
+		Ack.set_retcode(MRC_UNKNOW_ERROR);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);

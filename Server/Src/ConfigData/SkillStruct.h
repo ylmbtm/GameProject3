@@ -42,16 +42,16 @@ enum ESelectPolicy
 	ESP_BY_LESSDISTANCE = 4,//按距离比例最低
 };
 
-enum EObjectStatue
-{
-	EOS_DEAD			= 1,//死亡
-	EOS_NOT_MOVE		= 2,//不能移动
-	EOS_NOT_CAST		= 4,//不能放技能
-	EOS_NOT_BEHURT		= 8,//不能被攻击
-	EOS_NOT_BECONTROL	= 16,//无法被控制
-	EOS_STEALTH			= 32,//隐身
-	EOS_BLIND			= 64,//瞎的
-};
+// enum EObjectStatus
+// {
+// 	EOS_DEAD			= 1,//死亡
+// 	EOS_NOT_MOVE		= 2,//不能移动
+// 	EOS_NOT_CAST		= 4,//不能放技能
+// 	EOS_NOT_BEHURT		= 8,//不能被攻击
+// 	EOS_NOT_BECONTROL	= 16,//无法被控制
+// 	EOS_STEALTH			= 32,//隐身
+// 	EOS_BLIND			= 64,//瞎的
+// };
 
 struct StBullet
 {
@@ -98,7 +98,7 @@ struct StBuffInfo
 	INT32  PtyPercent[PROPERTY_NUM];	//加属性百分比
 	INT32  TotalTime;                   //总时长(ms)
 	INT32  Interval;					//间隔时长
-	UINT32 ChangeStaute;				//修改玩家的状态
+	UINT32 ChangeStatus;				//修改玩家的状态
 	BOOL   OverLay;				        //是否可以叠加
 	std::string   LuaAdd;				//是否有lua事件
 	std::string   LuaTick;				//是否有lua事件

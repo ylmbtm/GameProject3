@@ -88,8 +88,8 @@ public:
 	UINT32			m_dwActionID;					//当前动作ID
 	Vector3D		m_Pos;							//位置
 	FLOAT			m_ft;							//对象坐标, 朝向
-	UINT32          m_dwObjectState;				//对象当前的状态
-	UINT32          m_dwBuffState;					//对象的Buff状态
+	UINT32          m_dwObjectStatus;				//对象当前的状态
+	UINT32          m_dwBuffStatus;					//对象的Buff状态
 	INT32			m_dwLevel;						//等级
 	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
 

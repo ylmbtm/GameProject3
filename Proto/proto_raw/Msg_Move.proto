@@ -77,12 +77,13 @@ message ActionNtyItem {
 	float	HostZ		= 8;
 	float	HostFt		= 9;
 	int32	ActorID		= 10;		//Actor ID
-	int32	Level		= 11;		//等级
-	uint64	ControlerID	= 12;     	//AI控制人的GUID
-	int32	Hp			= 13;
-	int32	Mp			= 14;
-	int32	HpMax		= 15;
-	int32	MpMax		= 16;
+	int32   MountID		= 11;		//坐骑ID
+	int32	Level		= 12;		//等级
+	uint64	ControlerID	= 13;     	//AI控制人的GUID
+	int32	Hp			= 14;
+	int32	Mp			= 15;
+	int32	HpMax		= 16;
+	int32	MpMax		= 17;
 }
 
 message NewItem {
@@ -91,21 +92,22 @@ message NewItem {
 	int32	ObjectState	= 3;		//实例状态
 	int32	BuffState	= 4;		//特效状态
 	int32	ActorID		= 5;		//Actor ID
-	int32	Camp		= 6;		//阵营
-	string	Name		= 7;		//名字
-	int32	Level		= 8;		//等级
-	uint64	HostGuid	= 9;		//主人的GUID
-	uint64	ControlerID	= 10;     	//AI控制人的GUID
-	uint64	SummonID 	= 11;		//招唤者的GUID
-	float	X			= 12;		
-	float	Y			= 13;
-	float	Z			= 14;
-	float	Ft			= 15;
-	int32	Hp			= 16;
-	int32	Mp			= 17;
-	int32	HpMax		= 18;
-	int32	MpMax		= 19;
-	int32	Weapon		= 20; 		//武器
+	int32   MountID		= 6;		//坐骑ID
+	int32	Camp		= 7;		//阵营
+	string	Name		= 8;		//名字
+	int32	Level		= 9;		//等级
+	uint64	HostGuid	= 10;		//主人的GUID
+	uint64	ControlerID	= 11;     	//AI控制人的GUID
+	uint64	SummonID 	= 12;		//招唤者的GUID
+	float	X			= 13;		
+	float	Y			= 14;
+	float	Z			= 15;
+	float	Ft			= 16;
+	int32	Hp			= 17;
+	int32	Mp			= 18;
+	int32	HpMax		= 19;
+	int32	MpMax		= 20;
+	int32	Weapon		= 21; 		//武器
 }
 
 message ObjectNewNty {

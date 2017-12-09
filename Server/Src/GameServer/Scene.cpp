@@ -341,7 +341,7 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
-			pSceneObject->m_dwObjectState |= OS_DIE;
+			pSceneObject->m_dwObjectStatus |= EOS_DEAD;
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
 		}
@@ -354,7 +354,7 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
-			pSceneObject->m_dwObjectState |= OS_DIE;
+			pSceneObject->m_dwObjectStatus |= EOS_DEAD;
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());

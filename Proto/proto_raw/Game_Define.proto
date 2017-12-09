@@ -54,14 +54,20 @@ enum ECopyType {
 	CPT_END = 100;
 }
 
-enum EOBjectStatue
+enum EOBjectStatus
 {
-	OS_NONE = 0;
-	OS_IDLE = 1;
-	OS_WALK = 2;
-	OS_RUN = 3;
-	OS_DIE = 4;
-	OS_END = 5;
+	EOS_NONE			= 0;//无
+	EOS_DEAD			= 1;//死亡
+	EOS_IDLE			= 2;//静止
+	EOS_WALK			= 3;//走
+	EOS_RUN				= 4;//跑
+	EOS_FLY				= 5;//飞
+	EOS_NOT_MOVE		= 6;//不能移动
+	EOS_NOT_CAST		= 7;//不能放技能
+	EOS_NOT_BEHURT		= 8;//不能被攻击
+	EOS_NOT_BECONTROL	= 9;//无法被控制
+	EOS_STEALTH			= 10;//隐身
+	EOS_BLIND			= 11;//瞎的
 };
 
 

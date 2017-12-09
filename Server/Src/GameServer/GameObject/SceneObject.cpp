@@ -14,7 +14,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UIN
 {
 	m_dwProxyConnID		= 0;
 	m_dwClientConnID	= 0;
-	m_dwObjectState		= 0;
+	m_dwObjectStatus		= 0;
 	m_bEnter			= FALSE;
 
 	m_uGuid				= uGuid;
@@ -150,8 +150,8 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
-	pItem->set_buffstate(m_dwBuffState);
-	pItem->set_objectstate(m_dwObjectState);
+	pItem->set_buffstate(m_dwBuffStatus);
+	pItem->set_objectstate(m_dwObjectStatus);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
 	pItem->set_summonid(m_uSummonerID);
@@ -175,8 +175,8 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_actorid(m_dwActorID);
 	pItem->set_actionid(m_dwActionID);
-	pItem->set_buffstate(m_dwBuffState);
-	pItem->set_objectstate(m_dwObjectState);
+	pItem->set_buffstate(m_dwBuffStatus);
+	pItem->set_objectstate(m_dwObjectStatus);
 	pItem->set_level(m_dwLevel);
 	pItem->set_controlerid(m_uControlerID);
 	pItem->set_hostx(m_Pos.m_x);
@@ -193,7 +193,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 
 BOOL CSceneObject::IsDead()
 {
-	return m_dwObjectState & EOS_DEAD;
+	return m_dwObjectStatus & EOS_DEAD;
 }
 
 BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
@@ -381,7 +381,7 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	return MRC_SUCCESSED;
 
-	ERROR_RETURN_CODE(m_pScene != NULL, MRC_FAILED);
+	ERROR_RETURN_CODE(m_pScene != NULL, MRC_UNKNOW_ERROR);
 
 	//1. 技能是否存在
 	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(Req.skillid(), 0);

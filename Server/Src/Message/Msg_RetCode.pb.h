@@ -47,7 +47,7 @@ inline void InitDefaults() {
 
 enum MessageRetCode {
   MRC_SUCCESSED = 0,
-  MRC_FAILED = 1,
+  MRC_UNKNOW_ERROR = 1,
   MRC_DISCONNECT = 2,
   MRC_ACCOUNT_EXIST = 3,
   MRC_NAME_EXIST = 4,
