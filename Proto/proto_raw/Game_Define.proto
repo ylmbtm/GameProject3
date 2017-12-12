@@ -54,7 +54,7 @@ enum ECopyType {
 	CPT_END = 100;
 }
 
-enum EOBjectStatus
+enum EObjectStatus
 {
 	EOS_NONE			= 0;//无
 	EOS_DEAD			= 1;//死亡

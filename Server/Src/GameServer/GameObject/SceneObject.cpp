@@ -10,26 +10,23 @@
 #include "CommonFunc.h"
 #include "../ConfigData/ConfigData.h"
 
-CSceneObject::CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 dwObjType, UINT32 dwCamp, std::string strName)
+CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 {
+	m_uGuid = uGuid;
+	m_pScene = pScene;
+
 	m_dwProxyConnID		= 0;
 	m_dwClientConnID	= 0;
-	m_dwObjectStatus		= 0;
+	m_dwObjectStatus	= 0;
 	m_bEnter			= FALSE;
-
-	m_uGuid				= uGuid;
-	m_dwActorID			= dwActorID;
-	m_dwObjType			= dwObjType;
-	m_dwCamp			= dwCamp;
-	m_strName			= strName;
-	m_pScene			= NULL;
-
+	m_dwActorID			= 0;
+	m_dwObjType			= 0;
+	m_dwCamp			= 0;
 	m_bDataChange		= FALSE;
 	m_uLastMoveTick		= 0;
 
-	m_SkillObject.SetCastObject(this);
-
 	memset(m_Propertys, 0, sizeof(m_Propertys));
+	m_SkillObject.SetCastObject(this);
 }
 
 CSceneObject::~CSceneObject()

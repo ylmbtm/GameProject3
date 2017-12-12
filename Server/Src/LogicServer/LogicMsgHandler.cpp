@@ -163,6 +163,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	//检验名字是否可用
 	ERROR_RETURN_TRUE(Req.accountid() != 0);
+	ERROR_RETURN_TRUE(Req.carrer() != 0);
 
 	RoleCreateAck Ack;
 
@@ -178,6 +179,13 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
+	StCarrerInfo* pCarrerInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(Req.carrer());
+	if (pCarrerInfo == NULL)
+	{
+		Ack.set_retcode(MRC_INVALID_CARRERID);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
 
 	UINT64 u64RoleID = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	ERROR_RETURN_TRUE(u64RoleID != 0);

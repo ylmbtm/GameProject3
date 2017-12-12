@@ -75,7 +75,7 @@ public:
 	CSceneObject*	CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
 
 	//创建子弹对象
-	CBulletObject*	CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti);
+	CBulletObject*	CreateBullet(UINT32 dwBulletID, UINT32 dwType, FLOAT Angle, FLOAT Fix, FLOAT Muti);
 
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.

@@ -12,7 +12,7 @@ class CBuffObject;
 class CSceneObject : public CMapObject
 {
 public:
-	CSceneObject(UINT64 uGuid, UINT32 dwActorID, UINT32 ObjType, UINT32 dwCamp, std::string strName);
+	CSceneObject(UINT64 uGuid, CScene* pScene);
 
 	~CSceneObject();
 public:

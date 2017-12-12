@@ -235,7 +235,7 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 
 	for (INT32 nIndex = 0; nIndex < SkillEvent.vtBullets.size(); nIndex++)
 	{
-		StBullet& data = SkillEvent.vtBullets.at(nIndex);
+		StBulletInfo& data = SkillEvent.vtBullets.at(nIndex);
 
 		CScene* pScene = m_pCastObject->GetScene();
 

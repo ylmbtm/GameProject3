@@ -914,11 +914,17 @@ BOOL CScene::SyncObjectState()
 }
 
 
-CSceneObject* CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
+CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_MONSTER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(GenNewGuid(), this);
+
+	pObject->m_dwCamp = dwCamp;
+	pObject->m_dwObjType = OT_MONSTER;
+	pObject->m_dwActorID = dwActorID;
+	pObject->m_strName = pActorInfo->strName;
+	pObject->m_dwLevel = 0;// pActorInfo->Level;
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
@@ -927,7 +933,7 @@ CSceneObject* CScene::CreateMonster( UINT32 dwActorID, UINT32 dwCamp, FLOAT x, F
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 	pObject->SetPos(x, y, z, ft);
-	pObject->m_pScene = this;
+
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -939,16 +945,15 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 	CSceneObject* pObject = GetPlayer(roleData.roleid());
 	if(pObject == NULL)
 	{
-		pObject = new CSceneObject(roleData.roleid(), roleData.actorid(), OT_PLAYER, 2, (std::string&)roleData.name());
+		pObject = new CSceneObject(roleData.roleid(), this);
 		AddPlayer(pObject);
 	}
 	//根据数据创建宠物，英雄
+	pObject->m_dwCamp = dwCamp;
 	pObject->m_dwObjType = OT_PLAYER;
 	pObject->m_dwActorID = roleData.actorid();
 	pObject->m_strName = roleData.name();
-	pObject->m_uGuid = roleData.roleid();
-	pObject->m_dwCamp = dwCamp;
-	pObject->m_pScene = this;
+	pObject->m_dwLevel = roleData.level();
 	for(int i = 0; i < roleData.propertys_size(); i++)
 	{
 		pObject->m_Propertys[i] = roleData.propertys(i);
@@ -957,7 +962,9 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
 	m_pSceneLogic->OnObjectCreate(pObject);
+
 	BroadNewObject(pObject);
+
 	return pObject;
 }
 
@@ -965,9 +972,23 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(petData.petguid(), petData.actorid(), OT_PET, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(petData.petguid(), this);
+	ERROR_RETURN_NULL(pObject != NULL);
+
+	//根据数据创建宠物，英雄
+	pObject->m_dwCamp = dwCamp;
 	pObject->m_uHostGuid = uHostID;
-	pObject->m_pScene = this;
+	pObject->m_dwObjType = OT_PET;
+	pObject->m_dwActorID = petData.actorid();
+	pObject->m_strName = pActorInfo->strName;
+	pObject->m_dwLevel = petData.level();
+	for (int i = 0; i < petData.propertys_size(); i++)
+	{
+		pObject->m_Propertys[i] = petData.propertys(i);
+	}
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -978,9 +999,23 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), partnerData.actorid(), OT_PARTNER, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), this);
+	ERROR_RETURN_NULL(pObject != NULL);
+
+	//根据数据创建宠物，英雄
+	pObject->m_dwCamp = dwCamp;
 	pObject->m_uHostGuid = uHostID;
-	pObject->m_pScene = this;
+	pObject->m_dwObjType = OT_PARTNER;
+	pObject->m_dwActorID = partnerData.actorid();
+	pObject->m_strName = pActorInfo->strName;
+	pObject->m_dwLevel = partnerData.level();
+	for (int i = 0; i < partnerData.propertys_size(); i++)
+	{
+		pObject->m_Propertys[i] = partnerData.propertys(i);
+	}
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
 	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
@@ -991,19 +1026,32 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
-	CSceneObject* pObject = new CSceneObject(GenNewGuid(), dwActorID, OT_SUMMON, dwCamp, pActorInfo->strName);
+	CSceneObject* pObject = new CSceneObject(GenNewGuid(), this);
+
+	//根据数据创建宠物，英雄
+	pObject->m_dwCamp = dwCamp;
 	pObject->m_uSummonerID = uSummonerID;
-	pObject->m_pScene = this;
-	m_pSceneLogic->OnObjectCreate(pObject);
+	pObject->m_dwObjType = OT_SUMMON;
+	pObject->m_dwActorID = dwActorID;
+	pObject->m_strName = pActorInfo->strName;
+	pObject->m_dwLevel = 0;// partnerData.level();
+	for (int i = 0; i < PROPERTY_NUM; i++)
+	{
+		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
+	}
+	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
+	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 	pObject->SetPos(x, y, z, ft);
+
+	m_pSceneLogic->OnObjectCreate(pObject);
 	AddMonster(pObject);
 	BroadNewObject(pObject);
 	return pObject;
 }
 
-CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, FLOAT Angle, UINT32 dwType, FLOAT Fix, FLOAT Muti)
+CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, UINT32 dwType, FLOAT Angle, FLOAT Fix, FLOAT Muti)
 {
-	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, Angle, Fix, Muti, NULL);
+	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, dwType, Angle, Fix, Muti);
 
 	m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
 

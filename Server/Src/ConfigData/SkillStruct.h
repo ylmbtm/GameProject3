@@ -6,9 +6,9 @@
 enum ECenterType
 {
 	TYPE_TARGET_POS		= 1,//以客户端选定的位置为中心
-	TYPE_CASTER_POS		= 2,//以施法者为中心
-	TYPE_CASTER_OFFSET	= 3,//以施法者为中心的偏移位置为中心
-	TYPE_NO_CENTER		= 4,//无特定中心(中心在玩家)
+	TYPE_TARTGT_OBJ     = 2,//以客户端选定的对象为中心
+	TYPE_CASTER_POS		= 3,//以施法者为中心
+	TYPE_CASTER_OFFSET	= 4,//以施法者为中心的偏移位置为中心
 };
 
 enum ERangeType
@@ -44,51 +44,23 @@ enum ESelectPolicy
 
 // enum EObjectStatus
 // {
-// 	EOS_DEAD			= 1,//死亡
-// 	EOS_NOT_MOVE		= 2,//不能移动
-// 	EOS_NOT_CAST		= 4,//不能放技能
-// 	EOS_NOT_BEHURT		= 8,//不能被攻击
-// 	EOS_NOT_BECONTROL	= 16,//无法被控制
-// 	EOS_STEALTH			= 32,//隐身
-// 	EOS_BLIND			= 64,//瞎的
+// 	EOS_NONE = 0;//无
+// 	EOS_DEAD = 1;//死亡
+// 	EOS_IDLE = 2;//静止
+// 	EOS_WALK = 3;//走
+// 	EOS_RUN = 4;//跑
+// 	EOS_FLY = 5;//飞
+// 	EOS_NOT_MOVE = 6;//不能移动
+// 	EOS_NOT_CAST = 7;//不能放技能
+// 	EOS_NOT_BEHURT = 8;//不能被攻击
+// 	EOS_NOT_BECONTROL = 9;//无法被控制
+// 	EOS_STEALTH = 10;//隐身
+// 	EOS_BLIND = 11;//瞎的
 // };
 
-struct StBullet
-{
-	UINT32 BulletID;	//子弹ID
-	FLOAT  Angle;		//角度
-	FLOAT  Speed;       //速度
-	FLOAT  AccSpd;		//加速度
-	UINT32 BulletType;	//子弹类型
-	FLOAT  AttackFix;	//固定伤害
-	FLOAT  AttackMuti;	//加成伤害
-};
 
-struct StSkillEvent
-{
-	UINT64 TrigerTime;					//触发时间
-	UINT32 ActionID;					//受击动作, 击退，击飞， 击倒
-	UINT32 SelfBuffID;					//自己的BuffID
-	UINT32 TargetBuffID;				//目标的BuffID
-	FLOAT  AttackFix;					//固定伤害
-	FLOAT  AttackMuti;					//加成伤害
-	FLOAT  RangeParams[5];				//范围参数
-	UINT32 RangeType;					//范围类型
-	UINT32 CenterType;					//中心点类型
-	std::vector<StBullet> vtBullets;	//子弹列表
-};
 
-struct StSkillInfo
-{
-	UINT32		SkillID;		//技能ID
-	UINT32		Level;			//技能类型
-	UINT32		CD;				//技能CD
-	UINT32		CostMp;			//消耗魔法值
-	UINT64		uDuration;		//技能持续总时间
-	FLOAT		AttackFix;		//固定伤害
-	FLOAT		AttackMuti;		//加成伤害
-	std::vector<StSkillEvent> vtEvents; //技能事件列表
-};
+
 
 struct StBuffInfo
 {
@@ -107,12 +79,43 @@ struct StBuffInfo
 
 struct StBulletInfo
 {
-	UINT32 BulletID;					//子弹
-	FLOAT  Speed;						//速度
-	FLOAT  AceSpeed;					//加速度
-	FLOAT  Angle;						//角度
-	FLOAT  LifeTime;					//生存时间
+	UINT32 BulletID;	//子弹ID
+	UINT32 BulletType;	//子弹类型
+	FLOAT  Angle;		//角度
+	FLOAT  Speed;       //速度
+	FLOAT  AccSpd;		//加速度
+	FLOAT  AttackFix;	//固定伤害
+	FLOAT  AttackMuti;	//加成伤害
+	FLOAT  Radius;		//半径
 };
+
+
+struct StSkillEvent
+{
+	UINT64 TrigerTime;					//触发时间
+	UINT32 ActionID;					//受击动作, 击退，击飞， 击倒
+	UINT32 SelfBuffID;					//自己的BuffID
+	UINT32 TargetBuffID;				//目标的BuffID
+	FLOAT  AttackFix;					//固定伤害
+	FLOAT  AttackMuti;					//加成伤害
+	FLOAT  RangeParams[5];				//范围参数
+	UINT32 RangeType;					//范围类型
+	UINT32 CenterType;					//中心点类型
+	std::vector<StBulletInfo> vtBullets;	//子弹列表
+};
+
+struct StSkillInfo
+{
+	UINT32		SkillID;		//技能ID
+	UINT32		Level;			//技能类型
+	UINT32		CD;				//技能CD
+	UINT32		CostMp;			//消耗魔法值
+	UINT64		uDuration;		//技能持续总时间
+	FLOAT		AttackFix;		//固定伤害
+	FLOAT		AttackMuti;		//加成伤害
+	std::vector<StSkillEvent> vtEvents; //技能事件列表
+};
+
 
 /*
 

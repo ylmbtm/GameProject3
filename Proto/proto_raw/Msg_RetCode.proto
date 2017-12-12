@@ -15,17 +15,18 @@ enum MessageRetCode {
    MRC_INVALID_PETID	= 10;	//无效的宠物ID
    MRC_INVALID_PARTNERID= 11;	//无效的伙伴ID
    MRC_INVALID_EQUIP_ID	= 12;	//无效的装备ID
+   MRC_INVALID_CARRERID	= 13;	//无效的职业ID
 
    //不足的条件
-   MRC_NOT_ENOUGH_ACTOIN= 13;	//行动力不足
-   MRC_NOT_ENOUGH_MONEY	= 14;	//货币不足
-   MRC_NOT_ENOUGH_ITEM	= 15;	//道具不足
-   MRC_NOT_ENOUGH_TIMES = 16;	//次数不足
+   MRC_NOT_ENOUGH_ACTOIN= 14;	//行动力不足
+   MRC_NOT_ENOUGH_MONEY	= 15;	//货币不足
+   MRC_NOT_ENOUGH_ITEM	= 16;	//道具不足
+   MRC_NOT_ENOUGH_TIMES = 17;	//次数不足
    
    //技能
-   MRC_SKILL_CD_ERROR	= 17;	//技能未冷却	
-   MRC_INVALID_SKILL_ID = 18;	//无效的技能ID
-   MRC_INVALID_TARGET_ID= 19;	//无效的目标ID
+   MRC_SKILL_CD_ERROR	= 18;	//技能未冷却	
+   MRC_INVALID_SKILL_ID = 19;	//无效的技能ID
+   MRC_INVALID_TARGET_ID= 20;	//无效的目标ID
 	
 }
 

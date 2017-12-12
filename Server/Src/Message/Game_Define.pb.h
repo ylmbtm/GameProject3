@@ -177,7 +177,7 @@ inline bool ECopyType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ECopyType>(
     ECopyType_descriptor(), name, value);
 }
-enum EOBjectStatus {
+enum EObjectStatus {
   EOS_NONE = 0,
   EOS_DEAD = 1,
   EOS_IDLE = 2,
@@ -190,23 +190,23 @@ enum EOBjectStatus {
   EOS_NOT_BECONTROL = 9,
   EOS_STEALTH = 10,
   EOS_BLIND = 11,
-  EOBjectStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  EOBjectStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  EObjectStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EObjectStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool EOBjectStatus_IsValid(int value);
-const EOBjectStatus EOBjectStatus_MIN = EOS_NONE;
-const EOBjectStatus EOBjectStatus_MAX = EOS_BLIND;
-const int EOBjectStatus_ARRAYSIZE = EOBjectStatus_MAX + 1;
+bool EObjectStatus_IsValid(int value);
+const EObjectStatus EObjectStatus_MIN = EOS_NONE;
+const EObjectStatus EObjectStatus_MAX = EOS_BLIND;
+const int EObjectStatus_ARRAYSIZE = EObjectStatus_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EOBjectStatus_descriptor();
-inline const ::std::string& EOBjectStatus_Name(EOBjectStatus value) {
+const ::google::protobuf::EnumDescriptor* EObjectStatus_descriptor();
+inline const ::std::string& EObjectStatus_Name(EObjectStatus value) {
   return ::google::protobuf::internal::NameOfEnum(
-    EOBjectStatus_descriptor(), value);
+    EObjectStatus_descriptor(), value);
 }
-inline bool EOBjectStatus_Parse(
-    const ::std::string& name, EOBjectStatus* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EOBjectStatus>(
-    EOBjectStatus_descriptor(), name, value);
+inline bool EObjectStatus_Parse(
+    const ::std::string& name, EObjectStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EObjectStatus>(
+    EObjectStatus_descriptor(), name, value);
 }
 enum EItemType {
   IMT_NONE = 0,
@@ -406,10 +406,10 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ECopyType>() {
   return ::ECopyType_descriptor();
 }
-template <> struct is_proto_enum< ::EOBjectStatus> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::EObjectStatus> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::EOBjectStatus>() {
-  return ::EOBjectStatus_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::EObjectStatus>() {
+  return ::EObjectStatus_descriptor();
 }
 template <> struct is_proto_enum< ::EItemType> : ::google::protobuf::internal::true_type {};
 template <>
