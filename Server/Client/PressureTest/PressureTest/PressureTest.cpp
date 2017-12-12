@@ -50,7 +50,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	char szBuff[256];
-
 	for(int i = 0; i < nRobotNum; i++)
 	{
 		CClientObject* pClientSpaceObject = new CClientObject();

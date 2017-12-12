@@ -70,7 +70,7 @@
       <AdditionalLibraryDirectories>..\Bin\Debug64;..\..\Common\Lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>libprotocd.lib;libprotobufd.lib;libmysql.lib;ServerEngine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies> libprotobufd.lib;libmysql.lib;ServerEngine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,7 +92,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>libprotoc.lib;libprotobuf.lib;libmysql.lib;ServerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies> libprotobuf.lib;libmysql.lib;ServerEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Bin\Release64;..\..\Common\Lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

@@ -64,6 +64,11 @@ BOOL LuaManager::LoadAllLua(const char* pszDir)
 	return LoadScriptFile(vtFiles);
 }
 
+BOOL LuaManager::LoadAllLua(std::string strDir)
+{
+	return LoadAllLua(strDir.c_str());
+}
+
 lua_State* LuaManager::GetLuaState()
 {
 	return m_pLuaState;

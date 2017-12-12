@@ -23,6 +23,8 @@ public:
 
 	BOOL	Deattch();
 
+	BOOL	LoadAllLua(std::string strDir);
+
 	BOOL	LoadAllLua(const char* pszDir);
 
 	BOOL	LoadScriptFile(const char* pszLuaFile);

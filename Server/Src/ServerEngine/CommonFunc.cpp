@@ -36,8 +36,8 @@ std::string CommonFunc::GetCurrentExeDir()
 	char* p = strrchr(szPath, '\\');
 	*p = 0;
 #else
-	snprintf(link, 1024, "/proc/%d/exe", getpid());/////////////
-	readlink(link, path, sizeof(path));//////////////
+	snprintf(szLink, 1024, "/proc/%d/exe", getpid());/////////////
+	readlink(szLink, szPath, sizeof(szPath));//////////////
 #endif
 	return std::string(szPath);
 }
@@ -53,7 +53,7 @@ BOOL CommonFunc::SetCurrentWorkDir(std::string strPath)
 #ifdef WIN32
 	SetCurrentDirectory(strPath.c_str());
 #else
-	chdir(strPath.c_str(););
+	chdir(strPath.c_str());
 #endif
 	return TRUE;
 }
@@ -259,7 +259,12 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
 
 BOOL CommonFunc::IsSameDay(UINT64 uTime)
 {
+#ifdef WIN32
 	return ((uTime - _timezone) / 86400) == ((GetCurrTime() - _timezone) / 86400);
+#else
+	return ((uTime - timezone) / 86400) == ((GetCurrTime() - timezone) / 86400);
+#endif
+
 }
 
 UINT32 CommonFunc::GetCurThreadID()
@@ -279,7 +284,7 @@ UINT32 CommonFunc::GetCurProcessID()
 #ifdef WIN32
 	dwProcessID = ::GetCurrentProcessId();
 #else
-	dwProcessID = (UINT32)getpid()();
+	dwProcessID = (UINT32)getpid();
 #endif
 	return dwProcessID;
 }
