@@ -13,22 +13,22 @@ CDBWriterManager::~CDBWriterManager()
 
 BOOL CDBWriterManager::Init()
 {
-	m_pRoleDataWriter		= new DataWriter<RoleDataObject>("Role");
-	m_pGlobalDataWriter		= new DataWriter<GlobalDataObject>("Global");
-	m_pBagDataWriter		= new DataWriter<BagDataObject>("Bag");
-	m_pCopyDataWriter		= new DataWriter<CopyDataObject>("Copy");
-	m_pEquipDataWriter		= new DataWriter<EquipDataObject>("Equip");
-	m_pPetDataWriter		= new DataWriter<PetDataObject>("Pet");
-	m_pPartnerDataWriter	= new DataWriter<PartnerDataObject>("Partner");
-	m_pGuildDataWriter		= new DataWriter<GuildDataObject>("Guild");
-	m_pMemberDataWriter		= new DataWriter<MemberDataObject>("GuildMember");
-	m_pTaskDataWriter		= new DataWriter<TaskDataObject>("Task");
-	m_pMountDataWriter		= new DataWriter<MountDataObject>("Mount");
-	m_pMailDataWriter		= new DataWriter<MailDataObject>("Mail");
-	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>("GroupMail");
-	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>("Activity");
-	m_pCounterDataWriter    = new DataWriter<CounterDataObject>("Counter");
-	m_pFriendDataWriter    = new DataWriter<FriendDataObject>("Friend");
+	m_pRoleDataWriter		= new DataWriter<RoleDataObject>(ESD_ROLE, 1024);
+	m_pGlobalDataWriter		= new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
+	m_pBagDataWriter		= new DataWriter<BagDataObject>(ESD_BAG, 1024);
+	m_pCopyDataWriter		= new DataWriter<CopyDataObject>(ESD_COPY, 1024);
+	m_pEquipDataWriter		= new DataWriter<EquipDataObject>(ESD_EQUIP, 1024);
+	m_pPetDataWriter		= new DataWriter<PetDataObject>(ESD_PET, 1024);
+	m_pPartnerDataWriter	= new DataWriter<PartnerDataObject>(ESD_PARTNER, 1024);
+	m_pGuildDataWriter		= new DataWriter<GuildDataObject>(ESD_GUILD, 1024);
+	m_pMemberDataWriter		= new DataWriter<MemberDataObject>(ESD_GUILD_MEMBER, 1024);
+	m_pTaskDataWriter		= new DataWriter<TaskDataObject>(ESD_TASK, 1024);
+	m_pMountDataWriter		= new DataWriter<MountDataObject>(ESD_MOUNT, 1024);
+	m_pMailDataWriter		= new DataWriter<MailDataObject>(ESD_MAIL, 1024);
+	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
+	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>(ESD_ACTIVITY, 1024);
+	m_pCounterDataWriter    = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
+	m_pFriendDataWriter    = new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
 
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");

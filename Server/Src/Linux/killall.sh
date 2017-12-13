@@ -2,9 +2,11 @@ pkill AccountServer
 pkill LoginServer 
 pkill LogicServer 
 pkill DBServer 
-pkill ProxyServer 
-pkill ProxyServer 
-pkill ProxyServer 
+pkill LogServer 
+pkill GameServer 
+pkill HttpServer 
+pkill WatchServer
+pkill ProxyServer
 
 
  

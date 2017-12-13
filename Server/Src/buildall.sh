@@ -1,3 +1,5 @@
+cd ServerEngine && make
+cd ..
 cd CenterServer && make
 cd ..
 cd GameServer && make

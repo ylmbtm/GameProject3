@@ -81,7 +81,7 @@ struct shareMemoryPage
 class SharedMemoryBase
 {
 public:
-	SharedMemoryBase(const std::string& name, UINT32 rawblockSize, UINT32 count, BOOL noCreate = false);
+	SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize, UINT32 nCountPerPage, BOOL noCreate = false);
 
 	SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len);
 
@@ -92,12 +92,12 @@ protected:
 	///共享内存页映射.
 	ShareMemoryPageMapping m_ShareMemoryPageMapping;
 
-	UINT32			m_countperPage;///页面容纳T类型数量
-	UINT32			m_pageCount;///页数量
-	UINT32			m_count;///T类型的总个数,T类型必须是定长的。
-	UINT32			m_space;///每个元素的宽度
+	UINT32			m_nCountperPage;	///页面容纳T类型数量
+	UINT32			m_nPageCount;	///页数量
+	UINT32			m_nCount;		///T类型的总个数,T类型必须是定长的。
+	UINT32			m_nSpace;		///每个元素的宽度
 	UINT32			m_rawblockSize;
-	std::string		m_modulename;
+	UINT32			m_nModuleID;
 	BOOL			m_bEmpty;
 
 	///所有数据头的集合
@@ -178,8 +178,8 @@ template<typename T>
 class SharedMemory : public SharedMemoryBase
 {
 public:
-	SharedMemory(const std::string& name, UINT32 count, BOOL noCreate = false)
-		: SharedMemoryBase(name, sizeof(T), count, noCreate)
+	SharedMemory(const UINT32& nModuleID, UINT32 nCountPerPage, BOOL noCreate = false)
+		: SharedMemoryBase(nModuleID, sizeof(T), nCountPerPage, noCreate)
 	{
 
 	}
@@ -216,11 +216,11 @@ public:
 template <typename T> class DataWriter
 {
 public:
-	DataWriter(const std::string& modulename)
+	DataWriter(const UINT32& nModuleID, UINT32 nCount)
 	{
 		m_MemoryPool = NULL;
-		m_moduleName = modulename;
-		m_count = 1024;
+		m_nModuleID = nModuleID;
+		m_nCount = nCount;
 	}
 	~DataWriter()
 	{
@@ -234,7 +234,7 @@ public:
 		///共享内存不存在直接返回
 		if (m_MemoryPool == NULL)
 		{
-			m_MemoryPool = new SharedMemory<T>(m_moduleName, m_count, true);
+			m_MemoryPool = new SharedMemory<T>(m_nModuleID, m_nCount, true);
 		}
 		if (m_MemoryPool == NULL)
 		{
@@ -361,9 +361,9 @@ public:
 		return hasOprate;
 	}
 private:
-	SharedMemory<T>*       m_MemoryPool;///模块内存池
-	UINT32		           m_count;///共享内存大小
-	std::string m_moduleName;
+	SharedMemory<T>*	m_MemoryPool;///模块内存池
+	UINT32				m_nCount;///共享内存大小
+	UINT32				m_nModuleID;
 };
 
 #endif

@@ -37,5 +37,6 @@ extern	SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool;
 std::string GenDataName(std::string strName);
 
 BOOL CreateDataPool();
+BOOL ReleaseDataPool();
 
 #endif //__DATA_MODULE_POOL_H__

@@ -119,6 +119,7 @@ BOOL CGameService::Init()
 
 BOOL CGameService::Uninit()
 {
+	ReleaseDataPool();
 	ServiceBase::GetInstancePtr()->StopNetwork();
 	google::protobuf::ShutdownProtobufLibrary();
 	return TRUE;

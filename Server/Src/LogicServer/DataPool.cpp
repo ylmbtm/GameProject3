@@ -21,22 +21,22 @@ SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool	= NULL;
 SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool	= NULL;
 BOOL CreateDataPool()
 {
-	g_pRoleDataObjectPool		= new SharedMemory<RoleDataObject>("Role", 1024);
-	g_pGlobalDataObjectPool		= new SharedMemory<GlobalDataObject>("Global", 1024);
-	g_pBagDataObjectPool		= new SharedMemory<BagDataObject>("Bag", 1024);
-	g_pCopyDataObjectPool		= new SharedMemory<CopyDataObject>("Copy", 1024);
-	g_pEquipDataObjectPool		= new SharedMemory<EquipDataObject>("Equip", 1024);
-	g_pPetDataObjectPool		= new SharedMemory<PetDataObject>("Pet", 1024);
-	g_pPartnerDataObjectPool	= new SharedMemory<PartnerDataObject>("Partner", 1024);
-	g_pGuildDataObjectPool		= new SharedMemory<GuildDataObject>("Guild", 1024);
-	g_pMemberDataObjectPool		= new SharedMemory<MemberDataObject>("GuildMember", 1024);
-	g_pTaskDataObjectPool		= new SharedMemory<TaskDataObject>("Task", 1024);
-	g_pMountDataObjectPool		= new SharedMemory<MountDataObject>("Mount", 1024);
-	g_pMailDataObjectPool		= new SharedMemory<MailDataObject>("Mail", 1024);
-	g_pGroupMailDataObjectPool  = new SharedMemory<GroupMailDataObject>("GroupMail", 1024);
-	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>("Activity", 1024);
-	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>("Counter", 1024);
-	g_pFriendDataObjectPool    = new SharedMemory<FriendDataObject>("Friend", 1024);
+	g_pRoleDataObjectPool		= new SharedMemory<RoleDataObject>(ESD_ROLE, 1024);
+	g_pGlobalDataObjectPool		= new SharedMemory<GlobalDataObject>(ESD_GLOBAL, 1024);
+	g_pBagDataObjectPool		= new SharedMemory<BagDataObject>(ESD_BAG, 1024);
+	g_pCopyDataObjectPool		= new SharedMemory<CopyDataObject>(ESD_COPY, 1024);
+	g_pEquipDataObjectPool		= new SharedMemory<EquipDataObject>(ESD_EQUIP, 1024);
+	g_pPetDataObjectPool		= new SharedMemory<PetDataObject>(ESD_PET, 1024);
+	g_pPartnerDataObjectPool	= new SharedMemory<PartnerDataObject>(ESD_PARTNER, 1024);
+	g_pGuildDataObjectPool		= new SharedMemory<GuildDataObject>(ESD_GUILD, 1024);
+	g_pMemberDataObjectPool		= new SharedMemory<MemberDataObject>(ESD_GUILD_MEMBER, 1024);
+	g_pTaskDataObjectPool		= new SharedMemory<TaskDataObject>(ESD_TASK, 1024);
+	g_pMountDataObjectPool		= new SharedMemory<MountDataObject>(ESD_MOUNT, 1024);
+	g_pMailDataObjectPool		= new SharedMemory<MailDataObject>(ESD_MAIL, 1024);
+	g_pGroupMailDataObjectPool  = new SharedMemory<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
+	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>(ESD_ACTIVITY, 1024);
+	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>(ESD_COUNTER, 1024);
+	g_pFriendDataObjectPool    = new SharedMemory<FriendDataObject>(ESD_FRIEND, 1024);
 
 
 	g_pRoleDataObjectPool->InitToMap();
@@ -55,6 +55,27 @@ BOOL CreateDataPool()
 	g_pActivityDataObjectPool->InitToMap();
 	g_pCounterDataObjectPool->InitToMap();
 	g_pFriendDataObjectPool->InitToMap();
+	return TRUE;
+}
+
+BOOL ReleaseDataPool()
+{
+	delete g_pRoleDataObjectPool;
+	delete g_pGlobalDataObjectPool;
+	delete g_pBagDataObjectPool;
+	delete g_pCopyDataObjectPool;
+	delete g_pEquipDataObjectPool;
+	delete g_pPetDataObjectPool;
+	delete g_pPartnerDataObjectPool;
+	delete g_pGuildDataObjectPool;
+	delete g_pMemberDataObjectPool;
+	delete g_pTaskDataObjectPool;
+	delete g_pMountDataObjectPool;
+	delete g_pMailDataObjectPool;
+	delete g_pGroupMailDataObjectPool;
+	delete g_pActivityDataObjectPool;
+	delete g_pCounterDataObjectPool;
+	delete g_pFriendDataObjectPool;
 	return TRUE;
 }
 

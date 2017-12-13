@@ -27,7 +27,10 @@ int main(int argc, char* argv[])
 
 	SetCrashReport("GameServer");
 
-	CGameService::GetInstancePtr()->Init(dwSvrID, dwPort);
+	if (!CGameService::GetInstancePtr()->Init(dwSvrID, dwPort))
+	{
+		return 0;
+	}
 
 	CGameService::GetInstancePtr()->Run();
 

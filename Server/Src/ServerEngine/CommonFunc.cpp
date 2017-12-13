@@ -356,22 +356,24 @@ UINT32 CommonFunc::GetLastError()
 #endif
 }
 
-HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
+HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
 {
+	HANDLE hShare = NULL;
 #ifdef WIN32
-	HANDLE hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, strName.c_str());
-	if(hShare != NULL)
+	CHAR szMemName[128] = {0};
+	snprintf(szMemName, 128, "SM_%d", dwModuleID << 16 | nPage);
+	hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, szMemName);
+	if (hShare != NULL)
 	{
-		if(GetLastError() == ERROR_ALREADY_EXISTS)
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
 		{
 			CloseHandle(hShare);
 			hShare = NULL;
 		}
 	}
 #else
-	key_t key = ftok(strName.c_str(), 201);
-	HANDLE hShare = shmget(key, nSize, 0666 | IPC_CREAT | IPC_EXCL);
-	if(hShare == -1)
+	hShare = shmget(dwModuleID << 16 | nPage, nSize, 0666 | IPC_CREAT | IPC_EXCL);
+	if (hShare == -1)
 	{
 		hShare = NULL;
 	}
@@ -379,13 +381,39 @@ HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 	return hShare;
 }
 
-HANDLE CommonFunc::OpenShareMemory(std::string strName)
+// HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
+// {
+// 	HANDLE hShare = NULL;
+// #ifdef WIN32
+// 	hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, strName.c_str());
+// 	if(hShare != NULL)
+// 	{
+// 		if(GetLastError() == ERROR_ALREADY_EXISTS)
+// 		{
+// 			CloseHandle(hShare);
+// 			hShare = NULL;
+// 		}
+// 	}
+// #else
+// 	key_t key = ftok(strName.c_str(), 201);
+// 	hShare = shmget(key, nSize, 0666 | IPC_CREAT | IPC_EXCL);
+// 	if(hShare == -1)
+// 	{
+// 		hShare = NULL;
+// 	}
+// #endif
+// 	return hShare;
+// }
+
+HANDLE CommonFunc::OpenShareMemory(UINT32 dwModuleID, INT32 nPage)
 {
+	HANDLE hShare = NULL;
 #ifdef WIN32
-	HANDLE hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, strName.c_str());
+	CHAR szMemName[128] = {0};
+	snprintf(szMemName, 128, "SM_%d", dwModuleID << 16 | nPage);
+	hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, szMemName);
 #else
-	key_t key = ftok(strName.c_str(), 201);
-	HANDLE hShare = shmget(key, 0, 0);
+	hShare = shmget(dwModuleID << 16 | nPage, 0, 0);
 	if (hShare == -1)
 	{
 		return NULL;
@@ -393,6 +421,23 @@ HANDLE CommonFunc::OpenShareMemory(std::string strName)
 #endif
 	return hShare;
 }
+
+// HANDLE CommonFunc::OpenShareMemory(std::string strName)
+// {
+// #ifdef WIN32
+// 	HANDLE hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, strName.c_str());
+// #else
+// 	key_t key = ftok(strName.c_str(), 201);
+// 	HANDLE hShare = shmget(key, 0, 0);
+// 	if (hShare == -1)
+// 	{
+// 		return NULL;
+// 	}
+// #endif
+// 	return hShare;
+// }
+
+
 
 CHAR* CommonFunc::GetShareMemory(HANDLE hShm)
 {

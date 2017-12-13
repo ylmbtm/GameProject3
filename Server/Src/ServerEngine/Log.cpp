@@ -80,11 +80,11 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 	tm CurTime = CommonFunc::GetCurrTmTime();
 
 	CHAR szLog[512];
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	snprintf(szLog, 512, "[%s][%02d-%02d-%02d %02d:%02d:%02d][%04x] ", m_strPrefix.c_str(), CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26, 512 - 26,  lpszFormat, argList);
+	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(),  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
@@ -113,11 +113,11 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	CHAR szLog[512];
 	tm CurTime = CommonFunc::GetCurrTmTime();
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	snprintf(szLog, 512, "[%s][%02d-%02d-%02d %02d:%02d:%02d][%04x] ", m_strPrefix.c_str(), CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26, 512 - 26, lpszFormat, argList);
+	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(), lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
@@ -147,11 +147,11 @@ void CLog::LogInfo( char* lpszFormat, ... )
 	CHAR szLog[512];
 
 	tm CurTime = CommonFunc::GetCurrTmTime();
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+	snprintf(szLog, 512, "[%s][%02d-%02d-%02d %02d:%02d:%02d][%04x] ", m_strPrefix.c_str(), CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26, 512 - 26,  lpszFormat, argList);
+	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(),  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);

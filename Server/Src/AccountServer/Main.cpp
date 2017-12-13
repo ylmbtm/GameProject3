@@ -9,7 +9,10 @@ int main(int argc, char* argv[])
 {
 	SetCrashReport("AccountServer");
 
-	CGameService::GetInstancePtr()->Init();
+	if (!CGameService::GetInstancePtr()->Init())
+	{
+		return 0;
+	}
 
 	CGameService::GetInstancePtr()->Run();
 
