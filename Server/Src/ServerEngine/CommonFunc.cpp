@@ -386,6 +386,10 @@ HANDLE CommonFunc::OpenShareMemory(std::string strName)
 #else
 	key_t key = ftok(strName.c_str(), 201);
 	HANDLE hShare = shmget(key, 0, 0);
+	if (hShare == -1)
+	{
+		return NULL;
+	}
 #endif
 	return hShare;
 }
