@@ -417,11 +417,11 @@ VOID CClientObject::TestMove()
 	}
 
 	dwTimeDiff = CommonFunc::GetTickCount() - m_uSkillTime;
-	if (dwTimeDiff > 3000)
+	if (dwTimeDiff > 10000)
 	{
 		TestCastSkill();
+		m_uSkillTime = CommonFunc::GetTickCount();
 	}
-
 
 	m_uMoveTime = CommonFunc::GetTickCount();
 

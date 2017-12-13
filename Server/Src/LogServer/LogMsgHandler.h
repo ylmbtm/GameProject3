@@ -1,4 +1,4 @@
-﻿#include "DBInterface\CppMysql.h"
+﻿#include "DBInterface/CppMysql.h"
 #ifndef _LOG_MSG_HANDLER_H_
 #define _LOG_MSG_HANDLER_H_
 

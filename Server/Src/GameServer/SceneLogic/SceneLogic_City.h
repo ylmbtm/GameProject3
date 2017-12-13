@@ -5,19 +5,19 @@
 class SceneLogic_City : public SceneLogicBase
 {
 public:
-	SceneLogic_City(CScene *pScene);
-	
+	SceneLogic_City(CScene* pScene);
+
 	~SceneLogic_City();
 public:
-	virtual BOOL OnObjectCreate(CSceneObject *pPlayer);
+	virtual BOOL OnObjectCreate(CSceneObject* pPlayer);
 
-	virtual BOOL OnObjectDie(CSceneObject *pPlayer);
+	virtual BOOL OnObjectDie(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerEnter(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
 
-	virtual BOOL Update(UINT32 dwTick);
+	virtual BOOL Update(UINT64 uTick);
 
 	virtual BOOL TimeUP();
 

@@ -46,7 +46,7 @@ BOOL SceneLogic_City::OnPlayerLeave(CSceneObject* pPlayer)
 	return TRUE;
 }
 
-BOOL SceneLogic_City::Update(UINT32 dwTick)
+BOOL SceneLogic_City::Update(UINT64 uTick)
 {
 	return TRUE;
 }

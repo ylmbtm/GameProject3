@@ -4,6 +4,7 @@
 
 #include <my_global.h>
 #include <mysql.h>
+#undef snprintf
 
 class CDBRecordSet
 {

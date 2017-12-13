@@ -5,19 +5,19 @@
 class SceneLogic_Arena : public SceneLogicBase
 {
 public:
-	SceneLogic_Arena(CScene *pScene);
-	
+	SceneLogic_Arena(CScene* pScene);
+
 	~SceneLogic_Arena();
 public:
-	virtual BOOL OnObjectCreate(CSceneObject *pPlayer);
+	virtual BOOL OnObjectCreate(CSceneObject* pPlayer);
 
-	virtual BOOL OnObjectDie(CSceneObject *pPlayer);
+	virtual BOOL OnObjectDie(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerEnter(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
 
-	virtual BOOL Update(UINT32 dwTick);
+	virtual BOOL Update(UINT64 uTick);
 
 	virtual BOOL OnTimeUP();
 };

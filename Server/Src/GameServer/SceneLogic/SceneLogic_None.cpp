@@ -36,9 +36,9 @@ BOOL SceneLogic_None::OnPlayerLeave(CSceneObject* pPlayer)
 	return FALSE;
 }
 
-BOOL SceneLogic_None::Update(UINT32 dwTick)
+BOOL SceneLogic_None::Update(UINT64 uTick)
 {
-	SceneLogicBase::Update(dwTick);
+	SceneLogicBase::Update(uTick);
 
 	if(m_pScene->GetStartTime() == 0)
 	{

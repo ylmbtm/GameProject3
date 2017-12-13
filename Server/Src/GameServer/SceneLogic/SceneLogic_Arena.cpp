@@ -58,9 +58,9 @@ BOOL SceneLogic_Arena::OnPlayerLeave(CSceneObject* pPlayer)
 	return FALSE;
 }
 
-BOOL SceneLogic_Arena::Update(UINT32 dwTick)
+BOOL SceneLogic_Arena::Update(UINT64 uTick)
 {
-	SceneLogicBase::Update(dwTick);
+	SceneLogicBase::Update(uTick);
 
 	if(m_pScene->GetStartTime() == 0)
 	{

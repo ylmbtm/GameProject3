@@ -5,19 +5,19 @@
 class SceneLogic_None : public SceneLogicBase
 {
 public:
-	SceneLogic_None(CScene *pScene);
+	SceneLogic_None(CScene* pScene);
 
 	~SceneLogic_None();
 public:
-	virtual BOOL OnObjectCreate(CSceneObject *pPlayer);
+	virtual BOOL OnObjectCreate(CSceneObject* pPlayer);
 
-	virtual BOOL OnObjectDie(CSceneObject *pPlayer);
+	virtual BOOL OnObjectDie(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerEnter(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerEnter(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerLeave(CSceneObject *pPlayer);
+	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
 
-	virtual BOOL Update(UINT32 dwTick);
+	virtual BOOL Update(UINT64 uTick);
 };
 
 #endif //_SCENELOGIC_NONE_H_
