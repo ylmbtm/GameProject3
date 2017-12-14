@@ -140,6 +140,11 @@ BOOL CConnection::DoReceive()
 		{
 			m_dwDataLen += nBytes;
 
+			if (m_dwDataLen != RECV_BUF_SIZE)
+			{
+				return TRUE;
+			}
+
 			if(!ExtractBuffer())
 			{
 				return FALSE;
@@ -187,8 +192,10 @@ BOOL CConnection::ExtractBuffer()
 {
 	//在这方法里返回FALSE。
 	//会在外面导致这个连接被关闭。
-
-	ERROR_RETURN_TRUE(m_dwDataLen > 0);
+	if (m_dwDataLen == 0)
+	{
+		return TRUE;
+	}
 
 	while(TRUE)
 	{
@@ -225,36 +232,11 @@ BOOL CConnection::ExtractBuffer()
 		1.首先验证包的验证吗
 		2.包的长度
 		3.包的序号*/
-		if(pHeader->CheckCode != 0x88)
+
+		if (!CheckHeader(m_pBufPos))
 		{
 			return FALSE;
 		}
-
-		if(pHeader->dwSize > 1024 * 1024)
-		{
-			return FALSE;
-		}
-
-		if(pHeader->dwMsgID > 4999999)
-		{
-			return FALSE;
-		}
-		/*if(m_nCheckNo == 0)
-		{
-			m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
-		}
-		else
-		{
-			if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-			{
-				m_nCheckNo += 1;
-			}
-			else
-			{
-				return FALSE;
-			}*/
-
-
 
 		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
 
@@ -447,6 +429,43 @@ BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserD
 	pDataBuffer->SetTotalLenth(pHeader->dwSize);
 
 	return SendBuffer(pDataBuffer);
+}
+
+BOOL CConnection::CheckHeader(CHAR* m_pPacket)
+{
+	PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
+	if (pHeader->CheckCode != 0x88)
+	{
+		return FALSE;
+	}
+
+	if (pHeader->dwSize > 1024 * 1024)
+	{
+		return FALSE;
+	}
+
+	if (pHeader->dwMsgID > 4999999)
+	{
+		return FALSE;
+	}
+
+
+	/*if(m_nCheckNo == 0)
+	{
+	m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+	}
+	else
+	{
+	if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
+	{
+	m_nCheckNo += 1;
+	}
+	else
+	{
+	return FALSE;
+	}*/
+
+	return TRUE;
 }
 
 #ifdef WIN32
@@ -672,18 +691,17 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 	{
 		int nErr = CommonSocket::GetSocketLastError();
 		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
-		m_IsSending = FALSE;
 	}
 	else if(nRet < pSendingBuffer->GetTotalLenth())
 	{
 		CommonSocket::CloseSocket(m_hSocket);
 		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 缓冲区满了!");
-		m_IsSending = FALSE;
 	}
+
+	m_IsSending = FALSE;
+	mCritSending.Unlock();
 	return TRUE;
 }
-
-
 #endif
 
 CConnectionMgr::CConnectionMgr()

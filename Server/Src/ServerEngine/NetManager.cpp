@@ -64,6 +64,8 @@ BOOL CNetManager::WorkThread_Listen()
 			pConnection->SetConnectionOK(TRUE);
 
 			m_pBufferHandler->OnNewConnect(pConnection);
+
+			//在Windows的IOCP模式，一个新的连接必须首先调一次接收， 而EPOLL模型下，只要关注了，读事件就可以等事件到了之后发读的操作。
 #ifdef WIN32
 			if(!pConnection->DoReceive())
 			{
@@ -79,6 +81,8 @@ BOOL CNetManager::WorkThread_Listen()
 
 	return TRUE;
 }
+
+
 
 
 BOOL CNetManager::StartListen(UINT16 nPortNum)
@@ -247,11 +251,6 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 				}
 			}
 			break;
-			default:
-			{
-
-			}
-			break;
 		}
 	}
 
@@ -303,6 +302,7 @@ BOOL CNetManager::WorkThread_DispathEvent()
 BOOL CNetManager::CreateCompletePort()
 {
 	m_hCompletePort = epoll_create(10000);
+
 	ERROR_RETURN_FALSE(m_hCompletePort != -1);
 
 	return TRUE;
@@ -365,6 +365,7 @@ BOOL CNetManager::WorkThread_DispathEvent()
 			CConnection* pConnection = (CConnection*)EpollEvent[i].data.ptr;
 			if(pConnection == NULL)
 			{
+				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!", nFd);
 				continue ;
 			}
 
@@ -383,17 +384,22 @@ BOOL CNetManager::WorkThread_DispathEvent()
 
 			int nError;
 			socklen_t len;
-
 			if(getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
 			{
-				CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------成功----!", nError);
+				CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------失败----!", nError);
 				continue;
 			}
 
 			if(EpollEvent[i].events & EPOLLIN)
 			{
-				if(nError == 0)
+				if (nError == 0)
 				{
+					if (!pConnection->IsConnectionOK())
+					{
+						pConnection->SetConnectionOK(TRUE);
+						m_pBufferHandler->OnNewConnect(pConnection);
+					}
+
 					_EventNode.dwEvent = EVENT_READ;
 
 					_EventNode.pPtr = EpollEvent[i].data.ptr;
@@ -415,11 +421,10 @@ BOOL CNetManager::WorkThread_DispathEvent()
 					if(!pConnection->IsConnectionOK())
 					{
 						pConnection->SetConnectionOK(TRUE);
+						m_pBufferHandler->OnNewConnect(pConnection);
 
 						_EventNode.dwEvent = EVENT_WRITE;
-
 						_EventNode.pPtr = EpollEvent[i].data.ptr;
-
 						m_DispatchEventList.Push(_EventNode);
 					}
 
@@ -441,6 +446,8 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 	EventNode _EventNode;
 	while(TRUE)
 	{
+		_EventNode.pPtr = NULL;
+		_EventNode.dwEvent = 0;
 		if(!m_DispatchEventList.Pop(_EventNode))
 		{
 			continue;

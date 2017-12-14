@@ -73,8 +73,11 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
+	UINT64 uTickCount = 0;
 	while(TRUE)
 	{
+		uTickCount = CommonFunc::GetTickCount();
+
 		ServiceBase::GetInstancePtr()->Update();
 
 		CommonThreadFunc::Sleep(1);

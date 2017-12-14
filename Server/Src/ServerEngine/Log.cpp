@@ -84,7 +84,7 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(),  lpszFormat, argList);
+	vsnprintf(szLog + 28 + m_strPrefix.size(), 512 - 28 - m_strPrefix.size(),  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
@@ -117,7 +117,7 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(), lpszFormat, argList);
+	vsnprintf(szLog + 28 + m_strPrefix.size(), 512 - 28 - m_strPrefix.size(), lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
@@ -151,7 +151,7 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 26 + m_strPrefix.size(), 512 - 26 - m_strPrefix.size(),  lpszFormat, argList);
+	vsnprintf(szLog + 28 + m_strPrefix.size(), 512 - 28 - m_strPrefix.size(),  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);

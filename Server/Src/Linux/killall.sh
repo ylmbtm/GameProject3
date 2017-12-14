@@ -7,6 +7,8 @@ pkill GameServer
 pkill HttpServer 
 pkill WatchServer
 pkill ProxyServer
+pkill CenterServer
+
 
 
  

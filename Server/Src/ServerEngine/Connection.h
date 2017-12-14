@@ -67,6 +67,8 @@ public:
 
 	BOOL    DoSend(IDataBuffer* pBuff);
 
+	BOOL	CheckHeader(CHAR* m_pPacket);
+
 public:
 	SOCKET						m_hSocket;
 
