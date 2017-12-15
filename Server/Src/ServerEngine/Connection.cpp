@@ -41,6 +41,9 @@ CConnection::CConnection()
 	m_nCheckNo          = 0;
 
 	m_IsSending			= FALSE;
+
+	m_pSendingBuffer	= NULL;
+	m_nSendingPos		= 0;
 }
 
 CConnection::~CConnection(void)
@@ -107,20 +110,7 @@ BOOL CConnection::DoReceive()
 	while(TRUE)
 	{
 		int nBytes = recv(m_hSocket, m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen, 0);
-		if(nBytes == 0)
-		{
-			if(m_dwDataLen == RECV_BUF_SIZE)
-			{
-				if(!ExtractBuffer())
-				{
-					return FALSE;
-				}
-
-				continue;
-			}
-			return FALSE;
-		}
-		else if(nBytes < 0)
+		if(nBytes < 0)
 		{
 			int nErr = CommonSocket::GetSocketLastError();
 			if( nErr == EAGAIN)
@@ -140,7 +130,7 @@ BOOL CConnection::DoReceive()
 		{
 			m_dwDataLen += nBytes;
 
-			if (m_dwDataLen != RECV_BUF_SIZE)
+			if (m_dwDataLen < RECV_BUF_SIZE)
 			{
 				return TRUE;
 			}
@@ -149,8 +139,6 @@ BOOL CConnection::DoReceive()
 			{
 				return FALSE;
 			}
-
-			continue;
 		}
 	}
 
@@ -407,28 +395,9 @@ BOOL CConnection::Clear()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	DoSend(pBuff);
+	m_SendBuffList.push(pBuff);
+	DoSend(TRUE);
 	return TRUE;
-}
-
-BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
-{
-	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
-	ERROR_RETURN_FALSE(pDataBuffer != NULL);
-
-	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	pHeader->CheckCode = 0x88;
-	pHeader->dwUserData = dwUserData;
-	pHeader->u64TargetID = u64TargetID;
-	pHeader->dwSize = dwLen + sizeof(PacketHeader);
-	pHeader->dwMsgID = dwMsgID;
-	pHeader->dwPacketNo = 1;
-
-	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
-
-	pDataBuffer->SetTotalLenth(pHeader->dwSize);
-
-	return SendBuffer(pDataBuffer);
 }
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
@@ -469,21 +438,20 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 }
 
 #ifdef WIN32
-BOOL CConnection::DoSend(IDataBuffer* pBuff)
+BOOL CConnection::DoSend(BOOL bMain)
 {
-	if(pBuff != NULL)
+	if(bMain)
 	{
-		m_SendBuffList.push(pBuff);
 		if(!mCritSending.TryLock())
 		{
-			return FALSE;
+			return TRUE;
 		}
 
 		///如果正在发送中就直接返回
 		if (m_IsSending)
 		{
 			mCritSending.Unlock();
-			return FALSE;
+			return TRUE;
 		}
 	}
 	else
@@ -548,7 +516,7 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 	{
 		m_IsSending = FALSE;
 		mCritSending.Unlock();
-		return FALSE;
+		return TRUE;
 	}
 
 	WSABUF  DataBuf;
@@ -577,6 +545,7 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 			Close();
 			m_IsSending = FALSE;
 			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
+			return FALSE;
 		}
 	}
 
@@ -584,99 +553,17 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 }
 
 #else
-BOOL CConnection::DoSend(IDataBuffer* pBuff)
+BOOL CConnection::DoSend(BOOL bMain)
 {
-	if(pBuff != NULL)
+	if(bMain)
 	{
-		m_SendBuffList.push(pBuff);
-		if(!mCritSending.TryLock())
-		{
-			return FALSE;
-		}
-
-		///如果正在发送中就直接返回
-		if (m_IsSending)
-		{
-			mCritSending.Unlock();
-			return FALSE;
-		}
-	}
-	else
-	{
-		mCritSending.Lock();
-		m_IsSending = FALSE;
+		return TRUE;
 	}
 
-	m_IsSending = TRUE;
-	IDataBuffer* pFirstBuff = NULL;
-	IDataBuffer* pSendingBuffer = NULL;
-	int nSendSize = 0;
-	int nCurPos = 0;
-
-	IDataBuffer* pBuffer = NULL;
-	while(m_SendBuffList.pop(pBuffer))
-	{
-		nSendSize += pBuffer->GetTotalLenth();
-
-		if(pFirstBuff == NULL)
-		{
-			pFirstBuff = pBuffer;
-
-			if(nSendSize >= RECV_BUF_SIZE)
-			{
-				pSendingBuffer = pBuffer;
-				break;
-			}
-
-			pBuffer = NULL;
-		}
-		else
-		{
-			if(pSendingBuffer == NULL)
-			{
-				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
-				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
-				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
-				nCurPos += pFirstBuff->GetTotalLenth();
-				pFirstBuff->Release();
-				pFirstBuff = NULL;
-			}
-
-			pBuffer->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
-			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
-			nCurPos += pBuffer->GetTotalLenth();
-			pBuffer->Release();
-			pBuffer = NULL;
-			if(nSendSize >= RECV_BUF_SIZE)
-			{
-				break;
-			}
-		}
-	}
-
-	if(pSendingBuffer == NULL)
-	{
-		pSendingBuffer = pFirstBuff;
-	}
-
-	if(pSendingBuffer == NULL)
-	{
-		m_IsSending = FALSE;
-		mCritSending.Unlock();
-		return FALSE;
-	}
-
-	m_IoOverlapSend.Clear();
-	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
-	m_IoOverlapSend.pDataBuffer = pSendingBuffer;
-	m_IoOverlapSend.dwConnID    = m_dwConnID;
-
-
-	//mudo库的处理方式
 	//返回值为正数， 分为完全发送，和部分发送，部分发送，用另一个缓冲区装着继续发送
 	//返回值为负数   错误码：
 	//
-	//if (errno != EWOULDBLOCK)
+	//if (errno != EAGAIN)
 	//{
 	//	//ERROR("TcpConnection sendInLoop");
 	//	if (errno == EPIPE || errno == ECONNRESET)
@@ -685,21 +572,62 @@ BOOL CConnection::DoSend(IDataBuffer* pBuff)
 	//	}
 	//}
 
-	INT32 nRet = send(m_hSocket, pSendingBuffer->GetBuffer(), pSendingBuffer->GetTotalLenth(), 0);
-	pSendingBuffer->Release();
-	if(nRet < 0)
+	if (m_pSendingBuffer != NULL)
 	{
-		int nErr = CommonSocket::GetSocketLastError();
-		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 原因:%s!", CommonSocket::GetLastErrorStr(nErr).c_str());
-	}
-	else if(nRet < pSendingBuffer->GetTotalLenth())
-	{
-		CommonSocket::CloseSocket(m_hSocket);
-		CLog::GetInstancePtr()->LogError("发送线程:发送失败, 缓冲区满了!");
+		INT32 nRet = send(m_hSocket, m_pSendingBuffer->GetBuffer() + m_nSendingPos, m_pSendingBuffer->GetTotalLenth() - m_nSendingPos, 0);
+		if (nRet < (m_pSendingBuffer->GetTotalLenth() - m_nSendingPos))
+		{
+			if ((nRet < 0) && (errno != EAGAIN))
+			{
+				m_pSendingBuffer->Release();
+				return FALSE;
+				//这就表示出错了
+			}
+			else
+			{
+				//这就表示发送了一半的数据
+				m_nSendingPos += nRet;
+				return TRUE;
+			}
+		}
+		else
+		{
+			m_pSendingBuffer->Release();
+			m_pSendingBuffer = NULL;
+			m_nSendingPos = 0;
+		}
 	}
 
-	m_IsSending = FALSE;
-	mCritSending.Unlock();
+	IDataBuffer* pBuffer = NULL;
+	while(m_SendBuffList.pop(pBuffer))
+	{
+		if (pBuffer == NULL)
+		{
+			return TRUE;
+		}
+
+		INT32 nRet = send(m_hSocket, pBuffer->GetBuffer(), pBuffer->GetTotalLenth(), 0);
+		if (nRet < pBuffer->GetTotalLenth())
+		{
+			if ((nRet < 0) && (errno != EAGAIN))
+			{
+				pBuffer->Release();
+				return FALSE;
+				//这就表示出错了
+			}
+			else
+			{
+				//这就表示发送了一半的数据
+				m_pSendingBuffer = pBuffer;
+				m_nSendingPos = nRet;
+				return TRUE;
+			}
+		}
+		else
+		{
+			pBuffer->Release();
+		}
+	}
 	return TRUE;
 }
 #endif

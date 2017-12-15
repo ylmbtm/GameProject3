@@ -23,6 +23,8 @@ public:
 
 	BOOL		OnCloseConnect(CConnection* pConn);
 
+	BOOL		OnSecondTimer();
+
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	BOOL        SendCmdToAccountConnection(UINT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);

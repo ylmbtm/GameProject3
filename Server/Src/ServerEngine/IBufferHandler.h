@@ -25,28 +25,29 @@ public:
 
 	virtual UINT32	GetBufferSize() = 0;
 
-	virtual UINT32  CopyFrom(IDataBuffer *pSrcBuffer) = 0;
+	virtual UINT32  CopyFrom(IDataBuffer* pSrcBuffer) = 0;
 
-	virtual UINT32  CopyTo(CHAR *pDestBuf, UINT32 dwDestLen) = 0;
+	virtual UINT32  CopyTo(CHAR* pDestBuf, UINT32 dwDestLen) = 0;
 };
 
 struct IDataHandler
 {
-	virtual BOOL OnDataHandle( IDataBuffer *pDataBuffer, CConnection *pConnection) = 0;
-	virtual BOOL OnCloseConnect(CConnection *pConnection) = 0;
-	virtual BOOL OnNewConnect(CConnection *pConnection) = 0;
+	virtual BOOL OnDataHandle( IDataBuffer* pDataBuffer, CConnection* pConnection) = 0;
+	virtual BOOL OnCloseConnect(CConnection* pConnection) = 0;
+	virtual BOOL OnNewConnect(CConnection* pConnection) = 0;
 };
 
 struct IPacketDispatcher
 {
-	virtual BOOL DispatchPacket( NetPacket *pNetPacket) = 0;
-	virtual BOOL OnCloseConnect(CConnection *pConnection) = 0;
-	virtual BOOL OnNewConnect(CConnection *pConnection) = 0;
+	virtual BOOL DispatchPacket( NetPacket* pNetPacket) = 0;
+	virtual BOOL OnSecondTimer() = 0;
+	virtual BOOL OnCloseConnect(CConnection* pConnection) = 0;
+	virtual BOOL OnNewConnect(CConnection* pConnection) = 0;
 };
 
 struct  IThreadHandler
 {
-	virtual BOOL DispatchPacket(NetPacket *pNetPacket) = 0;
+	virtual BOOL DispatchPacket(NetPacket* pNetPacket) = 0;
 	virtual BOOL OnThreadBegin() = 0;
 	virtual BOOL OnThreadEnd() = 0;
 };

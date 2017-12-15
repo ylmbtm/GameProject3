@@ -52,7 +52,6 @@ BOOL CGameService::Init()
 	}
 
 	m_AccountMsgHandler.Init(0);
-
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
@@ -65,6 +64,11 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 }
 
 BOOL CGameService::OnCloseConnect(CConnection* pConn)
+{
+	return TRUE;
+}
+
+BOOL CGameService::OnSecondTimer()
 {
 	return TRUE;
 }

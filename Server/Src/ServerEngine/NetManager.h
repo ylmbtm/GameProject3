@@ -8,12 +8,6 @@ Th_RetName _NetEventThread( void* pParam );
 
 Th_RetName _NetListenThread( void* pParam );
 
-Th_RetName _NetEventDispatchThread(void* pParam ); //only for linux
-
-////以下为linux专有//////////////////////////////
-#define EVENT_READ  1
-#define EVENT_WRITE 2
-
 struct EventNode
 {
 	UINT32		dwEvent;
@@ -55,51 +49,42 @@ public:
 public:
 	BOOL	CreateCompletePort();
 
-	CConnection*	AssociateCompletePort(SOCKET hSocket);
+	BOOL	DestroyCompletePort();
+
+	BOOL	CreateEventThread(UINT32 nNum);
+
+	BOOL    CloseEventThread();
+
+	BOOL	WorkThread_ProcessEvent(UINT32 nParam);
+
+	BOOL	WorkThread_Listen();
+
+	BOOL	EventDelete(CConnection* pConnection);
+
+	BOOL	EventSet(CConnection* pConnection, BOOL bWrite);
+
+	CConnection*	AssociateCompletePort(SOCKET hSocket, BOOL bConnect);
 
 	CConnection*	ConnectToOtherSvr(std::string strIpAddr, UINT16 sPort);
 
 	CConnection*	ConnectToOtherSvrEx(std::string strIpAddr, UINT16 sPort);
 
-	BOOL	DestroyCompletePort();
-
-	BOOL	CreateDispatchThread();
-
-	BOOL    CloseDispatchThread();
-
-	BOOL	CreateEventThread(int nNum);
-
-	BOOL    CloseEventThread();
-
-	BOOL	WorkThread_DispathEvent();
-
-	BOOL	WorkThread_ProcessEvent();
-
-	BOOL	WorkThread_Listen();
-
+public:
 	SOCKET				m_hListenSocket;
 
 	HANDLE				m_hCompletePort;
 
-	BOOL				m_bCloseSend;		//是否关闭发送数据的线程
-
 	BOOL				m_bCloseEvent;		//是否关闭事件处理线程
 
-	BOOL				m_bCloseDispath;	//是否关闭分发线程
-
 	IDataHandler*		m_pBufferHandler;
-public:
-	CommonQueue::CMessageQueue<EventNode>	m_DispatchEventList;
-
 	THANDLE				 m_hListenThread;
-	THANDLE				 m_hDispathThread;
 	std::vector<THANDLE> m_vtEventThread;
 
 #ifndef WIN32
 
 	static void SignalHandler(int nValue)
 	{
-
+		return;
 	}
 
 	BOOL  ClearSignal()

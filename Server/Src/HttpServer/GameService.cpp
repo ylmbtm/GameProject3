@@ -66,6 +66,11 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	return TRUE;
 }
 
+BOOL CGameService::OnSecondTimer()
+{
+	return TRUE;
+}
+
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)

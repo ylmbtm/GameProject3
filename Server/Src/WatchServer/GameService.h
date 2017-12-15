@@ -23,6 +23,8 @@ public:
 
 	BOOL		OnCloseConnect(CConnection* pConn);
 
+	BOOL		OnSecondTimer();
+
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	BOOL		AutoRun();

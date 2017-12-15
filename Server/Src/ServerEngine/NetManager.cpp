@@ -6,6 +6,7 @@
 #include "CommandDef.h"
 #include "DataBuffer.h"
 #include "Log.h"
+#include "PacketHeader.h"
 
 
 CNetManager::CNetManager(void)
@@ -13,7 +14,6 @@ CNetManager::CNetManager(void)
 	m_hListenThread		= (THANDLE)NULL;
 	m_hListenSocket		= NULL;
 	m_hCompletePort		= NULL;
-	m_bCloseSend		= TRUE;
 	m_bCloseEvent		= TRUE;
 	m_pBufferHandler	= NULL;
 }
@@ -22,7 +22,7 @@ CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::CreateEventThread( int nNum )
+BOOL CNetManager::CreateEventThread(UINT32 nNum )
 {
 	if(nNum == 0)
 	{
@@ -33,9 +33,14 @@ BOOL CNetManager::CreateEventThread( int nNum )
 
 	m_bCloseEvent = FALSE;
 
-	for(int i = 0; i < nNum; ++i)
+	//目前linux使用单线程
+#ifndef WIN32
+	nNum = 1;
+#endif
+
+	for(UINT32 i = 0; i < nNum; ++i)
 	{
-		THANDLE hThread = CommonThreadFunc::CreateThread(_NetEventThread, (void*)this);
+		THANDLE hThread = CommonThreadFunc::CreateThread(_NetEventThread, (void*)i);
 		m_vtEventThread.push_back(hThread);
 	}
 
@@ -56,7 +61,7 @@ BOOL CNetManager::WorkThread_Listen()
 			break;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
-		CConnection* pConnection = AssociateCompletePort(hClientSocket);
+		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 		if(pConnection != NULL)
 		{
 			pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
@@ -126,7 +131,7 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 
 #ifdef WIN32
 
-BOOL CNetManager::WorkThread_ProcessEvent()
+BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 {
 	ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
 
@@ -219,7 +224,7 @@ BOOL CNetManager::WorkThread_ProcessEvent()
 
 				if(pConnection != NULL)
 				{
-					pConnection->DoSend(NULL);
+					pConnection->DoSend(FALSE);
 				}
 				else
 				{
@@ -266,7 +271,7 @@ BOOL CNetManager::CreateCompletePort()
 	return TRUE;
 }
 
-CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
+CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NULL(pConnection != NULL);
@@ -287,12 +292,13 @@ BOOL CNetManager::DestroyCompletePort()
 	return TRUE;
 }
 
-BOOL CNetManager::CreateDispatchThread()
+
+BOOL CNetManager::EventDelete(CConnection* pConnection)
 {
 	return TRUE;
 }
 
-BOOL CNetManager::WorkThread_DispathEvent()
+BOOL CNetManager::EventSet(CConnection* pConnection, BOOL bWrite)
 {
 	return TRUE;
 }
@@ -308,7 +314,7 @@ BOOL CNetManager::CreateCompletePort()
 	return TRUE;
 }
 
-CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
+CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 
@@ -318,7 +324,14 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket )
 
 	struct epoll_event EpollEvent;
 	EpollEvent.data.ptr = pConnection;
-	EpollEvent.events  = EPOLLIN | EPOLLOUT | EPOLLET;
+	if (bConnect)
+	{
+		EpollEvent.events = EPOLLIN | EPOLLOUT | EPOLLET;
+	}
+	else
+	{
+		EpollEvent.events = EPOLLIN | EPOLLET;
+	}
 
 	if(-1 == epoll_ctl(m_hCompletePort, EPOLL_CTL_ADD, hSocket, &EpollEvent))
 	{
@@ -337,103 +350,100 @@ BOOL CNetManager::DestroyCompletePort()
 	return TRUE;
 }
 
-BOOL CNetManager::CreateDispatchThread()
-{
-	m_bCloseDispath = FALSE;
-
-	m_hDispathThread = CommonThreadFunc::CreateThread(_NetEventDispatchThread,  (void*)NULL);
-	ERROR_RETURN_FALSE(m_hDispathThread != (THANDLE)NULL);
-
-	return TRUE;
-}
-
-BOOL CNetManager::WorkThread_DispathEvent()
+BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 {
 	struct epoll_event EpollEvent[20];
 	int nFd = 0;
-	EventNode _EventNode;
-	while(!m_bCloseDispath)
+	while (!m_bCloseEvent)
 	{
 		nFd = epoll_wait(m_hCompletePort, EpollEvent, 20, 1000);
-		if(nFd == -1)
+		if (nFd == -1)
 		{
 			continue;
 		}
 
-		for(int i = 0; i < nFd; ++i)
+		for (int i = 0; i < nFd; ++i)
 		{
 			CConnection* pConnection = (CConnection*)EpollEvent[i].data.ptr;
-			if(pConnection == NULL)
+			if (pConnection == NULL)
 			{
 				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!", nFd);
-				continue ;
+				continue;
 			}
 
-			if((EpollEvent[i].events & EPOLLERR) || (EpollEvent[i].events & EPOLLHUP))
+			if ((EpollEvent[i].events & EPOLLERR) || (EpollEvent[i].events & EPOLLHUP))
 			{
-				if(!pConnection->IsConnectionOK())
+				if (!pConnection->IsConnectionOK())
 				{
-					CLog::GetInstancePtr()->LogError("---未连接socket收到这个消息----EPOLLERR------------!");
-					continue;
+					//CLog::GetInstancePtr()->LogError("---未连接socket收到这个消息----EPOLLERR-----连接未成功-------%x!", pConnection);
+				}
+				else
+				{
+					//CLog::GetInstancePtr()->LogError("---己连接socket收到这个消息----EPOLLERR------连接断开------!");
 				}
 
-				CLog::GetInstancePtr()->LogError("---己连接socket收到这个消息----EPOLLERR------------!");
-
+				EventDelete(pConnection);
+				pConnection->Close();
 				continue;
 			}
 
 			int nError;
 			socklen_t len;
-			if(getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
+			if (getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
 			{
 				CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------失败----!", nError);
 				continue;
 			}
 
-			if(EpollEvent[i].events & EPOLLIN)
+			if (nError != 0)
 			{
-				if (nError == 0)
-				{
-					if (!pConnection->IsConnectionOK())
-					{
-						pConnection->SetConnectionOK(TRUE);
-						m_pBufferHandler->OnNewConnect(pConnection);
-					}
-
-					_EventNode.dwEvent = EVENT_READ;
-
-					_EventNode.pPtr = EpollEvent[i].data.ptr;
-
-					m_DispatchEventList.Push(_EventNode);
-
-					CLog::GetInstancePtr()->LogError("-------EPOLLIN--------成功----!");
-				}
-				else
+				if (EpollEvent[i].events & EPOLLIN)
 				{
 					CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
 				}
-			}
 
-			if(EpollEvent[i].events & EPOLLOUT)
-			{
-				if(nError == 0)
-				{
-					if(!pConnection->IsConnectionOK())
-					{
-						pConnection->SetConnectionOK(TRUE);
-						m_pBufferHandler->OnNewConnect(pConnection);
-
-						_EventNode.dwEvent = EVENT_WRITE;
-						_EventNode.pPtr = EpollEvent[i].data.ptr;
-						m_DispatchEventList.Push(_EventNode);
-					}
-
-					CLog::GetInstancePtr()->LogError("-------EPOLLOUT-----成功-------!");
-				}
-				else
+				if (EpollEvent[i].events & EPOLLOUT)
 				{
 					CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
 				}
+
+				continue;
+			}
+
+			if (EpollEvent[i].events & EPOLLIN)
+			{
+				if (!pConnection->IsConnectionOK())
+				{
+					pConnection->SetConnectionOK(TRUE);
+					m_pBufferHandler->OnNewConnect(pConnection);
+				}
+
+				if (!pConnection->HandleRecvEvent(0))
+				{
+					//基本表明连接己断开，可以关闭连接了。
+					EventDelete(pConnection);
+					pConnection->Close();
+					continue;
+				}
+
+				CLog::GetInstancePtr()->LogError("-------EPOLLIN--------成功----!");
+			}
+
+			if (EpollEvent[i].events & EPOLLOUT)
+			{
+				if (!pConnection->IsConnectionOK())
+				{
+					pConnection->SetConnectionOK(TRUE);
+					m_pBufferHandler->OnNewConnect(pConnection);
+				}
+
+				if (!pConnection->DoSend(FALSE))
+				{
+					EventDelete(pConnection);
+					pConnection->Close();
+				}
+
+				CLog::GetInstancePtr()->LogError("-------EPOLLOUT-----成功-------!");
 			}
 		}
 	}
@@ -441,58 +451,37 @@ BOOL CNetManager::WorkThread_DispathEvent()
 	return TRUE;
 }
 
-BOOL CNetManager::WorkThread_ProcessEvent()
+
+BOOL CNetManager::EventDelete(CConnection* pConnection)
 {
-	EventNode _EventNode;
-	while(TRUE)
+	struct epoll_event delEpv = { 0, { 0 } };
+	delEpv.data.ptr = pConnection;
+	if (-1 == epoll_ctl(m_hCompletePort, EPOLL_CTL_DEL, pConnection->GetSocket(), &delEpv))
 	{
-		_EventNode.pPtr = NULL;
-		_EventNode.dwEvent = 0;
-		if(!m_DispatchEventList.Pop(_EventNode))
-		{
-			continue;
-		}
-
-		CConnection* pConnection = (CConnection*)_EventNode.pPtr;
-		if(pConnection == NULL)
-		{
-			if((_EventNode.dwEvent != EVENT_READ) && (_EventNode.dwEvent != EVENT_WRITE))
-			{
-				CLog::GetInstancePtr()->LogError("错误:取出一个空事件!");
-			}
-
-			continue;
-		}
-
-		if(_EventNode.dwEvent == EVENT_READ)
-		{
-			if(!pConnection->HandleRecvEvent(0))
-			{
-				//基本表明连接己断开，可以关闭连接了。
-				pConnection->Close();
-			}
-			else
-			{
-				struct epoll_event EpollEvent;
-				EpollEvent.data.ptr = pConnection;
-				EpollEvent.events  = EPOLLIN | EPOLLET;
-
-				epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(),  &EpollEvent);
-			}
-		}
-		else if(_EventNode.dwEvent == EVENT_WRITE)
-		{
-			pConnection->DoSend(NULL);
-			struct epoll_event EpollEvent;
-			EpollEvent.data.ptr = pConnection;
-			EpollEvent.events  = EPOLLOUT | EPOLLET;
-			epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(),  &EpollEvent);
-		}
+		CLog::GetInstancePtr()->LogError("---epoll_ctl----epoll_ctl------失败------!");
+		return FALSE;
 	}
 
 	return TRUE;
 }
 
+BOOL CNetManager::EventSet(CConnection* pConnection, BOOL bWrite)
+{
+	struct epoll_event EpollEvent;
+	EpollEvent.data.ptr = pConnection;
+	if (bWrite)
+	{
+		EpollEvent.events = EPOLLIN | EPOLLOUT | EPOLLET;
+	}
+	else
+	{
+		EpollEvent.events = EPOLLIN | EPOLLET;
+	}
+
+	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+
+	return TRUE;
+}
 
 #endif
 
@@ -523,17 +512,15 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 		return FALSE;
 	}
 
-	if(!CreateDispatchThread())
-	{
-		CLog::GetInstancePtr()->LogError("创建事件分发线程失败！！");
-		return FALSE;
-	}
-
 	if(!StartListen(nPortNum))
 	{
 		CLog::GetInstancePtr()->LogError("开启监听失败！！");
 		return FALSE;
 	}
+
+#ifndef WIN32
+	ClearSignal();
+#endif
 
 	return TRUE;
 }
@@ -551,8 +538,6 @@ BOOL CNetManager::UninitNetwork()
 BOOL CNetManager::Close()
 {
 	StopListen();
-
-	CloseDispatchThread();
 
 	CloseEventThread();
 
@@ -596,7 +581,7 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 		return NULL;
 	}
 
-	CConnection* pConnection = AssociateCompletePort(hSocket);
+	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
 	if(pConnection == NULL)
 	{
 		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
@@ -629,7 +614,7 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 
 	CommonSocket::SetSocketNoDelay(hSocket);
 
-	CConnection* pConnection = AssociateCompletePort(hSocket);
+	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
 	if(pConnection == NULL)
 	{
 		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
@@ -655,8 +640,6 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 		pConnection->Close();
 
 		CLog::GetInstancePtr()->LogError("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
-
-		return NULL;
 	}
 
 	pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
@@ -673,12 +656,35 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u
 		//表示连接己经失败断开了，这个连接ID不可用了。
 		return FALSE;
 	}
+
 	if(!pConn->IsConnectionOK())
 	{
 		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageByConnID FAILED, 连接己断开");
 		return FALSE;
 	}
-	return pConn->SendMessage(dwMsgID, u64TargetID, dwUserData, pData, dwLen);
+
+	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+	ERROR_RETURN_FALSE(pDataBuffer != NULL);
+
+	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	pHeader->CheckCode = 0x88;
+	pHeader->dwUserData = dwUserData;
+	pHeader->u64TargetID = u64TargetID;
+	pHeader->dwSize = dwLen + sizeof(PacketHeader);
+	pHeader->dwMsgID = dwMsgID;
+	pHeader->dwPacketNo = 1;
+
+	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+
+	pDataBuffer->SetTotalLenth(pHeader->dwSize);
+
+	if (pConn->SendBuffer(pDataBuffer))
+	{
+		EventSet(pConn, TRUE);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
@@ -697,7 +703,13 @@ BOOL CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
 	}
 
 	pBuffer->AddRef();
-	return pConn->SendBuffer(pBuffer);
+	if (pConn->SendBuffer(pBuffer))
+	{
+		EventSet(pConn, TRUE);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CNetManager::CloseEventThread()
@@ -712,18 +724,11 @@ BOOL CNetManager::CloseEventThread()
 	return TRUE;
 }
 
-BOOL CNetManager::CloseDispatchThread()
-{
-	CommonThreadFunc::WaitThreadExit(m_hDispathThread);
-
-	return TRUE;
-}
-
 Th_RetName _NetEventThread( void* pParam )
 {
 	CNetManager* pNetManager = CNetManager::GetInstancePtr();
 
-	pNetManager->WorkThread_ProcessEvent();
+	pNetManager->WorkThread_ProcessEvent(0);
 
 	CLog::GetInstancePtr()->LogError("网络事件处理线程退出!");
 
@@ -739,19 +744,6 @@ Th_RetName _NetListenThread( void* pParam )
 	pNetManager->WorkThread_Listen();
 
 	CLog::GetInstancePtr()->LogInfo("监听线程退出!");
-
-	CommonThreadFunc::ExitThread();
-
-	return Th_RetValue;
-}
-
-Th_RetName _NetEventDispatchThread(void* pParam )
-{
-	CNetManager* pNetManager = CNetManager::GetInstancePtr();
-
-	pNetManager->WorkThread_DispathEvent();
-
-	CLog::GetInstancePtr()->LogInfo("事件分发线程退出!");
 
 	CommonThreadFunc::ExitThread();
 

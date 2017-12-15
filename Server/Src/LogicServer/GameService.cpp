@@ -102,14 +102,6 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	ConnectToLogServer();
-
-	ConnectToLoginSvr();
-
-	ConnectToDBSvr();
-
-	ConnectToCenterSvr();
-
 	m_LogicMsgHandler.Init(0);
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
@@ -150,6 +142,10 @@ BOOL CGameService::SendCmdToDBConnection(IDataBuffer* pBuffer)
 
 BOOL CGameService::ConnectToLogServer()
 {
+	if (m_dwLogConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
 	std::string strLogIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogIp, nLogPort);
@@ -161,6 +157,10 @@ BOOL CGameService::ConnectToLogServer()
 
 BOOL CGameService::ConnectToLoginSvr()
 {
+	if (m_dwLoginConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nLoginPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
 	std::string strLoginIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLoginIp, nLoginPort);
@@ -171,6 +171,10 @@ BOOL CGameService::ConnectToLoginSvr()
 
 BOOL CGameService::ConnectToDBSvr()
 {
+	if (m_dwDBConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_port");
 	std::string strDBIp = CConfigFile::GetInstancePtr()->GetStringValue("db_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strDBIp, nDBPort);
@@ -182,6 +186,10 @@ BOOL CGameService::ConnectToDBSvr()
 
 BOOL CGameService::ConnectToCenterSvr()
 {
+	if (m_dwCenterID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nCenterPort = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_port");
 	std::string strCenterIp = CConfigFile::GetInstancePtr()->GetStringValue("center_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strCenterIp, nCenterPort);
@@ -240,32 +248,41 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	if(m_dwLoginConnID == pConn->GetConnectionID())
 	{
 		m_dwLoginConnID = 0;
-		ConnectToLoginSvr();
 		return TRUE;
 	}
 
 	if(m_dwLogConnID == pConn->GetConnectionID())
 	{
 		m_dwLogConnID = 0;
-		ConnectToLogServer();
 		return TRUE;
 	}
 
 	if(m_dwDBConnID == pConn->GetConnectionID())
 	{
 		m_dwDBConnID = 0;
-		ConnectToDBSvr();
 		return TRUE;
 	}
 
 	if(m_dwCenterID == pConn->GetConnectionID())
 	{
 		m_dwCenterID = 0;
-		ConnectToCenterSvr();
 		return TRUE;
 	}
 
 	CGameSvrMgr::GetInstancePtr()->OnCloseConnect(pConn->GetConnectionID());
+
+	return TRUE;
+}
+
+BOOL CGameService::OnSecondTimer()
+{
+	ConnectToLogServer();
+
+	ConnectToLoginSvr();
+
+	ConnectToDBSvr();
+
+	ConnectToCenterSvr();
 
 	return TRUE;
 }

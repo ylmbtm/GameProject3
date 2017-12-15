@@ -52,10 +52,6 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	//ConnectToLogServer();
-
-	ConnectToAccountSvr();
-
 	m_LoginMsgHandler.Init();
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
@@ -96,6 +92,10 @@ BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID
 
 BOOL CGameService::ConnectToLogServer()
 {
+	if (m_dwLogSvrConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
 	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
@@ -106,6 +106,10 @@ BOOL CGameService::ConnectToLogServer()
 
 BOOL CGameService::ConnectToAccountSvr()
 {
+	if (m_dwAccountConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nAccountPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");
 	std::string strAccountIp = CConfigFile::GetInstancePtr()->GetStringValue("account_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strAccountIp, nAccountPort);
@@ -124,14 +128,21 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	if(pConn->GetConnectionID() == m_dwAccountConnID)
 	{
 		m_dwAccountConnID = 0;
-		ConnectToAccountSvr();
 	}
 
 	if(pConn->GetConnectionID() == m_dwLogSvrConnID)
 	{
 		m_dwLogSvrConnID = 0;
-		//ConnectToLogServer();
 	}
+
+	return TRUE;
+}
+
+BOOL CGameService::OnSecondTimer()
+{
+	ConnectToAccountSvr();
+
+	//ConnectToLogServer();
 
 	return TRUE;
 }

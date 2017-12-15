@@ -21,6 +21,8 @@ public:
 
 	BOOL		OnCloseConnect(CConnection* pConn);
 
+	BOOL		OnSecondTimer();
+
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	BOOL		SetLogicConnID(UINT32 dwConnID);

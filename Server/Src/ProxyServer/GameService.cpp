@@ -54,8 +54,6 @@ BOOL CGameService::Init()
 
 	ERROR_RETURN_FALSE(m_ProxyMsgHandler.Init(0));
 
-	ConnectToLogicSvr();
-
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
@@ -73,10 +71,16 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
 		m_dwLogicConnID = 0;
-		ConnectToLogicSvr();
 	}
 
 	m_ProxyMsgHandler.OnCloseConnect(pConn);
+
+	return TRUE;
+}
+
+BOOL CGameService::OnSecondTimer()
+{
+	ConnectToLogicSvr();
 
 	return TRUE;
 }
@@ -103,14 +107,15 @@ UINT32 CGameService::GetLogicConnID()
 
 BOOL CGameService::ConnectToLogicSvr()
 {
+	if (m_dwLogicConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
-
-
 	m_dwLogicConnID = pConn->GetConnectionID();
-
 	return TRUE;
 }
 

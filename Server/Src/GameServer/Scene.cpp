@@ -149,7 +149,11 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	CSceneObject* pPlayer = GetPlayer(Req.roleid());
-	ERROR_RETURN_TRUE(pPlayer != NULL);
+	if (pPlayer == NULL)
+	{
+		return TRUE;
+	}
+
 	pPlayer->SetConnectID(0, 0);
 
 	UpdateAiController(pPlayer->GetObjectGUID());

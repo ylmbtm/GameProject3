@@ -64,10 +64,6 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	ConnectToLogicSvr();
-
-	ConnectToProxySvr();
-
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
@@ -77,9 +73,7 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 	if(pConn->GetConnectionID() == m_dwLogicConnID)
 	{
 		RegisterToLogicSvr();
-
 		m_SceneManager.SendCityReport();
-
 		return TRUE;
 	}
 	if(pConn->GetConnectionID() == m_dwProxyConnID)
@@ -96,17 +90,21 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	if(m_dwLogicConnID == pConn->GetConnectionID())
 	{
 		m_dwLogicConnID = 0;
-		ConnectToLogicSvr();
-
-		CLog::GetInstancePtr()->LogInfo("与逻辑服断开连接!");
 	}
 
 	if(m_dwProxyConnID == pConn->GetConnectionID())
 	{
 		m_dwProxyConnID = 0;
-		ConnectToProxySvr();
-		CLog::GetInstancePtr()->LogInfo("与代理服断开连接!");
 	}
+
+	return TRUE;
+}
+
+BOOL CGameService::OnSecondTimer()
+{
+	ConnectToLogicSvr();
+
+	ConnectToProxySvr();
 
 	return TRUE;
 }
@@ -170,14 +168,14 @@ UINT32 CGameService::GetProxyConnID()
 
 BOOL CGameService::ConnectToLogicSvr()
 {
+	if (m_dwLogicConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
-	if(pConn == NULL)
-	{
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(pConn != NULL);
 	m_dwLogicConnID = pConn->GetConnectionID();
 
 	return TRUE;
@@ -185,6 +183,10 @@ BOOL CGameService::ConnectToLogicSvr()
 
 BOOL CGameService::ConnectToProxySvr()
 {
+	if (m_dwProxyConnID != 0)
+	{
+		return TRUE;
+	}
 	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
 	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strProxyIp, nProxyPort);

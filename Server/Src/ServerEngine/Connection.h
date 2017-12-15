@@ -31,7 +31,6 @@ class CConnection
 public:
 	CConnection();
 	virtual ~CConnection();
-
 public:
 	BOOL	HandleRecvEvent(UINT32 dwBytes);
 
@@ -63,9 +62,7 @@ public:
 
 	BOOL    SendBuffer(IDataBuffer*	pBuff);
 
-	BOOL    SendMessage(UINT32 dwMsgID, UINT64 uTargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen);
-
-	BOOL    DoSend(IDataBuffer* pBuff);
+	BOOL    DoSend(BOOL bMain); //bMain　TRUE表示主线程发出的调用， FALSE 表示是完成端口线程调用
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
 
@@ -102,6 +99,10 @@ public:
 	BOOL				        m_IsSending;
 	CCritSec                    mCritSending;
 
+
+	//LINUX下专用， 用于发了一半的包
+	IDataBuffer*				m_pSendingBuffer;
+	UINT32						m_nSendingPos;
 };
 
 

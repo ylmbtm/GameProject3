@@ -189,6 +189,8 @@ BOOL ServiceBase::Update()
 
 	if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
 	{
+		m_pPacketDispatcher->OnSecondTimer();
+
 		CLog::GetInstancePtr()->SetTitle("[FPS:%d]-[RecvNum:%d]--[SendNum:%d]", m_dwFps, m_dwRecvNum, m_dwSendNum);
 		m_dwFps = 0;
 		m_dwRecvNum = 0;
