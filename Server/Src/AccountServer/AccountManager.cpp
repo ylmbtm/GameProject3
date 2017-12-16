@@ -62,8 +62,6 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 		QueryResult.nextRow();
 	}
 
-	m_u64MaxID += 1;
-
 	m_IsRun = TRUE;
 	m_hThread = CommonThreadFunc::CreateThread(_SaveAccountThread, this);
 	ERROR_RETURN_FALSE(m_hThread != NULL);

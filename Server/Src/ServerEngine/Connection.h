@@ -8,6 +8,7 @@
 #define  NET_MSG_RECV				1
 #define  NET_MSG_SEND				2
 #define  NET_MSG_CONNECT			3
+#define  NET_MSG_POST				4
 
 #define RECV_BUF_SIZE               8192
 
@@ -62,7 +63,7 @@ public:
 
 	BOOL    SendBuffer(IDataBuffer*	pBuff);
 
-	BOOL    DoSend(BOOL bMain); //bMain　TRUE表示主线程发出的调用， FALSE 表示是完成端口线程调用
+	BOOL    DoSend();
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
 
@@ -74,6 +75,8 @@ public:
 	NetIoOperatorData			m_IoOverlapRecv;
 
 	NetIoOperatorData			m_IoOverlapSend;
+
+	NetIoOperatorData			m_IoOverLapPost;
 
 	UINT32                      m_dwConnID;
 	UINT64                      m_u64ConnData;
@@ -98,7 +101,6 @@ public:
 
 	BOOL				        m_IsSending;
 	CCritSec                    mCritSending;
-
 
 	//LINUX下专用， 用于发了一半的包
 	IDataBuffer*				m_pSendingBuffer;

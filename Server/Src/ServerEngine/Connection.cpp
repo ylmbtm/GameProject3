@@ -396,7 +396,6 @@ BOOL CConnection::Clear()
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
 	m_SendBuffList.push(pBuff);
-	DoSend(TRUE);
 	return TRUE;
 }
 
@@ -438,29 +437,10 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 }
 
 #ifdef WIN32
-BOOL CConnection::DoSend(BOOL bMain)
+BOOL CConnection::DoSend()
 {
-	if(bMain)
-	{
-		if(!mCritSending.TryLock())
-		{
-			return TRUE;
-		}
+	mCritSending.Lock();
 
-		///如果正在发送中就直接返回
-		if (m_IsSending)
-		{
-			mCritSending.Unlock();
-			return TRUE;
-		}
-	}
-	else
-	{
-		mCritSending.Lock();
-		m_IsSending = FALSE;
-	}
-
-	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
@@ -528,8 +508,8 @@ BOOL CConnection::DoSend(BOOL bMain)
 	m_IoOverlapSend.dwConnID = m_dwConnID;
 
 	DWORD dwSendBytes = 0;
-	mCritSending.Unlock();
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
+	mCritSending.Unlock();
 	if(nRet == 0) //发送成功
 	{
 		if(dwSendBytes < DataBuf.len)
@@ -543,7 +523,6 @@ BOOL CConnection::DoSend(BOOL bMain)
 		if(errCode != ERROR_IO_PENDING)
 		{
 			Close();
-			m_IsSending = FALSE;
 			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
 			return FALSE;
 		}
@@ -553,13 +532,8 @@ BOOL CConnection::DoSend(BOOL bMain)
 }
 
 #else
-BOOL CConnection::DoSend(BOOL bMain)
+BOOL CConnection::DoSend()
 {
-	if(bMain)
-	{
-		return TRUE;
-	}
-
 	//返回值为正数， 分为完全发送，和部分发送，部分发送，用另一个缓冲区装着继续发送
 	//返回值为负数   错误码：
 	//

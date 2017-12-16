@@ -169,7 +169,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				CConnection* pConnection = (CConnection*)CompleteKey;
 				if(pConnection == NULL)
 				{
-					CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV4, 但连接指针己经为空了");
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV1, pConnection == NULL");
 					break;
 				}
 
@@ -178,7 +178,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					//说明对方己经关闭
 					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 					{
-						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV, 对方己经关闭连接，但可能我们这边更快, 连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV2, 对方己经关闭连接，但可能我们这边更快, 连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 						break;
 					}
 					pConnection->Close();
@@ -187,7 +187,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				{
 					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 					{
-						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV，确实有数据, 但连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3，确实有数据, 但连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 						break;
 					}
 
@@ -198,7 +198,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 							//收数据失败，基本就是连接己断开
 							if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 							{
-								CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+								CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV4, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 								break;
 							}
 							pConnection->Close();
@@ -216,43 +216,64 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 			{
 				pIoPeratorData->pDataBuffer->Release();
 				CConnection* pConnection = (CConnection*)CompleteKey;
-				if((pConnection != NULL) && (pConnection->GetConnectionID() != pIoPeratorData->dwConnID))
+				if (pConnection == NULL)
+				{
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND, pConnection == NULL。");
+					ASSERT_FAIELD;
+					break;
+				}
+
+				if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND, 但连接己经被关闭重用了。");
 					break;
 				}
 
-				if(pConnection != NULL)
+				pConnection->DoSend();
+			}
+			break;
+			case NET_MSG_POST:
+			{
+				CConnection* pConnection = (CConnection*)CompleteKey;
+				if (pConnection == NULL)
 				{
-					pConnection->DoSend(FALSE);
-				}
-				else
-				{
-					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND,连接指针为空。");
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_POST1, pConnection == NULL。");
 					ASSERT_FAIELD;
+					break;
 				}
+
+				if (pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+				{
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_POST2, 但连接己经被关闭重用了。");
+					break;
+				}
+
+				pConnection->DoSend();
 			}
 			break;
 			case NET_MSG_CONNECT:
 			{
 				CConnection* pConnection = (CConnection*)CompleteKey;
-				if(pConnection != NULL)
+				if (pConnection == NULL)
 				{
-					if(bRetValue)
-					{
-						pConnection->SetConnectionOK(TRUE);
-						m_pBufferHandler->OnNewConnect(pConnection);
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_CONNECT, pConnection == NULL。");
+					break;
+				}
 
-						if(!pConnection->DoReceive())
-						{
-							pConnection->Close();
-						}
-					}
-					else
+				if(bRetValue)
+				{
+					pConnection->SetConnectionOK(TRUE);
+					m_pBufferHandler->OnNewConnect(pConnection);
+
+					if(!pConnection->DoReceive())
 					{
-						pConnection->SetConnectionOK(FALSE);
 						pConnection->Close();
 					}
+				}
+				else
+				{
+					pConnection->SetConnectionOK(FALSE);
+					pConnection->Close();
 				}
 			}
 			break;
@@ -298,8 +319,23 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 	return TRUE;
 }
 
-BOOL CNetManager::EventSet(CConnection* pConnection, BOOL bWrite)
+BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 {
+#ifdef WIN32
+	if (!pConnection->m_IsSending)
+	{
+		pConnection->m_IsSending = TRUE;
+		pConnection->m_IoOverLapPost.Clear();
+		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
+		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
+		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
+	}
+#else
+	struct epoll_event EpollEvent;
+	EpollEvent.data.ptr = pConnection;
+	EpollEvent.events =  EPOLLOUT | EPOLLET;
+	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+#endif
 	return TRUE;
 }
 
@@ -461,24 +497,6 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 		CLog::GetInstancePtr()->LogError("---epoll_ctl----epoll_ctl------失败------!");
 		return FALSE;
 	}
-
-	return TRUE;
-}
-
-BOOL CNetManager::EventSet(CConnection* pConnection, BOOL bWrite)
-{
-	struct epoll_event EpollEvent;
-	EpollEvent.data.ptr = pConnection;
-	if (bWrite)
-	{
-		EpollEvent.events = EPOLLIN | EPOLLOUT | EPOLLET;
-	}
-	else
-	{
-		EpollEvent.events = EPOLLIN | EPOLLET;
-	}
-
-	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
 
 	return TRUE;
 }
@@ -680,7 +698,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u
 
 	if (pConn->SendBuffer(pDataBuffer))
 	{
-		EventSet(pConn, TRUE);
+		PostSendOperation(pConn);
 		return TRUE;
 	}
 
@@ -705,7 +723,7 @@ BOOL CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
 	pBuffer->AddRef();
 	if (pConn->SendBuffer(pBuffer))
 	{
-		EventSet(pConn, TRUE);
+		PostSendOperation(pConn);
 		return TRUE;
 	}
 
