@@ -6,7 +6,7 @@
 #include "../ServerEngine/Log.h"
 #include "../ServerEngine/DataBuffer.h"
 #include "../ServerEngine/CommonFunc.h"
-
+#include <boost/asio.hpp>
 
 
 CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservice)
@@ -55,7 +55,6 @@ BOOL CConnection::DoReceive()
 {
 	//boost::asio::async_read(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-
 	//boost::asio::async_read_some(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 	m_hSocket.async_read_some(boost::asio::buffer(m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen), boost::bind(&CConnection::HandReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
@@ -96,8 +95,10 @@ BOOL CConnection::ExtractBuffer()
 {
 	//在这方法里返回FALSE。
 	//会在外面导致这个连接被关闭。
-
-	ERROR_RETURN_TRUE(m_dwDataLen > 0);
+	if (m_dwDataLen == 0)
+	{
+		return TRUE;
+	}
 
 	while(TRUE)
 	{
@@ -130,40 +131,10 @@ BOOL CConnection::ExtractBuffer()
 		PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
 		//////////////////////////////////////////////////////////////////////////
 		//在这里对包头进行检查, 如果不合法就要返回FALSE;
-		/*
-		1.首先验证包的验证吗
-		2.包的长度
-		3.包的序号*/
-		if(pHeader->CheckCode != 0x88)
+		if (!CheckHeader(m_pBufPos))
 		{
 			return FALSE;
 		}
-
-		if(pHeader->dwSize > 1024 * 1024)
-		{
-			return FALSE;
-		}
-
-		if(pHeader->dwMsgID > 4999999)
-		{
-			return FALSE;
-		}
-		/*if(m_nCheckNo == 0)
-		{
-			m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
-		}
-		else
-		{
-			if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-			{
-				m_nCheckNo += 1;
-			}
-			else
-			{
-				return FALSE;
-			}*/
-
-
 
 		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
 
@@ -215,11 +186,12 @@ BOOL CConnection::ExtractBuffer()
 BOOL CConnection::Close()
 {
 
-	m_pDataHandler->OnCloseConnect(this);
+
 	m_hSocket.close();
 	m_bConnected        = FALSE;
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
+	m_pDataHandler->OnCloseConnect(this);
 	return TRUE;
 }
 
@@ -257,9 +229,7 @@ boost::asio::ip::tcp::socket& CConnection::GetSocket()
 
 BOOL CConnection::IsConnectionOK()
 {
-	//m_hSocket.is_open()
-
-	return m_bConnected;
+	return m_bConnected && m_hSocket.is_open();
 }
 
 BOOL CConnection::SetConnectionOK( BOOL bOk )
@@ -270,7 +240,6 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 
 	return TRUE;
 }
-
 
 BOOL CConnection::Clear()
 {
@@ -308,38 +277,18 @@ BOOL CConnection::Clear()
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
 	m_SendBuffList.push(pBuff);
-	DoSend();
+
+	if (!m_IsSending)
+	{
+		CHAR szBuf[1] = { 0 };
+		boost::asio::async_write(m_hSocket, boost::asio::buffer(szBuf, 0), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	}
+
 	return TRUE;
-}
-
-BOOL CConnection::SendMessage(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
-{
-	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
-	ERROR_RETURN_FALSE(pDataBuffer != NULL);
-
-	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	pHeader->CheckCode = 0x88;
-	pHeader->dwUserData = dwUserData;
-	pHeader->u64TargetID = u64TargetID;
-	pHeader->dwSize = dwLen + sizeof(PacketHeader);
-	pHeader->dwMsgID = dwMsgID;
-	pHeader->dwPacketNo = 1;
-
-	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
-
-	pDataBuffer->SetTotalLenth(pHeader->dwSize);
-
-	return SendBuffer(pDataBuffer);
 }
 
 BOOL CConnection::DoSend()
 {
-	///如果正在发送中就直接返回
-	if (m_IsSending)
-	{
-		return FALSE;
-	}
-
 	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
 	IDataBuffer* pBuffer = NULL;
@@ -395,6 +344,8 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
+	boost::asio::async_write(m_hSocket, boost::asio::buffer(pSendingBuffer->GetBuffer(), pSendingBuffer->GetBufferSize()), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
 	return TRUE;
 }
 
@@ -404,6 +355,13 @@ void CConnection::HandReaddata(const boost::system::error_code& error, size_t le
 	HandleRecvEvent(len);
 }
 
+
+void CConnection::HandWritedata(const boost::system::error_code& error, size_t len)
+{
+	DoSend();
+
+	return;
+}
 
 CConnectionMgr::CConnectionMgr()
 {
@@ -496,7 +454,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	pConnection->Clear();
 
-	dwConnID += m_vtConnList.size();
+	dwConnID += (UINT32)m_vtConnList.size();
 
 	pConnection->SetConnectionID(dwConnID);
 
@@ -533,7 +491,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 BOOL CConnectionMgr::CheckConntionAvalible()
 {
 	return TRUE;
-	UINT32 curTick = CommonFunc::GetTickCount();
+	UINT64 curTick = CommonFunc::GetTickCount();
 
 	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{

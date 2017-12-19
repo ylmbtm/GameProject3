@@ -128,7 +128,7 @@ BOOL CGameService::Run()
 
 		m_LogicMsgHandler.OnUpdate(uTickCount);
 
-		CommonThreadFunc::Sleep(1);
+		CommonFunc::Sleep(1);
 	}
 
 	return TRUE;

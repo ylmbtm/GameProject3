@@ -34,7 +34,7 @@ void CCommonWorkThread::Run()
 			pPacket->m_pDataBuffer->Release();
 		}
 
-		CommonThreadFunc::Sleep(1);
+		CommonFunc::Sleep(1);
 	}
 }
 

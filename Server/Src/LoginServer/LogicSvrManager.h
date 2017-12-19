@@ -1,6 +1,5 @@
 ﻿#ifndef _LOGIC_SEVER_MANAGERH_
 #define _LOGIC_SEVER_MANAGERH_
-
 #include "DBInterface/CppMysql.h"
 
 enum EServerStatue
@@ -13,14 +12,6 @@ enum EServerStatue
 	ESS_REVIEW		= 5,//评审
 };
 
-enum EServerFlag
-{
-	ESF_NONE	= 0, //无标记
-	ESS_NEW		= 1, //新服
-	ESS_SURGEST = 2, //推荐
-
-};
-
 struct LogicServerNode
 {
 	LogicServerNode()
@@ -29,7 +20,7 @@ struct LogicServerNode
 		m_dwServerID = 0;
 		m_dwPort = 0;
 		m_Statue = ESS_GOOD;
-		m_Flag = ESF_NONE;
+		m_Flag = 0;
 		m_bDelete = FALSE;
 	}
 
@@ -80,6 +71,7 @@ public:
 	LogicServerNode* GetRecommendServerInfo();
 
 	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
+
 public:
 	UINT32 m_dwRecommendSvrID;
 

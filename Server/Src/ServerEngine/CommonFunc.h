@@ -39,6 +39,8 @@ UINT32			GetCurThreadID();
 
 UINT32			GetCurProcessID();
 
+VOID			Sleep(UINT32 dwMilliseconds);
+
 UINT32			GetFreePhysMemory();
 
 INT32           GetRandNum(INT32 nType);

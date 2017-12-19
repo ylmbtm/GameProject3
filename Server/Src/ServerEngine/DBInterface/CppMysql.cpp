@@ -2,6 +2,7 @@
 #include "CppMysql.h"
 #include <stdlib.h>
 #include "../CommonConvert.h"
+#include <errmsg.h>
 
 CppMySQLQuery::CppMySQLQuery()
 {
@@ -323,6 +324,13 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 	{
 		goto EXT;
 	}
+
+	m_strHost = host;
+	m_strUser = user;
+	m_strPwd = passwd;
+	m_strDB	= db;
+	m_nPort = port;
+
 	//选择制定的数据库失败
 	//0表示成功，非0值表示出现错误。
 	if ( mysql_select_db( _db_ptr, db ) != 0 )
@@ -359,14 +367,19 @@ MYSQL* CppMySQL3DB::getMysql()
 /* 处理返回多行的查询，返回影响的行数 */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
-	if ( !mysql_real_query( _db_ptr, sql, (unsigned long)strlen(sql) ) )
+	int nError = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
 	{
-		_db_query.m_MysqlRes = mysql_store_result( _db_ptr );
-		//   _db_query._row =  mysql_fetch_row( _db_query._mysql_res );
-		//   _db_query._row_count = mysql_num_rows( _db_query._mysql_res );
-		//   //得到字段数量
-		//   _db_query._field_count = mysql_num_fields( _db_query._mysql_res );
+		reconnect();
+		nError = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
 	}
+
+	if (0 == nError)
+	{
+		_db_query.m_MysqlRes = mysql_store_result(_db_ptr);
+
+	}
+
 	return _db_query;
 }
 
@@ -415,8 +428,14 @@ bool CppMySQL3DB::reboot()
 	return false;
 }
 
-int CppMySQL3DB::reconnect()
+bool CppMySQL3DB::reconnect()
 {
+	if (ping())
+	{
+		return true;
+	}
+
+	close();
 	bool ret = false;
 	_db_ptr = mysql_init(NULL);
 	if (NULL == _db_ptr)

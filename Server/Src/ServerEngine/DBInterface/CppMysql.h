@@ -93,7 +93,7 @@ public:
 	bool reboot();
 
 	/* 主要功能:重新连接mysql 服务器 */
-	int reconnect();
+	bool reconnect();
 
 	/*说明:事务支持InnoDB or BDB表类型*/
 	/* 主要功能:开始事务 */

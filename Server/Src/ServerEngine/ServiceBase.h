@@ -3,11 +3,8 @@
 
 #include "IBufferHandler.h"
 #include "Connection.h"
-#include "EventFuncManager.h"
-#include "LockFreeQueue.h"
-#include "ConfigFile.h"
 #include "google/protobuf/message.h"
-
+#include "ConfigFile.h"
 
 
 class ServiceBase : public IDataHandler//, public CEventFuncManager

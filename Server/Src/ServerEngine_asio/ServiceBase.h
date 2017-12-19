@@ -4,6 +4,8 @@
 #include "IBufferHandler.h"
 #include "Connection.h"
 #include "google/protobuf/message.h"
+#include "ConfigFile.h"
+
 
 class ServiceBase : public IDataHandler//, public CEventFuncManager
 {
@@ -40,16 +42,12 @@ public:
 
 protected:
 	IPacketDispatcher*					m_pPacketDispatcher;
-	ArrayLockFreeQueue<NetPacket>		m_DataQueue[2];
-	UINT32								m_dwReadIndex;
-	UINT32								m_dwWriteIndex;
-	ArrayLockFreeQueue<CConnection*>	m_NewConList;
-	ArrayLockFreeQueue<CConnection*>	m_CloseConList;
-
+	ArrayLockFreeQueue<NetPacket>		m_DataQueue;
 
 	//以下用于统计
 	UINT64								m_dwLastTick;
-	UINT32								m_dwPackNum;
+	UINT32								m_dwRecvNum;
+	UINT32								m_dwSendNum;
 	UINT32								m_dwFps;
 };
 

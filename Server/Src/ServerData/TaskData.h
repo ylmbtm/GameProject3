@@ -11,7 +11,7 @@ struct TaskDataObject : public ShareObject
 	}
 
 	UINT64 m_u64ID;			//角色ID
-	UINT32 m_TaskID;		//任务ID
+	UINT32 m_uTaskID;		//任务ID
 	UINT32 m_TaskState;
 	UINT32 m_TaskCondition; //
 

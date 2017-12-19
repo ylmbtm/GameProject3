@@ -143,7 +143,7 @@ BOOL CGameService::Run()
 
 		m_SceneManager.OnUpdate(uTickCount);
 
-		CommonThreadFunc::Sleep(1);
+		CommonFunc::Sleep(1);
 	}
 
 	return TRUE;

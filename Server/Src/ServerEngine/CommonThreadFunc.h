@@ -22,8 +22,6 @@ THANDLE		CreateThread( Th_RetName (*pThreadFunc)(void*),  void* pArg);
 VOID		ExitThread();
 
 BOOL		WaitThreadExit(THANDLE hThread);
-
-VOID		Sleep(UINT32 dwMilliseconds);
 }
 
 

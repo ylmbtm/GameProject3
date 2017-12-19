@@ -142,7 +142,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	}
 	else
 	{
-		Ack.set_retcode(MRC_UNKNOW_ERROR);
+		Ack.set_retcode(MRC_INVALID_ACCNAME);
 		Ack.set_lastsvrid(0);
 		Ack.set_accountid(0);
 	}
@@ -187,7 +187,7 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	}
 	else
 	{
-		Ack.set_retcode(MRC_UNKNOW_ERROR);
+		Ack.set_retcode(MRC_INVALID_ACCNAME);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);

@@ -32,15 +32,15 @@ public:
 		return m_dwRefCount;
 	}
 
-	bool AddRef()
+	BOOL AddRef()
 	{
 		m_pManager->m_CritSec.Lock();
 		m_dwRefCount++;
 		m_pManager->m_CritSec.Unlock();
-		return true;
+		return TRUE;
 	}
 
-	bool Release()
+	BOOL Release()
 	{
 		ASSERT(m_pManager != NULL);
 		m_pManager->m_CritSec.Lock();
@@ -89,7 +89,7 @@ public:
 
 		m_pManager->m_CritSec.Unlock();
 
-		return true;
+		return TRUE;
 	}
 
 	CHAR* GetData()

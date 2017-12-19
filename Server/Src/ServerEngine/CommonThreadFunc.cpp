@@ -35,20 +35,5 @@ BOOL CommonThreadFunc::WaitThreadExit( THANDLE hThread )
 	return TRUE;
 }
 
-VOID CommonThreadFunc::Sleep( UINT32 dwMilliseconds )
-{
-#ifdef WIN32
-	::Sleep(dwMilliseconds);
-#else
-	struct timespec req;
-	req.tv_sec = 0;
-	req.tv_nsec = dwMilliseconds * 1000000;
-	if(-1 == nanosleep(&req, NULL))
-	{
-		return ;
-	}
-#endif
 
-	return ;
-}
 

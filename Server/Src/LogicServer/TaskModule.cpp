@@ -61,7 +61,7 @@ BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->lock();
 
 		pObject->unlock();
-		m_mapTaskData.insert(std::make_pair(pObject->m_TaskID, pObject));
+		m_mapTaskData.insert(std::make_pair(pObject->m_uTaskID, pObject));
 	}
 	return TRUE;
 }
@@ -83,7 +83,7 @@ BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwPa
 	{
 		TaskDataObject* pDataObj = itor->second;
 
-		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo(pDataObj->m_TaskID);
+		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo(pDataObj->m_uTaskID);
 		ERROR_CONTINUE_EX(pInfo != NULL);
 
 		if(pInfo->TaskEvent != taskEvent)
@@ -122,7 +122,7 @@ BOOL CTaskModule::NotifyChange()
 	TaskChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{
-		TaskDataObject* pObject = GetTaskByID(*itor);
+		TaskDataObject* pObject = GetTaskByID((UINT32) * itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
 
 		TaskItem* pItem = Nty.add_changelist();

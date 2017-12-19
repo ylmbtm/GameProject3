@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "DBConnection.h"
 #include "DBStoredProc.h"
-#include "../CommonThreadFunc.h"
+#include "../CommonFunc.h"
 #include "../Log.h"
 #include <errmsg.h>
 
@@ -42,7 +42,6 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 
 	if ( NULL != m_pMySql )
 	{
-		//mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
 		if ( NULL != mysql_real_connect( m_pMySql, szHost, szUser, szPwd, szDb, nPort, NULL, 0 ) )
 		{
 			m_strHost.assign( szHost );
@@ -52,22 +51,15 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 			m_nPort = nPort;
 
 			mysql_autocommit( m_pMySql, 1 );
-			//mysql_set_character_set( m_pMySql, "utf8" );
 			return true;
 		}
 		else
 		{
 			m_nErrno = mysql_errno( m_pMySql );
 			m_strError = mysql_error( m_pMySql );
-
 			CLog::GetInstancePtr()->LogError("CDBConnection::Connect Failed [mysql_real_connect], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
-
 			return false;
 		}
-	}
-	else
-	{
-		ASSERT_FAIELD;
 	}
 
 	return false;
@@ -86,15 +78,9 @@ bool CDBConnection::Reconnect( void )
 		m_pMySql = mysql_init( NULL );
 		if ( NULL != m_pMySql )
 		{
-			// set character.
-			//mysql_options( m_pMySql, MYSQL_SET_CHARSET_NAME, "utf8" );
 			if ( NULL != mysql_real_connect( m_pMySql, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0 ) )
 			{
-				// set autocommit.
 				mysql_autocommit( m_pMySql, 1 );
-				// set character set.
-				//mysql_set_character_set( m_pMySql, "utf8" );
-
 				return true;
 			}
 			else
@@ -105,11 +91,6 @@ bool CDBConnection::Reconnect( void )
 				return false;
 			}
 		}
-		else
-		{
-			//write_log( "reconnect mysql server failed!" );
-		}
-
 	}
 
 	return false;
@@ -386,7 +367,7 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 				{
 					m_nErrno = mysql_errno( m_pMySql );
 					m_strError = mysql_error( m_pMySql );
-					CommonThreadFunc::Sleep( ERROR_SLEEP_TIME );
+					CommonFunc::Sleep( ERROR_SLEEP_TIME );
 					_ret = ProcError( op_, __FUNCTION__ );
 				}
 			}
@@ -407,7 +388,7 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 				{
 					m_nErrno = mysql_errno( m_pMySql );
 					m_strError = mysql_error( m_pMySql );
-					CommonThreadFunc::Sleep( ERROR_SLEEP_TIME );
+					CommonFunc::Sleep( ERROR_SLEEP_TIME );
 					_ret = ProcError( op_, __FUNCTION__ );
 				}
 			}
@@ -428,7 +409,7 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 				{
 					m_nErrno = mysql_errno( m_pMySql );
 					m_strError = mysql_error( m_pMySql );
-					CommonThreadFunc::Sleep( ERROR_SLEEP_TIME );
+					CommonFunc::Sleep( ERROR_SLEEP_TIME );
 					_ret = ProcError( op_, __FUNCTION__ );
 				}
 			}
@@ -449,7 +430,7 @@ bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* =
 				{
 					m_nErrno = mysql_errno( m_pMySql );
 					m_strError = mysql_error( m_pMySql );
-					CommonThreadFunc::Sleep( ERROR_SLEEP_TIME );
+					CommonFunc::Sleep( ERROR_SLEEP_TIME );
 					_ret = ProcError( op_, __FUNCTION__ );
 				}
 			}

@@ -62,7 +62,7 @@ BOOL CDBMsgHandler::Run()
 			}
 		}
 
-		CommonThreadFunc::Sleep(1);
+		CommonFunc::Sleep(1);
 	}
 
 	return TRUE;

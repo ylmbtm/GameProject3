@@ -144,13 +144,31 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 			snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, channel, create_time) values('%lld','%s','%s', '%d', '%lld')",
 			         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwChannel, pAccount->m_uCreateTime);
 
+			if(m_DBConnection.execSQL(szSql) > 0)
+			{
+				continue;
+			}
+
+			CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
+
+			int nTimes = 0;
+			while (!m_DBConnection.reconnect())
+			{
+				nTimes++;
+				if (nTimes > 3)
+				{
+					break;
+				}
+				CommonFunc::Sleep(1000);
+			}
+
 			if(m_DBConnection.execSQL(szSql) < 0)
 			{
-				CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_FAILED2");
+				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
 			}
 		}
 
-		CommonThreadFunc::Sleep(10);
+		CommonFunc::Sleep(10);
 	}
 
 	return TRUE;

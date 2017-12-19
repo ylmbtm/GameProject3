@@ -45,7 +45,6 @@ BOOL LogicSvrManager::Init()
 
 BOOL LogicSvrManager::Uninit()
 {
-
 	for (auto itor = begin(); itor != end(); itor++)
 	{
 		LogicServerNode* pTempNode = itor->second;

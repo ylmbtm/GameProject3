@@ -9,7 +9,7 @@
 #include "../ServerEngine/CritSec.h"
 
 #define RECV_BUF_SIZE               8192
-#define Hash_Map                    std::map
+
 
 class CConnection
 {
@@ -48,11 +48,13 @@ public:
 
 	BOOL    SendBuffer(IDataBuffer*	pBuff);
 
-	BOOL    SendMessage(UINT32 dwMsgID, UINT64 uTargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen);
-
 	BOOL    DoSend();
 
 	void	HandReaddata(const boost::system::error_code& error, size_t len);
+
+	void	HandWritedata(const boost::system::error_code& error, size_t len);
+
+	BOOL	CheckHeader(CHAR* m_pPacket);
 public:
 	boost::asio::ip::tcp::socket m_hSocket;
 
@@ -77,7 +79,7 @@ public:
 
 	CConnection*                m_pNext;
 
-	UINT32						m_LastRecvTick;
+	UINT64						m_LastRecvTick;
 
 	ArrayLockFreeQueue < IDataBuffer*, 1 << 10 > m_SendBuffList;
 };

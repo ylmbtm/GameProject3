@@ -1,14 +1,19 @@
-CC=g++
+CC=g++ -std=c++11
 CCLIB=ar
-CC_INCLUDE=-I/usr/include
+CC_INCLUDE=-I/usr/include \
+-I/usr/include/mysql
+
 DEFS = -DSERVER_ENGINE
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
-		-I../../Common 
+		-I../../Common \
+		-I../../Common/Mysql 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
+	-L/usr/lib64\mysql \
+	-L/usr/lib/mysql \
 			 
 MY_LIB=
 

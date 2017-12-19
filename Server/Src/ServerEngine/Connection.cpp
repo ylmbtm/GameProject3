@@ -276,7 +276,7 @@ BOOL CConnection::Close()
 	CommonSocket::CloseSocket(m_hSocket);
 
 	m_hSocket           = INVALID_SOCKET;
-	m_bConnected        = FALSE;
+
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
 	m_pDataHandler->OnCloseConnect(this);

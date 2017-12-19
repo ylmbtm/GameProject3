@@ -5,6 +5,9 @@
 #include "boost/asio/placeholders.hpp"
 #include <boost/asio/impl/connect.hpp>
 #include "../ServerEngine/CommonConvert.h"
+#include "Log.h"
+#include "PacketHeader.h"
+#include "DataBuffer.h"
 
 
 CNetManager::CNetManager(void)
@@ -111,16 +114,67 @@ void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::er
 	return ;
 }
 
-BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConID, IDataBuffer* pDataBuffer)
+BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
 {
-	if((pDataBuffer == NULL) || (dwConID == 0))
+	ERROR_RETURN_FALSE(dwConnID != 0);
+	ERROR_RETURN_FALSE(pBuffer != 0);
+	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
+	if (pConn == NULL)
 	{
-		ASSERT_FAIELD;
-
+		//表示连接己经失败断开了，这个连接ID不可用了。
+		return FALSE;
+	}
+	if (!pConn->IsConnectionOK())
+	{
+		CLog::GetInstancePtr()->LogError("CNetManager::SendMsgBufByConnID FAILED, 连接己断开");
 		return FALSE;
 	}
 
-	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConID);
+	pBuffer->AddRef();
+	if (pConn->SendBuffer(pBuffer))
+	{
+		return TRUE;
+	}
 
-	return pConn->SendBuffer(pDataBuffer);
+	return FALSE;
+}
+
+
+BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
+{
+	ERROR_RETURN_FALSE(dwConnID != 0);
+	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
+	if (pConn == NULL)
+	{
+		//表示连接己经失败断开了，这个连接ID不可用了。
+		return FALSE;
+	}
+
+	if (!pConn->IsConnectionOK())
+	{
+		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageByConnID FAILED, 连接己断开");
+		return FALSE;
+	}
+
+	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+	ERROR_RETURN_FALSE(pDataBuffer != NULL);
+
+	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	pHeader->CheckCode = 0x88;
+	pHeader->dwUserData = dwUserData;
+	pHeader->u64TargetID = u64TargetID;
+	pHeader->dwSize = dwLen + sizeof(PacketHeader);
+	pHeader->dwMsgID = dwMsgID;
+	pHeader->dwPacketNo = 1;
+
+	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+
+	pDataBuffer->SetTotalLenth(pHeader->dwSize);
+
+	if (pConn->SendBuffer(pDataBuffer))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
