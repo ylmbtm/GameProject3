@@ -12,7 +12,9 @@
 
 #define RECV_BUF_SIZE               8192
 
-#define Hash_Map                    std::map
+#define E_SEND_SUCCESS				1
+#define E_SEND_UNDONE				2
+#define E_SEND_ERROR				3
 
 struct NetIoOperatorData
 {

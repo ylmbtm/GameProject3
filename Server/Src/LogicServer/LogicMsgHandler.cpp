@@ -148,9 +148,6 @@ BOOL CLogicMsgHandler::OnMsgRoleListAck(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	//可能有新创建的角色还没有写回数据库
-
-
-
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf((UINT32)pHeader->u64TargetID,  MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
 }
 

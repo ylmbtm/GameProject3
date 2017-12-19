@@ -216,11 +216,6 @@ BOOL CConnection::ExtractBuffer()
 		PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
 		//////////////////////////////////////////////////////////////////////////
 		//在这里对包头进行检查, 如果不合法就要返回FALSE;
-		/*
-		1.首先验证包的验证吗
-		2.包的长度
-		3.包的序号*/
-
 		if (!CheckHeader(m_pBufPos))
 		{
 			return FALSE;
@@ -401,6 +396,11 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 {
+	/*
+	1.首先验证包的验证吗
+	2.包的长度
+	3.包的序号
+	*/
 	PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
 	if (pHeader->CheckCode != 0x88)
 	{
@@ -545,6 +545,10 @@ BOOL CConnection::DoSend()
 	//		faultError = true;//这就是真实的错误了
 	//	}
 	//}
+	// #define E_SEND_SUCCESS				1
+	// #define E_SEND_UNDONE				2
+	// #define E_SEND_ERROR				3
+
 
 	if (m_pSendingBuffer != NULL)
 	{
@@ -554,14 +558,14 @@ BOOL CConnection::DoSend()
 			if ((nRet < 0) && (errno != EAGAIN))
 			{
 				m_pSendingBuffer->Release();
-				return FALSE;
+				return E_SEND_ERROR;
 				//这就表示出错了
 			}
 			else
 			{
 				//这就表示发送了一半的数据
 				m_nSendingPos += nRet;
-				return TRUE;
+				return E_SEND_UNDONE;
 			}
 		}
 		else
@@ -586,7 +590,7 @@ BOOL CConnection::DoSend()
 			if ((nRet < 0) && (errno != EAGAIN))
 			{
 				pBuffer->Release();
-				return FALSE;
+				return E_SEND_ERROR;
 				//这就表示出错了
 			}
 			else
@@ -594,7 +598,7 @@ BOOL CConnection::DoSend()
 				//这就表示发送了一半的数据
 				m_pSendingBuffer = pBuffer;
 				m_nSendingPos = nRet;
-				return TRUE;
+				return E_SEND_UNDONE;
 			}
 		}
 		else
@@ -602,7 +606,7 @@ BOOL CConnection::DoSend()
 			pBuffer->Release();
 		}
 	}
-	return TRUE;
+	return E_SEND_SUCCESS;
 }
 #endif
 

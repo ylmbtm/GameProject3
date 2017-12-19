@@ -43,6 +43,23 @@ BOOL LogicSvrManager::Init()
 	return TRUE;
 }
 
+BOOL LogicSvrManager::Uninit()
+{
+
+	for (auto itor = begin(); itor != end(); itor++)
+	{
+		LogicServerNode* pTempNode = itor->second;
+
+		delete pTempNode;
+	}
+
+	clear();
+
+	m_DBConnection.close();
+
+	return TRUE;
+}
+
 BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, std::string strSvrName)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
@@ -57,7 +74,11 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 
 		char szSql[SQL_BUFF_LEN];
 		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
-		m_DBConnection.execSQL(szSql);
+		if (m_DBConnection.execSQL(szSql) < 0)
+		{
+			CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", szSql);
+			return FALSE;
+		}
 
 		return TRUE;
 	}
@@ -137,6 +158,12 @@ BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
 
 BOOL LogicSvrManager::ReloadServerList()
 {
+	for (auto itor = begin(); itor != end(); itor++)
+	{
+		LogicServerNode* pNode = itor->second;
+		pNode->m_bDelete = TRUE;
+	}
+
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from server_list");
 	while(!QueryResult.eof())
 	{
@@ -153,6 +180,7 @@ BOOL LogicSvrManager::ReloadServerList()
 		pNode->m_Flag = QueryResult.getIntField("flag");
 		pNode->m_strIpAddr = QueryResult.getStringField("ip", "*");
 		pNode->m_dwPort = QueryResult.getIntField("port", 0);
+		pNode->m_bDelete = FALSE;
 		std::string strCheckVersion = QueryResult.getStringField("check_version", "*");
 		if(strCheckVersion.empty() || strCheckVersion == "*")
 		{
@@ -197,11 +225,28 @@ BOOL LogicSvrManager::ReloadServerList()
 		QueryResult.nextRow();
 	}
 
+
+	for (auto itor = begin(); itor != end(); )
+	{
+		LogicServerNode* pNode = itor->second;
+		if (pNode->m_bDelete)
+		{
+			delete pNode;
+			itor = erase(itor);
+			continue;
+		}
+		else
+		{
+			++itor;
+		}
+	}
+
 	return TRUE;
 }
 
 BOOL LogicSvrManager::ReloadReviewVersion()
 {
+	m_setReviewVersion.clear();
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from review_client");
 	while(!QueryResult.eof())
 	{

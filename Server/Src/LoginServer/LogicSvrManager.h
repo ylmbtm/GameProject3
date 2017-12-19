@@ -30,6 +30,7 @@ struct LogicServerNode
 		m_dwPort = 0;
 		m_Statue = ESS_GOOD;
 		m_Flag = ESF_NONE;
+		m_bDelete = FALSE;
 	}
 
 	BOOL CheckIP(UINT32 dwIPaddr);
@@ -50,6 +51,7 @@ struct LogicServerNode
 	std::set<std::string> m_CheckIpList;
 	std::set<INT32>       m_CheckChannelList; //可以看见的渠道
 
+	BOOL		m_bDelete;
 };
 
 class LogicSvrManager : public std::map<UINT32, LogicServerNode*>
@@ -60,6 +62,8 @@ public:
 
 public:
 	BOOL	Init();
+
+	BOOL	Uninit();
 
 	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, std::string strSvrName);
 

@@ -28,7 +28,7 @@ BOOL CLoginMsgHandler::Init()
 
 BOOL CLoginMsgHandler::Uninit()
 {
-
+	m_LogicSvrMgr.Uninit();
 
 	return TRUE;
 }

@@ -319,26 +319,6 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 	return TRUE;
 }
 
-BOOL CNetManager::PostSendOperation(CConnection* pConnection)
-{
-#ifdef WIN32
-	if (!pConnection->m_IsSending)
-	{
-		pConnection->m_IsSending = TRUE;
-		pConnection->m_IoOverLapPost.Clear();
-		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
-		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
-		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
-	}
-#else
-	struct epoll_event EpollEvent;
-	EpollEvent.data.ptr = pConnection;
-	EpollEvent.events =  EPOLLOUT | EPOLLET;
-	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
-#endif
-	return TRUE;
-}
-
 #else
 
 BOOL CNetManager::CreateCompletePort()
@@ -461,8 +441,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					pConnection->Close();
 					continue;
 				}
-
-				CLog::GetInstancePtr()->LogError("-------EPOLLIN--------成功----!");
 			}
 
 			if (EpollEvent[i].events & EPOLLOUT)
@@ -473,13 +451,23 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					m_pBufferHandler->OnNewConnect(pConnection);
 				}
 
-				if (!pConnection->DoSend(FALSE))
+				UINT32 nRet = pConnection->DoSend();
+				if (nRet == E_SEND_ERROR)
 				{
 					EventDelete(pConnection);
 					pConnection->Close();
 				}
-
-				CLog::GetInstancePtr()->LogError("-------EPOLLOUT-----成功-------!");
+				else if (nRet == E_SEND_UNDONE)
+				{
+					PostSendOperation(pConnection);
+				}
+				else if (nRet == E_SEND_SUCCESS)
+				{
+					struct epoll_event EpollEvent;
+					EpollEvent.data.ptr = pConnection;
+					EpollEvent.events = EPOLLIN | EPOLLET;
+					epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+				}
 			}
 		}
 	}
@@ -657,7 +645,7 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	{
 		pConnection->Close();
 
-		CLog::GetInstancePtr()->LogError("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
+		//CLog::GetInstancePtr()->LogError("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
 	}
 
 	pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
@@ -766,4 +754,25 @@ Th_RetName _NetListenThread( void* pParam )
 	CommonThreadFunc::ExitThread();
 
 	return Th_RetValue;
+}
+
+
+BOOL CNetManager::PostSendOperation(CConnection* pConnection)
+{
+#ifdef WIN32
+	if (!pConnection->m_IsSending)
+	{
+		pConnection->m_IsSending = TRUE;
+		pConnection->m_IoOverLapPost.Clear();
+		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
+		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
+		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
+	}
+#else
+	struct epoll_event EpollEvent;
+	EpollEvent.data.ptr = pConnection;
+	EpollEvent.events = EPOLLOUT | EPOLLET;
+	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+#endif
+	return TRUE;
 }
