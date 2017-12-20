@@ -367,19 +367,21 @@ MYSQL* CppMySQL3DB::getMysql()
 /* 处理返回多行的查询，返回影响的行数 */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
-	int nError = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
-	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+	int nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+	if (nRet != 0)
 	{
-		reconnect();
-		nError = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+		int nError = mysql_errno(_db_ptr);
+		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+		{
+			reconnect();
+			nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+		}
 	}
 
-	if (0 == nError)
+	if (0 == nRet)
 	{
 		_db_query.m_MysqlRes = mysql_store_result(_db_ptr);
-
 	}
-
 	return _db_query;
 }
 

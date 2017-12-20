@@ -40,8 +40,6 @@ public:
 
 	bool	Reconnect(void);
 
-	bool	ProcError(char const* op_ = NULL, char const* func_ = NULL);
-
 	bool    Ping();
 
 private:

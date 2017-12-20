@@ -92,7 +92,6 @@ BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 			m_DBConnection.close();
 			m_DBConnection.reconnect();
 		}
-
 	}
 
 	m_nWriteCount += 1;

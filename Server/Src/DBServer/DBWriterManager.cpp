@@ -54,7 +54,6 @@ BOOL CDBWriterManager::Uninit()
 
 void CDBWriterManager::SaveDataToDB()
 {
-	m_DBConnection.Ping();
 	m_pRoleDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pGlobalDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pBagDataWriter->SaveModifyToDB(&m_DBConnection);
@@ -88,6 +87,11 @@ Th_RetName _DBWriteThread(void* pParam)
 
 	while (!pDBWriterManager->IsStop())
 	{
+		if (!pDBWriterManager->m_DBConnection.Ping())
+		{
+			pDBWriterManager->m_DBConnection.Reconnect();
+		}
+
 		pDBWriterManager->SaveDataToDB();
 
 		CommonFunc::Sleep(1); //休息10秒

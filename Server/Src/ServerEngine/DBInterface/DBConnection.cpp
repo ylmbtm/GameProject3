@@ -65,7 +65,6 @@ BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* 
 	return false;
 }
 
-// reconnect.
 bool CDBConnection::Reconnect( void )
 {
 	if ( NULL != m_pMySql && 0 == mysql_ping( m_pMySql ) )
@@ -80,7 +79,6 @@ bool CDBConnection::Reconnect( void )
 		{
 			if ( NULL != mysql_real_connect( m_pMySql, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0 ) )
 			{
-				mysql_autocommit( m_pMySql, 1 );
 				return true;
 			}
 			else
@@ -262,9 +260,7 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
 	{
 		m_nErrno = mysql_errno( m_pMySql );
-
 		m_strError = mysql_error( m_pMySql );
-
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
@@ -288,7 +284,6 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno( m_pMySql );
 		m_strError = mysql_error( m_pMySql );
-
 		return FALSE;
 	}
 
@@ -337,114 +332,6 @@ BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 BOOL CDBConnection::Query( std::string sql )
 {
 	return TRUE;
-}
-
-// process error.
-bool CDBConnection::ProcError( char const* op_/* = NULL*/, char const* func_/* = NULL*/ )
-{
-	bool _ret = false;
-
-	if ( NULL != op_ && NULL != func_ )
-	{
-		//     //write_log( "op = %s, func = %s.\n", op_, func_ );
-	}
-	else if ( NULL != op_ )
-	{
-		//     //write_log( "op = %s.\n", op_ );
-	}
-
-	switch ( m_nErrno )
-	{
-		case CR_SERVER_GONE_ERROR:
-		{
-			if ( Reconnect() )
-			{
-				_ret = true;
-			}
-			else
-			{
-				if ( NULL != m_pMySql )
-				{
-					m_nErrno = mysql_errno( m_pMySql );
-					m_strError = mysql_error( m_pMySql );
-					CommonFunc::Sleep( ERROR_SLEEP_TIME );
-					_ret = ProcError( op_, __FUNCTION__ );
-				}
-			}
-		}
-		break;
-
-		case CR_SERVER_LOST:
-		{
-			//write_log( "lost the connection to mysql server, errno = %d!\n", m_errno_ );
-
-			if ( Reconnect() )
-			{
-				_ret = true;
-			}
-			else
-			{
-				if ( NULL != m_pMySql )
-				{
-					m_nErrno = mysql_errno( m_pMySql );
-					m_strError = mysql_error( m_pMySql );
-					CommonFunc::Sleep( ERROR_SLEEP_TIME );
-					_ret = ProcError( op_, __FUNCTION__ );
-				}
-			}
-		}
-		break;
-
-		case CR_INVALID_CONN_HANDLE:
-		{
-			//write_log( "invalid connection handle, errno = %d!\n", m_errno_ );
-
-			if ( Reconnect() )
-			{
-				_ret = true;
-			}
-			else
-			{
-				if ( NULL != m_pMySql )
-				{
-					m_nErrno = mysql_errno( m_pMySql );
-					m_strError = mysql_error( m_pMySql );
-					CommonFunc::Sleep( ERROR_SLEEP_TIME );
-					_ret = ProcError( op_, __FUNCTION__ );
-				}
-			}
-		}
-		break;
-
-		case CR_SERVER_LOST_EXTENDED:
-		{
-			//write_log( "lost the connection to mysql server, errno = %d!\n", m_errno_ );
-
-			if ( Reconnect() )
-			{
-				_ret = true;
-			}
-			else
-			{
-				if ( NULL != m_pMySql )
-				{
-					m_nErrno = mysql_errno( m_pMySql );
-					m_strError = mysql_error( m_pMySql );
-					CommonFunc::Sleep( ERROR_SLEEP_TIME );
-					_ret = ProcError( op_, __FUNCTION__ );
-				}
-			}
-		}
-		break;
-
-		default:
-		{
-			//write_log( "%s, errno = %d!\n", m_error_.c_str(), m_errno_ );
-		}
-		break;
-	}
-
-	return _ret;
 }
 
 bool CDBConnection::Ping()
