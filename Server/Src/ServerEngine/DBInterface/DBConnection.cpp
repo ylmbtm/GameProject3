@@ -344,7 +344,6 @@ bool CDBConnection::Ping()
 	return false;
 }
 
-// errno.
 int CDBConnection::GetError( void ) const
 {
 	return m_nErrno;

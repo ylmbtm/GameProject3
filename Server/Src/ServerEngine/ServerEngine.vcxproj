@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AstarFinder.cpp" />
+    <ClCompile Include="CommandLine.cpp" />
     <ClCompile Include="CommonConvert.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonSocket.cpp" />
@@ -118,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstarFinder.h" />
+    <ClInclude Include="CommandLine.h" />
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonMsgQueue.h" />

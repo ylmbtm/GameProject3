@@ -233,7 +233,7 @@ BOOL CConnection::ExtractBuffer()
 
 		if (dwPacketSize <= m_dwDataLen)
 		{
-			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
+			IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, dwPacketSize);
 
@@ -247,7 +247,7 @@ BOOL CConnection::ExtractBuffer()
 		}
 		else
 		{
-			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
+			IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_dwDataLen);
 
 			pDataBuffer->SetTotalLenth(m_dwDataLen);
@@ -467,7 +467,7 @@ BOOL CConnection::DoSend()
 		{
 			if(pSendingBuffer == NULL)
 			{
-				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pSendingBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
 				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
 				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
 				nCurPos += pFirstBuff->GetTotalLenth();

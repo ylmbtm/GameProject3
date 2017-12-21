@@ -96,6 +96,7 @@ Th_RetName _DBWriteThread(void* pParam)
 
 		CommonFunc::Sleep(1); //休息10秒
 	}
+
 	pDBWriterManager->Uninit();
 	CommonThreadFunc::ExitThread();
 

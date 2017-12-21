@@ -87,6 +87,9 @@
     <ClCompile Include="DFA.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="CommandLine.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -177,6 +180,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="DFA.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandLine.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,24 +2,24 @@
 #include "DataBuffer.h"
 
 
-CBufferManagerAll::CBufferManagerAll()
+CBufferAllocator::CBufferAllocator()
 {
 
 }
 
-CBufferManagerAll::~CBufferManagerAll()
+CBufferAllocator::~CBufferAllocator()
 {
 
 }
 
-CBufferManagerAll* CBufferManagerAll::GetInstancePtr()
+CBufferAllocator* CBufferAllocator::GetInstancePtr()
 {
-	static CBufferManagerAll BufferManagerAll;
+	static CBufferAllocator BufferManagerAll;
 
 	return &BufferManagerAll;
 }
 
-IDataBuffer* CBufferManagerAll::AllocDataBuff( int nSize )
+IDataBuffer* CBufferAllocator::AllocDataBuff( int nSize )
 {
 	if(nSize < 64)
 	{
@@ -41,7 +41,7 @@ IDataBuffer* CBufferManagerAll::AllocDataBuff( int nSize )
 	{
 		return g_BufferManager1K.AllocDataBuff();
 	}
-	else if(nSize <2048)
+	else if(nSize < 2048)
 	{
 		return g_BufferManager2K.AllocDataBuff();
 	}

@@ -14,7 +14,6 @@ CHttpMsgHandler::CHttpMsgHandler()
 
 CHttpMsgHandler::~CHttpMsgHandler()
 {
-
 }
 
 BOOL CHttpMsgHandler::Init(UINT32 dwReserved)

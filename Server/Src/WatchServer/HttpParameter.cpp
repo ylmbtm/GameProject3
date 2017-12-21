@@ -12,6 +12,7 @@ HttpParameter::HttpParameter(const std::string& strParam)
 
 HttpParameter::~HttpParameter(void)
 {
+	m_ParameterMap.clear();
 }
 
 void HttpParameter::ParseStringToMap(const std::string& strParam)

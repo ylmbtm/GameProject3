@@ -5,18 +5,14 @@
 #include "GameService.h"
 #include "CrashReport.h"
 #include "CommonConvert.h"
+#include "CommandLine.h"
 
 int main(int argc, char* argv[])
 {
-	if(argc < 3)
-	{
-		printf("Error : Not Enough Parameter!!! num:%d", argc);
-		getchar();
-		return 0;
-	}
+	CCommandLine cmdLine(argc, argv);
 
-	UINT32 dwSvrID = CommonConvert::StringToInt(argv[1]);
-	UINT32 dwPort = CommonConvert::StringToInt(argv[2]);
+	UINT32 dwSvrID = cmdLine.GetIntValue("id");
+	UINT32 dwPort = cmdLine.GetIntValue("port");
 
 	if((dwSvrID <= 0) || (dwPort <= 0))
 	{

@@ -271,27 +271,27 @@ public:
 private:
 };
 
-class CBufferManagerAll
+class CBufferAllocator
 {
-	CBufferManagerAll();
-	~CBufferManagerAll();
+	CBufferAllocator();
+	~CBufferAllocator();
 public:
-	static CBufferManagerAll* GetInstancePtr();
+	static CBufferAllocator* GetInstancePtr();
 
 public:
 	IDataBuffer* AllocDataBuff(int nSize);
 
-	CBufferManager<64>    g_BufferManager64B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
-	CBufferManager<128>    g_BufferManager128B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
-	CBufferManager<256>    g_BufferManager256B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
-	CBufferManager<512>    g_BufferManager512B;		//管理1k的内存池，需要分配1k以下的内存从这里分配
-	CBufferManager<1024>   g_BufferManager1K;		//管理1k的内存池，需要分配1k以下的内存从这里分配
-	CBufferManager<2048>   g_BufferManager2K;		//管理2k的内存池，需要分配2k以下的内存从这里分配
-	CBufferManager<4096>   g_BufferManager4K;		//管理4k的内存池，需要分配4k以下的内存从这里分配
-	CBufferManager<8192>   g_BufferManager8K;		//管理8k的内存池，需要分配8k以下的内存从这里分配
-	CBufferManager<16384>  g_BufferManager16K;		//管理16k的内存池，需要分配8k以下的内存从这里分配
-	CBufferManager<32768>  g_BufferManager32K;		//管理32k的内存池，需要分配8k以下的内存从这里分配
-	CBufferManager<65536>  g_BufferManager64K;		//管理64k的内存池，需要分配8k以下的内存从这里分配
+	CBufferManager<64>    g_BufferManager64B;		//管理64B的内存池，
+	CBufferManager<128>    g_BufferManager128B;		//管理128B的内存池，
+	CBufferManager<256>    g_BufferManager256B;		//管理256B的内存池，
+	CBufferManager<512>    g_BufferManager512B;		//管理512B的内存池，
+	CBufferManager<1024>   g_BufferManager1K;		//管理1k的内存池，
+	CBufferManager<2048>   g_BufferManager2K;		//管理2k的内存池，
+	CBufferManager<4096>   g_BufferManager4K;		//管理4k的内存池，
+	CBufferManager<8192>   g_BufferManager8K;		//管理8k的内存池，
+	CBufferManager<16384>  g_BufferManager16K;		//管理16k的内存池，
+	CBufferManager<32768>  g_BufferManager32K;		//管理32k的内存池，
+	CBufferManager<65536>  g_BufferManager64K;		//管理64k的内存池，
 };
 
 #endif
