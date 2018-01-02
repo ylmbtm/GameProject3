@@ -31,42 +31,39 @@ struct EquipDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO equip (id, title, content, time, type, channel, item, itemcount) \
-			VALUES(?,?,?,?,?,?,?,?,?);");
-
+		static CDBStoredProcedure csp("REPLACE INTO equip (guid, roleid, equipid, isusing, strengthlvl, refinelvl, starlvl) \
+			VALUES(?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_EquipID);
-		csp.set_int32(3, m_StrengthLvl);
-		csp.set_int32(4, m_RefineLevel);
-		csp.set_int32(5, m_StarLevel);
-		csp.set_int32(6, m_RefineExp);
-		csp.set_int32(7, m_StarExp);
-		csp.set_bool(8, m_IsUsing);
+		csp.set_bool(3, m_IsUsing);
+		csp.set_int32(4, m_StrengthLvl);
+		csp.set_int32(5, m_RefineLevel);
+		csp.set_int32(6, m_StarLevel);
 		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO equip (id, title, content, time, type, channel, item, itemcount) \
-			VALUES(?,?,?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO equip (guid, roleid, equipid, isusing, strengthlvl, refinelvl, starlvl) \
+			VALUES(?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_EquipID);
-		csp.set_int32(3, m_StrengthLvl);
-		csp.set_int32(4, m_RefineLevel);
-		csp.set_int32(5, m_StarLevel);
-		csp.set_int32(6, m_RefineExp);
-		csp.set_int32(7, m_StarExp);
-		csp.set_bool(8, m_IsUsing);
+		csp.set_bool(3, m_IsUsing);
+		csp.set_int32(4, m_StrengthLvl);
+		csp.set_int32(5, m_RefineLevel);
+		csp.set_int32(6, m_StarLevel);
 		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-
+		static CDBStoredProcedure csp("delete from equip where guid = ?");
+		csp.set_uint64(0, m_uGuid);
+		pDB->Execute(&csp);
 
 		return TRUE;
 	}

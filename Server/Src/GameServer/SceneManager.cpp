@@ -68,30 +68,22 @@ BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCop
 
 BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
 {
-	BOOL bHandled = TRUE;
 	PacketHeader* pPacketHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pPacketHeader != NULL);
+	ERROR_RETURN_FALSE(pPacketHeader != NULL);
 
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
-		default:
-		{
-			bHandled = FALSE;
-		}
-		break;
-	}
-
-	if(bHandled) //消息己经被处理
-	{
-		return TRUE;
 	}
 
 	CScene* pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
 	ERROR_RETURN_FALSE(pScene != NULL);
-	pScene->DispatchPacket(pNetPacket);
+	if (pScene->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
 
-	return TRUE;
+	return FALSE;
 }
 
 CScene* CSceneManager::GetSceneByCopyGuid( UINT32 dwCopyGuid )

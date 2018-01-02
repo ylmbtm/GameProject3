@@ -9,32 +9,61 @@ struct BagDataObject : public ShareObject
 {
 	BagDataObject()
 	{
-
+		m_uGuid = 0;
+		m_uRoleID = 0;
+		m_ItemGuid = 0;
+		m_ItemID = 0;
+		m_ItemType = 0;
+		m_nCount = 0;
+		m_bBind = 0;
+		m_bDelete = 0;
 	}
 
-	UINT64 m_uGuid;			//格子的guid
-	UINT64 m_uRoleID;		//角色ID
-	UINT32 m_BagType;       //背包类型
-	UINT64 m_ItemGuid;		//物品guid
-	UINT32 m_ItemID;        //道具ID
-	INT32  m_nCount;       //个数
-	BOOL   m_bBind;         //是否是邦定
+	UINT64	m_uGuid;		//格子的guid
+	UINT64	m_uRoleID;		//角色ID
+	UINT64	m_ItemGuid;		//物品guid
+	UINT32	m_ItemID;		//道具ID
+	UINT32	m_ItemType;		//道具类型
+	UINT32	m_nCount;		//个数
+	BOOL	m_bBind;		//是否是邦定
+	BOOL	m_bDelete;		//是否删除
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("INSERT INTO bag (guid, roleid, itemguid, itemid, itemtype, count, delete) \
+			VALUES(?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uGuid);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint64(2, m_ItemGuid);
+		csp.set_int32(3,  m_ItemID);
+		csp.set_int32(4,  m_ItemType);
+		csp.set_int32(5,  m_nCount);
+		csp.set_int32(6, m_bDelete);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-
+		static CDBStoredProcedure csp("REPLACE INTO bag (guid, roleid, itemguid, itemid,itemtype, count, delete) \
+			VALUES(?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uGuid);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint64(2, m_ItemGuid);
+		csp.set_int32(3, m_ItemID);
+		csp.set_int32(4, m_ItemType);
+		csp.set_int32(5, m_nCount);
+		csp.set_int32(6, m_bDelete);
+		pDB->Execute(&csp);
 
 		return TRUE;
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-
+		static CDBStoredProcedure csp("update player set delete = 1 where guid = ?");
+		csp.set_uint64(0, m_uGuid);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 };

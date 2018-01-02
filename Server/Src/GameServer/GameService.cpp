@@ -115,14 +115,14 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgRegToProxyAck)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ,  OnMsgWatchHeartBeatReq)
-		default:
-		{
-			m_SceneManager.DispatchPacket(pNetPacket);
-		}
-		break;
 	}
 
-	return TRUE;
+	if (m_SceneManager.DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CGameService::Uninit()

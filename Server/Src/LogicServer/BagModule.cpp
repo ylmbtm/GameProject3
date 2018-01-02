@@ -70,7 +70,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 		pObject->lock();
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
-		pObject->m_BagType = ItemData.bagtype();
+		pObject->m_ItemType = ItemData.itemtype();
 		pObject->m_bBind = ItemData.bind();
 		pObject->m_ItemGuid = ItemData.itemguid();
 		pObject->m_ItemID = ItemData.itemid();
@@ -169,7 +169,6 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 				{
 					continue;
 				}
-
 			}
 		}
 		break;
@@ -182,7 +181,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	pObject->m_BagType = pItemInfo->dwBagType;
+	pObject->m_ItemType = pItemInfo->dwBagType;
 	pObject->m_ItemGuid = uItemGuid;
 	pObject->m_ItemID = dwItemID;
 	pObject->m_nCount = nTempCount;

@@ -532,11 +532,11 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 itemguid() const;
   void set_itemguid(::google::protobuf::uint64 value);
 
-  // int32 BagType = 3;
-  void clear_bagtype();
-  static const int kBagTypeFieldNumber = 3;
-  ::google::protobuf::int32 bagtype() const;
-  void set_bagtype(::google::protobuf::int32 value);
+  // int32 ItemType = 3;
+  void clear_itemtype();
+  static const int kItemTypeFieldNumber = 3;
+  ::google::protobuf::int32 itemtype() const;
+  void set_itemtype(::google::protobuf::int32 value);
 
   // int32 ItemID = 5;
   void clear_itemid();
@@ -550,11 +550,17 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 count() const;
   void set_count(::google::protobuf::int32 value);
 
-  // bool Bind = 7;
+  // int32 Bind = 7;
   void clear_bind();
   static const int kBindFieldNumber = 7;
-  bool bind() const;
-  void set_bind(bool value);
+  ::google::protobuf::int32 bind() const;
+  void set_bind(::google::protobuf::int32 value);
+
+  // int32 Delete = 8;
+  void clear_delete_();
+  static const int kDeleteFieldNumber = 8;
+  ::google::protobuf::int32 delete_() const;
+  void set_delete_(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:DBBagItem)
  private:
@@ -563,10 +569,11 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint64 itemguid_;
-  ::google::protobuf::int32 bagtype_;
+  ::google::protobuf::int32 itemtype_;
   ::google::protobuf::int32 itemid_;
   ::google::protobuf::int32 count_;
-  bool bind_;
+  ::google::protobuf::int32 bind_;
+  ::google::protobuf::int32 delete__;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBBagItemImpl();
@@ -3472,18 +3479,18 @@ inline void DBBagItem::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.RoleID)
 }
 
-// int32 BagType = 3;
-inline void DBBagItem::clear_bagtype() {
-  bagtype_ = 0;
+// int32 ItemType = 3;
+inline void DBBagItem::clear_itemtype() {
+  itemtype_ = 0;
 }
-inline ::google::protobuf::int32 DBBagItem::bagtype() const {
-  // @@protoc_insertion_point(field_get:DBBagItem.BagType)
-  return bagtype_;
+inline ::google::protobuf::int32 DBBagItem::itemtype() const {
+  // @@protoc_insertion_point(field_get:DBBagItem.ItemType)
+  return itemtype_;
 }
-inline void DBBagItem::set_bagtype(::google::protobuf::int32 value) {
+inline void DBBagItem::set_itemtype(::google::protobuf::int32 value) {
   
-  bagtype_ = value;
-  // @@protoc_insertion_point(field_set:DBBagItem.BagType)
+  itemtype_ = value;
+  // @@protoc_insertion_point(field_set:DBBagItem.ItemType)
 }
 
 // uint64 ItemGuid = 4;
@@ -3528,18 +3535,32 @@ inline void DBBagItem::set_count(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.Count)
 }
 
-// bool Bind = 7;
+// int32 Bind = 7;
 inline void DBBagItem::clear_bind() {
-  bind_ = false;
+  bind_ = 0;
 }
-inline bool DBBagItem::bind() const {
+inline ::google::protobuf::int32 DBBagItem::bind() const {
   // @@protoc_insertion_point(field_get:DBBagItem.Bind)
   return bind_;
 }
-inline void DBBagItem::set_bind(bool value) {
+inline void DBBagItem::set_bind(::google::protobuf::int32 value) {
   
   bind_ = value;
   // @@protoc_insertion_point(field_set:DBBagItem.Bind)
+}
+
+// int32 Delete = 8;
+inline void DBBagItem::clear_delete_() {
+  delete__ = 0;
+}
+inline ::google::protobuf::int32 DBBagItem::delete_() const {
+  // @@protoc_insertion_point(field_get:DBBagItem.Delete)
+  return delete__;
+}
+inline void DBBagItem::set_delete_(::google::protobuf::int32 value) {
+  
+  delete__ = value;
+  // @@protoc_insertion_point(field_set:DBBagItem.Delete)
 }
 
 // -------------------------------------------------------------------

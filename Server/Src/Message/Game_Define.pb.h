@@ -359,6 +359,35 @@ inline bool EChatChannel_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EChatChannel>(
     EChatChannel_descriptor(), name, value);
 }
+enum EEQUIPPOS {
+  EEP_NONE = 0,
+  EEP_HELMET = 1,
+  EEP_NECKLACE = 2,
+  EEP_ARMOR = 3,
+  EEP_SHOES = 4,
+  EEP_WRIST = 5,
+  EEP_RING = 6,
+  EEP_TALISMAN = 7,
+  EEP_WEAPON = 8,
+  EEP_MAX = 9,
+  EEQUIPPOS_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EEQUIPPOS_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EEQUIPPOS_IsValid(int value);
+const EEQUIPPOS EEQUIPPOS_MIN = EEP_NONE;
+const EEQUIPPOS EEQUIPPOS_MAX = EEP_MAX;
+const int EEQUIPPOS_ARRAYSIZE = EEQUIPPOS_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EEQUIPPOS_descriptor();
+inline const ::std::string& EEQUIPPOS_Name(EEQUIPPOS value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EEQUIPPOS_descriptor(), value);
+}
+inline bool EEQUIPPOS_Parse(
+    const ::std::string& name, EEQUIPPOS* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EEQUIPPOS>(
+    EEQUIPPOS_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -440,6 +469,11 @@ template <> struct is_proto_enum< ::EChatChannel> : ::google::protobuf::internal
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::EChatChannel>() {
   return ::EChatChannel_descriptor();
+}
+template <> struct is_proto_enum< ::EEQUIPPOS> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EEQUIPPOS>() {
+  return ::EEQUIPPOS_descriptor();
 }
 
 }  // namespace protobuf

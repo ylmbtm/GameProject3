@@ -141,23 +141,23 @@ BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPack)
 {
 	switch(pNetPack->m_dwMsgID)
 	{
-		default:
-		{
-			for(int i = MT_ROLE; i < MT_END; i++)
-			{
-				CModuleBase* pBase = m_MoudleList.at(i);
-				ERROR_RETURN_FALSE(pBase != NULL);
 
-				if(pBase->DispatchPacket(pNetPack))
-				{
-					return TRUE;
-				}
-			}
-		}
-		break;
+
+
 	}
 
-	return TRUE;
+	for (int i = MT_ROLE; i < MT_END; i++)
+	{
+		CModuleBase* pBase = m_MoudleList.at(i);
+		ERROR_RETURN_FALSE(pBase != NULL);
+
+		if (pBase->DispatchPacket(pNetPack))
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 BOOL CPlayerObject::CreateAllModule()

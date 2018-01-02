@@ -46,14 +46,9 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK,	OnMsgServerHeartAck)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_SVR_PHP_REQ,		OnMsgWatchWebReq)
-		default:
-		{
-
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CWatchMsgHandler::OnUpdate(UINT64 uTick)

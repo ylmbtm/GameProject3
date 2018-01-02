@@ -129,5 +129,18 @@ enum EChatChannel{
 	CHL_WORLD       = 1;//世界聊天
 	CHL_PRIVATE     = 2;//私聊
 	CHL_GUILD		= 3;//公会
-	
+}
+
+
+enum EEQUIPPOS{
+	EEP_NONE		= 0; 
+	EEP_HELMET		= 1; 
+	EEP_NECKLACE	= 2; 
+	EEP_ARMOR		= 3; 
+	EEP_SHOES		= 4; 
+	EEP_WRIST		= 5; 
+	EEP_RING		= 6; 
+	EEP_TALISMAN	= 7; 
+	EEP_WEAPON		= 8; 
+	EEP_MAX			= 9; 
 }

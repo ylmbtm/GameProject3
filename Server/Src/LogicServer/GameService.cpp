@@ -16,6 +16,7 @@
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_ID.pb.h"
+#include "ChatManager.h"
 CGameService::CGameService(void)
 {
 
@@ -289,23 +290,17 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	BOOL bHandled = TRUE;
 	switch (pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
-		default:
-		{
-			bHandled = FALSE;
-		}
-		break;
 	}
 
-	if (bHandled)
+	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;
 	}
 
-	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
+	if (CChatManager::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;
 	}
@@ -315,7 +310,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 

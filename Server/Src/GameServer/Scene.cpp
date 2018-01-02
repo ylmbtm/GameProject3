@@ -74,10 +74,7 @@ BOOL CScene::Uninit()
 
 BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 {
-	PacketHeader* pPacketHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pPacketHeader != NULL);
-
-	switch(pPacketHeader->dwMsgID)
+	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_TRANSFER_DATA_REQ,     OnMsgTransRoleDataReq);
 			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
@@ -89,14 +86,9 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
-		default:
-		{
-			return FALSE;
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CScene::ProcessActionItem(const  ActionReqItem& Item)

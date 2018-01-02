@@ -21,13 +21,14 @@ message DBRoleData {
 }
 
 message DBBagItem {
-	uint64	Guid = 1;			//¸ñ×ÓµÄguid
-	uint64	RoleID = 2;			//½ÇÉ«ID
-	int32	BagType = 3;		//±³°üÀàĞÍ
-	uint64	ItemGuid = 4;		//ÎïÆ·guid
-	int32	ItemID = 5;			//µÀ¾ßID
-	int32	Count = 6;			//¸öÊı
-	bool	Bind = 7;			//ÊÇ·ñÊÇ°î¶¨
+	uint64	Guid = 1;			//æ ¼å­çš„guid
+	uint64	RoleID = 2;			//è§’è‰²ID
+	int32	ItemType = 3;		//èƒŒåŒ…ç±»å‹
+	uint64	ItemGuid = 4;		//ç‰©å“guid
+	int32	ItemID = 5;			//é“å…·ID
+	int32	Count = 6;			//ä¸ªæ•°
+	int32	Bind = 7;			//æ˜¯å¦æ˜¯é‚¦å®š
+	int32   Delete = 8;			//æ˜¯å¦åˆ é™¤
 }
 
 message DBBagData {
@@ -35,7 +36,7 @@ message DBBagData {
 }
 
 message DBCopyItem {
-	uint64	RoleID = 1;			//½ÇÉ«ID
+	uint64	RoleID = 1;			//è§’è‰²ID
 	uint32  CopyID = 2;
 }
 
@@ -44,15 +45,15 @@ message DBCopyData {
 }
 
 message DBEquipItem {
-	uint64	RoleID = 1; 		//½ÇÉ«ID
+	uint64	RoleID = 1; 		//è§’è‰²ID
 	uint64	Guid = 2;
 	int32	EquipID = 3;
-	int32	StrengthLvl = 4;   //Ç¿»¯µÈ¼¶
-	int32	RefineLevel = 5;   //¾«Á¶µÈ¼¶
-	int32	StarLevel = 6;	  //ĞÇ¼¶
-	int32	RefineExp = 7;	  //¾«ÑéµÄ¾­Ñé
-	int32	StarExp = 8;		  //ĞÇ¼¶¾­Ñé
-	bool	IsUsing = 9;       //ÊÇ·ñÊ¹ÓÃÖĞ
+	int32	StrengthLvl = 4;   //å¼ºåŒ–ç­‰çº§
+	int32	RefineLevel = 5;   //ç²¾ç‚¼ç­‰çº§
+	int32	StarLevel = 6;	  //æ˜Ÿçº§
+	int32	RefineExp = 7;	  //ç²¾éªŒçš„ç»éªŒ
+	int32	StarExp = 8;		  //æ˜Ÿçº§ç»éªŒ
+	bool	IsUsing = 9;       //æ˜¯å¦ä½¿ç”¨ä¸­
 }
 
 message DBEquipData {
@@ -60,7 +61,7 @@ message DBEquipData {
 }
 
 message DBPetItem {
-	bool	IsUsing = 1;       //ÊÇ·ñÊ¹ÓÃÖĞ
+	bool	IsUsing = 1;       //æ˜¯å¦ä½¿ç”¨ä¸­
 }
 
 message DBPetData {
@@ -68,7 +69,7 @@ message DBPetData {
 }
 
 message DBMountItem {
-	bool	IsUsing = 1;       //ÊÇ·ñÊ¹ÓÃÖĞ
+	bool	IsUsing = 1;       //æ˜¯å¦ä½¿ç”¨ä¸­
 }
 
 message DBMountData {
@@ -76,7 +77,7 @@ message DBMountData {
 }
 
 message DBPartnerItem {
-	bool	IsUsing = 1;       //ÊÇ·ñÊ¹ÓÃÖĞ
+	bool	IsUsing = 1;       //æ˜¯å¦ä½¿ç”¨ä¸­
 }
 
 message DBPartnerData {
@@ -84,7 +85,7 @@ message DBPartnerData {
 }
 
 message DBTaskItem {
-	uint64  RoleID = 1;			//½ÇÉ«ID
+	uint64  RoleID = 1;			//è§’è‰²ID
 	uint32  TaskID = 2;
 }
 
@@ -93,7 +94,7 @@ message DBTaskData {
 }
 
 message DBMailItem {
-	uint64 RoleID = 1; 		//½ÇÉ«ID
+	uint64 RoleID = 1; 		//è§’è‰²ID
 }
 
 message DBMailData {
@@ -102,12 +103,12 @@ message DBMailData {
 
 
 message DBActivityItem {
-	uint64	RoleID = 1;			//½ÇÉ«ID
-	uint32	ActivityID = 2;  //»î¶¯ID
-	uint32	ActivityType = 3;//»î¶¯ÀàĞÍ
-	uint32	StartTime = 4;    //²ÎÓëÊ±¼ä
-	uint32	DataLen = 5;     //Êı¾İÊ±¼ä³¤¶È
-	bytes	Data = 6;    //»î¶¯Êı¾İ
+	uint64	RoleID = 1;			//è§’è‰²ID
+	uint32	ActivityID = 2;  //æ´»åŠ¨ID
+	uint32	ActivityType = 3;//æ´»åŠ¨ç±»å‹
+	uint32	StartTime = 4;    //å‚ä¸æ—¶é—´
+	uint32	DataLen = 5;     //æ•°æ®æ—¶é—´é•¿åº¦
+	bytes	Data = 6;    //æ´»åŠ¨æ•°æ®
 }
 
 message DBActivityData {
@@ -116,13 +117,13 @@ message DBActivityData {
 
 
 message DBCounterItem {
-	uint64	RoleID		= 1;		//½ÇÉ«ID
-	uint64	CounterID	= 2;		//¼ÆÊıÆ÷ID
-	uint32	Index		= 3;		//×ÓË÷Òı
-	uint32	Value		= 4;		//¼ÆÊıÆ÷Öµ
-	uint32	Time		= 5;		//²ÎÓëÊ±¼ä
-	uint32	Param1		= 6;		//²ÎÊı1
-	uint32	Param2		= 7;		//²ÎÊı2
+	uint64	RoleID		= 1;		//è§’è‰²ID
+	uint64	CounterID	= 2;		//è®¡æ•°å™¨ID
+	uint32	Index		= 3;		//å­ç´¢å¼•
+	uint32	Value		= 4;		//è®¡æ•°å™¨å€¼
+	uint32	Time		= 5;		//å‚ä¸æ—¶é—´
+	uint32	Param1		= 6;		//å‚æ•°1
+	uint32	Param2		= 7;		//å‚æ•°2
 }
 
 message DBCounterData {
@@ -131,8 +132,8 @@ message DBCounterData {
 
 
 message DBFriendItem {
-	uint64	RoleID		= 1;		//½ÇÉ«ID
-	uint64	FriendID	= 2;		//ºÃÓÑID
+	uint64	RoleID		= 1;		//è§’è‰²ID
+	uint64	FriendID	= 2;		//å¥½å‹ID
 }
 
 message DBFriendData {

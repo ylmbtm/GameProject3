@@ -16,6 +16,16 @@ CChatManager::~CChatManager()
 
 }
 
+BOOL CChatManager::DispatchPacket(NetPacket* pNetPacket)
+{
+	switch (pNetPacket->m_dwMsgID)
+	{
+
+	}
+
+	return FALSE;
+}
+
 CChatManager* CChatManager::GetInstancePtr()
 {
 	static CChatManager _StaticMgr;

@@ -99,19 +99,18 @@ BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
-
-		default:
-		{
-			PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
-			CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
-			ERROR_RETURN_FALSE(pPlayer != NULL);
-			pPlayer->DispatchPacket(pNetPacket);
-		}
-		break;
 	}
 
-	return TRUE;
+
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
+	ERROR_RETURN_FALSE(pPlayer != NULL);
+	if (pPlayer->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 

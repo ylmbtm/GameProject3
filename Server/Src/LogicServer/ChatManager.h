@@ -6,7 +6,13 @@ class CChatManager
 {
 	CChatManager();
 	~CChatManager();
+
 public:
+	BOOL DispatchPacket(NetPacket* pNetPacket);
+
+
+
+
 	static CChatManager* GetInstancePtr();
 
 public:

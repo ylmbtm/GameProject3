@@ -50,17 +50,9 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,		OnMsgSelectServerAck);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,		OnMsgSealAccountReq);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,		OnMsgSealAccountAck);
-
-
-
-		default:
-		{
-
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)

@@ -40,17 +40,12 @@ BOOL CAccountMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		default:
-		{
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,	    OnMsgAccountRegReq);
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,		OnMsgAccontLoginReq);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,		OnMsgSealAccountReq);
-		}
-		break;
 	}
 
-
-	return TRUE;
+	return FALSE;
 }
 
 

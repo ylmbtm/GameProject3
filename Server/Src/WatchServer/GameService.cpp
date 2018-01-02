@@ -82,14 +82,14 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-		default:
-		{
-			m_WatchMsgHandler.DispatchPacket(pNetPacket);
-		}
-		break;
 	}
 
-	return TRUE;
+	if (m_WatchMsgHandler.DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CGameService::AutoRun()

@@ -49,7 +49,7 @@ BOOL CFriendModule::OnNewDay()
 
 BOOL CFriendModule::DispatchPacket(NetPacket* pNetPack)
 {
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CFriendModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

@@ -39,14 +39,9 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		    OnMsgEnterSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_RESULT_NTY,		    OnMsgBattleResultNty);
-		default:
-		{
-			return FALSE;
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 UINT32 CGameSvrMgr::GetServerIDByCopyID(UINT32 dwCopyGuid)

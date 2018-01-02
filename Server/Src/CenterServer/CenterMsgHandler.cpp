@@ -35,14 +35,9 @@ BOOL CCenterMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_CENTER_REQ,	OnMsgLogicSvrRegReq);
-		default:
-		{
-
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 

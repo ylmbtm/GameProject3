@@ -90,14 +90,14 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
-		default:
-		{
-			m_ProxyMsgHandler.DispatchPacket(pNetPacket);
-		}
-		break;
 	}
 
-	return TRUE;
+	if (m_ProxyMsgHandler.DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 UINT32 CGameService::GetLogicConnID()

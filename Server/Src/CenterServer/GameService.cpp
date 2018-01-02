@@ -76,14 +76,14 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
-		default:
-		{
-			m_CenterMsgHandler.DispatchPacket(pNetPacket);
-		}
-		break;
 	}
 
-	return TRUE;
+	if (m_CenterMsgHandler.DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL CGameService::Uninit()

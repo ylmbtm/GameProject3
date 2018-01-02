@@ -69,14 +69,9 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF, OnLogDataNtf)
-		default:
-		{
-
-		}
-		break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)

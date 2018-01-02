@@ -54,7 +54,7 @@ BOOL CCounterModule::OnNewDay()
 
 BOOL CCounterModule::DispatchPacket(NetPacket* pNetPack)
 {
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CCounterModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

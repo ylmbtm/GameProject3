@@ -9,19 +9,14 @@ BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 	switch(pPacketHeader->dwMsgID) \
 	{
 
-#define PROCESS_MESSAGE_ITEM_ID(dwMsgID, Func) \
-	case dwMsgID:{\
-	CLog::GetInstancePtr()->LogInfo("---Receive Message:[%s]----Targetid:[%lld]", #dwMsgID, ((PacketHeader *)pNetPacket->m_pDataBuffer->GetBuffer())->u64TargetID);\
-	Func(pNetPacket);}break;
-
 #define PROCESS_MESSAGE_ITEM(dwMsgID, Func) \
 		case dwMsgID:{\
 		CLog::GetInstancePtr()->LogInfo("---Receive Message:[%s]----", #dwMsgID);\
-		Func(pNetPacket);}break;
+		if(Func(pNetPacket)){return TRUE;}}break;
 
 #define PROCESS_MESSAGE_ITEMEX(dwMsgID, Func) \
 		case dwMsgID:{\
-		Func(pNetPacket);}break;
+		if(Func(pNetPacket)){return TRUE;}}break;
 
 #define END_PROCESS_MESSAGE \
 		default: \
@@ -35,7 +30,7 @@ BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 #define PROCESS_MESSAGE_ITEM_CLIENT(dwMsgID, Func) \
 		case dwMsgID:{\
 		printf("---Receive Message:[%s]---- \n", #dwMsgID); \
-		Func(dwMsgID, PacketBuf, BufLen);}break;
+		if(Func(dwMsgID, PacketBuf, BufLen){return TRUE;}}break;
 
 #endif /* __MSG_DEFINE_H__ */
 

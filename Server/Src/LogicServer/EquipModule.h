@@ -3,7 +3,7 @@
 #include "ModuleBase.h"
 #include "../ServerData/EquipData.h"
 #include "../ServerData/ServerDefine.h"
-
+#include "../Message/Game_Define.pb.h"
 struct EquipDataObject;
 class CEquipModule  : public CModuleBase
 {
@@ -38,7 +38,7 @@ public:
 
 public:
 	std::map<UINT64, EquipDataObject*>m_mapEquipData;
-	EquipDataObject* m_vtDressEquip[8];
+	EquipDataObject* m_vtDressEquip[EEP_MAX];
 
 	std::set<UINT64> m_setChange;
 	std::set<UINT64> m_setRemove;

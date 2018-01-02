@@ -102,6 +102,28 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN];
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from bag where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBBagData* pData = NULL;
+	if (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_bagdata();
+		}
+		DBBagItem* pItem = pData->add_itemlist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_itemtype(QueryRes.getInt64Field("itemtype", 0));
+		pItem->set_itemid(QueryRes.getInt64Field("itemid", 0));
+		pItem->set_count(QueryRes.getInt64Field("count", 0));
+		pItem->set_itemguid(QueryRes.getInt64Field("action4", 0));
+		pItem->set_delete_(QueryRes.getInt64Field("actime1", 0));
+	}
+
 	return TRUE;
 }
 
