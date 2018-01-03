@@ -244,15 +244,9 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 itemnum() const;
   void set_itemnum(::google::protobuf::int32 value);
 
-  // int32 ItemType = 5;
-  void clear_itemtype();
-  static const int kItemTypeFieldNumber = 5;
-  ::google::protobuf::int32 itemtype() const;
-  void set_itemtype(::google::protobuf::int32 value);
-
-  // bool Bind = 6;
+  // bool Bind = 5;
   void clear_bind();
-  static const int kBindFieldNumber = 6;
+  static const int kBindFieldNumber = 5;
   bool bind() const;
   void set_bind(bool value);
 
@@ -264,7 +258,6 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint64 itemguid_;
   ::google::protobuf::int32 itemid_;
   ::google::protobuf::int32 itemnum_;
-  ::google::protobuf::int32 itemtype_;
   bool bind_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
@@ -479,11 +472,11 @@ class EquipItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 guid() const;
   void set_guid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+  // int32 EquipID = 2;
+  void clear_equipid();
+  static const int kEquipIDFieldNumber = 2;
+  ::google::protobuf::int32 equipid() const;
+  void set_equipid(::google::protobuf::int32 value);
 
   // int32 StrengthLvl = 3;
   void clear_strengthlvl();
@@ -520,7 +513,7 @@ class EquipItem : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
-  ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 equipid_;
   ::google::protobuf::int32 strengthlvl_;
   ::google::protobuf::int32 refinelevel_;
   ::google::protobuf::int32 starlevel_;
@@ -739,11 +732,11 @@ class PetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint64 guid() const;
   void set_guid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+  // int32 PetID = 2;
+  void clear_petid();
+  static const int kPetIDFieldNumber = 2;
+  ::google::protobuf::int32 petid() const;
+  void set_petid(::google::protobuf::int32 value);
 
   // int32 StrengthLvl = 3;
   void clear_strengthlvl();
@@ -780,7 +773,7 @@ class PetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
-  ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 petid_;
   ::google::protobuf::int32 strengthlvl_;
   ::google::protobuf::int32 refinelevel_;
   ::google::protobuf::int32 starlevel_;
@@ -1956,22 +1949,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // repeated int64 Money = 11;
-  int money_size() const;
-  void clear_money();
-  static const int kMoneyFieldNumber = 11;
-  ::google::protobuf::int64 money(int index) const;
-  void set_money(int index, ::google::protobuf::int64 value);
-  void add_money(::google::protobuf::int64 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
-      money() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
-      mutable_money();
-
-  // repeated int64 Action = 12;
+  // repeated int64 Action = 11;
   int action_size() const;
   void clear_action();
-  static const int kActionFieldNumber = 12;
+  static const int kActionFieldNumber = 11;
   ::google::protobuf::int64 action(int index) const;
   void set_action(int index, ::google::protobuf::int64 value);
   void add_action(::google::protobuf::int64 value);
@@ -1980,10 +1961,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
       mutable_action();
 
-  // repeated int64 Actime = 13;
+  // repeated int64 Actime = 12;
   int actime_size() const;
   void clear_actime();
-  static const int kActimeFieldNumber = 13;
+  static const int kActimeFieldNumber = 12;
   ::google::protobuf::int64 actime(int index) const;
   void set_actime(int index, ::google::protobuf::int64 value);
   void add_actime(::google::protobuf::int64 value);
@@ -1992,10 +1973,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
       mutable_actime();
 
-  // repeated .EquipItem EquipList = 14;
+  // repeated .EquipItem EquipList = 13;
   int equiplist_size() const;
   void clear_equiplist();
-  static const int kEquipListFieldNumber = 14;
+  static const int kEquipListFieldNumber = 13;
   const ::EquipItem& equiplist(int index) const;
   ::EquipItem* mutable_equiplist(int index);
   ::EquipItem* add_equiplist();
@@ -2004,10 +1985,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::EquipItem >&
       equiplist() const;
 
-  // repeated .PetItem PetList = 15;
+  // repeated .PetItem PetList = 14;
   int petlist_size() const;
   void clear_petlist();
-  static const int kPetListFieldNumber = 15;
+  static const int kPetListFieldNumber = 14;
   const ::PetItem& petlist(int index) const;
   ::PetItem* mutable_petlist(int index);
   ::PetItem* add_petlist();
@@ -2016,10 +1997,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::PetItem >&
       petlist() const;
 
-  // repeated .PartnerItem PartnerList = 16;
+  // repeated .PartnerItem PartnerList = 15;
   int partnerlist_size() const;
   void clear_partnerlist();
-  static const int kPartnerListFieldNumber = 16;
+  static const int kPartnerListFieldNumber = 15;
   const ::PartnerItem& partnerlist(int index) const;
   ::PartnerItem* mutable_partnerlist(int index);
   ::PartnerItem* add_partnerlist();
@@ -2028,10 +2009,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::PartnerItem >&
       partnerlist() const;
 
-  // repeated .MountItem MountItemList = 17;
+  // repeated .MountItem MountItemList = 16;
   int mountitemlist_size() const;
   void clear_mountitemlist();
-  static const int kMountItemListFieldNumber = 17;
+  static const int kMountItemListFieldNumber = 16;
   const ::MountItem& mountitemlist(int index) const;
   ::MountItem* mutable_mountitemlist(int index);
   ::MountItem* add_mountitemlist();
@@ -2040,10 +2021,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::MountItem >&
       mountitemlist() const;
 
-  // repeated .BagItem BagItemList = 18;
+  // repeated .BagItem BagItemList = 17;
   int bagitemlist_size() const;
   void clear_bagitemlist();
-  static const int kBagItemListFieldNumber = 18;
+  static const int kBagItemListFieldNumber = 17;
   const ::BagItem& bagitemlist(int index) const;
   ::BagItem* mutable_bagitemlist(int index);
   ::BagItem* add_bagitemlist();
@@ -2052,10 +2033,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::BagItem >&
       bagitemlist() const;
 
-  // repeated .MailItem MailItemList = 19;
+  // repeated .MailItem MailItemList = 18;
   int mailitemlist_size() const;
   void clear_mailitemlist();
-  static const int kMailItemListFieldNumber = 19;
+  static const int kMailItemListFieldNumber = 18;
   const ::MailItem& mailitemlist(int index) const;
   ::MailItem* mutable_mailitemlist(int index);
   ::MailItem* add_mailitemlist();
@@ -2064,10 +2045,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::MailItem >&
       mailitemlist() const;
 
-  // repeated .TaskItem TaskItemList = 20;
+  // repeated .TaskItem TaskItemList = 19;
   int taskitemlist_size() const;
   void clear_taskitemlist();
-  static const int kTaskItemListFieldNumber = 20;
+  static const int kTaskItemListFieldNumber = 19;
   const ::TaskItem& taskitemlist(int index) const;
   ::TaskItem* mutable_taskitemlist(int index);
   ::TaskItem* add_taskitemlist();
@@ -2148,8 +2129,6 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int64 > money_;
-  mutable int _money_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 > action_;
   mutable int _action_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 > actime_;
@@ -2242,21 +2221,7 @@ inline void BagItem::set_itemnum(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BagItem.ItemNum)
 }
 
-// int32 ItemType = 5;
-inline void BagItem::clear_itemtype() {
-  itemtype_ = 0;
-}
-inline ::google::protobuf::int32 BagItem::itemtype() const {
-  // @@protoc_insertion_point(field_get:BagItem.ItemType)
-  return itemtype_;
-}
-inline void BagItem::set_itemtype(::google::protobuf::int32 value) {
-  
-  itemtype_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.ItemType)
-}
-
-// bool Bind = 6;
+// bool Bind = 5;
 inline void BagItem::clear_bind() {
   bind_ = false;
 }
@@ -2352,18 +2317,18 @@ inline void EquipItem::set_guid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:EquipItem.Guid)
 }
 
-// int32 ItemID = 2;
-inline void EquipItem::clear_itemid() {
-  itemid_ = 0;
+// int32 EquipID = 2;
+inline void EquipItem::clear_equipid() {
+  equipid_ = 0;
 }
-inline ::google::protobuf::int32 EquipItem::itemid() const {
-  // @@protoc_insertion_point(field_get:EquipItem.ItemID)
-  return itemid_;
+inline ::google::protobuf::int32 EquipItem::equipid() const {
+  // @@protoc_insertion_point(field_get:EquipItem.EquipID)
+  return equipid_;
 }
-inline void EquipItem::set_itemid(::google::protobuf::int32 value) {
+inline void EquipItem::set_equipid(::google::protobuf::int32 value) {
   
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:EquipItem.ItemID)
+  equipid_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.EquipID)
 }
 
 // int32 StrengthLvl = 3;
@@ -2518,18 +2483,18 @@ inline void PetItem::set_guid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:PetItem.Guid)
 }
 
-// int32 ItemID = 2;
-inline void PetItem::clear_itemid() {
-  itemid_ = 0;
+// int32 PetID = 2;
+inline void PetItem::clear_petid() {
+  petid_ = 0;
 }
-inline ::google::protobuf::int32 PetItem::itemid() const {
-  // @@protoc_insertion_point(field_get:PetItem.ItemID)
-  return itemid_;
+inline ::google::protobuf::int32 PetItem::petid() const {
+  // @@protoc_insertion_point(field_get:PetItem.PetID)
+  return petid_;
 }
-inline void PetItem::set_itemid(::google::protobuf::int32 value) {
+inline void PetItem::set_petid(::google::protobuf::int32 value) {
   
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:PetItem.ItemID)
+  petid_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.PetID)
 }
 
 // int32 StrengthLvl = 3;
@@ -3359,37 +3324,7 @@ inline void RoleLoginAck::set_fightvalue(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:RoleLoginAck.FightValue)
 }
 
-// repeated int64 Money = 11;
-inline int RoleLoginAck::money_size() const {
-  return money_.size();
-}
-inline void RoleLoginAck::clear_money() {
-  money_.Clear();
-}
-inline ::google::protobuf::int64 RoleLoginAck::money(int index) const {
-  // @@protoc_insertion_point(field_get:RoleLoginAck.Money)
-  return money_.Get(index);
-}
-inline void RoleLoginAck::set_money(int index, ::google::protobuf::int64 value) {
-  money_.Set(index, value);
-  // @@protoc_insertion_point(field_set:RoleLoginAck.Money)
-}
-inline void RoleLoginAck::add_money(::google::protobuf::int64 value) {
-  money_.Add(value);
-  // @@protoc_insertion_point(field_add:RoleLoginAck.Money)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
-RoleLoginAck::money() const {
-  // @@protoc_insertion_point(field_list:RoleLoginAck.Money)
-  return money_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
-RoleLoginAck::mutable_money() {
-  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.Money)
-  return &money_;
-}
-
-// repeated int64 Action = 12;
+// repeated int64 Action = 11;
 inline int RoleLoginAck::action_size() const {
   return action_.size();
 }
@@ -3419,7 +3354,7 @@ RoleLoginAck::mutable_action() {
   return &action_;
 }
 
-// repeated int64 Actime = 13;
+// repeated int64 Actime = 12;
 inline int RoleLoginAck::actime_size() const {
   return actime_.size();
 }
@@ -3449,7 +3384,7 @@ RoleLoginAck::mutable_actime() {
   return &actime_;
 }
 
-// repeated .EquipItem EquipList = 14;
+// repeated .EquipItem EquipList = 13;
 inline int RoleLoginAck::equiplist_size() const {
   return equiplist_.size();
 }
@@ -3479,7 +3414,7 @@ RoleLoginAck::equiplist() const {
   return equiplist_;
 }
 
-// repeated .PetItem PetList = 15;
+// repeated .PetItem PetList = 14;
 inline int RoleLoginAck::petlist_size() const {
   return petlist_.size();
 }
@@ -3509,7 +3444,7 @@ RoleLoginAck::petlist() const {
   return petlist_;
 }
 
-// repeated .PartnerItem PartnerList = 16;
+// repeated .PartnerItem PartnerList = 15;
 inline int RoleLoginAck::partnerlist_size() const {
   return partnerlist_.size();
 }
@@ -3539,7 +3474,7 @@ RoleLoginAck::partnerlist() const {
   return partnerlist_;
 }
 
-// repeated .MountItem MountItemList = 17;
+// repeated .MountItem MountItemList = 16;
 inline int RoleLoginAck::mountitemlist_size() const {
   return mountitemlist_.size();
 }
@@ -3569,7 +3504,7 @@ RoleLoginAck::mountitemlist() const {
   return mountitemlist_;
 }
 
-// repeated .BagItem BagItemList = 18;
+// repeated .BagItem BagItemList = 17;
 inline int RoleLoginAck::bagitemlist_size() const {
   return bagitemlist_.size();
 }
@@ -3599,7 +3534,7 @@ RoleLoginAck::bagitemlist() const {
   return bagitemlist_;
 }
 
-// repeated .MailItem MailItemList = 19;
+// repeated .MailItem MailItemList = 18;
 inline int RoleLoginAck::mailitemlist_size() const {
   return mailitemlist_.size();
 }
@@ -3629,7 +3564,7 @@ RoleLoginAck::mailitemlist() const {
   return mailitemlist_;
 }
 
-// repeated .TaskItem TaskItemList = 20;
+// repeated .TaskItem TaskItemList = 19;
 inline int RoleLoginAck::taskitemlist_size() const {
   return taskitemlist_.size();
 }

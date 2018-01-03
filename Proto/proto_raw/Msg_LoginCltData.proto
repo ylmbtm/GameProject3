@@ -2,11 +2,10 @@ syntax = "proto3";
 
 message BagItem {
 	uint64 Guid = 1;
-	uint64  ItemGuid = 2;
+	uint64 ItemGuid = 2;
 	int32  ItemID = 3;
 	int32  ItemNum = 4;
-	int32   BagType = 5;		//±³°üÀàĞÍ
-	bool    Bind = 6;			//ÊÇ·ñÊÇ°î¶¨
+	bool   Bind = 5;			//æ˜¯å¦æ˜¯é‚¦å®š
 }
 
 message BagChangeNty{
@@ -16,12 +15,12 @@ message BagChangeNty{
 
 message EquipItem {
 	uint64 Guid = 1;
-	int32  ItemID = 2;
-	int32  StrengthLvl = 3;   //Ç¿»¯µÈ¼¶
-	int32  RefineLevel = 4;   //¾«Á¶µÈ¼¶
-	int32  StarLevel = 5;	  //ĞÇ¼¶
-	int32  RefineExp = 6;	  //¾«ÑéµÄ¾­Ñé
-	int32  StarExp = 7;		  //ĞÇ¼¶¾­Ñé
+	int32  EquipID = 2;
+	int32  StrengthLvl = 3;   //å¼ºåŒ–ç­‰çº§
+	int32  RefineLevel = 4;   //ç²¾ç‚¼ç­‰çº§
+	int32  StarLevel = 5;	  //æ˜Ÿçº§
+	int32  RefineExp = 6;	  //ç²¾éªŒçš„ç»éªŒ
+	int32  StarExp = 7;		  //æ˜Ÿçº§ç»éªŒ
 }
 
 message EquipChangeNty{
@@ -31,12 +30,12 @@ message EquipChangeNty{
 
 message PetItem {
 	uint64 Guid = 1;
-	int32  ItemID = 2;
-	int32  StrengthLvl = 3;   //Ç¿»¯µÈ¼¶
-	int32  RefineLevel = 4;   //¾«Á¶µÈ¼¶
-	int32  StarLevel = 5;	  //ĞÇ¼¶
-	int32  RefineExp = 6;	  //¾«ÑéµÄ¾­Ñé
-	int32  StarExp = 7;		  //ĞÇ¼¶¾­Ñé
+	int32  PetID = 2;
+	int32  StrengthLvl = 3;   //å¼ºåŒ–ç­‰çº§
+	int32  RefineLevel = 4;   //ç²¾ç‚¼ç­‰çº§
+	int32  StarLevel = 5;	  //æ˜Ÿçº§
+	int32  RefineExp = 6;	  //ç²¾éªŒçš„ç»éªŒ
+	int32  StarExp = 7;		  //æ˜Ÿçº§ç»éªŒ
 }
 
 message PetChangeNty{
@@ -47,11 +46,11 @@ message PetChangeNty{
 message PartnerItem {
 	uint64 Guid = 1;
 	int32  ItemID = 2;
-	int32  StrengthLvl = 3;   //Ç¿»¯µÈ¼¶
-	int32  RefineLevel = 4;   //¾«Á¶µÈ¼¶
-	int32  StarLevel = 5;	  //ĞÇ¼¶
-	int32  RefineExp = 6;	  //¾«ÑéµÄ¾­Ñé
-	int32  StarExp = 7;		  //ĞÇ¼¶¾­Ñé
+	int32  StrengthLvl = 3;   //å¼ºåŒ–ç­‰çº§
+	int32  RefineLevel = 4;   //ç²¾ç‚¼ç­‰çº§
+	int32  StarLevel = 5;	  //æ˜Ÿçº§
+	int32  RefineExp = 6;	  //ç²¾éªŒçš„ç»éªŒ
+	int32  StarExp = 7;		  //æ˜Ÿçº§ç»éªŒ
 }
 
 message PartnerChangeNty{
@@ -62,11 +61,11 @@ message PartnerChangeNty{
 message MountItem {
 	uint64 Guid = 1;
 	int32  ItemID = 2;
-	int32  StrengthLvl = 3;   //Ç¿»¯µÈ¼¶
-	int32  RefineLevel = 4;   //¾«Á¶µÈ¼¶
-	int32  StarLevel = 5;	  //ĞÇ¼¶
-	int32  RefineExp = 6;	  //¾«ÑéµÄ¾­Ñé
-	int32  StarExp = 7;		  //ĞÇ¼¶¾­Ñé
+	int32  StrengthLvl = 3;   //å¼ºåŒ–ç­‰çº§
+	int32  RefineLevel = 4;   //ç²¾ç‚¼ç­‰çº§
+	int32  StarLevel = 5;	  //æ˜Ÿçº§
+	int32  RefineExp = 6;	  //ç²¾éªŒçš„ç»éªŒ
+	int32  StarExp = 7;		  //æ˜Ÿçº§ç»éªŒ
 }
 
 message MountChangeNty{
@@ -84,7 +83,7 @@ message MailChangeNty{
 }
 
 message TaskItem {
-	uint64  RoleID = 1;			//½ÇÉ«ID
+	uint64  RoleID = 1;			//è§’è‰²ID
 	uint32  TaskID = 2;
 }
 
@@ -104,16 +103,15 @@ message RoleLoginAck {
 	int32    VipLvl = 8;
 	int32    VipExp = 9;
 	int64    FightValue =  10;
-	repeated int64 Money = 11;
-	repeated int64 Action = 12;
-	repeated int64 Actime = 13;
-	repeated EquipItem EquipList = 14;
-	repeated PetItem PetList = 15;
-	repeated PartnerItem PartnerList = 16;
-	repeated MountItem MountItemList = 17;
-	repeated BagItem BagItemList = 18;
-	repeated MailItem MailItemList = 19;
-	repeated TaskItem TaskItemList = 20;
+	repeated int64 Action = 11;
+	repeated int64 Actime = 12;
+	repeated EquipItem EquipList = 13;
+	repeated PetItem PetList = 14;
+	repeated PartnerItem PartnerList = 15;
+	repeated MountItem MountItemList = 16;
+	repeated BagItem BagItemList = 17;
+	repeated MailItem MailItemList = 18;
+	repeated TaskItem TaskItemList = 19;
 }
 
 

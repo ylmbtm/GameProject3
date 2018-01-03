@@ -84,14 +84,6 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->add_actime(QueryRes.getInt64Field("actime2", 0));
 		pData->add_actime(QueryRes.getInt64Field("actime3", 0));
 		pData->add_actime(QueryRes.getInt64Field("actime4", 0));
-		pData->add_money(QueryRes.getInt64Field("money1", 0));
-		pData->add_money(QueryRes.getInt64Field("money2", 0));
-		pData->add_money(QueryRes.getInt64Field("money3", 0));
-		pData->add_money(QueryRes.getInt64Field("money4", 0));
-		pData->add_money(QueryRes.getInt64Field("money5", 0));
-		pData->add_money(QueryRes.getInt64Field("money6", 0));
-		pData->add_money(QueryRes.getInt64Field("money7", 0));
-		pData->add_money(QueryRes.getInt64Field("money8", 0));
 		pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
 		pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
 		pData->set_logofftime(QueryRes.getIntField("logofftime", 0));
@@ -108,7 +100,7 @@ BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 	DBBagData* pData = NULL;
-	if (!QueryRes.eof())
+	while (!QueryRes.eof())
 	{
 		if (pData == NULL)
 		{
@@ -117,11 +109,10 @@ BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		DBBagItem* pItem = pData->add_itemlist();
 		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
 		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
-		pItem->set_itemtype(QueryRes.getInt64Field("itemtype", 0));
-		pItem->set_itemid(QueryRes.getInt64Field("itemid", 0));
+		pItem->set_itemguid(QueryRes.getInt64Field("itemguid", 0));
+		pItem->set_itemid(QueryRes.getIntField("itemid", 0));
 		pItem->set_count(QueryRes.getInt64Field("count", 0));
-		pItem->set_itemguid(QueryRes.getInt64Field("action4", 0));
-		pItem->set_delete_(QueryRes.getInt64Field("actime1", 0));
+		QueryRes.nextRow();
 	}
 
 	return TRUE;
@@ -134,11 +125,51 @@ BOOL CDBManager::GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN];
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from equip where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBEquipData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_equipdata();
+		}
+		DBEquipItem* pItem = pData->add_equiplist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_equipid(QueryRes.getIntField("equipid", 0));
+		pItem->set_isusing(QueryRes.getIntField("isuse", 0));
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 
 BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN];
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from pet where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBPetData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_petdata();
+		}
+		DBPetItem* pItem = pData->add_petlist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_petid(QueryRes.getInt64Field("petid", 0));
+		pItem->set_isusing(QueryRes.getIntField("isuse", 0));
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 

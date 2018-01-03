@@ -12,23 +12,21 @@ message DBRoleData {
 	int32		VipExp		= 9;
 	int64		FightValue	= 10;
 	int32		CityCopyID	= 11;
-	repeated	int64 Money	= 13;
-	repeated	int64 Action= 14;
-	repeated	int64 Actime= 15;
-	uint64		CreateTime	= 16;
-	uint64		LogonTime	= 17;
-	uint64		LogoffTime	= 18;
+	repeated	int64 Action= 12;
+	repeated	int64 Actime= 13;
+	uint64		CreateTime	= 14;
+	uint64		LogonTime	= 15;
+	uint64		LogoffTime	= 16;
 }
 
 message DBBagItem {
 	uint64	Guid = 1;			//格子的guid
 	uint64	RoleID = 2;			//角色ID
-	int32	ItemType = 3;		//背包类型
-	uint64	ItemGuid = 4;		//物品guid
-	int32	ItemID = 5;			//道具ID
-	int32	Count = 6;			//个数
-	int32	Bind = 7;			//是否是邦定
-	int32   Delete = 8;			//是否删除
+	uint64	ItemGuid = 3;		//物品guid
+	int32	ItemID = 4;			//道具ID
+	int32	Count = 5;			//个数
+	int32	Bind = 6;			//是否是邦定
+	int32   Status = 7;			//是否删除
 }
 
 message DBBagData {
@@ -61,7 +59,13 @@ message DBEquipData {
 }
 
 message DBPetItem {
-	bool	IsUsing = 1;       //是否使用中
+	uint64	RoleID = 1; 		//角色ID
+	uint64	Guid = 2;
+	int32	PetID = 3;
+	int32	StrengthLvl = 4;   //强化等级
+	int32	RefineLevel = 5;   //精炼等级
+	int32	StarLevel = 6;	  //星级
+	bool	IsUsing = 7;       //是否使用中
 }
 
 message DBPetData {

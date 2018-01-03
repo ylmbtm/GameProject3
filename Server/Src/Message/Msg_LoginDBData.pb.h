@@ -274,22 +274,10 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // repeated int64 Money = 13;
-  int money_size() const;
-  void clear_money();
-  static const int kMoneyFieldNumber = 13;
-  ::google::protobuf::int64 money(int index) const;
-  void set_money(int index, ::google::protobuf::int64 value);
-  void add_money(::google::protobuf::int64 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
-      money() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
-      mutable_money();
-
-  // repeated int64 Action = 14;
+  // repeated int64 Action = 12;
   int action_size() const;
   void clear_action();
-  static const int kActionFieldNumber = 14;
+  static const int kActionFieldNumber = 12;
   ::google::protobuf::int64 action(int index) const;
   void set_action(int index, ::google::protobuf::int64 value);
   void add_action(::google::protobuf::int64 value);
@@ -298,10 +286,10 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
       mutable_action();
 
-  // repeated int64 Actime = 15;
+  // repeated int64 Actime = 13;
   int actime_size() const;
   void clear_actime();
-  static const int kActimeFieldNumber = 15;
+  static const int kActimeFieldNumber = 13;
   ::google::protobuf::int64 actime(int index) const;
   void set_actime(int index, ::google::protobuf::int64 value);
   void add_actime(::google::protobuf::int64 value);
@@ -384,21 +372,21 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 citycopyid() const;
   void set_citycopyid(::google::protobuf::int32 value);
 
-  // uint64 CreateTime = 16;
+  // uint64 CreateTime = 14;
   void clear_createtime();
-  static const int kCreateTimeFieldNumber = 16;
+  static const int kCreateTimeFieldNumber = 14;
   ::google::protobuf::uint64 createtime() const;
   void set_createtime(::google::protobuf::uint64 value);
 
-  // uint64 LogonTime = 17;
+  // uint64 LogonTime = 15;
   void clear_logontime();
-  static const int kLogonTimeFieldNumber = 17;
+  static const int kLogonTimeFieldNumber = 15;
   ::google::protobuf::uint64 logontime() const;
   void set_logontime(::google::protobuf::uint64 value);
 
-  // uint64 LogoffTime = 18;
+  // uint64 LogoffTime = 16;
   void clear_logofftime();
-  static const int kLogoffTimeFieldNumber = 18;
+  static const int kLogoffTimeFieldNumber = 16;
   ::google::protobuf::uint64 logofftime() const;
   void set_logofftime(::google::protobuf::uint64 value);
 
@@ -406,8 +394,6 @@ class DBRoleData : public ::google::protobuf::Message /* @@protoc_insertion_poin
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int64 > money_;
-  mutable int _money_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 > action_;
   mutable int _action_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 > actime_;
@@ -526,41 +512,35 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
-  // uint64 ItemGuid = 4;
+  // uint64 ItemGuid = 3;
   void clear_itemguid();
-  static const int kItemGuidFieldNumber = 4;
+  static const int kItemGuidFieldNumber = 3;
   ::google::protobuf::uint64 itemguid() const;
   void set_itemguid(::google::protobuf::uint64 value);
 
-  // int32 ItemType = 3;
-  void clear_itemtype();
-  static const int kItemTypeFieldNumber = 3;
-  ::google::protobuf::int32 itemtype() const;
-  void set_itemtype(::google::protobuf::int32 value);
-
-  // int32 ItemID = 5;
+  // int32 ItemID = 4;
   void clear_itemid();
-  static const int kItemIDFieldNumber = 5;
+  static const int kItemIDFieldNumber = 4;
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
 
-  // int32 Count = 6;
+  // int32 Count = 5;
   void clear_count();
-  static const int kCountFieldNumber = 6;
+  static const int kCountFieldNumber = 5;
   ::google::protobuf::int32 count() const;
   void set_count(::google::protobuf::int32 value);
 
-  // int32 Bind = 7;
+  // int32 Bind = 6;
   void clear_bind();
-  static const int kBindFieldNumber = 7;
+  static const int kBindFieldNumber = 6;
   ::google::protobuf::int32 bind() const;
   void set_bind(::google::protobuf::int32 value);
 
-  // int32 Delete = 8;
-  void clear_delete_();
-  static const int kDeleteFieldNumber = 8;
-  ::google::protobuf::int32 delete_() const;
-  void set_delete_(::google::protobuf::int32 value);
+  // int32 Status = 7;
+  void clear_status();
+  static const int kStatusFieldNumber = 7;
+  ::google::protobuf::int32 status() const;
+  void set_status(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:DBBagItem)
  private:
@@ -569,11 +549,10 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint64 itemguid_;
-  ::google::protobuf::int32 itemtype_;
   ::google::protobuf::int32 itemid_;
   ::google::protobuf::int32 count_;
   ::google::protobuf::int32 bind_;
-  ::google::protobuf::int32 delete__;
+  ::google::protobuf::int32 status_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBBagItemImpl();
@@ -1238,9 +1217,45 @@ class DBPetItem : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // bool IsUsing = 1;
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // uint64 Guid = 2;
+  void clear_guid();
+  static const int kGuidFieldNumber = 2;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // int32 PetID = 3;
+  void clear_petid();
+  static const int kPetIDFieldNumber = 3;
+  ::google::protobuf::int32 petid() const;
+  void set_petid(::google::protobuf::int32 value);
+
+  // int32 StrengthLvl = 4;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 4;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 5;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 5;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 6;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 6;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // bool IsUsing = 7;
   void clear_isusing();
-  static const int kIsUsingFieldNumber = 1;
+  static const int kIsUsingFieldNumber = 7;
   bool isusing() const;
   void set_isusing(bool value);
 
@@ -1248,6 +1263,12 @@ class DBPetItem : public ::google::protobuf::Message /* @@protoc_insertion_point
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint64 guid_;
+  ::google::protobuf::int32 petid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
   bool isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
@@ -3315,37 +3336,7 @@ inline void DBRoleData::set_citycopyid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:DBRoleData.CityCopyID)
 }
 
-// repeated int64 Money = 13;
-inline int DBRoleData::money_size() const {
-  return money_.size();
-}
-inline void DBRoleData::clear_money() {
-  money_.Clear();
-}
-inline ::google::protobuf::int64 DBRoleData::money(int index) const {
-  // @@protoc_insertion_point(field_get:DBRoleData.Money)
-  return money_.Get(index);
-}
-inline void DBRoleData::set_money(int index, ::google::protobuf::int64 value) {
-  money_.Set(index, value);
-  // @@protoc_insertion_point(field_set:DBRoleData.Money)
-}
-inline void DBRoleData::add_money(::google::protobuf::int64 value) {
-  money_.Add(value);
-  // @@protoc_insertion_point(field_add:DBRoleData.Money)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
-DBRoleData::money() const {
-  // @@protoc_insertion_point(field_list:DBRoleData.Money)
-  return money_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
-DBRoleData::mutable_money() {
-  // @@protoc_insertion_point(field_mutable_list:DBRoleData.Money)
-  return &money_;
-}
-
-// repeated int64 Action = 14;
+// repeated int64 Action = 12;
 inline int DBRoleData::action_size() const {
   return action_.size();
 }
@@ -3375,7 +3366,7 @@ DBRoleData::mutable_action() {
   return &action_;
 }
 
-// repeated int64 Actime = 15;
+// repeated int64 Actime = 13;
 inline int DBRoleData::actime_size() const {
   return actime_.size();
 }
@@ -3405,7 +3396,7 @@ DBRoleData::mutable_actime() {
   return &actime_;
 }
 
-// uint64 CreateTime = 16;
+// uint64 CreateTime = 14;
 inline void DBRoleData::clear_createtime() {
   createtime_ = GOOGLE_ULONGLONG(0);
 }
@@ -3419,7 +3410,7 @@ inline void DBRoleData::set_createtime(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBRoleData.CreateTime)
 }
 
-// uint64 LogonTime = 17;
+// uint64 LogonTime = 15;
 inline void DBRoleData::clear_logontime() {
   logontime_ = GOOGLE_ULONGLONG(0);
 }
@@ -3433,7 +3424,7 @@ inline void DBRoleData::set_logontime(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBRoleData.LogonTime)
 }
 
-// uint64 LogoffTime = 18;
+// uint64 LogoffTime = 16;
 inline void DBRoleData::clear_logofftime() {
   logofftime_ = GOOGLE_ULONGLONG(0);
 }
@@ -3479,21 +3470,7 @@ inline void DBBagItem::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.RoleID)
 }
 
-// int32 ItemType = 3;
-inline void DBBagItem::clear_itemtype() {
-  itemtype_ = 0;
-}
-inline ::google::protobuf::int32 DBBagItem::itemtype() const {
-  // @@protoc_insertion_point(field_get:DBBagItem.ItemType)
-  return itemtype_;
-}
-inline void DBBagItem::set_itemtype(::google::protobuf::int32 value) {
-  
-  itemtype_ = value;
-  // @@protoc_insertion_point(field_set:DBBagItem.ItemType)
-}
-
-// uint64 ItemGuid = 4;
+// uint64 ItemGuid = 3;
 inline void DBBagItem::clear_itemguid() {
   itemguid_ = GOOGLE_ULONGLONG(0);
 }
@@ -3507,7 +3484,7 @@ inline void DBBagItem::set_itemguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.ItemGuid)
 }
 
-// int32 ItemID = 5;
+// int32 ItemID = 4;
 inline void DBBagItem::clear_itemid() {
   itemid_ = 0;
 }
@@ -3521,7 +3498,7 @@ inline void DBBagItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.ItemID)
 }
 
-// int32 Count = 6;
+// int32 Count = 5;
 inline void DBBagItem::clear_count() {
   count_ = 0;
 }
@@ -3535,7 +3512,7 @@ inline void DBBagItem::set_count(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.Count)
 }
 
-// int32 Bind = 7;
+// int32 Bind = 6;
 inline void DBBagItem::clear_bind() {
   bind_ = 0;
 }
@@ -3549,18 +3526,18 @@ inline void DBBagItem::set_bind(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.Bind)
 }
 
-// int32 Delete = 8;
-inline void DBBagItem::clear_delete_() {
-  delete__ = 0;
+// int32 Status = 7;
+inline void DBBagItem::clear_status() {
+  status_ = 0;
 }
-inline ::google::protobuf::int32 DBBagItem::delete_() const {
-  // @@protoc_insertion_point(field_get:DBBagItem.Delete)
-  return delete__;
+inline ::google::protobuf::int32 DBBagItem::status() const {
+  // @@protoc_insertion_point(field_get:DBBagItem.Status)
+  return status_;
 }
-inline void DBBagItem::set_delete_(::google::protobuf::int32 value) {
+inline void DBBagItem::set_status(::google::protobuf::int32 value) {
   
-  delete__ = value;
-  // @@protoc_insertion_point(field_set:DBBagItem.Delete)
+  status_ = value;
+  // @@protoc_insertion_point(field_set:DBBagItem.Status)
 }
 
 // -------------------------------------------------------------------
@@ -3831,7 +3808,91 @@ DBEquipData::equiplist() const {
 
 // DBPetItem
 
-// bool IsUsing = 1;
+// uint64 RoleID = 1;
+inline void DBPetItem::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBPetItem::roleid() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.RoleID)
+  return roleid_;
+}
+inline void DBPetItem::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.RoleID)
+}
+
+// uint64 Guid = 2;
+inline void DBPetItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBPetItem::guid() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.Guid)
+  return guid_;
+}
+inline void DBPetItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.Guid)
+}
+
+// int32 PetID = 3;
+inline void DBPetItem::clear_petid() {
+  petid_ = 0;
+}
+inline ::google::protobuf::int32 DBPetItem::petid() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.PetID)
+  return petid_;
+}
+inline void DBPetItem::set_petid(::google::protobuf::int32 value) {
+  
+  petid_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.PetID)
+}
+
+// int32 StrengthLvl = 4;
+inline void DBPetItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 DBPetItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void DBPetItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 5;
+inline void DBPetItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 DBPetItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.RefineLevel)
+  return refinelevel_;
+}
+inline void DBPetItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.RefineLevel)
+}
+
+// int32 StarLevel = 6;
+inline void DBPetItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 DBPetItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:DBPetItem.StarLevel)
+  return starlevel_;
+}
+inline void DBPetItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:DBPetItem.StarLevel)
+}
+
+// bool IsUsing = 7;
 inline void DBPetItem::clear_isusing() {
   isusing_ = false;
 }
