@@ -25,11 +25,13 @@ public:
 	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+
+	BOOL	NotifyChange();
 public:
 	//*********************消息处理定义开始******************************
 
 	//*********************消息处理定义结束******************************
-    std::map<UINT32, ActivityDataObject*> m_mapActivityData;
+	std::map<UINT32, ActivityDataObject*> m_mapActivityData;
 public:
 
 

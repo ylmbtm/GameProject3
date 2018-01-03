@@ -76,6 +76,11 @@ BOOL CCounterModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CCounterModule::NotifyChange()
+{
+	return TRUE;
+}
+
 CounterDataObject* CCounterModule::GetCounterData(UINT64 uID, UINT32 dwIndex, BOOL bCreate)
 {
 	auto itor = m_mapCounterData.find(uID);

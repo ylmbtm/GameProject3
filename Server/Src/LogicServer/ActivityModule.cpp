@@ -111,3 +111,8 @@ BOOL CActivityModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
 	return TRUE;
 }
+
+BOOL CActivityModule::NotifyChange()
+{
+	return TRUE;
+}

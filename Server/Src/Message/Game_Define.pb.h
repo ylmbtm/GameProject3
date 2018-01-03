@@ -341,12 +341,13 @@ enum EChatChannel {
   CHL_WORLD = 1,
   CHL_PRIVATE = 2,
   CHL_GUILD = 3,
+  CHL_GM = 4,
   EChatChannel_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EChatChannel_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EChatChannel_IsValid(int value);
 const EChatChannel EChatChannel_MIN = CHL_NONE;
-const EChatChannel EChatChannel_MAX = CHL_GUILD;
+const EChatChannel EChatChannel_MAX = CHL_GM;
 const int EChatChannel_ARRAYSIZE = EChatChannel_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EChatChannel_descriptor();

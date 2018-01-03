@@ -140,16 +140,9 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 			uItemGuid = pPartnerModule->AddPartner(dwItemID);
 		}
 		break;
-		case IMT_MONEY:
-		{
-			CRoleModule* pRoleModule = (CRoleModule*)m_pOwnPlayer->GetModuleByType(MT_PARTNER);
-			ERROR_RETURN_FALSE(pRoleModule != NULL);
-			pRoleModule->AddMoney(dwItemID, nCount);
-		}
-		break;
 		case IMT_ACTION:
 		{
-			CRoleModule* pRoleModule = (CRoleModule*)m_pOwnPlayer->GetModuleByType(MT_PARTNER);
+			CRoleModule* pRoleModule = (CRoleModule*)m_pOwnPlayer->GetModuleByType(MT_ROLE);
 			ERROR_RETURN_FALSE(pRoleModule != NULL);
 			pRoleModule->AddAction(dwItemID, nCount);
 		}
@@ -169,13 +162,32 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 				{
 					continue;
 				}
+
+				if (nTempCount <= nCanAdd)
+				{
+					pTempObject->lock();
+					pTempObject->m_nCount += nTempCount;
+					pTempObject->unlock();
+					nTempCount = 0;
+					m_setChange.insert(pTempObject->m_uGuid);
+					break;
+				}
+				else
+				{
+					pTempObject->lock();
+					pTempObject->m_nCount += nCanAdd;
+					pTempObject->unlock();
+					nTempCount -= nCanAdd;
+					m_setChange.insert(pTempObject->m_uGuid);
+				}
 			}
 		}
 		break;
-		default:
-		{
+	}
 
-		}
+	if (nTempCount <= 0)
+	{
+		return 0;
 	}
 
 	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
@@ -188,7 +200,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_BagChange.insert(pObject->m_uGuid);
+	m_setChange.insert(pObject->m_uGuid);
 
 	return TRUE;
 }
@@ -265,13 +277,16 @@ BagDataObject* CBagModule::GetItemByGuid(UINT64 uGuid)
 
 BOOL CBagModule::NotifyChange()
 {
+	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+	{
+		return TRUE;
+	}
+
 	BagChangeNty Nty;
-	for(auto itor = m_BagChange.begin(); itor != m_BagChange.end(); itor++)
+	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{
 		BagDataObject* pObject = GetItemByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
-
-
 		BagItem* pItem = Nty.add_changelist();
 		pItem->set_guid(*itor);
 		pItem->set_itemguid(pObject->m_ItemGuid);
@@ -279,15 +294,15 @@ BOOL CBagModule::NotifyChange()
 		pItem->set_itemnum(pObject->m_nCount);
 	}
 
-	for(auto itor = m_BagRemove.begin(); itor != m_BagRemove.end(); itor++)
+	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
 	{
 		Nty.add_removelist(*itor);
 	}
 
 	m_pOwnPlayer->SendMsgProtoBuf(MSG_BAG_CHANGE_NTY, Nty);
 
-	m_BagChange.clear();
-	m_BagRemove.clear();
+	m_setChange.clear();
+	m_setRemove.clear();
 
 	return TRUE;
 }

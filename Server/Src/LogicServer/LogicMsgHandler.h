@@ -44,7 +44,7 @@ public:
 	BOOL OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
 	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
-
+	BOOL OnMsgTestAddItemReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

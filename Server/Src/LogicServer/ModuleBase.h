@@ -29,6 +29,8 @@ public:
 
 	virtual BOOL SaveToClientLoginData(RoleLoginAck& Ack) = 0;
 
+	virtual BOOL NotifyChange() = 0;
+
 	virtual BOOL DispatchPacket(NetPacket* pNetPack);
 
 	virtual BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);

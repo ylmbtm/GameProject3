@@ -27,6 +27,8 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
+	BOOL	NotifyChange();
+
 	CounterDataObject* GetCounterData(UINT64 uID, UINT32 dwIndex, BOOL bCreate = FALSE);
 
 public:

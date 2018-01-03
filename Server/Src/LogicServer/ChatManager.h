@@ -11,11 +11,15 @@ public:
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
 
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgChatReq(NetPacket* pNetPacket);
 
 
-	static CChatManager* GetInstancePtr();
+	//*********************消息处理定义结束******************************
+
+
 
 public:
-
+	static CChatManager* GetInstancePtr();
 };
 #endif

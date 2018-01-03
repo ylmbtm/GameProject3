@@ -29,9 +29,7 @@ public:
 
 	BOOL ReadFromShareMemory(BagDataObject* pObject);
 
-
 public:
-
 	BOOL AddItem(UINT32 dwItemID, INT32 nCount);
 	BOOL RemoveItem(UINT32 dwItemID, INT32 nCount);
 	INT32 GetItemCount(UINT32 dwItemID);
@@ -43,8 +41,8 @@ public:
 public:
 	std::map<UINT64, BagDataObject*>m_mapBagData;
 
-	std::set<UINT64> m_BagChange;
-	std::set<UINT64> m_BagRemove;
+	std::set<UINT64> m_setChange;
+	std::set<UINT64> m_setRemove;
 };
 
 #endif //__BAG_MODULE_H__

@@ -300,10 +300,10 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	if (CChatManager::GetInstancePtr()->DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
+	//if (CChatManager::GetInstancePtr()->DispatchPacket(pNetPacket))
+	//{
+	//	return TRUE;
+	//}
 
 	if(m_LogicMsgHandler.DispatchPacket(pNetPacket))
 	{

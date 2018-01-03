@@ -30,30 +30,28 @@ struct BagDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("INSERT INTO bag (guid, roleid, itemguid, itemid, itemtype, count, delete) \
-			VALUES(?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("INSERT INTO bag (guid, roleid, itemguid, itemid, count, status) \
+			VALUES(?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_ItemGuid);
 		csp.set_int32(3,  m_ItemID);
-		csp.set_int32(4,  m_ItemType);
-		csp.set_int32(5,  m_nCount);
-		csp.set_int32(6, m_bDelete);
+		csp.set_int32(4,  m_nCount);
+		csp.set_int32(5, m_bDelete);
 		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO bag (guid, roleid, itemguid, itemid,itemtype, count, delete) \
-			VALUES(?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO bag (guid, roleid, itemguid, itemid, count, status) \
+			VALUES(?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_ItemGuid);
 		csp.set_int32(3, m_ItemID);
-		csp.set_int32(4, m_ItemType);
-		csp.set_int32(5, m_nCount);
-		csp.set_int32(6, m_bDelete);
+		csp.set_int32(4, m_nCount);
+		csp.set_int32(5, m_bDelete);
 		pDB->Execute(&csp);
 
 		return TRUE;
@@ -61,7 +59,7 @@ struct BagDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("update player set delete = 1 where guid = ?");
+		static CDBStoredProcedure csp("delete from bag where guid = ?");
 		csp.set_uint64(0, m_uGuid);
 		pDB->Execute(&csp);
 		return TRUE;

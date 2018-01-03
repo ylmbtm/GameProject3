@@ -27,17 +27,10 @@ public:
 
 	BOOL	SaveToClientLoginData(RoleLoginAck& Ack);
 
+	BOOL	NotifyChange();
+
 	BOOL	CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 public:
-	//扣除货币， 如果返回成功，就是扣除成功， 如果返回失败，就是货币不足
-	BOOL    CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum);
-
-	BOOL    CheckMoneyEnough(UINT32 dwMoneyID, INT32 nMoneyNum);
-
-	UINT64  GetMoney(UINT32 dwMoneyID);
-
-	UINT64  AddMoney(UINT32 dwMoneyID, INT32 nMoneyNum);
-
 	//扣除行动力， 如果返回成功，就是扣除成功， 如果返回失败，就是行动力不足
 	BOOL    CostAction(UINT32 dwActionID, INT32 nActionNum);
 

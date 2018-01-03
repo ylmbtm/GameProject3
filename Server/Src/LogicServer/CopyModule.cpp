@@ -69,6 +69,11 @@ BOOL CCopyModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CCopyModule::NotifyChange()
+{
+	return TRUE;
+}
+
 BOOL CCopyModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;

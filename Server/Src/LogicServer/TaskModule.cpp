@@ -119,6 +119,11 @@ TaskDataObject* CTaskModule::GetTaskByID(UINT32 dwTaskID)
 
 BOOL CTaskModule::NotifyChange()
 {
+	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+	{
+		return TRUE;
+	}
+
 	TaskChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{

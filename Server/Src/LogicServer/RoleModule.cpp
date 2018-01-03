@@ -31,11 +31,6 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 		m_pRoleDataObject->m_Actime[i] = 0;
 	}
 
-	for(int i = 0; i < MONEY_NUM; i++)
-	{
-		m_pRoleDataObject->m_Money[i] = 100000;
-	}
-
 	m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
 
 	m_pRoleDataObject->m_uCreateTime = CommonFunc::GetCurrTime();
@@ -155,11 +150,6 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	Ack.set_exp(m_pRoleDataObject->m_Exp);
 	Ack.set_viplvl(m_pRoleDataObject->m_VipLvl);
 	Ack.set_vipexp(m_pRoleDataObject->m_VipExp);
-	for(int i = 0; i < MONEY_NUM; i++)
-	{
-		Ack.add_money(m_pRoleDataObject->m_Money[i]);
-	}
-
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		Ack.add_action(m_pRoleDataObject->m_Action[i]);
@@ -169,94 +159,16 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CRoleModule::NotifyChange()
+{
+	return TRUE;
+}
+
 BOOL CRoleModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;
 }
 
-BOOL CRoleModule::CostMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
-{
-	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
-	{
-		CLog::GetInstancePtr()->LogError("CostMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
-		return FALSE;
-	}
-
-	if (dwMoneyID <= 0)
-	{
-		CLog::GetInstancePtr()->LogError("CostMoney Error : Invalid nMoneyNum :%d", nMoneyNum);
-		return FALSE;
-	}
-
-	if (m_pRoleDataObject->m_Money[dwMoneyID - 1] < nMoneyNum)
-	{
-		CLog::GetInstancePtr()->LogError("CostMoney Error : Not Enough Money :%d", nMoneyNum);
-		return FALSE;
-	}
-	m_pRoleDataObject->lock();
-	m_pRoleDataObject->m_Money[dwMoneyID - 1] -= nMoneyNum;
-	m_pRoleDataObject->unlock();
-
-	return TRUE;
-}
-
-BOOL CRoleModule::CheckMoneyEnough(UINT32 dwMoneyID, INT32 nMoneyNum)
-{
-	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
-	{
-		CLog::GetInstancePtr()->LogError("CheckMoneyEnough Error: Inavlid dwMoneyID :%d", dwMoneyID);
-		return FALSE;
-	}
-
-	if (nMoneyNum <= 0)
-	{
-		CLog::GetInstancePtr()->LogError("CheckMoneyEnough Error : Invalid nMoneyNum :%d", nMoneyNum);
-		return FALSE;
-	}
-
-	if (m_pRoleDataObject->m_Money[dwMoneyID - 1] >= nMoneyNum)
-	{
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-UINT64 CRoleModule::GetMoney(UINT32 dwMoneyID)
-{
-	if ((dwMoneyID <= 0) || (dwMoneyID >= MONEY_NUM))
-	{
-		CLog::GetInstancePtr()->LogError("GetMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
-		return 0;
-	}
-
-	return m_pRoleDataObject->m_Money[dwMoneyID - 1];
-}
-
-UINT64 CRoleModule::AddMoney(UINT32 dwMoneyID, INT32 nMoneyNum)
-{
-	if (nMoneyNum <= 0)
-	{
-		CLog::GetInstancePtr()->LogError("AddMoney Error: Inavlid nMoneyNum :%d", nMoneyNum);
-		return m_pRoleDataObject->m_Money[dwMoneyID - 1];
-	}
-
-	if ((dwMoneyID <= 0) || (dwMoneyID > MONEY_NUM))
-	{
-		CLog::GetInstancePtr()->LogError("AddMoney Error: Inavlid dwMoneyID :%d", dwMoneyID);
-		return 0;
-	}
-
-	m_pRoleDataObject->lock();
-	m_pRoleDataObject->m_Money[dwMoneyID - 1] += nMoneyNum;
-	if ( m_pRoleDataObject->m_Money[dwMoneyID - 1] > CConfigData::GetInstancePtr()->GetMoneyMaxValue(dwMoneyID))
-	{
-		m_pRoleDataObject->m_Money[dwMoneyID - 1] = CConfigData::GetInstancePtr()->GetMoneyMaxValue(dwMoneyID);
-	}
-	m_pRoleDataObject->unlock();
-
-	return  m_pRoleDataObject->m_Money[dwMoneyID - 1];
-}
 
 BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 {

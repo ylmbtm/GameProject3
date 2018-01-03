@@ -95,6 +95,11 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 
 BOOL CPartnerModule::NotifyChange()
 {
+	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+	{
+		return TRUE;
+	}
+
 	PartnerChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{

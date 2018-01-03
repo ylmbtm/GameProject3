@@ -92,6 +92,11 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 
 BOOL CPetModule::NotifyChange()
 {
+	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+	{
+		return TRUE;
+	}
+
 	PetChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{

@@ -29,7 +29,6 @@ struct RoleDataObject : public ShareObject
 	CHAR		m_szName[ROLE_NAME_LEN];	//角色名
 	INT32		m_CarrerID;      //职业ID
 	INT32		m_Level;			//等级
-	INT64		m_Money[MONEY_NUM];		//所有的货币
 	INT64		m_Action[ACTION_NUM];		//所有的体力
 	INT64		m_Actime[ACTION_NUM];		//体力恢复时间
 	INT64		m_Exp;			//经验

@@ -42,40 +42,25 @@ BOOL CLogicMsgHandler::Uninit()
 
 BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 {
-	if (CPlayerManager::GetInstancePtr()->GetCount() < 3000)
+	CPlayerManager::GetInstancePtr()->TryCleanPlayer();
+
+	if (CPlayerManager::GetInstancePtr()->GetCount() > 0)
 	{
-		return TRUE;
-	}
+		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+		ERROR_RETURN_FALSE(pNode != NULL);
 
-	//开始要清理人员了
-	UINT64 uMinLeaveTime = 0x0fffffffff;
-	UINT64 uRoleID = 0;
-
-	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
-	ERROR_RETURN_FALSE(pNode != NULL);
-
-	CPlayerObject* pTempObj = NULL;
-	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
-	{
-		pTempObj = pNode->GetValue();
-		ERROR_RETURN_FALSE(pTempObj != NULL);
-
-		if(pTempObj->IsOnline())
+		CPlayerObject* pTempObj = NULL;
+		for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
 		{
-			continue;
-		}
+			pTempObj = pNode->GetValue();
+			ERROR_RETURN_FALSE(pTempObj != NULL);
 
-		CRoleModule* pRoleModule = (CRoleModule*)pTempObj->GetModuleByType(MT_ROLE);
-		ERROR_RETURN_FALSE(pRoleModule != NULL);
-
-		if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
-		{
-			uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
-			uRoleID = pTempObj->GetObjectID();
+			if (pTempObj->IsOnline())
+			{
+				pTempObj->NotifyChange();
+			}
 		}
 	}
-
-	CPlayerManager::GetInstancePtr()->ReleasePlayer(uRoleID);
 
 	return TRUE;
 }
@@ -99,6 +84,7 @@ BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
+			PROCESS_MESSAGE_ITEM(MSG_TEST_ADD_ITEM,			OnMsgTestAddItemReq);
 	}
 
 
@@ -477,6 +463,22 @@ BOOL CLogicMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 
 	}
 
+	return TRUE;
+}
+
+
+BOOL CLogicMsgHandler::OnMsgTestAddItemReq(NetPacket* pNetPacket)
+{
+	ChatMessageReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	//ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+
+	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.srcid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+	CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
+	ERROR_RETURN_TRUE(pBag != NULL);
+	pBag->AddItem(Req.guildid(), 1);
 	return TRUE;
 }
 

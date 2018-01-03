@@ -20,6 +20,8 @@ public:
 
 	BOOL			    ReleasePlayer(UINT64 u64RoleID);
 
+	BOOL				TryCleanPlayer();
+
 public:
 
 };

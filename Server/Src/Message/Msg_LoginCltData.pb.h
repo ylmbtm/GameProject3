@@ -244,11 +244,11 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 itemnum() const;
   void set_itemnum(::google::protobuf::int32 value);
 
-  // int32 BagType = 5;
-  void clear_bagtype();
-  static const int kBagTypeFieldNumber = 5;
-  ::google::protobuf::int32 bagtype() const;
-  void set_bagtype(::google::protobuf::int32 value);
+  // int32 ItemType = 5;
+  void clear_itemtype();
+  static const int kItemTypeFieldNumber = 5;
+  ::google::protobuf::int32 itemtype() const;
+  void set_itemtype(::google::protobuf::int32 value);
 
   // bool Bind = 6;
   void clear_bind();
@@ -264,7 +264,7 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint64 itemguid_;
   ::google::protobuf::int32 itemid_;
   ::google::protobuf::int32 itemnum_;
-  ::google::protobuf::int32 bagtype_;
+  ::google::protobuf::int32 itemtype_;
   bool bind_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
@@ -2242,18 +2242,18 @@ inline void BagItem::set_itemnum(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BagItem.ItemNum)
 }
 
-// int32 BagType = 5;
-inline void BagItem::clear_bagtype() {
-  bagtype_ = 0;
+// int32 ItemType = 5;
+inline void BagItem::clear_itemtype() {
+  itemtype_ = 0;
 }
-inline ::google::protobuf::int32 BagItem::bagtype() const {
-  // @@protoc_insertion_point(field_get:BagItem.BagType)
-  return bagtype_;
+inline ::google::protobuf::int32 BagItem::itemtype() const {
+  // @@protoc_insertion_point(field_get:BagItem.ItemType)
+  return itemtype_;
 }
-inline void BagItem::set_bagtype(::google::protobuf::int32 value) {
+inline void BagItem::set_itemtype(::google::protobuf::int32 value) {
   
-  bagtype_ = value;
-  // @@protoc_insertion_point(field_set:BagItem.BagType)
+  itemtype_ = value;
+  // @@protoc_insertion_point(field_set:BagItem.ItemType)
 }
 
 // bool Bind = 6;

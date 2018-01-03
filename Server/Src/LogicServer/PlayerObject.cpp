@@ -362,6 +362,18 @@ BOOL CPlayerObject::IsOnline()
 	return m_IsOnline;
 }
 
+BOOL CPlayerObject::NotifyChange()
+{
+	for (int i = MT_ROLE; i < MT_END; i++)
+	{
+		CModuleBase* pBase = m_MoudleList.at(i);
+		ERROR_RETURN_FALSE(pBase != NULL);
+
+		pBase->NotifyChange();
+	}
+	return TRUE;
+}
+
 BOOL CPlayerObject::CalcFightDataInfo()
 {
 	INT32 PropertyValue[PROPERTY_NUM] = {0};

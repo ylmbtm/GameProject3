@@ -1,6 +1,7 @@
 ﻿#ifndef __PARTNER_MODULE_H__
 #define __PARTNER_MODULE_H__
 #include "ModuleBase.h"
+#include "DBInterface/DBStoredProc.h"
 #include "../ServerData/PartnerData.h"
 
 struct PartnerDataObject;

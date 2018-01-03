@@ -6,7 +6,15 @@ struct PartnerDataObject : public ShareObject
 {
 	PartnerDataObject ()
 	{
-
+		m_uRoleID = 0;			//角色ID
+		m_uGuid = 0;			//guid
+		m_PartnerID = 0;		//伙伴ID
+		m_StrengthLvl = 0;		//强化等级
+		m_RefineLevel = 0;		//精炼等级
+		m_StarLevel = 0;		//星级
+		m_RefineExp = 0;		//精验的经验
+		m_StarExp = 0;			//星级经验
+		m_IsUsing = 0;			//当前使用中
 	}
 
 	UINT64 m_uRoleID;			//角色ID
@@ -21,16 +29,39 @@ struct PartnerDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO partner (guid, roleid, partnerid, isusing, strengthlvl, refinelvl, starlvl) \
+			VALUES(?,?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uGuid);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint32(2, m_PartnerID);
+		csp.set_bool(3, m_IsUsing);
+		csp.set_int32(4, m_StrengthLvl);
+		csp.set_int32(5, m_RefineLevel);
+		csp.set_int32(6, m_StarLevel);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO partner (guid, roleid, partnerid, isusing, strengthlvl, refinelvl, starlvl) \
+			VALUES(?,?,?,?,?,?,?,?);");
+		csp.set_uint64(0, m_uGuid);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint32(2, m_PartnerID);
+		csp.set_bool(3, m_IsUsing);
+		csp.set_int32(4, m_StrengthLvl);
+		csp.set_int32(5, m_RefineLevel);
+		csp.set_int32(6, m_StarLevel);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("delete from partner where guid = ?");
+		csp.set_uint64(0, m_uGuid);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 };

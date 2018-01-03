@@ -92,6 +92,11 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 
 BOOL CMountModule::NotifyChange()
 {
+	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+	{
+		return TRUE;
+	}
+
 	MountChangeNty Nty;
 	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
 	{
