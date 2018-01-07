@@ -47,7 +47,7 @@ BOOL CFriendModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CFriendModule::DispatchPacket(NetPacket* pNetPack)
+BOOL CFriendModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	return FALSE;
 }

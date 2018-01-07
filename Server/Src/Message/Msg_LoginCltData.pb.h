@@ -508,6 +508,12 @@ class EquipItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 starexp() const;
   void set_starexp(::google::protobuf::int32 value);
 
+  // int32 IsUsing = 8;
+  void clear_isusing();
+  static const int kIsUsingFieldNumber = 8;
+  ::google::protobuf::int32 isusing() const;
+  void set_isusing(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:EquipItem)
  private:
 
@@ -519,6 +525,7 @@ class EquipItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 starlevel_;
   ::google::protobuf::int32 refineexp_;
   ::google::protobuf::int32 starexp_;
+  ::google::protobuf::int32 isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsEquipItemImpl();
@@ -768,6 +775,12 @@ class PetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 starexp() const;
   void set_starexp(::google::protobuf::int32 value);
 
+  // int32 IsUsing = 8;
+  void clear_isusing();
+  static const int kIsUsingFieldNumber = 8;
+  ::google::protobuf::int32 isusing() const;
+  void set_isusing(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:PetItem)
  private:
 
@@ -779,6 +792,7 @@ class PetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 starlevel_;
   ::google::protobuf::int32 refineexp_;
   ::google::protobuf::int32 starexp_;
+  ::google::protobuf::int32 isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsPetItemImpl();
@@ -992,11 +1006,11 @@ class PartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::uint64 guid() const;
   void set_guid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+  // int32 PartnerID = 2;
+  void clear_partnerid();
+  static const int kPartnerIDFieldNumber = 2;
+  ::google::protobuf::int32 partnerid() const;
+  void set_partnerid(::google::protobuf::int32 value);
 
   // int32 StrengthLvl = 3;
   void clear_strengthlvl();
@@ -1028,17 +1042,24 @@ class PartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 starexp() const;
   void set_starexp(::google::protobuf::int32 value);
 
+  // int32 IsUsing = 8;
+  void clear_isusing();
+  static const int kIsUsingFieldNumber = 8;
+  ::google::protobuf::int32 isusing() const;
+  void set_isusing(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:PartnerItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
-  ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 partnerid_;
   ::google::protobuf::int32 strengthlvl_;
   ::google::protobuf::int32 refinelevel_;
   ::google::protobuf::int32 starlevel_;
   ::google::protobuf::int32 refineexp_;
   ::google::protobuf::int32 starexp_;
+  ::google::protobuf::int32 isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsPartnerItemImpl();
@@ -1288,6 +1309,12 @@ class MountItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 starexp() const;
   void set_starexp(::google::protobuf::int32 value);
 
+  // int32 IsUsing = 8;
+  void clear_isusing();
+  static const int kIsUsingFieldNumber = 8;
+  ::google::protobuf::int32 isusing() const;
+  void set_isusing(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:MountItem)
  private:
 
@@ -1299,6 +1326,7 @@ class MountItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 starlevel_;
   ::google::protobuf::int32 refineexp_;
   ::google::protobuf::int32 starexp_;
+  ::google::protobuf::int32 isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsMountItemImpl();
@@ -2009,17 +2037,17 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::PartnerItem >&
       partnerlist() const;
 
-  // repeated .MountItem MountItemList = 16;
-  int mountitemlist_size() const;
-  void clear_mountitemlist();
-  static const int kMountItemListFieldNumber = 16;
-  const ::MountItem& mountitemlist(int index) const;
-  ::MountItem* mutable_mountitemlist(int index);
-  ::MountItem* add_mountitemlist();
+  // repeated .MountItem MountList = 16;
+  int mountlist_size() const;
+  void clear_mountlist();
+  static const int kMountListFieldNumber = 16;
+  const ::MountItem& mountlist(int index) const;
+  ::MountItem* mutable_mountlist(int index);
+  ::MountItem* add_mountlist();
   ::google::protobuf::RepeatedPtrField< ::MountItem >*
-      mutable_mountitemlist();
+      mutable_mountlist();
   const ::google::protobuf::RepeatedPtrField< ::MountItem >&
-      mountitemlist() const;
+      mountlist() const;
 
   // repeated .BagItem BagItemList = 17;
   int bagitemlist_size() const;
@@ -2033,29 +2061,29 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::BagItem >&
       bagitemlist() const;
 
-  // repeated .MailItem MailItemList = 18;
-  int mailitemlist_size() const;
-  void clear_mailitemlist();
-  static const int kMailItemListFieldNumber = 18;
-  const ::MailItem& mailitemlist(int index) const;
-  ::MailItem* mutable_mailitemlist(int index);
-  ::MailItem* add_mailitemlist();
+  // repeated .MailItem MailList = 18;
+  int maillist_size() const;
+  void clear_maillist();
+  static const int kMailListFieldNumber = 18;
+  const ::MailItem& maillist(int index) const;
+  ::MailItem* mutable_maillist(int index);
+  ::MailItem* add_maillist();
   ::google::protobuf::RepeatedPtrField< ::MailItem >*
-      mutable_mailitemlist();
+      mutable_maillist();
   const ::google::protobuf::RepeatedPtrField< ::MailItem >&
-      mailitemlist() const;
+      maillist() const;
 
-  // repeated .TaskItem TaskItemList = 19;
-  int taskitemlist_size() const;
-  void clear_taskitemlist();
-  static const int kTaskItemListFieldNumber = 19;
-  const ::TaskItem& taskitemlist(int index) const;
-  ::TaskItem* mutable_taskitemlist(int index);
-  ::TaskItem* add_taskitemlist();
+  // repeated .TaskItem TaskList = 19;
+  int tasklist_size() const;
+  void clear_tasklist();
+  static const int kTaskListFieldNumber = 19;
+  const ::TaskItem& tasklist(int index) const;
+  ::TaskItem* mutable_tasklist(int index);
+  ::TaskItem* add_tasklist();
   ::google::protobuf::RepeatedPtrField< ::TaskItem >*
-      mutable_taskitemlist();
+      mutable_tasklist();
   const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
-      taskitemlist() const;
+      tasklist() const;
 
   // string Name = 7;
   void clear_name();
@@ -2136,10 +2164,10 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedPtrField< ::EquipItem > equiplist_;
   ::google::protobuf::RepeatedPtrField< ::PetItem > petlist_;
   ::google::protobuf::RepeatedPtrField< ::PartnerItem > partnerlist_;
-  ::google::protobuf::RepeatedPtrField< ::MountItem > mountitemlist_;
+  ::google::protobuf::RepeatedPtrField< ::MountItem > mountlist_;
   ::google::protobuf::RepeatedPtrField< ::BagItem > bagitemlist_;
-  ::google::protobuf::RepeatedPtrField< ::MailItem > mailitemlist_;
-  ::google::protobuf::RepeatedPtrField< ::TaskItem > taskitemlist_;
+  ::google::protobuf::RepeatedPtrField< ::MailItem > maillist_;
+  ::google::protobuf::RepeatedPtrField< ::TaskItem > tasklist_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint32 retcode_;
@@ -2401,6 +2429,20 @@ inline void EquipItem::set_starexp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:EquipItem.StarExp)
 }
 
+// int32 IsUsing = 8;
+inline void EquipItem::clear_isusing() {
+  isusing_ = 0;
+}
+inline ::google::protobuf::int32 EquipItem::isusing() const {
+  // @@protoc_insertion_point(field_get:EquipItem.IsUsing)
+  return isusing_;
+}
+inline void EquipItem::set_isusing(::google::protobuf::int32 value) {
+  
+  isusing_ = value;
+  // @@protoc_insertion_point(field_set:EquipItem.IsUsing)
+}
+
 // -------------------------------------------------------------------
 
 // EquipChangeNty
@@ -2567,6 +2609,20 @@ inline void PetItem::set_starexp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PetItem.StarExp)
 }
 
+// int32 IsUsing = 8;
+inline void PetItem::clear_isusing() {
+  isusing_ = 0;
+}
+inline ::google::protobuf::int32 PetItem::isusing() const {
+  // @@protoc_insertion_point(field_get:PetItem.IsUsing)
+  return isusing_;
+}
+inline void PetItem::set_isusing(::google::protobuf::int32 value) {
+  
+  isusing_ = value;
+  // @@protoc_insertion_point(field_set:PetItem.IsUsing)
+}
+
 // -------------------------------------------------------------------
 
 // PetChangeNty
@@ -2649,18 +2705,18 @@ inline void PartnerItem::set_guid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:PartnerItem.Guid)
 }
 
-// int32 ItemID = 2;
-inline void PartnerItem::clear_itemid() {
-  itemid_ = 0;
+// int32 PartnerID = 2;
+inline void PartnerItem::clear_partnerid() {
+  partnerid_ = 0;
 }
-inline ::google::protobuf::int32 PartnerItem::itemid() const {
-  // @@protoc_insertion_point(field_get:PartnerItem.ItemID)
-  return itemid_;
+inline ::google::protobuf::int32 PartnerItem::partnerid() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.PartnerID)
+  return partnerid_;
 }
-inline void PartnerItem::set_itemid(::google::protobuf::int32 value) {
+inline void PartnerItem::set_partnerid(::google::protobuf::int32 value) {
   
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:PartnerItem.ItemID)
+  partnerid_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.PartnerID)
 }
 
 // int32 StrengthLvl = 3;
@@ -2731,6 +2787,20 @@ inline void PartnerItem::set_starexp(::google::protobuf::int32 value) {
   
   starexp_ = value;
   // @@protoc_insertion_point(field_set:PartnerItem.StarExp)
+}
+
+// int32 IsUsing = 8;
+inline void PartnerItem::clear_isusing() {
+  isusing_ = 0;
+}
+inline ::google::protobuf::int32 PartnerItem::isusing() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.IsUsing)
+  return isusing_;
+}
+inline void PartnerItem::set_isusing(::google::protobuf::int32 value) {
+  
+  isusing_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.IsUsing)
 }
 
 // -------------------------------------------------------------------
@@ -2897,6 +2967,20 @@ inline void MountItem::set_starexp(::google::protobuf::int32 value) {
   
   starexp_ = value;
   // @@protoc_insertion_point(field_set:MountItem.StarExp)
+}
+
+// int32 IsUsing = 8;
+inline void MountItem::clear_isusing() {
+  isusing_ = 0;
+}
+inline ::google::protobuf::int32 MountItem::isusing() const {
+  // @@protoc_insertion_point(field_get:MountItem.IsUsing)
+  return isusing_;
+}
+inline void MountItem::set_isusing(::google::protobuf::int32 value) {
+  
+  isusing_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.IsUsing)
 }
 
 // -------------------------------------------------------------------
@@ -3474,34 +3558,34 @@ RoleLoginAck::partnerlist() const {
   return partnerlist_;
 }
 
-// repeated .MountItem MountItemList = 16;
-inline int RoleLoginAck::mountitemlist_size() const {
-  return mountitemlist_.size();
+// repeated .MountItem MountList = 16;
+inline int RoleLoginAck::mountlist_size() const {
+  return mountlist_.size();
 }
-inline void RoleLoginAck::clear_mountitemlist() {
-  mountitemlist_.Clear();
+inline void RoleLoginAck::clear_mountlist() {
+  mountlist_.Clear();
 }
-inline const ::MountItem& RoleLoginAck::mountitemlist(int index) const {
-  // @@protoc_insertion_point(field_get:RoleLoginAck.MountItemList)
-  return mountitemlist_.Get(index);
+inline const ::MountItem& RoleLoginAck::mountlist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.MountList)
+  return mountlist_.Get(index);
 }
-inline ::MountItem* RoleLoginAck::mutable_mountitemlist(int index) {
-  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MountItemList)
-  return mountitemlist_.Mutable(index);
+inline ::MountItem* RoleLoginAck::mutable_mountlist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MountList)
+  return mountlist_.Mutable(index);
 }
-inline ::MountItem* RoleLoginAck::add_mountitemlist() {
-  // @@protoc_insertion_point(field_add:RoleLoginAck.MountItemList)
-  return mountitemlist_.Add();
+inline ::MountItem* RoleLoginAck::add_mountlist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.MountList)
+  return mountlist_.Add();
 }
 inline ::google::protobuf::RepeatedPtrField< ::MountItem >*
-RoleLoginAck::mutable_mountitemlist() {
-  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MountItemList)
-  return &mountitemlist_;
+RoleLoginAck::mutable_mountlist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MountList)
+  return &mountlist_;
 }
 inline const ::google::protobuf::RepeatedPtrField< ::MountItem >&
-RoleLoginAck::mountitemlist() const {
-  // @@protoc_insertion_point(field_list:RoleLoginAck.MountItemList)
-  return mountitemlist_;
+RoleLoginAck::mountlist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.MountList)
+  return mountlist_;
 }
 
 // repeated .BagItem BagItemList = 17;
@@ -3534,64 +3618,64 @@ RoleLoginAck::bagitemlist() const {
   return bagitemlist_;
 }
 
-// repeated .MailItem MailItemList = 18;
-inline int RoleLoginAck::mailitemlist_size() const {
-  return mailitemlist_.size();
+// repeated .MailItem MailList = 18;
+inline int RoleLoginAck::maillist_size() const {
+  return maillist_.size();
 }
-inline void RoleLoginAck::clear_mailitemlist() {
-  mailitemlist_.Clear();
+inline void RoleLoginAck::clear_maillist() {
+  maillist_.Clear();
 }
-inline const ::MailItem& RoleLoginAck::mailitemlist(int index) const {
-  // @@protoc_insertion_point(field_get:RoleLoginAck.MailItemList)
-  return mailitemlist_.Get(index);
+inline const ::MailItem& RoleLoginAck::maillist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.MailList)
+  return maillist_.Get(index);
 }
-inline ::MailItem* RoleLoginAck::mutable_mailitemlist(int index) {
-  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MailItemList)
-  return mailitemlist_.Mutable(index);
+inline ::MailItem* RoleLoginAck::mutable_maillist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.MailList)
+  return maillist_.Mutable(index);
 }
-inline ::MailItem* RoleLoginAck::add_mailitemlist() {
-  // @@protoc_insertion_point(field_add:RoleLoginAck.MailItemList)
-  return mailitemlist_.Add();
+inline ::MailItem* RoleLoginAck::add_maillist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.MailList)
+  return maillist_.Add();
 }
 inline ::google::protobuf::RepeatedPtrField< ::MailItem >*
-RoleLoginAck::mutable_mailitemlist() {
-  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MailItemList)
-  return &mailitemlist_;
+RoleLoginAck::mutable_maillist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.MailList)
+  return &maillist_;
 }
 inline const ::google::protobuf::RepeatedPtrField< ::MailItem >&
-RoleLoginAck::mailitemlist() const {
-  // @@protoc_insertion_point(field_list:RoleLoginAck.MailItemList)
-  return mailitemlist_;
+RoleLoginAck::maillist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.MailList)
+  return maillist_;
 }
 
-// repeated .TaskItem TaskItemList = 19;
-inline int RoleLoginAck::taskitemlist_size() const {
-  return taskitemlist_.size();
+// repeated .TaskItem TaskList = 19;
+inline int RoleLoginAck::tasklist_size() const {
+  return tasklist_.size();
 }
-inline void RoleLoginAck::clear_taskitemlist() {
-  taskitemlist_.Clear();
+inline void RoleLoginAck::clear_tasklist() {
+  tasklist_.Clear();
 }
-inline const ::TaskItem& RoleLoginAck::taskitemlist(int index) const {
-  // @@protoc_insertion_point(field_get:RoleLoginAck.TaskItemList)
-  return taskitemlist_.Get(index);
+inline const ::TaskItem& RoleLoginAck::tasklist(int index) const {
+  // @@protoc_insertion_point(field_get:RoleLoginAck.TaskList)
+  return tasklist_.Get(index);
 }
-inline ::TaskItem* RoleLoginAck::mutable_taskitemlist(int index) {
-  // @@protoc_insertion_point(field_mutable:RoleLoginAck.TaskItemList)
-  return taskitemlist_.Mutable(index);
+inline ::TaskItem* RoleLoginAck::mutable_tasklist(int index) {
+  // @@protoc_insertion_point(field_mutable:RoleLoginAck.TaskList)
+  return tasklist_.Mutable(index);
 }
-inline ::TaskItem* RoleLoginAck::add_taskitemlist() {
-  // @@protoc_insertion_point(field_add:RoleLoginAck.TaskItemList)
-  return taskitemlist_.Add();
+inline ::TaskItem* RoleLoginAck::add_tasklist() {
+  // @@protoc_insertion_point(field_add:RoleLoginAck.TaskList)
+  return tasklist_.Add();
 }
 inline ::google::protobuf::RepeatedPtrField< ::TaskItem >*
-RoleLoginAck::mutable_taskitemlist() {
-  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.TaskItemList)
-  return &taskitemlist_;
+RoleLoginAck::mutable_tasklist() {
+  // @@protoc_insertion_point(field_mutable_list:RoleLoginAck.TaskList)
+  return &tasklist_;
 }
 inline const ::google::protobuf::RepeatedPtrField< ::TaskItem >&
-RoleLoginAck::taskitemlist() const {
-  // @@protoc_insertion_point(field_list:RoleLoginAck.TaskItemList)
-  return taskitemlist_;
+RoleLoginAck::tasklist() const {
+  // @@protoc_insertion_point(field_list:RoleLoginAck.TaskList)
+  return tasklist_;
 }
 
 #ifdef __GNUC__

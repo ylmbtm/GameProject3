@@ -105,6 +105,13 @@ public:
 	UINT32      m_dwToCopyGuid;		//正在前往的副本ID
 	UINT32      m_dwToCopyID;		//正在前往的副本ID
 	UINT32      m_dwToCopySvrID;	//正在前往的副本服务器的ID
+
+
+public:
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgUnDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
+	//*********************消息处理定义结束******************************
 };
 
 

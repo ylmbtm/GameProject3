@@ -122,6 +122,12 @@ enum MessageID {
 	MSG_GASVR_REGTO_PROXY_REQ	= 2000052;
 	MSG_GASVR_REGTO_PROXY_ACK	= 2000053;
 
+	MSG_DRESS_EQUIP_REQ         = 2000054;//穿装备
+	MSG_DRESS_EQUIP_ACK         = 2000055;//穿装备
+	MSG_UNDRESS_EQUIP_REQ       = 2000056;//卸装备
+	MSG_UNDRESS_EQUIP_ACK       = 2000057;//卸装备
+	
+	MSG_TEST_ADD_ITEM 			= 2999998;
 	MSG_LOGICSVR_MSGID_END		= 2999999;
 	
 	//============================================================================================
@@ -175,30 +181,12 @@ enum MessageID {
 	MSG_SWITCH_MOUNT_ACK			= 3000035;
 
 	MSG_SCENESVR_MSGID_END			= 3999999;
-	///////////////////////////////////////
-	/////////////////////////////
-	//////////////////////////////////////
-	MSG_REQ_LOGIN               = 1001;     
-	MSG_ACK_LOGIN               = 1002; 
-	MSG_REQ_LOGINSERVER         = 1003;     
-	MSG_ACK_LOGINSERVER         = 1004; 
-	MSG_REQ_GETSERVERLIST       = 1005;     
-	MSG_ACK_GETSERVERLIST       = 1006;    
-	MSG_REQ_CREATEROLE          = 1007;     
-	MSG_ACK_CREATEROLE          = 1008; 
-	MSG_REQ_ENTERGAME           = 1009;
-	MSG_ACK_ENTERGAME           = 1010;
-	MSG_REQ_REGISTER            = 1011;     
-	MSG_ACK_REGISTER            = 1012;
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
 
-	MSG_REQ_SORTBAG             = 1101;//整理背包
-	MSG_ACK_SORTBAG             = 1102;//整理背包
+
 	MSG_REQ_USEITEM             = 1103;//使用物品
 	MSG_ACK_USEITEM             = 1104;//使用物品
-	MSG_REQ_DRESS_EQUIP         = 1105;//穿装备
-	MSG_ACK_DRESS_EQUIP         = 1106;//穿装备
-	MSG_REQ_UNLOAD_EQUIP        = 1107;//卸装备
-	MSG_ACK_UNLOAD_EQUIP        = 1108;//卸装备
 	MSG_REQ_DRESS_GEM           = 1109;//镶嵌宝石
 	MSG_ACK_DRESS_GEM           = 1110;//镶嵌宝石
 	MSG_REQ_UNLOAD_GEM          = 1111;//卸下宝石

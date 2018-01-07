@@ -86,7 +86,7 @@ BOOL CActivityModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CActivityModule::DispatchPacket(NetPacket* pNetPack)
+BOOL CActivityModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	return TRUE;
 }
@@ -98,10 +98,8 @@ BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBActivityItem& ActivityItem = ActivityData.activitylist(i);
 		ActivityDataObject* pObject = g_pActivityDataObjectPool->NewObject(FALSE);
-		pObject->lock();
 		pObject->m_dwActivityID = ActivityItem.activityid();
 		pObject->m_uRoleID = ActivityItem.roleid();
-		pObject->unlock();
 		m_mapActivityData.insert(std::make_pair(pObject->m_dwActivityID, pObject));
 	}
 	return TRUE;

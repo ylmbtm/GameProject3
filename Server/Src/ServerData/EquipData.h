@@ -32,7 +32,7 @@ struct EquipDataObject : public ShareObject
 	BOOL Create(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("REPLACE INTO equip (guid, roleid, equipid, isuse, strengthlvl, refinelvl, starlvl) \
-			VALUES(?,?,?,?,?,?,?,?);");
+			VALUES(?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_EquipID);
@@ -47,7 +47,7 @@ struct EquipDataObject : public ShareObject
 	BOOL Update(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("REPLACE INTO equip (guid, roleid, equipid, isuse, strengthlvl, refinelvl, starlvl) \
-			VALUES(?,?,?,?,?,?,?,?);");
+			VALUES(?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_EquipID);

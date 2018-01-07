@@ -21,6 +21,7 @@ message EquipItem {
 	int32  StarLevel = 5;	  //星级
 	int32  RefineExp = 6;	  //精验的经验
 	int32  StarExp = 7;		  //星级经验
+	int32  IsUsing = 8;		  //是否上阵
 }
 
 message EquipChangeNty{
@@ -36,6 +37,7 @@ message PetItem {
 	int32  StarLevel = 5;	  //星级
 	int32  RefineExp = 6;	  //精验的经验
 	int32  StarExp = 7;		  //星级经验
+	int32  IsUsing = 8;		  //是否上阵
 }
 
 message PetChangeNty{
@@ -45,12 +47,13 @@ message PetChangeNty{
 
 message PartnerItem {
 	uint64 Guid = 1;
-	int32  ItemID = 2;
+	int32  PartnerID = 2;
 	int32  StrengthLvl = 3;   //强化等级
 	int32  RefineLevel = 4;   //精炼等级
 	int32  StarLevel = 5;	  //星级
 	int32  RefineExp = 6;	  //精验的经验
 	int32  StarExp = 7;		  //星级经验
+	int32  IsUsing = 8;		  //是否上阵
 }
 
 message PartnerChangeNty{
@@ -66,6 +69,7 @@ message MountItem {
 	int32  StarLevel = 5;	  //星级
 	int32  RefineExp = 6;	  //精验的经验
 	int32  StarExp = 7;		  //星级经验
+	int32  IsUsing = 8;		  //是否上阵
 }
 
 message MountChangeNty{
@@ -108,10 +112,10 @@ message RoleLoginAck {
 	repeated EquipItem EquipList = 13;
 	repeated PetItem PetList = 14;
 	repeated PartnerItem PartnerList = 15;
-	repeated MountItem MountItemList = 16;
-	repeated BagItem BagItemList = 17;
-	repeated MailItem MailItemList = 18;
-	repeated TaskItem TaskItemList = 19;
+	repeated MountItem MountList = 16;
+	repeated BagItem  BagItemList = 17;
+	repeated MailItem MailList = 18;
+	repeated TaskItem TaskList = 19;
 }
 
 

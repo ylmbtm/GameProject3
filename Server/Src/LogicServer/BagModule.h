@@ -11,32 +11,32 @@ public:
 	~CBagModule();
 
 public:
-	BOOL OnCreate(UINT64 u64RoleID);
+	BOOL	OnCreate(UINT64 u64RoleID);
 
-	BOOL OnDestroy();
+	BOOL	OnDestroy();
 
-	BOOL OnLogin();
+	BOOL	OnLogin();
 
-	BOOL OnLogout();
+	BOOL	OnLogout();
 
-	BOOL OnNewDay();
+	BOOL	OnNewDay();
 
-	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+	BOOL	ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+	BOOL	SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
+	BOOL	CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL ReadFromShareMemory(BagDataObject* pObject);
+	BOOL	ReadFromShareMemory(BagDataObject* pObject);
 
 public:
-	BOOL AddItem(UINT32 dwItemID, INT32 nCount);
-	BOOL RemoveItem(UINT32 dwItemID, INT32 nCount);
-	INT32 GetItemCount(UINT32 dwItemID);
+	BOOL	AddItem(UINT32 dwItemID, INT32 nCount);
+	BOOL	RemoveItem(UINT32 dwItemID, INT32 nCount);
+	INT32	GetItemCount(UINT32 dwItemID);
 
 	BagDataObject* GetItemByGuid(UINT64 uGuid);
 
-	BOOL NotifyChange();
+	BOOL	NotifyChange();
 
 public:
 	std::map<UINT64, BagDataObject*>m_mapBagData;

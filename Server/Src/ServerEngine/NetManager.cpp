@@ -87,9 +87,6 @@ BOOL CNetManager::WorkThread_Listen()
 	return TRUE;
 }
 
-
-
-
 BOOL CNetManager::StartListen(UINT16 nPortNum)
 {
 	sockaddr_in SvrAddr;

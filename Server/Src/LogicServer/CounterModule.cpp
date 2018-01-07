@@ -52,7 +52,7 @@ BOOL CCounterModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CCounterModule::DispatchPacket(NetPacket* pNetPack)
+BOOL CCounterModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	return FALSE;
 }

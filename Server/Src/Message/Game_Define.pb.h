@@ -209,19 +209,30 @@ inline bool EObjectStatus_Parse(
     EObjectStatus_descriptor(), name, value);
 }
 enum EItemType {
-  IMT_NONE = 0,
-  IMT_MONEY = 1,
-  IMT_ACTION = 2,
-  IMT_NORMAL = 3,
-  IMT_EQUIP = 4,
-  IMT_PET = 5,
-  IMT_PARTNER = 6,
+  EIT_NONE = 0,
+  EIT_EQUIP = 1,
+  EIT_ACTIONDRUG = 2,
+  EIT_MAT = 3,
+  EIT_BOX = 4,
+  EIT_KEY = 5,
+  EIT_CHIP = 6,
+  EIT_GEM = 7,
+  EIT_FASHION = 8,
+  EIT_MONEY = 9,
+  EIT_ACTION = 10,
+  EIT_EXP = 11,
+  EIT_RUNE = 12,
+  EIT_PETSOUL = 13,
+  EIT_TASK = 14,
+  EIT_DRUG = 15,
+  EIT_PET = 16,
+  EIT_PARTNER = 17,
   EItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EItemType_IsValid(int value);
-const EItemType EItemType_MIN = IMT_NONE;
-const EItemType EItemType_MAX = IMT_PARTNER;
+const EItemType EItemType_MIN = EIT_NONE;
+const EItemType EItemType_MAX = EIT_PARTNER;
 const int EItemType_ARRAYSIZE = EItemType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EItemType_descriptor();
@@ -235,13 +246,21 @@ inline bool EItemType_Parse(
     EItemType_descriptor(), name, value);
 }
 enum EBagType {
-  BT_NONE = 0,
+  EBT_NONE = 0,
+  EBT_ITEM = 1,
+  EBT_GEM = 2,
+  EBT_FASHION = 3,
+  EBT_CHIP = 4,
+  EBT_RUNE = 5,
+  EBT_TASK = 6,
+  EBT_SOUL = 7,
+  EBT_CARD = 8,
   EBagType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EBagType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EBagType_IsValid(int value);
-const EBagType EBagType_MIN = BT_NONE;
-const EBagType EBagType_MAX = BT_NONE;
+const EBagType EBagType_MIN = EBT_NONE;
+const EBagType EBagType_MAX = EBT_CARD;
 const int EBagType_ARRAYSIZE = EBagType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EBagType_descriptor();

@@ -3,25 +3,25 @@
 #include "PacketHeader.h"
 #include "PlayerManager.h"
 #include "RoleModule.h"
-#include "../Message/Msg_ID.pb.h"
 #include "GameSvrMgr.h"
-#include "../GameServer/GameService.h"
-#include "../Message/Msg_RetCode.pb.h"
 #include "Log.h"
-#include "../ServerData/RoleData.h"
 #include "CopyModule.h"
 #include "BagModule.h"
 #include "EquipModule.h"
 #include "PetModule.h"
-#include "../ServerData/ServerDefine.h"
-#include "../ConfigData/ConfigData.h"
-#include "../ServerData/CopyData.h"
 #include "PartnerModule.h"
 #include "TaskModule.h"
 #include "ActivityModule.h"
 #include "MountModule.h"
 #include "CounterModule.h"
-
+#include "CommandDef.h"
+#include "../ServerData/ServerDefine.h"
+#include "../ServerData/RoleData.h"
+#include "../ConfigData/ConfigData.h"
+#include "../ServerData/CopyData.h"
+#include "../GameServer/GameService.h"
+#include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 CPlayerObject::CPlayerObject()
 {
 
@@ -137,13 +137,12 @@ BOOL CPlayerObject::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPack)
+BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPack->m_dwMsgID)
+	switch(pNetPacket->m_dwMsgID)
 	{
-
-
-
+			PROCESS_MESSAGE_ITEM(MSG_DRESS_EQUIP_REQ,	OnMsgDressEquipReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNDRESS_EQUIP_REQ, OnMsgUnDressEquipReq);
 	}
 
 	for (int i = MT_ROLE; i < MT_END; i++)
@@ -151,7 +150,7 @@ BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPack)
 		CModuleBase* pBase = m_MoudleList.at(i);
 		ERROR_RETURN_FALSE(pBase != NULL);
 
-		if (pBase->DispatchPacket(pNetPack))
+		if (pBase->DispatchPacket(pNetPacket))
 		{
 			return TRUE;
 		}
@@ -402,14 +401,57 @@ BOOL CPlayerObject::CalcFightDataInfo()
 
 BOOL CPlayerObject::ClearCopyState()
 {
-	m_dwCopyGuid    = 0;        //当前的副本ID
-	m_dwCopyID		= 0;        //当前的副本类型
-	m_dwCopySvrID   = 0;        //副本服务器的ID
-	m_dwToCopyGuid  = 0;        //正在前往的副本ID
-	m_dwToCopyID    = 0;        //正在前往的副本类型
+	m_dwCopyGuid = 0;        //当前的副本ID
+	m_dwCopyID = 0;        //当前的副本类型
+	m_dwCopySvrID = 0;        //副本服务器的ID
+	m_dwToCopyGuid = 0;        //正在前往的副本ID
+	m_dwToCopyID = 0;        //正在前往的副本类型
 	m_dwToCopySvrID = 0;
 
 	return TRUE;
 }
+
+BOOL CPlayerObject::OnMsgDressEquipReq(NetPacket* pNetPacket)
+{
+	DressEquipReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CEquipModule* pModule = (CEquipModule*)GetModuleByType(MT_EQUIP);
+	ERROR_RETURN_TRUE(pModule != NULL);
+
+	UINT32 nRetCode = pModule->SetDressEquip(Req.equipguid(), TRUE);
+	if (nRetCode != MRC_SUCCESSED)
+	{
+		DressEquipAck Ack;
+		Ack.set_retcode(nRetCode);
+		SendMsgProtoBuf(MSG_DRESS_EQUIP_ACK, Ack);
+	}
+
+	return TRUE;
+}
+
+BOOL CPlayerObject::OnMsgUnDressEquipReq(NetPacket* pNetPacket)
+{
+	UnDressEquipReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CEquipModule* pModule = (CEquipModule*)GetModuleByType(MT_EQUIP);
+	ERROR_RETURN_TRUE(pModule != NULL);
+
+	UINT32 nRetCode = pModule->SetDressEquip(Req.equipguid(), FALSE);
+	if (nRetCode != MRC_SUCCESSED)
+	{
+		UnDressEquipAck Ack;
+		Ack.set_retcode(nRetCode);
+		SendMsgProtoBuf(MSG_UNDRESS_EQUIP_ACK, Ack);
+	}
+
+	return TRUE;
+}
+
+
+
 
 

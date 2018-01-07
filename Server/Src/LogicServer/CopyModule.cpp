@@ -55,10 +55,8 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		const DBCopyItem& CopyItem = CopyData.copylist(i);
 
 		CopyDataObject* pObject = g_pCopyDataObjectPool->NewObject(FALSE);
-		pObject->lock();
 		pObject->m_uRoleID = CopyItem.roleid();
 		pObject->m_dwCopyID = CopyItem.copyid();
-		pObject->unlock();
 		m_mapCopyData.insert(std::make_pair(pObject->m_dwCopyID, pObject));
 	}
 	return TRUE;

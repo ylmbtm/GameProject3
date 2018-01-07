@@ -65,15 +65,12 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	for(int i = 0; i < BagData.itemlist_size(); i++)
 	{
 		const DBBagItem& ItemData = BagData.itemlist(i);
-
 		BagDataObject* pObject = g_pBagDataObjectPool->NewObject(FALSE);
-		pObject->lock();
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_bBind = ItemData.bind();
 		pObject->m_ItemGuid = ItemData.itemguid();
 		pObject->m_ItemID = ItemData.itemid();
-		pObject->unlock();
 		m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 
@@ -115,37 +112,43 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 
 	UINT64 uItemGuid = 0;
 	INT32  nTempCount = nCount;
-	switch(pItemInfo->dwType)
+	switch(pItemInfo->dwItemType)
 	{
-		case IMT_EQUIP:
+		case EIT_EQUIP:
 		{
 			CEquipModule* pEquipModule = (CEquipModule*)m_pOwnPlayer->GetModuleByType(MT_EQUIP);
 			ERROR_RETURN_FALSE(pEquipModule != NULL);
 			uItemGuid = pEquipModule->AddEquip(dwItemID);
 		}
 		break;
-		case IMT_PET:
+		case EIT_PET:
 		{
 			CPetModule* pPetModule = (CPetModule*)m_pOwnPlayer->GetModuleByType(MT_PET);
 			ERROR_RETURN_FALSE(pPetModule != NULL);
 			uItemGuid = pPetModule->AddPet(dwItemID);
+
+			//在这里要直接返回，因为宠物不进背包
+			return;
 		}
 		break;
-		case IMT_PARTNER:
+		case EIT_PARTNER:
 		{
 			CPartnerModule* pPartnerModule = (CPartnerModule*)m_pOwnPlayer->GetModuleByType(MT_PARTNER);
 			ERROR_RETURN_FALSE(pPartnerModule != NULL);
 			uItemGuid = pPartnerModule->AddPartner(dwItemID);
+
+			//在这里要直接返回，因为伙伴不进背包
+			return;
 		}
 		break;
-		case IMT_ACTION:
+		case EIT_ACTION:
 		{
 			CRoleModule* pRoleModule = (CRoleModule*)m_pOwnPlayer->GetModuleByType(MT_ROLE);
 			ERROR_RETURN_FALSE(pRoleModule != NULL);
 			pRoleModule->AddAction(dwItemID, nCount);
 		}
 		break;
-		case IMT_NORMAL:
+		default:
 		{
 			for(auto itor = m_mapBagData.begin(); itor != m_mapBagData.end(); itor++)
 			{

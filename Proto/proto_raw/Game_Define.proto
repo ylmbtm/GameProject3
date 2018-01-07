@@ -71,21 +71,40 @@ enum EObjectStatus
 };
 
 
-enum EItemType{
-	IMT_NONE = 0;
-	IMT_MONEY = 1; //货币
-	IMT_ACTION = 2; //行动力
-	IMT_NORMAL = 3; //普通道具
-	IMT_EQUIP  = 4;
-	IMT_PET    = 5;
-	IMT_PARTNER = 6;
+enum EItemType
+{
+	EIT_NONE 		 = 0;
+    EIT_EQUIP        = 1;
+    EIT_ACTIONDRUG   = 2;
+    EIT_MAT          = 3;
+    EIT_BOX          = 4;
+    EIT_KEY          = 5;
+    EIT_CHIP         = 6;
+    EIT_GEM          = 7;
+    EIT_FASHION      = 8;
+    EIT_MONEY        = 9;
+    EIT_ACTION       = 10;
+    EIT_EXP          = 11;
+    EIT_RUNE         = 12;
+    EIT_PETSOUL      = 13; 
+    EIT_TASK         = 14;
+    EIT_DRUG         = 15;
+	EIT_PET			 = 16;
+	EIT_PARTNER		 = 17;
 }
 
-
-enum EBagType {
-	BT_NONE = 0;
+enum EBagType
+{
+    EBT_NONE    = 0;
+    EBT_ITEM    = 1;
+    EBT_GEM     = 2;
+    EBT_FASHION = 3;
+    EBT_CHIP    = 4;
+    EBT_RUNE    = 5;
+    EBT_TASK    = 6;
+    EBT_SOUL    = 7;
+    EBT_CARD    = 8;  //英雄卡
 }
-
 
 enum EFunctionType{
 	FUNC_BEGIN_ID  = 0;  //!功能ID开始标记

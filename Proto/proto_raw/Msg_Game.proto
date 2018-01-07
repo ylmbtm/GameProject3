@@ -401,3 +401,20 @@ message WatchHeartBeatAck {
 	uint64  ProcessID = 3;
 }
 
+
+
+message DressEquipReq {
+	uint64	equipguid = 1;
+}
+
+message DressEquipAck {
+	uint32	RetCode	= 1;
+}
+
+message UnDressEquipReq {
+	uint64	equipguid = 1;
+}
+
+message UnDressEquipAck {
+	uint32	RetCode	= 1;
+}

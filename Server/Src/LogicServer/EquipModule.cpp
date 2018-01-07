@@ -6,10 +6,11 @@
 #include "Log.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < EEP_MAX; i++)
 	{
 		m_vtDressEquip[i] = NULL;
 	}
@@ -17,7 +18,7 @@ CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 
 CEquipModule::~CEquipModule()
 {
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < EEP_MAX; i++)
 	{
 		m_vtDressEquip[i] = NULL;
 	}
@@ -74,12 +75,12 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_RefineExp = ItemData.refineexp();
 		pObject->m_IsUsing = ItemData.isusing();
 		m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
-		if(pObject->m_IsUsing == TRUE)
-		{
-			StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
-			ERROR_RETURN_FALSE(pInfo != NULL);
-			m_vtDressEquip[pInfo->dwPos - 1] = pObject;
-		}
+		//if(pObject->m_IsUsing == TRUE)
+		//{
+		//	StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+		//	ERROR_RETURN_FALSE(pInfo != NULL);
+		//	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
+		//}
 	}
 
 	return TRUE;
@@ -87,6 +88,20 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 
 BOOL CEquipModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
+	for (auto itor = m_mapEquipData.begin(); itor != m_mapEquipData.end(); itor++)
+	{
+		EquipDataObject* pObject = itor->second;
+		EquipItem* pItem = Ack.add_equiplist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_equipid(pObject->m_EquipID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
+	}
+
 	return TRUE;
 }
 
@@ -95,6 +110,7 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 	EquipDataObject* pObject = g_pEquipDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_EquipID = dwEquipID;
+	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 0;
 	pObject->m_RefineExp = 0;
@@ -122,8 +138,15 @@ BOOL CEquipModule::NotifyChange()
 	{
 		EquipDataObject* pObject = GetEquipByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
-
 		EquipItem* pItem = Nty.add_changelist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_equipid(pObject->m_EquipID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
 	}
 
 	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
@@ -150,11 +173,36 @@ EquipDataObject* CEquipModule::GetEquipByGuid(UINT64 uGuid)
 	return NULL;
 }
 
+UINT32 CEquipModule::SetDressEquip(UINT64 uGuid, BOOL bDress)
+{
+	EquipDataObject* pObject = GetEquipByGuid(uGuid);
+	if (pObject == NULL)
+	{
+		return MRC_INVALID_EQUIP_ID;
+	}
+
+	if (bDress && pObject->m_IsUsing)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	if (!bDress && !pObject->m_IsUsing)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	pObject->lock();
+	pObject->m_IsUsing = bDress;
+	pObject->unlock();
+	m_setChange.insert(pObject->m_uGuid);
+	return MRC_SUCCESSED;
+}
+
 BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	INT32 nMinStengthLevel = 10000;
 	INT32 nMinRefineLevel = 1000;
-	for (int i  = 0; i < 8; i++)
+	for (int i  = 0; i < EEP_MAX; i++)
 	{
 		if(m_vtDressEquip[i] == NULL)
 		{

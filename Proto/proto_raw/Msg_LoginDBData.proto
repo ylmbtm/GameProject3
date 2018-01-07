@@ -81,7 +81,13 @@ message DBMountData {
 }
 
 message DBPartnerItem {
-	bool	IsUsing = 1;       //是否使用中
+	uint64	RoleID = 1; 		//角色ID
+	uint64	Guid = 2;
+	int32	PartnerID = 3;
+	int32	StrengthLvl = 4;   //强化等级
+	int32	RefineLevel = 5;   //精炼等级
+	int32	StarLevel = 6;	  //星级
+	bool	IsUsing = 7;       //是否使用中
 }
 
 message DBPartnerData {

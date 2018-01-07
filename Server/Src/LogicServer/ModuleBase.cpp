@@ -12,7 +12,7 @@ CModuleBase::~CModuleBase()
 
 }
 
-BOOL CModuleBase::DispatchPacket(NetPacket* pNetPack)
+BOOL CModuleBase::DispatchPacket(NetPacket* pNetPacket)
 {
 	return FALSE;
 }

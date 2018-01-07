@@ -141,20 +141,19 @@ struct StAwardItem
 	std::vector<StDropItem>  RatioItems;//机率掉落物品
 };
 
-
 struct StItemInfo
 {
 	UINT32 dwItemID;	//物品ID
-	UINT32 dwType;		//物品类型
+	UINT32 dwItemType;	//物品类型
 	UINT32 dwBagType;	//物品背包类型
 	UINT32 Quality;		//物品的品质
 	UINT32 SellID;		//出售货币ID
-	INT32 SellPrice;	//出售价格
+	INT32  SellPrice;	//出售价格
 	UINT32 UseType;		//使用类型
 	UINT32 CarrerID;	//职业
-	INT32 StackMax;		//最大堆放数
-	INT32 Data1;		//参数1
-	INT32 Data2;		//参数2
+	INT32  StackMax;		//最大堆放数
+	INT32  Data1;		//参数1
+	INT32  Data2;		//参数2
 };
 
 

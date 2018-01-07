@@ -58,9 +58,13 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		const DBPartnerItem& PartnerItem = PartnerData.partnerlist(i);
 
 		PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(FALSE);
-		pObject->lock();
-
-		pObject->unlock();
+		pObject->m_uGuid = PartnerItem.guid();
+		pObject->m_uRoleID = PartnerItem.roleid();
+		pObject->m_PartnerID = PartnerItem.partnerid();
+		pObject->m_StrengthLvl = PartnerItem.strengthlvl();
+		pObject->m_RefineLevel = PartnerItem.refinelevel();
+		pObject->m_StarLevel = PartnerItem.starlevel();
+		pObject->m_IsUsing = PartnerItem.isusing();
 		m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 	return TRUE;
@@ -68,6 +72,19 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 
 BOOL CPartnerModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
+	for (auto itor = m_mapPartnerData.begin(); itor != m_mapPartnerData.end(); itor++)
+	{
+		PartnerDataObject* pObject = itor->second;
+		PartnerItem* pItem = Ack.add_partnerlist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_partnerid(pObject->m_PartnerID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
+	}
 	return TRUE;
 }
 
@@ -82,11 +99,13 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(TRUE);
 	pObject->lock();
 	pObject->m_PartnerID = dwPartnerID;
+	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	pObject->m_StrengthLvl = 0;
+	pObject->m_StrengthLvl = 1;
 	pObject->m_RefineExp = 0;
 	pObject->m_StarExp = 0;
-	pObject->m_StarLevel = 0;
+	pObject->m_StarLevel = 1;
+	pObject->m_RefineLevel = 1;
 	pObject->unlock();
 	m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
@@ -105,8 +124,15 @@ BOOL CPartnerModule::NotifyChange()
 	{
 		PartnerDataObject* pObject = GetPartnerByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
-
 		PartnerItem* pItem = Nty.add_changelist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_partnerid(pObject->m_PartnerID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
 	}
 
 	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)

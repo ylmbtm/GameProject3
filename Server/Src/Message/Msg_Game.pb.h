@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[62];
+  static const ::google::protobuf::internal::ParseTable schema[66];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -166,6 +166,14 @@ void InitDefaultsWatchHeartBeatReqImpl();
 void InitDefaultsWatchHeartBeatReq();
 void InitDefaultsWatchHeartBeatAckImpl();
 void InitDefaultsWatchHeartBeatAck();
+void InitDefaultsDressEquipReqImpl();
+void InitDefaultsDressEquipReq();
+void InitDefaultsDressEquipAckImpl();
+void InitDefaultsDressEquipAck();
+void InitDefaultsUnDressEquipReqImpl();
+void InitDefaultsUnDressEquipReq();
+void InitDefaultsUnDressEquipAckImpl();
+void InitDefaultsUnDressEquipAck();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -229,6 +237,10 @@ inline void InitDefaults() {
   InitDefaultsLogicRegToLoginAck();
   InitDefaultsWatchHeartBeatReq();
   InitDefaultsWatchHeartBeatAck();
+  InitDefaultsDressEquipReq();
+  InitDefaultsDressEquipAck();
+  InitDefaultsUnDressEquipReq();
+  InitDefaultsUnDressEquipAck();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -300,6 +312,12 @@ extern CreateNewSceneAckDefaultTypeInternal _CreateNewSceneAck_default_instance_
 class CreateNewSceneReq;
 class CreateNewSceneReqDefaultTypeInternal;
 extern CreateNewSceneReqDefaultTypeInternal _CreateNewSceneReq_default_instance_;
+class DressEquipAck;
+class DressEquipAckDefaultTypeInternal;
+extern DressEquipAckDefaultTypeInternal _DressEquipAck_default_instance_;
+class DressEquipReq;
+class DressEquipReqDefaultTypeInternal;
+extern DressEquipReqDefaultTypeInternal _DressEquipReq_default_instance_;
 class EnterSceneAck;
 class EnterSceneAckDefaultTypeInternal;
 extern EnterSceneAckDefaultTypeInternal _EnterSceneAck_default_instance_;
@@ -399,6 +417,12 @@ extern TransferDataAckDefaultTypeInternal _TransferDataAck_default_instance_;
 class TransferDataReq;
 class TransferDataReqDefaultTypeInternal;
 extern TransferDataReqDefaultTypeInternal _TransferDataReq_default_instance_;
+class UnDressEquipAck;
+class UnDressEquipAckDefaultTypeInternal;
+extern UnDressEquipAckDefaultTypeInternal _UnDressEquipAck_default_instance_;
+class UnDressEquipReq;
+class UnDressEquipReqDefaultTypeInternal;
+extern UnDressEquipReqDefaultTypeInternal _UnDressEquipReq_default_instance_;
 class UseHpBottleAck;
 class UseHpBottleAckDefaultTypeInternal;
 extern UseHpBottleAckDefaultTypeInternal _UseHpBottleAck_default_instance_;
@@ -7799,6 +7823,402 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsWatchHeartBeatAckImpl();
 };
+// -------------------------------------------------------------------
+
+class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressEquipReq) */ {
+ public:
+  DressEquipReq();
+  virtual ~DressEquipReq();
+
+  DressEquipReq(const DressEquipReq& from);
+
+  inline DressEquipReq& operator=(const DressEquipReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DressEquipReq(DressEquipReq&& from) noexcept
+    : DressEquipReq() {
+    *this = ::std::move(from);
+  }
+
+  inline DressEquipReq& operator=(DressEquipReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DressEquipReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DressEquipReq* internal_default_instance() {
+    return reinterpret_cast<const DressEquipReq*>(
+               &_DressEquipReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    62;
+
+  void Swap(DressEquipReq* other);
+  friend void swap(DressEquipReq& a, DressEquipReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DressEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DressEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DressEquipReq& from);
+  void MergeFrom(const DressEquipReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DressEquipReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 equipguid = 1;
+  void clear_equipguid();
+  static const int kEquipguidFieldNumber = 1;
+  ::google::protobuf::uint64 equipguid() const;
+  void set_equipguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:DressEquipReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 equipguid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressEquipReqImpl();
+};
+// -------------------------------------------------------------------
+
+class DressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressEquipAck) */ {
+ public:
+  DressEquipAck();
+  virtual ~DressEquipAck();
+
+  DressEquipAck(const DressEquipAck& from);
+
+  inline DressEquipAck& operator=(const DressEquipAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DressEquipAck(DressEquipAck&& from) noexcept
+    : DressEquipAck() {
+    *this = ::std::move(from);
+  }
+
+  inline DressEquipAck& operator=(DressEquipAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DressEquipAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DressEquipAck* internal_default_instance() {
+    return reinterpret_cast<const DressEquipAck*>(
+               &_DressEquipAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    63;
+
+  void Swap(DressEquipAck* other);
+  friend void swap(DressEquipAck& a, DressEquipAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DressEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DressEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DressEquipAck& from);
+  void MergeFrom(const DressEquipAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DressEquipAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:DressEquipAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressEquipAckImpl();
+};
+// -------------------------------------------------------------------
+
+class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressEquipReq) */ {
+ public:
+  UnDressEquipReq();
+  virtual ~UnDressEquipReq();
+
+  UnDressEquipReq(const UnDressEquipReq& from);
+
+  inline UnDressEquipReq& operator=(const UnDressEquipReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnDressEquipReq(UnDressEquipReq&& from) noexcept
+    : UnDressEquipReq() {
+    *this = ::std::move(from);
+  }
+
+  inline UnDressEquipReq& operator=(UnDressEquipReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnDressEquipReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnDressEquipReq* internal_default_instance() {
+    return reinterpret_cast<const UnDressEquipReq*>(
+               &_UnDressEquipReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    64;
+
+  void Swap(UnDressEquipReq* other);
+  friend void swap(UnDressEquipReq& a, UnDressEquipReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnDressEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnDressEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnDressEquipReq& from);
+  void MergeFrom(const UnDressEquipReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnDressEquipReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 equipguid = 1;
+  void clear_equipguid();
+  static const int kEquipguidFieldNumber = 1;
+  ::google::protobuf::uint64 equipguid() const;
+  void set_equipguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:UnDressEquipReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 equipguid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressEquipReqImpl();
+};
+// -------------------------------------------------------------------
+
+class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressEquipAck) */ {
+ public:
+  UnDressEquipAck();
+  virtual ~UnDressEquipAck();
+
+  UnDressEquipAck(const UnDressEquipAck& from);
+
+  inline UnDressEquipAck& operator=(const UnDressEquipAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnDressEquipAck(UnDressEquipAck&& from) noexcept
+    : UnDressEquipAck() {
+    *this = ::std::move(from);
+  }
+
+  inline UnDressEquipAck& operator=(UnDressEquipAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnDressEquipAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnDressEquipAck* internal_default_instance() {
+    return reinterpret_cast<const UnDressEquipAck*>(
+               &_UnDressEquipAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    65;
+
+  void Swap(UnDressEquipAck* other);
+  friend void swap(UnDressEquipAck& a, UnDressEquipAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnDressEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnDressEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnDressEquipAck& from);
+  void MergeFrom(const UnDressEquipAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnDressEquipAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:UnDressEquipAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressEquipAckImpl();
+};
 // ===================================================================
 
 
@@ -12247,9 +12667,89 @@ inline void WatchHeartBeatAck::set_processid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:WatchHeartBeatAck.ProcessID)
 }
 
+// -------------------------------------------------------------------
+
+// DressEquipReq
+
+// uint64 equipguid = 1;
+inline void DressEquipReq::clear_equipguid() {
+  equipguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DressEquipReq::equipguid() const {
+  // @@protoc_insertion_point(field_get:DressEquipReq.equipguid)
+  return equipguid_;
+}
+inline void DressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
+  
+  equipguid_ = value;
+  // @@protoc_insertion_point(field_set:DressEquipReq.equipguid)
+}
+
+// -------------------------------------------------------------------
+
+// DressEquipAck
+
+// uint32 RetCode = 1;
+inline void DressEquipAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 DressEquipAck::retcode() const {
+  // @@protoc_insertion_point(field_get:DressEquipAck.RetCode)
+  return retcode_;
+}
+inline void DressEquipAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:DressEquipAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// UnDressEquipReq
+
+// uint64 equipguid = 1;
+inline void UnDressEquipReq::clear_equipguid() {
+  equipguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 UnDressEquipReq::equipguid() const {
+  // @@protoc_insertion_point(field_get:UnDressEquipReq.equipguid)
+  return equipguid_;
+}
+inline void UnDressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
+  
+  equipguid_ = value;
+  // @@protoc_insertion_point(field_set:UnDressEquipReq.equipguid)
+}
+
+// -------------------------------------------------------------------
+
+// UnDressEquipAck
+
+// uint32 RetCode = 1;
+inline void UnDressEquipAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 UnDressEquipAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnDressEquipAck.RetCode)
+  return retcode_;
+}
+inline void UnDressEquipAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:UnDressEquipAck.RetCode)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

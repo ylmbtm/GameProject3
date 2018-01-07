@@ -602,10 +602,11 @@ BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
 	{
 		StItemInfo stValue;
 		stValue.dwItemID = QueryData.getIntField("Id");
-		stValue.dwType = QueryData.getIntField("ItemType");
+		stValue.dwItemType = QueryData.getIntField("ItemType");
 		stValue.SellID = QueryData.getIntField("SellMoneyId");
 		stValue.SellPrice = QueryData.getIntField("SellMoneyNum");
 		stValue.Quality = QueryData.getIntField("Quality");
+		stValue.StackMax = QueryData.getIntField("StackMax");
 		//stValue.UseType = QueryData.getIntField("usetype");
 		stValue.Data1 = QueryData.getIntField("Data1");
 		stValue.Data2 = QueryData.getIntField("Data2");
@@ -741,6 +742,9 @@ BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StEquipInfo stValue;
+		stValue.dwEquipID = QueryData.getIntField("Id");
+		stValue.dwSuitID = QueryData.getIntField("SuitId");
+		stValue.dwPos = QueryData.getIntField("Pos");
 		m_mapEquipInfo.insert(std::make_pair(stValue.dwEquipID, stValue));
 		QueryData.nextRow();
 	}

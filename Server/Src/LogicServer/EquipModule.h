@@ -36,6 +36,8 @@ public:
 
 	EquipDataObject* GetEquipByGuid(UINT64 uGuid);
 
+	UINT32 SetDressEquip(UINT64 uGuid, BOOL bDress);
+
 public:
 	std::map<UINT64, EquipDataObject*>m_mapEquipData;
 	EquipDataObject* m_vtDressEquip[EEP_MAX];

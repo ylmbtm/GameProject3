@@ -472,7 +472,6 @@ BOOL CLogicMsgHandler::OnMsgTestAddItemReq(NetPacket* pNetPacket)
 	ChatMessageReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	//ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.srcid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);

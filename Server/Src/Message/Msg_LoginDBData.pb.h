@@ -1667,9 +1667,45 @@ class DBPartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // bool IsUsing = 1;
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // uint64 Guid = 2;
+  void clear_guid();
+  static const int kGuidFieldNumber = 2;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // int32 PartnerID = 3;
+  void clear_partnerid();
+  static const int kPartnerIDFieldNumber = 3;
+  ::google::protobuf::int32 partnerid() const;
+  void set_partnerid(::google::protobuf::int32 value);
+
+  // int32 StrengthLvl = 4;
+  void clear_strengthlvl();
+  static const int kStrengthLvlFieldNumber = 4;
+  ::google::protobuf::int32 strengthlvl() const;
+  void set_strengthlvl(::google::protobuf::int32 value);
+
+  // int32 RefineLevel = 5;
+  void clear_refinelevel();
+  static const int kRefineLevelFieldNumber = 5;
+  ::google::protobuf::int32 refinelevel() const;
+  void set_refinelevel(::google::protobuf::int32 value);
+
+  // int32 StarLevel = 6;
+  void clear_starlevel();
+  static const int kStarLevelFieldNumber = 6;
+  ::google::protobuf::int32 starlevel() const;
+  void set_starlevel(::google::protobuf::int32 value);
+
+  // bool IsUsing = 7;
   void clear_isusing();
-  static const int kIsUsingFieldNumber = 1;
+  static const int kIsUsingFieldNumber = 7;
   bool isusing() const;
   void set_isusing(bool value);
 
@@ -1677,6 +1713,12 @@ class DBPartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint64 guid_;
+  ::google::protobuf::int32 partnerid_;
+  ::google::protobuf::int32 strengthlvl_;
+  ::google::protobuf::int32 refinelevel_;
+  ::google::protobuf::int32 starlevel_;
   bool isusing_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
@@ -3996,7 +4038,91 @@ DBMountData::mountlist() const {
 
 // DBPartnerItem
 
-// bool IsUsing = 1;
+// uint64 RoleID = 1;
+inline void DBPartnerItem::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBPartnerItem::roleid() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.RoleID)
+  return roleid_;
+}
+inline void DBPartnerItem::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.RoleID)
+}
+
+// uint64 Guid = 2;
+inline void DBPartnerItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBPartnerItem::guid() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.Guid)
+  return guid_;
+}
+inline void DBPartnerItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.Guid)
+}
+
+// int32 PartnerID = 3;
+inline void DBPartnerItem::clear_partnerid() {
+  partnerid_ = 0;
+}
+inline ::google::protobuf::int32 DBPartnerItem::partnerid() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.PartnerID)
+  return partnerid_;
+}
+inline void DBPartnerItem::set_partnerid(::google::protobuf::int32 value) {
+  
+  partnerid_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.PartnerID)
+}
+
+// int32 StrengthLvl = 4;
+inline void DBPartnerItem::clear_strengthlvl() {
+  strengthlvl_ = 0;
+}
+inline ::google::protobuf::int32 DBPartnerItem::strengthlvl() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.StrengthLvl)
+  return strengthlvl_;
+}
+inline void DBPartnerItem::set_strengthlvl(::google::protobuf::int32 value) {
+  
+  strengthlvl_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.StrengthLvl)
+}
+
+// int32 RefineLevel = 5;
+inline void DBPartnerItem::clear_refinelevel() {
+  refinelevel_ = 0;
+}
+inline ::google::protobuf::int32 DBPartnerItem::refinelevel() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.RefineLevel)
+  return refinelevel_;
+}
+inline void DBPartnerItem::set_refinelevel(::google::protobuf::int32 value) {
+  
+  refinelevel_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.RefineLevel)
+}
+
+// int32 StarLevel = 6;
+inline void DBPartnerItem::clear_starlevel() {
+  starlevel_ = 0;
+}
+inline ::google::protobuf::int32 DBPartnerItem::starlevel() const {
+  // @@protoc_insertion_point(field_get:DBPartnerItem.StarLevel)
+  return starlevel_;
+}
+inline void DBPartnerItem::set_starlevel(::google::protobuf::int32 value) {
+  
+  starlevel_ = value;
+  // @@protoc_insertion_point(field_set:DBPartnerItem.StarLevel)
+}
+
+// bool IsUsing = 7;
 inline void DBPartnerItem::clear_isusing() {
   isusing_ = false;
 }
