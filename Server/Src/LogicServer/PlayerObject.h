@@ -41,7 +41,7 @@ public:
 
 	BOOL		IsOnline();
 
-	BOOL	NotifyChange();
+	BOOL		NotifyChange();
 
 public: //全部是操作方法
 	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
@@ -72,24 +72,10 @@ public:
 
 	INT32       m_Propertys[PROPERTY_NUM];
 
-
-
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 	//背包方法
-
-
-
-
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 public:
 	UINT64			m_u64ID;
@@ -109,8 +95,6 @@ public:
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
-	BOOL OnMsgUnDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
 	//*********************消息处理定义结束******************************
 };
 

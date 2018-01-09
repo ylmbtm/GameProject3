@@ -139,6 +139,7 @@
     <ClCompile Include="FriendModule.cpp" />
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="GameSvrMgr.cpp" />
+    <ClCompile Include="GemModule.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
     <ClCompile Include="GroupMailMgr.cpp" />
     <ClCompile Include="Guild.cpp" />
@@ -160,6 +161,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StoreModule.cpp" />
     <ClCompile Include="TaskModule.cpp" />
     <ClCompile Include="LogicMsgHandler.cpp" />
   </ItemGroup>
@@ -181,6 +183,7 @@
     <ClInclude Include="..\ServerData\CounterData.h" />
     <ClInclude Include="..\ServerData\EquipData.h" />
     <ClInclude Include="..\ServerData\FriendData.h" />
+    <ClInclude Include="..\ServerData\GemData.h" />
     <ClInclude Include="..\ServerData\GlobalData.h" />
     <ClInclude Include="..\ServerData\GuildData.h" />
     <ClInclude Include="..\ServerData\MailData.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\ServerDefine.h" />
     <ClInclude Include="..\ServerData\serverStruct.h" />
+    <ClInclude Include="..\ServerData\StoreData.h" />
     <ClInclude Include="..\ServerData\TaskData.h" />
     <ClInclude Include="ActivityManager.h" />
     <ClInclude Include="ActivityModule.h" />
@@ -202,6 +206,7 @@
     <ClInclude Include="FriendModule.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GameSvrMgr.h" />
+    <ClInclude Include="GemModule.h" />
     <ClInclude Include="GlobalDataMgr.h" />
     <ClInclude Include="GroupMailMgr.h" />
     <ClInclude Include="Guild.h" />
@@ -219,6 +224,7 @@
     <ClInclude Include="RoleModule.h" />
     <ClInclude Include="SimpleManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoreModule.h" />
     <ClInclude Include="TaskModule.h" />
     <ClInclude Include="LogicMsgHandler.h" />
   </ItemGroup>

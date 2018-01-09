@@ -94,6 +94,11 @@ BOOL CPartnerModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[P
 	return TRUE;
 }
 
+BOOL CPartnerModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
 	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(TRUE);

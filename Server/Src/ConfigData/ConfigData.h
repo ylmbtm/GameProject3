@@ -114,6 +114,11 @@ public:
 	BOOL ReadEquipInfo(CppSQLite3Query& QueryData);
 	StEquipInfo* GetEquipInfo(UINT32 dwEquipID);
 
+	//宝石
+	std::map<UINT32, StGemInfo> m_mapGemInfo;
+	BOOL ReadGemInfo(CppSQLite3Query& QueryData);
+	StGemInfo* GetGemInfo(UINT32 dwGemID);
+
 	//宠物
 	std::map<UINT32, StPetInfo> m_mapPetInfo;
 	BOOL ReadPetInfo(CppSQLite3Query& QueryData);
@@ -130,9 +135,9 @@ public:
 	StTaskInfo* GetTaskInfo(UINT32 dwTaskID);
 
 	//商店表
-	std::map<UINT32, std::map<UINT32, StStoreItemInfo>> m_mapStoreInfo ;
+	std::map<UINT32, StStoreItemInfo> m_mapStoreInfo ;
 	BOOL ReadStoreInfo(CppSQLite3Query& QueryData);
-	StStoreItemInfo* GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStoreID);
+	StStoreItemInfo* GetStoreItemInfo(UINT32 dwStoreID);
 
 	//活动表
 	std::map <UINT32, StActivityInfo> m_mapActivityInfo;

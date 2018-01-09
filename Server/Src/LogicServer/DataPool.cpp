@@ -8,6 +8,7 @@ SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool	= NULL;
 SharedMemory<BagDataObject>*		g_pBagDataObjectPool		= NULL;
 SharedMemory<CopyDataObject>*		g_pCopyDataObjectPool		= NULL;
 SharedMemory<EquipDataObject>*		g_pEquipDataObjectPool		= NULL;
+SharedMemory<GemDataObject>*		g_pGemDataObjectPool = NULL;
 SharedMemory<PetDataObject>*		g_pPetDataObjectPool		= NULL;
 SharedMemory<PartnerDataObject>*	g_pPartnerDataObjectPool	= NULL;
 SharedMemory<GuildDataObject>*		g_pGuildDataObjectPool		= NULL;
@@ -26,6 +27,7 @@ BOOL CreateDataPool()
 	g_pBagDataObjectPool		= new SharedMemory<BagDataObject>(ESD_BAG, 1024);
 	g_pCopyDataObjectPool		= new SharedMemory<CopyDataObject>(ESD_COPY, 1024);
 	g_pEquipDataObjectPool		= new SharedMemory<EquipDataObject>(ESD_EQUIP, 1024);
+	g_pGemDataObjectPool		= new SharedMemory<GemDataObject>(ESD_GEM, 1024);
 	g_pPetDataObjectPool		= new SharedMemory<PetDataObject>(ESD_PET, 1024);
 	g_pPartnerDataObjectPool	= new SharedMemory<PartnerDataObject>(ESD_PARTNER, 1024);
 	g_pGuildDataObjectPool		= new SharedMemory<GuildDataObject>(ESD_GUILD, 1024);

@@ -54,6 +54,8 @@ enum MessageID {
 
 	MSG_DISCONNECT_NTY				= 1000030;    //断开连接
 
+	MSG_ROLE_DATA_CHANGE_NTY		= 1000031;
+
 	MSG_NORMAL_MSGID_END			= 1999999;
 	
 	//============================================================================================
@@ -126,6 +128,15 @@ enum MessageID {
 	MSG_DRESS_EQUIP_ACK         = 2000055;//穿装备
 	MSG_UNDRESS_EQUIP_REQ       = 2000056;//卸装备
 	MSG_UNDRESS_EQUIP_ACK       = 2000057;//卸装备
+
+	MSG_STORE_BUY_REQ			= 2000058;
+	MSG_STORE_BUY_ACK			= 2000059;
+	
+	MSG_GEM_CHANGE_NTY			= 2000060;
+	MSG_DRESS_GEM_REQ         = 2000061;//穿装备
+	MSG_DRESS_GEM_ACK         = 2000062;//穿装备
+	MSG_UNDRESS_GEM_REQ       = 2000063;//卸装备
+	MSG_UNDRESS_GEM_ACK       = 2000064;//卸装备
 	
 	MSG_TEST_ADD_ITEM 			= 2999998;
 	MSG_LOGICSVR_MSGID_END		= 2999999;

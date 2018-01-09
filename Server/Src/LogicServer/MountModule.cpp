@@ -74,6 +74,11 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 	return TRUE;
 }
 
+BOOL CMountModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
 	MountDataObject* pObject = g_pMountDataObjectPool->NewObject(TRUE);

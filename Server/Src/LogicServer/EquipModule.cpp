@@ -7,6 +7,9 @@
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "BagModule.h"
+#include "CommandDef.h"
+#include "PacketHeader.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -75,12 +78,12 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_RefineExp = ItemData.refineexp();
 		pObject->m_IsUsing = ItemData.isusing();
 		m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
-		//if(pObject->m_IsUsing == TRUE)
-		//{
-		//	StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
-		//	ERROR_RETURN_FALSE(pInfo != NULL);
-		//	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
-		//}
+		if(pObject->m_IsUsing == TRUE)
+		{
+			StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+			ERROR_RETURN_FALSE(pInfo != NULL);
+			m_vtDressEquip[pInfo->dwPos - 1] = pObject;
+		}
 	}
 
 	return TRUE;
@@ -173,7 +176,7 @@ EquipDataObject* CEquipModule::GetEquipByGuid(UINT64 uGuid)
 	return NULL;
 }
 
-UINT32 CEquipModule::SetDressEquip(UINT64 uGuid, BOOL bDress)
+UINT32 CEquipModule::UnDressEquip(UINT64 uGuid)
 {
 	EquipDataObject* pObject = GetEquipByGuid(uGuid);
 	if (pObject == NULL)
@@ -181,20 +184,84 @@ UINT32 CEquipModule::SetDressEquip(UINT64 uGuid, BOOL bDress)
 		return MRC_INVALID_EQUIP_ID;
 	}
 
-	if (bDress && pObject->m_IsUsing)
+	if (!pObject->m_IsUsing)
 	{
 		return MRC_UNKNOW_ERROR;
 	}
 
-	if (!bDress && !pObject->m_IsUsing)
+	StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+	if (pInfo == NULL)
 	{
 		return MRC_UNKNOW_ERROR;
+	}
+
+	if (m_vtDressEquip[pInfo->dwPos - 1] != pObject)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+
+	pObject->lock();
+	pObject->m_IsUsing = FALSE;
+	pObject->unlock();
+	m_setChange.insert(pObject->m_uGuid);
+	m_vtDressEquip[pInfo->dwPos - 1] = NULL;
+
+	CBagModule* pBagModule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
+	if (pBagModule == NULL)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	pBagModule->AddItem(pObject->m_uGuid, pObject->m_EquipID, 1);
+
+	return MRC_SUCCESSED;
+}
+
+UINT32 CEquipModule::DressEquip(UINT64 uGuid, UINT64 uBagGuid)
+{
+	EquipDataObject* pObject = GetEquipByGuid(uGuid);
+	if (pObject == NULL)
+	{
+		return MRC_INVALID_EQUIP_ID;
+	}
+
+	if (pObject->m_IsUsing)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	StEquipInfo* pInfo = CConfigData::GetInstancePtr()->GetEquipInfo(pObject->m_EquipID);
+	if (pInfo == NULL)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	CBagModule* pBagModule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
+	if (pBagModule == NULL)
+	{
+		return MRC_UNKNOW_ERROR;
+	}
+
+	if (m_vtDressEquip[pInfo->dwPos - 1] != NULL)
+	{
+		m_vtDressEquip[pInfo->dwPos - 1]->lock();
+		m_vtDressEquip[pInfo->dwPos - 1]->m_IsUsing = FALSE;
+		m_vtDressEquip[pInfo->dwPos - 1]->unlock();
+		m_setChange.insert(m_vtDressEquip[pInfo->dwPos - 1]->m_uGuid);
+		pBagModule->SetBagItem(uBagGuid, m_vtDressEquip[pInfo->dwPos - 1]->m_uGuid, m_vtDressEquip[pInfo->dwPos - 1]->m_EquipID, 1);
+	}
+	else
+	{
+		pBagModule->RemoveItem(uBagGuid);
 	}
 
 	pObject->lock();
-	pObject->m_IsUsing = bDress;
+	pObject->m_IsUsing = TRUE;
 	pObject->unlock();
+	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
 	m_setChange.insert(pObject->m_uGuid);
+
 	return MRC_SUCCESSED;
 }
 
@@ -220,6 +287,52 @@ BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 
 		}
 
+	}
+
+	return TRUE;
+}
+
+BOOL CEquipModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	switch (pNetPacket->m_dwMsgID)
+	{
+			PROCESS_MESSAGE_ITEM(MSG_DRESS_EQUIP_REQ, OnMsgDressEquipReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNDRESS_EQUIP_REQ, OnMsgUnDressEquipReq);
+	}
+
+	return FALSE;
+}
+
+
+BOOL CEquipModule::OnMsgDressEquipReq(NetPacket* pNetPacket)
+{
+	DressEquipReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nRetCode = DressEquip(Req.equipguid(), Req.bagguid());
+	if (nRetCode != MRC_SUCCESSED)
+	{
+		DressEquipAck Ack;
+		Ack.set_retcode(nRetCode);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_DRESS_EQUIP_ACK, Ack);
+	}
+
+	return TRUE;
+}
+
+BOOL CEquipModule::OnMsgUnDressEquipReq(NetPacket* pNetPacket)
+{
+	UnDressEquipReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nRetCode = UnDressEquip(Req.equipguid());
+	if (nRetCode != MRC_SUCCESSED)
+	{
+		UnDressEquipAck Ack;
+		Ack.set_retcode(nRetCode);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_UNDRESS_EQUIP_ACK, Ack);
 	}
 
 	return TRUE;

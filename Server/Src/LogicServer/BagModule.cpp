@@ -13,6 +13,7 @@
 #include "PartnerModule.h"
 #include "RoleModule.h"
 #include "Log.h"
+#include "GemModule.h"
 
 
 CBagModule::CBagModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -105,6 +106,11 @@ BOOL CBagModule::ReadFromShareMemory(BagDataObject* pObject)
 	return TRUE;
 }
 
+BOOL CBagModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 {
 	StItemInfo* pItemInfo = CConfigData::GetInstancePtr()->GetItemInfo(dwItemID);
@@ -121,6 +127,13 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 			uItemGuid = pEquipModule->AddEquip(dwItemID);
 		}
 		break;
+		case EIT_GEM:
+		{
+			CGemModule* pGemModule = (CGemModule*)m_pOwnPlayer->GetModuleByType(MT_GEM);
+			ERROR_RETURN_FALSE(pGemModule != NULL);
+			uItemGuid = pGemModule->AddGem(dwItemID);
+		}
+		break;
 		case EIT_PET:
 		{
 			CPetModule* pPetModule = (CPetModule*)m_pOwnPlayer->GetModuleByType(MT_PET);
@@ -128,7 +141,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 			uItemGuid = pPetModule->AddPet(dwItemID);
 
 			//在这里要直接返回，因为宠物不进背包
-			return;
+			return TRUE;
 		}
 		break;
 		case EIT_PARTNER:
@@ -138,7 +151,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 			uItemGuid = pPartnerModule->AddPartner(dwItemID);
 
 			//在这里要直接返回，因为伙伴不进背包
-			return;
+			return TRUE;
 		}
 		break;
 		case EIT_ACTION:
@@ -192,6 +205,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 	}
 
 	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
+	ERROR_RETURN_FALSE(pObject != NULL);
 	pObject->lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_ItemGuid = uItemGuid;
@@ -202,6 +216,22 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	m_setChange.insert(pObject->m_uGuid);
 
+	return TRUE;
+}
+
+BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount)
+{
+	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
+	ERROR_RETURN_FALSE(pObject != NULL);
+	pObject->lock();
+	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
+	pObject->m_ItemGuid = uItemGuid;
+	pObject->m_ItemID = dwItemID;
+	pObject->m_nCount = nCount;
+	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->unlock();
+	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	m_setChange.insert(pObject->m_uGuid);
 	return TRUE;
 }
 
@@ -243,6 +273,38 @@ BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT32 nCount)
 	}
 
 	return TRUE;
+}
+
+BOOL CBagModule::RemoveItem(UINT64 uGuid)
+{
+	auto itor = m_mapBagData.find(uGuid);
+	if (itor != m_mapBagData.end())
+	{
+		BagDataObject* pTempObject = itor->second;
+		pTempObject->destroy();
+		m_mapBagData.erase(uGuid);
+		m_setRemove.insert(uGuid);
+	}
+
+	return TRUE;
+}
+
+BOOL CBagModule::SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount)
+{
+	auto itor = m_mapBagData.find(uGuid);
+	if (itor != m_mapBagData.end())
+	{
+		BagDataObject* pTempObject = itor->second;
+		pTempObject->lock();
+		pTempObject->m_ItemGuid = uItemGuid;
+		pTempObject->m_ItemID = dwItemID;
+		pTempObject->m_nCount = nCount;
+		pTempObject->unlock();
+		m_setChange.insert(uGuid);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 INT32 CBagModule::GetItemCount(UINT32 dwItemID)

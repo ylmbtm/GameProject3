@@ -1,16 +1,15 @@
-﻿#ifndef __EQUIPMENT_MODULE_H__
-#define __EQUIPMENT_MODULE_H__
+﻿#ifndef __GEM_MODULE_H__
+#define __GEM_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/EquipData.h"
 #include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
-struct EquipDataObject;
-class CEquipModule  : public CModuleBase
+struct GemDataObject;
+class CGemModule : public CModuleBase
 {
 public:
-	CEquipModule(CPlayerObject* pOwner);
+	CGemModule(CPlayerObject* pOwner);
 
-	~CEquipModule();
+	~CGemModule();
 
 public:
 	BOOL OnCreate(UINT64 u64RoleID);
@@ -30,27 +29,26 @@ public:
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
-
 public:
-	UINT64 AddEquip(UINT32 dwEquipID);
+	UINT64 AddGem(UINT32 dwGemID);
 
 	BOOL NotifyChange();
 
-	EquipDataObject* GetEquipByGuid(UINT64 uGuid);
+	GemDataObject* GetGemByGuid(UINT64 uGuid);
 
-	UINT32 DressEquip(UINT64 uGuid, UINT64 uBagGuid);
+	UINT32 DressGem(UINT64 uGuid, UINT64 uBagGuid, INT32 Pos);
 
-	UINT32 UnDressEquip(UINT64 uGuid);
+	UINT32 UnDressGem(UINT64 uGuid);
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
-	BOOL OnMsgUnDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgDressGemReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgUnDressGemReq(NetPacket* pNetPacket);  //穿装备请求
 	//*********************消息处理定义结束******************************
 
 public:
-	std::map<UINT64, EquipDataObject*>m_mapEquipData;
-	EquipDataObject* m_vtDressEquip[EEP_MAX];
+	std::map<UINT64, GemDataObject*>m_mapGemData;
+	GemDataObject* m_vtDressGem[40];
 
 	std::set<UINT64> m_setChange;
 	std::set<UINT64> m_setRemove;
@@ -58,4 +56,4 @@ public:
 
 };
 
-#endif //__EQUIPMENT_MODULE_H__
+#endif //__GEM_MODULE_H__

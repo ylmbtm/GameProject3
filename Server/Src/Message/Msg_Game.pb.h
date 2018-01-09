@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[66];
+  static const ::google::protobuf::internal::ParseTable schema[72];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -174,6 +174,18 @@ void InitDefaultsUnDressEquipReqImpl();
 void InitDefaultsUnDressEquipReq();
 void InitDefaultsUnDressEquipAckImpl();
 void InitDefaultsUnDressEquipAck();
+void InitDefaultsDressGemReqImpl();
+void InitDefaultsDressGemReq();
+void InitDefaultsDressGemAckImpl();
+void InitDefaultsDressGemAck();
+void InitDefaultsUnDressGemReqImpl();
+void InitDefaultsUnDressGemReq();
+void InitDefaultsUnDressGemAckImpl();
+void InitDefaultsUnDressGemAck();
+void InitDefaultsStoreBuyReqImpl();
+void InitDefaultsStoreBuyReq();
+void InitDefaultsStoreBuyAckImpl();
+void InitDefaultsStoreBuyAck();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -241,6 +253,12 @@ inline void InitDefaults() {
   InitDefaultsDressEquipAck();
   InitDefaultsUnDressEquipReq();
   InitDefaultsUnDressEquipAck();
+  InitDefaultsDressGemReq();
+  InitDefaultsDressGemAck();
+  InitDefaultsUnDressGemReq();
+  InitDefaultsUnDressGemAck();
+  InitDefaultsStoreBuyReq();
+  InitDefaultsStoreBuyAck();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -318,6 +336,12 @@ extern DressEquipAckDefaultTypeInternal _DressEquipAck_default_instance_;
 class DressEquipReq;
 class DressEquipReqDefaultTypeInternal;
 extern DressEquipReqDefaultTypeInternal _DressEquipReq_default_instance_;
+class DressGemAck;
+class DressGemAckDefaultTypeInternal;
+extern DressGemAckDefaultTypeInternal _DressGemAck_default_instance_;
+class DressGemReq;
+class DressGemReqDefaultTypeInternal;
+extern DressGemReqDefaultTypeInternal _DressGemReq_default_instance_;
 class EnterSceneAck;
 class EnterSceneAckDefaultTypeInternal;
 extern EnterSceneAckDefaultTypeInternal _EnterSceneAck_default_instance_;
@@ -396,6 +420,12 @@ extern SelectServerAckDefaultTypeInternal _SelectServerAck_default_instance_;
 class SelectServerReq;
 class SelectServerReqDefaultTypeInternal;
 extern SelectServerReqDefaultTypeInternal _SelectServerReq_default_instance_;
+class StoreBuyAck;
+class StoreBuyAckDefaultTypeInternal;
+extern StoreBuyAckDefaultTypeInternal _StoreBuyAck_default_instance_;
+class StoreBuyReq;
+class StoreBuyReqDefaultTypeInternal;
+extern StoreBuyReqDefaultTypeInternal _StoreBuyReq_default_instance_;
 class SvrRegToSvrAck;
 class SvrRegToSvrAckDefaultTypeInternal;
 extern SvrRegToSvrAckDefaultTypeInternal _SvrRegToSvrAck_default_instance_;
@@ -423,6 +453,12 @@ extern UnDressEquipAckDefaultTypeInternal _UnDressEquipAck_default_instance_;
 class UnDressEquipReq;
 class UnDressEquipReqDefaultTypeInternal;
 extern UnDressEquipReqDefaultTypeInternal _UnDressEquipReq_default_instance_;
+class UnDressGemAck;
+class UnDressGemAckDefaultTypeInternal;
+extern UnDressGemAckDefaultTypeInternal _UnDressGemAck_default_instance_;
+class UnDressGemReq;
+class UnDressGemReqDefaultTypeInternal;
+extern UnDressGemReqDefaultTypeInternal _UnDressGemReq_default_instance_;
 class UseHpBottleAck;
 class UseHpBottleAckDefaultTypeInternal;
 extern UseHpBottleAckDefaultTypeInternal _UseHpBottleAck_default_instance_;
@@ -7907,17 +7943,24 @@ class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // uint64 equipguid = 1;
+  // uint64 EquipGuid = 1;
   void clear_equipguid();
-  static const int kEquipguidFieldNumber = 1;
+  static const int kEquipGuidFieldNumber = 1;
   ::google::protobuf::uint64 equipguid() const;
   void set_equipguid(::google::protobuf::uint64 value);
+
+  // uint64 BagGuid = 2;
+  void clear_bagguid();
+  static const int kBagGuidFieldNumber = 2;
+  ::google::protobuf::uint64 bagguid() const;
+  void set_bagguid(::google::protobuf::uint64 value);
 
   // @@protoc_insertion_point(class_scope:DressEquipReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 equipguid_;
+  ::google::protobuf::uint64 bagguid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressEquipReqImpl();
@@ -8105,9 +8148,9 @@ class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // uint64 equipguid = 1;
+  // uint64 EquipGuid = 1;
   void clear_equipguid();
-  static const int kEquipguidFieldNumber = 1;
+  static const int kEquipGuidFieldNumber = 1;
   ::google::protobuf::uint64 equipguid() const;
   void set_equipguid(::google::protobuf::uint64 value);
 
@@ -8218,6 +8261,628 @@ class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressEquipAckImpl();
+};
+// -------------------------------------------------------------------
+
+class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressGemReq) */ {
+ public:
+  DressGemReq();
+  virtual ~DressGemReq();
+
+  DressGemReq(const DressGemReq& from);
+
+  inline DressGemReq& operator=(const DressGemReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DressGemReq(DressGemReq&& from) noexcept
+    : DressGemReq() {
+    *this = ::std::move(from);
+  }
+
+  inline DressGemReq& operator=(DressGemReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DressGemReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DressGemReq* internal_default_instance() {
+    return reinterpret_cast<const DressGemReq*>(
+               &_DressGemReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    66;
+
+  void Swap(DressGemReq* other);
+  friend void swap(DressGemReq& a, DressGemReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DressGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DressGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DressGemReq& from);
+  void MergeFrom(const DressGemReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DressGemReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 GemGuid = 1;
+  void clear_gemguid();
+  static const int kGemGuidFieldNumber = 1;
+  ::google::protobuf::uint64 gemguid() const;
+  void set_gemguid(::google::protobuf::uint64 value);
+
+  // uint64 BagGuid = 2;
+  void clear_bagguid();
+  static const int kBagGuidFieldNumber = 2;
+  ::google::protobuf::uint64 bagguid() const;
+  void set_bagguid(::google::protobuf::uint64 value);
+
+  // int32 TargetPos = 3;
+  void clear_targetpos();
+  static const int kTargetPosFieldNumber = 3;
+  ::google::protobuf::int32 targetpos() const;
+  void set_targetpos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:DressGemReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 gemguid_;
+  ::google::protobuf::uint64 bagguid_;
+  ::google::protobuf::int32 targetpos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressGemReqImpl();
+};
+// -------------------------------------------------------------------
+
+class DressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressGemAck) */ {
+ public:
+  DressGemAck();
+  virtual ~DressGemAck();
+
+  DressGemAck(const DressGemAck& from);
+
+  inline DressGemAck& operator=(const DressGemAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DressGemAck(DressGemAck&& from) noexcept
+    : DressGemAck() {
+    *this = ::std::move(from);
+  }
+
+  inline DressGemAck& operator=(DressGemAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DressGemAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DressGemAck* internal_default_instance() {
+    return reinterpret_cast<const DressGemAck*>(
+               &_DressGemAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    67;
+
+  void Swap(DressGemAck* other);
+  friend void swap(DressGemAck& a, DressGemAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DressGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DressGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DressGemAck& from);
+  void MergeFrom(const DressGemAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DressGemAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:DressGemAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressGemAckImpl();
+};
+// -------------------------------------------------------------------
+
+class UnDressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressGemReq) */ {
+ public:
+  UnDressGemReq();
+  virtual ~UnDressGemReq();
+
+  UnDressGemReq(const UnDressGemReq& from);
+
+  inline UnDressGemReq& operator=(const UnDressGemReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnDressGemReq(UnDressGemReq&& from) noexcept
+    : UnDressGemReq() {
+    *this = ::std::move(from);
+  }
+
+  inline UnDressGemReq& operator=(UnDressGemReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnDressGemReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnDressGemReq* internal_default_instance() {
+    return reinterpret_cast<const UnDressGemReq*>(
+               &_UnDressGemReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    68;
+
+  void Swap(UnDressGemReq* other);
+  friend void swap(UnDressGemReq& a, UnDressGemReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnDressGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnDressGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnDressGemReq& from);
+  void MergeFrom(const UnDressGemReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnDressGemReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 GemGuid = 1;
+  void clear_gemguid();
+  static const int kGemGuidFieldNumber = 1;
+  ::google::protobuf::uint64 gemguid() const;
+  void set_gemguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:UnDressGemReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 gemguid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressGemReqImpl();
+};
+// -------------------------------------------------------------------
+
+class UnDressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressGemAck) */ {
+ public:
+  UnDressGemAck();
+  virtual ~UnDressGemAck();
+
+  UnDressGemAck(const UnDressGemAck& from);
+
+  inline UnDressGemAck& operator=(const UnDressGemAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnDressGemAck(UnDressGemAck&& from) noexcept
+    : UnDressGemAck() {
+    *this = ::std::move(from);
+  }
+
+  inline UnDressGemAck& operator=(UnDressGemAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnDressGemAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnDressGemAck* internal_default_instance() {
+    return reinterpret_cast<const UnDressGemAck*>(
+               &_UnDressGemAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    69;
+
+  void Swap(UnDressGemAck* other);
+  friend void swap(UnDressGemAck& a, UnDressGemAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnDressGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnDressGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnDressGemAck& from);
+  void MergeFrom(const UnDressGemAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnDressGemAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:UnDressGemAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressGemAckImpl();
+};
+// -------------------------------------------------------------------
+
+class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreBuyReq) */ {
+ public:
+  StoreBuyReq();
+  virtual ~StoreBuyReq();
+
+  StoreBuyReq(const StoreBuyReq& from);
+
+  inline StoreBuyReq& operator=(const StoreBuyReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  StoreBuyReq(StoreBuyReq&& from) noexcept
+    : StoreBuyReq() {
+    *this = ::std::move(from);
+  }
+
+  inline StoreBuyReq& operator=(StoreBuyReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StoreBuyReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const StoreBuyReq* internal_default_instance() {
+    return reinterpret_cast<const StoreBuyReq*>(
+               &_StoreBuyReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    70;
+
+  void Swap(StoreBuyReq* other);
+  friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline StoreBuyReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  StoreBuyReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const StoreBuyReq& from);
+  void MergeFrom(const StoreBuyReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(StoreBuyReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 StoreType = 1;
+  void clear_storetype();
+  static const int kStoreTypeFieldNumber = 1;
+  ::google::protobuf::int32 storetype() const;
+  void set_storetype(::google::protobuf::int32 value);
+
+  // int32 StoreID = 2;
+  void clear_storeid();
+  static const int kStoreIDFieldNumber = 2;
+  ::google::protobuf::int32 storeid() const;
+  void set_storeid(::google::protobuf::int32 value);
+
+  // int32 BuyNum = 3;
+  void clear_buynum();
+  static const int kBuyNumFieldNumber = 3;
+  ::google::protobuf::int32 buynum() const;
+  void set_buynum(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:StoreBuyReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 storetype_;
+  ::google::protobuf::int32 storeid_;
+  ::google::protobuf::int32 buynum_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsStoreBuyReqImpl();
+};
+// -------------------------------------------------------------------
+
+class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreBuyAck) */ {
+ public:
+  StoreBuyAck();
+  virtual ~StoreBuyAck();
+
+  StoreBuyAck(const StoreBuyAck& from);
+
+  inline StoreBuyAck& operator=(const StoreBuyAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  StoreBuyAck(StoreBuyAck&& from) noexcept
+    : StoreBuyAck() {
+    *this = ::std::move(from);
+  }
+
+  inline StoreBuyAck& operator=(StoreBuyAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StoreBuyAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const StoreBuyAck* internal_default_instance() {
+    return reinterpret_cast<const StoreBuyAck*>(
+               &_StoreBuyAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    71;
+
+  void Swap(StoreBuyAck* other);
+  friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline StoreBuyAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  StoreBuyAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const StoreBuyAck& from);
+  void MergeFrom(const StoreBuyAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(StoreBuyAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:StoreBuyAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsStoreBuyAckImpl();
 };
 // ===================================================================
 
@@ -12671,18 +13336,32 @@ inline void WatchHeartBeatAck::set_processid(::google::protobuf::uint64 value) {
 
 // DressEquipReq
 
-// uint64 equipguid = 1;
+// uint64 EquipGuid = 1;
 inline void DressEquipReq::clear_equipguid() {
   equipguid_ = GOOGLE_ULONGLONG(0);
 }
 inline ::google::protobuf::uint64 DressEquipReq::equipguid() const {
-  // @@protoc_insertion_point(field_get:DressEquipReq.equipguid)
+  // @@protoc_insertion_point(field_get:DressEquipReq.EquipGuid)
   return equipguid_;
 }
 inline void DressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
   
   equipguid_ = value;
-  // @@protoc_insertion_point(field_set:DressEquipReq.equipguid)
+  // @@protoc_insertion_point(field_set:DressEquipReq.EquipGuid)
+}
+
+// uint64 BagGuid = 2;
+inline void DressEquipReq::clear_bagguid() {
+  bagguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DressEquipReq::bagguid() const {
+  // @@protoc_insertion_point(field_get:DressEquipReq.BagGuid)
+  return bagguid_;
+}
+inline void DressEquipReq::set_bagguid(::google::protobuf::uint64 value) {
+  
+  bagguid_ = value;
+  // @@protoc_insertion_point(field_set:DressEquipReq.BagGuid)
 }
 
 // -------------------------------------------------------------------
@@ -12707,18 +13386,18 @@ inline void DressEquipAck::set_retcode(::google::protobuf::uint32 value) {
 
 // UnDressEquipReq
 
-// uint64 equipguid = 1;
+// uint64 EquipGuid = 1;
 inline void UnDressEquipReq::clear_equipguid() {
   equipguid_ = GOOGLE_ULONGLONG(0);
 }
 inline ::google::protobuf::uint64 UnDressEquipReq::equipguid() const {
-  // @@protoc_insertion_point(field_get:UnDressEquipReq.equipguid)
+  // @@protoc_insertion_point(field_get:UnDressEquipReq.EquipGuid)
   return equipguid_;
 }
 inline void UnDressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
   
   equipguid_ = value;
-  // @@protoc_insertion_point(field_set:UnDressEquipReq.equipguid)
+  // @@protoc_insertion_point(field_set:UnDressEquipReq.EquipGuid)
 }
 
 // -------------------------------------------------------------------
@@ -12739,9 +13418,185 @@ inline void UnDressEquipAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:UnDressEquipAck.RetCode)
 }
 
+// -------------------------------------------------------------------
+
+// DressGemReq
+
+// uint64 GemGuid = 1;
+inline void DressGemReq::clear_gemguid() {
+  gemguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DressGemReq::gemguid() const {
+  // @@protoc_insertion_point(field_get:DressGemReq.GemGuid)
+  return gemguid_;
+}
+inline void DressGemReq::set_gemguid(::google::protobuf::uint64 value) {
+  
+  gemguid_ = value;
+  // @@protoc_insertion_point(field_set:DressGemReq.GemGuid)
+}
+
+// uint64 BagGuid = 2;
+inline void DressGemReq::clear_bagguid() {
+  bagguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DressGemReq::bagguid() const {
+  // @@protoc_insertion_point(field_get:DressGemReq.BagGuid)
+  return bagguid_;
+}
+inline void DressGemReq::set_bagguid(::google::protobuf::uint64 value) {
+  
+  bagguid_ = value;
+  // @@protoc_insertion_point(field_set:DressGemReq.BagGuid)
+}
+
+// int32 TargetPos = 3;
+inline void DressGemReq::clear_targetpos() {
+  targetpos_ = 0;
+}
+inline ::google::protobuf::int32 DressGemReq::targetpos() const {
+  // @@protoc_insertion_point(field_get:DressGemReq.TargetPos)
+  return targetpos_;
+}
+inline void DressGemReq::set_targetpos(::google::protobuf::int32 value) {
+  
+  targetpos_ = value;
+  // @@protoc_insertion_point(field_set:DressGemReq.TargetPos)
+}
+
+// -------------------------------------------------------------------
+
+// DressGemAck
+
+// uint32 RetCode = 1;
+inline void DressGemAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 DressGemAck::retcode() const {
+  // @@protoc_insertion_point(field_get:DressGemAck.RetCode)
+  return retcode_;
+}
+inline void DressGemAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:DressGemAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// UnDressGemReq
+
+// uint64 GemGuid = 1;
+inline void UnDressGemReq::clear_gemguid() {
+  gemguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 UnDressGemReq::gemguid() const {
+  // @@protoc_insertion_point(field_get:UnDressGemReq.GemGuid)
+  return gemguid_;
+}
+inline void UnDressGemReq::set_gemguid(::google::protobuf::uint64 value) {
+  
+  gemguid_ = value;
+  // @@protoc_insertion_point(field_set:UnDressGemReq.GemGuid)
+}
+
+// -------------------------------------------------------------------
+
+// UnDressGemAck
+
+// uint32 RetCode = 1;
+inline void UnDressGemAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 UnDressGemAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnDressGemAck.RetCode)
+  return retcode_;
+}
+inline void UnDressGemAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:UnDressGemAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// StoreBuyReq
+
+// int32 StoreType = 1;
+inline void StoreBuyReq::clear_storetype() {
+  storetype_ = 0;
+}
+inline ::google::protobuf::int32 StoreBuyReq::storetype() const {
+  // @@protoc_insertion_point(field_get:StoreBuyReq.StoreType)
+  return storetype_;
+}
+inline void StoreBuyReq::set_storetype(::google::protobuf::int32 value) {
+  
+  storetype_ = value;
+  // @@protoc_insertion_point(field_set:StoreBuyReq.StoreType)
+}
+
+// int32 StoreID = 2;
+inline void StoreBuyReq::clear_storeid() {
+  storeid_ = 0;
+}
+inline ::google::protobuf::int32 StoreBuyReq::storeid() const {
+  // @@protoc_insertion_point(field_get:StoreBuyReq.StoreID)
+  return storeid_;
+}
+inline void StoreBuyReq::set_storeid(::google::protobuf::int32 value) {
+  
+  storeid_ = value;
+  // @@protoc_insertion_point(field_set:StoreBuyReq.StoreID)
+}
+
+// int32 BuyNum = 3;
+inline void StoreBuyReq::clear_buynum() {
+  buynum_ = 0;
+}
+inline ::google::protobuf::int32 StoreBuyReq::buynum() const {
+  // @@protoc_insertion_point(field_get:StoreBuyReq.BuyNum)
+  return buynum_;
+}
+inline void StoreBuyReq::set_buynum(::google::protobuf::int32 value) {
+  
+  buynum_ = value;
+  // @@protoc_insertion_point(field_set:StoreBuyReq.BuyNum)
+}
+
+// -------------------------------------------------------------------
+
+// StoreBuyAck
+
+// uint32 RetCode = 1;
+inline void StoreBuyAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 StoreBuyAck::retcode() const {
+  // @@protoc_insertion_point(field_get:StoreBuyAck.RetCode)
+  return retcode_;
+}
+inline void StoreBuyAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:StoreBuyAck.RetCode)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

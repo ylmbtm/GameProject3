@@ -88,7 +88,7 @@ BOOL CActivityModule::OnNewDay()
 
 BOOL CActivityModule::DispatchPacket(NetPacket* pNetPacket)
 {
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

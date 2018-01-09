@@ -35,13 +35,14 @@ BOOL CConfigData::InitDataReader()
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CConfigData::ReadFuncInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CConfigData::ReadFuncVipInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CConfigData::ReadFuncCostInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CConfigData::ReadEquipInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CConfigData::ReadEquipInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",			&CConfigData::ReadGemInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CConfigData::ReadPetInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CConfigData::ReadPartnerInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CConfigData::ReadTaskInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CConfigData::ReadSkillInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CConfigData::ReadBuffInfo));
-//	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CConfigData::ReadStoreInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CConfigData::ReadStoreInfo));
 	return TRUE;
 }
 
@@ -743,7 +744,7 @@ BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
 	{
 		StEquipInfo stValue;
 		stValue.dwEquipID = QueryData.getIntField("Id");
-		stValue.dwSuitID = QueryData.getIntField("SuitId");
+		stValue.dwSuitID = QueryData.getIntField("Suit");
 		stValue.dwPos = QueryData.getIntField("Pos");
 		m_mapEquipInfo.insert(std::make_pair(stValue.dwEquipID, stValue));
 		QueryData.nextRow();
@@ -757,6 +758,34 @@ StEquipInfo* CConfigData::GetEquipInfo(UINT32 dwEquipID)
 	ERROR_RETURN_NULL(dwEquipID != 0);
 	auto itor = m_mapEquipInfo.find(dwEquipID);
 	if(itor != m_mapEquipInfo.end())
+	{
+		return &itor->second;
+	}
+	return NULL;
+}
+
+
+BOOL CConfigData::ReadGemInfo(CppSQLite3Query& QueryData)
+{
+	m_mapGemInfo.clear();
+
+	while (!QueryData.eof())
+	{
+		StGemInfo stValue;
+		stValue.dwGemID = QueryData.getIntField("Id");
+		stValue.dwPos = QueryData.getIntField("Pos");
+		m_mapGemInfo.insert(std::make_pair(stValue.dwGemID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StGemInfo* CConfigData::GetGemInfo(UINT32 dwGemID)
+{
+	ERROR_RETURN_NULL(dwGemID != 0);
+	auto itor = m_mapGemInfo.find(dwGemID);
+	if (itor != m_mapGemInfo.end())
 	{
 		return &itor->second;
 	}
@@ -898,11 +927,33 @@ StBuffInfo* CConfigData::GetBuffInfo(UINT32 dwBuffID)
 
 BOOL CConfigData::ReadStoreInfo(CppSQLite3Query& QueryData)
 {
+	m_mapStoreInfo.clear();
+
+	while (!QueryData.eof())
+	{
+		StStoreItemInfo stValue;
+		stValue.StoreID = QueryData.getIntField("Id");
+		stValue.ItemID = QueryData.getIntField("ItemID");
+		stValue.ItemNum = QueryData.getIntField("ItemNum");
+		stValue.CostMoneyID = QueryData.getIntField("CostMoneyID");
+		stValue.CostMoneyNum = QueryData.getIntField("CostMoneyNum");
+		stValue.StoreType = QueryData.getIntField("StoreType");
+		m_mapStoreInfo.insert(std::make_pair(stValue.StoreID, stValue));
+		QueryData.nextRow();
+	}
+
 	return TRUE;
 }
 
-StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreType, UINT32 dwStoreID)
+StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreID)
 {
+	ERROR_RETURN_NULL(dwStoreID != 0);
+	auto itor = m_mapStoreInfo.find(dwStoreID);
+	if (itor != m_mapStoreInfo.end())
+	{
+		return &itor->second;
+	}
+
 	return NULL;
 }
 

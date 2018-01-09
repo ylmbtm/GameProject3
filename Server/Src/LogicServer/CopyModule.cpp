@@ -77,6 +77,11 @@ BOOL CCopyModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
+BOOL CCopyModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 CopyDataObject* CCopyModule::GetCopyData(UINT32 dwCopyID)
 {
 	auto itor = m_mapCopyData.find(dwCopyID);

@@ -404,7 +404,8 @@ message WatchHeartBeatAck {
 
 
 message DressEquipReq {
-	uint64	equipguid = 1;
+	uint64	EquipGuid = 1;
+	uint64	BagGuid = 2;
 }
 
 message DressEquipAck {
@@ -412,9 +413,42 @@ message DressEquipAck {
 }
 
 message UnDressEquipReq {
-	uint64	equipguid = 1;
+	uint64	EquipGuid = 1;
 }
 
 message UnDressEquipAck {
+	uint32	RetCode	= 1;
+}
+
+
+
+message DressGemReq {
+	uint64	GemGuid = 1;
+	uint64	BagGuid = 2;
+	int32   TargetPos = 3;
+}
+
+message DressGemAck {
+	uint32	RetCode	= 1;
+}
+
+message UnDressGemReq {
+	uint64	GemGuid = 1;
+}
+
+message UnDressGemAck {
+	uint32	RetCode	= 1;
+}
+
+
+
+
+message StoreBuyReq {
+	int32	StoreType = 1;
+	int32	StoreID = 2;
+	int32	BuyNum = 3;
+}
+
+message StoreBuyAck {
 	uint32	RetCode	= 1;
 }

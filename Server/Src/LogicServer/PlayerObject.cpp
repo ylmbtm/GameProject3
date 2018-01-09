@@ -14,6 +14,8 @@
 #include "ActivityModule.h"
 #include "MountModule.h"
 #include "CounterModule.h"
+#include "StoreModule.h"
+#include "GemModule.h"
 #include "CommandDef.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ServerData/RoleData.h"
@@ -22,6 +24,7 @@
 #include "../GameServer/GameService.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+
 CPlayerObject::CPlayerObject()
 {
 
@@ -139,12 +142,6 @@ BOOL CPlayerObject::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 
 BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_DRESS_EQUIP_REQ,	OnMsgDressEquipReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNDRESS_EQUIP_REQ, OnMsgUnDressEquipReq);
-	}
-
 	for (int i = MT_ROLE; i < MT_END; i++)
 	{
 		CModuleBase* pBase = m_MoudleList.at(i);
@@ -166,13 +163,14 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_COPY]			= new CCopyModule(this);
 	m_MoudleList[MT_BAG]			= new CBagModule(this);
 	m_MoudleList[MT_EQUIP]			= new CEquipModule(this);
+	m_MoudleList[MT_GEM]			= new CGemModule(this);
 	m_MoudleList[MT_PET]			= new CPetModule(this);
 	m_MoudleList[MT_PARTNER]		= new CPartnerModule(this);
 	m_MoudleList[MT_TASK]			= new CTaskModule(this);
 	m_MoudleList[MT_MOUNT]			= new CMountModule(this);
 	m_MoudleList[MT_ACTIVITY]		= new CActivityModule(this);
 	m_MoudleList[MT_COUNTER]		= new CCounterModule(this);
-
+	m_MoudleList[MT_STORE]			= new CStoreModule(this);
 
 	return TRUE;
 }
@@ -411,45 +409,6 @@ BOOL CPlayerObject::ClearCopyState()
 	return TRUE;
 }
 
-BOOL CPlayerObject::OnMsgDressEquipReq(NetPacket* pNetPacket)
-{
-	DressEquipReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
-	CEquipModule* pModule = (CEquipModule*)GetModuleByType(MT_EQUIP);
-	ERROR_RETURN_TRUE(pModule != NULL);
-
-	UINT32 nRetCode = pModule->SetDressEquip(Req.equipguid(), TRUE);
-	if (nRetCode != MRC_SUCCESSED)
-	{
-		DressEquipAck Ack;
-		Ack.set_retcode(nRetCode);
-		SendMsgProtoBuf(MSG_DRESS_EQUIP_ACK, Ack);
-	}
-
-	return TRUE;
-}
-
-BOOL CPlayerObject::OnMsgUnDressEquipReq(NetPacket* pNetPacket)
-{
-	UnDressEquipReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
-	CEquipModule* pModule = (CEquipModule*)GetModuleByType(MT_EQUIP);
-	ERROR_RETURN_TRUE(pModule != NULL);
-
-	UINT32 nRetCode = pModule->SetDressEquip(Req.equipguid(), FALSE);
-	if (nRetCode != MRC_SUCCESSED)
-	{
-		UnDressEquipAck Ack;
-		Ack.set_retcode(nRetCode);
-		SendMsgProtoBuf(MSG_UNDRESS_EQUIP_ACK, Ack);
-	}
-
-	return TRUE;
-}
 
 
 

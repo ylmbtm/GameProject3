@@ -29,6 +29,23 @@ message EquipChangeNty{
 	repeated uint64  RemoveList = 2;
 }
 
+
+message GemItem {
+	uint64 Guid = 1;
+	int32  GemID = 2;
+	int32  StrengthLvl = 3;   //强化等级
+	int32  RefineLevel = 4;   //精炼等级
+	int32  StarLevel = 5;	  //星级
+	int32  RefineExp = 6;	  //精验的经验
+	int32  StarExp = 7;		  //星级经验
+	int32  Pos = 8;		    //位置
+}
+
+message GemChangeNty{
+	repeated GemItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
+}
+
 message PetItem {
 	uint64 Guid = 1;
 	int32  PetID = 2;
@@ -110,12 +127,13 @@ message RoleLoginAck {
 	repeated int64 Action = 11;
 	repeated int64 Actime = 12;
 	repeated EquipItem EquipList = 13;
-	repeated PetItem PetList = 14;
-	repeated PartnerItem PartnerList = 15;
-	repeated MountItem MountList = 16;
-	repeated BagItem  BagItemList = 17;
-	repeated MailItem MailList = 18;
-	repeated TaskItem TaskList = 19;
+	repeated GemItem GemList = 14;
+	repeated PetItem PetList = 15;
+	repeated PartnerItem PartnerList = 16;
+	repeated MountItem MountList = 17;
+	repeated BagItem  BagItemList = 18;
+	repeated MailItem MailList = 19;
+	repeated TaskItem TaskList = 20;
 }
 
 

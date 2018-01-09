@@ -92,6 +92,11 @@ BOOL CPetModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 	return TRUE;
 }
 
+BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
 	PetDataObject* pObject = g_pPetDataObjectPool->NewObject(TRUE);

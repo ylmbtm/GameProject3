@@ -144,6 +144,12 @@
     <ClCompile Include="LogManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="StoreModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GemModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -316,6 +322,18 @@
     </ClInclude>
     <ClInclude Include="LogManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\StoreData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="GemModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\GemData.h">
+      <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

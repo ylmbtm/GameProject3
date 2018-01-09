@@ -151,6 +151,34 @@ BOOL CDBManager::GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack)
 	return TRUE;
 }
 
+BOOL CDBManager::GetGemData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	CHAR szSql[SQL_BUFF_LEN];
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from gem where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBGemData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_gemdata();
+		}
+		DBGemItem* pItem = pData->add_gemlist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_gemid(QueryRes.getIntField("gemid", 0));
+		pItem->set_pos(QueryRes.getIntField("pos", 0));
+		pItem->set_refinelevel(QueryRes.getIntField("refinelvl", 0));
+		pItem->set_starlevel(QueryRes.getIntField("starlvl", 0));
+		pItem->set_strengthlvl(QueryRes.getIntField("strengthlvl", 0));
+		QueryRes.nextRow();
+	}
+
+	return TRUE;
+}
+
 BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN];

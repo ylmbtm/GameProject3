@@ -49,12 +49,14 @@ enum EMouduleType
 	MT_COPY,
 	MT_BAG,
 	MT_EQUIP,
+	MT_GEM,
 	MT_PET,
 	MT_PARTNER,
 	MT_TASK,
 	MT_MOUNT,
 	MT_ACTIVITY,
 	MT_COUNTER,
+	MT_STORE,
 	MT_END
 };
 
@@ -89,6 +91,7 @@ enum EShareData
 	ESD_BAG,
 	ESD_COPY,
 	ESD_EQUIP,
+	ESD_GEM,
 	ESD_PET,
 	ESD_PARTNER,
 	ESD_GUILD,

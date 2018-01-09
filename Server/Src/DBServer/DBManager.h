@@ -20,6 +20,7 @@ public:
 	BOOL	GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack);
+	BOOL	GetGemData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetPartnerData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack);

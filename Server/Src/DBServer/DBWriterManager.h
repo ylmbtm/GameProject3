@@ -18,6 +18,7 @@
 #include "../ServerData/ActivityData.h"
 #include "../ServerData/CounterData.h"
 #include "../ServerData/FriendData.h"
+#include "../ServerData/GemData.h"
 #include "DBInterface/DBConnection.h"
 
 Th_RetName _DBWriteThread(void* pParam);
@@ -43,6 +44,7 @@ public:
 	DataWriter<BagDataObject>* m_pBagDataWriter;
 	DataWriter<CopyDataObject>* m_pCopyDataWriter;
 	DataWriter<EquipDataObject>* m_pEquipDataWriter;
+	DataWriter<GemDataObject>* m_pGemDataWriter;
 	DataWriter<PetDataObject>* m_pPetDataWriter;
 	DataWriter<PartnerDataObject>* m_pPartnerDataWriter;
 	DataWriter<GuildDataObject>* m_pGuildDataWriter;

@@ -25,10 +25,11 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL	NotifyChange();
+	BOOL NotifyChange();
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
+	BOOL DispatchPacket(NetPacket* pNetPacket);
 public:
 
 	CopyDataObject* GetCopyData(UINT32 dwCopyID);

@@ -180,6 +180,12 @@ struct StEquipInfo
 	UINT32 dwPos;
 };
 
+struct StGemInfo
+{
+	UINT32 dwGemID;		//! ID
+	UINT32 dwPos;
+};
+
 struct StPetInfo
 {
 	UINT32 dwPetID;		//! ID
@@ -206,6 +212,9 @@ struct StStoreItemInfo
 	UINT32 StoreID;		//! 商品ID
 	UINT32 ItemID;
 	UINT32 ItemNum;
+	UINT32 CostMoneyID;
+	UINT32 CostMoneyNum;
+	UINT32 StoreType;
 };
 
 struct StActivityInfo

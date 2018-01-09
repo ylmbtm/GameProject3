@@ -50,13 +50,33 @@ message DBEquipItem {
 	int32	RefineLevel = 5;   //精炼等级
 	int32	StarLevel = 6;	  //星级
 	int32	RefineExp = 7;	  //精验的经验
-	int32	StarExp = 8;		  //星级经验
+	int32	StarExp = 8;	  //星级经验
 	bool	IsUsing = 9;       //是否使用中
 }
+
+
 
 message DBEquipData {
 	repeated	DBEquipItem EquipList = 1;
 }
+
+
+message DBGemItem {
+	uint64	RoleID = 1; 		//角色ID
+	uint64	Guid = 2;
+	int32	GemID = 3;
+	int32	StrengthLvl = 4;   //强化等级
+	int32	RefineLevel = 5;   //精炼等级
+	int32	StarLevel = 6;	  //星级
+	int32	RefineExp = 7;	  //精验的经验
+	int32	StarExp = 8;		  //星级经验
+	int32	Pos = 9;        //位置
+}
+
+message DBGemData {
+	repeated	DBGemItem GemList = 1;
+}
+
 
 message DBPetItem {
 	uint64	RoleID = 1; 		//角色ID
@@ -159,13 +179,14 @@ message DBRoleLoginAck {
 	DBBagData			BagData		= 4;
 	DBCopyData			CopyData	= 5;
 	DBEquipData			EquipData	= 6;
-	DBPetData			PetData		= 7;
-	DBPartnerData		PartnerData	= 8;
-	DBTaskData			TaskData	= 9;
-	DBMailData			MailData	= 10;
-	DBMountData			MountData	= 11;
-	DBActivityData		ActivityData= 12;
-	DBCounterData		CounterData	= 13;
-	DBFriendData		FriendData	= 14;
+	DBGemData			GemData		= 7;
+	DBPetData			PetData		= 8;
+	DBPartnerData		PartnerData	= 9;
+	DBTaskData			TaskData	= 10;
+	DBMailData			MailData	= 11;
+	DBMountData			MountData	= 12;
+	DBActivityData		ActivityData= 13;
+	DBCounterData		CounterData	= 14;
+	DBFriendData		FriendData	= 15;
 }
 

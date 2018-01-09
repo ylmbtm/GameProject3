@@ -125,6 +125,7 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 	m_DBManager.GetBagData(Req.roleid(),		Ack);
 	m_DBManager.GetCopyData(Req.roleid(),		Ack);
 	m_DBManager.GetEquipData(Req.roleid(),		Ack);
+	m_DBManager.GetGemData(Req.roleid(),		Ack);
 	m_DBManager.GetPetData(Req.roleid(),		Ack);
 	m_DBManager.GetPartnerData(Req.roleid(),	Ack);
 	m_DBManager.GetTaskData(Req.roleid(),		Ack);

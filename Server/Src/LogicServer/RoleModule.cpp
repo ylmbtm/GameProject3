@@ -170,6 +170,11 @@ BOOL CRoleModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 }
 
 
+BOOL CRoleModule::DispatchPacket(NetPacket* pNetPacket)
+{
+	return FALSE;
+}
+
 BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 {
 	if ((dwActionID <= 0) || (dwActionID >= ACTION_NUM))

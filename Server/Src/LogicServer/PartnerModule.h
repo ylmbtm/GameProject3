@@ -28,6 +28,8 @@ public:
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
+
+	BOOL	DispatchPacket(NetPacket* pNetPacket);
 public:
 	UINT64 AddPartner(UINT32 dwPartnerID);
 
