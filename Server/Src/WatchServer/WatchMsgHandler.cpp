@@ -14,7 +14,7 @@
 
 CWatchMsgHandler::CWatchMsgHandler()
 {
-	m_uCheckProcessTime = 0;
+	m_uLaskTick = 0;
 
 	m_bStartWatch = true;
 }
@@ -42,6 +42,7 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_UPDATE_SVR_REQ,  OnMsgUpdateServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ,	OnMsgStartServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK,	OnMsgServerHeartAck)
@@ -53,7 +54,24 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CWatchMsgHandler::OnUpdate(UINT64 uTick)
 {
-	CheckProcessStatus(uTick);
+	if ((m_uLaskTick != 0) && (uTick - m_uLaskTick < 1000))
+	{
+		return TRUE;
+	}
+
+	m_uLaskTick = uTick;
+
+	PrintServerStatus();
+
+	if (!m_bStartWatch)
+	{
+		return TRUE;
+	}
+
+	for (INT32 nIndex = 0; nIndex < m_vtProcess.size(); nIndex++)
+	{
+		CheckProcessStatus(uTick, nIndex);
+	}
 
 	return TRUE;
 }
@@ -63,13 +81,12 @@ BOOL CWatchMsgHandler::OnNewConnect(CConnection* pConn)
 {
 	ERROR_RETURN_FALSE(pConn != nullptr);
 	INT32 connid = pConn->GetConnectionID();
-	for (std::vector<ServerProcessInfo>::iterator iter = m_vtProcessVec.begin(); iter != m_vtProcessVec.end(); ++iter)
+	for (std::vector<ServerProcessInfo>::iterator iter = m_vtProcess.begin(); iter != m_vtProcess.end(); ++iter)
 	{
 		ServerProcessInfo& serverInfo = *iter;
 		if (serverInfo.ConnID == connid)
 		{
 			serverInfo.ProscessStatus = EPS_ConnSucceed;
-			serverInfo.RecvTime = CommonFunc::GetTickCount();
 		}
 	}
 
@@ -78,22 +95,44 @@ BOOL CWatchMsgHandler::OnNewConnect(CConnection* pConn)
 
 BOOL CWatchMsgHandler::OnCloseConnect(CConnection* pConn)
 {
+	INT32 connid = pConn->GetConnectionID();
+	for (std::vector<ServerProcessInfo>::iterator iter = m_vtProcess.begin(); iter != m_vtProcess.end(); ++iter)
+	{
+		ServerProcessInfo& serverInfo = *iter;
+		if (serverInfo.ConnID == connid)
+		{
+			if (serverInfo.ProscessStatus == EPS_Start)
+			{
+				//表示还没有连接上，继续连接就行了。
+				serverInfo.ConnID = 0;
+			}
+			else if (serverInfo.ProscessStatus == EPS_ConnSucceed)
+			{
+				//表示是网络断开。
+				serverInfo.ConnID = 0;
+			}
+
+		}
+	}
+
 	return TRUE;
 }
 
-BOOL CWatchMsgHandler::KillWatchProcess()
+BOOL CWatchMsgHandler::KillAllProcess()
 {
-	for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
+	for (INT32 i = 0; i < m_vtProcess.size(); i++)
 	{
-		ServerProcessInfo& serverData = m_vtProcessVec[i];
-
+		ServerProcessInfo& serverData = m_vtProcess[i];
 		CommonFunc::KillProcess(serverData.ProcessID);
+		serverData.ProscessStatus = EPS_Init;
+		serverData.LastHeartTick = CommonFunc::GetTickCount();
+		serverData.ProcessID = 0;
 	}
 	return TRUE;
 }
 
 
-BOOL CWatchMsgHandler::OnMsUpdateServerReq(NetPacket* pNetPacket)
+BOOL CWatchMsgHandler::OnMsgUpdateServerReq(NetPacket* pNetPacket)
 {
 	/*
 	ReadConfigFile();
@@ -112,8 +151,6 @@ BOOL CWatchMsgHandler::OnMsgStartServerReq(NetPacket* pNetPacket)
 {
 	if (CanStartServer())
 	{
-		BootUpProcessList();
-
 		SetStartWatch(TRUE);
 	}
 	else
@@ -130,12 +167,12 @@ BOOL CWatchMsgHandler::OnMsgStopServerReq(NetPacket* pNetPacket)
 	if (CancloseServer())
 	{
 		SetStartWatch(FALSE);
-		for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
+		for (INT32 i = 0; i < m_vtProcess.size(); i++)
 		{
-			ServerProcessInfo& serverData = m_vtProcessVec[i];
+			ServerProcessInfo& serverData = m_vtProcess[i];
 			CommonFunc::KillProcess(serverData.ProcessID);
-			serverData.ProscessStatus = EPS_WaitStart;
-			serverData.RecvTime = CommonFunc::GetTickCount();
+			serverData.ProscessStatus = EPS_Init;
+			serverData.LastHeartTick = CommonFunc::GetTickCount();
 			serverData.ProcessID = 0;
 		}
 	}
@@ -153,10 +190,10 @@ BOOL CWatchMsgHandler::OnMsgServerHeartAck(NetPacket* pNetPacket)
 	WatchHeartBeatAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	INT32 index = Ack.data();
-	ERROR_RETURN_FALSE(index < m_vtProcessVec.size());
-	ServerProcessInfo& serverData = m_vtProcessVec[index];
+	ERROR_RETURN_FALSE(index < m_vtProcess.size());
+	ServerProcessInfo& serverData = m_vtProcess[index];
 	serverData.ProcessID = Ack.processid();
-	serverData.RecvTime = CommonFunc::GetTickCount();
+	serverData.LastHeartTick = CommonFunc::GetTickCount();
 	return TRUE;
 }
 
@@ -182,12 +219,12 @@ BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
 		if (CancloseServer())
 		{
 			SetStartWatch(FALSE);
-			for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
+			for (INT32 i = 0; i < m_vtProcess.size(); i++)
 			{
-				ServerProcessInfo& serverData = m_vtProcessVec[i];
+				ServerProcessInfo& serverData = m_vtProcess[i];
 				CommonFunc::KillProcess(serverData.ProcessID);
-				serverData.ProscessStatus = EPS_WaitStart;
-				serverData.RecvTime = CommonFunc::GetTickCount();
+				serverData.ProscessStatus = EPS_Init;
+				serverData.LastHeartTick = CommonFunc::GetTickCount();
 				serverData.ProcessID = 0;
 			}
 		}
@@ -206,14 +243,13 @@ BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
 
 BOOL CWatchMsgHandler::BootUpProcessList()
 {
-	for (std::vector<ServerProcessInfo>::iterator iter = m_vtProcessVec.begin(); iter != m_vtProcessVec.end(); iter++)
+	for (std::vector<ServerProcessInfo>::iterator iter = m_vtProcess.begin(); iter != m_vtProcess.end(); iter++)
 	{
 		ServerProcessInfo& processData = *iter;
 		processData.ProcessID = 0;
 		processData.ProscessStatus = EPS_Start;
 		processData.ConnID = 0;
-		processData.SendTime = 0;
-		processData.RecvTime = 0;
+		processData.LastHeartTick = 0;
 
 		if (system(processData.BootUpParameter.c_str()) != 0)
 		{
@@ -224,77 +260,47 @@ BOOL CWatchMsgHandler::BootUpProcessList()
 	return TRUE;
 }
 
-BOOL CWatchMsgHandler::CheckProcessStatus(UINT64 uTick)
+BOOL CWatchMsgHandler::CheckProcessStatus(UINT64 uTick, UINT32 nIndex)
 {
-	if (uTick < m_uCheckProcessTime)
+	ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
+	//如果己经连接上
+	if (serverInfo.ProscessStatus == EPS_ConnSucceed)
 	{
-		return TRUE;
+		//如果响应超时，表示服务器己经停止响应或不存在
+		if (uTick - serverInfo.LastHeartTick > 2500)
+		{
+			//先杀死
+			KillProcess(serverInfo);
+		}
+		else if(serverInfo.ConnID != 0)
+		{
+			WatchHeartBeatReq Req;
+			Req.set_data(nIndex);
+			ServiceBase::GetInstancePtr()->SendMsgProtoBuf(serverInfo.ConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
+		}
 	}
 
-	m_uCheckProcessTime = uTick + 1000;
-
-	PrintServerStatus();
-
-	if (!m_bStartWatch)
+	if (serverInfo.ProscessStatus == EPS_Init)
 	{
-		return TRUE;
+		serverInfo.ProscessStatus = EPS_Start;
+		serverInfo.LastHeartTick = uTick;
+		if (system(serverInfo.BootUpParameter.c_str()) != 0)
+		{
+			CLog::GetInstancePtr()->LogError("----重新启动失败 :%s 失败！！！！----", serverInfo.BootUpParameter.c_str());
+		}
 	}
 
-	for (INT32 nIndex = 0; nIndex < m_vtProcessVec.size(); nIndex++)
+	if (serverInfo.ProscessStatus == EPS_Start)
 	{
-		ServerProcessInfo& serverInfo = m_vtProcessVec[nIndex];
-		if (serverInfo.ProscessStatus == EPS_Start || serverInfo.ProscessStatus == EPS_Init)
+		if (uTick - serverInfo.LastHeartTick > 300000)
+		{
+			KillProcess(serverInfo);
+		}
+		else if (serverInfo.ConnID == 0)
 		{
 			CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr("127.0.0.1", serverInfo.Port);
 			ERROR_RETURN_FALSE(pConn != NULL);
 			serverInfo.ConnID = pConn->GetConnectionID();
-
-			if (serverInfo.RecvTime == 0)
-			{
-				serverInfo.RecvTime = uTick;
-			}
-
-			if (serverInfo.ProscessStatus == EPS_Start)
-			{
-				if (uTick - serverInfo.RecvTime > 300000)
-				{
-					KillProcess(serverInfo);
-				}
-			}
-			else
-			{
-				if (uTick - serverInfo.RecvTime > 1)
-				{
-					KillProcess(serverInfo);
-				}
-			}
-		}
-
-		if (serverInfo.ProscessStatus == EPS_ConnSucceed)
-		{
-			if (uTick - serverInfo.RecvTime > 2500)
-			{
-				KillProcess(serverInfo);
-			}
-			else
-			{
-				WatchHeartBeatReq Req;
-				Req.set_data(nIndex);
-				ServiceBase::GetInstancePtr()->SendMsgProtoBuf(serverInfo.ConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
-				serverInfo.SendTime = uTick;
-			}
-		}
-
-		if (serverInfo.ProscessStatus == EPS_WaitStart && uTick - serverInfo.RecvTime > 1000)
-		{
-			serverInfo.ProscessStatus = EPS_Start;
-			serverInfo.RecvTime = 0;
-			serverInfo.SendTime = 0;
-
-			if (system(serverInfo.BootUpParameter.c_str()) != 0)
-			{
-				CLog::GetInstancePtr()->LogError("----重新启动失败 :%s 失败！！！！----", serverInfo.BootUpParameter.c_str());
-			}
 		}
 	}
 
@@ -305,21 +311,23 @@ BOOL CWatchMsgHandler::KillProcess(ServerProcessInfo& processData)
 {
 	if (processData.KillAll)
 	{
-		for (INT32 i = 0; i < m_vtProcessVec.size(); i++)
+		for (INT32 i = 0; i < m_vtProcess.size(); i++)
 		{
-			ServerProcessInfo& serverData = m_vtProcessVec[i];
+			ServerProcessInfo& serverData = m_vtProcess[i];
 			CommonFunc::KillProcess(serverData.ProcessID);
-			serverData.ProscessStatus = EPS_WaitStart;
-			serverData.RecvTime = CommonFunc::GetTickCount();
+			serverData.ProscessStatus = EPS_Init;
+			serverData.LastHeartTick = CommonFunc::GetTickCount();
 			serverData.ProcessID = 0;
+			serverData.ConnID = 0;
 		}
 	}
 	else
 	{
 		CommonFunc::KillProcess(processData.ProcessID);
-		processData.ProscessStatus = EPS_WaitStart;
-		processData.RecvTime = CommonFunc::GetTickCount();
+		processData.ProscessStatus = EPS_Init;
+		processData.LastHeartTick = CommonFunc::GetTickCount();
 		processData.ProcessID = 0;
+		processData.ConnID = 0;
 	}
 	return true;
 }
@@ -353,57 +361,38 @@ BOOL CWatchMsgHandler::LoadProcessList()
 			continue;
 		}
 		ServerData.Params = std::string(pObjectNode->first_attribute("Params")->value());
-		GetProcessBootUpPar(ServerData.BootUpParameter, ServerData.serverName, ServerData.Params);
+		ServerData.BootUpParameter = "start " + ServerData.serverName + " " + ServerData.Params;
 		ServerData.Port = CommonConvert::StringToInt(pObjectNode->first_attribute("Port")->value());
 		ServerData.KillAll = CommonConvert::StringToInt(pObjectNode->first_attribute("KillAll")->value());
 		ServerData.ProcessID = 0;
 		ServerData.ProscessStatus = EPS_Init;
 		ServerData.ConnID = 0;
-		ServerData.SendTime = 0;
-		ServerData.RecvTime = 0;
-		m_vtProcessVec.push_back(ServerData);
+		ServerData.LastHeartTick = 0;
+		m_vtProcess.push_back(ServerData);
 	}
 
 	return TRUE;
 }
 
-BOOL CWatchMsgHandler::GetProcessBootUpPar(std::string& bootUpPar, std::string& servername, std::string& pars)
-{
-	if (servername == "" || servername.empty())
-	{
-		CLog::GetInstancePtr()->LogError(" processList.xml Name  为空");
-		return FALSE;
-	}
-
-	if (pars != "")
-	{
-		bootUpPar = "start " + servername + " " + pars;
-	}
-	else
-	{
-		bootUpPar = "start " + servername;
-	}
-	return TRUE;
-}
 
 void CWatchMsgHandler::PrintServerStatus()
 {
 	INT32 connCount = 0;
 	INT32 waitStartCount = 0;
-	for (auto iter : m_vtProcessVec)
+	for (auto iter : m_vtProcess)
 	{
 		switch (iter.ProscessStatus)
 		{
 			case EPS_ConnSucceed:
 				connCount++;
 				break;
-			case EPS_WaitStart:
-				waitStartCount++;
-				break;
+				//case EPS_WaitStart:
+				//	waitStartCount++;
+				//	break;
 		}
 	}
 
-	CLog::GetInstancePtr()->SetTitle(" 进程总数：%d  连接成功数： %d  等待启动数： %d", m_vtProcessVec.size(), connCount, waitStartCount);
+	CLog::GetInstancePtr()->SetTitle(" 进程总数：%d  连接成功数： %d  等待启动数： %d", m_vtProcess.size(), connCount, waitStartCount);
 }
 
 BOOL CWatchMsgHandler::GetStartWatch()
@@ -418,7 +407,7 @@ void CWatchMsgHandler::SetStartWatch(BOOL bStart)
 
 bool CWatchMsgHandler::CanStartServer()
 {
-	for (auto it : m_vtProcessVec)
+	for (auto it : m_vtProcess)
 	{
 		if (it.ProscessStatus == EPS_ConnSucceed)
 		{
@@ -430,7 +419,7 @@ bool CWatchMsgHandler::CanStartServer()
 
 bool CWatchMsgHandler::CancloseServer()
 {
-	for (auto it : m_vtProcessVec)
+	for (auto it : m_vtProcess)
 	{
 		if (it.ProcessID == 0)
 		{

@@ -17,8 +17,6 @@ public:
 
 	BOOL		Run();
 
-	void		KillWatchProcess(void);
-
 	BOOL		OnNewConnect(CConnection* pConn);
 
 	BOOL		OnCloseConnect(CConnection* pConn);
@@ -26,9 +24,6 @@ public:
 	BOOL		OnSecondTimer();
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
-
-	BOOL		AutoRun();
-
 public:
 
 	CWatchMsgHandler		m_WatchMsgHandler;

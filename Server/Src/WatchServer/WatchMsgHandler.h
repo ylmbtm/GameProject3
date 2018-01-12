@@ -6,12 +6,9 @@
 
 enum EProcessStatus
 {
-	EPS_Init,
-	EPS_Stop,
-	EPS_Start,
+	EPS_Init,  //状态也没有
+	EPS_Start, //己经执行了启动
 	EPS_ConnSucceed,
-	EPS_ConnClose,
-	EPS_WaitStart,
 };
 
 struct ServerProcessInfo
@@ -20,8 +17,7 @@ struct ServerProcessInfo
 	UINT32			ConnID;
 	INT32			Port;
 	INT32			KillAll;
-	UINT64			SendTime;
-	UINT64			RecvTime;
+	UINT64			LastHeartTick;
 	std::string		Params;
 	std::string		serverName;
 	std::string		BootUpParameter;
@@ -46,12 +42,9 @@ public:
 	BOOL		OnNewConnect(CConnection* pConn);
 
 	BOOL		OnCloseConnect(CConnection* pConn);
-
-	BOOL        KillWatchProcess();
-
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsUpdateServerReq(NetPacket* pNetPacket);  //更新服务器
+	BOOL OnMsgUpdateServerReq(NetPacket* pNetPacket);  //更新服务器
 	BOOL OnMsgStartServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgStopServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgServerHeartAck(NetPacket* pNetPacket);
@@ -63,13 +56,13 @@ protected:
 
 	BOOL BootUpProcessList();
 
-	BOOL CheckProcessStatus(UINT64 uTick);
+	BOOL CheckProcessStatus(UINT64 uTick, UINT32 nIndex);
 
 	BOOL KillProcess(ServerProcessInfo& processData);
 
-	BOOL LoadProcessList();
+	BOOL KillAllProcess();
 
-	BOOL GetProcessBootUpPar(std::string& bootUpPar, std::string& servername, std::string& pars);
+	BOOL LoadProcessList();
 
 	void PrintServerStatus();
 
@@ -83,9 +76,9 @@ protected:
 
 private:
 
-	std::vector<ServerProcessInfo> m_vtProcessVec;
+	std::vector<ServerProcessInfo> m_vtProcess;
 
-	UINT64 m_uCheckProcessTime;
+	UINT64 m_uLaskTick;
 
 	BOOL m_bStartWatch;
 };
