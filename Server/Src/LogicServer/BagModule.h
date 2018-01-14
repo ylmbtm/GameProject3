@@ -31,14 +31,14 @@ public:
 
 	BOOL	DispatchPacket(NetPacket* pNetPacket);
 public:
-	BOOL	AddItem(UINT32 dwItemID, INT32 nCount);
-	BOOL	RemoveItem(UINT32 dwItemID, INT32 nCount);
-	INT32	GetItemCount(UINT32 dwItemID);
+	BOOL	AddItem(UINT32 dwItemID, INT64 nCount);
+	BOOL	RemoveItem(UINT32 dwItemID, INT64 nCount);
+	INT64	GetItemCount(UINT32 dwItemID);
 
-	BOOL	AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount);
+	BOOL	AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount);
 	BOOL	RemoveItem(UINT64 uGuid);
 
-	BOOL    SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount);
+	BOOL    SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount);
 
 	BagDataObject* GetItemByGuid(UINT64 uGuid);
 

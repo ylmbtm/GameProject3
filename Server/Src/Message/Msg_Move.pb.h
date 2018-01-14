@@ -1216,6 +1216,18 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // repeated int32 Equips = 18;
+  int equips_size() const;
+  void clear_equips();
+  static const int kEquipsFieldNumber = 18;
+  ::google::protobuf::int32 equips(int index) const;
+  void set_equips(int index, ::google::protobuf::int32 value);
+  void add_equips(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      equips() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_equips();
+
   // uint64 ObjectGuid = 1;
   void clear_objectguid();
   static const int kObjectGuidFieldNumber = 1;
@@ -1322,6 +1334,8 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
+  mutable int _equips_cached_byte_size_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 actionid_;
   ::google::protobuf::int32 camp_;
@@ -1426,6 +1440,18 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+
+  // repeated int32 Equips = 21;
+  int equips_size() const;
+  void clear_equips();
+  static const int kEquipsFieldNumber = 21;
+  ::google::protobuf::int32 equips(int index) const;
+  void set_equips(int index, ::google::protobuf::int32 value);
+  void add_equips(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      equips() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_equips();
 
   // string Name = 8;
   void clear_name();
@@ -1555,16 +1581,12 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
-  // int32 Weapon = 21;
-  void clear_weapon();
-  static const int kWeaponFieldNumber = 21;
-  ::google::protobuf::int32 weapon() const;
-  void set_weapon(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:NewItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
+  mutable int _equips_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 objtype_;
@@ -1585,7 +1607,6 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
   ::google::protobuf::int32 mpmax_;
-  ::google::protobuf::int32 weapon_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsNewItemImpl();
@@ -3174,6 +3195,36 @@ inline void ActionNtyItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.MpMax)
 }
 
+// repeated int32 Equips = 18;
+inline int ActionNtyItem::equips_size() const {
+  return equips_.size();
+}
+inline void ActionNtyItem::clear_equips() {
+  equips_.Clear();
+}
+inline ::google::protobuf::int32 ActionNtyItem::equips(int index) const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.Equips)
+  return equips_.Get(index);
+}
+inline void ActionNtyItem::set_equips(int index, ::google::protobuf::int32 value) {
+  equips_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ActionNtyItem.Equips)
+}
+inline void ActionNtyItem::add_equips(::google::protobuf::int32 value) {
+  equips_.Add(value);
+  // @@protoc_insertion_point(field_add:ActionNtyItem.Equips)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+ActionNtyItem::equips() const {
+  // @@protoc_insertion_point(field_list:ActionNtyItem.Equips)
+  return equips_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+ActionNtyItem::mutable_equips() {
+  // @@protoc_insertion_point(field_mutable_list:ActionNtyItem.Equips)
+  return &equips_;
+}
+
 // -------------------------------------------------------------------
 
 // NewItem
@@ -3497,18 +3548,34 @@ inline void NewItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.MpMax)
 }
 
-// int32 Weapon = 21;
-inline void NewItem::clear_weapon() {
-  weapon_ = 0;
+// repeated int32 Equips = 21;
+inline int NewItem::equips_size() const {
+  return equips_.size();
 }
-inline ::google::protobuf::int32 NewItem::weapon() const {
-  // @@protoc_insertion_point(field_get:NewItem.Weapon)
-  return weapon_;
+inline void NewItem::clear_equips() {
+  equips_.Clear();
 }
-inline void NewItem::set_weapon(::google::protobuf::int32 value) {
-  
-  weapon_ = value;
-  // @@protoc_insertion_point(field_set:NewItem.Weapon)
+inline ::google::protobuf::int32 NewItem::equips(int index) const {
+  // @@protoc_insertion_point(field_get:NewItem.Equips)
+  return equips_.Get(index);
+}
+inline void NewItem::set_equips(int index, ::google::protobuf::int32 value) {
+  equips_.Set(index, value);
+  // @@protoc_insertion_point(field_set:NewItem.Equips)
+}
+inline void NewItem::add_equips(::google::protobuf::int32 value) {
+  equips_.Add(value);
+  // @@protoc_insertion_point(field_add:NewItem.Equips)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+NewItem::equips() const {
+  // @@protoc_insertion_point(field_list:NewItem.Equips)
+  return equips_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+NewItem::mutable_equips() {
+  // @@protoc_insertion_point(field_mutable_list:NewItem.Equips)
+  return &equips_;
 }
 
 // -------------------------------------------------------------------

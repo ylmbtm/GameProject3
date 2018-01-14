@@ -305,7 +305,7 @@ BOOL CGemModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 {
 	INT32 nMinStengthLevel = 10000;
 	INT32 nMinRefineLevel = 1000;
-	for (int i  = 0; i < EEP_MAX; i++)
+	for (int i  = 0; i < EQUIP_MAX_NUM; i++)
 	{
 		if(m_vtDressGem[i] == NULL)
 		{

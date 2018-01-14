@@ -34,6 +34,8 @@
 
 #define ROLE_NAME_LEN		255
 
+#define EQUIP_MAX_NUM	    8
+
 //副本战斗结果
 enum ECopyResult
 {

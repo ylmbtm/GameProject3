@@ -111,13 +111,15 @@ BOOL CBagModule::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
-BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
+BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 {
+	ERROR_RETURN_FALSE(dwItemID != 0);
+	ERROR_RETURN_FALSE(nCount != 0);
 	StItemInfo* pItemInfo = CConfigData::GetInstancePtr()->GetItemInfo(dwItemID);
 	ERROR_RETURN_FALSE(pItemInfo != NULL);
 
 	UINT64 uItemGuid = 0;
-	INT32  nTempCount = nCount;
+	INT64  nTempCount = nCount;
 	switch(pItemInfo->dwItemType)
 	{
 		case EIT_EQUIP:
@@ -171,7 +173,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 				{
 					continue;
 				}
-				INT32 nCanAdd = pItemInfo->StackMax - pTempObject->m_nCount;
+				INT64 nCanAdd = pItemInfo->StackMax - pTempObject->m_nCount;
 				if( nCanAdd <= 0)
 				{
 					continue;
@@ -219,8 +221,11 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT32 nCount)
 	return TRUE;
 }
 
-BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount)
+BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount)
 {
+	ERROR_RETURN_FALSE(dwItemID != 0);
+	ERROR_RETURN_FALSE(uItemGuid != 0);
+	ERROR_RETURN_FALSE(nCount != 0);
 	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
 	ERROR_RETURN_FALSE(pObject != NULL);
 	pObject->lock();
@@ -235,9 +240,10 @@ BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount)
 	return TRUE;
 }
 
-BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT32 nCount)
+BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT64 nCount)
 {
-	INT32 nLeftCount = nCount;
+	ERROR_RETURN_FALSE(dwItemID != 0);
+	INT64 nLeftCount = nCount;
 	for(auto itor = m_mapBagData.begin(); itor != m_mapBagData.end(); )
 	{
 		if(nLeftCount <= 0)
@@ -277,6 +283,7 @@ BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT32 nCount)
 
 BOOL CBagModule::RemoveItem(UINT64 uGuid)
 {
+	ERROR_RETURN_FALSE(uGuid != 0);
 	auto itor = m_mapBagData.find(uGuid);
 	if (itor != m_mapBagData.end())
 	{
@@ -289,8 +296,10 @@ BOOL CBagModule::RemoveItem(UINT64 uGuid)
 	return TRUE;
 }
 
-BOOL CBagModule::SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT32 nCount)
+BOOL CBagModule::SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount)
 {
+	ERROR_RETURN_FALSE(uGuid != 0);
+	ERROR_RETURN_FALSE(uItemGuid != 0);
 	auto itor = m_mapBagData.find(uGuid);
 	if (itor != m_mapBagData.end())
 	{
@@ -307,9 +316,9 @@ BOOL CBagModule::SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT
 	return FALSE;
 }
 
-INT32 CBagModule::GetItemCount(UINT32 dwItemID)
+INT64 CBagModule::GetItemCount(UINT32 dwItemID)
 {
-	INT32 nTotalCount = 0;
+	INT64 nTotalCount = 0;
 
 	for(auto itor = m_mapBagData.begin(); itor != m_mapBagData.end(); itor++)
 	{

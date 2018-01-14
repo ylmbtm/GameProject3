@@ -244,17 +244,17 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint64 itemguid() const;
   void set_itemguid(::google::protobuf::uint64 value);
 
+  // int64 ItemNum = 4;
+  void clear_itemnum();
+  static const int kItemNumFieldNumber = 4;
+  ::google::protobuf::int64 itemnum() const;
+  void set_itemnum(::google::protobuf::int64 value);
+
   // int32 ItemID = 3;
   void clear_itemid();
   static const int kItemIDFieldNumber = 3;
   ::google::protobuf::int32 itemid() const;
   void set_itemid(::google::protobuf::int32 value);
-
-  // int32 ItemNum = 4;
-  void clear_itemnum();
-  static const int kItemNumFieldNumber = 4;
-  ::google::protobuf::int32 itemnum() const;
-  void set_itemnum(::google::protobuf::int32 value);
 
   // bool Bind = 5;
   void clear_bind();
@@ -268,8 +268,8 @@ class BagItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::uint64 itemguid_;
+  ::google::protobuf::int64 itemnum_;
   ::google::protobuf::int32 itemid_;
-  ::google::protobuf::int32 itemnum_;
   bool bind_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
@@ -2527,15 +2527,15 @@ inline void BagItem::set_itemid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BagItem.ItemID)
 }
 
-// int32 ItemNum = 4;
+// int64 ItemNum = 4;
 inline void BagItem::clear_itemnum() {
-  itemnum_ = 0;
+  itemnum_ = GOOGLE_LONGLONG(0);
 }
-inline ::google::protobuf::int32 BagItem::itemnum() const {
+inline ::google::protobuf::int64 BagItem::itemnum() const {
   // @@protoc_insertion_point(field_get:BagItem.ItemNum)
   return itemnum_;
 }
-inline void BagItem::set_itemnum(::google::protobuf::int32 value) {
+inline void BagItem::set_itemnum(::google::protobuf::int64 value) {
   
   itemnum_ = value;
   // @@protoc_insertion_point(field_set:BagItem.ItemNum)

@@ -196,10 +196,10 @@ BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		DBPetItem* pItem = pData->add_petlist();
 		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
 		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
-		pItem->set_petid(QueryRes.getInt64Field("petid", 0));
-		pItem->set_refinelevel(QueryRes.getInt64Field("refinelvl", 0));
-		pItem->set_strengthlvl(QueryRes.getInt64Field("strengthlvl", 0));
-		pItem->set_starlevel(QueryRes.getInt64Field("starlvl", 0));
+		pItem->set_petid(QueryRes.getIntField("petid", 0));
+		pItem->set_refinelevel(QueryRes.getIntField("refinelvl", 0));
+		pItem->set_strengthlvl(QueryRes.getIntField("strengthlvl", 0));
+		pItem->set_starlevel(QueryRes.getIntField("starlvl", 0));
 		pItem->set_isusing(QueryRes.getIntField("isuse", 0));
 		QueryRes.nextRow();
 	}

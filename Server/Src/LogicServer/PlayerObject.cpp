@@ -323,17 +323,37 @@ BOOL CPlayerObject::SendRoleLoginAck()
 BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
-	Req.mutable_roledata()->set_roleid(m_u64ID);
-	Req.mutable_roledata()->set_carrerid(pModule->m_pRoleDataObject->m_CarrerID);
-	Req.mutable_roledata()->set_actorid(pModule->GetActorID());
-	Req.mutable_roledata()->set_level(pModule->m_pRoleDataObject->m_Level);
-	Req.mutable_roledata()->set_name(pModule->m_pRoleDataObject->m_szName);
+
+	TransRoleData* pRoleData = Req.mutable_roledata();
+	ERROR_RETURN_FALSE(pRoleData != NULL);
+
+
+	pRoleData->set_roleid(m_u64ID);
+	pRoleData->set_carrerid(pModule->m_pRoleDataObject->m_CarrerID);
+	pRoleData->set_actorid(pModule->GetActorID());
+	pRoleData->set_level(pModule->m_pRoleDataObject->m_Level);
+	pRoleData->set_name(pModule->m_pRoleDataObject->m_szName);
 
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
-		Req.mutable_roledata()->add_propertys(m_Propertys[i]);
+		pRoleData->add_propertys(m_Propertys[i]);
 	}
 
+	CEquipModule* pEquipModule = (CEquipModule*)GetModuleByType(MT_EQUIP);
+	ERROR_RETURN_FALSE(pEquipModule != NULL);
+
+	for (int i = 0; i < EQUIP_MAX_NUM; i++)
+	{
+		EquipDataObject* pEquip = pEquipModule->m_vtDressEquip[i];
+		if (pEquip == NULL)
+		{
+			pRoleData->add_equips(0);
+		}
+		else
+		{
+			pRoleData->add_equips(pEquip->m_EquipID);
+		}
+	}
 
 	//CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
 

@@ -22,7 +22,7 @@ struct BagDataObject : public ShareObject
 	UINT64	m_uRoleID;		//角色ID
 	UINT64	m_ItemGuid;		//物品guid
 	UINT32	m_ItemID;		//道具ID
-	UINT32	m_nCount;		//个数
+	INT64	m_nCount;		//个数
 	BOOL	m_bBind;		//是否是邦定
 	UINT32	m_nStatus;		//是否删除
 
@@ -34,7 +34,7 @@ struct BagDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_ItemGuid);
 		csp.set_int32(3,  m_ItemID);
-		csp.set_int32(4,  m_nCount);
+		csp.set_int64(4,  m_nCount);
 		csp.set_int32(5,  m_nStatus);
 		pDB->Execute(&csp);
 		return TRUE;
@@ -48,7 +48,7 @@ struct BagDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_ItemGuid);
 		csp.set_int32(3, m_ItemID);
-		csp.set_int32(4, m_nCount);
+		csp.set_int64(4, m_nCount);
 		csp.set_int32(5, m_nStatus);
 		pDB->Execute(&csp);
 

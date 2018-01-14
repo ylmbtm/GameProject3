@@ -50,7 +50,7 @@ public:
 
 public:
 	std::map<UINT64, EquipDataObject*>m_mapEquipData;
-	EquipDataObject* m_vtDressEquip[EEP_MAX];
+	EquipDataObject* m_vtDressEquip[EQUIP_MAX_NUM];
 
 	std::set<UINT64> m_setChange;
 	std::set<UINT64> m_setRemove;

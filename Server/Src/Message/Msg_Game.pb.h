@@ -4094,6 +4094,18 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // repeated int32 Equips = 17;
+  int equips_size() const;
+  void clear_equips();
+  static const int kEquipsFieldNumber = 17;
+  ::google::protobuf::int32 equips(int index) const;
+  void set_equips(int index, ::google::protobuf::int32 value);
+  void add_equips(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      equips() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_equips();
+
   // string RoleName = 7;
   void clear_rolename();
   static const int kRoleNameFieldNumber = 7;
@@ -4150,64 +4162,60 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 camp() const;
   void set_camp(::google::protobuf::int32 value);
 
-  // float x = 9;
+  // float X = 9;
   void clear_x();
   static const int kXFieldNumber = 9;
   float x() const;
   void set_x(float value);
 
-  // float y = 10;
+  // float Y = 10;
   void clear_y();
   static const int kYFieldNumber = 10;
   float y() const;
   void set_y(float value);
 
-  // float z = 11;
+  // float Z = 11;
   void clear_z();
   static const int kZFieldNumber = 11;
   float z() const;
   void set_z(float value);
 
-  // float ft = 12;
+  // float Ft = 12;
   void clear_ft();
   static const int kFtFieldNumber = 12;
   float ft() const;
   void set_ft(float value);
 
-  // int32 hp = 13;
+  // int32 Hp = 13;
   void clear_hp();
   static const int kHpFieldNumber = 13;
   ::google::protobuf::int32 hp() const;
   void set_hp(::google::protobuf::int32 value);
 
-  // int32 mp = 14;
+  // int32 Mp = 14;
   void clear_mp();
   static const int kMpFieldNumber = 14;
   ::google::protobuf::int32 mp() const;
   void set_mp(::google::protobuf::int32 value);
 
-  // int32 hpmax = 15;
+  // int32 HpMax = 15;
   void clear_hpmax();
-  static const int kHpmaxFieldNumber = 15;
+  static const int kHpMaxFieldNumber = 15;
   ::google::protobuf::int32 hpmax() const;
   void set_hpmax(::google::protobuf::int32 value);
 
-  // int32 mpmax = 16;
+  // int32 MpMax = 16;
   void clear_mpmax();
-  static const int kMpmaxFieldNumber = 16;
+  static const int kMpMaxFieldNumber = 16;
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
-
-  // int32 weapon = 17;
-  void clear_weapon();
-  static const int kWeaponFieldNumber = 17;
-  ::google::protobuf::int32 weapon() const;
-  void set_weapon(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:EnterSceneAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
+  mutable int _equips_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint32 retcode_;
   ::google::protobuf::int32 copyid_;
@@ -4224,7 +4232,6 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
   ::google::protobuf::int32 mpmax_;
-  ::google::protobuf::int32 weapon_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsEnterSceneAckImpl();
@@ -4928,10 +4935,22 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 Propertys = 6;
+  // repeated int32 Equips = 6;
+  int equips_size() const;
+  void clear_equips();
+  static const int kEquipsFieldNumber = 6;
+  ::google::protobuf::int32 equips(int index) const;
+  void set_equips(int index, ::google::protobuf::int32 value);
+  void add_equips(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      equips() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_equips();
+
+  // repeated int32 Propertys = 7;
   int propertys_size() const;
   void clear_propertys();
-  static const int kPropertysFieldNumber = 6;
+  static const int kPropertysFieldNumber = 7;
   ::google::protobuf::int32 propertys(int index) const;
   void set_propertys(int index, ::google::protobuf::int32 value);
   void add_propertys(::google::protobuf::int32 value);
@@ -4982,6 +5001,8 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
+  mutable int _equips_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
@@ -11132,130 +11153,146 @@ inline void EnterSceneAck::set_camp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:EnterSceneAck.Camp)
 }
 
-// float x = 9;
+// float X = 9;
 inline void EnterSceneAck::clear_x() {
   x_ = 0;
 }
 inline float EnterSceneAck::x() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.x)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.X)
   return x_;
 }
 inline void EnterSceneAck::set_x(float value) {
   
   x_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.x)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.X)
 }
 
-// float y = 10;
+// float Y = 10;
 inline void EnterSceneAck::clear_y() {
   y_ = 0;
 }
 inline float EnterSceneAck::y() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.y)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Y)
   return y_;
 }
 inline void EnterSceneAck::set_y(float value) {
   
   y_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.y)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Y)
 }
 
-// float z = 11;
+// float Z = 11;
 inline void EnterSceneAck::clear_z() {
   z_ = 0;
 }
 inline float EnterSceneAck::z() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.z)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Z)
   return z_;
 }
 inline void EnterSceneAck::set_z(float value) {
   
   z_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.z)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Z)
 }
 
-// float ft = 12;
+// float Ft = 12;
 inline void EnterSceneAck::clear_ft() {
   ft_ = 0;
 }
 inline float EnterSceneAck::ft() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.ft)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Ft)
   return ft_;
 }
 inline void EnterSceneAck::set_ft(float value) {
   
   ft_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.ft)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Ft)
 }
 
-// int32 hp = 13;
+// int32 Hp = 13;
 inline void EnterSceneAck::clear_hp() {
   hp_ = 0;
 }
 inline ::google::protobuf::int32 EnterSceneAck::hp() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.hp)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Hp)
   return hp_;
 }
 inline void EnterSceneAck::set_hp(::google::protobuf::int32 value) {
   
   hp_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.hp)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Hp)
 }
 
-// int32 mp = 14;
+// int32 Mp = 14;
 inline void EnterSceneAck::clear_mp() {
   mp_ = 0;
 }
 inline ::google::protobuf::int32 EnterSceneAck::mp() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.mp)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Mp)
   return mp_;
 }
 inline void EnterSceneAck::set_mp(::google::protobuf::int32 value) {
   
   mp_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.mp)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Mp)
 }
 
-// int32 hpmax = 15;
+// int32 HpMax = 15;
 inline void EnterSceneAck::clear_hpmax() {
   hpmax_ = 0;
 }
 inline ::google::protobuf::int32 EnterSceneAck::hpmax() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.hpmax)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.HpMax)
   return hpmax_;
 }
 inline void EnterSceneAck::set_hpmax(::google::protobuf::int32 value) {
   
   hpmax_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.hpmax)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.HpMax)
 }
 
-// int32 mpmax = 16;
+// int32 MpMax = 16;
 inline void EnterSceneAck::clear_mpmax() {
   mpmax_ = 0;
 }
 inline ::google::protobuf::int32 EnterSceneAck::mpmax() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.mpmax)
+  // @@protoc_insertion_point(field_get:EnterSceneAck.MpMax)
   return mpmax_;
 }
 inline void EnterSceneAck::set_mpmax(::google::protobuf::int32 value) {
   
   mpmax_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.mpmax)
+  // @@protoc_insertion_point(field_set:EnterSceneAck.MpMax)
 }
 
-// int32 weapon = 17;
-inline void EnterSceneAck::clear_weapon() {
-  weapon_ = 0;
+// repeated int32 Equips = 17;
+inline int EnterSceneAck::equips_size() const {
+  return equips_.size();
 }
-inline ::google::protobuf::int32 EnterSceneAck::weapon() const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.weapon)
-  return weapon_;
+inline void EnterSceneAck::clear_equips() {
+  equips_.Clear();
 }
-inline void EnterSceneAck::set_weapon(::google::protobuf::int32 value) {
-  
-  weapon_ = value;
-  // @@protoc_insertion_point(field_set:EnterSceneAck.weapon)
+inline ::google::protobuf::int32 EnterSceneAck::equips(int index) const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Equips)
+  return equips_.Get(index);
+}
+inline void EnterSceneAck::set_equips(int index, ::google::protobuf::int32 value) {
+  equips_.Set(index, value);
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Equips)
+}
+inline void EnterSceneAck::add_equips(::google::protobuf::int32 value) {
+  equips_.Add(value);
+  // @@protoc_insertion_point(field_add:EnterSceneAck.Equips)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+EnterSceneAck::equips() const {
+  // @@protoc_insertion_point(field_list:EnterSceneAck.Equips)
+  return equips_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+EnterSceneAck::mutable_equips() {
+  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Equips)
+  return &equips_;
 }
 
 // -------------------------------------------------------------------
@@ -11521,7 +11558,37 @@ inline void TransRoleData::set_level(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:TransRoleData.Level)
 }
 
-// repeated int32 Propertys = 6;
+// repeated int32 Equips = 6;
+inline int TransRoleData::equips_size() const {
+  return equips_.size();
+}
+inline void TransRoleData::clear_equips() {
+  equips_.Clear();
+}
+inline ::google::protobuf::int32 TransRoleData::equips(int index) const {
+  // @@protoc_insertion_point(field_get:TransRoleData.Equips)
+  return equips_.Get(index);
+}
+inline void TransRoleData::set_equips(int index, ::google::protobuf::int32 value) {
+  equips_.Set(index, value);
+  // @@protoc_insertion_point(field_set:TransRoleData.Equips)
+}
+inline void TransRoleData::add_equips(::google::protobuf::int32 value) {
+  equips_.Add(value);
+  // @@protoc_insertion_point(field_add:TransRoleData.Equips)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+TransRoleData::equips() const {
+  // @@protoc_insertion_point(field_list:TransRoleData.Equips)
+  return equips_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+TransRoleData::mutable_equips() {
+  // @@protoc_insertion_point(field_mutable_list:TransRoleData.Equips)
+  return &equips_;
+}
+
+// repeated int32 Propertys = 7;
 inline int TransRoleData::propertys_size() const {
   return propertys_.size();
 }

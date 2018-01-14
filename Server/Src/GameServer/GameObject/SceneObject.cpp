@@ -24,7 +24,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 	m_dwCamp			= 0;
 	m_bDataChange		= FALSE;
 	m_uLastMoveTick		= 0;
-
+	memset(m_Equips, 0, sizeof(m_Equips));
 	memset(m_Propertys, 0, sizeof(m_Propertys));
 	m_SkillObject.SetCastObject(this);
 }
@@ -162,6 +162,11 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);
 	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	for (int i = 0; i < EQUIP_MAX_NUM; i++)
+	{
+		pItem->add_equips(m_Equips[i]);
+	}
+
 	m_bDataChange = FALSE;
 	return TRUE;
 }
@@ -184,6 +189,10 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);
 	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	for (int i = 0; i < EQUIP_MAX_NUM; i++)
+	{
+		pItem->add_equips(m_Equips[i]);
+	}
 	m_bDataChange = FALSE;
 	return TRUE;
 }

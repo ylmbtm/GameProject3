@@ -389,13 +389,12 @@ enum EEQUIPPOS {
   EEP_RING = 6,
   EEP_TALISMAN = 7,
   EEP_WEAPON = 8,
-  EEP_MAX = 9,
   EEQUIPPOS_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EEQUIPPOS_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EEQUIPPOS_IsValid(int value);
 const EEQUIPPOS EEQUIPPOS_MIN = EEP_NONE;
-const EEQUIPPOS EEQUIPPOS_MAX = EEP_MAX;
+const EEQUIPPOS EEQUIPPOS_MAX = EEP_WEAPON;
 const int EEQUIPPOS_ARRAYSIZE = EEQUIPPOS_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EEQUIPPOS_descriptor();

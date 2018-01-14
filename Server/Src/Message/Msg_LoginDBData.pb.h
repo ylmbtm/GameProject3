@@ -530,17 +530,17 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 itemguid() const;
   void set_itemguid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 4;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 4;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
-
-  // int32 Count = 5;
+  // int64 Count = 5;
   void clear_count();
   static const int kCountFieldNumber = 5;
-  ::google::protobuf::int32 count() const;
-  void set_count(::google::protobuf::int32 value);
+  ::google::protobuf::int64 count() const;
+  void set_count(::google::protobuf::int64 value);
+
+  // uint32 ItemID = 4;
+  void clear_itemid();
+  static const int kItemIDFieldNumber = 4;
+  ::google::protobuf::uint32 itemid() const;
+  void set_itemid(::google::protobuf::uint32 value);
 
   // int32 Bind = 6;
   void clear_bind();
@@ -561,8 +561,8 @@ class DBBagItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 guid_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint64 itemguid_;
-  ::google::protobuf::int32 itemid_;
-  ::google::protobuf::int32 count_;
+  ::google::protobuf::int64 count_;
+  ::google::protobuf::uint32 itemid_;
   ::google::protobuf::int32 bind_;
   ::google::protobuf::int32 status_;
   mutable int _cached_size_;
@@ -3808,29 +3808,29 @@ inline void DBBagItem::set_itemguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:DBBagItem.ItemGuid)
 }
 
-// int32 ItemID = 4;
+// uint32 ItemID = 4;
 inline void DBBagItem::clear_itemid() {
-  itemid_ = 0;
+  itemid_ = 0u;
 }
-inline ::google::protobuf::int32 DBBagItem::itemid() const {
+inline ::google::protobuf::uint32 DBBagItem::itemid() const {
   // @@protoc_insertion_point(field_get:DBBagItem.ItemID)
   return itemid_;
 }
-inline void DBBagItem::set_itemid(::google::protobuf::int32 value) {
+inline void DBBagItem::set_itemid(::google::protobuf::uint32 value) {
   
   itemid_ = value;
   // @@protoc_insertion_point(field_set:DBBagItem.ItemID)
 }
 
-// int32 Count = 5;
+// int64 Count = 5;
 inline void DBBagItem::clear_count() {
-  count_ = 0;
+  count_ = GOOGLE_LONGLONG(0);
 }
-inline ::google::protobuf::int32 DBBagItem::count() const {
+inline ::google::protobuf::int64 DBBagItem::count() const {
   // @@protoc_insertion_point(field_get:DBBagItem.Count)
   return count_;
 }
-inline void DBBagItem::set_count(::google::protobuf::int32 value) {
+inline void DBBagItem::set_count(::google::protobuf::int64 value) {
   
   count_ = value;
   // @@protoc_insertion_point(field_set:DBBagItem.Count)

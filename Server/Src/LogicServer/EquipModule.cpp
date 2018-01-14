@@ -13,7 +13,7 @@
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-	for(int i = 0; i < EEP_MAX; i++)
+	for(int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
 		m_vtDressEquip[i] = NULL;
 	}
@@ -21,7 +21,7 @@ CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 
 CEquipModule::~CEquipModule()
 {
-	for(int i = 0; i < EEP_MAX; i++)
+	for(int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
 		m_vtDressEquip[i] = NULL;
 	}
@@ -269,7 +269,7 @@ BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 {
 	INT32 nMinStengthLevel = 10000;
 	INT32 nMinRefineLevel = 1000;
-	for (int i  = 0; i < EEP_MAX; i++)
+	for (int i  = 0; i < EQUIP_MAX_NUM; i++)
 	{
 		if(m_vtDressEquip[i] == NULL)
 		{

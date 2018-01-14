@@ -417,7 +417,6 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 		return FALSE;
 	}
 
-
 	/*if(m_nCheckNo == 0)
 	{
 	m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;

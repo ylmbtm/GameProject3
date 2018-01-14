@@ -493,6 +493,11 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	Ack.set_z(pSceneObj->m_Pos.m_z);
 	Ack.set_ft(0);
 
+	for (int i = 0; i < EQUIP_MAX_NUM; i++)
+	{
+		Ack.add_equips(pSceneObj->m_Equips[i]);
+	}
+
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
 	m_dwStartTime = CommonFunc::GetCurrTime();
@@ -950,6 +955,12 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 	pObject->m_dwActorID = roleData.actorid();
 	pObject->m_strName = roleData.name();
 	pObject->m_dwLevel = roleData.level();
+
+	for (int i = 0; i < roleData.equips_size(); i++)
+	{
+		pObject->m_Equips[i] = roleData.equips(i);
+	}
+
 	for(int i = 0; i < roleData.propertys_size(); i++)
 	{
 		pObject->m_Propertys[i] = roleData.propertys(i);
