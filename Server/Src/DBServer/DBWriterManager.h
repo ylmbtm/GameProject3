@@ -43,6 +43,7 @@ public:
 	DataWriter<GlobalDataObject>* m_pGlobalDataWriter;
 	DataWriter<BagDataObject>* m_pBagDataWriter;
 	DataWriter<CopyDataObject>* m_pCopyDataWriter;
+	DataWriter<ChapterDataObject>* m_pChapterDataWriter;
 	DataWriter<EquipDataObject>* m_pEquipDataWriter;
 	DataWriter<GemDataObject>* m_pGemDataWriter;
 	DataWriter<PetDataObject>* m_pPetDataWriter;

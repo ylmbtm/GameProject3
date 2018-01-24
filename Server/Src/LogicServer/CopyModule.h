@@ -3,6 +3,7 @@
 #include "ModuleBase.h"
 
 struct CopyDataObject;
+struct ChapterDataObject;
 class CCopyModule : public CModuleBase
 {
 public:
@@ -33,9 +34,11 @@ public:
 public:
 
 	CopyDataObject* GetCopyData(UINT32 dwCopyID);
+	ChapterDataObject* GetChapter(UINT32 dwChapter, UINT32 dwCopyType);
 
 public:
 	std::map<UINT32, CopyDataObject*>m_mapCopyData;
+	std::map<UINT32, ChapterDataObject*>m_mapChapterData;
 };
 
 #endif //__ROLE_MODULE_H__

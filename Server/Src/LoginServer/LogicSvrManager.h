@@ -16,12 +16,15 @@ struct LogicServerNode
 {
 	LogicServerNode()
 	{
-		m_dwConnID = 0;
-		m_dwServerID = 0;
-		m_dwPort = 0;
-		m_Statue = ESS_GOOD;
-		m_Flag = 0;
-		m_bDelete = FALSE;
+		m_dwConnID		= 0;
+		m_dwServerID	= 0;
+		m_dwPort		= 0;
+		m_dwHttpPort	= 0;
+		m_dwWatchPort	= 0;
+		m_Statue		= ESS_GOOD;
+		m_Flag			= 0;
+		m_bDelete		= FALSE;
+		m_uLastUpdate	= 0;
 	}
 
 	BOOL CheckIP(UINT32 dwIPaddr);
@@ -33,11 +36,14 @@ struct LogicServerNode
 	UINT32		m_dwConnID;   //连接ID
 	UINT32		m_dwServerID;
 	UINT32		m_dwPort;   ///端口号
+	UINT32      m_dwHttpPort;
+	UINT32      m_dwWatchPort;
 	UINT32		m_Statue;
 	UINT32		m_Flag;
 	UINT32		m_dwCheckVersion;
 	std::string m_strSvrName;
 	std::string m_strIpAddr;
+	UINT64		m_uLastUpdate;
 
 	std::set<std::string> m_CheckIpList;
 	std::set<INT32>       m_CheckChannelList; //可以看见的渠道
@@ -56,7 +62,7 @@ public:
 
 	BOOL	Uninit();
 
-	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, std::string strSvrName);
+	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName);
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 

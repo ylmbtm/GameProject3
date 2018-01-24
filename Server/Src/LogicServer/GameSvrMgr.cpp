@@ -188,7 +188,7 @@ BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket* pNetPacket)
 	return TRUE;
 	for(int i = 0; i < Req.copylist_size(); i++)
 	{
-		const CopyItem& item = Req.copylist(i);
+		const CopyInsItem& item = Req.copylist(i);
 		m_mapCity.insert(std::make_pair(item.copyid(), CityInfo(item.copyid(), item.serverid(), pNetPacket->m_dwConnID, item.copyguid())));
 	}
 

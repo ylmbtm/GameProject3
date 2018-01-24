@@ -254,7 +254,7 @@ UINT64 CRoleModule::GetAction(UINT32 dwActionID)
 	return m_pRoleDataObject->m_Action[dwActionID - 1];
 }
 
-UINT64 CRoleModule::AddAction(UINT32 dwActionID, INT32 nActionNum)
+UINT64 CRoleModule::AddAction(UINT32 dwActionID, INT64 nActionNum)
 {
 	if ((dwActionID <= 0) || (dwActionID > ACTION_NUM))
 	{

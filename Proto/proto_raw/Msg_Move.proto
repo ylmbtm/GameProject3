@@ -84,6 +84,7 @@ message ActionNtyItem {
 	int32	Mp			= 15;
 	int32	HpMax		= 16;
 	int32	MpMax		= 17;
+	repeated int32	Equips		= 18; 		//装备
 }
 
 message NewItem {
@@ -107,7 +108,7 @@ message NewItem {
 	int32	Mp			= 18;
 	int32	HpMax		= 19;
 	int32	MpMax		= 20;
-	int32	Weapon		= 21; 		//武器
+	repeated int32	Equips		= 21; 		//装备
 }
 
 message ObjectNewNty {

@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "RoleModule.h"
 #include "../ServerData/RoleData.h"
+#include "../Message/Msg_ID.pb.h"
 
 CPlayerManager::CPlayerManager()
 {
@@ -81,6 +82,45 @@ BOOL CPlayerManager::TryCleanPlayer()
 
 		ReleasePlayer(uRoleID);
 	}
+
+	return TRUE;
+}
+
+BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+{
+	char szBuff[10240] = { 0 };
+	ERROR_RETURN_FALSE(pdata.ByteSize() < 10240);
+	ERROR_RETURN_FALSE(pdata.SerializePartialToArray(szBuff, pdata.ByteSize()));
+
+	BroadMessageNotify Nty;
+	Nty.set_msgdata(szBuff, pdata.ByteSize());
+	Nty.set_msgid(dwMsgID);
+
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	UINT32 dwProxyID = 0;
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		ERROR_RETURN_FALSE(pTempObj != NULL);
+
+		if (!pTempObj->IsOnline())
+		{
+			continue;
+		}
+
+		Nty.add_connid(pTempObj->m_dwClientConnID);
+
+		if(pTempObj->m_dwProxyConnID != 0)
+		{
+			dwProxyID = pTempObj->m_dwProxyConnID;
+		}
+	}
+
+	//因为所有玩家是一个ProxyID
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwProxyID, MSG_BROAD_MESSAGE_NOTIFY, 0, 0, Nty);
 
 	return TRUE;
 }

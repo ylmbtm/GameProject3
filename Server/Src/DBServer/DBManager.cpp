@@ -120,6 +120,45 @@ BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN];
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from copy where roleid = %lld", u64ID);
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBCopyData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_copydata();
+		}
+		DBCopyItem* pItem = pData->add_copylist();
+		pItem->set_copyid(QueryRes.getIntField("copyid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_starnum(QueryRes.getIntField("star", 0));
+		pItem->set_battlecnt(QueryRes.getIntField("battlecnt", 0));
+		pItem->set_resetcnt(QueryRes.getIntField("resetcnt", 0));
+		pItem->set_battletime(QueryRes.getInt64Field("battletime", 0));
+		pItem->set_resettime(QueryRes.getInt64Field("resettime", 0));
+		QueryRes.nextRow();
+	}
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from chapter where roleid = %lld", u64ID);
+	QueryRes = m_DBConnection.querySQL(szSql);
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_copydata();
+		}
+		DBChapterItem* pItem = pData->add_chapterlist();
+		pItem->set_copytype(QueryRes.getIntField("copytype", 0));
+		pItem->set_chapterid(QueryRes.getIntField("chapterid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_staraward(QueryRes.getIntField("staraward", 0));
+		pItem->set_sceneaward(QueryRes.getIntField("sceneaward", 0));
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 

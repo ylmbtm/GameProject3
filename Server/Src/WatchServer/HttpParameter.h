@@ -4,11 +4,11 @@
 class HttpParameter
 {
 public:
-	HttpParameter(const std::string& strParam);
+	HttpParameter();
 
 	~HttpParameter(void);
 
-	void		ParseStringToMap(const std::string& strParam);
+	BOOL		ParseStringToMap(const std::string& strParam);
 
 	std::string GetResultString();
 

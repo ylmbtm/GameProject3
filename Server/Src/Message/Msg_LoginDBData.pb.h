@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fLoginDBData_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[26];
+  static const ::google::protobuf::internal::ParseTable schema[27];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -50,6 +50,8 @@ void InitDefaultsDBBagDataImpl();
 void InitDefaultsDBBagData();
 void InitDefaultsDBCopyItemImpl();
 void InitDefaultsDBCopyItem();
+void InitDefaultsDBChapterItemImpl();
+void InitDefaultsDBChapterItem();
 void InitDefaultsDBCopyDataImpl();
 void InitDefaultsDBCopyData();
 void InitDefaultsDBEquipItemImpl();
@@ -99,6 +101,7 @@ inline void InitDefaults() {
   InitDefaultsDBBagItem();
   InitDefaultsDBBagData();
   InitDefaultsDBCopyItem();
+  InitDefaultsDBChapterItem();
   InitDefaultsDBCopyData();
   InitDefaultsDBEquipItem();
   InitDefaultsDBEquipData();
@@ -135,6 +138,9 @@ extern DBBagDataDefaultTypeInternal _DBBagData_default_instance_;
 class DBBagItem;
 class DBBagItemDefaultTypeInternal;
 extern DBBagItemDefaultTypeInternal _DBBagItem_default_instance_;
+class DBChapterItem;
+class DBChapterItemDefaultTypeInternal;
+extern DBChapterItemDefaultTypeInternal _DBChapterItem_default_instance_;
 class DBCopyData;
 class DBCopyDataDefaultTypeInternal;
 extern DBCopyDataDefaultTypeInternal _DBCopyData_default_instance_;
@@ -770,15 +776,177 @@ class DBCopyItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::uint32 copyid() const;
   void set_copyid(::google::protobuf::uint32 value);
 
+  // int32 StarNum = 3;
+  void clear_starnum();
+  static const int kStarNumFieldNumber = 3;
+  ::google::protobuf::int32 starnum() const;
+  void set_starnum(::google::protobuf::int32 value);
+
+  // int32 BattleCnt = 4;
+  void clear_battlecnt();
+  static const int kBattleCntFieldNumber = 4;
+  ::google::protobuf::int32 battlecnt() const;
+  void set_battlecnt(::google::protobuf::int32 value);
+
+  // int32 ResetCnt = 5;
+  void clear_resetcnt();
+  static const int kResetCntFieldNumber = 5;
+  ::google::protobuf::int32 resetcnt() const;
+  void set_resetcnt(::google::protobuf::int32 value);
+
+  // uint64 BattleTime = 6;
+  void clear_battletime();
+  static const int kBattleTimeFieldNumber = 6;
+  ::google::protobuf::uint64 battletime() const;
+  void set_battletime(::google::protobuf::uint64 value);
+
+  // uint64 ResetTime = 7;
+  void clear_resettime();
+  static const int kResetTimeFieldNumber = 7;
+  ::google::protobuf::uint64 resettime() const;
+  void set_resettime(::google::protobuf::uint64 value);
+
   // @@protoc_insertion_point(class_scope:DBCopyItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 copyid_;
+  ::google::protobuf::int32 starnum_;
+  ::google::protobuf::int32 battlecnt_;
+  ::google::protobuf::int32 resetcnt_;
+  ::google::protobuf::uint64 battletime_;
+  ::google::protobuf::uint64 resettime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBCopyItemImpl();
+};
+// -------------------------------------------------------------------
+
+class DBChapterItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DBChapterItem) */ {
+ public:
+  DBChapterItem();
+  virtual ~DBChapterItem();
+
+  DBChapterItem(const DBChapterItem& from);
+
+  inline DBChapterItem& operator=(const DBChapterItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DBChapterItem(DBChapterItem&& from) noexcept
+    : DBChapterItem() {
+    *this = ::std::move(from);
+  }
+
+  inline DBChapterItem& operator=(DBChapterItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DBChapterItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DBChapterItem* internal_default_instance() {
+    return reinterpret_cast<const DBChapterItem*>(
+               &_DBChapterItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    4;
+
+  void Swap(DBChapterItem* other);
+  friend void swap(DBChapterItem& a, DBChapterItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DBChapterItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DBChapterItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DBChapterItem& from);
+  void MergeFrom(const DBChapterItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DBChapterItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // uint32 CopyType = 2;
+  void clear_copytype();
+  static const int kCopyTypeFieldNumber = 2;
+  ::google::protobuf::uint32 copytype() const;
+  void set_copytype(::google::protobuf::uint32 value);
+
+  // uint32 ChapterID = 3;
+  void clear_chapterid();
+  static const int kChapterIDFieldNumber = 3;
+  ::google::protobuf::uint32 chapterid() const;
+  void set_chapterid(::google::protobuf::uint32 value);
+
+  // uint32 StarAward = 4;
+  void clear_staraward();
+  static const int kStarAwardFieldNumber = 4;
+  ::google::protobuf::uint32 staraward() const;
+  void set_staraward(::google::protobuf::uint32 value);
+
+  // uint32 SceneAward = 5;
+  void clear_sceneaward();
+  static const int kSceneAwardFieldNumber = 5;
+  ::google::protobuf::uint32 sceneaward() const;
+  void set_sceneaward(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:DBChapterItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint32 copytype_;
+  ::google::protobuf::uint32 chapterid_;
+  ::google::protobuf::uint32 staraward_;
+  ::google::protobuf::uint32 sceneaward_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBChapterItemImpl();
 };
 // -------------------------------------------------------------------
 
@@ -817,7 +985,7 @@ class DBCopyData : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBCopyData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(DBCopyData* other);
   friend void swap(DBCopyData& a, DBCopyData& b) {
@@ -876,11 +1044,24 @@ class DBCopyData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   const ::google::protobuf::RepeatedPtrField< ::DBCopyItem >&
       copylist() const;
 
+  // repeated .DBChapterItem ChapterList = 2;
+  int chapterlist_size() const;
+  void clear_chapterlist();
+  static const int kChapterListFieldNumber = 2;
+  const ::DBChapterItem& chapterlist(int index) const;
+  ::DBChapterItem* mutable_chapterlist(int index);
+  ::DBChapterItem* add_chapterlist();
+  ::google::protobuf::RepeatedPtrField< ::DBChapterItem >*
+      mutable_chapterlist();
+  const ::google::protobuf::RepeatedPtrField< ::DBChapterItem >&
+      chapterlist() const;
+
   // @@protoc_insertion_point(class_scope:DBCopyData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::DBCopyItem > copylist_;
+  ::google::protobuf::RepeatedPtrField< ::DBChapterItem > chapterlist_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBCopyDataImpl();
@@ -922,7 +1103,7 @@ class DBEquipItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBEquipItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(DBEquipItem* other);
   friend void swap(DBEquipItem& a, DBEquipItem& b) {
@@ -1077,7 +1258,7 @@ class DBEquipData : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBEquipData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(DBEquipData* other);
   friend void swap(DBEquipData& a, DBEquipData& b) {
@@ -1182,7 +1363,7 @@ class DBGemItem : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBGemItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(DBGemItem* other);
   friend void swap(DBGemItem& a, DBGemItem& b) {
@@ -1337,7 +1518,7 @@ class DBGemData : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBGemData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(DBGemData* other);
   friend void swap(DBGemData& a, DBGemData& b) {
@@ -1442,7 +1623,7 @@ class DBPetItem : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBPetItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(DBPetItem* other);
   friend void swap(DBPetItem& a, DBPetItem& b) {
@@ -1583,7 +1764,7 @@ class DBPetData : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBPetData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(DBPetData* other);
   friend void swap(DBPetData& a, DBPetData& b) {
@@ -1688,7 +1869,7 @@ class DBMountItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBMountItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(DBMountItem* other);
   friend void swap(DBMountItem& a, DBMountItem& b) {
@@ -1787,7 +1968,7 @@ class DBMountData : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBMountData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    13;
 
   void Swap(DBMountData* other);
   friend void swap(DBMountData& a, DBMountData& b) {
@@ -1892,7 +2073,7 @@ class DBPartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBPartnerItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(DBPartnerItem* other);
   friend void swap(DBPartnerItem& a, DBPartnerItem& b) {
@@ -2033,7 +2214,7 @@ class DBPartnerData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBPartnerData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    15;
 
   void Swap(DBPartnerData* other);
   friend void swap(DBPartnerData& a, DBPartnerData& b) {
@@ -2138,7 +2319,7 @@ class DBTaskItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBTaskItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    16;
 
   void Swap(DBTaskItem* other);
   friend void swap(DBTaskItem& a, DBTaskItem& b) {
@@ -2244,7 +2425,7 @@ class DBTaskData : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBTaskData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    17;
 
   void Swap(DBTaskData* other);
   friend void swap(DBTaskData& a, DBTaskData& b) {
@@ -2349,7 +2530,7 @@ class DBMailItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBMailItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    18;
 
   void Swap(DBMailItem* other);
   friend void swap(DBMailItem& a, DBMailItem& b) {
@@ -2448,7 +2629,7 @@ class DBMailData : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBMailData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    19;
 
   void Swap(DBMailData* other);
   friend void swap(DBMailData& a, DBMailData& b) {
@@ -2553,7 +2734,7 @@ class DBActivityItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBActivityItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
+    20;
 
   void Swap(DBActivityItem* other);
   friend void swap(DBActivityItem& a, DBActivityItem& b) {
@@ -2695,7 +2876,7 @@ class DBActivityData : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBActivityData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    20;
+    21;
 
   void Swap(DBActivityData* other);
   friend void swap(DBActivityData& a, DBActivityData& b) {
@@ -2800,7 +2981,7 @@ class DBCounterItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBCounterItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    21;
+    22;
 
   void Swap(DBCounterItem* other);
   friend void swap(DBCounterItem& a, DBCounterItem& b) {
@@ -2941,7 +3122,7 @@ class DBCounterData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBCounterData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    22;
+    23;
 
   void Swap(DBCounterData* other);
   friend void swap(DBCounterData& a, DBCounterData& b) {
@@ -3046,7 +3227,7 @@ class DBFriendItem : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_DBFriendItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    23;
+    24;
 
   void Swap(DBFriendItem* other);
   friend void swap(DBFriendItem& a, DBFriendItem& b) {
@@ -3152,7 +3333,7 @@ class DBFriendData : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_DBFriendData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    24;
+    25;
 
   void Swap(DBFriendData* other);
   friend void swap(DBFriendData& a, DBFriendData& b) {
@@ -3257,7 +3438,7 @@ class DBRoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBRoleLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    25;
+    26;
 
   void Swap(DBRoleLoginAck* other);
   friend void swap(DBRoleLoginAck& a, DBRoleLoginAck& b) {
@@ -3930,6 +4111,150 @@ inline void DBCopyItem::set_copyid(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:DBCopyItem.CopyID)
 }
 
+// int32 StarNum = 3;
+inline void DBCopyItem::clear_starnum() {
+  starnum_ = 0;
+}
+inline ::google::protobuf::int32 DBCopyItem::starnum() const {
+  // @@protoc_insertion_point(field_get:DBCopyItem.StarNum)
+  return starnum_;
+}
+inline void DBCopyItem::set_starnum(::google::protobuf::int32 value) {
+  
+  starnum_ = value;
+  // @@protoc_insertion_point(field_set:DBCopyItem.StarNum)
+}
+
+// int32 BattleCnt = 4;
+inline void DBCopyItem::clear_battlecnt() {
+  battlecnt_ = 0;
+}
+inline ::google::protobuf::int32 DBCopyItem::battlecnt() const {
+  // @@protoc_insertion_point(field_get:DBCopyItem.BattleCnt)
+  return battlecnt_;
+}
+inline void DBCopyItem::set_battlecnt(::google::protobuf::int32 value) {
+  
+  battlecnt_ = value;
+  // @@protoc_insertion_point(field_set:DBCopyItem.BattleCnt)
+}
+
+// int32 ResetCnt = 5;
+inline void DBCopyItem::clear_resetcnt() {
+  resetcnt_ = 0;
+}
+inline ::google::protobuf::int32 DBCopyItem::resetcnt() const {
+  // @@protoc_insertion_point(field_get:DBCopyItem.ResetCnt)
+  return resetcnt_;
+}
+inline void DBCopyItem::set_resetcnt(::google::protobuf::int32 value) {
+  
+  resetcnt_ = value;
+  // @@protoc_insertion_point(field_set:DBCopyItem.ResetCnt)
+}
+
+// uint64 BattleTime = 6;
+inline void DBCopyItem::clear_battletime() {
+  battletime_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBCopyItem::battletime() const {
+  // @@protoc_insertion_point(field_get:DBCopyItem.BattleTime)
+  return battletime_;
+}
+inline void DBCopyItem::set_battletime(::google::protobuf::uint64 value) {
+  
+  battletime_ = value;
+  // @@protoc_insertion_point(field_set:DBCopyItem.BattleTime)
+}
+
+// uint64 ResetTime = 7;
+inline void DBCopyItem::clear_resettime() {
+  resettime_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBCopyItem::resettime() const {
+  // @@protoc_insertion_point(field_get:DBCopyItem.ResetTime)
+  return resettime_;
+}
+inline void DBCopyItem::set_resettime(::google::protobuf::uint64 value) {
+  
+  resettime_ = value;
+  // @@protoc_insertion_point(field_set:DBCopyItem.ResetTime)
+}
+
+// -------------------------------------------------------------------
+
+// DBChapterItem
+
+// uint64 RoleID = 1;
+inline void DBChapterItem::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBChapterItem::roleid() const {
+  // @@protoc_insertion_point(field_get:DBChapterItem.RoleID)
+  return roleid_;
+}
+inline void DBChapterItem::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:DBChapterItem.RoleID)
+}
+
+// uint32 CopyType = 2;
+inline void DBChapterItem::clear_copytype() {
+  copytype_ = 0u;
+}
+inline ::google::protobuf::uint32 DBChapterItem::copytype() const {
+  // @@protoc_insertion_point(field_get:DBChapterItem.CopyType)
+  return copytype_;
+}
+inline void DBChapterItem::set_copytype(::google::protobuf::uint32 value) {
+  
+  copytype_ = value;
+  // @@protoc_insertion_point(field_set:DBChapterItem.CopyType)
+}
+
+// uint32 ChapterID = 3;
+inline void DBChapterItem::clear_chapterid() {
+  chapterid_ = 0u;
+}
+inline ::google::protobuf::uint32 DBChapterItem::chapterid() const {
+  // @@protoc_insertion_point(field_get:DBChapterItem.ChapterID)
+  return chapterid_;
+}
+inline void DBChapterItem::set_chapterid(::google::protobuf::uint32 value) {
+  
+  chapterid_ = value;
+  // @@protoc_insertion_point(field_set:DBChapterItem.ChapterID)
+}
+
+// uint32 StarAward = 4;
+inline void DBChapterItem::clear_staraward() {
+  staraward_ = 0u;
+}
+inline ::google::protobuf::uint32 DBChapterItem::staraward() const {
+  // @@protoc_insertion_point(field_get:DBChapterItem.StarAward)
+  return staraward_;
+}
+inline void DBChapterItem::set_staraward(::google::protobuf::uint32 value) {
+  
+  staraward_ = value;
+  // @@protoc_insertion_point(field_set:DBChapterItem.StarAward)
+}
+
+// uint32 SceneAward = 5;
+inline void DBChapterItem::clear_sceneaward() {
+  sceneaward_ = 0u;
+}
+inline ::google::protobuf::uint32 DBChapterItem::sceneaward() const {
+  // @@protoc_insertion_point(field_get:DBChapterItem.SceneAward)
+  return sceneaward_;
+}
+inline void DBChapterItem::set_sceneaward(::google::protobuf::uint32 value) {
+  
+  sceneaward_ = value;
+  // @@protoc_insertion_point(field_set:DBChapterItem.SceneAward)
+}
+
 // -------------------------------------------------------------------
 
 // DBCopyData
@@ -3962,6 +4287,36 @@ inline const ::google::protobuf::RepeatedPtrField< ::DBCopyItem >&
 DBCopyData::copylist() const {
   // @@protoc_insertion_point(field_list:DBCopyData.CopyList)
   return copylist_;
+}
+
+// repeated .DBChapterItem ChapterList = 2;
+inline int DBCopyData::chapterlist_size() const {
+  return chapterlist_.size();
+}
+inline void DBCopyData::clear_chapterlist() {
+  chapterlist_.Clear();
+}
+inline const ::DBChapterItem& DBCopyData::chapterlist(int index) const {
+  // @@protoc_insertion_point(field_get:DBCopyData.ChapterList)
+  return chapterlist_.Get(index);
+}
+inline ::DBChapterItem* DBCopyData::mutable_chapterlist(int index) {
+  // @@protoc_insertion_point(field_mutable:DBCopyData.ChapterList)
+  return chapterlist_.Mutable(index);
+}
+inline ::DBChapterItem* DBCopyData::add_chapterlist() {
+  // @@protoc_insertion_point(field_add:DBCopyData.ChapterList)
+  return chapterlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DBChapterItem >*
+DBCopyData::mutable_chapterlist() {
+  // @@protoc_insertion_point(field_mutable_list:DBCopyData.ChapterList)
+  return &chapterlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DBChapterItem >&
+DBCopyData::chapterlist() const {
+  // @@protoc_insertion_point(field_list:DBCopyData.ChapterList)
+  return chapterlist_;
 }
 
 // -------------------------------------------------------------------
@@ -5652,6 +6007,8 @@ inline void DBRoleLoginAck::set_allocated_frienddata(::DBFriendData* frienddata)
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

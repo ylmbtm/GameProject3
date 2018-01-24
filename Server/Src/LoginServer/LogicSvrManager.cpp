@@ -59,8 +59,9 @@ BOOL LogicSvrManager::Uninit()
 	return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, std::string strSvrName)
+BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName)
 {
+	BOOL bChanged = FALSE;
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
 	{
@@ -68,24 +69,41 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		pTempNode->m_dwServerID = dwServerID;
 		pTempNode->m_dwConnID   = dwConnID;
 		pTempNode->m_dwPort     = dwPort;
+		pTempNode->m_dwHttpPort = dwHttpPort;
+		pTempNode->m_dwWatchPort = dwWatchPort;
 		pTempNode->m_strSvrName = strSvrName;
 		insert(std::make_pair(dwServerID, pTempNode));
+		bChanged = TRUE;
+	}
+	else
+	{
+		pNode->m_dwConnID = dwConnID;
 
+		if ((pNode->m_dwPort != dwPort) ||
+		        (pNode->m_dwHttpPort != dwHttpPort) ||
+		        (pNode->m_dwWatchPort != dwWatchPort) ||
+		        (pNode->m_strSvrName != strSvrName))
+		{
+			bChanged = TRUE;
+			pNode->m_dwServerID = dwServerID;
+			pNode->m_strSvrName = strSvrName;
+			pNode->m_dwPort = dwPort;
+			pNode->m_dwHttpPort = dwHttpPort;
+			pNode->m_dwWatchPort = dwWatchPort;
+		}
+	}
+
+	if (bChanged)
+	{
 		char szSql[SQL_BUFF_LEN];
-		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name,port) values(%d, '%s', %d);",	dwServerID, strSvrName.c_str(), dwPort);
+		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name,port,http_port,watch_port) values(%d, '%s', %d, %d, %d);",
+		         dwServerID, strSvrName.c_str(), dwPort, dwHttpPort, dwWatchPort);
 		if (m_DBConnection.execSQL(szSql) < 0)
 		{
 			CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", szSql);
 			return FALSE;
 		}
-
-		return TRUE;
 	}
-
-	pNode->m_dwConnID = dwConnID;
-	pNode->m_dwServerID = dwServerID;
-	pNode->m_strSvrName = strSvrName;
-	pNode->m_dwPort = dwPort;
 
 	return TRUE;
 }

@@ -147,7 +147,7 @@ BOOL CSceneManager::SendCityReport()
 
 		if(pScene->GetCopyType() == CPT_CITY)
 		{
-			CopyItem* pItem = Req.add_copylist();
+			CopyInsItem* pItem = Req.add_copylist();
 			pItem->set_copyguid(pScene->GetCopyGuid());
 			pItem->set_copyid(pScene->GetCopyID());
 			pItem->set_copytype(pScene->GetCopyType());

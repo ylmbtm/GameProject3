@@ -28,18 +28,19 @@ CAccountObjectMgr::CAccountObjectMgr()
 
 CAccountObjectMgr::~CAccountObjectMgr()
 {
-	m_IsRun		= FALSE;
-	m_hThread	= NULL;
+	m_IsRun			= FALSE;
+	m_hThread		= NULL;
+	m_bCrossChannel = FALSE;
 }
 
 BOOL CAccountObjectMgr::LoadCacheAccount()
 {
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
+	std::string strHost	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
+	UINT32 nPort		= CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
-	m_bCrossChannel = CConfigFile::GetInstancePtr()->GetIntValue("account_cross_channel");
+	std::string strPwd	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
+	std::string strDb	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
+	m_bCrossChannel		= CConfigFile::GetInstancePtr()->GetIntValue("account_cross_channel");
 
 	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
@@ -48,11 +49,18 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 	}
 
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from account");
+	CAccountObject* pTempObject = NULL;
 	while(!QueryResult.eof())
 	{
-		AddAccountObject(QueryResult.getInt64Field("id"), QueryResult.getStringField("name"),
-		                 QueryResult.getStringField("password"),
-		                 QueryResult.getIntField("channel"));
+		pTempObject = AddAccountObject(QueryResult.getInt64Field("id"),
+		                               QueryResult.getStringField("name"),
+		                               QueryResult.getIntField("channel"));
+
+		ERROR_RETURN_FALSE(pTempObject != NULL);
+
+		pTempObject->m_strPassword	= QueryResult.getStringField("password");
+		pTempObject->m_uCreateTime	= QueryResult.getInt64Field("create_time");
+		pTempObject->m_uSealTime = QueryResult.getInt64Field("seal_end_time");
 
 		if(m_u64MaxID < QueryResult.getInt64Field("id"))
 		{
@@ -66,7 +74,6 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 	m_hThread = CommonThreadFunc::CreateThread(_SaveAccountThread, this);
 	ERROR_RETURN_FALSE(m_hThread != NULL);
 
-
 	return TRUE;
 }
 
@@ -75,19 +82,18 @@ CAccountObject* CAccountObjectMgr::GetAccountObjectByID( UINT64 AccountID )
 	return GetByKey(AccountID);
 }
 
-CAccountObject* CAccountObjectMgr::CreateAccountObject(std::string strName, std::string strPwd, UINT32 dwChannel)
+CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strName, const std::string& strPwd, UINT32 dwChannel)
 {
 	m_u64MaxID += 1;
 
 	CAccountObject* pObj = InsertAlloc(m_u64MaxID);
 	ERROR_RETURN_NULL(pObj != NULL);
 
-	pObj->m_SealStatue		= SS_OK;
 	pObj->m_strName			= strName;
 	pObj->m_strPassword		= strPwd;
 	pObj->m_ID				= m_u64MaxID;
 	pObj->m_dwChannel		= dwChannel;
-	pObj->m_uCreateTime	= CommonFunc::GetCurrTime();
+	pObj->m_uCreateTime		= CommonFunc::GetCurrTime();
 
 	if (m_bCrossChannel)
 	{
@@ -108,27 +114,56 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
 	return Delete(AccountID);
 }
 
-BOOL CAccountObjectMgr::AddAccountObject(UINT64 u64ID, std::string strName, std::string strPwd, UINT32 dwChannel)
+BOOL CAccountObjectMgr::SealAccount(UINT64 m_uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime)
 {
-	CAccountObject* pObj = InsertAlloc(u64ID);
-	ERROR_RETURN_FALSE(pObj != NULL);
-
-	pObj->m_SealStatue = SS_OK;
-	pObj->m_strName = strName;
-	pObj->m_strPassword = strPwd;
-	pObj->m_ID = u64ID;
-	pObj->m_dwChannel = dwChannel;
-
-	if (m_bCrossChannel)
+	CAccountObject* pAccObj = NULL;
+	if (m_uAccountID == 0)
 	{
-		m_mapNameObj.insert(std::make_pair(strName, pObj));
+		pAccObj = GetAccountObject(strName, dwChannel);
 	}
 	else
 	{
-		m_mapNameObj.insert(std::make_pair(strName + CommonConvert::IntToString(dwChannel), pObj));
+		pAccObj = GetAccountObjectByID(m_uAccountID);
 	}
 
+	if (pAccObj == NULL)
+	{
+		return FALSE;
+	}
+
+	if (bSeal)
+	{
+		pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + dwSealTime;
+	}
+	else
+	{
+		pAccObj->m_uSealTime = 0;
+	}
+
+	m_ArrChangedAccount.push(pAccObj);
+
 	return TRUE;
+}
+
+CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 u64ID, const CHAR* pStrName, UINT32 dwChannel)
+{
+	CAccountObject* pObj = InsertAlloc(u64ID);
+	ERROR_RETURN_NULL(pObj != NULL);
+
+	pObj->m_strName		= pStrName;
+	pObj->m_ID			= u64ID;
+	pObj->m_dwChannel	= dwChannel;
+
+	if (m_bCrossChannel)
+	{
+		m_mapNameObj.insert(std::make_pair(pObj->m_strName, pObj));
+	}
+	else
+	{
+		m_mapNameObj.insert(std::make_pair(pObj->m_strName + CommonConvert::IntToString(dwChannel), pObj));
+	}
+
+	return pObj;
 }
 
 BOOL CAccountObjectMgr::SaveAccountChange()
@@ -139,34 +174,36 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 
 		CHAR szSql[SQL_BUFF_LEN];
 
-		while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
-		{
-			snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, channel, create_time) values('%lld','%s','%s', '%d', '%lld')",
-			         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwChannel, pAccount->m_uCreateTime);
+		if(m_ArrChangedAccount.size())
 
-			if(m_DBConnection.execSQL(szSql) > 0)
+			while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
 			{
-				continue;
-			}
+				snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid, channel, create_time, seal_end_time) values('%lld','%s','%s','%d', '%d', '%lld','%lld')",
+				         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwLastSvrID, pAccount->m_dwChannel, pAccount->m_uCreateTime, pAccount->m_uSealTime);
 
-			CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
-
-			int nTimes = 0;
-			while (!m_DBConnection.reconnect())
-			{
-				nTimes++;
-				if (nTimes > 3)
+				if(m_DBConnection.execSQL(szSql) > 0)
 				{
-					break;
+					continue;
 				}
-				CommonFunc::Sleep(1000);
-			}
 
-			if(m_DBConnection.execSQL(szSql) < 0)
-			{
-				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
+				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
+
+				int nTimes = 0;
+				while (!m_DBConnection.reconnect())
+				{
+					nTimes++;
+					if (nTimes > 3)
+					{
+						break;
+					}
+					CommonFunc::Sleep(1000);
+				}
+
+				if(m_DBConnection.execSQL(szSql) < 0)
+				{
+					CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
+				}
 			}
-		}
 
 		CommonFunc::Sleep(10);
 	}
@@ -201,7 +238,7 @@ BOOL CAccountObjectMgr::IsRun()
 	return m_IsRun;
 }
 
-CAccountObject* CAccountObjectMgr::GetAccountObject( std::string name, UINT32 dwChannel )
+CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, UINT32 dwChannel )
 {
 	if (m_bCrossChannel)
 	{

@@ -45,7 +45,6 @@ BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 
 
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
-
 	return TRUE;
 }
 
@@ -1115,7 +1114,6 @@ BOOL CScene::IsMonsterAllDie()
 
 BOOL CScene::ReadSceneXml()
 {
-	//return TRUE;
 	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(m_dwCopyID);
 	ERROR_RETURN_FALSE(pCopyInfo != NULL);
 	pCopyInfo->strXml = CommonConvert::IntToString(m_dwCopyID) + ".xml";

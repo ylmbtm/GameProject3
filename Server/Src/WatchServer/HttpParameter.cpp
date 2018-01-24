@@ -4,9 +4,9 @@
 #include "../ServerEngine/CommonConvert.h"
 
 
-HttpParameter::HttpParameter(const std::string& strParam)
+HttpParameter::HttpParameter()
 {
-	ParseStringToMap(strParam);
+
 }
 
 
@@ -15,12 +15,13 @@ HttpParameter::~HttpParameter(void)
 	m_ParameterMap.clear();
 }
 
-void HttpParameter::ParseStringToMap(const std::string& strParam)
+BOOL HttpParameter::ParseStringToMap(const std::string& strParam)
 {
 	if(strParam.length() <= 0)
 	{
-		return;
+		return FALSE;
 	}
+
 	std::string str = strParam.substr(1);
 	std::vector<std::string> strVector;
 	CommonConvert::SpliteString(str, "&", strVector);
@@ -34,6 +35,8 @@ void HttpParameter::ParseStringToMap(const std::string& strParam)
 			m_ParameterMap.insert(std::make_pair(strVectorSub[0], strVectorSub[1]));
 		}
 	}
+
+	return TRUE;
 }
 
 std::string HttpParameter::GetResultString()

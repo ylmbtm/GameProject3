@@ -94,14 +94,11 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	UINT64 uTickCount = 0;
 	while(TRUE)
 	{
-		uTickCount = CommonFunc::GetTickCount();
-
 		ServiceBase::GetInstancePtr()->Update();
 
-		m_LogMsgHandler.OnUpdate(uTickCount);
+		m_LogMsgHandler.OnUpdate(CommonFunc::GetTickCount());
 
 		CommonFunc::Sleep(1);
 	}

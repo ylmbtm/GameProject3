@@ -7,6 +7,7 @@ SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool		= NULL;
 SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool	= NULL;
 SharedMemory<BagDataObject>*		g_pBagDataObjectPool		= NULL;
 SharedMemory<CopyDataObject>*		g_pCopyDataObjectPool		= NULL;
+SharedMemory<ChapterDataObject>*	g_pChapterDataObjectPool = NULL;
 SharedMemory<EquipDataObject>*		g_pEquipDataObjectPool		= NULL;
 SharedMemory<GemDataObject>*		g_pGemDataObjectPool = NULL;
 SharedMemory<PetDataObject>*		g_pPetDataObjectPool		= NULL;
@@ -26,6 +27,7 @@ BOOL CreateDataPool()
 	g_pGlobalDataObjectPool		= new SharedMemory<GlobalDataObject>(ESD_GLOBAL, 1024);
 	g_pBagDataObjectPool		= new SharedMemory<BagDataObject>(ESD_BAG, 1024);
 	g_pCopyDataObjectPool		= new SharedMemory<CopyDataObject>(ESD_COPY, 1024);
+	g_pChapterDataObjectPool	= new SharedMemory<ChapterDataObject>(ESD_CHAPTER, 1024);
 	g_pEquipDataObjectPool		= new SharedMemory<EquipDataObject>(ESD_EQUIP, 1024);
 	g_pGemDataObjectPool		= new SharedMemory<GemDataObject>(ESD_GEM, 1024);
 	g_pPetDataObjectPool		= new SharedMemory<PetDataObject>(ESD_PET, 1024);
@@ -45,6 +47,7 @@ BOOL CreateDataPool()
 	g_pGlobalDataObjectPool->InitToMap();
 	g_pBagDataObjectPool->InitToMap();
 	g_pCopyDataObjectPool->InitToMap();
+	g_pChapterDataObjectPool->InitToMap();
 	g_pEquipDataObjectPool->InitToMap();
 	g_pPetDataObjectPool->InitToMap();
 	g_pPartnerDataObjectPool->InitToMap();
@@ -66,6 +69,7 @@ BOOL ReleaseDataPool()
 	delete g_pGlobalDataObjectPool;
 	delete g_pBagDataObjectPool;
 	delete g_pCopyDataObjectPool;
+	delete g_pChapterDataObjectPool;
 	delete g_pEquipDataObjectPool;
 	delete g_pPetDataObjectPool;
 	delete g_pPartnerDataObjectPool;

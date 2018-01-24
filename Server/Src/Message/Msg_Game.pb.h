@@ -130,8 +130,8 @@ void InitDefaultsNotifyIntoSceneImpl();
 void InitDefaultsNotifyIntoScene();
 void InitDefaultsNearByRoleItemImpl();
 void InitDefaultsNearByRoleItem();
-void InitDefaultsCopyItemImpl();
-void InitDefaultsCopyItem();
+void InitDefaultsCopyInsItemImpl();
+void InitDefaultsCopyInsItem();
 void InitDefaultsCopyReportReqImpl();
 void InitDefaultsCopyReportReq();
 void InitDefaultsUseHpBottleReqImpl();
@@ -231,7 +231,7 @@ inline void InitDefaults() {
   InitDefaultsTransferDataAck();
   InitDefaultsNotifyIntoScene();
   InitDefaultsNearByRoleItem();
-  InitDefaultsCopyItem();
+  InitDefaultsCopyInsItem();
   InitDefaultsCopyReportReq();
   InitDefaultsUseHpBottleReq();
   InitDefaultsUseHpBottleAck();
@@ -318,9 +318,9 @@ extern CommonAckDefaultTypeInternal _CommonAck_default_instance_;
 class CommonReq;
 class CommonReqDefaultTypeInternal;
 extern CommonReqDefaultTypeInternal _CommonReq_default_instance_;
-class CopyItem;
-class CopyItemDefaultTypeInternal;
-extern CopyItemDefaultTypeInternal _CopyItem_default_instance_;
+class CopyInsItem;
+class CopyInsItemDefaultTypeInternal;
+extern CopyInsItemDefaultTypeInternal _CopyInsItem_default_instance_;
 class CopyReportReq;
 class CopyReportReqDefaultTypeInternal;
 extern CopyReportReqDefaultTypeInternal _CopyReportReq_default_instance_;
@@ -5818,24 +5818,24 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
-class CopyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CopyItem) */ {
+class CopyInsItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CopyInsItem) */ {
  public:
-  CopyItem();
-  virtual ~CopyItem();
+  CopyInsItem();
+  virtual ~CopyInsItem();
 
-  CopyItem(const CopyItem& from);
+  CopyInsItem(const CopyInsItem& from);
 
-  inline CopyItem& operator=(const CopyItem& from) {
+  inline CopyInsItem& operator=(const CopyInsItem& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  CopyItem(CopyItem&& from) noexcept
-    : CopyItem() {
+  CopyInsItem(CopyInsItem&& from) noexcept
+    : CopyInsItem() {
     *this = ::std::move(from);
   }
 
-  inline CopyItem& operator=(CopyItem&& from) noexcept {
+  inline CopyInsItem& operator=(CopyInsItem&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -5845,30 +5845,30 @@ class CopyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const CopyItem& default_instance();
+  static const CopyInsItem& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const CopyItem* internal_default_instance() {
-    return reinterpret_cast<const CopyItem*>(
-               &_CopyItem_default_instance_);
+  static inline const CopyInsItem* internal_default_instance() {
+    return reinterpret_cast<const CopyInsItem*>(
+               &_CopyInsItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     44;
 
-  void Swap(CopyItem* other);
-  friend void swap(CopyItem& a, CopyItem& b) {
+  void Swap(CopyInsItem* other);
+  friend void swap(CopyInsItem& a, CopyInsItem& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline CopyItem* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline CopyInsItem* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  CopyItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  CopyInsItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const CopyItem& from);
-  void MergeFrom(const CopyItem& from);
+  void CopyFrom(const CopyInsItem& from);
+  void MergeFrom(const CopyInsItem& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -5884,7 +5884,7 @@ class CopyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(CopyItem* other);
+  void InternalSwap(CopyInsItem* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -5924,7 +5924,7 @@ class CopyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 serverid() const;
   void set_serverid(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:CopyItem)
+  // @@protoc_insertion_point(class_scope:CopyInsItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -5934,7 +5934,7 @@ class CopyItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 serverid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsCopyItemImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsCopyInsItemImpl();
 };
 // -------------------------------------------------------------------
 
@@ -6020,16 +6020,16 @@ class CopyReportReq : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // repeated .CopyItem CopyList = 2;
+  // repeated .CopyInsItem CopyList = 2;
   int copylist_size() const;
   void clear_copylist();
   static const int kCopyListFieldNumber = 2;
-  const ::CopyItem& copylist(int index) const;
-  ::CopyItem* mutable_copylist(int index);
-  ::CopyItem* add_copylist();
-  ::google::protobuf::RepeatedPtrField< ::CopyItem >*
+  const ::CopyInsItem& copylist(int index) const;
+  ::CopyInsItem* mutable_copylist(int index);
+  ::CopyInsItem* add_copylist();
+  ::google::protobuf::RepeatedPtrField< ::CopyInsItem >*
       mutable_copylist();
-  const ::google::protobuf::RepeatedPtrField< ::CopyItem >&
+  const ::google::protobuf::RepeatedPtrField< ::CopyInsItem >&
       copylist() const;
 
   // int32 ServerID = 1;
@@ -6042,7 +6042,7 @@ class CopyReportReq : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::CopyItem > copylist_;
+  ::google::protobuf::RepeatedPtrField< ::CopyInsItem > copylist_;
   ::google::protobuf::int32 serverid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -6933,15 +6933,21 @@ class SealAccountReq : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::uint64 accountid() const;
   void set_accountid(::google::protobuf::uint64 value);
 
-  // int32 SealTime = 3;
+  // int32 Channel = 3;
+  void clear_channel();
+  static const int kChannelFieldNumber = 3;
+  ::google::protobuf::int32 channel() const;
+  void set_channel(::google::protobuf::int32 value);
+
+  // int32 SealTime = 4;
   void clear_sealtime();
-  static const int kSealTimeFieldNumber = 3;
+  static const int kSealTimeFieldNumber = 4;
   ::google::protobuf::int32 sealtime() const;
   void set_sealtime(::google::protobuf::int32 value);
 
-  // bool Seal = 4;
+  // bool Seal = 5;
   void clear_seal();
-  static const int kSealFieldNumber = 4;
+  static const int kSealFieldNumber = 5;
   bool seal() const;
   void set_seal(bool value);
 
@@ -6951,6 +6957,7 @@ class SealAccountReq : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr accountname_;
   ::google::protobuf::uint64 accountid_;
+  ::google::protobuf::int32 channel_;
   ::google::protobuf::int32 sealtime_;
   bool seal_;
   mutable int _cached_size_;
@@ -12277,62 +12284,62 @@ inline void NearByRoleItem::set_allocated_name(::std::string* name) {
 
 // -------------------------------------------------------------------
 
-// CopyItem
+// CopyInsItem
 
 // uint32 CopyGuid = 1;
-inline void CopyItem::clear_copyguid() {
+inline void CopyInsItem::clear_copyguid() {
   copyguid_ = 0u;
 }
-inline ::google::protobuf::uint32 CopyItem::copyguid() const {
-  // @@protoc_insertion_point(field_get:CopyItem.CopyGuid)
+inline ::google::protobuf::uint32 CopyInsItem::copyguid() const {
+  // @@protoc_insertion_point(field_get:CopyInsItem.CopyGuid)
   return copyguid_;
 }
-inline void CopyItem::set_copyguid(::google::protobuf::uint32 value) {
+inline void CopyInsItem::set_copyguid(::google::protobuf::uint32 value) {
   
   copyguid_ = value;
-  // @@protoc_insertion_point(field_set:CopyItem.CopyGuid)
+  // @@protoc_insertion_point(field_set:CopyInsItem.CopyGuid)
 }
 
 // int32 CopyID = 2;
-inline void CopyItem::clear_copyid() {
+inline void CopyInsItem::clear_copyid() {
   copyid_ = 0;
 }
-inline ::google::protobuf::int32 CopyItem::copyid() const {
-  // @@protoc_insertion_point(field_get:CopyItem.CopyID)
+inline ::google::protobuf::int32 CopyInsItem::copyid() const {
+  // @@protoc_insertion_point(field_get:CopyInsItem.CopyID)
   return copyid_;
 }
-inline void CopyItem::set_copyid(::google::protobuf::int32 value) {
+inline void CopyInsItem::set_copyid(::google::protobuf::int32 value) {
   
   copyid_ = value;
-  // @@protoc_insertion_point(field_set:CopyItem.CopyID)
+  // @@protoc_insertion_point(field_set:CopyInsItem.CopyID)
 }
 
 // int32 CopyType = 3;
-inline void CopyItem::clear_copytype() {
+inline void CopyInsItem::clear_copytype() {
   copytype_ = 0;
 }
-inline ::google::protobuf::int32 CopyItem::copytype() const {
-  // @@protoc_insertion_point(field_get:CopyItem.CopyType)
+inline ::google::protobuf::int32 CopyInsItem::copytype() const {
+  // @@protoc_insertion_point(field_get:CopyInsItem.CopyType)
   return copytype_;
 }
-inline void CopyItem::set_copytype(::google::protobuf::int32 value) {
+inline void CopyInsItem::set_copytype(::google::protobuf::int32 value) {
   
   copytype_ = value;
-  // @@protoc_insertion_point(field_set:CopyItem.CopyType)
+  // @@protoc_insertion_point(field_set:CopyInsItem.CopyType)
 }
 
 // int32 ServerID = 4;
-inline void CopyItem::clear_serverid() {
+inline void CopyInsItem::clear_serverid() {
   serverid_ = 0;
 }
-inline ::google::protobuf::int32 CopyItem::serverid() const {
-  // @@protoc_insertion_point(field_get:CopyItem.ServerID)
+inline ::google::protobuf::int32 CopyInsItem::serverid() const {
+  // @@protoc_insertion_point(field_get:CopyInsItem.ServerID)
   return serverid_;
 }
-inline void CopyItem::set_serverid(::google::protobuf::int32 value) {
+inline void CopyInsItem::set_serverid(::google::protobuf::int32 value) {
   
   serverid_ = value;
-  // @@protoc_insertion_point(field_set:CopyItem.ServerID)
+  // @@protoc_insertion_point(field_set:CopyInsItem.ServerID)
 }
 
 // -------------------------------------------------------------------
@@ -12353,31 +12360,31 @@ inline void CopyReportReq::set_serverid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:CopyReportReq.ServerID)
 }
 
-// repeated .CopyItem CopyList = 2;
+// repeated .CopyInsItem CopyList = 2;
 inline int CopyReportReq::copylist_size() const {
   return copylist_.size();
 }
 inline void CopyReportReq::clear_copylist() {
   copylist_.Clear();
 }
-inline const ::CopyItem& CopyReportReq::copylist(int index) const {
+inline const ::CopyInsItem& CopyReportReq::copylist(int index) const {
   // @@protoc_insertion_point(field_get:CopyReportReq.CopyList)
   return copylist_.Get(index);
 }
-inline ::CopyItem* CopyReportReq::mutable_copylist(int index) {
+inline ::CopyInsItem* CopyReportReq::mutable_copylist(int index) {
   // @@protoc_insertion_point(field_mutable:CopyReportReq.CopyList)
   return copylist_.Mutable(index);
 }
-inline ::CopyItem* CopyReportReq::add_copylist() {
+inline ::CopyInsItem* CopyReportReq::add_copylist() {
   // @@protoc_insertion_point(field_add:CopyReportReq.CopyList)
   return copylist_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::CopyItem >*
+inline ::google::protobuf::RepeatedPtrField< ::CopyInsItem >*
 CopyReportReq::mutable_copylist() {
   // @@protoc_insertion_point(field_mutable_list:CopyReportReq.CopyList)
   return &copylist_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::CopyItem >&
+inline const ::google::protobuf::RepeatedPtrField< ::CopyInsItem >&
 CopyReportReq::copylist() const {
   // @@protoc_insertion_point(field_list:CopyReportReq.CopyList)
   return copylist_;
@@ -12848,7 +12855,21 @@ inline void SealAccountReq::set_accountid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:SealAccountReq.AccountID)
 }
 
-// int32 SealTime = 3;
+// int32 Channel = 3;
+inline void SealAccountReq::clear_channel() {
+  channel_ = 0;
+}
+inline ::google::protobuf::int32 SealAccountReq::channel() const {
+  // @@protoc_insertion_point(field_get:SealAccountReq.Channel)
+  return channel_;
+}
+inline void SealAccountReq::set_channel(::google::protobuf::int32 value) {
+  
+  channel_ = value;
+  // @@protoc_insertion_point(field_set:SealAccountReq.Channel)
+}
+
+// int32 SealTime = 4;
 inline void SealAccountReq::clear_sealtime() {
   sealtime_ = 0;
 }
@@ -12862,7 +12883,7 @@ inline void SealAccountReq::set_sealtime(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:SealAccountReq.SealTime)
 }
 
-// bool Seal = 4;
+// bool Seal = 5;
 inline void SealAccountReq::clear_seal() {
   seal_ = false;
 }

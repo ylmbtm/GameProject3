@@ -8,7 +8,6 @@ class CLogManager
 public:
 	static CLogManager* GetInstancePtr();
 
-
 public:
 };
 #endif //__LOG_MANAGER_H__

@@ -509,6 +509,10 @@ BOOL CommonFunc::KillProcess(UINT64 dwPid)
 	}
 
 	hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)dwPid);
+	if (hPrc == NULL)
+	{
+		return TRUE;
+	}
 
 	if (!TerminateProcess(hPrc, 0))
 	{

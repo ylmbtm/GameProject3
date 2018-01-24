@@ -235,7 +235,7 @@ UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 	CopyDataObject* pObject = pCopyModule->GetCopyData(dwCopyID);
 	ERROR_RETURN_CODE(pObject != NULL, MRC_UNKNOW_ERROR);
 
-	if(pObject->m_dwBattleTimes >= pCopyInfo->dwBattleTimes)
+	if(pObject->m_dwBattleCnt >= pCopyInfo->dwBattleTimes)
 	{
 		return MRC_NOT_ENOUGH_TIMES;
 	}

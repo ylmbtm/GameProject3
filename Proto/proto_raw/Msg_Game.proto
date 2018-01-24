@@ -194,15 +194,15 @@ message EnterSceneAck {
 	int32	ActorID		= 6;
 	string	RoleName	= 7;
 	int32	Camp		= 8;
-	float	x		= 9;
-	float	y		= 10;
-	float	z		= 11;
-	float	ft		= 12;
-	int32	hp		= 13;
-	int32	mp		= 14;
-	int32	hpmax		= 15;
-	int32	mpmax		= 16;
-	int32	weapon		= 17; //武器
+	float	X		= 9;
+	float	Y		= 10;
+	float	Z		= 11;
+	float	Ft		= 12;
+	int32	Hp		= 13;
+	int32	Mp		= 14;
+	int32	HpMax		= 15;
+	int32	MpMax		= 16;
+	repeated int32	Equips		= 17; //武器
 }
 
 message AbortCopyReq {
@@ -242,7 +242,8 @@ message TransRoleData {
 	int32	CarrerID	= 3;
 	int32	ActorID		= 4;
 	int32	Level		= 5;
-	repeated int32 Propertys = 6;
+	repeated int32	Equips	= 6;
+	repeated int32	Propertys = 7;
 }
 
 message TransPetData {
@@ -265,7 +266,7 @@ message TransPartnerData {
 }
 
 message TransferDataReq {
-	int32			Camp		= 1;			//战场中的阵营
+	int32				Camp		= 1;			//战场中的阵营
 	TransRoleData		RoleData	= 2;
 	TransPetData		PetData		= 3;
 	TransPartnerData	PartnerData	= 4;
@@ -294,7 +295,7 @@ message NearByRoleItem {
 	
 }
 
-message CopyItem {
+message CopyInsItem {
 	uint32	CopyGuid	= 1;
 	int32	CopyID		= 2;
 	int32	CopyType	= 3;
@@ -304,7 +305,7 @@ message CopyItem {
 
 message CopyReportReq {
 	int32	ServerID = 1;
-	repeated CopyItem CopyList = 2;
+	repeated CopyInsItem CopyList = 2;
 }
 
 
@@ -348,8 +349,9 @@ message ChatMessageNty {
 message SealAccountReq {
 	string	AccountName	= 1;
 	uint64	AccountID	= 2;
-	int32	SealTime	= 3;
-	bool	Seal		= 4;
+	int32	Channel		= 3;
+	int32	SealTime	= 4;
+	bool	Seal		= 5;
 }
 
 message SealAccountAck {
@@ -360,7 +362,7 @@ message SealAccountAck {
 
 
 message CommonReq {
-	uint32  Param1 = 1;
+	uint32	Param1	= 1;
 }
 
 message CommonAck {
@@ -369,9 +371,9 @@ message CommonAck {
 
 
 message BroadMessageNotify {
-	uint32 MsgID = 1;
-	repeated uint32 ConnID = 2;
-    bytes MsgData = 3;	
+	uint32		MsgID			= 1;
+	repeated	uint32 ConnID	= 2;
+    bytes		MsgData			= 3;	
 }
 
 
@@ -380,12 +382,12 @@ message LogicRegToLoginReq {
 	string	ServerName	= 2;
 	string	ServerIp	= 3;
 	int32	ServerPort	= 4;
-	int32   HttpPort    = 5;
-	int32   WatchPort   = 6;
+	int32	HttpPort	= 5;
+	int32	WatchPort	= 6;
 }
 
 message LogicRegToLoginAck {
-	uint32	RetCode	= 1;
+	uint32	RetCode		= 1;
 	string	NewSvrName	= 2;
 }
 
@@ -396,9 +398,9 @@ message WatchHeartBeatReq {
 }
 
 message WatchHeartBeatAck {
-	uint32	RetCode	= 1;
-	uint32  Data = 2;
-	uint64  ProcessID = 3;
+	uint32	RetCode		= 1;
+	uint32	Data		= 2;
+	uint64	ProcessID	= 3;
 }
 
 
@@ -423,9 +425,9 @@ message UnDressEquipAck {
 
 
 message DressGemReq {
-	uint64	GemGuid = 1;
-	uint64	BagGuid = 2;
-	int32   TargetPos = 3;
+	uint64	GemGuid		= 1;
+	uint64	BagGuid		= 2;
+	int32	TargetPos	= 3;
 }
 
 message DressGemAck {

@@ -40,7 +40,7 @@ public:
 
 	UINT64  GetAction(UINT32 dwActionID);
 
-	UINT64  AddAction( UINT32 dwActionID, INT32 nActionNum);
+	UINT64  AddAction( UINT32 dwActionID, INT64 nActionNum);
 
 	BOOL    UpdateAction(UINT32 dwActionID);
 

@@ -30,13 +30,13 @@ BOOL CHttpMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			//PROCESS_MESSAGE_ITEM(MSG_PHP_WEB_REQ,		OnMsgPhpWebReq);
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,		OnMsgGmCommandReq);
 	}
 
 	return FALSE;
 }
 
-BOOL CHttpMsgHandler::OnMsgPhpWebReq(NetPacket* pNetPacket)
+BOOL CHttpMsgHandler::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	char sz[20] = "abcdefghiji";
 
@@ -50,5 +50,4 @@ BOOL CHttpMsgHandler::OnMsUpdateServerReq(NetPacket* pNetPacket)
 
 
 	return TRUE;
-
 }

@@ -25,7 +25,7 @@ BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject* pObject)
 	{
 		ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
 		ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
-		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, 0, m_vtBornPos[pObject->m_dwCamp].m_z);
+		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, m_vtBornPos[pObject->m_dwCamp].m_y, m_vtBornPos[pObject->m_dwCamp].m_z);
 
 		return TRUE;
 	}

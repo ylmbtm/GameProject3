@@ -22,6 +22,8 @@ public:
 
 	BOOL				TryCleanPlayer();
 
+	BOOL				BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+
 public:
 
 };

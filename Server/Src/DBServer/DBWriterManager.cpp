@@ -17,6 +17,7 @@ BOOL CDBWriterManager::Init()
 	m_pGlobalDataWriter		= new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
 	m_pBagDataWriter		= new DataWriter<BagDataObject>(ESD_BAG, 1024);
 	m_pCopyDataWriter		= new DataWriter<CopyDataObject>(ESD_COPY, 1024);
+	m_pChapterDataWriter = new DataWriter<ChapterDataObject>(ESD_CHAPTER, 1024);
 	m_pEquipDataWriter		= new DataWriter<EquipDataObject>(ESD_EQUIP, 1024);
 	m_pGemDataWriter		= new DataWriter<GemDataObject>(ESD_GEM, 1024);
 	m_pPetDataWriter		= new DataWriter<PetDataObject>(ESD_PET, 1024);
@@ -59,6 +60,7 @@ void CDBWriterManager::SaveDataToDB()
 	m_pGlobalDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pBagDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pCopyDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pChapterDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pEquipDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pGemDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pPetDataWriter->SaveModifyToDB(&m_DBConnection);

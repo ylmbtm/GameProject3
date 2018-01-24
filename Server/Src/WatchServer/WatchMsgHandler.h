@@ -48,7 +48,7 @@ public:
 	BOOL OnMsgStartServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgStopServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgServerHeartAck(NetPacket* pNetPacket);
-	BOOL OnMsgWatchWebReq(NetPacket* pNetPacket);
+	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
 

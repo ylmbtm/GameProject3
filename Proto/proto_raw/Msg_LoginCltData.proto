@@ -1,27 +1,27 @@
 syntax = "proto3";
 
 message BagItem {
-	uint64 Guid = 1;
-	uint64 ItemGuid = 2;
-	int32  ItemID = 3;
-	int32  ItemNum = 4;
-	bool   Bind = 5;			//是否是邦定
+	uint64	Guid		= 1;
+	uint64	ItemGuid	= 2;
+	int32	ItemID		= 3;
+	int64	ItemNum		= 4;
+	bool	Bind		= 5;	//是否是邦定
 }
 
 message BagChangeNty{
-	repeated BagItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+	repeated	BagItem ChangeList = 1;
+	repeated	uint64  RemoveList = 2;
 }
 
 message EquipItem {
-	uint64 Guid = 1;
-	int32  EquipID = 2;
-	int32  StrengthLvl = 3;   //强化等级
-	int32  RefineLevel = 4;   //精炼等级
-	int32  StarLevel = 5;	  //星级
-	int32  RefineExp = 6;	  //精验的经验
-	int32  StarExp = 7;		  //星级经验
-	int32  IsUsing = 8;		  //是否上阵
+	uint64	Guid		= 1;
+	int32	EquipID		= 2;
+	int32	StrengthLvl	= 3;   //强化等级
+	int32	RefineLevel	= 4;   //精炼等级
+	int32	StarLevel	= 5;	  //星级
+	int32	RefineExp	= 6;	  //精验的经验
+	int32	StarExp		= 7;		  //星级经验
+	int32	IsUsing		= 8;		  //是否上阵
 }
 
 message EquipChangeNty{
@@ -31,14 +31,14 @@ message EquipChangeNty{
 
 
 message GemItem {
-	uint64 Guid = 1;
-	int32  GemID = 2;
-	int32  StrengthLvl = 3;   //强化等级
-	int32  RefineLevel = 4;   //精炼等级
-	int32  StarLevel = 5;	  //星级
-	int32  RefineExp = 6;	  //精验的经验
-	int32  StarExp = 7;		  //星级经验
-	int32  Pos = 8;		    //位置
+	uint64	Guid		= 1;
+	int32	GemID		= 2;
+	int32	StrengthLvl	= 3;	//强化等级
+	int32	RefineLevel	= 4;	//精炼等级
+	int32	StarLevel	= 5;	//星级
+	int32	RefineExp	= 6;	//精验的经验
+	int32	StarExp		= 7;	//星级经验
+	int32	Pos			= 8;	//位置
 }
 
 message GemChangeNty{
@@ -111,6 +111,22 @@ message TaskItem {
 message TaskChangeNty {
 	repeated TaskItem ChangeList = 1;
 	repeated uint64  RemoveList = 2;
+}
+
+message CopyItem {
+	uint64	RoleID = 1;			//角色ID
+	uint32  CopyID = 2;
+	int32	StarNum = 3;
+	int32   BattleCnt = 4;
+	int32   ResetCnt = 5;
+}
+
+message ChapterItem {
+	uint64	RoleID = 1;			//角色ID
+	uint32  CopyType = 2;
+	uint32  ChapterID = 3;
+	uint32  StarAward = 4;
+	uint32  SceneAward = 5;
 }
 
 message RoleLoginAck {

@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "ConfigFile.h"
 #include "CommonConvert.h"
+#include "Log.h"
 
 
 CConfigFile::CConfigFile( void )
@@ -15,7 +16,7 @@ CConfigFile::~CConfigFile( void )
 
 BOOL CConfigFile::Load( std::string strFileName )
 {
-	FILE *pFile = fopen(strFileName.c_str(),"r+");
+	FILE* pFile = fopen(strFileName.c_str(), "r+");
 
 	if(pFile == NULL)
 	{
@@ -23,7 +24,6 @@ BOOL CConfigFile::Load( std::string strFileName )
 	}
 
 	CHAR szBuff[256] = {0};
-
 
 	do
 	{
@@ -33,24 +33,25 @@ BOOL CConfigFile::Load( std::string strFileName )
 		{
 			continue;
 		}
-		
-		CHAR *pChar = strchr(szBuff,'=');
+
+		CHAR* pChar = strchr(szBuff, '=');
 		if(pChar == NULL)
 		{
 			continue;
 		}
 
 		std::string strName;
-		strName.assign(szBuff,pChar-szBuff);
-		std::string strValue = pChar+1;
+		strName.assign(szBuff, pChar - szBuff);
+		std::string strValue = pChar + 1;
 
 		CommonConvert::StringTrim(strName);
 		CommonConvert::StringTrim(strValue);
 
 		m_Values.insert(std::make_pair(strName, strValue));
 
-	}while(!feof(pFile));
-	
+	}
+	while(!feof(pFile));
+
 	fclose(pFile);
 
 
@@ -67,11 +68,13 @@ CConfigFile* CConfigFile::GetInstancePtr()
 
 std::string CConfigFile::GetStringValue( std::string strName )
 {
-	std::map<std::string,std::string>::iterator itor = m_Values.find(strName);
+	std::map<std::string, std::string>::iterator itor = m_Values.find(strName);
 	if(itor != m_Values.end())
 	{
 		return itor->second;
 	}
+
+	CLog::GetInstancePtr()->LogError("无效的配制选项: [%s]", strName.c_str());
 
 	return "";
 }

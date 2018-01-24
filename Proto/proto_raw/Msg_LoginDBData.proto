@@ -23,8 +23,8 @@ message DBBagItem {
 	uint64	Guid = 1;			//格子的guid
 	uint64	RoleID = 2;			//角色ID
 	uint64	ItemGuid = 3;		//物品guid
-	int32	ItemID = 4;			//道具ID
-	int32	Count = 5;			//个数
+	uint32	ItemID = 4;			//道具ID
+	int64	Count = 5;			//个数
 	int32	Bind = 6;			//是否是邦定
 	int32   Status = 7;			//是否删除
 }
@@ -36,10 +36,24 @@ message DBBagData {
 message DBCopyItem {
 	uint64	RoleID = 1;			//角色ID
 	uint32  CopyID = 2;
+	int32	StarNum = 3;
+	int32   BattleCnt = 4;
+	int32   ResetCnt = 5;
+	uint64  BattleTime = 6;
+	uint64  ResetTime = 7;
+}
+
+message DBChapterItem {
+	uint64	RoleID = 1;			//角色ID
+	uint32  CopyType = 2;
+	uint32  ChapterID = 3;
+	uint32  StarAward = 4;
+	uint32  SceneAward = 5;
 }
 
 message DBCopyData {
 	repeated DBCopyItem CopyList = 1;
+	repeated DBChapterItem ChapterList = 2;
 }
 
 message DBEquipItem {

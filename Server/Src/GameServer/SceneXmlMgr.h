@@ -20,7 +20,7 @@ public:
 
 
 
-
+	std::vector<char*>								     m_vtDocuBuff;
 	std::map<std::string, rapidxml::xml_document<char>*> m_mapDocument;
 };
 

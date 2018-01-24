@@ -72,7 +72,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	UINT64 u64ID = 0;
 	UINT32 dwChannel = 0;
 	std::string strPwd;
-	pAccount = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
+	pAccount = m_AccountManager.CreateAccountObject(Req.accountname(), Req.password(), Req.channel());
 	if(pAccount == NULL)
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
@@ -98,14 +98,17 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	AccountLoginAck Ack;
-	//由于实际运营中存在不同渠道的accountname一样的情况，所有需要增加渠道参数
-	//CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
-
 	CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 	if(pAccObj != NULL)
 	{
 		ERROR_RETURN_FALSE(pAccObj->m_ID != 0);
-		if(Req.password() == pAccObj->m_strPassword)
+		if (pAccObj->m_uSealTime != 0 && CommonFunc::GetCurrTime() < pAccObj->m_uSealTime)
+		{
+			Ack.set_retcode(MRC_ACCOUNT_SEALED);
+			Ack.set_lastsvrid(0);
+			Ack.set_accountid(0);
+		}
+		else if(Req.password() == pAccObj->m_strPassword)
 		{
 			Ack.set_retcode(MRC_SUCCESSED);
 			Ack.set_lastsvrid(pAccObj->m_dwLastSvrID);
@@ -122,7 +125,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 		UINT64 u64ID = 0;
 		UINT32 dwChannel = 0;
 		std::string strPwd;
-		pAccObj = m_AccountManager.CreateAccountObject(Req.accountname().c_str(), Req.password().c_str(), Req.channel());
+		pAccObj = m_AccountManager.CreateAccountObject(Req.accountname(), Req.password(), Req.channel());
 		if (pAccObj == NULL)
 		{
 			Ack.set_retcode(MRC_UNKNOW_ERROR);
@@ -156,33 +159,14 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	SealAccountAck Ack;
-	CAccountObject* pAccObj = NULL;
-	if(Req.accountid() == 0)
-	{
-		pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), 0);
-	}
-	else
-	{
-		pAccObj = m_AccountManager.GetAccountObjectByID(Req.accountid());
-	}
 
-	if(pAccObj != NULL)
+	if (m_AccountManager.SealAccount(Req.accountid(), Req.accountname(), Req.channel(), Req.seal(), Req.sealtime()))
 	{
-		if(Req.seal())
-		{
-			pAccObj->m_SealStatue = SS_NO;
-			pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + Req.sealtime();
-		}
-		else
-		{
-			pAccObj->m_SealStatue = SS_OK;
-		}
-
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
 	else
 	{
-		Ack.set_retcode(MRC_INVALID_ACCNAME);
+		Ack.set_retcode(MRC_UNKNOW_ERROR);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);

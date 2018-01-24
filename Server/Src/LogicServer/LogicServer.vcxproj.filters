@@ -99,9 +99,6 @@
     <ClCompile Include="MailModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ChatManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="GuildManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="GemModule.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GmCommand.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -266,9 +266,6 @@
     <ClInclude Include="..\ServerData\MailData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
-    <ClInclude Include="ChatManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="GuildManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\GemData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="GmCommand.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

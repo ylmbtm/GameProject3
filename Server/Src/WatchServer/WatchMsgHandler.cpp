@@ -46,7 +46,7 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ,	OnMsgStartServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK,	OnMsgServerHeartAck)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_SVR_PHP_REQ,		OnMsgWatchWebReq)
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgGmCommandReq)
 	}
 
 	return FALSE;
@@ -87,6 +87,7 @@ BOOL CWatchMsgHandler::OnNewConnect(CConnection* pConn)
 		if (serverInfo.ConnID == connid)
 		{
 			serverInfo.ProscessStatus = EPS_ConnSucceed;
+			serverInfo.LastHeartTick = CommonFunc::GetTickCount();
 		}
 	}
 
@@ -123,10 +124,13 @@ BOOL CWatchMsgHandler::KillAllProcess()
 	for (INT32 i = 0; i < m_vtProcess.size(); i++)
 	{
 		ServerProcessInfo& serverData = m_vtProcess[i];
-		CommonFunc::KillProcess(serverData.ProcessID);
-		serverData.ProscessStatus = EPS_Init;
-		serverData.LastHeartTick = CommonFunc::GetTickCount();
-		serverData.ProcessID = 0;
+		if (CommonFunc::KillProcess(serverData.ProcessID))
+		{
+			serverData.ProscessStatus = EPS_Init;
+			serverData.LastHeartTick = CommonFunc::GetTickCount();
+			serverData.ProcessID = 0;
+		}
+
 	}
 	return TRUE;
 }
@@ -170,10 +174,12 @@ BOOL CWatchMsgHandler::OnMsgStopServerReq(NetPacket* pNetPacket)
 		for (INT32 i = 0; i < m_vtProcess.size(); i++)
 		{
 			ServerProcessInfo& serverData = m_vtProcess[i];
-			CommonFunc::KillProcess(serverData.ProcessID);
-			serverData.ProscessStatus = EPS_Init;
-			serverData.LastHeartTick = CommonFunc::GetTickCount();
-			serverData.ProcessID = 0;
+			if (CommonFunc::KillProcess(serverData.ProcessID))
+			{
+				serverData.ProscessStatus = EPS_Init;
+				serverData.LastHeartTick = CommonFunc::GetTickCount();
+				serverData.ProcessID = 0;
+			}
 		}
 	}
 	else
@@ -198,12 +204,13 @@ BOOL CWatchMsgHandler::OnMsgServerHeartAck(NetPacket* pNetPacket)
 }
 
 
-BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
+BOOL CWatchMsgHandler::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
 	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
-	HttpParameter Params(szMsgBuf);
+	HttpParameter Params;
+	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
 	if (strAction == "StartServer")
 	{
@@ -222,10 +229,13 @@ BOOL CWatchMsgHandler::OnMsgWatchWebReq(NetPacket* pNetPacket)
 			for (INT32 i = 0; i < m_vtProcess.size(); i++)
 			{
 				ServerProcessInfo& serverData = m_vtProcess[i];
-				CommonFunc::KillProcess(serverData.ProcessID);
-				serverData.ProscessStatus = EPS_Init;
-				serverData.LastHeartTick = CommonFunc::GetTickCount();
-				serverData.ProcessID = 0;
+				if (CommonFunc::KillProcess(serverData.ProcessID))
+				{
+					serverData.ProscessStatus = EPS_Init;
+					serverData.LastHeartTick = CommonFunc::GetTickCount();
+					serverData.ProcessID = 0;
+				}
+
 			}
 		}
 	}
@@ -314,20 +324,26 @@ BOOL CWatchMsgHandler::KillProcess(ServerProcessInfo& processData)
 		for (INT32 i = 0; i < m_vtProcess.size(); i++)
 		{
 			ServerProcessInfo& serverData = m_vtProcess[i];
-			CommonFunc::KillProcess(serverData.ProcessID);
-			serverData.ProscessStatus = EPS_Init;
-			serverData.LastHeartTick = CommonFunc::GetTickCount();
-			serverData.ProcessID = 0;
-			serverData.ConnID = 0;
+			if (CommonFunc::KillProcess(serverData.ProcessID))
+			{
+				serverData.ProscessStatus = EPS_Init;
+				serverData.LastHeartTick = CommonFunc::GetTickCount();
+				serverData.ProcessID = 0;
+				serverData.ConnID = 0;
+			}
+
 		}
 	}
 	else
 	{
-		CommonFunc::KillProcess(processData.ProcessID);
-		processData.ProscessStatus = EPS_Init;
-		processData.LastHeartTick = CommonFunc::GetTickCount();
-		processData.ProcessID = 0;
-		processData.ConnID = 0;
+		if (CommonFunc::KillProcess(processData.ProcessID))
+		{
+			processData.ProscessStatus = EPS_Init;
+			processData.LastHeartTick = CommonFunc::GetTickCount();
+			processData.ProcessID = 0;
+			processData.ConnID = 0;
+		}
+
 	}
 	return true;
 }

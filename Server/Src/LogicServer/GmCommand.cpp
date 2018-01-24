@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "ChatManager.h"
+#include "GmCommand.h"
 #include "GameService.h"
 #include "CommonFunc.h"
 #include "Log.h"
@@ -12,27 +12,27 @@
 #include "../GameServer/GameObject/SceneObject.h"
 #include "PlayerManager.h"
 
-CChatManager::CChatManager()
+CGmCommand::CGmCommand()
 {
 
 }
 
-CChatManager::~CChatManager()
+CGmCommand::~CGmCommand()
 {
 
 }
 
-BOOL CChatManager::DispatchPacket(NetPacket* pNetPacket)
+BOOL CGmCommand::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ, OnMsgChatReq)
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ, OnMsgGmCommandReq)
 	}
 
 	return FALSE;
 }
 
-BOOL CChatManager::OnMsgChatReq(NetPacket* pNetPacket)
+BOOL CGmCommand::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	ChatMessageReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -43,9 +43,9 @@ BOOL CChatManager::OnMsgChatReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-CChatManager* CChatManager::GetInstancePtr()
+CGmCommand* CGmCommand::GetInstancePtr()
 {
-	static CChatManager _StaticMgr;
+	static CGmCommand _StaticMgr;
 
 	return &_StaticMgr;
 }
