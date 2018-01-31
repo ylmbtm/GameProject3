@@ -87,20 +87,6 @@ BOOL CGameService::SendCmdToAccountConnection(UINT32 dwMsgID, UINT64 u64TargetID
 	return TRUE;
 }
 
-BOOL CGameService::ConnectToLogServer()
-{
-	if (m_dwLogSvrConnID != 0)
-	{
-		return TRUE;
-	}
-	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
-	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
-	ERROR_RETURN_FALSE(pConnection != NULL);
-	m_dwLogSvrConnID = pConnection->GetConnectionID();
-	return TRUE;
-}
-
 BOOL CGameService::ConnectToAccountSvr()
 {
 	if (m_dwAccountConnID != 0)
@@ -127,19 +113,12 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 		m_dwAccountConnID = 0;
 	}
 
-	if(pConn->GetConnectionID() == m_dwLogSvrConnID)
-	{
-		m_dwLogSvrConnID = 0;
-	}
-
 	return TRUE;
 }
 
 BOOL CGameService::OnSecondTimer()
 {
 	ConnectToAccountSvr();
-
-	//ConnectToLogServer();
 
 	return TRUE;
 }

@@ -310,11 +310,16 @@ CppMySQL3DB::~CppMySQL3DB()
 }
 
 bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, const char* db,
-                       unsigned int port /*= 0*/, unsigned long client_flag /*= 0*/)
+                       unsigned int port, const char* charSetName, unsigned long client_flag /*= 0*/)
 {
 	bool ret = false;
 	_db_ptr = mysql_init(NULL);
 	if( NULL == _db_ptr )
+	{
+		goto EXT;
+	}
+
+	if (0 != mysql_options(_db_ptr, MYSQL_SET_CHARSET_NAME, charSetName))
 	{
 		goto EXT;
 	}

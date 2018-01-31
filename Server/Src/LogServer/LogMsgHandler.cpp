@@ -76,9 +76,18 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 {
-	char* pSql = pNetPacket->m_pDataBuffer->GetData();
-	*(pSql + pNetPacket->m_pDataBuffer->GetBodyLenth()) = 0;
+	char* pData = pNetPacket->m_pDataBuffer->GetData();
+	UINT32 dwLogType = *(UINT32*)pData;
+	switch (dwLogType)
+	{
+		case 1:
+		//Log_AccountCreate* p = (Log_AccountCreate*)pData;
+		//p->GetLogText();
+		default:
+			break;
+	}
 
+	char* pSql = NULL;
 	if (m_DBConnection.execSQL(pSql) <= 0)
 	{
 		CLog::GetInstancePtr()->LogError(pSql);

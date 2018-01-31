@@ -198,14 +198,24 @@ BOOL LogicSvrManager::ReloadServerList()
 		pNode->m_strIpAddr = QueryResult.getStringField("ip", "*");
 		pNode->m_dwPort = QueryResult.getIntField("port", 0);
 		pNode->m_bDelete = FALSE;
-		std::string strCheckVersion = QueryResult.getStringField("check_version", "*");
-		if(strCheckVersion.empty() || strCheckVersion == "*")
+		std::string strMinVersion = QueryResult.getStringField("min_version", "0");
+		if(strMinVersion.empty())
 		{
-			pNode->m_dwCheckVersion = 0;
+			pNode->m_dwMinVersion = 0;
 		}
 		else
 		{
-			pNode->m_dwCheckVersion = 0;
+			pNode->m_dwMinVersion = CommonConvert::VersionToInt(strMinVersion);
+		}
+
+		std::string strMaxVersion = QueryResult.getStringField("max_version", "0");
+		if (strMaxVersion.empty())
+		{
+			pNode->m_dwMaxVersion = 0;
+		}
+		else
+		{
+			pNode->m_dwMaxVersion = CommonConvert::VersionToInt(strMaxVersion);
 		}
 
 		std::string strCheckChannel = QueryResult.getStringField("check_chan", "*");
@@ -235,7 +245,7 @@ BOOL LogicSvrManager::ReloadServerList()
 			CommonConvert::SpliteString(strCheckIp,  ";", vtValue);
 			for(int i = 0; i < vtValue.size(); i++)
 			{
-				pNode->m_CheckIpList.insert(vtValue[i]);
+				pNode->m_CheckIpList.insert(CommonSocket::IpAddrStrToInt(vtValue[i].c_str()));
 			}
 		}
 
@@ -301,7 +311,7 @@ BOOL LogicServerNode::CheckChannel( UINT32 dwChannel )
 
 BOOL LogicServerNode::CheckVersion( std::string strVersion )
 {
-	if(m_dwCheckVersion == 0)
+	if(m_dwMinVersion == 0)
 	{
 		return TRUE;
 	}

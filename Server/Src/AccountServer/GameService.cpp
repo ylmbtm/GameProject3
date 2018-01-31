@@ -65,11 +65,18 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 
 BOOL CGameService::OnCloseConnect(CConnection* pConn)
 {
+	if (pConn->GetConnectionID() == m_dwLogSvrConnID)
+	{
+		m_dwLogSvrConnID = 0;
+	}
+
 	return TRUE;
 }
 
 BOOL CGameService::OnSecondTimer()
 {
+	//ConnectToLogServer();
+
 	return TRUE;
 }
 
@@ -107,6 +114,19 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
+BOOL CGameService::ConnectToLogServer()
+{
+	if (m_dwLogSvrConnID != 0)
+	{
+		return TRUE;
+	}
+	UINT32 nStatPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
+	std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strStatIp, nStatPort);
+	ERROR_RETURN_FALSE(pConnection != NULL);
+	m_dwLogSvrConnID = pConnection->GetConnectionID();
+	return TRUE;
+}
 
 BOOL CGameService::OnMsgWatchHeartBeatReq(NetPacket* pNetPacket)
 {

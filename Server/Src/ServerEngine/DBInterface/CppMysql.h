@@ -69,7 +69,7 @@ public:
 	virtual ~CppMySQL3DB();
 
 	bool open(const char* host, const char* user, const char* passwd, const char* db,
-	          unsigned int port = 0, unsigned long client_flag = 0);
+	          unsigned int port, const char* charSetName = "utf8", unsigned long client_flag = 0);
 
 	void close();
 

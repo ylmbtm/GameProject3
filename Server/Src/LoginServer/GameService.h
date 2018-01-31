@@ -29,13 +29,10 @@ public:
 
 	BOOL        SendCmdToAccountConnection(UINT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
-	BOOL	    ConnectToLogServer();
-
 	BOOL		ConnectToAccountSvr();
 
 public:
 	CLoginMsgHandler	m_LoginMsgHandler;
-	UINT32              m_dwLogSvrConnID;
 	UINT32              m_dwAccountConnID;
 
 

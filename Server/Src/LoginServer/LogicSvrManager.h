@@ -33,19 +33,20 @@ struct LogicServerNode
 
 	BOOL CheckVersion(std::string strVersion);
 
-	UINT32		m_dwConnID;   //连接ID
-	UINT32		m_dwServerID;
-	UINT32		m_dwPort;   ///端口号
-	UINT32      m_dwHttpPort;
-	UINT32      m_dwWatchPort;
-	UINT32		m_Statue;
-	UINT32		m_Flag;
-	UINT32		m_dwCheckVersion;
-	std::string m_strSvrName;
-	std::string m_strIpAddr;
-	UINT64		m_uLastUpdate;
+	UINT32		m_dwConnID;		//连接ID
+	UINT32		m_dwServerID;	//服务器ID
+	UINT32		m_dwPort;		//端口号
+	UINT32      m_dwHttpPort;	//http端口
+	UINT32      m_dwWatchPort;	//监视端口
+	UINT32		m_Statue;		//服务器状态
+	UINT32		m_Flag;			//服务器标记
+	UINT32		m_dwMinVersion; //最小可见版本
+	UINT32		m_dwMaxVersion; //最大可见版本
+	std::string m_strSvrName;	//服务器名字
+	std::string m_strIpAddr;	//服务器IP地址
+	UINT64		m_uLastUpdate;	//服务器最后更新时间
 
-	std::set<std::string> m_CheckIpList;
+	std::set<UINT32> m_CheckIpList;	  //过滤的IP地址
 	std::set<INT32>       m_CheckChannelList; //可以看见的渠道
 
 	BOOL		m_bDelete;

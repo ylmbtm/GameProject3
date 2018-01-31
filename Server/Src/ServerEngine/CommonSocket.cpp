@@ -45,7 +45,7 @@ bool    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
 	int bOn = 1;
 
-	if(0 != setsockopt(hSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&bOn,sizeof(bOn)))
+	if(0 != setsockopt(hSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&bOn, sizeof(bOn)))
 	{
 		return false;
 	}
@@ -70,7 +70,7 @@ bool   CommonSocket::InitNetwork()
 bool   CommonSocket::UninitNetwork()
 {
 #if WIN32
-	return (0 == WSACleanup()); 
+	return (0 == WSACleanup());
 #endif
 
 	return true;
@@ -102,7 +102,7 @@ SOCKET	CommonSocket::CreateSocket( int af, int type, int protocol)
 }
 
 
-BOOL	CommonSocket::BindSocket( SOCKET hSocket, const struct sockaddr *pAddr, int nNamelen)
+BOOL	CommonSocket::BindSocket( SOCKET hSocket, const struct sockaddr* pAddr, int nNamelen)
 {
 	if(0 != bind(hSocket, pAddr, nNamelen))
 	{
@@ -123,7 +123,7 @@ BOOL	CommonSocket::ListenSocket( SOCKET hSocket, int nBacklog)
 }
 
 
-BOOL	CommonSocket::ConnectSocket(SOCKET hSocket, const char *pAddr, short sPort)
+BOOL	CommonSocket::ConnectSocket(SOCKET hSocket, const char* pAddr, short sPort)
 {
 	if(pAddr == NULL)
 	{
@@ -135,13 +135,13 @@ BOOL	CommonSocket::ConnectSocket(SOCKET hSocket, const char *pAddr, short sPort)
 	svrAddr.sin_port   = htons(sPort);
 	inet_pton(AF_INET, pAddr, &svrAddr.sin_addr);
 
-	if(0 == connect(hSocket, (const sockaddr *)&svrAddr, sizeof(sockaddr_in)))
+	if(0 == connect(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in)))
 	{
 		return TRUE;
 	}
 
 	int nError = CommonSocket::GetSocketLastError();
-	if((WSAEWOULDBLOCK == nError)||(WSAEINPROGRESS == nError))
+	if((WSAEWOULDBLOCK == nError) || (WSAEINPROGRESS == nError))
 	{
 		return TRUE;
 	}
@@ -161,7 +161,7 @@ INT32   CommonSocket::GetSocketLastError()
 
 BOOL CommonSocket::IsSocketValid(SOCKET hSocket)
 {
-	if((hSocket == 0)||(hSocket == INVALID_SOCKET))
+	if((hSocket == 0) || (hSocket == INVALID_SOCKET))
 	{
 		return FALSE;
 	}
@@ -175,8 +175,8 @@ std::string  CommonSocket::GetLastErrorStr(INT32 nError)
 	std::string strErrorText;
 #ifdef WIN32
 	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,NULL,nError,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),(LPTSTR) &lpMsgBuf,0, NULL);
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, nError,
+	              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, NULL);
 
 	strErrorText = (LPTSTR)lpMsgBuf;
 
@@ -189,10 +189,19 @@ std::string  CommonSocket::GetLastErrorStr(INT32 nError)
 	return strErrorText;
 }
 
-UINT32  CommonSocket::IpAddrStrToInt(CHAR *pszIpAddr)
+UINT32  CommonSocket::IpAddrStrToInt(CHAR* pszIpAddr)
 {
 	sockaddr_in SvrAddr;
-	
+
+	inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr);
+
+	return SvrAddr.sin_addr.s_addr;
+}
+
+UINT32  CommonSocket::IpAddrStrToInt(const CHAR* pszIpAddr)
+{
+	sockaddr_in SvrAddr;
+
 	inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr);
 
 	return SvrAddr.sin_addr.s_addr;
@@ -200,16 +209,16 @@ UINT32  CommonSocket::IpAddrStrToInt(CHAR *pszIpAddr)
 
 
 #ifdef WIN32
-BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char *pAddr, short sPort, LPOVERLAPPED lpOverlapped)
+BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped)
 {
 	LPFN_CONNECTEX lpfnConnectEx = NULL;
 
 	DWORD dwBytes;
 	GUID GuidConnectEx = WSAID_CONNECTEX;
-	if(SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, 
-		&GuidConnectEx, sizeof(GuidConnectEx), 
-		&lpfnConnectEx, sizeof(lpfnConnectEx), 
-		&dwBytes, NULL, NULL))
+	if(SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+	                            &GuidConnectEx, sizeof(GuidConnectEx),
+	                            &lpfnConnectEx, sizeof(lpfnConnectEx),
+	                            &dwBytes, NULL, NULL))
 	{
 		return FALSE;
 	}
@@ -217,14 +226,14 @@ BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char *pAddr, short sPor
 	sockaddr_in  svrAddr;
 	svrAddr.sin_family		= AF_INET;
 	svrAddr.sin_port		= htons(0);
-	svrAddr.sin_addr.s_addr = INADDR_ANY;  
+	svrAddr.sin_addr.s_addr = INADDR_ANY;
 
-	CommonSocket::BindSocket(hSocket, (const sockaddr *)&svrAddr, sizeof(sockaddr_in));
+	CommonSocket::BindSocket(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in));
 
 	svrAddr.sin_port   = htons(sPort);
 	inet_pton(AF_INET, pAddr, &svrAddr.sin_addr);
 
-	if(!lpfnConnectEx(hSocket,(const sockaddr *)&svrAddr, sizeof(sockaddr_in), NULL, NULL, NULL, lpOverlapped))
+	if(!lpfnConnectEx(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in), NULL, NULL, NULL, lpOverlapped))
 	{
 		if(ERROR_IO_PENDING != CommonSocket::GetSocketLastError())
 		{
@@ -241,13 +250,13 @@ std::string CommonSocket::IpAddrIntToStr( UINT32 dwIpAddr )
 	in_addr Addr;
 
 	Addr.s_addr = dwIpAddr;
-	
-	CHAR szIpBuffer[20] = {0};
-	inet_ntop(AF_INET, &Addr, szIpBuffer, 20);
+
+	CHAR szIpBuffer[100] = {0};
+	inet_ntop(AF_INET, &Addr, szIpBuffer, 100);
 	return std::string(szIpBuffer);
 }
 
-bool CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int keepInterval, int keepCount, int keepIdle )
+bool CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nKeepCount, int nKeepIdle )
 {
 #ifdef WIN32
 	BOOL bKeepAlive = TRUE;
@@ -255,11 +264,11 @@ bool CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int keepInterval, int kee
 	setsockopt(hSocket, SOL_SOCKET, SO_KEEPALIVE, (char*)&bKeepAlive, sizeof(bKeepAlive));
 
 #else
-	setsockopt(hSocket, SOL_TCP, TCP_KEEPIDLE,  (void *)&keepIdle, sizeof(keepIdle));
-	setsockopt(hSocket, SOL_TCP, TCP_KEEPINTVL, (void *)&keepInterval, sizeof(keepInterval));
-	setsockopt(hSocket, SOL_TCP, TCP_KEEPCNT,   (void *)&keepCount, sizeof(keepCount));
+	setsockopt(hSocket, SOL_TCP, TCP_KEEPIDLE,  (void*)&nKeepIdle, sizeof(nKeepIdle));
+	setsockopt(hSocket, SOL_TCP, TCP_KEEPINTVL, (void*)&nKeepInterval, sizeof(nKeepInterval));
+	setsockopt(hSocket, SOL_TCP, TCP_KEEPCNT,   (void*)&nKeepCount, sizeof(nKeepCount));
 #endif
-	
 
-	return true;	
+
+	return true;
 }

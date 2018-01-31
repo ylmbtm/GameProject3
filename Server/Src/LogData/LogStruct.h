@@ -1,5 +1,5 @@
-﻿#ifndef __LOG_DATA_LOGIN_H__
-#define __LOG_DATA_LOGIN_H__
+﻿#ifndef __LOG_STRUCT_H__
+#define __LOG_STRUCT_H__
 
 struct Log_AccountLogin
 {
@@ -15,4 +15,4 @@ struct Log_AccountLogin
 };
 
 
-#endif //__LOG_DATA_LOGIN_H__
+#endif //__LOG_STRUCT_H__

@@ -29,9 +29,12 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
+	BOOL	    ConnectToLogServer();
 public:
 	CAccountMsgHandler		m_AccountMsgHandler;
+	UINT32					m_dwLogSvrConnID;
 
+public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************

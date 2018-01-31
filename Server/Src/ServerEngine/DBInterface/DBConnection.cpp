@@ -34,11 +34,16 @@ BOOL CDBConnection::Uninit()
 }
 
 // connect.
-BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort)
+BOOL CDBConnection::Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet)
 {
 	Close();
 
 	m_pMySql = mysql_init( NULL );
+
+	if (0 != mysql_options(m_pMySql, MYSQL_SET_CHARSET_NAME, szCharSet))
+	{
+		return FALSE;
+	}
 
 	if ( NULL != m_pMySql )
 	{

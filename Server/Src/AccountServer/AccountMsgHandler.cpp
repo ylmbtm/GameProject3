@@ -10,9 +10,6 @@
 #include "Log.h"
 #include "../ServerData/ServerDefine.h"
 
-
-
-
 CAccountMsgHandler::CAccountMsgHandler()
 {
 

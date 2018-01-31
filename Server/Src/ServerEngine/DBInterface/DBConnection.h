@@ -24,7 +24,7 @@ public:
 
 	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
 
-	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
+	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet = "utf8");
 
 	void	Close(void);
 
