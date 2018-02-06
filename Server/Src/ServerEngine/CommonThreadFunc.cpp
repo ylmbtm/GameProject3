@@ -1,9 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommonThreadFunc.h"
 
-
-
-
 THANDLE CommonThreadFunc::CreateThread( Th_RetName (*pThreadFunc) (void*),  void* pArg)
 {
 	THANDLE hThread = (THANDLE)0;

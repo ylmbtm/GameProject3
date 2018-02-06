@@ -3,7 +3,6 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
-#include "Log.h"
 #include "../Message/Msg_ID.pb.h"
 
 CMountModule::CMountModule(CPlayerObject* pOwner): CModuleBase(pOwner)

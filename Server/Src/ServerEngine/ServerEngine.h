@@ -12,6 +12,12 @@
 
 #include "Platform.h"
 
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonConvert.h"
+#include "CommandDef.h"
+#include "CommonThreadFunc.h"
+
 #include "ServiceBase.h"
 
 #endif //_SERVER_ENGINE_H_

@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "ProxyPlayerMgr.h"
-#include "Log.h"
 
 CProxyPlayer::~CProxyPlayer()
 {

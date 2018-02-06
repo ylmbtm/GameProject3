@@ -4,7 +4,6 @@
 #include "../Scene.h"
 #include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
-#include "CommonFunc.h"
 
 SceneLogic_Arena::SceneLogic_Arena(CScene* pScene): SceneLogicBase(pScene)
 {

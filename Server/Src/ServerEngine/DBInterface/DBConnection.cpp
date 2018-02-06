@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "DBConnection.h"
 #include "DBStoredProc.h"
-#include "../CommonFunc.h"
-#include "../Log.h"
 #include <errmsg.h>
 
 CDBConnection::CDBConnection( void )

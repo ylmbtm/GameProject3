@@ -2,15 +2,11 @@
 #include "ServiceBase.h"
 #include "NetManager.h"
 #include "CommonSocket.h"
-#include "CommandDef.h"
 #include "CommonEvent.h"
-#include "CommonConvert.h"
 #include "DataBuffer.h"
 #include "Connection.h"
-#include "CommonFunc.h"
 #include "TimerManager.h"
 #include "PacketHeader.h"
-#include "Log.h"
 
 #define NEW_CONNECTION 1
 #define CLOSE_CONNECTION 2

@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
 #include "SceneManager.h"
-#include "CommandDef.h"
-#include "Log.h"
-#include "CommonFunc.h"
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "../Message/Msg_ID.pb.h"

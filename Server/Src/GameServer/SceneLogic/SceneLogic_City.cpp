@@ -4,7 +4,6 @@
 #include "../Scene.h"
 #include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
-#include "Log.h"
 
 SceneLogic_City::SceneLogic_City(CScene* pScene): SceneLogicBase(pScene)
 {

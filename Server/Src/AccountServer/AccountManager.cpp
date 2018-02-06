@@ -1,9 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
-#include "CommonFunc.h"
-#include "Log.h"
 #include "../ServerData/ServerDefine.h"
-#include "CommonConvert.h"
 
 Th_RetName _SaveAccountThread( void* pParam )
 {
@@ -172,7 +169,7 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 	{
 		CAccountObject* pAccount = NULL;
 
-		CHAR szSql[SQL_BUFF_LEN];
+		CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 		if(m_ArrChangedAccount.size())
 

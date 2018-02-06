@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "LuaManager.h"
-#include "CommonFunc.h"
 
 LuaManager::LuaManager()
 {

@@ -1,13 +1,10 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
 #include "AccountMsgHandler.h"
-#include "CommonFunc.h"
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "Log.h"
 #include "../ServerData/ServerDefine.h"
 
 CAccountMsgHandler::CAccountMsgHandler()

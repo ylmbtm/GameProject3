@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
 #include "LogicMsgHandler.h"
-#include "Log.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "PlayerObject.h"
@@ -14,7 +11,6 @@
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
-#include "CommonConvert.h"
 #include "BagModule.h"
 #include "../ServerData/RoleData.h"
 

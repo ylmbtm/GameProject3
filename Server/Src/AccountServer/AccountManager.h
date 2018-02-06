@@ -1,7 +1,6 @@
 ﻿#ifndef __DB_ACCOUNT_OBJECT_H__
 #define __DB_ACCOUNT_OBJECT_H__
 #include "AVLTree.h"
-#include "CommonThreadFunc.h"
 #include "DBInterface/CppMysql.h"
 
 Th_RetName _SaveAccountThread( void* pParam );

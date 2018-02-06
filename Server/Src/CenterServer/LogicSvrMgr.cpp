@@ -1,7 +1,5 @@
 ﻿#include "stdafx.h"
 #include "LogicSvrMgr.h"
-#include "CommonConvert.h"
-#include "Log.h"
 #include "CommonSocket.h"
 
 

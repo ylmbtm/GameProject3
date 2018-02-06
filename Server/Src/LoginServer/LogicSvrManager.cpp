@@ -1,7 +1,5 @@
 ﻿#include "stdafx.h"
 #include "LogicSvrManager.h"
-#include "CommonConvert.h"
-#include "Log.h"
 #include "CommonSocket.h"
 #include "../ServerData/ServerDefine.h"
 
@@ -61,47 +59,49 @@ BOOL LogicSvrManager::Uninit()
 
 BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName)
 {
-	BOOL bChanged = FALSE;
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
 	{
-		LogicServerNode* pTempNode = new LogicServerNode();
-		pTempNode->m_dwServerID = dwServerID;
-		pTempNode->m_dwConnID   = dwConnID;
-		pTempNode->m_dwPort     = dwPort;
-		pTempNode->m_dwHttpPort = dwHttpPort;
-		pTempNode->m_dwWatchPort = dwWatchPort;
-		pTempNode->m_strSvrName = strSvrName;
-		insert(std::make_pair(dwServerID, pTempNode));
-		bChanged = TRUE;
+		pNode = new LogicServerNode();
+		pNode->m_dwServerID = dwServerID;
+		pNode->m_dwConnID   = dwConnID;
+		pNode->m_dwPort     = dwPort;
+		pNode->m_dwHttpPort = dwHttpPort;
+		pNode->m_dwWatchPort = dwWatchPort;
+		pNode->m_strSvrName = strSvrName;
+		insert(std::make_pair(dwServerID, pNode));
+
+		char szSql[SQL_BUFF_LEN] = { 0 };
+		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name, port,http_port,watch_port) values(%d, '%s', %d, %d, %d);",
+		         pNode->m_dwServerID, pNode->m_strSvrName.c_str(), pNode->m_dwPort, pNode->m_dwHttpPort, pNode->m_dwWatchPort);
+		if (m_DBConnection.execSQL(szSql) < 0)
+		{
+			CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
+			return FALSE;
+		}
 	}
 	else
 	{
 		pNode->m_dwConnID = dwConnID;
-
 		if ((pNode->m_dwPort != dwPort) ||
 		        (pNode->m_dwHttpPort != dwHttpPort) ||
 		        (pNode->m_dwWatchPort != dwWatchPort) ||
 		        (pNode->m_strSvrName != strSvrName))
 		{
-			bChanged = TRUE;
 			pNode->m_dwServerID = dwServerID;
 			pNode->m_strSvrName = strSvrName;
 			pNode->m_dwPort = dwPort;
 			pNode->m_dwHttpPort = dwHttpPort;
 			pNode->m_dwWatchPort = dwWatchPort;
-		}
-	}
 
-	if (bChanged)
-	{
-		char szSql[SQL_BUFF_LEN];
-		snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name,port,http_port,watch_port) values(%d, '%s', %d, %d, %d);",
-		         dwServerID, strSvrName.c_str(), dwPort, dwHttpPort, dwWatchPort);
-		if (m_DBConnection.execSQL(szSql) < 0)
-		{
-			CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", szSql);
-			return FALSE;
+			char szSql[SQL_BUFF_LEN] = { 0 };
+			snprintf(szSql, SQL_BUFF_LEN, "update server_list set name = '%s', port = %d ,http_port = %d,watch_port = %d where id = %d;",
+			         pNode->m_strSvrName.c_str(), pNode->m_dwPort, pNode->m_dwHttpPort, pNode->m_dwWatchPort, pNode->m_dwServerID);
+			if (m_DBConnection.execSQL(szSql) < 0)
+			{
+				CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
+				return FALSE;
+			}
 		}
 	}
 
@@ -131,6 +131,7 @@ UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 
 	return pNode->m_dwConnID;
 }
+
 
 LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
 {
@@ -173,15 +174,19 @@ BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
 
 }
 
-BOOL LogicSvrManager::ReloadServerList()
+BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 {
-	for (auto itor = begin(); itor != end(); itor++)
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+	if (dwServerID == 0)
 	{
-		LogicServerNode* pNode = itor->second;
-		pNode->m_bDelete = TRUE;
+		snprintf(szSql, SQL_BUFF_LEN, "select * from server_list");
+	}
+	else
+	{
+		snprintf(szSql, SQL_BUFF_LEN, "select * from server_list where id = %d", dwServerID);
 	}
 
-	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from server_list");
+	CppMySQLQuery QueryResult = m_DBConnection.querySQL(szSql);
 	while(!QueryResult.eof())
 	{
 		UINT32 dwSvrID = QueryResult.getIntField("id");
@@ -231,7 +236,6 @@ BOOL LogicSvrManager::ReloadServerList()
 			{
 				pNode->m_CheckChannelList.insert(CommonConvert::StringToInt(vtValue[i].c_str()));
 			}
-
 		}
 
 		std::string strCheckIp = QueryResult.getStringField("check_ip", "*");
@@ -250,22 +254,6 @@ BOOL LogicSvrManager::ReloadServerList()
 		}
 
 		QueryResult.nextRow();
-	}
-
-
-	for (auto itor = begin(); itor != end(); )
-	{
-		LogicServerNode* pNode = itor->second;
-		if (pNode->m_bDelete)
-		{
-			delete pNode;
-			itor = erase(itor);
-			continue;
-		}
-		else
-		{
-			++itor;
-		}
 	}
 
 	return TRUE;
@@ -318,6 +306,11 @@ BOOL LogicServerNode::CheckVersion( std::string strVersion )
 
 	UINT32 nVersion = CommonConvert::VersionToInt(strVersion);
 	if(nVersion == 0)
+	{
+		return FALSE;
+	}
+
+	if ((nVersion < m_dwMinVersion) && (nVersion > m_dwMaxVersion))
 	{
 		return FALSE;
 	}

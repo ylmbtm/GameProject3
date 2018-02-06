@@ -35,7 +35,7 @@ struct LogicServerNode
 
 	UINT32		m_dwConnID;		//连接ID
 	UINT32		m_dwServerID;	//服务器ID
-	UINT32		m_dwPort;		//端口号
+	UINT32		m_dwPort;		//游戏端口号
 	UINT32      m_dwHttpPort;	//http端口
 	UINT32      m_dwWatchPort;	//监视端口
 	UINT32		m_Statue;		//服务器状态
@@ -69,7 +69,7 @@ public:
 
 	BOOL	IsReviewVersion(std::string strClientVersion);
 
-	BOOL	ReloadServerList();
+	BOOL	ReloadServerList(UINT32 dwServerID = 0);
 
 	BOOL	ReloadReviewVersion();
 
@@ -78,6 +78,8 @@ public:
 	LogicServerNode* GetRecommendServerInfo();
 
 	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
+
+
 
 public:
 	UINT32 m_dwRecommendSvrID;

@@ -4,7 +4,6 @@
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
-#include "Log.h"
 
 CPartnerModule::CPartnerModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {

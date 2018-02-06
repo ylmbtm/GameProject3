@@ -119,9 +119,6 @@
     <ClInclude Include="SceneLogic\SceneLogic_None.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>
-    <ClInclude Include="Scenelogic\SceneLogic_Base.h">
-      <Filter>Scenelogic</Filter>
-    </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_Normal.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>

@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "GameService.h"
 #include "CrashReport.h"
-#include "CommonConvert.h"
 #include "CommandLine.h"
 
 int main(int argc, char* argv[])

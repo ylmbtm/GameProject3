@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "SceneXmlMgr.h"
-#include "Log.h"
 
 CSceneXmlManager::CSceneXmlManager()
 {

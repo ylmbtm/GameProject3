@@ -1,11 +1,9 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
 #include "HttpMsgHandler.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
-#include "Log.h"
+
 
 CHttpMsgHandler::CHttpMsgHandler()
 {

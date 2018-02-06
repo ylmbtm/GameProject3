@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "DataPool.h"
-#include "CommonConvert.h"
 #include "GameService.h"
 
 SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool		= NULL;

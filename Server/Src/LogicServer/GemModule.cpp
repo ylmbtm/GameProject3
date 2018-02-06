@@ -3,13 +3,11 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
-#include "Log.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "BagModule.h"
 #include "../ServerData/GemData.h"
-#include "../ServerEngine/CommandDef.h"
 #include "../ServerEngine/PacketHeader.h"
 
 CGemModule::CGemModule(CPlayerObject* pOwner): CModuleBase(pOwner)

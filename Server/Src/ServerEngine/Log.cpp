@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
-#include "./Log.h"
-#include "CommonFunc.h"
+#include "Log.h"
 
 CLog::CLog(void)
 {

@@ -4,8 +4,6 @@
 #include "../Scene.h"
 #include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
-#include "CommonFunc.h"
-#include "Log.h"
 
 SceneLogic_Normal::SceneLogic_Normal(CScene* pScene): SceneLogicBase(pScene)
 {

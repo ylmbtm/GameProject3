@@ -3,12 +3,10 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
-#include "Log.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "BagModule.h"
-#include "CommandDef.h"
 #include "PacketHeader.h"
 
 CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)

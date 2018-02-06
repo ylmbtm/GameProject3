@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GroupMailMgr.h"
 #include "GameService.h"
-#include "CommonFunc.h"
-#include "Log.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 

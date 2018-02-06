@@ -2,8 +2,6 @@
 #define _DB_WRITER_MANAGER_H_
 
 #include "SharedMemory.h"
-#include "CommonFunc.h"
-#include "CommonThreadFunc.h"
 #include "../ServerData/GlobalData.h"
 #include "../ServerData/BagData.h"
 #include "../ServerData/CopyData.h"

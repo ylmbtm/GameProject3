@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 #include "DBManager.h"
-#include "CommonFunc.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../ServerData/ServerDefine.h"
-#include "Log.h"
 
 
 CDBManager::CDBManager(void)
@@ -39,7 +37,7 @@ BOOL CDBManager::Uninit()
 
 BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from player where account_id = %lld", u64AccountID);
 
@@ -60,7 +58,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 
 BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from player where id = %lld", u64ID);
 
@@ -94,7 +92,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from bag where roleid = %lld", u64ID);
 
@@ -120,7 +118,7 @@ BOOL CDBManager::GetBagData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from copy where roleid = %lld", u64ID);
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
@@ -164,7 +162,7 @@ BOOL CDBManager::GetCopyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from equip where roleid = %lld", u64ID);
 
@@ -192,7 +190,7 @@ BOOL CDBManager::GetEquipData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetGemData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from gem where roleid = %lld", u64ID);
 
@@ -220,7 +218,7 @@ BOOL CDBManager::GetGemData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
-	CHAR szSql[SQL_BUFF_LEN];
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
 	snprintf(szSql, SQL_BUFF_LEN, "select * from pet where roleid = %lld", u64ID);
 

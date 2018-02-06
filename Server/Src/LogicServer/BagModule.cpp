@@ -12,7 +12,6 @@
 #include "PetModule.h"
 #include "PartnerModule.h"
 #include "RoleModule.h"
-#include "Log.h"
 #include "GemModule.h"
 
 

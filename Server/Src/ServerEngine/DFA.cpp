@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "DFA.h"
-#include "CommonConvert.h"
 
 INT32 DFANode::s_length = 0;
 INT32 DFANode::s_maxlen = 0;

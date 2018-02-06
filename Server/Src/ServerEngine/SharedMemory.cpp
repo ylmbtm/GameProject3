@@ -1,7 +1,5 @@
 ﻿#include "stdafx.h"
 #include "SharedMemory.h"
-#include "CommonConvert.h"
-#include "CommonFunc.h"
 
 ShareObject::ShareObject()
 {

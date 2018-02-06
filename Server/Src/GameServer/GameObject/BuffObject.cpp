@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
 #include "BuffObject.h"
-#include "CommandDef.h"
-#include "Log.h"
-#include "CommonFunc.h"
 #include "../Message/Game_Define.pb.h"
 #include "TimerManager.h"
 #include "../ConfigData/ConfigData.h"

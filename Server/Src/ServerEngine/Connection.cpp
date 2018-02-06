@@ -2,10 +2,7 @@
 #include "Connection.h"
 #include "DataBuffer.h"
 #include "CommonSocket.h"
-#include "CommandDef.h"
-#include "CommonFunc.h"
 #include "PacketHeader.h"
-#include "Log.h"
 
 void NetIoOperatorData::Clear()
 {

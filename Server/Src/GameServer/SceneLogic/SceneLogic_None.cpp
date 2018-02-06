@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_None.h"
 #include "../Scene.h"
-#include "CommonFunc.h"
 
 
 

@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "SimpleManager.h"
 #include "GameService.h"
-#include "CommonFunc.h"
-#include "Log.h"
 
 CSimpleManager::CSimpleManager()
 {

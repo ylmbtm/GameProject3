@@ -2,10 +2,7 @@
 #include "NetManager.h"
 #include "Connection.h"
 #include "CommonSocket.h"
-#include "CommonFunc.h"
-#include "CommandDef.h"
 #include "DataBuffer.h"
-#include "Log.h"
 #include "PacketHeader.h"
 
 

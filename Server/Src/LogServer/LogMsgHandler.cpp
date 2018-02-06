@@ -1,12 +1,10 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
 #include "LogMsgHandler.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "Log.h"
+
 
 CLogMsgHandler::CLogMsgHandler()
 {

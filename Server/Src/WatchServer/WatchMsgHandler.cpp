@@ -1,12 +1,9 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
+
 #include "WatchMsgHandler.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
-#include "Log.h"
-#include "CommonConvert.h"
 #include "RapidXml.h"
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"

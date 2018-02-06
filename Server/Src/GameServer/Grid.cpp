@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Grid.h"
-#include "Log.h"
 
 CGrid::CGrid(void)
 {

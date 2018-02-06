@@ -1,7 +1,5 @@
 ﻿#include "stdafx.h"
 #include "CommonWorkThread.h"
-#include "CommandDef.h"
-#include "CommonFunc.h"
 #include "CommonEvent.h"
 #include "DataBuffer.h"
 #include "PacketHeader.h"

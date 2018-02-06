@@ -1,8 +1,5 @@
-
 #include "stdafx.h"
 #include "HttpParameter.h"
-#include "../ServerEngine/CommonConvert.h"
-
 
 HttpParameter::HttpParameter()
 {

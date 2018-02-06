@@ -1,12 +1,9 @@
 ﻿#include "stdafx.h"
-#include "CommandDef.h"
 #include "CenterMsgHandler.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "Log.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "LogicSvrMgr.h"
 

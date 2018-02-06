@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CppMysql.h"
 #include <stdlib.h>
-#include "../CommonConvert.h"
 #include <errmsg.h>
 
 CppMySQLQuery::CppMySQLQuery()
@@ -532,6 +531,16 @@ const char* CppMySQL3DB::getHostInfo()
 const char* CppMySQL3DB::getServerInfo()
 {
 	return mysql_get_server_info( _db_ptr );
+}
+
+const char* CppMySQL3DB::GetErrorMsg()
+{
+	if (_db_ptr == NULL)
+	{
+		return NULL;
+	}
+
+	return mysql_error(_db_ptr);
 }
 
 /*主要功能:得到服务器版本信息*/

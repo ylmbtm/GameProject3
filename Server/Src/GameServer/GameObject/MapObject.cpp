@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
 #include "MapObject.h"
-#include "CommandDef.h"
-#include "Log.h"
-#include "CommonFunc.h"
 #include "../Scene.h"
 
 

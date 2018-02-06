@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
 #include "ConfigFile.h"
-#include "CommonConvert.h"
-#include "Log.h"
-
 
 CConfigFile::CConfigFile( void )
 {

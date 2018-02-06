@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "DBStoredProc.h"
-#include "../CommonConvert.h"
 
 
 CDBStoredProcedure::CDBStoredProcedure(char const* pzProcedure)

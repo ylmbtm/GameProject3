@@ -1,14 +1,12 @@
 ﻿#include "stdafx.h"
 #include "ProxyMsgHandler.h"
-#include "CommandDef.h"
-#include "CommonFunc.h"
 #include "PacketHeader.h"
 #include "GameService.h"
 #include "ProxyPlayerMgr.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "Log.h"
+
 
 
 CProxyMsgHandler::CProxyMsgHandler()

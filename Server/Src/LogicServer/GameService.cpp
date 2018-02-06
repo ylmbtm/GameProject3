@@ -1,10 +1,7 @@
 ﻿#include "stdafx.h"
 #include "GameService.h"
-#include "CommandDef.h"
-#include "Log.h"
-#include "CommonFunc.h"
 #include "TimerManager.h"
-#include "CommonThreadFunc.h"
+
 #include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
 #include "SimpleManager.h"

@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "PlayerManager.h"
-#include "Log.h"
 #include "RoleModule.h"
 #include "../ServerData/RoleData.h"
 #include "../Message/Msg_ID.pb.h"

@@ -3,9 +3,7 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "../ConfigData/ConfigData.h"
-#include "Log.h"
 #include "PlayerObject.h"
-#include "CommonFunc.h"
 #include "../Message/Msg_ID.pb.h"
 
 CMailModule::CMailModule(CPlayerObject* pOwner): CModuleBase(pOwner)

@@ -1,9 +1,5 @@
 ﻿#include "stdafx.h"
 #include "GameService.h"
-#include "CommandDef.h"
-#include "CommonFunc.h"
-#include "CommonThreadFunc.h"
-#include "Log.h"
 
 CGameService::CGameService(void)
 {

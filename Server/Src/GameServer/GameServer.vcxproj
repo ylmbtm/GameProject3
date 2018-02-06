@@ -156,7 +156,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneLogic\BattleResult.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Arena.h" />
-    <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
     <ClInclude Include="SceneLogic\SceneLogic_City.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Normal.h" />

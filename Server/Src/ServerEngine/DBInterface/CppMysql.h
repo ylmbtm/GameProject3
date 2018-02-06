@@ -117,6 +117,8 @@ public:
 	/* 主要功能:得到服务器信息 */
 	const char* getServerInfo();
 
+	const char* GetErrorMsg();
+
 	/*主要功能:得到服务器版本信息*/
 	const unsigned long  getServerVersion();
 

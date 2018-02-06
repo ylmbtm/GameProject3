@@ -1,13 +1,11 @@
 ﻿#include "stdafx.h"
 #include "../Message/Msg_ID.pb.h"
-#include "CommandDef.h"
 #include "LoginMsgHandler.h"
-#include "CommonFunc.h"
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "Log.h"
+#include "../WatchServer/HttpParameter.h"
 
 CLoginMsgHandler::CLoginMsgHandler()
 {
@@ -50,6 +48,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,		OnMsgSelectServerAck);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,		OnMsgSealAccountReq);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,		OnMsgSealAccountAck);
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgGmCommandReq);
 	}
 
 	return FALSE;
@@ -278,5 +277,19 @@ BOOL CLoginMsgHandler::OnMsgSealAccountAck(NetPacket* pPacket)
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SEAL_ACCOUNT_ACK, 0, 0, Ack);
 
 	return TRUE;
+}
 
+
+BOOL CLoginMsgHandler::OnMsgGmCommandReq(NetPacket* pNetPacket)
+{
+	CHAR szMsgBuf[1024] = { 0 };
+	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	CLog::GetInstancePtr()->LogError("GmCommand Content:%s", szMsgBuf);
+
+	//HttpParameter Params;
+	//Params.ParseStringToMap(szMsgBuf);
+	//std::string strAction = Params.GetStrValue("Action");
+
+	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());
+	return TRUE;
 }

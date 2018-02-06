@@ -3,11 +3,9 @@
 #include "../GameService.h"
 #include "../Message/Msg_Copy.pb.h"
 #include "BuffObject.h"
-#include "Log.h"
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
-#include "CommonFunc.h"
 #include "../ConfigData/ConfigData.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)

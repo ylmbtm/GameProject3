@@ -32,7 +32,7 @@ public:
 
 	BOOL OnMsgSealAccountReq(NetPacket* pPacket);
 	BOOL OnMsgSealAccountAck(NetPacket* pPacket);
-
+	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
 public:

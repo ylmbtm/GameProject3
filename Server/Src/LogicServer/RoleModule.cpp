@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 #include "RoleModule.h"
-#include "Log.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ConfigData/ConfigData.h"
-#include "CommonFunc.h"
 #include "DataPool.h"
 
 CRoleModule::CRoleModule(CPlayerObject* pOwner): CModuleBase(pOwner)

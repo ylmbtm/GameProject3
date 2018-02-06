@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "MonsterCreator.h"
-#include "Log.h"
 #include "Scene.h"
 
 MonsterCreator::MonsterCreator(CScene* pScene)
