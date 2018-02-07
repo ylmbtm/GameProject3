@@ -22,13 +22,14 @@ public:
 	void set_float(int idx_, float fval_ );
 	void set_double(int idx_, double dval_ );
 	void set_string(int idx_, char const* str_, size_t size );
+	void set_tinyblob(int idx_, void const* ptr_, size_t size);
 	void set_blob(int idx_, void const* ptr_, size_t size);
 	void set_medium_blob(int idx_, void const* ptr_, size_t size);
 
 	CDBRecordSet		  m_DBRecordSet;
 
 	MYSQL_BIND*           m_pMybind;
-	size_t                m_nCount;   
+	size_t                m_nCount;
 	std::string           m_strSql;
 };
 

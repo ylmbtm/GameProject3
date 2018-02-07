@@ -26,12 +26,36 @@ BOOL CGuildManager::LoadAllGuildData(CppMySQL3DB& tDBConnection)
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM guild");
 	while(!QueryResult.eof())
 	{
-		CGuild* pGuid = new CGuild();
-		pGuid->m_pGuildData = g_pGuildDataObjectPool->NewObject(FALSE);
-		pGuid->m_pGuildData->m_uGuid = QueryResult.getInt64Field("id");
-		m_mapGulidData.insert(std::make_pair(pGuid->m_pGuildData->m_uGuid, pGuid));
+		CGuild* pGuild = new CGuild();
+		pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(FALSE);
+		pGuild->m_pGuildData->m_uGuid = QueryResult.getInt64Field("id");
+		pGuild->m_pGuildData->m_Level = QueryResult.getIntField("level");
+		std::strncpy(pGuild->m_pGuildData->m_szName, QueryResult.getStringField("name"), GUILD_NAME_LEN);
+		std::strncpy(pGuild->m_pGuildData->m_szNotice, QueryResult.getStringField("notice"), GUILD_NOTICE_LEN);
+		m_mapGulidData.insert(std::make_pair(pGuild->m_pGuildData->m_uGuid, pGuild));
 		QueryResult.nextRow();
 	}
+
+	CGuild* pCurGuild = NULL;
+	QueryResult = tDBConnection.querySQL("SELECT * FROM guild_member order by guildid");
+	while (!QueryResult.eof())
+	{
+		UINT64 uGuildId = QueryResult.getInt64Field("id");
+
+		if (pCurGuild == NULL )
+		{
+			pCurGuild = GetGuildByID(uGuildId);
+		}
+		else if (pCurGuild->GetGuildID() != uGuildId)
+		{
+			pCurGuild = GetGuildByID(uGuildId);
+		}
+
+		pCurGuild->LoadGuildMember(QueryResult);
+
+		QueryResult.nextRow();
+	}
+
 
 	return TRUE;
 }
@@ -53,12 +77,15 @@ CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 n
 	pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(TRUE);
 	pGuild->m_pGuildData->lock();
 	pGuild->m_pGuildData->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
+	std::strncpy(pGuild->m_pGuildData->m_szName, strName.c_str(), GUILD_NAME_LEN);
 	pGuild->m_pGuildData->unlock();
 
 	MemberDataObject* pMemberObj = g_pMemberDataObjectPool->NewObject(TRUE);
 	pMemberObj->lock();
-
-
+	pMemberObj->m_uRoleID = uRoleID;
+	pMemberObj->m_dwJoinTime = CommonFunc::GetCurrTime();
+	pMemberObj->m_uGuildID = pGuild->m_pGuildData->m_uGuid;
+	pMemberObj->m_Pos = EGP_LEADER;
 	pMemberObj->unlock();
 	pGuild->m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObj));
 	return pGuild;
@@ -92,6 +119,7 @@ MemberDataObject* CGuildManager::GetGuildLeader(UINT64 uGuildID)
 	}
 
 	CGuild* pGuild = itor->second;
+	ERROR_RETURN_NULL(pGuild != NULL);
 
 	return pGuild->GetLeader();
 }

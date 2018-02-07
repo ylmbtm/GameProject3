@@ -10,17 +10,22 @@ public:
 public:
 	BOOL Init();
 
-	BOOL LoadGuildData();
+	BOOL LoadGuildMember(CppMySQLQuery& QueryResult);
 
 	CHAR* GetGuildName();
 
+	UINT64 GetGuildID();
+
 public:
-	MemberDataObject* GetGuidMember(UINT64 uID);
+	MemberDataObject* GetGuildMember(UINT64 uID);
 
 	MemberDataObject* GetLeader();
 
+	MemberDataObject* AddGuildMember(UINT64 uRoleID);
+
 public:
 
+	UINT64		m_u64LeaderID;
 
 	GuildDataObject* m_pGuildData;
 

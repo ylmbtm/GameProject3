@@ -45,7 +45,7 @@ struct MemberDataObject : public ShareObject
 	UINT64 m_uRoleID;
 	UINT64 m_uGuildID;			//公会的guid
 	UINT32 m_Pos;
-	UINT32 m_dwJoinTime;
+	UINT64 m_dwJoinTime;
 
 	BOOL Create(IDBInterface* pDB)
 	{

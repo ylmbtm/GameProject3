@@ -229,6 +229,26 @@ void CDBStoredProcedure::set_string(int idx_, char const* str_, size_t size)
 	temp->is_null_value = 0;
 }
 
+void CDBStoredProcedure::set_tinyblob(int idx_, void const* ptr_, size_t size)
+{
+	if (NULL == ptr_)
+	{
+		return;
+	}
+
+	MYSQL_BIND* temp = &m_pMybind[idx_];
+	if (temp->buffer == NULL)
+	{
+		temp->buffer = malloc(size);
+	}
+
+	memcpy((char*)temp->buffer, ptr_, size);
+	temp->buffer_length = (unsigned long)size;
+	temp->buffer_type = MYSQL_TYPE_TINY_BLOB;
+	temp->is_unsigned = 0;
+	temp->is_null_value = 0;
+}
+
 // set blob.
 void CDBStoredProcedure::set_blob(int idx_, void const* ptr_, size_t size)
 {

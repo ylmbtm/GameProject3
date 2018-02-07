@@ -100,4 +100,10 @@ enum EShareData
 	ESD_CHAPTER,
 };
 
+enum EGuildPos
+{
+	EGP_MEMBER = 0,
+	EGP_LEADER = 1,
+};
+
 #endif //__SERVER_STRUCT_H__

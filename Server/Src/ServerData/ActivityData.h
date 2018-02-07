@@ -54,10 +54,11 @@ struct ActivityDataObject : public ShareObject
 	{
 
 	}
-	UINT64 m_uRoleID;		//角色ID
+
 	UINT32 m_dwActivityID;  //活动ID
+	UINT64 m_uRoleID;		//角色ID
 	UINT32 m_dwActivityType;//活动类型
-	UINT32 m_dwJoinTime;    //参与时间
+	UINT64 m_uJoinTime;    //参与时间
 	UINT32 m_dwDataLen;     //数据时间长度
 	union
 	{
@@ -72,11 +73,29 @@ struct ActivityDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO activity (id, type, roleid, join_time, data_len, data) \
+			VALUES(?,?,?,?,?,?);");
+		csp.set_uint64(0, m_dwActivityID);
+		csp.set_uint64(1, m_dwActivityType);
+		csp.set_uint64(2, m_uRoleID);
+		csp.set_uint64(3, m_uJoinTime);
+		csp.set_int32(4, m_dwDataLen);
+		csp.set_blob(5, m_Data.m_Bytes, m_dwDataLen);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO activity (id, type, roleid, join_time, data_len, data) \
+			VALUES(?,?,?,?,?,?);");
+		csp.set_uint64(0, m_dwActivityID);
+		csp.set_uint64(1, m_dwActivityType);
+		csp.set_uint64(2, m_uRoleID);
+		csp.set_uint64(3, m_uJoinTime);
+		csp.set_int32(4, m_dwDataLen);
+		csp.set_blob(5, m_Data.m_Bytes, m_dwDataLen);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
