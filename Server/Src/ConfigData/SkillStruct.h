@@ -1,8 +1,6 @@
 ﻿#ifndef __SKILL_STRUCT_H__
 #define __SKILL_STRUCT_H__
 
-#include "../ServerData/ServerDefine.h"
-
 enum ECenterType
 {
 	TYPE_TARGET_POS		= 1,//以客户端选定的位置为中心

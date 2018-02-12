@@ -2,7 +2,6 @@
 #include "SceneLogic_Normal.h"
 #include "../GameObject/SceneObject.h"
 #include "../Scene.h"
-#include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
 
 SceneLogic_Normal::SceneLogic_Normal(CScene* pScene): SceneLogicBase(pScene)

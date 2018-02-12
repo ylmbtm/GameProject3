@@ -2,7 +2,6 @@
 #include "SceneLogic_Arena.h"
 #include "../GameObject/SceneObject.h"
 #include "../Scene.h"
-#include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
 
 SceneLogic_Arena::SceneLogic_Arena(CScene* pScene): SceneLogicBase(pScene)

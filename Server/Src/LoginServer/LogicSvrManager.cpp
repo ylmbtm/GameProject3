@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "LogicSvrManager.h"
 #include "CommonSocket.h"
-#include "../ServerData/ServerDefine.h"
+
 
 
 LogicSvrManager::LogicSvrManager(void)

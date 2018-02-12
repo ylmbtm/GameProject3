@@ -379,7 +379,7 @@ inline bool EChatChannel_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EChatChannel>(
     EChatChannel_descriptor(), name, value);
 }
-enum EEQUIPPOS {
+enum EEquipPos {
   EEP_NONE = 0,
   EEP_HELMET = 1,
   EEP_NECKLACE = 2,
@@ -389,23 +389,46 @@ enum EEQUIPPOS {
   EEP_RING = 6,
   EEP_TALISMAN = 7,
   EEP_WEAPON = 8,
-  EEQUIPPOS_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  EEQUIPPOS_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  EEquipPos_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EEquipPos_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool EEQUIPPOS_IsValid(int value);
-const EEQUIPPOS EEQUIPPOS_MIN = EEP_NONE;
-const EEQUIPPOS EEQUIPPOS_MAX = EEP_WEAPON;
-const int EEQUIPPOS_ARRAYSIZE = EEQUIPPOS_MAX + 1;
+bool EEquipPos_IsValid(int value);
+const EEquipPos EEquipPos_MIN = EEP_NONE;
+const EEquipPos EEquipPos_MAX = EEP_WEAPON;
+const int EEquipPos_ARRAYSIZE = EEquipPos_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EEQUIPPOS_descriptor();
-inline const ::std::string& EEQUIPPOS_Name(EEQUIPPOS value) {
+const ::google::protobuf::EnumDescriptor* EEquipPos_descriptor();
+inline const ::std::string& EEquipPos_Name(EEquipPos value) {
   return ::google::protobuf::internal::NameOfEnum(
-    EEQUIPPOS_descriptor(), value);
+    EEquipPos_descriptor(), value);
 }
-inline bool EEQUIPPOS_Parse(
-    const ::std::string& name, EEQUIPPOS* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EEQUIPPOS>(
-    EEQUIPPOS_descriptor(), name, value);
+inline bool EEquipPos_Parse(
+    const ::std::string& name, EEquipPos* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EEquipPos>(
+    EEquipPos_descriptor(), name, value);
+}
+enum ETaskStatus {
+  ETS_INIT = 0,
+  ETS_ACCEPT = 1,
+  ETS_FINISH = 2,
+  ETS_COMMIT = 3,
+  ETaskStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ETaskStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ETaskStatus_IsValid(int value);
+const ETaskStatus ETaskStatus_MIN = ETS_INIT;
+const ETaskStatus ETaskStatus_MAX = ETS_COMMIT;
+const int ETaskStatus_ARRAYSIZE = ETaskStatus_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ETaskStatus_descriptor();
+inline const ::std::string& ETaskStatus_Name(ETaskStatus value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ETaskStatus_descriptor(), value);
+}
+inline bool ETaskStatus_Parse(
+    const ::std::string& name, ETaskStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ETaskStatus>(
+    ETaskStatus_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -489,10 +512,15 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::EChatChannel>() {
   return ::EChatChannel_descriptor();
 }
-template <> struct is_proto_enum< ::EEQUIPPOS> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::EEquipPos> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::EEQUIPPOS>() {
-  return ::EEQUIPPOS_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::EEquipPos>() {
+  return ::EEquipPos_descriptor();
+}
+template <> struct is_proto_enum< ::ETaskStatus> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ETaskStatus>() {
+  return ::ETaskStatus_descriptor();
 }
 
 }  // namespace protobuf

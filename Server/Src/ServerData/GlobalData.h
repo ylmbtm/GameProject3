@@ -2,8 +2,6 @@
 #define __GLOBAL_DATA_OBJECT_H__
 #include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
-#include "SharedMemory.h"
-#include "ServerDefine.h"
 
 struct GlobalDataObject : public ShareObject
 {

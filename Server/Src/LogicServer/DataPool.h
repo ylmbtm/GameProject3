@@ -1,7 +1,6 @@
 ﻿#ifndef __DATA_MODULE_POOL_H__
 #define __DATA_MODULE_POOL_H__
 
-#include "SharedMemory.h"
 
 #include "../ServerData/RoleData.h"
 #include "../ServerData/GlobalData.h"

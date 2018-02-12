@@ -1,7 +1,6 @@
 ﻿#ifndef __GEM_DATA_OBJECT_H__
 #define __GEM_DATA_OBJECT_H__
 
-#include "SharedMemory.h"
 #include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
 struct GemDataObject : public ShareObject

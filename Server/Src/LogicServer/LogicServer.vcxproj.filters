@@ -248,9 +248,6 @@
     <ClInclude Include="TaskModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerData\TaskData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerData\GuildData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="GmCommand.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\TaskData.h">
+      <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

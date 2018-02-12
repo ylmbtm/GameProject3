@@ -17,7 +17,7 @@
 #include "CommonConvert.h"
 #include "CommandDef.h"
 #include "CommonThreadFunc.h"
-
+#include "SharedMemory.h"
 #include "ServiceBase.h"
 
 #endif //_SERVER_ENGINE_H_

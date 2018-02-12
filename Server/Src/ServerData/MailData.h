@@ -1,7 +1,5 @@
 ﻿#ifndef __MAIL_DATA_OBJECT_H__
 #define __MAIL_DATA_OBJECT_H__
-#include "ServerDefine.h"
-#include "SharedMemory.h"
 #include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
 

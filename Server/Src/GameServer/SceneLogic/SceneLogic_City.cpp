@@ -2,7 +2,6 @@
 #include "SceneLogic_City.h"
 #include "../GameObject/SceneObject.h"
 #include "../Scene.h"
-#include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
 
 SceneLogic_City::SceneLogic_City(CScene* pScene): SceneLogicBase(pScene)

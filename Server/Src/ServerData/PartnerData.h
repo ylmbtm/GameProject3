@@ -1,7 +1,6 @@
 ﻿#ifndef __PARTNER_DATA_OBJECT_H__
 #define __PARTNER_DATA_OBJECT_H__
 #include "DBInterface/DBInterface.h"
-#include "SharedMemory.h"
 struct PartnerDataObject : public ShareObject
 {
 	PartnerDataObject ()

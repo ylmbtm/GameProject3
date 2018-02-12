@@ -57,7 +57,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;../../Common/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SERVER_ENGINE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -75,7 +75,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;../../Common/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SERVER_ENGINE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -104,6 +104,7 @@
     <ClCompile Include="DBInterface\DBRecordSet.cpp" />
     <ClCompile Include="DBInterface\DBStoredProc.cpp" />
     <ClCompile Include="DFA.cpp" />
+    <ClCompile Include="HttpParameter.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="LuaManager.cpp" />
     <ClCompile Include="NetManager.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="DBInterface\DBStoredProc.h" />
     <ClInclude Include="DFA.h" />
     <ClInclude Include="EventFuncManager.h" />
+    <ClInclude Include="HttpParameter.h" />
     <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="LockFreeQueueImpl.h" />
     <ClInclude Include="Log.h" />

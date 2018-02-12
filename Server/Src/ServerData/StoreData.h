@@ -6,7 +6,7 @@ struct StoreDataObject : public ShareObject
 {
 	StoreDataObject()
 	{
-
+		m_uRoleID = 0;
 	}
 
 	UINT64 m_uRoleID;		//角色ID

@@ -5,7 +5,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "../ServerData/ServerDefine.h"
+
 
 CAccountMsgHandler::CAccountMsgHandler()
 {

@@ -1,7 +1,6 @@
 ﻿#ifndef __CONFIG_STRUCT_H__
 #define __CONFIG_STRUCT_H__
 
-#include "../ServerData/ServerDefine.h"
 struct  StConstantValue
 {
 	StConstantValue() {}
@@ -200,8 +199,9 @@ struct StPartnerInfo
 struct StTaskInfo
 {
 	UINT32 TaskID;		//! 任务ID
-	UINT32 TaskType;	//! 任务类型
-	UINT32 Condition;	//! 任务条件
+	UINT32 PrevTaskID;  //! 前置任务ID
+	UINT32 TaskType;	//! 任务类型(日常， 主线， 分支，公会)
+	UINT32 NeedCount;	//! 需要达成的条件数
 	UINT32 TaskEvent;	//! 任务事件
 	INT32  NeedLevel;	//! 开放等级
 	UINT32 AwardID;		//! 任务奖励ID

@@ -473,7 +473,7 @@ BOOL CLogicMsgHandler::OnMsgTestAddItemReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 	CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
 	ERROR_RETURN_TRUE(pBag != NULL);
-	pBag->AddItem(Req.guildid(), 1);
+	//pBag->AddItem(Req.guildid(), 1);
 	return TRUE;
 }
 

@@ -1,7 +1,6 @@
 ﻿#ifndef __EQUIP_DATA_OBJECT_H__
 #define __EQUIP_DATA_OBJECT_H__
 
-#include "SharedMemory.h"
 #include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
 struct EquipDataObject : public ShareObject

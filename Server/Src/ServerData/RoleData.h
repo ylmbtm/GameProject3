@@ -1,7 +1,5 @@
 ﻿#ifndef __ROLE_DATA_OBJECT_H__
 #define __ROLE_DATA_OBJECT_H__
-#include "SharedMemory.h"
-#include "ServerDefine.h"
 #include "DBInterface/DBStoredProc.h"
 #include "DBInterface/DBInterface.h"
 struct RoleDataObject : public ShareObject

@@ -1,27 +1,41 @@
 ﻿#ifndef __TASK_DATA_OBJECT_H__
 #define __TASK_DATA_OBJECT_H__
 #include "DBInterface/DBInterface.h"
-#include "SharedMemory.h"
-
+#include "DBInterface/DBStoredProc.h"
 struct TaskDataObject : public ShareObject
 {
 	TaskDataObject ()
 	{
-
+		m_uRoleID = 0;	//角色ID
+		m_uTaskID = 0;	//任务ID
+		m_TaskStatus = 0;
+		m_FinishCount = 0; //
 	}
 
-	UINT64 m_u64ID;			//角色ID
-	UINT32 m_uTaskID;		//任务ID
-	UINT32 m_TaskState;
-	UINT32 m_TaskCondition; //
+	UINT64 m_uRoleID;			//角色ID
+	UINT64 m_uTaskID;		//任务ID
+	UINT32 m_TaskStatus;
+	UINT32 m_FinishCount; //
 
 	BOOL Create(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO task (id, roleid, task_status, finish_count) VALUES(?,?,?,?);");
+		csp.set_uint64(0, m_uTaskID);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint32(2, m_TaskStatus);
+		csp.set_uint32(3, m_FinishCount);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
+		static CDBStoredProcedure csp("REPLACE INTO task (id, roleid, task_status, finish_count) VALUES(?,?,?,?);");
+		csp.set_uint64(0, m_uTaskID);
+		csp.set_uint64(1, m_uRoleID);
+		csp.set_uint32(2, m_TaskStatus);
+		csp.set_uint32(3, m_FinishCount);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 

@@ -5,7 +5,7 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-#include "../WatchServer/HttpParameter.h"
+#include "HttpParameter.h"
 
 CLoginMsgHandler::CLoginMsgHandler()
 {
@@ -284,11 +284,16 @@ BOOL CLoginMsgHandler::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
 	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	CLog::GetInstancePtr()->LogError("GmCommand Content:%s", szMsgBuf);
 
-	//HttpParameter Params;
-	//Params.ParseStringToMap(szMsgBuf);
-	//std::string strAction = Params.GetStrValue("Action");
+
+	HttpParameter Params;
+	Params.ParseStringToMap(szMsgBuf);
+	std::string strEvent = Params.GetStrValue("event");
+	CLog::GetInstancePtr()->LogError("GmCommand Event:%s", strEvent.c_str());
+	if (strEvent == "setserverinfo")
+	{
+
+	}
 
 	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());
 	return TRUE;

@@ -2,13 +2,15 @@
 #define __GUILD_DATA_OBJECT_H__
 
 #include "DBInterface/DBInterface.h"
-#include "SharedMemory.h"
-#include "ServerDefine.h"
+
 struct GuildDataObject : public ShareObject
 {
 	GuildDataObject()
 	{
-
+		m_uGuid = 0;
+		m_Level = 0;
+		memset(m_szName, 0, GUILD_NAME_LEN);
+		memset(m_szNotice, 0, GUILD_NOTICE_LEN);
 	}
 
 	UINT64 m_uGuid;			//格子的guid

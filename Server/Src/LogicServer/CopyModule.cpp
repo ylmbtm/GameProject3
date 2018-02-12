@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "CopyModule.h"
-#include "SharedMemory.h"
 #include "DataPool.h"
 
 CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)

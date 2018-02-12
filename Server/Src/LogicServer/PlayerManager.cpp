@@ -49,7 +49,7 @@ BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 
 BOOL CPlayerManager::TryCleanPlayer()
 {
-	if (GetCount() > 3000)
+	if (GetCount() >= 3000)
 	{
 		//开始要清理人员了
 		UINT64 uMinLeaveTime = 0x0fffffffff;

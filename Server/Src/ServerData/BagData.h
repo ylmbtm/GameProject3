@@ -1,10 +1,6 @@
 ﻿#ifndef __BAG_DATA_OBJECT_H__
 #define __BAG_DATA_OBJECT_H__
-
 #include "DBInterface/DBInterface.h"
-
-#include "ServerDefine.h"
-
 struct BagDataObject : public ShareObject
 {
 	BagDataObject()

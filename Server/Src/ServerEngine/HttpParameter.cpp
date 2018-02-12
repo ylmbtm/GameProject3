@@ -19,9 +19,8 @@ BOOL HttpParameter::ParseStringToMap(const std::string& strParam)
 		return FALSE;
 	}
 
-	std::string str = strParam.substr(1);
 	std::vector<std::string> strVector;
-	CommonConvert::SpliteString(str, "&", strVector);
+	CommonConvert::SpliteString(strParam, "&", strVector);
 	std::vector<std::string>::iterator itend = strVector.end();
 	for(std::vector<std::string>::iterator it = strVector.begin(); it != itend; it++)
 	{

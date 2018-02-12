@@ -1,7 +1,6 @@
 ﻿#ifndef __SKILL_OBJECT_H__
 #define __SKILL_OBJECT_H__
 
-#include "../ServerData/ServerDefine.h"
 #include "../ConfigData/SkillStruct.h"
 #include "XMath.h"
 class CSceneObject;

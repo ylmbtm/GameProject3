@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
-#include "../ServerData/ServerDefine.h"
+
 
 Th_RetName _SaveAccountThread( void* pParam )
 {

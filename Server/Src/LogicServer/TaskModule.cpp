@@ -5,7 +5,7 @@
 #include "../ConfigData/ConfigData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
-
+#include "../Message/Game_Define.pb.h"
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 
@@ -60,7 +60,15 @@ BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->lock();
 
 		pObject->unlock();
-		m_mapTaskData.insert(std::make_pair(pObject->m_uTaskID, pObject));
+
+		if(pObject->m_TaskStatus == ETS_COMMIT)
+		{
+			m_mapCommitTask.insert(std::make_pair(pObject->m_uTaskID, pObject));
+		}
+		else
+		{
+			m_mapTaskData.insert(std::make_pair(pObject->m_uTaskID, pObject));
+		}
 	}
 	return TRUE;
 }
@@ -95,12 +103,12 @@ BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwPa
 			continue;
 		}
 
-		if(pDataObj->m_TaskState == TASK_FINISHED)
+		if(pDataObj->m_TaskStatus == TASK_FINISHED)
 		{
 			continue;
 		}
 
-		if(pDataObj->m_TaskCondition >= pInfo->Condition)
+		if(pDataObj->m_FinishCount >= pInfo->NeedCount)
 		{
 
 		}

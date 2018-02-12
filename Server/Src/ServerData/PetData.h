@@ -2,7 +2,6 @@
 #define __PET_DATA_OBJECT_H__
 #include "DBInterface/DBInterface.h"
 #include "DBInterface/DBStoredProc.h"
-#include "SharedMemory.h"
 struct PetDataObject : public ShareObject
 {
 	PetDataObject ()

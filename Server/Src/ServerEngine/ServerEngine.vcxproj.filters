@@ -90,6 +90,9 @@
     <ClCompile Include="CommandLine.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="HttpParameter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="CommandLine.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpParameter.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

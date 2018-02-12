@@ -36,7 +36,6 @@ BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 
 	}
 
-
 	return TRUE;
 }
 

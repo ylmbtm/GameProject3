@@ -52,7 +52,12 @@ struct ActivityDataObject : public ShareObject
 {
 	ActivityDataObject()
 	{
-
+		m_dwActivityID = 0;
+		m_uRoleID = 0;
+		m_dwActivityType = 0;
+		m_uJoinTime = 0;
+		m_dwDataLen = 0;
+		memset(m_Data.m_Bytes, 0, sizeof(m_Data.m_Bytes));
 	}
 
 	UINT32 m_dwActivityID;  //活动ID

@@ -2,7 +2,6 @@
 #define _SCENE_OBJECT_H_
 #include "Position.h"
 #include "../Message/Msg_Move.pb.h"
-#include "../ServerData/ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
 #include "SkillObject.h"
 #include "MapObject.h"

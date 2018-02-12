@@ -152,7 +152,7 @@ enum EChatChannel{
 }
 
 
-enum EEQUIPPOS{
+enum EEquipPos{
 	EEP_NONE		= 0; 
 	EEP_HELMET		= 1; 
 	EEP_NECKLACE	= 2; 
@@ -164,4 +164,10 @@ enum EEQUIPPOS{
 	EEP_WEAPON		= 8; 
 }
 
+enum ETaskStatus{
+	ETS_INIT		= 0; 
+	ETS_ACCEPT		= 1; 
+	ETS_FINISH		= 2; 
+	ETS_COMMIT		= 3;
+}
 
