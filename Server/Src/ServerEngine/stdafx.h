@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <assert.h>
 #include <set>
+#include <deque>
+#include <mutex>
 
 #include "CheckMacroDefine.h"
 

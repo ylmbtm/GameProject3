@@ -11,6 +11,7 @@
 #define  NET_MSG_POST				4
 
 #define RECV_BUF_SIZE               8192
+#define MAX_BUFF_SIZE				32768
 
 #define E_SEND_SUCCESS				1
 #define E_SEND_UNDONE				2
@@ -99,7 +100,7 @@ public:
 
 	UINT64						m_LastRecvTick;
 
-	ArrayLockFreeQueue < IDataBuffer*, 1 << 10 > m_SendBuffList;
+	ArrayLockFreeQueue < IDataBuffer*, 1 << 12 > m_SendBuffList;
 
 	BOOL				        m_IsSending;
 	CCritSec                    mCritSending;

@@ -31,8 +31,6 @@ UINT64			GetWeekBeginTime(); //获取当前0点的秒数
 
 time_t			YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec);
 
-UINT32			GetTickCount32();
-
 UINT64			GetTickCount();
 
 UINT32			GetCurThreadID();

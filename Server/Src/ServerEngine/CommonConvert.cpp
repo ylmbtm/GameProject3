@@ -291,9 +291,9 @@ std::string CommonConvert::Unicode_To_Ansi( std::wstring strValue )
 	CHAR sBuff[102400] = {0};
 #ifdef WIN32
 	WideCharToMultiByte(CP_ACP, 0, strValue.c_str(), -1, sBuff, 102400, NULL, NULL);
-	std::string strRet = sBuff;
-	return strRet;
+	return std::string(sBuff);
 #else
+
 #endif
 }
 

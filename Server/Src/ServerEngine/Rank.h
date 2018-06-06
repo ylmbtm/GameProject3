@@ -3,6 +3,11 @@
 
 struct TRankItem
 {
+	TRankItem()
+	{
+		RankID = 0;
+		RankValue = 0;
+	}
 	UINT64 RankID;
 	UINT64 RankValue;
 };
@@ -19,34 +24,94 @@ public:
 	{
 		m_dwShowNum = dwShow;
 		m_dwRankNum = dwTotal;
+		m_vtRankList.assign(m_dwRankNum, TRankItem());
+		return TRUE;
 	}
 
-	int SearchInsert(UINT64 RankValue)
+	BOOL SearchInsert2(UINT64 RankID, UINT64 RankValue, INT32& nOrgIndex, INT32& nTargetIndex)
 	{
-		INT32 nLen = (INT32)m_vtRankList.size();
-		if(nLen == 0)
+		nOrgIndex = -1;
+		nTargetIndex = -1;
+		INT32 nCount = (INT32)m_vtRankList.size();
+		if (nCount == 0)
 		{
-			return 0;
+			return FALSE;
 		}
 
-		INT32 left = 0, right = nLen - 1;
-		while(left <= right)
+		for (int i = 0; i < m_vtRankList.size(); i++)
 		{
-			INT32 mid = left + (right - left) / 2;
-			if(RankValue == m_vtRankList[mid].RankValue)
+			if (m_vtRankList[i].RankID == RankID)
 			{
-				return mid;
+				nOrgIndex = i;
 			}
-			else if(RankValue < m_vtRankList[mid].RankValue)
+
+			if ((RankValue > m_vtRankList[i].RankValue || m_vtRankList[i].RankID == 0) && nTargetIndex == -1)
 			{
-				right = mid - 1;
+				nTargetIndex = i;
 			}
-			else
+
+			if ((m_vtRankList[i].RankID == 0) || (nOrgIndex != -1 && nTargetIndex != -1))
 			{
-				left = mid + 1;
+				break;
 			}
 		}
-		return left;
+
+		return TRUE;
+	}
+
+
+	BOOL SearchInsert(UINT64 RankID, UINT64 RankValue, INT32& nOrgIndex, INT32& nTargetIndex)
+	{
+		nOrgIndex = -1;
+		nTargetIndex = -1;
+		std::vector<TRankItem>::size_type nCount = m_vtRankList.size();
+		if(nCount == 0)
+		{
+			return FALSE;
+		}
+
+		if (RankValue > m_vtRankList[0].RankValue)
+		{
+			nTargetIndex = 0;
+		}
+		else
+		{
+			int left = 0, right = nCount - 1;
+			while (left <= right)
+			{
+				int mid = left + (right - left) / 2;
+				if ((RankValue > m_vtRankList[mid].RankValue) && (RankValue <= m_vtRankList[mid - 1].RankValue))
+				{
+					nTargetIndex = mid;
+					break;
+				}
+				else if (RankValue > m_vtRankList[mid].RankValue)
+				{
+					right = mid - 1;
+				}
+				else
+				{
+					left = mid + 1;
+				}
+			}
+		}
+
+		std::vector<TRankItem>::size_type myIndex = nCount - 1;
+		for (std::vector<TRankItem>::size_type i = nTargetIndex; i < nCount; i++)
+		{
+			if (m_vtRankList[i].RankID == RankID)
+			{
+				nOrgIndex = i;
+				break;
+			}
+
+			if (m_vtRankList[i].RankID == 0)
+			{
+				break;
+			}
+		}
+
+		return TRUE;
 	}
 
 	void Clear()
@@ -61,33 +126,32 @@ public:
 
 	INT32 SetRankItem(UINT64 RankID, UINT64 RankValue)
 	{
-		INT32 nCount = (INT32)m_vtRankList.size();
+		std::vector<TRankItem>::size_type nCount = m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount - 1].RankValue;
 		if (RankValue <= MinValue)
 		{
 			return -1;
 		}
 
-		INT32 nTargetIndex = SearchInsert(RankValue);
+		INT32 nOrgIndex = -1, nTargetIndex = -1;
 
-		INT32 myIndex = nCount - 1;
-		for (INT32 i = nTargetIndex; i < nCount; i++)
+		SearchInsert(RankID, RankValue, nOrgIndex, nTargetIndex);
+
+		if (nOrgIndex != -1)
 		{
-			if (m_vtRankList[i].RankID == RankID || m_vtRankList[i].RankID == 0)
+			if (nOrgIndex == nTargetIndex)
 			{
-				m_vtRankList[i].RankValue = RankValue;
-				m_vtRankList[i].RankID = RankID;
-				myIndex = i;
-				break;
+				m_vtRankList[nOrgIndex].RankValue = RankValue;
+				m_vtRankList[nOrgIndex].RankID = RankID;
+				return nTargetIndex;
 			}
 		}
-
-		if (myIndex == nTargetIndex)
+		else
 		{
-			return nTargetIndex;
+			nOrgIndex = nCount - 1;
 		}
 
-		for (INT32 i = myIndex; i > nTargetIndex; i--)
+		for (std::vector<TRankItem>::size_type i = nOrgIndex; i > nTargetIndex; i--)
 		{
 			m_vtRankList[i].RankID = m_vtRankList[i - 1].RankID;
 			m_vtRankList[i].RankValue = m_vtRankList[i - 1].RankValue;
@@ -95,6 +159,7 @@ public:
 
 		m_vtRankList[nTargetIndex].RankID = RankID;
 		m_vtRankList[nTargetIndex].RankValue = RankValue;
+
 		return nTargetIndex;
 	}
 
@@ -102,23 +167,23 @@ public:
 	{
 		INT32 nCount = (INT32)m_vtRankList.size();
 		UINT64 uMinValue = m_vtRankList[nCount - 1].RankValue;
-		INT32 nMyIndex = -1;
+		INT32 nOldIndex = -1;
 
-		if (OldRankValue >= uMinValue)
+		//if (OldRankValue >= uMinValue)
 		{
 			for ( INT32 i = 0; i < nCount; i++)
 			{
 				if (RankID == m_vtRankList[i].RankID)
 				{
-					nMyIndex = i;
+					nOldIndex = i;
 					break;
 				}
 			}
 		}
 
-		if (nMyIndex >= 0)
+		if (nOldIndex >= 0)
 		{
-			m_vtRankList[nMyIndex].RankValue = NewRankValue;
+			m_vtRankList[nOldIndex].RankValue = NewRankValue;
 			std::sort(m_vtRankList.begin(), m_vtRankList.end(), RankItemCompare);
 			return;
 		}
@@ -142,21 +207,11 @@ public:
 			return -1;
 		}
 
-		INT32 nTargetIndex = SearchInsert(RankValue);
-		if (nTargetIndex == nCount)
-		{
-			return -1;
-		}
+		INT32 nOrgIndex = -1, nTargetIndex = -1;
 
-		for (INT32 i = nTargetIndex; i >= 0; i--)
-		{
-			if (m_vtRankList[i].RankID == RankID)
-			{
-				return i + 1;
-			}
-		}
+		SearchInsert(RankID, RankValue, nOrgIndex, nTargetIndex);
 
-		return -1;
+		return nOrgIndex;
 	}
 public:
 	INT32 m_dwShowNum;

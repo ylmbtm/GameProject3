@@ -7,7 +7,7 @@
 #include <list>
 #include <set>
 #include <algorithm>
-
+#include <deque>
 #include "CheckMacroDefine.h"
 
 #include "Platform.h"

@@ -17,6 +17,7 @@
 #include <ws2tcpip.h>
 #include <Windows.h>
 #include <mswsock.h>
+#include "Mstcpip.h"
 #include <time.h>
 #include <stdarg.h>
 #pragma  comment(lib,"ws2_32")

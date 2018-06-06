@@ -1,21 +1,21 @@
 ﻿#include "stdafx.h"
 #include "CommonSocket.h"
 
-bool  CommonSocket::SetSocketReuseable(SOCKET hSocket)
+BOOL  CommonSocket::SetSocketReuseable(SOCKET hSocket)
 {
 	char nReuse = 1;
 
 	if(0 != setsockopt(hSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&nReuse, sizeof(int)))
 	{
-		return false;
+		return FALSE;
 	}
 
-	return true;
+	return TRUE;
 }
 
 
 //设置套接字为非阻塞状态
-bool    CommonSocket::SetSocketUnblock(SOCKET hSocket)
+BOOL    CommonSocket::SetSocketUnblock(SOCKET hSocket)
 {
 #ifdef WIN32
 	u_long iMode = 1;
@@ -25,10 +25,10 @@ bool    CommonSocket::SetSocketUnblock(SOCKET hSocket)
 	fcntl(hSocket, F_SETFL, flags | O_NONBLOCK);
 #endif
 
-	return true;
+	return TRUE;
 }
 
-bool    CommonSocket::SetSocketBlock(SOCKET hSocket)
+BOOL    CommonSocket::SetSocketBlock(SOCKET hSocket)
 {
 #ifdef WIN32
 	u_long iMode = 0;
@@ -38,42 +38,63 @@ bool    CommonSocket::SetSocketBlock(SOCKET hSocket)
 	fcntl(hSocket, F_SETFL, flags & (~O_NONBLOCK));
 #endif
 
-	return true;
+	return TRUE;
 }
 
-bool    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
+BOOL    CommonSocket::SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize)
+{
+	if (nRecvSize > 0)
+	{
+		if (0 != setsockopt(hSocket, IPPROTO_TCP, SO_RCVBUF, (char*)&nRecvSize, sizeof(INT32)))
+		{
+			return FALSE;
+		}
+	}
+
+	if (nSendSize > 0)
+	{
+		if (0 != setsockopt(hSocket, IPPROTO_TCP, SO_SNDBUF, (char*)&nSendSize, sizeof(INT32)))
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
 	int bOn = 1;
 
 	if(0 != setsockopt(hSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&bOn, sizeof(bOn)))
 	{
-		return false;
+		return FALSE;
 	}
 
-	return true;
+	return TRUE;
 }
 
 
-bool   CommonSocket::InitNetwork()
+BOOL   CommonSocket::InitNetwork()
 {
 #if WIN32
 	WSADATA wsaData;
 	if(0 != WSAStartup(MAKEWORD(2, 2), &wsaData))
 	{
-		return false;
+		return FALSE;
 	}
 #endif
 
-	return true;
+	return TRUE;
 }
 
-bool   CommonSocket::UninitNetwork()
+BOOL   CommonSocket::UninitNetwork()
 {
 #if WIN32
 	return (0 == WSACleanup());
 #endif
 
-	return true;
+	return TRUE;
 }
 
 void   CommonSocket::CloseSocket(SOCKET hSocket)
@@ -83,6 +104,26 @@ void   CommonSocket::CloseSocket(SOCKET hSocket)
 #else
 	close(hSocket);
 #endif
+}
+
+std::string CommonSocket::GetLocalIP()
+{
+	char hostname[256];
+	int ret = gethostname(hostname, sizeof(hostname));
+	if (ret == SOCKET_ERROR)
+	{
+		return "";
+	}
+
+	hostent* host = gethostbyname(hostname);
+	if (host == NULL)
+	{
+		return "";
+	}
+
+	char szIp[256] = { 0 };
+	strcpy(szIp, inet_ntoa(*(in_addr*)*host->h_addr_list));
+	return std::string(szIp);
 }
 
 void   CommonSocket::ShutDownSend(SOCKET hSocket)
@@ -256,13 +297,23 @@ std::string CommonSocket::IpAddrIntToStr( UINT32 dwIpAddr )
 	return std::string(szIpBuffer);
 }
 
-bool CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nKeepCount, int nKeepIdle )
+BOOL CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nKeepCount, int nKeepIdle )
 {
-#ifdef WIN32
 	BOOL bKeepAlive = TRUE;
-
 	setsockopt(hSocket, SOL_SOCKET, SO_KEEPALIVE, (char*)&bKeepAlive, sizeof(bKeepAlive));
+#ifdef WIN32
+	tcp_keepalive  alive_in = { 0 }, alive_out = { 0 };
+	alive_in.keepalivetime = nKeepIdle;                // 开始首次KeepAlive探测前的TCP空闭时间
+	alive_in.keepaliveinterval = nKeepInterval;            // 两次KeepAlive探测间的时间间隔
+	alive_in.onoff = TRUE;
+	unsigned long ulBytesReturn = 0;
+	int nRet = WSAIoctl(hSocket, SIO_KEEPALIVE_VALS, &alive_in, sizeof(alive_in),
+	                    &alive_out, sizeof(alive_out), &ulBytesReturn, NULL, NULL);
 
+	if (nRet == SOCKET_ERROR)
+	{
+
+	}
 #else
 	setsockopt(hSocket, SOL_TCP, TCP_KEEPIDLE,  (void*)&nKeepIdle, sizeof(nKeepIdle));
 	setsockopt(hSocket, SOL_TCP, TCP_KEEPINTVL, (void*)&nKeepInterval, sizeof(nKeepInterval));
@@ -270,5 +321,5 @@ bool CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nK
 #endif
 
 
-	return true;
+	return TRUE;
 }

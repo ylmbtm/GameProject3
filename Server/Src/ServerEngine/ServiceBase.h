@@ -5,6 +5,7 @@
 #include "Connection.h"
 #include "google/protobuf/message.h"
 #include "ConfigFile.h"
+#include "SpinLock.h"
 
 
 class ServiceBase : public IDataHandler//, public CEventFuncManager
@@ -42,7 +43,10 @@ public:
 
 protected:
 	IPacketDispatcher*					m_pPacketDispatcher;
-	ArrayLockFreeQueue<NetPacket>		m_DataQueue;
+
+	std::deque<NetPacket>*				m_pRecvDataQueue;
+	std::deque<NetPacket>*				m_pDispathQueue;
+	CSpinLock							m_SpinLock;
 
 	//以下用于统计
 	UINT64								m_dwLastTick;

@@ -119,21 +119,6 @@ time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nH
 	return mktime(&newtm);;
 }
 
-UINT32 CommonFunc::GetTickCount32()
-{
-#ifdef WIN32
-	return ::GetTickCount();
-#else
-	UINT32 dwTickCount = 0;;
-	struct timespec on;
-	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
-	{
-		dwTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
-	}
-	return dwTickCount;
-#endif
-}
-
 UINT64 CommonFunc::GetTickCount()
 {
 #ifdef WIN32

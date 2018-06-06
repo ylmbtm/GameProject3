@@ -191,6 +191,18 @@
     <ClInclude Include="HttpParameter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Rank.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CritSec.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CritSecNotify.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SpinLock.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

@@ -54,7 +54,7 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			ASSERT_FAIELD;
+			//ASSERT_FAIELD;
 			break;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
@@ -251,6 +251,12 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if (pConnection == NULL)
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_CONNECT, pConnection == NULL。");
+					break;
+				}
+
+				if (pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
+				{
+					CLog::GetInstancePtr()->LogError("触发了NET_MSG_CONNECT, 事件ID和连接ID不一致。");
 					break;
 				}
 
@@ -627,6 +633,8 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	pConnection->m_IoOverlapRecv.Clear();
 
 	pConnection->m_IoOverlapRecv.dwCmdType = NET_MSG_CONNECT;
+
+	pConnection->m_IoOverlapRecv.dwConnID = pConnection->GetConnectionID();
 
 	BOOL bRet = CommonSocket::ConnectSocketEx(hSocket, strIpAddr.c_str(), sPort, (LPOVERLAPPED)&pConnection->m_IoOverlapRecv);
 

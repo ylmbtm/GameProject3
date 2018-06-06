@@ -31,10 +31,10 @@ ServiceBase* ServiceBase::GetInstancePtr()
 BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnection)
 {
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	if(!m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID)))
-	{
-		//处理太慢，消息太多
-	}
+
+	m_SpinLock.Lock();
+	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID));
+	m_SpinLock.Unlock();
 	return TRUE;
 }
 
@@ -128,17 +128,18 @@ BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
-	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, CLOSE_CONNECTION));
-
+	m_SpinLock.Lock();
+	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, CLOSE_CONNECTION));
+	m_SpinLock.Unlock();
 	return TRUE;
 }
 
 BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
-
-	m_DataQueue.push(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, NEW_CONNECTION));
-
+	m_SpinLock.Lock();
+	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, NEW_CONNECTION));
+	m_SpinLock.Unlock();
 	return TRUE;
 }
 
@@ -157,10 +158,13 @@ BOOL ServiceBase::Update()
 
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
-	//处理新连接的通知
-	NetPacket item;
-	while(m_DataQueue.pop(item))
+	m_SpinLock.Lock();
+	std::swap(m_pRecvDataQueue, m_pDispathQueue);
+	m_SpinLock.Unlock();
+
+	for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); itor++)
 	{
+		NetPacket& item = *itor;
 		if (item.m_dwMsgID == NEW_CONNECTION)
 		{
 			m_pPacketDispatcher->OnNewConnect((CConnection*)item.m_pDataBuffer);
@@ -180,6 +184,8 @@ BOOL ServiceBase::Update()
 			m_dwRecvNum += 1;
 		}
 	}
+
+	m_pDispathQueue->clear();
 
 	m_dwFps += 1;
 

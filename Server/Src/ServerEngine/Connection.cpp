@@ -189,9 +189,9 @@ BOOL CConnection::ExtractBuffer()
 			if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_pCurBufferSize)
 			{
 				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
-				m_dwDataLen = 0;
 				m_pBufPos = m_pRecvBuf;
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen);
+				m_dwDataLen = 0;
 				break;
 			}
 			else
@@ -267,16 +267,18 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-	m_bConnected        = FALSE;
 	CommonSocket::ShutDownSend(m_hSocket);
 	CommonSocket::ShutDownRecv(m_hSocket);
 	CommonSocket::CloseSocket(m_hSocket);
-
 	m_hSocket           = INVALID_SOCKET;
 
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-	m_pDataHandler->OnCloseConnect(this);
+	if(m_bConnected && m_pDataHandler != NULL)
+	{
+		m_pDataHandler->OnCloseConnect(this);
+	}
+	m_bConnected = FALSE;
 	return TRUE;
 }
 
@@ -387,8 +389,7 @@ BOOL CConnection::Clear()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	m_SendBuffList.push(pBuff);
-	return TRUE;
+	return m_SendBuffList.push(pBuff);
 }
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
