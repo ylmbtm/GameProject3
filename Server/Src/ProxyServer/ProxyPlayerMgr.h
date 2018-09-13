@@ -14,6 +14,8 @@ public:
 
 	VOID	SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
 
+	VOID	SetConnID(UINT32 dwConnID);
+
 	UINT64	GetCharID();
 
 	UINT32  GetConnID();

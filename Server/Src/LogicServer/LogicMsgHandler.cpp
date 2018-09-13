@@ -61,6 +61,11 @@ BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 	return TRUE;
 }
 
+BOOL CLogicMsgHandler::OnSecondTimer()
+{
+	return TRUE;
+}
+
 BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)

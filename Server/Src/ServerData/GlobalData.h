@@ -9,17 +9,19 @@ struct GlobalDataObject : public ShareObject
 	{
 		m_dwServerID		= 0;			//服务器ID
 		m_u64Guid			= 0;			//全局GUID
+		m_dwMaxOnline		= 0;			//最大在线人数
 	}
 
 	UINT32 m_dwServerID;        //服务器ID
 	UINT64 m_u64Guid;			//全局GUID
+	UINT32 m_dwMaxOnline;		//最大在线人数
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid) VALUES(?, ?);");
+		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid, maxonline) VALUES(?, ?, ?);");
 		csp.set_uint32(0, m_dwServerID);
 		csp.set_uint64(1, m_u64Guid);
-
+		csp.set_uint32(2, m_dwMaxOnline);
 		pDB->Execute(&csp);
 
 		return TRUE;
@@ -27,9 +29,10 @@ struct GlobalDataObject : public ShareObject
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid) VALUES(?, ?);");
+		static CDBStoredProcedure csp("REPLACE INTO globaldata (serverid, maxguid, maxonline) VALUES(?, ?, ?);");
 		csp.set_uint32(0, m_dwServerID);
 		csp.set_uint64(1, m_u64Guid);
+		csp.set_uint32(2, m_dwMaxOnline);
 		pDB->Execute(&csp);
 		return TRUE;
 	}

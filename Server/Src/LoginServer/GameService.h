@@ -31,14 +31,20 @@ public:
 
 	BOOL		ConnectToAccountSvr();
 
+	BOOL		ConnectToWatchServer();
+
+	BOOL		SendWatchHeartBeat();
+
+	BOOL		SetWatchIndex(UINT32 nIndex);
 public:
 	CLoginMsgHandler	m_LoginMsgHandler;
 	UINT32              m_dwAccountConnID;
-
+	UINT32				m_dwWatchSvrConnID;
+	UINT32				m_dwWatchIndex;
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

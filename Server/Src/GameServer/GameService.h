@@ -35,23 +35,30 @@ public:
 
 	BOOL		ConnectToProxySvr();
 
+	BOOL		ConnectToWatchServer();
+
 	BOOL		RegisterToLogicSvr();
 
 	BOOL		RegisterToProxySvr();
 
 	UINT32      GetServerID();
+
+	BOOL		SendWatchHeartBeat();
+
+	BOOL		SetWatchIndex(UINT32 nIndex);
 protected:
 	CSceneManager		m_SceneManager;
 
 	UINT32				m_dwLogicConnID;
 	UINT32              m_dwProxyConnID;
 	UINT32				m_dwServerID;
-
+	UINT32				m_dwWatchSvrConnID;
+	UINT32				m_dwWatchIndex;
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgDefautReq(NetPacket* pNetPacket);
 	BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
-	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

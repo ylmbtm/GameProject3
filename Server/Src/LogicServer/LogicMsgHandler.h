@@ -20,6 +20,8 @@ public:
 
 	BOOL OnUpdate(UINT64 uTick);
 
+	BOOL OnSecondTimer();
+
 public:
 	BOOL ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam);
 

@@ -33,6 +33,11 @@ VOID CProxyPlayer::SetGameSvrInfo( UINT32 dwSvrID, UINT32 dwCopyGuid )
 }
 
 
+VOID CProxyPlayer::SetConnID(UINT32 dwConnID)
+{
+	m_dwConnID = dwConnID;
+}
+
 CProxyPlayerMgr::CProxyPlayerMgr(void)
 {
 }

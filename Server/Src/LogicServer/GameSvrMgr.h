@@ -45,7 +45,7 @@ public:
 
 	UINT32		GetServerIDByCopyID(UINT32 dwCopyGuid);
 
-	UINT32		GetFreeGameServerID();
+	UINT32		GetBestGameServerID();
 
 	BOOL		SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 

@@ -35,6 +35,10 @@ public:
 
 	BOOL		ConnectToCenterSvr();
 
+	BOOL		ConnectToWatchServer();
+
+	BOOL		SendWatchHeartBeat();
+
 	BOOL		RegisterToLoginSvr();
 
 	BOOL		RegisterToCenterSvr();
@@ -47,6 +51,9 @@ public:
 
 	UINT32      GetCenterID();
 
+	BOOL		ReportServerStatus();
+
+	BOOL		SetWatchIndex(UINT32 nIndex);
 public:
 	CLogicMsgHandler m_LogicMsgHandler;
 
@@ -54,11 +61,11 @@ public:
 	UINT32			m_dwLoginConnID;
 	UINT32			m_dwDBConnID;
 	UINT32          m_dwCenterID;   //中心服的连接ID
-
-
+	UINT32			m_dwWatchSvrConnID;
+	UINT32			m_dwWatchIndex;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatReq(NetPacket* pNetPacket);
+	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

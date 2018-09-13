@@ -42,6 +42,19 @@ public:
 		return ;
 	}
 
+	bool TryLockTimes(unsigned nTimes)
+	{
+		for (unsigned k = 0; !TryLock(); ++k)
+		{
+			if (k >= nTimes)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	bool TryLock()
 	{
 		UINT64 nOne = 1, nZero = 0;

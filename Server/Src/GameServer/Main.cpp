@@ -22,6 +22,9 @@ int main(int argc, char* argv[])
 
 	SetCrashReport("GameServer");
 
+	//设置被监视索引，用于和监控程通信
+	CGameService::GetInstancePtr()->SetWatchIndex(cmdLine.GetIntValue("windex"));
+
 	if (!CGameService::GetInstancePtr()->Init(dwSvrID, dwPort))
 	{
 		return 0;

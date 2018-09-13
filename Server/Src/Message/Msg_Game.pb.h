@@ -7759,6 +7759,12 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
+  // uint64 ProcessID = 2;
+  void clear_processid();
+  static const int kProcessIDFieldNumber = 2;
+  ::google::protobuf::uint64 processid() const;
+  void set_processid(::google::protobuf::uint64 value);
+
   // uint32 Data = 1;
   void clear_data();
   static const int kDataFieldNumber = 1;
@@ -7769,6 +7775,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 processid_;
   ::google::protobuf::uint32 data_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -13372,6 +13379,20 @@ inline void WatchHeartBeatReq::set_data(::google::protobuf::uint32 value) {
   
   data_ = value;
   // @@protoc_insertion_point(field_set:WatchHeartBeatReq.Data)
+}
+
+// uint64 ProcessID = 2;
+inline void WatchHeartBeatReq::clear_processid() {
+  processid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 WatchHeartBeatReq::processid() const {
+  // @@protoc_insertion_point(field_get:WatchHeartBeatReq.ProcessID)
+  return processid_;
+}
+inline void WatchHeartBeatReq::set_processid(::google::protobuf::uint64 value) {
+  
+  processid_ = value;
+  // @@protoc_insertion_point(field_set:WatchHeartBeatReq.ProcessID)
 }
 
 // -------------------------------------------------------------------

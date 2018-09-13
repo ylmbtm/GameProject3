@@ -8,10 +8,9 @@
 #include <set>
 #include <algorithm>
 #include <deque>
+
 #include "CheckMacroDefine.h"
-
 #include "Platform.h"
-
 #include "Log.h"
 #include "CommonFunc.h"
 #include "CommonConvert.h"

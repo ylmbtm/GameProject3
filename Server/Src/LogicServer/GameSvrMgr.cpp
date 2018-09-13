@@ -53,7 +53,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlay
 	ERROR_RETURN_TRUE(CreateParam != 0);
 
 	//选择一个可用的副本服务器
-	UINT32 dwServerID = GetFreeGameServerID();
+	UINT32 dwServerID = GetBestGameServerID();
 	if(dwServerID == 0)
 	{
 		CLog::GetInstancePtr()->LogError("没有找到可用的场景服务器，或者说没有找到可用的副本服务器");
@@ -296,7 +296,7 @@ BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 	return TRUE;
 }
 
-UINT32 CGameSvrMgr::GetFreeGameServerID()
+UINT32 CGameSvrMgr::GetBestGameServerID()
 {
 	UINT32 dwMinLoad = 1000000;
 	UINT32 dwSvrID = 0;

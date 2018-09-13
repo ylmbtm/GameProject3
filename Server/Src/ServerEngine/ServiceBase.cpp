@@ -14,10 +14,14 @@
 ServiceBase::ServiceBase(void)
 {
 	m_pPacketDispatcher = NULL;
+	m_pRecvDataQueue = new std::deque<NetPacket>();
+	m_pDispathQueue = new std::deque<NetPacket>();
 }
 
 ServiceBase::~ServiceBase(void)
 {
+	delete m_pRecvDataQueue;
+	delete m_pDispathQueue;
 }
 
 ServiceBase* ServiceBase::GetInstancePtr()

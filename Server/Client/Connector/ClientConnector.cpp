@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+﻿#include "stdafx.h"
 #include "ClientConnector.h"
 #include "google\protobuf\message.h"
 #include "..\Src\ServerEngine\CommonSocket.h"

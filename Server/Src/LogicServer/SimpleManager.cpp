@@ -25,16 +25,16 @@ BOOL CSimpleManager::LoadSimpleData(CppMySQL3DB& tDBConnection)
 	while(!QueryResult.eof())
 	{
 		CSimpleInfo* pInfo	= new CSimpleInfo();
-		pInfo->u64RoleID	= QueryResult.getInt64Field("id");
-		pInfo->u64AccountID = QueryResult.getInt64Field("account_id");
-		pInfo->Name			= QueryResult.getStringField("name");
-		pInfo->dwCarrerID	= QueryResult.getIntField("carrerid");
-		pInfo->uCreateTime	= QueryResult.getInt64Field("createtime");
-		pInfo->uLogonTime	= QueryResult.getInt64Field("logontime");
-		pInfo->uLogoffTime	= QueryResult.getInt64Field("logofftime");
-		pInfo->uGuildID		= QueryResult.getInt64Field("guildid");
-		pInfo->dwLevel		= QueryResult.getIntField("level");
-		pInfo->dwVipLevel	= QueryResult.getIntField("viplevel");
+		pInfo->m_uRoleID	= QueryResult.getInt64Field("id");
+		pInfo->m_uAccountID = QueryResult.getInt64Field("account_id");
+		pInfo->m_strName	= QueryResult.getStringField("name");
+		pInfo->m_dwCarrerID	= QueryResult.getIntField("carrerid");
+		pInfo->m_uCreateTime = QueryResult.getInt64Field("createtime");
+		pInfo->m_uLogonTime	= QueryResult.getInt64Field("logontime");
+		pInfo->m_uLogoffTime = QueryResult.getInt64Field("logofftime");
+		pInfo->m_uGuildID	= QueryResult.getInt64Field("guildid");
+		pInfo->m_dwLevel	= QueryResult.getIntField("level");
+		pInfo->m_dwVipLevel	= QueryResult.getIntField("viplevel");
 
 		AddSimpleInfo(pInfo);
 
@@ -71,7 +71,7 @@ UINT64 CSimpleManager::GetCreateTime(UINT64 u64ID)
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
 
-	return pInfo->uCreateTime;
+	return pInfo->m_uCreateTime;
 }
 
 UINT64 CSimpleManager::GetLogonTime(UINT64 u64ID)
@@ -79,7 +79,7 @@ UINT64 CSimpleManager::GetLogonTime(UINT64 u64ID)
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
 
-	return pInfo->uLogonTime;
+	return pInfo->m_uLogonTime;
 }
 
 UINT64 CSimpleManager::GetLogoffTime( UINT64 u64ID )
@@ -87,7 +87,7 @@ UINT64 CSimpleManager::GetLogoffTime( UINT64 u64ID )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
 
-	return pInfo->uLogoffTime;
+	return pInfo->m_uLogoffTime;
 }
 
 UINT32 CSimpleManager::GetFightValue( UINT64 u64ID )
@@ -95,7 +95,7 @@ UINT32 CSimpleManager::GetFightValue( UINT64 u64ID )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_NULL(pInfo != NULL);
 
-	return pInfo->dwFightValue;
+	return pInfo->m_dwFightValue;
 }
 
 BOOL CSimpleManager::SetFightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel )
@@ -103,8 +103,8 @@ BOOL CSimpleManager::SetFightValue( UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->dwFightValue = dwFight;
-	pInfo->dwLevel = dwLevel;
+	pInfo->m_dwFightValue = dwFight;
+	pInfo->m_dwLevel = dwLevel;
 
 	return TRUE;
 }
@@ -114,7 +114,7 @@ BOOL CSimpleManager::SetPlayerName( UINT64 u64ID, std::string strName )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->Name = strName;
+	pInfo->m_strName = strName;
 	return TRUE;
 }
 
@@ -123,7 +123,7 @@ BOOL CSimpleManager::SetLogoffTime( UINT64 u64ID, UINT64 uTime )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->uLogoffTime = uTime;
+	pInfo->m_uLogoffTime = uTime;
 
 	return TRUE;
 }
@@ -133,7 +133,7 @@ BOOL CSimpleManager::SetCreateTime(UINT64 u64ID, UINT64 uTime)
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->uCreateTime = uTime;
+	pInfo->m_uCreateTime = uTime;
 
 	return TRUE;
 }
@@ -143,7 +143,7 @@ BOOL CSimpleManager::SetLogonTime(UINT64 u64ID, UINT64 uTime)
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->uLogonTime = uTime;
+	pInfo->m_uLogonTime = uTime;
 
 	return TRUE;
 }
@@ -153,7 +153,7 @@ BOOL CSimpleManager::SetVipLevel( UINT64 u64ID, UINT32 dwVipLvl )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->dwVipLevel = dwVipLvl;
+	pInfo->m_dwVipLevel = dwVipLvl;
 
 	return TRUE;
 }
@@ -163,7 +163,7 @@ BOOL CSimpleManager::SetGuildID( UINT64 u64ID, UINT64 guildid )
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	pInfo->uGuildID = guildid;
+	pInfo->m_uGuildID = guildid;
 
 	return TRUE;
 }
@@ -183,20 +183,38 @@ UINT64 CSimpleManager::GetGuildID( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
-	return  pInfo->uGuildID;
+	return  pInfo->m_uGuildID;
+}
+
+UINT32 CSimpleManager::GetTotalCount()
+{
+	return m_mapID2Simple.size();
+}
+
+UINT32 CSimpleManager::GetCurrOnline()
+{
+	return 0;
+}
+
+BOOL CSimpleManager::SetIsOnline(UINT64 u64ID, BOOL bOnline)
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+	pInfo->m_bOnline = bOnline;
+	return TRUE;
 }
 
 CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID)
 {
 	CSimpleInfo* pInfo = new CSimpleInfo();
-	pInfo->u64RoleID = u64ID;
-	pInfo->u64AccountID = u64AccID;
-	pInfo->Name = strName;
-	pInfo->dwCarrerID = dwCarrerID;
-	pInfo->uCreateTime = CommonFunc::GetCurrTime();
-	pInfo->dwVipLevel = 0;
-	pInfo->dwLevel = 0;
-	pInfo->dwFightValue = 0;
+	pInfo->m_uRoleID = u64ID;
+	pInfo->m_uAccountID = u64AccID;
+	pInfo->m_strName = strName;
+	pInfo->m_dwCarrerID = dwCarrerID;
+	pInfo->m_uCreateTime = CommonFunc::GetCurrTime();
+	pInfo->m_dwVipLevel = 0;
+	pInfo->m_dwLevel = 0;
+	pInfo->m_dwFightValue = 0;
 
 	m_mapID2Simple.insert(std::make_pair(u64ID, pInfo));
 
@@ -209,9 +227,9 @@ BOOL CSimpleManager::AddSimpleInfo(CSimpleInfo* pInfo)
 {
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
-	m_mapID2Simple.insert(std::make_pair(pInfo->u64RoleID, pInfo));
+	m_mapID2Simple.insert(std::make_pair(pInfo->m_uRoleID, pInfo));
 
-	m_mapName2ID.insert(std::make_pair(pInfo->Name, pInfo->u64RoleID));
+	m_mapName2ID.insert(std::make_pair(pInfo->m_strName, pInfo->m_uRoleID));
 
 	return TRUE;
 }

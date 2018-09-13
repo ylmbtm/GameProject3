@@ -5,30 +5,31 @@ struct CSimpleInfo
 {
 	CSimpleInfo()
 	{
-		u64RoleID		= 0;
-		u64AccountID	= 0;
-		uGuildID		= 0;
-		dwCarrerID		= 0;
-		dwLevel			= 0;
-		dwVipLevel		= 0;
-		dwFightValue	= 0;
-		uLogoffTime		= 0;
-		uLogonTime		= 0;
-		uCreateTime		= 0;
-		IsOnline		= FALSE;
+		m_uRoleID		= 0;
+		m_uAccountID	= 0;
+		m_uGuildID		= 0;
+		m_dwCarrerID	= 0;
+		m_dwLevel		= 0;
+		m_dwVipLevel	= 0;
+		m_dwFightValue	= 0;
+		m_uLogoffTime	= 0;
+		m_uLogonTime	= 0;
+		m_uCreateTime	= 0;
+		m_bOnline		= FALSE;
+		m_strName		= "";
 	}
-	UINT64	u64RoleID;
-	UINT64	u64AccountID;
-	UINT64	uGuildID;
-	UINT32	dwCarrerID;
-	std::string Name ;
-	UINT32	dwLevel;
-	UINT32	dwVipLevel;
-	UINT32	dwFightValue;
-	UINT64	uLogoffTime;
-	UINT64	uLogonTime;
-	UINT64	uCreateTime;
-	BOOL	IsOnline;
+	UINT64	m_uRoleID;
+	UINT64	m_uAccountID;
+	UINT64	m_uGuildID;
+	UINT32	m_dwCarrerID;
+	UINT32	m_dwLevel;
+	UINT32	m_dwVipLevel;
+	UINT32	m_dwFightValue;
+	UINT64	m_uLogoffTime;
+	UINT64	m_uLogonTime;
+	UINT64	m_uCreateTime;
+	BOOL	m_bOnline;
+	std::string m_strName;
 };
 
 class CSimpleManager
@@ -69,6 +70,12 @@ public:
 	BOOL	CheckNameExist(std::string strName);
 
 	UINT64	GetGuildID(UINT64 u64ID);
+
+	UINT32  GetTotalCount();
+
+	UINT32  GetCurrOnline();
+
+	BOOL	SetIsOnline(UINT64 u64ID, BOOL bOnline);
 
 public:
 	std::map<UINT64, CSimpleInfo*> m_mapID2Simple;

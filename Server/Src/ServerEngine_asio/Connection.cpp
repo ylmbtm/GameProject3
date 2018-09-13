@@ -3,9 +3,7 @@
 #include "CommandDef.h"
 #include <boost/asio/placeholders.hpp>
 #include "PacketHeader.h"
-#include "../ServerEngine/Log.h"
-#include "../ServerEngine/DataBuffer.h"
-#include "../ServerEngine/CommonFunc.h"
+
 #include <boost/asio.hpp>
 
 
@@ -107,9 +105,9 @@ BOOL CConnection::ExtractBuffer()
 			if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_pCurBufferSize)
 			{
 				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
-				m_dwDataLen = 0;
 				m_pBufPos = m_pRecvBuf;
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen);
+				m_dwDataLen = 0;
 				break;
 			}
 			else

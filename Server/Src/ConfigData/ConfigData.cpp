@@ -102,21 +102,31 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 
 BOOL CConfigData::ReadConstantData(CppSQLite3Query& QueryData)
 {
+	m_mapConstantValue.clear();
 	while(!QueryData.eof())
 	{
 		std::string strName = QueryData.getStringField("name");
 		std::string strValue = QueryData.getStringField("value");
 
-		if(strName == "xxxxx")
-		{
-			m_ConstantValue.xxxx = CommonConvert::StringToInt(strValue.c_str());
-		}
+		m_mapConstantValue.insert(std::make_pair(strName, CommonConvert::StringToInt(strValue.c_str())));
 
 		QueryData.nextRow();
 	}
 
 	return TRUE;
 }
+
+INT32 CConfigData::GetConstantIntValue(std::string& strName)
+{
+	std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(strName);
+	if (itor != m_mapConstantValue.end())
+	{
+		return itor->second;
+	}
+
+	return 0;
+}
+
 
 INT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {

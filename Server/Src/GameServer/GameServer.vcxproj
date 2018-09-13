@@ -71,7 +71,7 @@
       <AdditionalLibraryDirectories>..\Bin\Debug64;..\..\Common\Lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies> libprotobufd.lib;ServerEngine_d.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies> libprotobufd.lib;ServerEngine_d.lib;sqlite3.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -93,7 +93,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies> libprotobuf.lib;libmysql.lib;ServerEngine.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies> libprotobuf.lib;libmysql.lib;ServerEngine.lib;sqlite3.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Bin\Release64;..\..\Common\Lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

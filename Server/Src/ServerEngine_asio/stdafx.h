@@ -20,6 +20,10 @@
 
 #include "Platform.h"
 
+#include "Log.h"
+#include "CommonFunc.h"
+#include "CommonConvert.h"
+
 #endif
 
 

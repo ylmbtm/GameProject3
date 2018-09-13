@@ -29,16 +29,15 @@ std::string CommonFunc::GetCurrentWorkDir()
 
 std::string CommonFunc::GetCurrentExeDir()
 {
-	char szPath[1024] = {0}, szLink[1024] = { 0 };
+	char szPath[1024] = {0};
 #ifdef WIN32
-	ZeroMemory(szPath, 1024);
 	GetModuleFileName(NULL, szPath, 1024);
 	char* p = strrchr(szPath, '\\');
-	*p = 0;
 #else
-	snprintf(szLink, 1024, "/proc/%d/exe", getpid());/////////////
-	readlink(szLink, szPath, sizeof(szPath));//////////////
+	readlink("/proc/self/exe", szPath, sizeof(szPath));
+	char* p = strrchr(szPath, '/');
 #endif
+	*p = 0;
 	return std::string(szPath);
 }
 

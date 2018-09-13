@@ -14,6 +14,8 @@ public:
 
 	UINT64 MakeNewGuid();
 
+	UINT32 GetMaxOnline();
+
 public:
 	GlobalDataObject*  m_pGlobalDataObject;
 };

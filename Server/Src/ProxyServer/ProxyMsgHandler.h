@@ -24,8 +24,6 @@ public:
 
 	BOOL		RelayToLogicServer(IDataBuffer* pBuffer);
 
-	BOOL		RelayToClient(CProxyPlayer* pClientObj, IDataBuffer* pBuffer);
-
 	BOOL        RelayToConnect(UINT32 dwConnID, IDataBuffer* pBuffer);
 
 	UINT32      GetGameSvrConnID(UINT32 dwSvrID);
@@ -38,6 +36,7 @@ public:
 	BOOL		OnMsgBroadMessageNty(NetPacket* pPacket);
 	BOOL		OnMsgRoleLoginAck(NetPacket* pPacket);
 	BOOL		OnMsgRoleLogoutReq(NetPacket* pPacket);
+	BOOL		OnMsgKickoutNty(NetPacket* pPacket);
 public:
 	std::map<UINT32, UINT32> m_mapSvrIDtoConnID;
 

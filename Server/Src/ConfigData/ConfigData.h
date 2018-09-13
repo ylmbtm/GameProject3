@@ -32,8 +32,10 @@ public:
 public:
 	//基本配制变量
 	///////////////////////////////////////////////
+	std::map<std::string, INT32>m_mapConstantValue;
 	BOOL ReadConstantData(CppSQLite3Query& QueryData);
-	StConstantValue m_ConstantValue;
+	INT32 GetConstantIntValue(std::string& strName);
+
 
 	//货币和体力
 	///////////////////////////////////////////////

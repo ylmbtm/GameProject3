@@ -68,6 +68,8 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::OnSecondTimer()
 {
+
+
 	return TRUE;
 }
 
@@ -110,6 +112,23 @@ BOOL CGameService::Uninit()
 	return TRUE;
 }
 
+// BOOL CGameService::SendHttpRequest(std::string host, INT32 nPort, std::string strData)
+// {
+// 	ServiceBase::GetInstancePtr()->ConnectToOtherSvr(host, nPort);
+//
+//
+// }
+
+// BOOL WINAPI HandlerCloseEvent(DWORD dwCtrlType)
+// {
+// 	if (dwCtrlType == CTRL_CLOSE_EVENT)
+// 	{
+// 		CGameService::GetInstancePtr()->Uninit();
+// 	}
+// 	return FALSE;
+// }
+// SetConsoleCtrlHandler(HandlerCloseEvent, TRUE);
+
 BOOL CGameService::Run()
 {
 	while(TRUE)
@@ -123,3 +142,9 @@ BOOL CGameService::Run()
 
 	return TRUE;
 }
+
+
+
+
+
+

@@ -19,6 +19,13 @@ CGameService* CGameService::GetInstancePtr()
 	return &_GameService;
 }
 
+BOOL CGameService::SetWatchIndex(UINT32 nIndex)
+{
+	m_dwWatchIndex = nIndex;
+
+	return TRUE;
+}
+
 
 BOOL CGameService::Init()
 {
@@ -56,6 +63,11 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(CConnection* pConn)
 {
+	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	{
+		SendWatchHeartBeat();
+	}
+
 	return TRUE;
 }
 
@@ -66,12 +78,19 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 		m_dwLogSvrConnID = 0;
 	}
 
+	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	{
+		m_dwWatchSvrConnID = 0;
+	}
+
 	return TRUE;
 }
 
 BOOL CGameService::OnSecondTimer()
 {
 	//ConnectToLogServer();
+
+	SendWatchHeartBeat();
 
 	return TRUE;
 }
@@ -80,7 +99,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ, OnMsgWatchHeartBeatReq)
+			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK, OnMsgWatchHeartBeatAck)
 	}
 
 	if (m_AccountMsgHandler.DispatchPacket(pNetPacket))
@@ -124,17 +143,44 @@ BOOL CGameService::ConnectToLogServer()
 	return TRUE;
 }
 
-BOOL CGameService::OnMsgWatchHeartBeatReq(NetPacket* pNetPacket)
+BOOL CGameService::ConnectToWatchServer()
 {
+	if (m_dwWatchSvrConnID != 0)
+	{
+		return TRUE;
+	}
+	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strWatchIp, nWatchPort);
+	ERROR_RETURN_FALSE(pConnection != NULL);
+	m_dwWatchSvrConnID = pConnection->GetConnectionID();
+	return TRUE;
+}
+
+BOOL CGameService::SendWatchHeartBeat()
+{
+	if (m_dwWatchIndex == 0)
+	{
+		return TRUE;
+	}
+
+	if (m_dwWatchSvrConnID == 0)
+	{
+		ConnectToWatchServer();
+		return TRUE;
+	}
+
 	WatchHeartBeatReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	Req.set_data(m_dwWatchIndex);
+	Req.set_processid(CommonFunc::GetCurProcessID());
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwWatchSvrConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
+	return TRUE;
+}
 
+BOOL CGameService::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
+{
 	WatchHeartBeatAck Ack;
-
-	Ack.set_data(Req.data());
-	Ack.set_retcode(MRC_SUCCESSED);
-	Ack.set_processid(CommonFunc::GetCurProcessID());
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_WATCH_HEART_BEAT_ACK, 0, 0, Ack);
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
 	return TRUE;
 }
