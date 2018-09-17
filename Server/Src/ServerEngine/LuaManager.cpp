@@ -1,79 +1,55 @@
 #include "stdafx.h"
 #include "LuaManager.h"
 
-LuaManager::LuaManager()
+CLuaHelper::CLuaHelper()
 {
 	m_pLuaState = NULL;
 }
 
-LuaManager::~LuaManager()
+CLuaHelper::~CLuaHelper()
 {
-	Close();
+	ASSERT(m_pLuaState != NULL);
+	//因为CLuaHelper是帮助类，所以这个指针必须在对象析构前要调用Deattch,
+	//而且m_pLuaState赋值也只能是通过Attach来做;
+
+	m_pLuaState = NULL;
 }
 
 
-BOOL LuaManager::Close()
-{
-	if(m_pLuaState != NULL)
-	{
-		lua_close(m_pLuaState);
-		m_pLuaState = NULL;
-	}
-
-	return TRUE;
-}
-
-BOOL LuaManager::Init()
-{
-	if(m_pLuaState == NULL)
-	{
-		m_pLuaState = luaL_newstate();
-		if (m_pLuaState == NULL)
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
-
-		luaL_openlibs(m_pLuaState);
-	}
-
-	return TRUE;
-}
-
-BOOL LuaManager::Attach(lua_State* L)
+BOOL CLuaHelper::Attach(lua_State* L)
 {
 	m_pLuaState = L;
 
 	return TRUE;
 }
 
-BOOL LuaManager::Deattch()
+BOOL CLuaHelper::Deattch()
 {
 	m_pLuaState = NULL;
 
 	return TRUE;
 }
 
-BOOL LuaManager::LoadAllLua(const char* pszDir)
+BOOL CLuaHelper::LoadAllLua(const char* pszDir)
 {
 	std::vector<std::string> vtFiles;
 
-	CommonFunc::GetDirFiles(pszDir, "*.lua", vtFiles, TRUE);
+	CommonFunc::GetDirFiles(pszDir, "*.*", vtFiles, TRUE);
 
 	return LoadScriptFile(vtFiles);
 }
 
-BOOL LuaManager::LoadAllLua(std::string strDir)
+BOOL CLuaHelper::LoadAllLua(std::string strDir)
 {
 	return LoadAllLua(strDir.c_str());
 }
 
-lua_State* LuaManager::GetLuaState()
+lua_State* CLuaHelper::GetLuaState()
 {
 	return m_pLuaState;
 }
 
-INT32 LuaManager::GetGlobalVarInt( const char* pszVarName )
+INT32 CLuaHelper::GetGlobalVarInt( const char* pszVarName )
 {
 	ASSERT(m_pLuaState != NULL);
 
@@ -89,7 +65,7 @@ INT32 LuaManager::GetGlobalVarInt( const char* pszVarName )
 	return (INT32)lua_tointeger(m_pLuaState, -1);
 }
 
-BOOL LuaManager::GetGlobalVarBoolean( const char* pszVarName )
+BOOL CLuaHelper::GetGlobalVarBoolean( const char* pszVarName )
 {
 	ASSERT(m_pLuaState != NULL);
 
@@ -105,7 +81,7 @@ BOOL LuaManager::GetGlobalVarBoolean( const char* pszVarName )
 	return lua_toboolean(m_pLuaState, -1);
 }
 
-const CHAR* LuaManager::GetGlobalVarString( const char* pszVarName )
+const CHAR* CLuaHelper::GetGlobalVarString( const char* pszVarName )
 {
 	ASSERT(m_pLuaState != NULL);
 
@@ -121,7 +97,7 @@ const CHAR* LuaManager::GetGlobalVarString( const char* pszVarName )
 	return lua_tostring(m_pLuaState, -1);
 }
 
-DOUBLE LuaManager::GetGlobalVarDouble( const char* pszVarName )
+DOUBLE CLuaHelper::GetGlobalVarDouble( const char* pszVarName )
 {
 	ASSERT(m_pLuaState != NULL);
 
@@ -138,20 +114,19 @@ DOUBLE LuaManager::GetGlobalVarDouble( const char* pszVarName )
 }
 
 
-BOOL LuaManager::GetStackValue_Ptr(INT32 nStackIndex, VOID*& ptrValue)
+BOOL CLuaHelper::GetStackValue_Ptr(INT32 nStackIndex, VOID*& ptrValue)
 {
 	if(!lua_isuserdata(m_pLuaState, nStackIndex))
 	{
 		return FALSE;
 	}
 
-
 	ptrValue = lua_touserdata(m_pLuaState, nStackIndex);
 
 	return TRUE;
 }
 
-BOOL LuaManager::GetStackValue_Int(INT32 nStackIndex, INT32& intValue)
+BOOL CLuaHelper::GetStackValue_Int(INT32 nStackIndex, INT32& intValue)
 {
 	if(!lua_isnumber(m_pLuaState, nStackIndex))
 	{
@@ -163,7 +138,7 @@ BOOL LuaManager::GetStackValue_Int(INT32 nStackIndex, INT32& intValue)
 	return TRUE;
 }
 
-BOOL LuaManager::GetStackValue_Double(INT32 nStackIndex, DOUBLE& doubleValue)
+BOOL CLuaHelper::GetStackValue_Double(INT32 nStackIndex, DOUBLE& doubleValue)
 {
 	if(!lua_isnumber(m_pLuaState, nStackIndex))
 	{
@@ -175,7 +150,7 @@ BOOL LuaManager::GetStackValue_Double(INT32 nStackIndex, DOUBLE& doubleValue)
 	return TRUE;
 }
 
-BOOL LuaManager::GetStackValue_String(INT32 nStackIndex, const CHAR*& strValue)
+BOOL CLuaHelper::GetStackValue_String(INT32 nStackIndex, const CHAR*& strValue)
 {
 	if(!lua_isstring(m_pLuaState, nStackIndex))
 	{
@@ -187,7 +162,7 @@ BOOL LuaManager::GetStackValue_String(INT32 nStackIndex, const CHAR*& strValue)
 	return TRUE;
 }
 
-BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, ... )
+BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, ... )
 {
 	if(pStrParamSig == NULL)
 	{
@@ -233,12 +208,16 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				lua_pushnumber(m_pLuaState, va_arg(VarList, double));
 				nInParamCount++;
 				break;
+			case 'f':
+				lua_pushnumber(m_pLuaState, va_arg(VarList, float));
+				nInParamCount++;
+				break;
 			case 'i':
 				lua_pushinteger(m_pLuaState, va_arg(VarList, int));
 				nInParamCount++;
 				break;
-			case 'f':
-				lua_pushnumber(m_pLuaState, va_arg(VarList, double));
+			case 'l':
+				lua_pushinteger(m_pLuaState, va_arg(VarList, long long));
 				nInParamCount++;
 				break;
 			case 's':
@@ -285,13 +264,17 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, double*) = lua_tonumber(m_pLuaState, nRetIndex);
 				break;
-			case 'i':
-				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
-				*va_arg(VarList, int*) = (int)lua_tointeger(m_pLuaState, nRetIndex);
-				break;
 			case 'f':
 				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, float*) = (float)lua_tonumber(m_pLuaState, nRetIndex);
+				break;
+			case 'i':
+				ASSERT(lua_isinteger(m_pLuaState, nRetIndex));
+				*va_arg(VarList, int*) = (int)lua_tointeger(m_pLuaState, nRetIndex);
+				break;
+			case 'l':
+				ASSERT(lua_isinteger(m_pLuaState, nRetIndex));
+				*va_arg(VarList, long long*) = (long long)lua_tointeger(m_pLuaState, nRetIndex);
 				break;
 			case 's':
 				ASSERT(lua_isstring(m_pLuaState, nRetIndex));
@@ -325,7 +308,7 @@ BOOL LuaManager::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 	return TRUE;
 }
 
-BOOL LuaManager::LoadScriptFile(const char* pszLuaFile)
+BOOL CLuaHelper::LoadScriptFile(const char* pszLuaFile)
 {
 	if(m_pLuaState == NULL)
 	{
@@ -341,7 +324,7 @@ BOOL LuaManager::LoadScriptFile(const char* pszLuaFile)
 	return TRUE;
 }
 
-BOOL LuaManager::LoadScriptFile( std::vector<std::string>& vtScriptList )
+BOOL CLuaHelper::LoadScriptFile( std::vector<std::string>& vtScriptList )
 {
 	for(std::vector<std::string>::iterator itor = vtScriptList.begin(); itor != vtScriptList.end(); itor++)
 	{
@@ -355,7 +338,7 @@ BOOL LuaManager::LoadScriptFile( std::vector<std::string>& vtScriptList )
 }
 
 
-BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
+BOOL CLuaHelper::GetStackParams( char* pStrParamSig, ... )
 {
 	BOOL bRet		= TRUE;
 
@@ -390,9 +373,20 @@ BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
 				*va_arg(VarList, double*) = lua_tonumber(m_pLuaState, i + 1);
 			}
 			break;
+			case 'f':
+			{
+				if (!lua_isnumber(m_pLuaState, i + 1))
+				{
+					bRet = FALSE;
+					break;
+				}
+
+				*va_arg(VarList, float*) = (float)lua_tonumber(m_pLuaState, i + 1);
+			}
+			break;
 			case 'i':
 			{
-				if(!lua_isnumber(m_pLuaState, i + 1))
+				if(!lua_isinteger(m_pLuaState, i + 1))
 				{
 					bRet = FALSE;
 					break;
@@ -401,15 +395,15 @@ BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
 				*va_arg(VarList, int*) = (int)lua_tointeger(m_pLuaState, i + 1);
 			}
 			break;
-			case 'f':
+			case 'l':
 			{
-				if(!lua_isnumber(m_pLuaState, i + 1))
+				if (!lua_isinteger(m_pLuaState, i + 1))
 				{
 					bRet = FALSE;
 					break;
 				}
 
-				*va_arg(VarList, float*) = (float)lua_tonumber(m_pLuaState, i + 1);
+				*va_arg(VarList, long long*) = (long long)lua_tointeger(m_pLuaState, i + 1);
 			}
 			break;
 			case 's':
@@ -454,18 +448,17 @@ BOOL LuaManager::GetStackParams( char* pStrParamSig, ... )
 
 	va_end(VarList);
 	lua_settop(m_pLuaState, 0);
-
 	return bRet;
 }
 
-BOOL LuaManager::RegisterFunction( const char* libname, const luaL_Reg* l )
+BOOL CLuaHelper::RegisterFunction( const char* libname, const luaL_Reg* l )
 {
 	//luaL_register(m_pLuaState, libname, l);
 
 	return TRUE;
 }
 
-BOOL LuaManager::RegisterFunction(const char* name, lua_CFunction fn)
+BOOL CLuaHelper::RegisterFunction(const char* name, lua_CFunction fn)
 {
 	lua_register(m_pLuaState, name, fn);
 
@@ -489,3 +482,45 @@ int c = 0;
 TestLuaClass LuaClass;
 luamgr.CallLuaFunction("add", "iip=i", a, b, &LuaClass, &c);
 */
+
+
+CLuaManager::CLuaManager(void)
+{
+	m_pLuaState = NULL;
+
+	Init();
+}
+
+CLuaManager::~CLuaManager(void)
+{
+	Close();
+}
+
+CLuaManager* CLuaManager::GetInstancePtr()
+{
+	static CLuaManager _StaticValue;
+
+	return &_StaticValue;
+}
+
+BOOL CLuaManager::Close()
+{
+	if (m_pLuaState != NULL)
+	{
+		lua_close(m_pLuaState);
+		m_pLuaState = NULL;
+	}
+
+	return TRUE;
+}
+
+BOOL CLuaManager::Init()
+{
+	ERROR_RETURN_FALSE(m_pLuaState == NULL);
+
+	m_pLuaState = luaL_newstate();
+	ERROR_RETURN_FALSE(m_pLuaState != NULL);
+	luaL_openlibs(m_pLuaState);
+
+	return TRUE;
+}

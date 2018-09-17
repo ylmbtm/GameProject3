@@ -78,9 +78,6 @@
     <ClCompile Include="DBInterface\DBStoredProc.cpp">
       <Filter>DBInterface</Filter>
     </ClCompile>
-    <ClCompile Include="LuaManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="HttpParameter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,9 +173,6 @@
     <ClInclude Include="Platform.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="LuaManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -202,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="SpinLock.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaManager.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
