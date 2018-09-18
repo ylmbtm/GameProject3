@@ -36,14 +36,7 @@
 #include <set>
 
 #ifdef _WIN32
-#include <io.h>
 #include <fcntl.h>
-#ifndef STDIN_FILENO
-#define STDIN_FILENO 0
-#endif
-#ifndef STDOUT_FILENO
-#define STDOUT_FILENO 1
-#endif
 #else
 #include <unistd.h>
 #endif
@@ -54,11 +47,18 @@
 #include <google/protobuf/compiler/code_generator.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/stubs/io_win32.h>
 
 
 namespace google {
 namespace protobuf {
 namespace compiler {
+
+#if defined(_MSC_VER)
+// DO NOT include <io.h>, instead create functions in io_win32.{h,cc} and import
+// them like we do below.
+using google::protobuf::internal::win32::setmode;
+#endif
 
 class GeneratorResponseContext : public GeneratorContext {
  public:
@@ -127,6 +127,7 @@ bool GenerateCode(const CodeGeneratorRequest& request,
   GeneratorResponseContext context(
       request.compiler_version(), response, parsed_files);
 
+
   string error;
   bool succeeded = generator.GenerateAll(
       parsed_files, request.parameter(), &context, &error);
@@ -150,8 +151,8 @@ int PluginMain(int argc, char* argv[], const CodeGenerator* generator) {
   }
 
 #ifdef _WIN32
-  _setmode(STDIN_FILENO, _O_BINARY);
-  _setmode(STDOUT_FILENO, _O_BINARY);
+  setmode(STDIN_FILENO, _O_BINARY);
+  setmode(STDOUT_FILENO, _O_BINARY);
 #endif
 
   CodeGeneratorRequest request;

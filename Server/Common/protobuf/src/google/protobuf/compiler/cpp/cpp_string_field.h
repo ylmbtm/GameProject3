@@ -65,7 +65,6 @@ class StringFieldGenerator : public FieldGenerator {
   void GenerateCopyConstructorCode(io::Printer* printer) const;
   void GenerateDestructorCode(io::Printer* printer) const;
   void GenerateDefaultInstanceAllocator(io::Printer* printer) const;
-  void GenerateShutdownCode(io::Printer* printer) const;
   void GenerateMergeFromCodedStream(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
@@ -74,6 +73,7 @@ class StringFieldGenerator : public FieldGenerator {
  protected:
   const FieldDescriptor* descriptor_;
   std::map<string, string> variables_;
+  const bool lite_;
 
  private:
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(StringFieldGenerator);

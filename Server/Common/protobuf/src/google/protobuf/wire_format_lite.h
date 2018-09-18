@@ -41,10 +41,17 @@
 #define GOOGLE_PROTOBUF_WIRE_FORMAT_LITE_H__
 
 #include <string>
+
 #include <google/protobuf/stubs/common.h>
-#include <google/protobuf/repeated_field.h>
+#include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/message_lite.h>
-#include <google/protobuf/io/coded_stream.h>  // for CodedOutputStream::Varint32Size
+#include <google/protobuf/stubs/port.h>
+#include <google/protobuf/repeated_field.h>
+
+// Do UTF-8 validation on string type in Debug build only
+#ifndef NDEBUG
+#define GOOGLE_PROTOBUF_UTF8_VALIDATION_ENABLED
+#endif
 
 // Avoid conflict with iOS where <ConditionalMacros.h> #defines TYPE_BOOL.
 //
@@ -144,7 +151,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // Helper method to get the CppType for a particular Type.
   static CppType FieldTypeToCppType(FieldType type);
 
-  // Given a FieldSescriptor::Type return its WireType
+  // Given a FieldDescriptor::Type return its WireType
   static inline WireFormatLite::WireType WireTypeForFieldType(
       WireFormatLite::FieldType type) {
     return kWireTypeForFieldType[type];
@@ -197,7 +204,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
 // type-safe, though, so prefer it if possible.
 #define GOOGLE_PROTOBUF_WIRE_FORMAT_MAKE_TAG(FIELD_NUMBER, TYPE)                  \
   static_cast<uint32>(                                                   \
-    ((FIELD_NUMBER) << ::google::protobuf::internal::WireFormatLite::kTagTypeBits) \
+    (static_cast<uint32>(FIELD_NUMBER) << ::google::protobuf::internal::WireFormatLite::kTagTypeBits) \
       | (TYPE))
 
   // These are the tags for the old MessageSet format, which was defined as:
@@ -251,7 +258,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // that file to use these.
 
 #ifdef NDEBUG
-#define INL GOOGLE_ATTRIBUTE_ALWAYS_INLINE
+#define INL GOOGLE_PROTOBUF_ATTRIBUTE_ALWAYS_INLINE
 #else
 // Avoid excessive inlining in non-optimized builds. Without other optimizations
 // the inlining is not going to provide benefits anyway and the huge resulting
@@ -707,7 +714,8 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // A helper method for the repeated primitive reader. This method has
   // optimizations for primitive types that have fixed size on the wire, and
   // can be read using potentially faster paths.
-  template <typename CType, enum FieldType DeclaredType> GOOGLE_ATTRIBUTE_ALWAYS_INLINE
+  template <typename CType, enum FieldType DeclaredType>
+  GOOGLE_PROTOBUF_ATTRIBUTE_ALWAYS_INLINE
   static bool ReadRepeatedFixedSizePrimitive(
       int tag_size,
       uint32 tag,
@@ -716,7 +724,8 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
 
   // Like ReadRepeatedFixedSizePrimitive but for packed primitive fields.
   template <typename CType, enum FieldType DeclaredType>
-  GOOGLE_ATTRIBUTE_ALWAYS_INLINE static bool ReadPackedFixedSizePrimitive(
+  GOOGLE_PROTOBUF_ATTRIBUTE_ALWAYS_INLINE
+  static bool ReadPackedFixedSizePrimitive(
       google::protobuf::io::CodedInputStream* input, RepeatedField<CType>* value);
 
   static const CppType kFieldTypeToCppTypeMap[];
@@ -787,7 +796,7 @@ inline int WireFormatLite::GetTagFieldNumber(uint32 tag) {
 inline size_t WireFormatLite::TagSize(int field_number,
                                       WireFormatLite::FieldType type) {
   size_t result = io::CodedOutputStream::VarintSize32(
-    field_number << kTagTypeBits);
+    static_cast<uint32>(field_number << kTagTypeBits));
   if (type == TYPE_GROUP) {
     // Groups have both a start and an end tag.
     return result * 2;
@@ -846,20 +855,20 @@ inline double WireFormatLite::DecodeDouble(uint64 value) {
 
 inline uint32 WireFormatLite::ZigZagEncode32(int32 n) {
   // Note:  the right-shift must be arithmetic
-  return (static_cast<uint32>(n) << 1) ^ (n >> 31);
+  return static_cast<uint32>((n << 1) ^ (n >> 31));
 }
 
 inline int32 WireFormatLite::ZigZagDecode32(uint32 n) {
-  return (n >> 1) ^ -static_cast<int32>(n & 1);
+  return static_cast<int32>(n >> 1) ^ -static_cast<int32>(n & 1);
 }
 
 inline uint64 WireFormatLite::ZigZagEncode64(int64 n) {
   // Note:  the right-shift must be arithmetic
-  return (static_cast<uint64>(n) << 1) ^ (n >> 63);
+  return static_cast<uint64>((n << 1) ^ (n >> 63));
 }
 
 inline int64 WireFormatLite::ZigZagDecode64(uint64 n) {
-  return (n >> 1) ^ -static_cast<int64>(n & 1);
+  return static_cast<int64>(n >> 1) ^ -static_cast<int64>(n & 1);
 }
 
 // String is for UTF-8 text only, but, even so, ReadString() can simply

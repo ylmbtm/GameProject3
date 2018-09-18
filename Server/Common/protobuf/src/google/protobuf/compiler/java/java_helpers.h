@@ -74,6 +74,10 @@ string UnderscoresToCapitalizedCamelCase(const FieldDescriptor* field);
 // of lower-casing the first letter of the name.)
 string UnderscoresToCamelCase(const MethodDescriptor* method);
 
+// Similar to UnderscoresToCamelCase, but guarentees that the result is a
+// complete Java identifier by adding a _ if needed.
+string CamelCaseFieldName(const FieldDescriptor* field);
+
 // Get an identifier that uniquely identifies this type within the file.
 // This is used to declare static variables related to this type at the
 // outermost file scope.
@@ -130,6 +134,13 @@ string ExtraMessageOrBuilderInterfaces(const Descriptor* descriptor);
 // package or outer classnames.
 inline string ShortMutableJavaClassName(const Descriptor* descriptor) {
   return descriptor->name();
+}
+
+// Whether the given descriptor is for one of the core descriptor protos. We
+// cannot currently use the new runtime with core protos since there is a
+// bootstrapping problem with obtaining their descriptors.
+inline bool IsDescriptorProto(const Descriptor* descriptor) {
+  return descriptor->file()->name() == "google/protobuf/descriptor.proto";
 }
 
 
@@ -240,15 +251,6 @@ inline bool HasGenericServices(const FileDescriptor *file, bool enforce_lite) {
   return file->service_count() > 0 &&
          HasDescriptorMethods(file, enforce_lite) &&
          file->options().java_generic_services();
-}
-
-inline bool IsLazy(const FieldDescriptor* descriptor, bool enforce_lite) {
-  // Currently, the proto-lite version supports lazy field.
-  // TODO(niwasaki): Support lazy fields also for other proto runtimes.
-  if (HasDescriptorMethods(descriptor->file(), enforce_lite)) {
-    return false;
-  }
-  return descriptor->options().lazy();
 }
 
 // Methods for shared bitfields.
@@ -372,12 +374,12 @@ inline bool IsMapField(const FieldDescriptor* descriptor) {
   return descriptor->is_map();
 }
 
-inline bool PreserveUnknownFields(const Descriptor* descriptor) {
-  return descriptor->file()->syntax() != FileDescriptor::SYNTAX_PROTO3;
-}
-
 inline bool IsAnyMessage(const Descriptor* descriptor) {
   return descriptor->full_name() == "google.protobuf.Any";
+}
+
+inline bool IsWrappersProtoFile(const FileDescriptor* descriptor) {
+  return descriptor->name() == "google/protobuf/wrappers.proto";
 }
 
 inline bool CheckUtf8(const FieldDescriptor* descriptor) {
@@ -387,6 +389,10 @@ inline bool CheckUtf8(const FieldDescriptor* descriptor) {
 
 inline string GeneratedCodeVersionSuffix() {
   return "V3";
+}
+
+inline bool EnableExperimentalRuntime(Context* context) {
+  return false;
 }
 }  // namespace java
 }  // namespace compiler

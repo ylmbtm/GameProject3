@@ -47,8 +47,8 @@
 #include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 
-namespace google {
 
+namespace google {
 namespace protobuf {
 namespace internal {
 
@@ -386,7 +386,7 @@ static void WriteArray(const CType* a, int n, io::CodedOutputStream* output) {
   const int kAtATime = 128;
   uint8 buf[sizeof(CType) * kAtATime];
   for (int i = 0; i < n; i += kAtATime) {
-    int to_do = min(kAtATime, n - i);
+    int to_do = std::min(kAtATime, n - i);
     uint8* ptr = buf;
     for (int j = 0; j < to_do; j++) {
       EncodeFixedSizeValue(a[i+j], ptr);
@@ -586,7 +586,7 @@ void WireFormatLite::WriteMessageMaybeToArray(int field_number,
   }
 }
 
-GOOGLE_ATTRIBUTE_ALWAYS_INLINE static bool ReadBytesToString(
+GOOGLE_PROTOBUF_ATTRIBUTE_ALWAYS_INLINE static bool ReadBytesToString(
     io::CodedInputStream* input, string* value);
 inline static bool ReadBytesToString(io::CodedInputStream* input,
                                      string* value) {

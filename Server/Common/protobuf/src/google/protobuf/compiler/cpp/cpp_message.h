@@ -43,6 +43,7 @@
 #include <string>
 #include <google/protobuf/compiler/cpp/cpp_field.h>
 #include <google/protobuf/compiler/cpp/cpp_helpers.h>
+#include <google/protobuf/compiler/cpp/cpp_message_layout_helper.h>
 #include <google/protobuf/compiler/cpp/cpp_options.h>
 
 namespace google {
@@ -62,12 +63,10 @@ class ExtensionGenerator;      // extension.h
 class MessageGenerator {
  public:
   // See generator.cc for the meaning of dllexport_decl.
-  MessageGenerator(const Descriptor* descriptor, const Options& options,
-                   SCCAnalyzer* scc_analyzer);
+  MessageGenerator(const Descriptor* descriptor, int index_in_file_messages,
+                   const Options& options, SCCAnalyzer* scc_analyzer);
   ~MessageGenerator();
 
-  // Appends the pre-order walk of the nested generators to list.
-  void Flatten(std::vector<MessageGenerator*>* list);
   // Append the two types of nested generators to the corresponding vector.
   void AddGenerators(std::vector<EnumGenerator*>* enum_generators,
                      std::vector<ExtensionGenerator*>* extension_generators);
@@ -96,17 +95,13 @@ class MessageGenerator {
   // Generate extra fields
   void GenerateExtraDefaultFields(io::Printer* printer);
 
-  // Generates code that allocates the message's default instance.
-  void GenerateDefaultInstanceAllocator(io::Printer* printer);
+  // Generates code that creates default instances for fields.
+  void GenerateFieldDefaultInstances(io::Printer* printer);
 
   // Generates code that initializes the message's default instance.  This
   // is separate from allocating because all default instances must be
   // allocated before any can be initialized.
   void GenerateDefaultInstanceInitializer(io::Printer* printer);
-
-  // Generates code that should be run when ShutdownProtobufLibrary() is called,
-  // to delete all dynamically-allocated objects.
-  void GenerateShutdownCode(io::Printer* printer);
 
   // Generate all non-inline methods for this class.
   void GenerateClassMethods(io::Printer* printer);
@@ -132,6 +127,9 @@ class MessageGenerator {
   // of entries generated and the index of the first has_bit entry.
   std::pair<size_t, size_t> GenerateOffsets(io::Printer* printer);
   void GenerateSchema(io::Printer* printer, int offset, int has_offset);
+  // For each field generates a table entry describing the field for the
+  // table driven serializer.
+  int GenerateFieldMetadata(io::Printer* printer);
 
   // Generate constructors and destructor.
   void GenerateStructors(io::Printer* printer);
@@ -146,6 +144,13 @@ class MessageGenerator {
   void GenerateSharedDestructorCode(io::Printer* printer);
   // Generate the arena-specific destructor code.
   void GenerateArenaDestructorCode(io::Printer* printer);
+
+  // Helper for GenerateClear and others.  Optionally emits a condition that
+  // assumes the existence of the cached_has_bits variable, and returns true if
+  // the condition was printed.
+  bool MaybeGenerateOptionalFieldCondition(io::Printer* printer,
+                                           const FieldDescriptor* field,
+                                           int expected_has_bits_index);
 
   // Generate standard Message methods.
   void GenerateClear(io::Printer* printer);
@@ -179,7 +184,6 @@ class MessageGenerator {
       io::Printer* printer, const Descriptor::ExtensionRange* range,
       bool unbounded);
 
-
   // Generates has_foo() functions and variables for singular field has-bits.
   void GenerateSingularFieldHasBits(const FieldDescriptor* field,
                                     std::map<string, string> vars,
@@ -203,6 +207,7 @@ class MessageGenerator {
   std::vector<uint32> RequiredFieldsBitMask() const;
 
   const Descriptor* descriptor_;
+  int index_in_file_messages_;
   string classname_;
   Options options_;
   FieldGeneratorMap field_generators_;
@@ -213,7 +218,6 @@ class MessageGenerator {
   std::vector<const FieldDescriptor *> optimized_order_;
   std::vector<int> has_bit_indices_;
   int max_has_bit_index_;
-  google::protobuf::scoped_array<google::protobuf::scoped_ptr<MessageGenerator> > nested_generators_;
   google::protobuf::scoped_array<google::protobuf::scoped_ptr<EnumGenerator> > enum_generators_;
   google::protobuf::scoped_array<google::protobuf::scoped_ptr<ExtensionGenerator> > extension_generators_;
   int num_required_fields_;
@@ -222,9 +226,10 @@ class MessageGenerator {
   // table_driven_ indicates the generated message uses table-driven parsing.
   bool table_driven_;
 
-  int index_in_file_messages_;
+  google::protobuf::scoped_ptr<MessageLayoutHelper> message_layout_helper_;
 
   SCCAnalyzer* scc_analyzer_;
+  string scc_name_;
 
   friend class FileGenerator;
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageGenerator);

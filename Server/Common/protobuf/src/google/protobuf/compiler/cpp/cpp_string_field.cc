@@ -58,8 +58,8 @@ void SetStringVariables(const FieldDescriptor* descriptor,
   (*variables)["default_variable"] =
       descriptor->default_value_string().empty()
           ? "&::google::protobuf::internal::GetEmptyStringAlreadyInited()"
-          : "&" + (*variables)["classname"] + "::" + default_variable_string +
-                ".get()";
+          : "&" + Namespace(descriptor) + "::" + (*variables)["classname"] +
+                "::" + default_variable_string + ".get()";
   (*variables)["pointer_type"] =
       descriptor->type() == FieldDescriptor::TYPE_BYTES ? "void" : "char";
   (*variables)["null_check"] = "GOOGLE_DCHECK(value != NULL);\n";
@@ -71,6 +71,9 @@ void SetStringVariables(const FieldDescriptor* descriptor,
   (*variables)["full_name"] = descriptor->full_name();
 
   (*variables)["string_piece"] = "::std::string";
+
+  (*variables)["lite"] =
+      HasDescriptorMethods(descriptor->file(), options) ? "" : "Lite";
 }
 
 }  // namespace
@@ -79,7 +82,8 @@ void SetStringVariables(const FieldDescriptor* descriptor,
 
 StringFieldGenerator::StringFieldGenerator(const FieldDescriptor* descriptor,
                                            const Options& options)
-    : FieldGenerator(options), descriptor_(descriptor) {
+    : FieldGenerator(options), descriptor_(descriptor),
+    lite_(!HasDescriptorMethods(descriptor->file(), options)) {
   SetStringVariables(descriptor, &variables_, options);
 }
 
@@ -142,28 +146,47 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   }
 
   printer->Print(variables_,
-    "$deprecated_attr$const ::std::string& $name$() const;\n"
-    "$deprecated_attr$void set_$name$(const ::std::string& value);\n");
-
-  if (!SupportsArenas(descriptor_)) {
-    printer->Print(variables_,
-      "#if LANG_CXX11\n"
-      "$deprecated_attr$void set_$name$(::std::string&& value);\n"
-      "#endif\n");
-  }
+                 "$deprecated_attr$const ::std::string& $name$() const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_$name$$}$(const ::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
 
   printer->Print(variables_,
-    "$deprecated_attr$void set_$name$(const char* value);\n"
-    "$deprecated_attr$void set_$name$(const $pointer_type$* value, size_t size)"
-                 ";\n"
-    "$deprecated_attr$::std::string* mutable_$name$();\n"
-    "$deprecated_attr$::std::string* $release_name$();\n"
-    "$deprecated_attr$void set_allocated_$name$(::std::string* $name$);\n");
+                 "#if LANG_CXX11\n"
+                 "$deprecated_attr$void ${$set_$name$$}$(::std::string&& value);\n"
+                 "#endif\n");
+  printer->Annotate("{", "}", descriptor_);
+
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_$name$$}$(const char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_$name$$}$(const $pointer_type$* "
+                 "value, size_t size)"
+                 ";\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::std::string* ${$mutable_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_, "$deprecated_attr$::std::string* $release_name$();\n");
+  printer->Annotate("release_name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_allocated_$name$$}$(::std::string* $name$);\n");
+  printer->Annotate("{", "}", descriptor_);
   if (SupportsArenas(descriptor_)) {
-    printer->Print(variables_,
-      "$deprecated_attr$::std::string* unsafe_arena_release_$name$();\n"
-      "$deprecated_attr$void unsafe_arena_set_allocated_$name$(\n"
-      "    ::std::string* $name$);\n");
+    printer->Print(
+        variables_,
+        "$deprecated_attr$::std::string* ${$unsafe_arena_release_$name$$}$();\n");
+    printer->Annotate("{", "}", descriptor_);
+    printer->Print(
+        variables_,
+        "$deprecated_attr$void ${$unsafe_arena_set_allocated_$name$$}$(\n"
+        "    ::std::string* $name$);\n");
+    printer->Annotate("{", "}", descriptor_);
   }
 
 
@@ -188,13 +211,21 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
         "}\n"
         "$inline$void $classname$::set_$name$(const ::std::string& value) {\n"
         "  $set_hasbit$\n"
-        "  $name$_.Set($default_variable$, value, GetArenaNoVirtual());\n"
+        "  $name$_.Set$lite$($default_variable$, value, GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set:$full_name$)\n"
         "}\n"
+        "#if LANG_CXX11\n"
+        "$inline$void $classname$::set_$name$(::std::string&& value) {\n"
+        "  $set_hasbit$\n"
+        "  $name$_.Set$lite$(\n"
+        "    $default_variable$, ::std::move(value), GetArenaNoVirtual());\n"
+        "  // @@protoc_insertion_point(field_set_rvalue:$full_name$)\n"
+        "}\n"
+        "#endif\n"
         "$inline$void $classname$::set_$name$(const char* value) {\n"
         "  $null_check$"
         "  $set_hasbit$\n"
-        "  $name$_.Set($default_variable$, $string_piece$(value),\n"
+        "  $name$_.Set$lite$($default_variable$, $string_piece$(value),\n"
         "              GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set_char:$full_name$)\n"
         "}\n"
@@ -202,7 +233,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
         "void $classname$::set_$name$(const $pointer_type$* value,\n"
         "    size_t size) {\n"
         "  $set_hasbit$\n"
-        "  $name$_.Set($default_variable$, $string_piece$(\n"
+        "  $name$_.Set$lite$($default_variable$, $string_piece$(\n"
         "      reinterpret_cast<const char*>(value), size), "
         "GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set_pointer:$full_name$)\n"
@@ -426,7 +457,7 @@ GenerateCopyConstructorCode(io::Printer* printer) const {
   if (SupportsArenas(descriptor_) || descriptor_->containing_oneof() != NULL) {
     // TODO(gpike): improve this
     printer->Print(variables_,
-      "$name$_.Set($default_variable$, from.$name$(),\n"
+      "$name$_.Set$lite$($default_variable$, from.$name$(),\n"
       "  GetArenaNoVirtual());\n");
   } else {
     printer->Print(variables_,
@@ -453,18 +484,14 @@ GenerateDestructorCode(io::Printer* printer) const {
 void StringFieldGenerator::
 GenerateDefaultInstanceAllocator(io::Printer* printer) const {
   if (!descriptor_->default_value_string().empty()) {
-    printer->Print(variables_,
-                   "$classname$::$default_variable_name$.DefaultConstruct();\n"
-                   "*$classname$::$default_variable_name$.get_mutable() = "
-                   "::std::string($default$, $default_length$);\n");
-  }
-}
-
-void StringFieldGenerator::
-GenerateShutdownCode(io::Printer* printer) const {
-  if (!descriptor_->default_value_string().empty()) {
-    printer->Print(variables_,
-                   "$classname$::$default_variable_name$.Shutdown();\n");
+    printer->Print(
+        variables_,
+        "$ns$::$classname$::$default_variable_name$.DefaultConstruct();\n"
+        "*$ns$::$classname$::$default_variable_name$.get_mutable() = "
+        "::std::string($default$, $default_length$);\n"
+        "::google::protobuf::internal::OnShutdownDestroyString(\n"
+        "    $ns$::$classname$::$default_variable_name$.get_mutable());\n"
+    );
   }
 }
 
@@ -477,7 +504,8 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, true, variables_,
-        "this->$name$().data(), this->$name$().length(),\n", printer);
+        "this->$name$().data(), static_cast<int>(this->$name$().length()),\n",
+        printer);
   }
 }
 
@@ -486,7 +514,8 @@ GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, false, variables_,
-        "this->$name$().data(), this->$name$().length(),\n", printer);
+        "this->$name$().data(), static_cast<int>(this->$name$().length()),\n",
+        printer);
   }
   printer->Print(variables_,
     "::google::protobuf::internal::WireFormatLite::Write$declared_type$MaybeAliased(\n"
@@ -498,7 +527,8 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, false, variables_,
-        "this->$name$().data(), this->$name$().length(),\n", printer);
+        "this->$name$().data(), static_cast<int>(this->$name$().length()),\n",
+        printer);
   }
   printer->Print(variables_,
     "target =\n"
@@ -547,10 +577,23 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
         "    set_has_$name$();\n"
         "    $oneof_prefix$$name$_.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
-        "  $oneof_prefix$$name$_.Set($default_variable$, value,\n"
+        "  $oneof_prefix$$name$_.Set$lite$($default_variable$, value,\n"
         "      GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set:$full_name$)\n"
         "}\n"
+        "#if LANG_CXX11\n"
+        "$inline$void $classname$::set_$name$(::std::string&& value) {\n"
+        "  // @@protoc_insertion_point(field_set:$full_name$)\n"
+        "  if (!has_$name$()) {\n"
+        "    clear_$oneof_name$();\n"
+        "    set_has_$name$();\n"
+        "    $oneof_prefix$$name$_.UnsafeSetDefault($default_variable$);\n"
+        "  }\n"
+        "  $oneof_prefix$$name$_.Set$lite$(\n"
+        "    $default_variable$, ::std::move(value), GetArenaNoVirtual());\n"
+        "  // @@protoc_insertion_point(field_set_rvalue:$full_name$)\n"
+        "}\n"
+        "#endif\n"
         "$inline$void $classname$::set_$name$(const char* value) {\n"
         "  $null_check$"
         "  if (!has_$name$()) {\n"
@@ -558,7 +601,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
         "    set_has_$name$();\n"
         "    $oneof_prefix$$name$_.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
-        "  $oneof_prefix$$name$_.Set($default_variable$,\n"
+        "  $oneof_prefix$$name$_.Set$lite$($default_variable$,\n"
         "      $string_piece$(value), GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set_char:$full_name$)\n"
         "}\n"
@@ -570,7 +613,8 @@ GenerateInlineAccessorDefinitions(io::Printer* printer,
         "    set_has_$name$();\n"
         "    $oneof_prefix$$name$_.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
-        "  $oneof_prefix$$name$_.Set($default_variable$, $string_piece$(\n"
+        "  $oneof_prefix$$name$_.Set$lite$(\n"
+        "      $default_variable$, $string_piece$(\n"
         "      reinterpret_cast<const char*>(value), size),\n"
         "      GetArenaNoVirtual());\n"
         "  // @@protoc_insertion_point(field_set_pointer:$full_name$)\n"
@@ -768,7 +812,7 @@ void StringOneofFieldGenerator::
 GenerateConstructorCode(io::Printer* printer) const {
   printer->Print(
       variables_,
-      "_$classname$_default_instance_.$name$_.UnsafeSetDefault(\n"
+      "$ns$::_$classname$_default_instance_.$name$_.UnsafeSetDefault(\n"
       "    $default_variable$);\n");
 }
 
@@ -797,7 +841,8 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, true, variables_,
-        "this->$name$().data(), this->$name$().length(),\n", printer);
+        "this->$name$().data(), static_cast<int>(this->$name$().length()),\n",
+        printer);
   }
 }
 
@@ -833,28 +878,62 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   }
 
   printer->Print(variables_,
-    "$deprecated_attr$const ::std::string& $name$(int index) const;\n"
-    "$deprecated_attr$::std::string* mutable_$name$(int index);\n"
-    "$deprecated_attr$void set_$name$(int index, const ::std::string& value);\n"
-    "#if LANG_CXX11\n"
-    "$deprecated_attr$void set_$name$(int index, ::std::string&& value);\n"
-    "#endif\n"
-    "$deprecated_attr$void set_$name$(int index, const char* value);\n"
-    ""
-    "$deprecated_attr$void set_$name$("
-                 "int index, const $pointer_type$* value, size_t size);\n"
-    "$deprecated_attr$::std::string* add_$name$();\n"
-    "$deprecated_attr$void add_$name$(const ::std::string& value);\n"
-    "#if LANG_CXX11\n"
-    "$deprecated_attr$void add_$name$(::std::string&& value);\n"
-    "#endif\n"
-    "$deprecated_attr$void add_$name$(const char* value);\n"
-    "$deprecated_attr$void add_$name$(const $pointer_type$* value, size_t size)"
-                 ";\n"
-    "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< ::std::string>& $name$() "
-                 "const;\n"
-    "$deprecated_attr$::google::protobuf::RepeatedPtrField< ::std::string>* mutable_$name$()"
+                 "$deprecated_attr$const ::std::string& $name$(int index) const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$::std::string* ${$mutable_$name$$}$(int index);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_$name$$}$(int index, const "
+                 "::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "#if LANG_CXX11\n"
+      "$deprecated_attr$void ${$set_$name$$}$(int index, ::std::string&& value);\n"
+      "#endif\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_$name$$}$(int index, const "
+                 "char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 ""
+                 "$deprecated_attr$void ${$set_$name$$}$("
+                 "int index, const $pointer_type$* value, size_t size);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::std::string* ${$add_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$add_$name$$}$(const ::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "#if LANG_CXX11\n"
+                 "$deprecated_attr$void ${$add_$name$$}$(::std::string&& value);\n"
+                 "#endif\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$add_$name$$}$(const char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$add_$name$$}$(const $pointer_type$* "
+                 "value, size_t size)"
                  ";\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< ::std::string>& $name$() "
+      "const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::google::protobuf::RepeatedPtrField< ::std::string>* "
+                 "${$mutable_$name$$}$()"
+                 ";\n");
+  printer->Annotate("{", "}", descriptor_);
 
   if (unknown_ctype) {
     printer->Outdent();
@@ -969,7 +1048,7 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, true, variables_,
         "this->$name$(this->$name$_size() - 1).data(),\n"
-        "this->$name$(this->$name$_size() - 1).length(),\n",
+        "static_cast<int>(this->$name$(this->$name$_size() - 1).length()),\n",
         printer);
   }
 }
@@ -982,7 +1061,8 @@ GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, false, variables_,
-        "this->$name$(i).data(), this->$name$(i).length(),\n", printer);
+        "this->$name$(i).data(), static_cast<int>(this->$name$(i).length()),\n",
+        printer);
   }
   printer->Outdent();
   printer->Print(variables_,
@@ -999,7 +1079,8 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
         descriptor_, options_, false, variables_,
-        "this->$name$(i).data(), this->$name$(i).length(),\n", printer);
+        "this->$name$(i).data(), static_cast<int>(this->$name$(i).length()),\n",
+        printer);
   }
   printer->Outdent();
   printer->Print(variables_,
