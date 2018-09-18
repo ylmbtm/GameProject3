@@ -4,7 +4,7 @@ Game Engine Frame
 采用的是目前流行的多进架构，将不同的业务分布到不同的进程实例上，根据业务的不同， 
 实例部署的个数也不同。
 
-email : ylmbtm@163.com   QQ群 : 45139128
+email : ylmbtm@163.com   QQ群 : 45139128 (加群后可以获取全部客户端代码和资源)
 
 结构
 ===============
@@ -44,3 +44,10 @@ email : ylmbtm@163.com   QQ群 : 45139128
 
 
 
+体验客户端效果(加群可以获取全部客户端代码及资源)
+===============
+![login1](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uoqa8j20pg0etabd.jpg)
+![login2](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uqpclj20wg0fxgn8.jpg)
+![login3](https://wx4.sinaimg.cn/mw690/79045675gy1fvdn1uqq84j20wd0fydi0.jpg)
+![login4](https://wx3.sinaimg.cn/mw690/79045675gy1fvdn1urjzaj20wd0gedia.jpg)
+![login5](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uq19vj20wh0fwdhn.jpg)
