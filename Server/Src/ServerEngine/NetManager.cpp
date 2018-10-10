@@ -37,7 +37,7 @@ BOOL CNetManager::CreateEventThread(UINT32 nNum )
 
 	for(UINT32 i = 0; i < nNum; ++i)
 	{
-		THANDLE hThread = CommonThreadFunc::CreateThread(_NetEventThread, (void*)i);
+		THANDLE hThread = CommonThreadFunc::CreateThread(_NetEventThread, (void*)NULL);
 		m_vtEventThread.push_back(hThread);
 	}
 

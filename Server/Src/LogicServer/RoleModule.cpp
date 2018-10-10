@@ -46,7 +46,7 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCar
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
-	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), ROLE_NAME_LEN);
+	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), min(ROLE_NAME_LEN, Name.size()));
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
 	m_pRoleDataObject->unlock();
@@ -99,7 +99,7 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();
-	strncpy(m_pRoleDataObject->m_szName, Ack.roledata().name().c_str(), ROLE_NAME_LEN);
+	strncpy(m_pRoleDataObject->m_szName, Ack.roledata().name().c_str(), Ack.roledata().name().size());
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
 	m_pRoleDataObject->m_CarrerID = Ack.roledata().carrerid();
 	m_pRoleDataObject->m_Level = Ack.roledata().level();
@@ -150,8 +150,9 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	Ack.set_vipexp(m_pRoleDataObject->m_VipExp);
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
-		Ack.add_action(m_pRoleDataObject->m_Action[i]);
-		Ack.add_actime(m_pRoleDataObject->m_Actime[i]);
+		ActionItem* pItem = Ack.add_actionlist();
+		pItem->set_action(m_pRoleDataObject->m_Action[i]);
+		pItem->set_actime(m_pRoleDataObject->m_Actime[i]);
 	}
 
 	return TRUE;

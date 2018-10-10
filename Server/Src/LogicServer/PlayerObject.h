@@ -33,7 +33,11 @@ public:
 	BOOL		DispatchPacket(NetPacket* pNetPack);
 
 	BOOL		SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+
 	BOOL		SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+
+	//向玩家所在的场景服发消息
+	BOOL		SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 	BOOL		ToTransferData(TransferDataReq& Req);
 
@@ -43,12 +47,15 @@ public:
 
 	BOOL		NotifyChange();
 
-public: //全部是操作方法
+public:
+	//全部是操作方法
 	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
 	BOOL		SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
 	BOOL		SendRoleLoginAck();
+	BOOL		SendObjectChangeNtf(UINT32 dwChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue);
 
 	BOOL		SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
+
 	BOOL		ClearCopyState();
 
 	//模块函数

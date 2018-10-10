@@ -23,7 +23,7 @@ public:
 	{
 		for (unsigned k = 0; !TryLock(); ++k)
 		{
-			if (k % 32 == 0)
+			if (k % 64 == 0)
 			{
 #ifdef WIN32
 				::Sleep(0);

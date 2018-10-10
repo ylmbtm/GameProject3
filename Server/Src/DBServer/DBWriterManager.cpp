@@ -85,9 +85,15 @@ Th_RetName _DBWriteThread(void* pParam)
 {
 	CDBWriterManager* pDBWriterManager = (CDBWriterManager*)pParam;
 
-	pDBWriterManager->m_DBConnection.Init();
+	if (!pDBWriterManager->m_DBConnection.Init())
+	{
+		return Th_RetValue;
+	}
 
-	pDBWriterManager->m_DBConnection.Reconnect();
+	if (!pDBWriterManager->m_DBConnection.Reconnect())
+	{
+		return Th_RetValue;
+	}
 
 	while (!pDBWriterManager->IsStop())
 	{

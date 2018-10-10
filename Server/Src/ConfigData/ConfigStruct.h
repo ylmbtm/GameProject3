@@ -45,29 +45,32 @@ struct StActorInfo
 {
 	StActorInfo()
 	{
-		dwID = 0;
+		dwID	= 0;
 		fRadius = 0;
+		Level	= 0;
 	}
 	UINT32  dwID;
 	INT32   Propertys[PROPERTY_NUM];
-	std::string strName;
-
 	FLOAT   fRadius;
+	INT32   Level;
+
+	std::string strName;
 };
 
 struct StCarrerInfo
 {
 	StCarrerInfo()
 	{
-		dwID = 0;
-		dwActorID = 0;
-		dwBornCity = 0;
-		strName = "";
+		dwID		= 0;
+		dwActorID	= 0;
+		dwBornCity	= 0;
+		strName		= "";
 	}
 	UINT32  dwID;
-	std::string strName;
 	UINT32  dwActorID;
 	UINT32  dwBornCity;
+
+	std::string strName;
 };
 
 struct StLevelInfo

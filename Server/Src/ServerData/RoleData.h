@@ -20,6 +20,7 @@ struct RoleDataObject : public ShareObject
 		m_uCreateTime	= 0;
 		m_uLogonTime	= 0;	  //本次登录时间
 		m_uLogoffTime	= 0;	  //离线时间
+		memset(m_szName, 0, ROLE_NAME_LEN);
 	}
 
 	UINT64		m_uRoleID;			//角色ID

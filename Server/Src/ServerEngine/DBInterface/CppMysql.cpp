@@ -334,6 +334,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 	m_strPwd = passwd;
 	m_strDB	= db;
 	m_nPort = port;
+	m_strCharSet	= charSetName;
 
 	//选择制定的数据库失败
 	//0表示成功，非0值表示出现错误。
@@ -445,6 +446,11 @@ bool CppMySQL3DB::reconnect()
 	bool ret = false;
 	_db_ptr = mysql_init(NULL);
 	if (NULL == _db_ptr)
+	{
+		goto EXT;
+	}
+
+	if (0 != mysql_options(_db_ptr, MYSQL_SET_CHARSET_NAME, m_strCharSet.c_str()))
 	{
 		goto EXT;
 	}

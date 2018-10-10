@@ -2,57 +2,56 @@
 #define __D_F_A_H__
 
 class DFANode;
-typedef wchar_t keytype;
-typedef std::map<keytype, DFANode*> DFANodeMap;
-typedef std::set<keytype> DFANodeSet;
+typedef char KeyType;
+typedef std::map<KeyType, DFANode*> DFANodeMap;
+typedef std::set<KeyType> DFANodeSet;
 
 class DFANode
 {
 public:
-	DFANode(keytype key);
+	DFANode(KeyType key);
 
 	~DFANode();
 
-	//¼ÓÈëÁË¸ö×Ó½Úµã
-	DFANode* addNode(keytype key);
-	bool addNode(const keytype* key, int len);
+	//åŠ å…¥äº†ä¸ªå­èŠ‚ç‚¹
+	DFANode* AddNode(KeyType key);
 
-	//»ñÈ¡°üº¬ keyµÄ×Ó½Úµã
-	DFANode* getNode(keytype key) const;
+	BOOL AddNode(const KeyType* key, INT32 len);
 
-	/**ÅĞ¶ÏÊÇ·ñ°üº¬Ö¸¶¨µÄkey*/
-	bool hasKeyWord(const keytype* pdata, int len, bool isreturn = true);
+	//è·å–åŒ…å« keyçš„å­èŠ‚ç‚¹
+	DFANode* GetNode(KeyType key) const;
 
-	//¼ÓÔØ¹Ø¼ü×ÖÎÄ¼ş
-	bool loadFile(const std::string& filename);
+	/**åˆ¤æ–­æ˜¯å¦åŒ…å«æŒ‡å®šçš„key*/
+	BOOL HasKeyWord(const KeyType* pdata, INT32 len, BOOL bReturn = TRUE);
 
-	//ÅĞ¶ÏÊÇ·ñº¬ÓĞ¹Ø¼ü×Ö ÊÇµÄ»°true
-	bool isFileterWord(const std::string& word);
-	bool isFileterWord(const std::wstring& word);
+	//åŠ è½½å…³é”®å­—æ–‡ä»¶
+	BOOL LoadFile(const std::string& filename);
 
-	//°Ñ×Ö·û´®ÖĞµÄËùÓĞÃô¸Ğ´Ê¶¼Ìæ»»³É"***"
-	bool filterKeyWords(std::string& word, const std::wstring& dest = L"***");
+	//åˆ¤æ–­æ˜¯å¦å«æœ‰å…³é”®å­— æ˜¯çš„è¯true
+	BOOL IsFileterWord(const std::string& word);
+
+	//æŠŠå­—ç¬¦ä¸²ä¸­çš„æ‰€æœ‰æ•æ„Ÿè¯éƒ½æ›¿æ¢æˆ"***"
+	BOOL FilterKeyWords(std::string& word, const std::string& dest = "*");
 
 private:
-	void getKeyPos(INT32& nStart, INT32& nLen);
+	void GetKeyPos(INT32& nStart, INT32& nLen);
 
-	//Çå¿Õ½ÚµãÊı¾İ
-	void clearChildNode();
+	//æ¸…ç©ºèŠ‚ç‚¹æ•°æ®
+	void ClearChildNode();
 
-	//ÅĞ¶Ï×Ó½ÚµãÊÇ·ñº¬ÓĞÊÕÎ²·ş
-	bool hasEnding();
+	//åˆ¤æ–­å­èŠ‚ç‚¹æ˜¯å¦å«æœ‰æ”¶å°¾æœ
+	BOOL HasEnding();
 
-	//»ñÈ¡×Ó½Úµã¸öÊı
-	inline INT32 getChildCount() const { return (INT32)_childNodeSet.size(); }
+	//è·å–å­èŠ‚ç‚¹ä¸ªæ•°
+	INT32 GetChildCount() const;
 protected:
-	keytype	_key;
-	INT32 _start;
-	DFANodeMap _childNodeMap;		//ËùÓĞ×Ó½Úµã
-	DFANodeSet _childNodeSet;		//ËùÓĞ×Ó½Úµã×Ö·û±£´æ
+	KeyType		m_key;
+	INT32		m_start;
+	DFANodeMap	m_childNodeMap;		//æ‰€æœ‰å­èŠ‚ç‚¹
 
-	static INT32 s_length;		//¼ÇÂ¼Æ¥Åäµ½µÄ³¤¶È
-	static INT32 s_maxlen;		//¼ÇÂ¼×î¼ÑÆ¥Åä³¤¶È
-	static std::wstring s_str;	//¾²Ì¬µÄÓÃÀ´Ìæ»»µÄ×Ö·û´®
+	static INT32 s_length;		//è®°å½•åŒ¹é…åˆ°çš„é•¿åº¦
+	static INT32 s_maxlen;		//è®°å½•æœ€ä½³åŒ¹é…é•¿åº¦
+	static std::string s_str;	//é™æ€çš„ç”¨æ¥æ›¿æ¢çš„å­—ç¬¦ä¸²
 };
 
 #endif

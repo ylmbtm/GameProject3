@@ -3,46 +3,45 @@
 
 INT32 DFANode::s_length = 0;
 INT32 DFANode::s_maxlen = 0;
-std::wstring DFANode::s_str = L"";
+std::string DFANode::s_str = "";
 
 //--------------------------------------------------------------------------------------------------------
-DFANode::DFANode(keytype key) : _key(key), _start(0)
+DFANode::DFANode(KeyType key) : m_key(key), m_start(0)
 {
 
 }
 //--------------------------------------------------------------------------------------------------------
 DFANode::~DFANode()
 {
-	clearChildNode();
+	ClearChildNode();
 }
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::addNode(const keytype* key, int len)
+BOOL DFANode::AddNode(const KeyType* key, INT32 len)
 {
 	if (key == NULL || len < 0)
 	{
-		return false;
+		return FALSE;
 	}
 
 	int i = 0;
 	DFANode* ptemNode = this;
 	while (i < len)
 	{
-		ptemNode = ptemNode->addNode(key[i]);
+		ptemNode = ptemNode->AddNode(key[i]);
 		++i;
 	}
 
-	return true;
+	return TRUE;
 }
 //--------------------------------------------------------------------------------------------------------
-DFANode* DFANode::addNode(keytype key)
+DFANode* DFANode::AddNode(KeyType key)
 {
-	DFANodeMap::iterator it = _childNodeMap.find(key);
+	DFANodeMap::iterator it = m_childNodeMap.find(key);
 
-	if (it == _childNodeMap.end())
+	if (it == m_childNodeMap.end())
 	{
 		DFANode* temnode = new DFANode(key);
-		_childNodeMap.insert(std::make_pair(key, temnode));
-		_childNodeSet.insert(key);
+		m_childNodeMap.insert(std::make_pair(key, temnode));
 		return temnode;
 	}
 	else
@@ -51,10 +50,10 @@ DFANode* DFANode::addNode(keytype key)
 	}
 }
 //--------------------------------------------------------------------------------------------------------
-DFANode* DFANode::getNode(keytype key) const
+DFANode* DFANode::GetNode(KeyType key) const
 {
-	DFANodeMap::const_iterator  it = _childNodeMap.find(key);
-	if (it == _childNodeMap.end())
+	DFANodeMap::const_iterator  it = m_childNodeMap.find(key);
+	if (it == m_childNodeMap.end())
 	{
 		return NULL;
 	}
@@ -65,63 +64,75 @@ DFANode* DFANode::getNode(keytype key) const
 
 }
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::hasKeyWord(const keytype* pdata, int len, bool isreturn/* = true*/)
+BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 {
-	if (isreturn)
+	if (bReturn)
 	{
 		s_length = 0;
 		s_maxlen = 0;
 	}
 
 	INT32 currentPos = 0;
-
 	while (currentPos < len)
 	{
-		keytype p = pdata[currentPos];
-		DFANode* pnode = getNode(p);
+		KeyType p = pdata[currentPos];
+		DFANode* pnode = GetNode(p);
 		++s_length;
-		if (pnode == NULL)///Èç¹ûÃ»ÓÐÕÒµ½µ½¡£´ÓÏÂÒ»¸ö¿ªÊ¼ÕÒ
+		if (pnode == NULL)///å¦‚æžœæ²¡æœ‰æ‰¾åˆ°åˆ°ã€‚ä»Žä¸‹ä¸€ä¸ªå¼€å§‹æ‰¾
 		{
-			if (isreturn == false)
-			{ return false; }
+			if (bReturn == false)
+			{
+				return FALSE;
+			}
 
 			++currentPos;
 			s_length = 0;
 			continue;
 		}
-		else if (pnode->hasEnding())
+		else if (pnode->HasEnding())
 		{
-			//¼ÇÂ¼×î¼ÑÆ¥Åä³¤¶È
+			//è®°å½•æœ€ä½³åŒ¹é…é•¿åº¦
 			s_maxlen = s_length;
 
-			if (isreturn)
-			{ _start = currentPos; }
+			if (bReturn)
+			{
+				m_start = currentPos;
+			}
 
-			//Èç¹ûÖ»ÓÐÒ»¸ö×Ó½Úµã»òÕßÃ»ÓÐ½ÚµãÔòÖ±½Ó·µ»Ø
-			if (pnode->getChildCount() <= 1)
-			{ return true; }
+			//å¦‚æžœåªæœ‰ä¸€ä¸ªå­èŠ‚ç‚¹æˆ–è€…æ²¡æœ‰èŠ‚ç‚¹åˆ™ç›´æŽ¥è¿”å›ž
+			if (pnode->GetChildCount() <= 1)
+			{
+				return TRUE;
+			}
 		}
 
 		int startpos = currentPos + 1;
 		if (startpos >= len)
-		{ return s_maxlen != 0; }
+		{
+			return s_maxlen != 0;
+		}
 
-		bool b = pnode->hasKeyWord(pdata + startpos, len - startpos, false);
+		bool b = pnode->HasKeyWord(pdata + startpos, len - startpos, false);
 
 		if (b == true)
 		{
-			if (isreturn)
-			{ _start = currentPos; }
-			return true;
+			if (bReturn)
+			{
+				m_start = currentPos;
+			}
+
+			return TRUE;
 		}
 		else
 		{
-			if (isreturn == false)
-			{ return false; }
+			if (bReturn == false)
+			{
+				return FALSE;
+			}
 			else if (s_maxlen != 0)
 			{
 				s_length = s_maxlen;
-				return true;
+				return TRUE;
 			}
 
 			++currentPos;
@@ -130,95 +141,91 @@ bool DFANode::hasKeyWord(const keytype* pdata, int len, bool isreturn/* = true*/
 		}
 	}
 
-	return false;
+	return FALSE;
 }
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::loadFile(const std::string& filename)
+BOOL DFANode::LoadFile(const std::string& filename)
 {
-	clearChildNode();
+	ClearChildNode();
 
 	FILE* pFile = fopen(filename.c_str(), "r+");
 
 	if (pFile == NULL)
 	{
-		return false;
+		return FALSE;
 	}
 
 	char line[1024] = { 0 };
-	std::string tmpline = "";
 	do
 	{
 		fgets(line, 1024, pFile);
+
+		int nLen = strlen(line);
+		if (line[nLen - 1] == '\n')
+		{
+			line[nLen - 1] = 0;
+		}
+
+		if (line[nLen - 1] == ' ')
+		{
+			line[nLen - 1] = 0;
+		}
 
 		if (strcmp(line, "*") == 0)
 		{
 			continue;
 		}
 
-		//Ã¿¸ö×Ö·ûÌí¼Ó#×÷Îª½áÎ²·û
-		tmpline = line + std::string("#");
-		std::wstring wline = CommonConvert::Utf8_To_Unicode(tmpline);
-		addNode(wline.c_str(), (int)wline.size());
+		strcat(line, "#");//æ¯ä¸ªå­—ç¬¦æ·»åŠ #ä½œä¸ºç»“å°¾ç¬¦
+
+		std::string tmpline = line;
+
+		std::transform(tmpline.begin(), tmpline.end(), tmpline.begin(), toupper);
+
+		AddNode(tmpline.c_str(), (int)tmpline.size());
 
 	}
 	while (!feof(pFile));
 
 	fclose(pFile);
 
-	return true;
+	return TRUE;
 }
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::isFileterWord(const std::string& word)
+BOOL DFANode::IsFileterWord(const std::string& word)
 {
-	std::wstring wpData;
+	std::string wpData(word);
 
-	wpData = CommonConvert::Utf8_To_Unicode(word);
-
-	//Ð¡Ð´×ª´óÐ´£¬ÔÙÆ¥Åä
 	std::transform(wpData.begin(), wpData.end(), wpData.begin(), toupper);
 
-	return hasKeyWord(wpData.c_str(), (int)wpData.size());
+	return HasKeyWord(wpData.c_str(), (int)wpData.size());
 }
 
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::isFileterWord(const std::wstring& word)
-{
-	//Ð¡Ð´×ª´óÐ´£¬ÔÙÆ¥Åä
-	std::wstring tmpWord = word;
-	std::transform(tmpWord.begin(), tmpWord.end(), tmpWord.begin(), toupper);
-
-	return hasKeyWord(word.c_str(), (int)word.size());
-}
-//--------------------------------------------------------------------------------------------------------
-bool DFANode::filterKeyWords(std::string& word, const std::wstring& dest /*= L"***"*/)
+BOOL DFANode::FilterKeyWords(std::string& word, const std::string& dest /*= "***"*/)
 {
 	if (word.empty())
 	{
-		return false;
+		return FALSE;
 	}
 
-	//Èç¹ûÓÐÃô¸Ð´Ê£¬ÔòÌæ»»³É"***"
-	std::wstring wpData;
-	///ÅÐ¶Ï×Ö·ûÊÇ·ñÎªutf8
+	std::string wpData = word;
 
-	wpData = CommonConvert::Utf8_To_Unicode(word);
-
-	//Ð¡Ð´×ª´óÐ´£¬ÔÙÆ¥Åä
 	std::transform(wpData.begin(), wpData.end(), wpData.begin(), toupper);
 
-	//ÓÃÀ´¼ÇÂ¼×Ö·û´®µÄ²éÑ¯Î»ÖÃ
+	//ç”¨æ¥è®°å½•å­—ç¬¦ä¸²çš„æŸ¥è¯¢ä½ç½®
 	int start = 0, strlen = 0;
-	int lastPos = -1;	//ÉÏ´ÎÌæ»»µÄÎ»ÖÃ
-	bool keyflag = false;
+	int lastPos = -1;	//ä¸Šæ¬¡æ›¿æ¢çš„ä½ç½®
+	BOOL keyflag = FALSE;
 
-	//Ìæ»»³ÉµÄ¿í×Ö·ûºÍ³¤¶È
-	while (hasKeyWord(wpData.c_str(), (int)wpData.size()))
+	//æ›¿æ¢æˆçš„å®½å­—ç¬¦å’Œé•¿åº¦
+	while (HasKeyWord(wpData.c_str(), (int)wpData.size()))
 	{
-		//»ñÈ¡Ãô¸Ð´ÊÔÚ×Ö·û´®ÖÐµÄÎ»ÖÃºÍ³¤¶È£¬ÅÐ¶ÏÊÇ·ñÊÇÁ¬ÐøÃô¸Ð´Ê£¬Èç¹ûÊÇÔòÌæ»»Îª¿Õ
-		getKeyPos(start, strlen);
+		//èŽ·å–æ•æ„Ÿè¯åœ¨å­—ç¬¦ä¸²ä¸­çš„ä½ç½®å’Œé•¿åº¦ï¼Œåˆ¤æ–­æ˜¯å¦æ˜¯è¿žç»­æ•æ„Ÿè¯ï¼Œå¦‚æžœæ˜¯åˆ™æ›¿æ¢ä¸ºç©º
+		GetKeyPos(start, strlen);
 		if (lastPos == start)
 		{
-			wpData.replace(wpData.begin() + start, wpData.begin() + start + strlen, L"");
+			wpData.replace(wpData.begin() + start, wpData.begin() + start + strlen, "");
 			lastPos = start;
 		}
 		else
@@ -226,40 +233,45 @@ bool DFANode::filterKeyWords(std::string& word, const std::wstring& dest /*= L"*
 			wpData.replace(wpData.begin() + start, wpData.begin() + start + strlen, dest.c_str());
 			lastPos = start + (int)dest.size();
 		}
-		//±íÊ¾º¬ÓÐÃô¸Ð´Ê
-		keyflag = true;
+		//è¡¨ç¤ºå«æœ‰æ•æ„Ÿè¯
+		keyflag = TRUE;
 	}
 
-	//Èç¹ûÓÐÃô¸Ð´Ê£¬ÔòÐèÒªÊ¹ÓÃÌæ»»ºóµÄ×Ö·û´®
+	//å¦‚æžœæœ‰æ•æ„Ÿè¯ï¼Œåˆ™éœ€è¦ä½¿ç”¨æ›¿æ¢åŽçš„å­—ç¬¦ä¸²
 	if (keyflag)
-	{ word = CommonConvert::Unicode_To_Uft8(wpData); }
+	{
+		word = wpData;
+	}
 
-	return true;
+	return TRUE;
 }
 //--------------------------------------------------------------------------------------------------------
-void DFANode::getKeyPos(INT32& nStart, INT32& nLen)
+void DFANode::GetKeyPos(INT32& nStart, INT32& nLen)
 {
-	nStart = _start;
-	nLen = s_length;
-
-	_start = 0;
+	nStart	= m_start;
+	nLen	= s_length;
+	m_start = 0;
 	s_length = 0;
 }
 //--------------------------------------------------------------------------------------------------------
-void DFANode::clearChildNode()
+void DFANode::ClearChildNode()
 {
-	DFANodeMap::iterator  itend = _childNodeMap.end();
-	for (DFANodeMap::iterator  it = _childNodeMap.begin(); it != itend; ++it)
+	DFANodeMap::iterator  itend = m_childNodeMap.end();
+	for (DFANodeMap::iterator  it = m_childNodeMap.begin(); it != itend; ++it)
 	{
 		delete (it->second);
 	}
 
-	_childNodeMap.clear();
-	_childNodeSet.clear();
+	m_childNodeMap.clear();
 }
 //--------------------------------------------------------------------------------------------------------
-bool DFANode::hasEnding()
+BOOL DFANode::HasEnding()
 {
-	return _childNodeSet.empty() ? true : _childNodeSet.find(L'#') != _childNodeSet.end();
+	return m_childNodeMap.empty() ? TRUE : m_childNodeMap.find('#') != m_childNodeMap.end();
+}
+
+INT32 DFANode::GetChildCount() const
+{
+	return (INT32)m_childNodeMap.size();
 }
 

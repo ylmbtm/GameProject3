@@ -126,6 +126,7 @@ public:
 	BOOL OnMsgBattleChatReq(NetPacket* pNetPacket);
 	BOOL OnMsgObjectActionReq(NetPacket* pNetPacket);
 	BOOL OnMsgSkillCastReq(NetPacket* pNetPacket);
+	BOOL OnMsgObjectChangeNtf(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

@@ -82,6 +82,8 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
+			PROCESS_MESSAGE_ITEM(MSG_SCENEOBJ_CHAGE_NTF,	OnMsgObjectChangeNtf);
+
 	}
 
 	return FALSE;
@@ -125,6 +127,23 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 		SkillCastAck Ack;
 		Ack.set_retcode(dwRetCode);
 		pSceneObj->SendMsgProtoBuf(MSG_SKILL_CAST_ACK, Ack);
+	}
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgObjectChangeNtf(NetPacket* pNetPacket)
+{
+	ObjectChangeNotify Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject* pPlayer = GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	if (Req.changetype() == 1)
+	{
+		pPlayer->ChangeEquip((INT32)Req.intvalue1(), (UINT32)Req.intvalue2());
 	}
 
 	return TRUE;
@@ -921,7 +940,7 @@ CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FL
 	pObject->m_dwObjType = OT_MONSTER;
 	pObject->m_dwActorID = dwActorID;
 	pObject->m_strName = pActorInfo->strName;
-	pObject->m_dwLevel = 0;// pActorInfo->Level;
+	pObject->m_dwLevel =  pActorInfo->Level;
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];

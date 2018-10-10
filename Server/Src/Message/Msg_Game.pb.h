@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[72];
+  static const ::google::protobuf::internal::ParseTable schema[73];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -186,6 +186,8 @@ void InitDefaultsStoreBuyReqImpl();
 void InitDefaultsStoreBuyReq();
 void InitDefaultsStoreBuyAckImpl();
 void InitDefaultsStoreBuyAck();
+void InitDefaultsObjectChangeNotifyImpl();
+void InitDefaultsObjectChangeNotify();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -259,6 +261,7 @@ inline void InitDefaults() {
   InitDefaultsUnDressGemAck();
   InitDefaultsStoreBuyReq();
   InitDefaultsStoreBuyAck();
+  InitDefaultsObjectChangeNotify();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -366,6 +369,9 @@ extern NearByRoleItemDefaultTypeInternal _NearByRoleItem_default_instance_;
 class NotifyIntoScene;
 class NotifyIntoSceneDefaultTypeInternal;
 extern NotifyIntoSceneDefaultTypeInternal _NotifyIntoScene_default_instance_;
+class ObjectChangeNotify;
+class ObjectChangeNotifyDefaultTypeInternal;
+extern ObjectChangeNotifyDefaultTypeInternal _ObjectChangeNotify_default_instance_;
 class RoleCreateAck;
 class RoleCreateAckDefaultTypeInternal;
 extern RoleCreateAckDefaultTypeInternal _RoleCreateAck_default_instance_;
@@ -8919,6 +8925,141 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsStoreBuyAckImpl();
 };
+// -------------------------------------------------------------------
+
+class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ObjectChangeNotify) */ {
+ public:
+  ObjectChangeNotify();
+  virtual ~ObjectChangeNotify();
+
+  ObjectChangeNotify(const ObjectChangeNotify& from);
+
+  inline ObjectChangeNotify& operator=(const ObjectChangeNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ObjectChangeNotify(ObjectChangeNotify&& from) noexcept
+    : ObjectChangeNotify() {
+    *this = ::std::move(from);
+  }
+
+  inline ObjectChangeNotify& operator=(ObjectChangeNotify&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ObjectChangeNotify& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ObjectChangeNotify* internal_default_instance() {
+    return reinterpret_cast<const ObjectChangeNotify*>(
+               &_ObjectChangeNotify_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    72;
+
+  void Swap(ObjectChangeNotify* other);
+  friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ObjectChangeNotify* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  ObjectChangeNotify* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const ObjectChangeNotify& from);
+  void MergeFrom(const ObjectChangeNotify& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(ObjectChangeNotify* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string StrValue = 5;
+  void clear_strvalue();
+  static const int kStrValueFieldNumber = 5;
+  const ::std::string& strvalue() const;
+  void set_strvalue(const ::std::string& value);
+  #if LANG_CXX11
+  void set_strvalue(::std::string&& value);
+  #endif
+  void set_strvalue(const char* value);
+  void set_strvalue(const char* value, size_t size);
+  ::std::string* mutable_strvalue();
+  ::std::string* release_strvalue();
+  void set_allocated_strvalue(::std::string* strvalue);
+
+  // int64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::int64 roleid() const;
+  void set_roleid(::google::protobuf::int64 value);
+
+  // int64 IntValue1 = 3;
+  void clear_intvalue1();
+  static const int kIntValue1FieldNumber = 3;
+  ::google::protobuf::int64 intvalue1() const;
+  void set_intvalue1(::google::protobuf::int64 value);
+
+  // int64 IntValue2 = 4;
+  void clear_intvalue2();
+  static const int kIntValue2FieldNumber = 4;
+  ::google::protobuf::int64 intvalue2() const;
+  void set_intvalue2(::google::protobuf::int64 value);
+
+  // int32 ChangeType = 2;
+  void clear_changetype();
+  static const int kChangeTypeFieldNumber = 2;
+  ::google::protobuf::int32 changetype() const;
+  void set_changetype(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:ObjectChangeNotify)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr strvalue_;
+  ::google::protobuf::int64 roleid_;
+  ::google::protobuf::int64 intvalue1_;
+  ::google::protobuf::int64 intvalue2_;
+  ::google::protobuf::int32 changetype_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsObjectChangeNotifyImpl();
+};
 // ===================================================================
 
 
@@ -13691,9 +13832,124 @@ inline void StoreBuyAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:StoreBuyAck.RetCode)
 }
 
+// -------------------------------------------------------------------
+
+// ObjectChangeNotify
+
+// int64 RoleID = 1;
+inline void ObjectChangeNotify::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 ObjectChangeNotify::roleid() const {
+  // @@protoc_insertion_point(field_get:ObjectChangeNotify.RoleID)
+  return roleid_;
+}
+inline void ObjectChangeNotify::set_roleid(::google::protobuf::int64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:ObjectChangeNotify.RoleID)
+}
+
+// int32 ChangeType = 2;
+inline void ObjectChangeNotify::clear_changetype() {
+  changetype_ = 0;
+}
+inline ::google::protobuf::int32 ObjectChangeNotify::changetype() const {
+  // @@protoc_insertion_point(field_get:ObjectChangeNotify.ChangeType)
+  return changetype_;
+}
+inline void ObjectChangeNotify::set_changetype(::google::protobuf::int32 value) {
+  
+  changetype_ = value;
+  // @@protoc_insertion_point(field_set:ObjectChangeNotify.ChangeType)
+}
+
+// int64 IntValue1 = 3;
+inline void ObjectChangeNotify::clear_intvalue1() {
+  intvalue1_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 ObjectChangeNotify::intvalue1() const {
+  // @@protoc_insertion_point(field_get:ObjectChangeNotify.IntValue1)
+  return intvalue1_;
+}
+inline void ObjectChangeNotify::set_intvalue1(::google::protobuf::int64 value) {
+  
+  intvalue1_ = value;
+  // @@protoc_insertion_point(field_set:ObjectChangeNotify.IntValue1)
+}
+
+// int64 IntValue2 = 4;
+inline void ObjectChangeNotify::clear_intvalue2() {
+  intvalue2_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 ObjectChangeNotify::intvalue2() const {
+  // @@protoc_insertion_point(field_get:ObjectChangeNotify.IntValue2)
+  return intvalue2_;
+}
+inline void ObjectChangeNotify::set_intvalue2(::google::protobuf::int64 value) {
+  
+  intvalue2_ = value;
+  // @@protoc_insertion_point(field_set:ObjectChangeNotify.IntValue2)
+}
+
+// string StrValue = 5;
+inline void ObjectChangeNotify::clear_strvalue() {
+  strvalue_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ObjectChangeNotify::strvalue() const {
+  // @@protoc_insertion_point(field_get:ObjectChangeNotify.StrValue)
+  return strvalue_.GetNoArena();
+}
+inline void ObjectChangeNotify::set_strvalue(const ::std::string& value) {
+  
+  strvalue_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:ObjectChangeNotify.StrValue)
+}
+#if LANG_CXX11
+inline void ObjectChangeNotify::set_strvalue(::std::string&& value) {
+  
+  strvalue_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ObjectChangeNotify.StrValue)
+}
+#endif
+inline void ObjectChangeNotify::set_strvalue(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  strvalue_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ObjectChangeNotify.StrValue)
+}
+inline void ObjectChangeNotify::set_strvalue(const char* value, size_t size) {
+  
+  strvalue_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ObjectChangeNotify.StrValue)
+}
+inline ::std::string* ObjectChangeNotify::mutable_strvalue() {
+  
+  // @@protoc_insertion_point(field_mutable:ObjectChangeNotify.StrValue)
+  return strvalue_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ObjectChangeNotify::release_strvalue() {
+  // @@protoc_insertion_point(field_release:ObjectChangeNotify.StrValue)
+  
+  return strvalue_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ObjectChangeNotify::set_allocated_strvalue(::std::string* strvalue) {
+  if (strvalue != NULL) {
+    
+  } else {
+    
+  }
+  strvalue_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), strvalue);
+  // @@protoc_insertion_point(field_set_allocated:ObjectChangeNotify.StrValue)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

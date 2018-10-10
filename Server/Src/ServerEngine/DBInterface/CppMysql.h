@@ -145,6 +145,7 @@ private:
 	std::string  m_strUser;
 	std::string  m_strPwd;
 	std::string  m_strDB;
+	std::string  m_strCharSet; //字符集
 	int          m_nPort;
 };
 

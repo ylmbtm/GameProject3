@@ -22,7 +22,7 @@ public:
 
 	BOOL	Uninit();
 
-	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort);
+	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort,char const* szCharSet = "utf8");
 
 	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet = "utf8");
 
@@ -38,7 +38,7 @@ public:
 
 	int		GetError(void) const;
 
-	bool	Reconnect(void);
+	BOOL	Reconnect(void);
 
 	bool    Ping();
 
@@ -51,6 +51,7 @@ private:
 	int          m_nPort;
 	int          m_nErrno;
 	std::string  m_strError;
+	std::string  m_strCharSet;
 };
 
 #endif // _SQL_CONN_H_

@@ -47,10 +47,9 @@ public:
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
 
-
-
 	BOOL			SaveBattleResult(ResultPlayer* pResult);
 
+	BOOL			ChangeEquip(INT32 nPos, UINT32 dwEquipID);
 public:
 	//////////////////////////////////////////////////////////////////////////
 	//buff的处理
@@ -92,7 +91,7 @@ public:
 	UINT32          m_dwBuffStatus;					//对象的Buff状态
 	INT32			m_dwLevel;						//等级
 	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
-	UINT32			m_Equips[EQUIP_MAX_NUM];				//角色装备
+	UINT32			m_Equips[EQUIP_MAX_NUM];		//角色装备
 
 	BOOL			m_bDataChange;					//数据发生改变
 

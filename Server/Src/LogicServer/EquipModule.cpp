@@ -213,6 +213,8 @@ UINT32 CEquipModule::UnDressEquip(UINT64 uGuid)
 
 	pBagModule->AddItem(pObject->m_uGuid, pObject->m_EquipID, 1);
 
+	m_pOwnPlayer->SendObjectChangeNtf(1, pInfo->dwPos, 0, "");
+
 	return MRC_SUCCESSED;
 }
 
@@ -259,6 +261,8 @@ UINT32 CEquipModule::DressEquip(UINT64 uGuid, UINT64 uBagGuid)
 	pObject->unlock();
 	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
 	m_setChange.insert(pObject->m_uGuid);
+
+	m_pOwnPlayer->SendObjectChangeNtf(1, pInfo->dwPos, pObject->m_EquipID, "");
 
 	return MRC_SUCCESSED;
 }

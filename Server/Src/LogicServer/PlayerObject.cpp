@@ -202,6 +202,11 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
 
+BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+{
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID), dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
+}
+
 BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
@@ -315,6 +320,23 @@ BOOL CPlayerObject::SendRoleLoginAck()
 	}
 
 	SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
+	return TRUE;
+}
+
+BOOL CPlayerObject::SendObjectChangeNtf(UINT32 dwChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue)
+{
+	ObjectChangeNotify Ntf;
+	Ntf.set_roleid(GetObjectID());
+	Ntf.set_changetype(dwChangeType);
+	Ntf.set_intvalue1(uIntValue1);
+	Ntf.set_intvalue2(uIntValue2);
+	if (!strValue.empty() && strValue.size() > 0)
+	{
+		Ntf.set_strvalue(strValue);
+	}
+
+	SendMsgToScene(MSG_SCENEOBJ_CHAGE_NTF, Ntf);
+
 	return TRUE;
 }
 

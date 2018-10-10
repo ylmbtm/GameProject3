@@ -32,7 +32,7 @@ BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 	if(!QueryResult.eof())
 	{
 		dwMaxGuid = QueryResult.getInt64Field("maxguid");
-		dwMaxOnline = QueryResult.getInt64Field("maxonline");
+		dwMaxOnline = QueryResult.getIntField("maxonline");
 	}
 
 	if(dwMaxGuid == 0)
