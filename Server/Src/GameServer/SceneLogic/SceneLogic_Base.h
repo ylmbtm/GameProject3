@@ -30,21 +30,13 @@ public:
 
 	virtual BOOL OnTimeUP();
 
-	virtual BOOL SetFinished();
-	virtual BOOL IsFinished();
-
-	virtual BOOL SetLastTime(UINT32 dwTime);
-
 	//TRUE:表示己经决出胜负, FALSE没有决出胜负
 	virtual BOOL BattleResultCheck();
 
 	CScene*  GetScene();
 public:
 	CScene* m_pScene;
-	BOOL m_bFinished;
-
-	UINT32 m_dwLastTime;
-
+	
 	BattleResult m_BattleResult;
 
 	CPoint3D m_vtBornPos[CT_CMAP_END];

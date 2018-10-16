@@ -43,7 +43,7 @@ BOOL SceneLogic_None::Update(UINT64 uTick)
 	{
 		if(CommonFunc::GetCurrTime() - m_pScene->GetCreateTime() > 60)
 		{
-			SetFinished();
+			m_pScene->SetFinished();
 		}
 	}
 

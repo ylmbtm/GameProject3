@@ -394,6 +394,7 @@ message LogicRegToLoginAck {
 
 message WatchHeartBeatReq {
 	uint32	Data = 1;
+	uint64	ProcessID	= 2;
 	
 }
 
@@ -443,8 +444,6 @@ message UnDressGemAck {
 }
 
 
-
-
 message StoreBuyReq {
 	int32	StoreType = 1;
 	int32	StoreID = 2;
@@ -454,3 +453,13 @@ message StoreBuyReq {
 message StoreBuyAck {
 	uint32	RetCode	= 1;
 }
+
+message ObjectChangeNotify {
+	int64	RoleID = 1;	 //变化的角色ID
+	int32	ChangeType = 2; //变化的类型
+	int64	IntValue1 = 3;
+	int64   IntValue2 = 4;
+	string  StrValue = 5;
+}
+
+

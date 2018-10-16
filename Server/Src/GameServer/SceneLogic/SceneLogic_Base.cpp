@@ -6,8 +6,6 @@
 SceneLogicBase::SceneLogicBase(CScene* pScene)
 {
 	m_pScene = pScene;
-
-	m_bFinished = FALSE;
 }
 
 SceneLogicBase::~SceneLogicBase()
@@ -101,7 +99,7 @@ BOOL SceneLogicBase::OnObjectDie(CSceneObject* pObject)
 
 BOOL SceneLogicBase::Update(UINT64 uTick)
 {
-	if(CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_dwLastTime)
+	if(CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_pScene->GetTotalTime())
 	{
 		OnTimeUP();
 	}
@@ -111,20 +109,11 @@ BOOL SceneLogicBase::Update(UINT64 uTick)
 
 BOOL SceneLogicBase::OnTimeUP()
 {
+	//默认处理逻辑，时间到了副本至成完成
+	m_pScene->SetFinished();
 	return TRUE;
 }
 
-BOOL SceneLogicBase::IsFinished()
-{
-	return m_bFinished;
-}
-
-BOOL SceneLogicBase::SetLastTime(UINT32 dwTime)
-{
-	m_dwLastTime = dwTime;
-
-	return TRUE;
-}
 
 BOOL SceneLogicBase::BattleResultCheck()
 {
@@ -174,9 +163,3 @@ CScene* SceneLogicBase::GetScene()
 	return m_pScene;
 }
 
-BOOL SceneLogicBase::SetFinished()
-{
-	m_bFinished = TRUE;
-
-	return TRUE;
-}

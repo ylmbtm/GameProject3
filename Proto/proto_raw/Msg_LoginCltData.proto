@@ -129,6 +129,13 @@ message ChapterItem {
 	uint32  SceneAward = 5;
 }
 
+
+message ActionItem {
+	int64 Action = 1;
+	int64 Actime = 2;
+}
+
+
 message RoleLoginAck {
 	uint32   RetCode = 1;
 	uint64   AccountID = 2;
@@ -140,16 +147,15 @@ message RoleLoginAck {
 	int32    VipLvl = 8;
 	int32    VipExp = 9;
 	int64    FightValue =  10;
-	repeated int64 Action = 11;
-	repeated int64 Actime = 12;
-	repeated EquipItem EquipList = 13;
-	repeated GemItem GemList = 14;
-	repeated PetItem PetList = 15;
-	repeated PartnerItem PartnerList = 16;
-	repeated MountItem MountList = 17;
-	repeated BagItem  BagItemList = 18;
-	repeated MailItem MailList = 19;
-	repeated TaskItem TaskList = 20;
+	repeated ActionItem ActionList = 11;
+	repeated EquipItem EquipList = 12;
+	repeated GemItem GemList = 13;
+	repeated PetItem PetList = 14;
+	repeated PartnerItem PartnerList = 15;
+	repeated MountItem MountList = 16;
+	repeated BagItem  BagItemList = 17;
+	repeated MailItem MailList = 18;
+	repeated TaskItem TaskList = 19;
 }
 
 

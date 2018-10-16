@@ -22,26 +22,52 @@
 
 CScene::CScene()
 {
+	m_dwCopyGuid		= 0;
+	m_dwCopyID			= 0;
+	m_dwCopyType		= 0;
+	m_dwPlayerNum		= 0;
+	m_uCreateKey		= 0;
+	m_dwLoginNum		= 0;
+	m_uStartTime		= 0;
+	m_uMaxGuid			= 0;
+	m_uCreateTime		= 0;
+	m_pMonsterCreator	= NULL;
+	m_bFinished			= FALSE;
 }
 
 CScene::~CScene()
 {
+	m_dwCopyGuid		= 0;
+	m_dwCopyID			= 0;
+	m_dwCopyType		= 0;
+	m_dwPlayerNum		= 0;
+	m_uCreateKey		= 0;
+	m_dwLoginNum		= 0;
+	m_uStartTime		= 0;
+	m_uMaxGuid			= 0;
+	m_uCreateTime		= 0;
+	m_pMonsterCreator	= NULL;
+	m_bFinished			= FALSE;
 }
 
-BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum)
+BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey)
 {
 	m_dwCopyGuid		= dwCopyGuid;
 	m_dwCopyID			= dwCopyID;
 	m_dwCopyType		= dwCopyType;
 	m_dwPlayerNum		= dwPlayerNum;
+	m_uCreateKey		= uCreateKey;
 	m_dwLoginNum		= 0;
-	m_dwStartTime		= 0;
+	m_uStartTime		= 0;
 	m_uMaxGuid			= 0;
-	m_dwCreateTime		= CommonFunc::GetCurrTime();
+	m_uCreateTime		= CommonFunc::GetCurrTime();
 	m_pMonsterCreator	= new MonsterCreator(this);
 
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
+
+	CLog::GetInstancePtr()->LogError("---create scene %d", dwCopyGuid);
+
 	return TRUE;
 }
 
@@ -64,6 +90,8 @@ BOOL CScene::Uninit()
 	delete m_pMonsterCreator;
 
 	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwCopyType));
+
+	CLog::GetInstancePtr()->LogError("---destroy scene %d", m_dwCopyGuid);
 
 	return TRUE;
 }
@@ -156,7 +184,7 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	CSceneObject* pPlayer = GetPlayer(Req.roleid());
-	if (pPlayer == NULL)
+	if (pPlayer != NULL)
 	{
 		return TRUE;
 	}
@@ -164,6 +192,8 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 	pPlayer->SetConnectID(0, 0);
 
 	UpdateAiController(pPlayer->GetObjectGUID());
+
+	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, pHeader->u64TargetID, 0, Req);
 
 	return TRUE;
 }
@@ -306,7 +336,7 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 
 BOOL CScene::OnUpdate( UINT64 uTick )
 {
-	if(m_pSceneLogic->IsFinished())
+	if(IsFinished())
 	{
 		//己经结束不再处理
 		return TRUE;
@@ -515,7 +545,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
-	m_dwStartTime = CommonFunc::GetCurrTime();
+	m_uStartTime = CommonFunc::GetCurrTime();
 	return TRUE;
 }
 
@@ -808,7 +838,12 @@ UINT64 CScene::SelectController(UINT64 uFilterID)
 
 BOOL CScene::IsFinished()
 {
-	return m_pSceneLogic->IsFinished();
+	return m_bFinished;
+}
+
+VOID CScene::SetFinished()
+{
+	m_bFinished = TRUE;
 }
 
 BOOL CScene::IsAllDataReady()
@@ -842,12 +877,17 @@ BOOL CScene::IsAllLoginReady()
 
 UINT64 CScene::GetStartTime()
 {
-	return m_dwStartTime;
+	return m_uStartTime;
 }
 
 UINT64 CScene::GetCreateTime()
 {
-	return m_dwCreateTime;
+	return m_uCreateTime;
+}
+
+UINT64 CScene::GetTotalTime()
+{
+	return m_uTotalTime;
 }
 
 UINT64 CScene::GetLastTick()

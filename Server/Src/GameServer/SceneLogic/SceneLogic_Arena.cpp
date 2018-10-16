@@ -32,7 +32,7 @@ BOOL SceneLogic_Arena::OnObjectDie(CSceneObject* pObject)
 {
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
-		m_bFinished = TRUE;
+		m_pScene->SetFinished();
 		return TRUE;
 	}
 
@@ -52,7 +52,7 @@ BOOL SceneLogic_Arena::OnPlayerLeave(CSceneObject* pPlayer)
 	//pPlayer->m_dwResult = CR_LOST;
 
 	//发送战斗结果
-	m_bFinished = TRUE;
+	m_pScene->SetFinished();
 	return FALSE;
 }
 
@@ -64,7 +64,7 @@ BOOL SceneLogic_Arena::Update(UINT64 uTick)
 	{
 		if(CommonFunc::GetCurrTime() - m_pScene->GetCreateTime() > 60)
 		{
-			SetFinished();
+			m_pScene->SetFinished();
 		}
 	}
 

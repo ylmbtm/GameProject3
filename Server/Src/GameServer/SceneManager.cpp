@@ -45,11 +45,11 @@ BOOL CSceneManager::Uninit()
 	return TRUE;
 }
 
-BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum)
+BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey)
 {
 	CScene* pScene = new CScene;
 
-	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum))
+	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum, uCreateKey))
 	{
 		ASSERT_FAIELD;
 
@@ -172,7 +172,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	Ack.set_copyid(Req.copyid());
 	Ack.set_playernum(Req.playernum());
 	Ack.set_copytype(Req.copytype());
-	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum()))
+	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum(),Req.createparam()))
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
 	}
@@ -188,7 +188,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6, MakeCopyID(), 3, 0))
+	if(!CreateScene(6, MakeCopyID(), 3, 0, 0))
 	{
 		ASSERT_FAIELD;
 

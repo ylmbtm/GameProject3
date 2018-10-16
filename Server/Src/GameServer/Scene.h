@@ -15,7 +15,7 @@ public:
 
 	BOOL	        DispatchPacket(NetPacket* pNetPack);
 
-	BOOL			Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum);
+	BOOL			Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey);
 
 	BOOL	        Uninit();
 
@@ -84,10 +84,12 @@ public:
 	BOOL			ReadSceneXml();
 public:
 	BOOL			IsFinished();
+	VOID			SetFinished();
 	BOOL            IsAllDataReady();
 	BOOL			IsAllLoginReady();
 	UINT64			GetStartTime();
 	UINT64			GetCreateTime();
+	UINT64			GetTotalTime();
 	UINT64          GetLastTick();
 	BOOL			SetLastTick(UINT64 uTick);
 	UINT64			GenNewGuid();
@@ -98,10 +100,13 @@ public:
 	UINT32			m_dwCopyGuid;	//当前副本实例ID
 	UINT32			m_dwCopyID;		//当前副本TYPE
 	UINT32			m_dwCopyType;	//逻辑类型
-	UINT64          m_dwCreateTime; //副本创建时间
-	UINT64			m_dwStartTime;  //副本开始时间
+	UINT64          m_uCreateTime;  //副本创建时间
+	UINT64			m_uStartTime;   //副本开始时间
+	UINT64			m_uTotalTime;	//副本持续时间
 	UINT64			m_dwLastTick;	//上一个tick时间
 	UINT64			m_uMaxGuid;	    //场景里的最大GUID
+	UINT64			m_uCreateKey;	//创建副本的专用参数
+	BOOL			m_bFinished;	//副本是否完成
 	SceneLogicBase*	m_pSceneLogic;
 	MonsterCreator*	m_pMonsterCreator;
 
