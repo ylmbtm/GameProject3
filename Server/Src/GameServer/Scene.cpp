@@ -65,9 +65,6 @@ BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 
 
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
 	ERROR_RETURN_FALSE(ReadSceneXml());
-
-	CLog::GetInstancePtr()->LogError("---create scene %d", dwCopyGuid);
-
 	return TRUE;
 }
 
@@ -90,8 +87,6 @@ BOOL CScene::Uninit()
 	delete m_pMonsterCreator;
 
 	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwCopyType));
-
-	CLog::GetInstancePtr()->LogError("---destroy scene %d", m_dwCopyGuid);
 
 	return TRUE;
 }
@@ -184,7 +179,7 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	CSceneObject* pPlayer = GetPlayer(Req.roleid());
-	if (pPlayer != NULL)
+	if (pPlayer == NULL)
 	{
 		return TRUE;
 	}

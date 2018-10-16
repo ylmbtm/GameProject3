@@ -25,8 +25,7 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 			{
 				dwCamp = CommonConvert::StringToInt(pAttr->value());
 			}
-
-			if(strcmp(pAttr->name(), "Pos") == 0)
+			else if(strcmp(pAttr->name(), "Pos") == 0)
 			{
 				pt.FromString(pAttr->value());
 			}

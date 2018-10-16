@@ -129,13 +129,16 @@ BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
 		return FALSE;
 	}
 
-	char* pPos = strchr(pStr, ',');
+	char szTempBuf[256] = { 0 };
+	strncpy(szTempBuf, pStr, strlen(pStr));
+
+	char* pPos = strchr(szTempBuf, ',');
 	if(pPos == NULL)
 	{
 		return FALSE;
 	}
 	*pPos = 0;
-	x = CommonConvert::StringToFloat(pStr + 1);
+	x = CommonConvert::StringToFloat(szTempBuf + 1);
 
 	char* pOldPos = pPos + 1;
 	pPos = strchr(pPos + 1, ',');
