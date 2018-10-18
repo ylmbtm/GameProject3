@@ -44,6 +44,7 @@ public:
 	VOID			SetEnterCopy();
 
 	BOOL            IsDead();
+	BOOL			SetDead(BOOL bDead);
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
 

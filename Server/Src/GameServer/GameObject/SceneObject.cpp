@@ -72,6 +72,7 @@ UINT32 CSceneObject::GetMp()
 VOID CSceneObject::AddHp( UINT32 dwValue )
 {
 	m_Propertys[HP] += dwValue;
+	m_bDataChange = TRUE;
 }
 
 VOID CSceneObject::SubHp( UINT32 dwValue )
@@ -82,11 +83,14 @@ VOID CSceneObject::SubHp( UINT32 dwValue )
 	{
 		m_Propertys[HP] = 0;
 	}
+
+	m_bDataChange = TRUE;
 }
 
 VOID CSceneObject::AddMp( UINT32 dwValue )
 {
 	m_Propertys[MP] += dwValue;
+	m_bDataChange = TRUE;
 }
 
 VOID CSceneObject::SubMp( UINT32 dwValue )
@@ -97,6 +101,8 @@ VOID CSceneObject::SubMp( UINT32 dwValue )
 	{
 		m_Propertys[MP] = 0;
 	}
+
+	m_bDataChange = TRUE;
 }
 
 BOOL CSceneObject::IsChanged()
@@ -199,7 +205,21 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 
 BOOL CSceneObject::IsDead()
 {
-	return m_dwObjectStatus & EOS_DEAD;
+	return (m_dwObjectStatus & EOS_DEAD) > 0;
+}
+
+BOOL CSceneObject::SetDead(BOOL bDead)
+{
+	if (bDead)
+	{
+		m_dwObjectStatus |= EOS_DEAD;
+	}
+	else
+	{
+		m_dwObjectStatus &= ~EOS_DEAD;
+	}
+
+	return TRUE;
 }
 
 BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
