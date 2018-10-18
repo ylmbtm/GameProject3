@@ -152,6 +152,17 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 		pSceneObj->SendMsgProtoBuf(MSG_SKILL_CAST_ACK, Ack);
 	}
 
+	for (int i = 0; i < Req.targetobjects_size(); i++)
+	{
+		UINT64 uTargetID = Req.targetobjects(i);
+		CSceneObject *pTargetObj = GetSceneObject(uTargetID);
+		if (pTargetObj == NULL)
+		{
+			continue;
+		}
+		pTargetObj->SubHp(1);
+	}
+
 	return TRUE;
 }
 
@@ -377,30 +388,27 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
-			pSceneObject->m_dwObjectStatus |= EOS_DEAD;
+			pSceneObject->SetDead(TRUE);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
 		}
 	}
 
 	//把怪物死亡同步一下
-	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); )
+	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
-			pSceneObject->m_dwObjectStatus |= EOS_DEAD;
+			pSceneObject->SetDead(TRUE);
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
-			itor = m_MonsterMap.erase(itor);
-		}
-		else
-		{
-			itor++;
 		}
 	}
+
+	RemoveDeadObject();
 
 	m_pMonsterCreator->OnUpdate(uTick);
 
@@ -711,6 +719,8 @@ VOID CScene::DeletePlayer(UINT64 uID)
 	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
 	if(itor != m_PlayerMap.end())
 	{
+		CSceneObject *pObject = itor->second;
+		delete pObject;
 		m_PlayerMap.erase(itor);
 	}
 	else
@@ -735,10 +745,12 @@ BOOL CScene::AddMonster(CSceneObject* pSceneObject)
 
 VOID CScene::DeleteMonster(UINT64 uID)
 {
-	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
-	if(itor != m_PlayerMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.find(uID);
+	if(itor != m_MonsterMap.end())
 	{
-		m_PlayerMap.erase(itor);
+		CSceneObject *pObject = itor->second;
+		delete pObject;
+		m_MonsterMap.erase(itor);
 	}
 	else
 	{
@@ -761,6 +773,41 @@ CSceneObject* CScene::GetSceneObject(UINT64 uID)
 	}
 
 	return NULL;
+}
+
+BOOL CScene::RemoveDeadObject()
+{
+	for (auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); )
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		if (pSceneObject->IsDead())
+		{
+			delete pSceneObject;
+			itor = m_PlayerMap.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
+	}
+
+	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); )
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		if (pSceneObject->IsDead())
+		{
+			delete pSceneObject;
+			itor = m_MonsterMap.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
+	}
+
+	return TRUE;
 }
 
 BOOL CScene::UpdateAiController(UINT64 uFilterID)

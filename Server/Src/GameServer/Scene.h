@@ -55,6 +55,7 @@ public:
 	VOID		    DeleteMonster(UINT64 uID);
 
 	CSceneObject*   GetSceneObject(UINT64 uID);
+	BOOL			RemoveDeadObject();
 
 	BOOL			UpdateAiController(UINT64 uFilterID);
 	UINT64			SelectController(UINT64 uFilterID);
