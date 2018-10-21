@@ -35,7 +35,7 @@ BOOL CConfigData::InitDataReader()
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CConfigData::ReadEquipInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",			&CConfigData::ReadGemInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CConfigData::ReadPetInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CConfigData::ReadPartnerInfo));
+ 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CConfigData::ReadPartnerInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CConfigData::ReadTaskInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CConfigData::ReadSkillInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CConfigData::ReadBuffInfo));
@@ -806,6 +806,7 @@ BOOL CConfigData::ReadPetInfo(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StPetInfo stValue;
+		stValue.dwPetID = QueryData.getIntField("Id");
 		m_mapPetInfo.insert(std::make_pair(stValue.dwPetID, stValue));
 		QueryData.nextRow();
 	}
@@ -831,6 +832,8 @@ BOOL CConfigData::ReadPartnerInfo(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StPartnerInfo stValue;
+		stValue.dwPartnerID = QueryData.getIntField("Id");
+		stValue.dwActorID = QueryData.getIntField("ActorId");
 		m_mapPartnerInfo.insert(std::make_pair(stValue.dwPartnerID, stValue));
 		QueryData.nextRow();
 	}

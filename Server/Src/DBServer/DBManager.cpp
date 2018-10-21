@@ -245,6 +245,29 @@ BOOL CDBManager::GetPetData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetPartnerData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from partner where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBPartnerData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_partnerdata();
+		}
+		DBPartnerItem* pItem = pData->add_partnerlist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_partnerid(QueryRes.getIntField("partnerid", 0));
+		pItem->set_refinelevel(QueryRes.getIntField("refinelvl", 0));
+		pItem->set_strengthlvl(QueryRes.getIntField("strengthlvl", 0));
+		pItem->set_starlevel(QueryRes.getIntField("starlvl", 0));
+		pItem->set_setpos(QueryRes.getIntField("setpos", 0));
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 
@@ -255,6 +278,28 @@ BOOL CDBManager::GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetMountData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from mount where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBMountData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_mountdata();
+		}
+		DBMountItem* pItem = pData->add_mountlist();
+		pItem->set_guid(QueryRes.getInt64Field("guid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_mountid(QueryRes.getIntField("mountid", 0));
+		pItem->set_refinelevel(QueryRes.getIntField("refinelvl", 0));
+		pItem->set_strengthlvl(QueryRes.getIntField("strengthlvl", 0));
+		pItem->set_starlevel(QueryRes.getIntField("starlvl", 0));
+		pItem->set_isusing(QueryRes.getIntField("isuse", 0));
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 

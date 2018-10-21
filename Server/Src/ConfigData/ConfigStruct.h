@@ -191,11 +191,13 @@ struct StGemInfo
 struct StPetInfo
 {
 	UINT32 dwPetID;		//! ID
+	UINT32  dwActorID;
 };
 
 struct StPartnerInfo
 {
-	UINT32 dwPartnerID;		//! ID
+	UINT32  dwPartnerID;		//! ID
+	UINT32  dwActorID;
 };
 
 

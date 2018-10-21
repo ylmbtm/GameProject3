@@ -56,8 +56,13 @@ BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBMountItem& MountItem = MountData.mountlist(i);
 		MountDataObject* pObject = g_pMountDataObjectPool->NewObject(FALSE);
-		pObject->lock();
-		pObject->unlock();
+		pObject->m_uGuid = MountItem.guid();
+		pObject->m_uRoleID = MountItem.roleid();
+		pObject->m_MountID = MountItem.mountid();
+		pObject->m_StrengthLvl = MountItem.strengthlvl();
+		pObject->m_RefineLevel = MountItem.refinelevel();
+		pObject->m_StarLevel = MountItem.starlevel();
+		pObject->m_IsUsing = MountItem.isusing();
 		m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 	return TRUE;
@@ -65,6 +70,20 @@ BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 
 BOOL CMountModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
+	for (auto itor = m_mapMountData.begin(); itor != m_mapMountData.end(); itor++)
+	{
+		MountDataObject* pObject = itor->second;
+		MountItem* pItem = Ack.add_mountlist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_mountid(pObject->m_MountID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
+	}
+
 	return TRUE;
 }
 
@@ -82,12 +101,14 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
 	MountDataObject* pObject = g_pMountDataObjectPool->NewObject(TRUE);
 	pObject->lock();
+	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 0;
 	pObject->m_RefineExp = 0;
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
+	pObject->m_IsUsing = FALSE;
 	pObject->unlock();
 	m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
@@ -106,8 +127,15 @@ BOOL CMountModule::NotifyChange()
 	{
 		MountDataObject* pObject = GetMountByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
-
 		MountItem* pItem = Nty.add_changelist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_mountid(pObject->m_MountID);
+		pItem->set_strengthlvl(pObject->m_StrengthLvl);
+		pItem->set_refinelevel(pObject->m_RefineLevel);
+		pItem->set_starlevel(pObject->m_StarLevel);
+		pItem->set_refineexp(pObject->m_RefineExp);
+		pItem->set_starexp(pObject->m_StarExp);
+		pItem->set_isusing(pObject->m_IsUsing);
 	}
 
 	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)

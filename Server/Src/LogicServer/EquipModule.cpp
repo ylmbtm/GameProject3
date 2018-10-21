@@ -298,43 +298,43 @@ BOOL CEquipModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_DRESS_EQUIP_REQ, OnMsgDressEquipReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNDRESS_EQUIP_REQ, OnMsgUnDressEquipReq);
+			PROCESS_MESSAGE_ITEM(MSG_SETUP_EQUIP_REQ, OnMsgSetupEquipReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNSET_EQUIP_REQ, OnMsgUnsetEquipReq);
 	}
 
 	return FALSE;
 }
 
 
-BOOL CEquipModule::OnMsgDressEquipReq(NetPacket* pNetPacket)
+BOOL CEquipModule::OnMsgSetupEquipReq(NetPacket* pNetPacket)
 {
-	DressEquipReq Req;
+	SetupEquipReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nRetCode = DressEquip(Req.equipguid(), Req.bagguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
-		DressEquipAck Ack;
+		SetupEquipAck Ack;
 		Ack.set_retcode(nRetCode);
-		m_pOwnPlayer->SendMsgProtoBuf(MSG_DRESS_EQUIP_ACK, Ack);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_EQUIP_ACK, Ack);
 	}
 
 	return TRUE;
 }
 
-BOOL CEquipModule::OnMsgUnDressEquipReq(NetPacket* pNetPacket)
+BOOL CEquipModule::OnMsgUnsetEquipReq(NetPacket* pNetPacket)
 {
-	UnDressEquipReq Req;
+	UnsetEquipReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nRetCode = UnDressEquip(Req.equipguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
-		UnDressEquipAck Ack;
+		UnsetEquipAck Ack;
 		Ack.set_retcode(nRetCode);
-		m_pOwnPlayer->SendMsgProtoBuf(MSG_UNDRESS_EQUIP_ACK, Ack);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_UNSET_EQUIP_ACK, Ack);
 	}
 
 	return TRUE;

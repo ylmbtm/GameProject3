@@ -1339,11 +1339,11 @@ class PartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 starexp() const;
   void set_starexp(::google::protobuf::int32 value);
 
-  // int32 IsUsing = 8;
-  void clear_isusing();
-  static const int kIsUsingFieldNumber = 8;
-  ::google::protobuf::int32 isusing() const;
-  void set_isusing(::google::protobuf::int32 value);
+  // int32 SetPos = 8;
+  void clear_setpos();
+  static const int kSetPosFieldNumber = 8;
+  ::google::protobuf::int32 setpos() const;
+  void set_setpos(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:PartnerItem)
  private:
@@ -1356,7 +1356,7 @@ class PartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 starlevel_;
   ::google::protobuf::int32 refineexp_;
   ::google::protobuf::int32 starexp_;
-  ::google::protobuf::int32 isusing_;
+  ::google::protobuf::int32 setpos_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsPartnerItemImpl();
@@ -1570,11 +1570,11 @@ class MountItem : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint64 guid() const;
   void set_guid(::google::protobuf::uint64 value);
 
-  // int32 ItemID = 2;
-  void clear_itemid();
-  static const int kItemIDFieldNumber = 2;
-  ::google::protobuf::int32 itemid() const;
-  void set_itemid(::google::protobuf::int32 value);
+  // int32 MountID = 2;
+  void clear_mountid();
+  static const int kMountIDFieldNumber = 2;
+  ::google::protobuf::int32 mountid() const;
+  void set_mountid(::google::protobuf::int32 value);
 
   // int32 StrengthLvl = 3;
   void clear_strengthlvl();
@@ -1617,7 +1617,7 @@ class MountItem : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 guid_;
-  ::google::protobuf::int32 itemid_;
+  ::google::protobuf::int32 mountid_;
   ::google::protobuf::int32 strengthlvl_;
   ::google::protobuf::int32 refinelevel_;
   ::google::protobuf::int32 starlevel_;
@@ -3624,18 +3624,18 @@ inline void PartnerItem::set_starexp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:PartnerItem.StarExp)
 }
 
-// int32 IsUsing = 8;
-inline void PartnerItem::clear_isusing() {
-  isusing_ = 0;
+// int32 SetPos = 8;
+inline void PartnerItem::clear_setpos() {
+  setpos_ = 0;
 }
-inline ::google::protobuf::int32 PartnerItem::isusing() const {
-  // @@protoc_insertion_point(field_get:PartnerItem.IsUsing)
-  return isusing_;
+inline ::google::protobuf::int32 PartnerItem::setpos() const {
+  // @@protoc_insertion_point(field_get:PartnerItem.SetPos)
+  return setpos_;
 }
-inline void PartnerItem::set_isusing(::google::protobuf::int32 value) {
+inline void PartnerItem::set_setpos(::google::protobuf::int32 value) {
   
-  isusing_ = value;
-  // @@protoc_insertion_point(field_set:PartnerItem.IsUsing)
+  setpos_ = value;
+  // @@protoc_insertion_point(field_set:PartnerItem.SetPos)
 }
 
 // -------------------------------------------------------------------
@@ -3720,18 +3720,18 @@ inline void MountItem::set_guid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:MountItem.Guid)
 }
 
-// int32 ItemID = 2;
-inline void MountItem::clear_itemid() {
-  itemid_ = 0;
+// int32 MountID = 2;
+inline void MountItem::clear_mountid() {
+  mountid_ = 0;
 }
-inline ::google::protobuf::int32 MountItem::itemid() const {
-  // @@protoc_insertion_point(field_get:MountItem.ItemID)
-  return itemid_;
+inline ::google::protobuf::int32 MountItem::mountid() const {
+  // @@protoc_insertion_point(field_get:MountItem.MountID)
+  return mountid_;
 }
-inline void MountItem::set_itemid(::google::protobuf::int32 value) {
+inline void MountItem::set_mountid(::google::protobuf::int32 value) {
   
-  itemid_ = value;
-  // @@protoc_insertion_point(field_set:MountItem.ItemID)
+  mountid_ = value;
+  // @@protoc_insertion_point(field_set:MountItem.MountID)
 }
 
 // int32 StrengthLvl = 3;

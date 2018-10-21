@@ -42,8 +42,8 @@ public:
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgDressGemReq(NetPacket* pNetPacket);  //穿装备请求
-	BOOL OnMsgUnDressGemReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgSetupGemReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgUnsetGemReq(NetPacket* pNetPacket);  //穿装备请求
 	//*********************消息处理定义结束******************************
 
 public:

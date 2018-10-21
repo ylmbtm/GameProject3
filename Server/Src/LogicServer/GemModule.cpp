@@ -217,35 +217,35 @@ UINT32 CGemModule::UnDressGem(UINT64 uGuid)
 	return MRC_SUCCESSED;
 }
 
-BOOL CGemModule::OnMsgDressGemReq(NetPacket* pNetPacket)
+BOOL CGemModule::OnMsgSetupGemReq(NetPacket* pNetPacket)
 {
-	DressGemReq Req;
+	SetupGemReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nRetCode = DressGem(Req.gemguid(), Req.bagguid(), Req.targetpos());
 	if (nRetCode != MRC_SUCCESSED)
 	{
-		DressGemAck Ack;
+		SetupGemAck Ack;
 		Ack.set_retcode(nRetCode);
-		m_pOwnPlayer->SendMsgProtoBuf(MSG_DRESS_GEM_ACK, Ack);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_GEM_ACK, Ack);
 	}
 
 	return TRUE;
 }
 
-BOOL CGemModule::OnMsgUnDressGemReq(NetPacket* pNetPacket)
+BOOL CGemModule::OnMsgUnsetGemReq(NetPacket* pNetPacket)
 {
-	UnDressGemReq Req;
+	UnsetGemReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
 	UINT32 nRetCode = UnDressGem(Req.gemguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
-		UnDressEquipAck Ack;
+		UnsetEquipAck Ack;
 		Ack.set_retcode(nRetCode);
-		m_pOwnPlayer->SendMsgProtoBuf(MSG_UNDRESS_GEM_ACK, Ack);
+		m_pOwnPlayer->SendMsgProtoBuf(MSG_UNSET_GEM_ACK, Ack);
 	}
 
 	return TRUE;
@@ -330,8 +330,8 @@ BOOL CGemModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_DRESS_GEM_REQ,		OnMsgDressGemReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNDRESS_GEM_REQ,	OnMsgUnDressGemReq);
+			PROCESS_MESSAGE_ITEM(MSG_SETUP_GEM_REQ,		OnMsgSetupGemReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNSET_GEM_REQ,		OnMsgUnsetGemReq);
 	}
 
 	return FALSE;

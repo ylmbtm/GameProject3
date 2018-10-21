@@ -76,7 +76,7 @@ public:
 		}
 		else
 		{
-			int left = 0, right = nCount - 1;
+			std::vector<TRankItem>::size_type left = 0, right = nCount - 1;
 			while (left <= right)
 			{
 				int mid = left + (right - left) / 2;

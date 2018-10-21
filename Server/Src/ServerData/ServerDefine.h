@@ -36,6 +36,8 @@
 
 #define EQUIP_MAX_NUM	    8
 
+#define PARTNER_MAX_NUM		2
+
 //副本战斗结果
 enum ECopyResult
 {

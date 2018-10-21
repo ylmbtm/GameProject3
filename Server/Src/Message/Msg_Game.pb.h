@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[73];
+  static const ::google::protobuf::internal::ParseTable schema[81];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -166,22 +166,38 @@ void InitDefaultsWatchHeartBeatReqImpl();
 void InitDefaultsWatchHeartBeatReq();
 void InitDefaultsWatchHeartBeatAckImpl();
 void InitDefaultsWatchHeartBeatAck();
-void InitDefaultsDressEquipReqImpl();
-void InitDefaultsDressEquipReq();
-void InitDefaultsDressEquipAckImpl();
-void InitDefaultsDressEquipAck();
-void InitDefaultsUnDressEquipReqImpl();
-void InitDefaultsUnDressEquipReq();
-void InitDefaultsUnDressEquipAckImpl();
-void InitDefaultsUnDressEquipAck();
-void InitDefaultsDressGemReqImpl();
-void InitDefaultsDressGemReq();
-void InitDefaultsDressGemAckImpl();
-void InitDefaultsDressGemAck();
-void InitDefaultsUnDressGemReqImpl();
-void InitDefaultsUnDressGemReq();
-void InitDefaultsUnDressGemAckImpl();
-void InitDefaultsUnDressGemAck();
+void InitDefaultsSetupEquipReqImpl();
+void InitDefaultsSetupEquipReq();
+void InitDefaultsSetupEquipAckImpl();
+void InitDefaultsSetupEquipAck();
+void InitDefaultsUnsetEquipReqImpl();
+void InitDefaultsUnsetEquipReq();
+void InitDefaultsUnsetEquipAckImpl();
+void InitDefaultsUnsetEquipAck();
+void InitDefaultsSetupGemReqImpl();
+void InitDefaultsSetupGemReq();
+void InitDefaultsSetupGemAckImpl();
+void InitDefaultsSetupGemAck();
+void InitDefaultsUnsetGemReqImpl();
+void InitDefaultsUnsetGemReq();
+void InitDefaultsUnsetGemAckImpl();
+void InitDefaultsUnsetGemAck();
+void InitDefaultsSetupPartnerReqImpl();
+void InitDefaultsSetupPartnerReq();
+void InitDefaultsSetupPartnerAckImpl();
+void InitDefaultsSetupPartnerAck();
+void InitDefaultsUnsetPartnerReqImpl();
+void InitDefaultsUnsetPartnerReq();
+void InitDefaultsUnsetPartnerAckImpl();
+void InitDefaultsUnsetPartnerAck();
+void InitDefaultsSetupMountReqImpl();
+void InitDefaultsSetupMountReq();
+void InitDefaultsSetupMountAckImpl();
+void InitDefaultsSetupMountAck();
+void InitDefaultsUnsetMountReqImpl();
+void InitDefaultsUnsetMountReq();
+void InitDefaultsUnsetMountAckImpl();
+void InitDefaultsUnsetMountAck();
 void InitDefaultsStoreBuyReqImpl();
 void InitDefaultsStoreBuyReq();
 void InitDefaultsStoreBuyAckImpl();
@@ -251,14 +267,22 @@ inline void InitDefaults() {
   InitDefaultsLogicRegToLoginAck();
   InitDefaultsWatchHeartBeatReq();
   InitDefaultsWatchHeartBeatAck();
-  InitDefaultsDressEquipReq();
-  InitDefaultsDressEquipAck();
-  InitDefaultsUnDressEquipReq();
-  InitDefaultsUnDressEquipAck();
-  InitDefaultsDressGemReq();
-  InitDefaultsDressGemAck();
-  InitDefaultsUnDressGemReq();
-  InitDefaultsUnDressGemAck();
+  InitDefaultsSetupEquipReq();
+  InitDefaultsSetupEquipAck();
+  InitDefaultsUnsetEquipReq();
+  InitDefaultsUnsetEquipAck();
+  InitDefaultsSetupGemReq();
+  InitDefaultsSetupGemAck();
+  InitDefaultsUnsetGemReq();
+  InitDefaultsUnsetGemAck();
+  InitDefaultsSetupPartnerReq();
+  InitDefaultsSetupPartnerAck();
+  InitDefaultsUnsetPartnerReq();
+  InitDefaultsUnsetPartnerAck();
+  InitDefaultsSetupMountReq();
+  InitDefaultsSetupMountAck();
+  InitDefaultsUnsetMountReq();
+  InitDefaultsUnsetMountAck();
   InitDefaultsStoreBuyReq();
   InitDefaultsStoreBuyAck();
   InitDefaultsObjectChangeNotify();
@@ -333,18 +357,6 @@ extern CreateNewSceneAckDefaultTypeInternal _CreateNewSceneAck_default_instance_
 class CreateNewSceneReq;
 class CreateNewSceneReqDefaultTypeInternal;
 extern CreateNewSceneReqDefaultTypeInternal _CreateNewSceneReq_default_instance_;
-class DressEquipAck;
-class DressEquipAckDefaultTypeInternal;
-extern DressEquipAckDefaultTypeInternal _DressEquipAck_default_instance_;
-class DressEquipReq;
-class DressEquipReqDefaultTypeInternal;
-extern DressEquipReqDefaultTypeInternal _DressEquipReq_default_instance_;
-class DressGemAck;
-class DressGemAckDefaultTypeInternal;
-extern DressGemAckDefaultTypeInternal _DressGemAck_default_instance_;
-class DressGemReq;
-class DressGemReqDefaultTypeInternal;
-extern DressGemReqDefaultTypeInternal _DressGemReq_default_instance_;
 class EnterSceneAck;
 class EnterSceneAckDefaultTypeInternal;
 extern EnterSceneAckDefaultTypeInternal _EnterSceneAck_default_instance_;
@@ -426,6 +438,30 @@ extern SelectServerAckDefaultTypeInternal _SelectServerAck_default_instance_;
 class SelectServerReq;
 class SelectServerReqDefaultTypeInternal;
 extern SelectServerReqDefaultTypeInternal _SelectServerReq_default_instance_;
+class SetupEquipAck;
+class SetupEquipAckDefaultTypeInternal;
+extern SetupEquipAckDefaultTypeInternal _SetupEquipAck_default_instance_;
+class SetupEquipReq;
+class SetupEquipReqDefaultTypeInternal;
+extern SetupEquipReqDefaultTypeInternal _SetupEquipReq_default_instance_;
+class SetupGemAck;
+class SetupGemAckDefaultTypeInternal;
+extern SetupGemAckDefaultTypeInternal _SetupGemAck_default_instance_;
+class SetupGemReq;
+class SetupGemReqDefaultTypeInternal;
+extern SetupGemReqDefaultTypeInternal _SetupGemReq_default_instance_;
+class SetupMountAck;
+class SetupMountAckDefaultTypeInternal;
+extern SetupMountAckDefaultTypeInternal _SetupMountAck_default_instance_;
+class SetupMountReq;
+class SetupMountReqDefaultTypeInternal;
+extern SetupMountReqDefaultTypeInternal _SetupMountReq_default_instance_;
+class SetupPartnerAck;
+class SetupPartnerAckDefaultTypeInternal;
+extern SetupPartnerAckDefaultTypeInternal _SetupPartnerAck_default_instance_;
+class SetupPartnerReq;
+class SetupPartnerReqDefaultTypeInternal;
+extern SetupPartnerReqDefaultTypeInternal _SetupPartnerReq_default_instance_;
 class StoreBuyAck;
 class StoreBuyAckDefaultTypeInternal;
 extern StoreBuyAckDefaultTypeInternal _StoreBuyAck_default_instance_;
@@ -453,18 +489,30 @@ extern TransferDataAckDefaultTypeInternal _TransferDataAck_default_instance_;
 class TransferDataReq;
 class TransferDataReqDefaultTypeInternal;
 extern TransferDataReqDefaultTypeInternal _TransferDataReq_default_instance_;
-class UnDressEquipAck;
-class UnDressEquipAckDefaultTypeInternal;
-extern UnDressEquipAckDefaultTypeInternal _UnDressEquipAck_default_instance_;
-class UnDressEquipReq;
-class UnDressEquipReqDefaultTypeInternal;
-extern UnDressEquipReqDefaultTypeInternal _UnDressEquipReq_default_instance_;
-class UnDressGemAck;
-class UnDressGemAckDefaultTypeInternal;
-extern UnDressGemAckDefaultTypeInternal _UnDressGemAck_default_instance_;
-class UnDressGemReq;
-class UnDressGemReqDefaultTypeInternal;
-extern UnDressGemReqDefaultTypeInternal _UnDressGemReq_default_instance_;
+class UnsetEquipAck;
+class UnsetEquipAckDefaultTypeInternal;
+extern UnsetEquipAckDefaultTypeInternal _UnsetEquipAck_default_instance_;
+class UnsetEquipReq;
+class UnsetEquipReqDefaultTypeInternal;
+extern UnsetEquipReqDefaultTypeInternal _UnsetEquipReq_default_instance_;
+class UnsetGemAck;
+class UnsetGemAckDefaultTypeInternal;
+extern UnsetGemAckDefaultTypeInternal _UnsetGemAck_default_instance_;
+class UnsetGemReq;
+class UnsetGemReqDefaultTypeInternal;
+extern UnsetGemReqDefaultTypeInternal _UnsetGemReq_default_instance_;
+class UnsetMountAck;
+class UnsetMountAckDefaultTypeInternal;
+extern UnsetMountAckDefaultTypeInternal _UnsetMountAck_default_instance_;
+class UnsetMountReq;
+class UnsetMountReqDefaultTypeInternal;
+extern UnsetMountReqDefaultTypeInternal _UnsetMountReq_default_instance_;
+class UnsetPartnerAck;
+class UnsetPartnerAckDefaultTypeInternal;
+extern UnsetPartnerAckDefaultTypeInternal _UnsetPartnerAck_default_instance_;
+class UnsetPartnerReq;
+class UnsetPartnerReqDefaultTypeInternal;
+extern UnsetPartnerReqDefaultTypeInternal _UnsetPartnerReq_default_instance_;
 class UseHpBottleAck;
 class UseHpBottleAckDefaultTypeInternal;
 extern UseHpBottleAckDefaultTypeInternal _UseHpBottleAck_default_instance_;
@@ -7902,24 +7950,24 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
 };
 // -------------------------------------------------------------------
 
-class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressEquipReq) */ {
+class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupEquipReq) */ {
  public:
-  DressEquipReq();
-  virtual ~DressEquipReq();
+  SetupEquipReq();
+  virtual ~SetupEquipReq();
 
-  DressEquipReq(const DressEquipReq& from);
+  SetupEquipReq(const SetupEquipReq& from);
 
-  inline DressEquipReq& operator=(const DressEquipReq& from) {
+  inline SetupEquipReq& operator=(const SetupEquipReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DressEquipReq(DressEquipReq&& from) noexcept
-    : DressEquipReq() {
+  SetupEquipReq(SetupEquipReq&& from) noexcept
+    : SetupEquipReq() {
     *this = ::std::move(from);
   }
 
-  inline DressEquipReq& operator=(DressEquipReq&& from) noexcept {
+  inline SetupEquipReq& operator=(SetupEquipReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -7929,30 +7977,30 @@ class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const DressEquipReq& default_instance();
+  static const SetupEquipReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DressEquipReq* internal_default_instance() {
-    return reinterpret_cast<const DressEquipReq*>(
-               &_DressEquipReq_default_instance_);
+  static inline const SetupEquipReq* internal_default_instance() {
+    return reinterpret_cast<const SetupEquipReq*>(
+               &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     62;
 
-  void Swap(DressEquipReq* other);
-  friend void swap(DressEquipReq& a, DressEquipReq& b) {
+  void Swap(SetupEquipReq* other);
+  friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DressEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  DressEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const DressEquipReq& from);
-  void MergeFrom(const DressEquipReq& from);
+  void CopyFrom(const SetupEquipReq& from);
+  void MergeFrom(const SetupEquipReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -7968,7 +8016,7 @@ class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(DressEquipReq* other);
+  void InternalSwap(SetupEquipReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -7996,7 +8044,7 @@ class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 bagguid() const;
   void set_bagguid(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:DressEquipReq)
+  // @@protoc_insertion_point(class_scope:SetupEquipReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -8004,28 +8052,28 @@ class DressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 bagguid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressEquipReqImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupEquipReqImpl();
 };
 // -------------------------------------------------------------------
 
-class DressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressEquipAck) */ {
+class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupEquipAck) */ {
  public:
-  DressEquipAck();
-  virtual ~DressEquipAck();
+  SetupEquipAck();
+  virtual ~SetupEquipAck();
 
-  DressEquipAck(const DressEquipAck& from);
+  SetupEquipAck(const SetupEquipAck& from);
 
-  inline DressEquipAck& operator=(const DressEquipAck& from) {
+  inline SetupEquipAck& operator=(const SetupEquipAck& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DressEquipAck(DressEquipAck&& from) noexcept
-    : DressEquipAck() {
+  SetupEquipAck(SetupEquipAck&& from) noexcept
+    : SetupEquipAck() {
     *this = ::std::move(from);
   }
 
-  inline DressEquipAck& operator=(DressEquipAck&& from) noexcept {
+  inline SetupEquipAck& operator=(SetupEquipAck&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8035,30 +8083,30 @@ class DressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const DressEquipAck& default_instance();
+  static const SetupEquipAck& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DressEquipAck* internal_default_instance() {
-    return reinterpret_cast<const DressEquipAck*>(
-               &_DressEquipAck_default_instance_);
+  static inline const SetupEquipAck* internal_default_instance() {
+    return reinterpret_cast<const SetupEquipAck*>(
+               &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     63;
 
-  void Swap(DressEquipAck* other);
-  friend void swap(DressEquipAck& a, DressEquipAck& b) {
+  void Swap(SetupEquipAck* other);
+  friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DressEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  DressEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const DressEquipAck& from);
-  void MergeFrom(const DressEquipAck& from);
+  void CopyFrom(const SetupEquipAck& from);
+  void MergeFrom(const SetupEquipAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8074,7 +8122,7 @@ class DressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(DressEquipAck* other);
+  void InternalSwap(SetupEquipAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8096,35 +8144,35 @@ class DressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:DressEquipAck)
+  // @@protoc_insertion_point(class_scope:SetupEquipAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressEquipAckImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupEquipAckImpl();
 };
 // -------------------------------------------------------------------
 
-class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressEquipReq) */ {
+class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetEquipReq) */ {
  public:
-  UnDressEquipReq();
-  virtual ~UnDressEquipReq();
+  UnsetEquipReq();
+  virtual ~UnsetEquipReq();
 
-  UnDressEquipReq(const UnDressEquipReq& from);
+  UnsetEquipReq(const UnsetEquipReq& from);
 
-  inline UnDressEquipReq& operator=(const UnDressEquipReq& from) {
+  inline UnsetEquipReq& operator=(const UnsetEquipReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  UnDressEquipReq(UnDressEquipReq&& from) noexcept
-    : UnDressEquipReq() {
+  UnsetEquipReq(UnsetEquipReq&& from) noexcept
+    : UnsetEquipReq() {
     *this = ::std::move(from);
   }
 
-  inline UnDressEquipReq& operator=(UnDressEquipReq&& from) noexcept {
+  inline UnsetEquipReq& operator=(UnsetEquipReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8134,30 +8182,30 @@ class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnDressEquipReq& default_instance();
+  static const UnsetEquipReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UnDressEquipReq* internal_default_instance() {
-    return reinterpret_cast<const UnDressEquipReq*>(
-               &_UnDressEquipReq_default_instance_);
+  static inline const UnsetEquipReq* internal_default_instance() {
+    return reinterpret_cast<const UnsetEquipReq*>(
+               &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     64;
 
-  void Swap(UnDressEquipReq* other);
-  friend void swap(UnDressEquipReq& a, UnDressEquipReq& b) {
+  void Swap(UnsetEquipReq* other);
+  friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline UnDressEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline UnsetEquipReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  UnDressEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  UnsetEquipReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const UnDressEquipReq& from);
-  void MergeFrom(const UnDressEquipReq& from);
+  void CopyFrom(const UnsetEquipReq& from);
+  void MergeFrom(const UnsetEquipReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8173,7 +8221,7 @@ class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(UnDressEquipReq* other);
+  void InternalSwap(UnsetEquipReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8195,35 +8243,35 @@ class UnDressEquipReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint64 equipguid() const;
   void set_equipguid(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:UnDressEquipReq)
+  // @@protoc_insertion_point(class_scope:UnsetEquipReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 equipguid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressEquipReqImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetEquipReqImpl();
 };
 // -------------------------------------------------------------------
 
-class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressEquipAck) */ {
+class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetEquipAck) */ {
  public:
-  UnDressEquipAck();
-  virtual ~UnDressEquipAck();
+  UnsetEquipAck();
+  virtual ~UnsetEquipAck();
 
-  UnDressEquipAck(const UnDressEquipAck& from);
+  UnsetEquipAck(const UnsetEquipAck& from);
 
-  inline UnDressEquipAck& operator=(const UnDressEquipAck& from) {
+  inline UnsetEquipAck& operator=(const UnsetEquipAck& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  UnDressEquipAck(UnDressEquipAck&& from) noexcept
-    : UnDressEquipAck() {
+  UnsetEquipAck(UnsetEquipAck&& from) noexcept
+    : UnsetEquipAck() {
     *this = ::std::move(from);
   }
 
-  inline UnDressEquipAck& operator=(UnDressEquipAck&& from) noexcept {
+  inline UnsetEquipAck& operator=(UnsetEquipAck&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8233,30 +8281,30 @@ class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnDressEquipAck& default_instance();
+  static const UnsetEquipAck& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UnDressEquipAck* internal_default_instance() {
-    return reinterpret_cast<const UnDressEquipAck*>(
-               &_UnDressEquipAck_default_instance_);
+  static inline const UnsetEquipAck* internal_default_instance() {
+    return reinterpret_cast<const UnsetEquipAck*>(
+               &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     65;
 
-  void Swap(UnDressEquipAck* other);
-  friend void swap(UnDressEquipAck& a, UnDressEquipAck& b) {
+  void Swap(UnsetEquipAck* other);
+  friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline UnDressEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline UnsetEquipAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  UnDressEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  UnsetEquipAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const UnDressEquipAck& from);
-  void MergeFrom(const UnDressEquipAck& from);
+  void CopyFrom(const UnsetEquipAck& from);
+  void MergeFrom(const UnsetEquipAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8272,7 +8320,7 @@ class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(UnDressEquipAck* other);
+  void InternalSwap(UnsetEquipAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8294,35 +8342,35 @@ class UnDressEquipAck : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:UnDressEquipAck)
+  // @@protoc_insertion_point(class_scope:UnsetEquipAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressEquipAckImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetEquipAckImpl();
 };
 // -------------------------------------------------------------------
 
-class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressGemReq) */ {
+class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupGemReq) */ {
  public:
-  DressGemReq();
-  virtual ~DressGemReq();
+  SetupGemReq();
+  virtual ~SetupGemReq();
 
-  DressGemReq(const DressGemReq& from);
+  SetupGemReq(const SetupGemReq& from);
 
-  inline DressGemReq& operator=(const DressGemReq& from) {
+  inline SetupGemReq& operator=(const SetupGemReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DressGemReq(DressGemReq&& from) noexcept
-    : DressGemReq() {
+  SetupGemReq(SetupGemReq&& from) noexcept
+    : SetupGemReq() {
     *this = ::std::move(from);
   }
 
-  inline DressGemReq& operator=(DressGemReq&& from) noexcept {
+  inline SetupGemReq& operator=(SetupGemReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8332,30 +8380,30 @@ class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const DressGemReq& default_instance();
+  static const SetupGemReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DressGemReq* internal_default_instance() {
-    return reinterpret_cast<const DressGemReq*>(
-               &_DressGemReq_default_instance_);
+  static inline const SetupGemReq* internal_default_instance() {
+    return reinterpret_cast<const SetupGemReq*>(
+               &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     66;
 
-  void Swap(DressGemReq* other);
-  friend void swap(DressGemReq& a, DressGemReq& b) {
+  void Swap(SetupGemReq* other);
+  friend void swap(SetupGemReq& a, SetupGemReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DressGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  DressGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const DressGemReq& from);
-  void MergeFrom(const DressGemReq& from);
+  void CopyFrom(const SetupGemReq& from);
+  void MergeFrom(const SetupGemReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8371,7 +8419,7 @@ class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(DressGemReq* other);
+  void InternalSwap(SetupGemReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8405,7 +8453,7 @@ class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 targetpos() const;
   void set_targetpos(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:DressGemReq)
+  // @@protoc_insertion_point(class_scope:SetupGemReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -8414,28 +8462,28 @@ class DressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 targetpos_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressGemReqImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupGemReqImpl();
 };
 // -------------------------------------------------------------------
 
-class DressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DressGemAck) */ {
+class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupGemAck) */ {
  public:
-  DressGemAck();
-  virtual ~DressGemAck();
+  SetupGemAck();
+  virtual ~SetupGemAck();
 
-  DressGemAck(const DressGemAck& from);
+  SetupGemAck(const SetupGemAck& from);
 
-  inline DressGemAck& operator=(const DressGemAck& from) {
+  inline SetupGemAck& operator=(const SetupGemAck& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DressGemAck(DressGemAck&& from) noexcept
-    : DressGemAck() {
+  SetupGemAck(SetupGemAck&& from) noexcept
+    : SetupGemAck() {
     *this = ::std::move(from);
   }
 
-  inline DressGemAck& operator=(DressGemAck&& from) noexcept {
+  inline SetupGemAck& operator=(SetupGemAck&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8445,30 +8493,30 @@ class DressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const DressGemAck& default_instance();
+  static const SetupGemAck& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DressGemAck* internal_default_instance() {
-    return reinterpret_cast<const DressGemAck*>(
-               &_DressGemAck_default_instance_);
+  static inline const SetupGemAck* internal_default_instance() {
+    return reinterpret_cast<const SetupGemAck*>(
+               &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     67;
 
-  void Swap(DressGemAck* other);
-  friend void swap(DressGemAck& a, DressGemAck& b) {
+  void Swap(SetupGemAck* other);
+  friend void swap(SetupGemAck& a, SetupGemAck& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DressGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline SetupGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  DressGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  SetupGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const DressGemAck& from);
-  void MergeFrom(const DressGemAck& from);
+  void CopyFrom(const SetupGemAck& from);
+  void MergeFrom(const SetupGemAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8484,7 +8532,7 @@ class DressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(DressGemAck* other);
+  void InternalSwap(SetupGemAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8506,35 +8554,35 @@ class DressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:DressGemAck)
+  // @@protoc_insertion_point(class_scope:SetupGemAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsDressGemAckImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupGemAckImpl();
 };
 // -------------------------------------------------------------------
 
-class UnDressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressGemReq) */ {
+class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetGemReq) */ {
  public:
-  UnDressGemReq();
-  virtual ~UnDressGemReq();
+  UnsetGemReq();
+  virtual ~UnsetGemReq();
 
-  UnDressGemReq(const UnDressGemReq& from);
+  UnsetGemReq(const UnsetGemReq& from);
 
-  inline UnDressGemReq& operator=(const UnDressGemReq& from) {
+  inline UnsetGemReq& operator=(const UnsetGemReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  UnDressGemReq(UnDressGemReq&& from) noexcept
-    : UnDressGemReq() {
+  UnsetGemReq(UnsetGemReq&& from) noexcept
+    : UnsetGemReq() {
     *this = ::std::move(from);
   }
 
-  inline UnDressGemReq& operator=(UnDressGemReq&& from) noexcept {
+  inline UnsetGemReq& operator=(UnsetGemReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8544,30 +8592,30 @@ class UnDressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnDressGemReq& default_instance();
+  static const UnsetGemReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UnDressGemReq* internal_default_instance() {
-    return reinterpret_cast<const UnDressGemReq*>(
-               &_UnDressGemReq_default_instance_);
+  static inline const UnsetGemReq* internal_default_instance() {
+    return reinterpret_cast<const UnsetGemReq*>(
+               &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     68;
 
-  void Swap(UnDressGemReq* other);
-  friend void swap(UnDressGemReq& a, UnDressGemReq& b) {
+  void Swap(UnsetGemReq* other);
+  friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline UnDressGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline UnsetGemReq* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  UnDressGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  UnsetGemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const UnDressGemReq& from);
-  void MergeFrom(const UnDressGemReq& from);
+  void CopyFrom(const UnsetGemReq& from);
+  void MergeFrom(const UnsetGemReq& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8583,7 +8631,7 @@ class UnDressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(UnDressGemReq* other);
+  void InternalSwap(UnsetGemReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8605,35 +8653,35 @@ class UnDressGemReq : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 gemguid() const;
   void set_gemguid(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:UnDressGemReq)
+  // @@protoc_insertion_point(class_scope:UnsetGemReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 gemguid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressGemReqImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetGemReqImpl();
 };
 // -------------------------------------------------------------------
 
-class UnDressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnDressGemAck) */ {
+class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetGemAck) */ {
  public:
-  UnDressGemAck();
-  virtual ~UnDressGemAck();
+  UnsetGemAck();
+  virtual ~UnsetGemAck();
 
-  UnDressGemAck(const UnDressGemAck& from);
+  UnsetGemAck(const UnsetGemAck& from);
 
-  inline UnDressGemAck& operator=(const UnDressGemAck& from) {
+  inline UnsetGemAck& operator=(const UnsetGemAck& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  UnDressGemAck(UnDressGemAck&& from) noexcept
-    : UnDressGemAck() {
+  UnsetGemAck(UnsetGemAck&& from) noexcept
+    : UnsetGemAck() {
     *this = ::std::move(from);
   }
 
-  inline UnDressGemAck& operator=(UnDressGemAck&& from) noexcept {
+  inline UnsetGemAck& operator=(UnsetGemAck&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -8643,30 +8691,30 @@ class UnDressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnDressGemAck& default_instance();
+  static const UnsetGemAck& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UnDressGemAck* internal_default_instance() {
-    return reinterpret_cast<const UnDressGemAck*>(
-               &_UnDressGemAck_default_instance_);
+  static inline const UnsetGemAck* internal_default_instance() {
+    return reinterpret_cast<const UnsetGemAck*>(
+               &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     69;
 
-  void Swap(UnDressGemAck* other);
-  friend void swap(UnDressGemAck& a, UnDressGemAck& b) {
+  void Swap(UnsetGemAck* other);
+  friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline UnDressGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline UnsetGemAck* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  UnDressGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  UnsetGemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const UnDressGemAck& from);
-  void MergeFrom(const UnDressGemAck& from);
+  void CopyFrom(const UnsetGemAck& from);
+  void MergeFrom(const UnsetGemAck& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -8682,7 +8730,7 @@ class UnDressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(UnDressGemAck* other);
+  void InternalSwap(UnsetGemAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -8704,14 +8752,820 @@ class UnDressGemAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:UnDressGemAck)
+  // @@protoc_insertion_point(class_scope:UnsetGemAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnDressGemAckImpl();
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetGemAckImpl();
+};
+// -------------------------------------------------------------------
+
+class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPartnerReq) */ {
+ public:
+  SetupPartnerReq();
+  virtual ~SetupPartnerReq();
+
+  SetupPartnerReq(const SetupPartnerReq& from);
+
+  inline SetupPartnerReq& operator=(const SetupPartnerReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetupPartnerReq(SetupPartnerReq&& from) noexcept
+    : SetupPartnerReq() {
+    *this = ::std::move(from);
+  }
+
+  inline SetupPartnerReq& operator=(SetupPartnerReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPartnerReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetupPartnerReq* internal_default_instance() {
+    return reinterpret_cast<const SetupPartnerReq*>(
+               &_SetupPartnerReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    70;
+
+  void Swap(SetupPartnerReq* other);
+  friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPartnerReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPartnerReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPartnerReq& from);
+  void MergeFrom(const SetupPartnerReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPartnerReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 PartnerGuid = 1;
+  void clear_partnerguid();
+  static const int kPartnerGuidFieldNumber = 1;
+  ::google::protobuf::uint64 partnerguid() const;
+  void set_partnerguid(::google::protobuf::uint64 value);
+
+  // int32 TargetPos = 2;
+  void clear_targetpos();
+  static const int kTargetPosFieldNumber = 2;
+  ::google::protobuf::int32 targetpos() const;
+  void set_targetpos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPartnerReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 partnerguid_;
+  ::google::protobuf::int32 targetpos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupPartnerReqImpl();
+};
+// -------------------------------------------------------------------
+
+class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupPartnerAck) */ {
+ public:
+  SetupPartnerAck();
+  virtual ~SetupPartnerAck();
+
+  SetupPartnerAck(const SetupPartnerAck& from);
+
+  inline SetupPartnerAck& operator=(const SetupPartnerAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetupPartnerAck(SetupPartnerAck&& from) noexcept
+    : SetupPartnerAck() {
+    *this = ::std::move(from);
+  }
+
+  inline SetupPartnerAck& operator=(SetupPartnerAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupPartnerAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetupPartnerAck* internal_default_instance() {
+    return reinterpret_cast<const SetupPartnerAck*>(
+               &_SetupPartnerAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    71;
+
+  void Swap(SetupPartnerAck* other);
+  friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetupPartnerAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupPartnerAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupPartnerAck& from);
+  void MergeFrom(const SetupPartnerAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupPartnerAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupPartnerAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupPartnerAckImpl();
+};
+// -------------------------------------------------------------------
+
+class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetPartnerReq) */ {
+ public:
+  UnsetPartnerReq();
+  virtual ~UnsetPartnerReq();
+
+  UnsetPartnerReq(const UnsetPartnerReq& from);
+
+  inline UnsetPartnerReq& operator=(const UnsetPartnerReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnsetPartnerReq(UnsetPartnerReq&& from) noexcept
+    : UnsetPartnerReq() {
+    *this = ::std::move(from);
+  }
+
+  inline UnsetPartnerReq& operator=(UnsetPartnerReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnsetPartnerReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnsetPartnerReq* internal_default_instance() {
+    return reinterpret_cast<const UnsetPartnerReq*>(
+               &_UnsetPartnerReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    72;
+
+  void Swap(UnsetPartnerReq* other);
+  friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnsetPartnerReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnsetPartnerReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnsetPartnerReq& from);
+  void MergeFrom(const UnsetPartnerReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnsetPartnerReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 TargetPos = 1;
+  void clear_targetpos();
+  static const int kTargetPosFieldNumber = 1;
+  ::google::protobuf::int32 targetpos() const;
+  void set_targetpos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:UnsetPartnerReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 targetpos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetPartnerReqImpl();
+};
+// -------------------------------------------------------------------
+
+class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetPartnerAck) */ {
+ public:
+  UnsetPartnerAck();
+  virtual ~UnsetPartnerAck();
+
+  UnsetPartnerAck(const UnsetPartnerAck& from);
+
+  inline UnsetPartnerAck& operator=(const UnsetPartnerAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnsetPartnerAck(UnsetPartnerAck&& from) noexcept
+    : UnsetPartnerAck() {
+    *this = ::std::move(from);
+  }
+
+  inline UnsetPartnerAck& operator=(UnsetPartnerAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnsetPartnerAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnsetPartnerAck* internal_default_instance() {
+    return reinterpret_cast<const UnsetPartnerAck*>(
+               &_UnsetPartnerAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    73;
+
+  void Swap(UnsetPartnerAck* other);
+  friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnsetPartnerAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnsetPartnerAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnsetPartnerAck& from);
+  void MergeFrom(const UnsetPartnerAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnsetPartnerAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:UnsetPartnerAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetPartnerAckImpl();
+};
+// -------------------------------------------------------------------
+
+class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupMountReq) */ {
+ public:
+  SetupMountReq();
+  virtual ~SetupMountReq();
+
+  SetupMountReq(const SetupMountReq& from);
+
+  inline SetupMountReq& operator=(const SetupMountReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetupMountReq(SetupMountReq&& from) noexcept
+    : SetupMountReq() {
+    *this = ::std::move(from);
+  }
+
+  inline SetupMountReq& operator=(SetupMountReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupMountReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetupMountReq* internal_default_instance() {
+    return reinterpret_cast<const SetupMountReq*>(
+               &_SetupMountReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    74;
+
+  void Swap(SetupMountReq* other);
+  friend void swap(SetupMountReq& a, SetupMountReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetupMountReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupMountReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupMountReq& from);
+  void MergeFrom(const SetupMountReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupMountReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 MountGuid = 1;
+  void clear_mountguid();
+  static const int kMountGuidFieldNumber = 1;
+  ::google::protobuf::uint64 mountguid() const;
+  void set_mountguid(::google::protobuf::uint64 value);
+
+  // int32 TargetPos = 2;
+  void clear_targetpos();
+  static const int kTargetPosFieldNumber = 2;
+  ::google::protobuf::int32 targetpos() const;
+  void set_targetpos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupMountReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 mountguid_;
+  ::google::protobuf::int32 targetpos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupMountReqImpl();
+};
+// -------------------------------------------------------------------
+
+class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetupMountAck) */ {
+ public:
+  SetupMountAck();
+  virtual ~SetupMountAck();
+
+  SetupMountAck(const SetupMountAck& from);
+
+  inline SetupMountAck& operator=(const SetupMountAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetupMountAck(SetupMountAck&& from) noexcept
+    : SetupMountAck() {
+    *this = ::std::move(from);
+  }
+
+  inline SetupMountAck& operator=(SetupMountAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetupMountAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetupMountAck* internal_default_instance() {
+    return reinterpret_cast<const SetupMountAck*>(
+               &_SetupMountAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    75;
+
+  void Swap(SetupMountAck* other);
+  friend void swap(SetupMountAck& a, SetupMountAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetupMountAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetupMountAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetupMountAck& from);
+  void MergeFrom(const SetupMountAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetupMountAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:SetupMountAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetupMountAckImpl();
+};
+// -------------------------------------------------------------------
+
+class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetMountReq) */ {
+ public:
+  UnsetMountReq();
+  virtual ~UnsetMountReq();
+
+  UnsetMountReq(const UnsetMountReq& from);
+
+  inline UnsetMountReq& operator=(const UnsetMountReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnsetMountReq(UnsetMountReq&& from) noexcept
+    : UnsetMountReq() {
+    *this = ::std::move(from);
+  }
+
+  inline UnsetMountReq& operator=(UnsetMountReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnsetMountReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnsetMountReq* internal_default_instance() {
+    return reinterpret_cast<const UnsetMountReq*>(
+               &_UnsetMountReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    76;
+
+  void Swap(UnsetMountReq* other);
+  friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnsetMountReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnsetMountReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnsetMountReq& from);
+  void MergeFrom(const UnsetMountReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnsetMountReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 MountGuid = 1;
+  void clear_mountguid();
+  static const int kMountGuidFieldNumber = 1;
+  ::google::protobuf::uint64 mountguid() const;
+  void set_mountguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:UnsetMountReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 mountguid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetMountReqImpl();
+};
+// -------------------------------------------------------------------
+
+class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UnsetMountAck) */ {
+ public:
+  UnsetMountAck();
+  virtual ~UnsetMountAck();
+
+  UnsetMountAck(const UnsetMountAck& from);
+
+  inline UnsetMountAck& operator=(const UnsetMountAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnsetMountAck(UnsetMountAck&& from) noexcept
+    : UnsetMountAck() {
+    *this = ::std::move(from);
+  }
+
+  inline UnsetMountAck& operator=(UnsetMountAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnsetMountAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnsetMountAck* internal_default_instance() {
+    return reinterpret_cast<const UnsetMountAck*>(
+               &_UnsetMountAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    77;
+
+  void Swap(UnsetMountAck* other);
+  friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnsetMountAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UnsetMountAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UnsetMountAck& from);
+  void MergeFrom(const UnsetMountAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UnsetMountAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:UnsetMountAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUnsetMountAckImpl();
 };
 // -------------------------------------------------------------------
 
@@ -8750,7 +9604,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    78;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -8863,7 +9717,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    79;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -8962,7 +9816,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    80;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -13584,188 +14438,360 @@ inline void WatchHeartBeatAck::set_processid(::google::protobuf::uint64 value) {
 
 // -------------------------------------------------------------------
 
-// DressEquipReq
+// SetupEquipReq
 
 // uint64 EquipGuid = 1;
-inline void DressEquipReq::clear_equipguid() {
+inline void SetupEquipReq::clear_equipguid() {
   equipguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 DressEquipReq::equipguid() const {
-  // @@protoc_insertion_point(field_get:DressEquipReq.EquipGuid)
+inline ::google::protobuf::uint64 SetupEquipReq::equipguid() const {
+  // @@protoc_insertion_point(field_get:SetupEquipReq.EquipGuid)
   return equipguid_;
 }
-inline void DressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
+inline void SetupEquipReq::set_equipguid(::google::protobuf::uint64 value) {
   
   equipguid_ = value;
-  // @@protoc_insertion_point(field_set:DressEquipReq.EquipGuid)
+  // @@protoc_insertion_point(field_set:SetupEquipReq.EquipGuid)
 }
 
 // uint64 BagGuid = 2;
-inline void DressEquipReq::clear_bagguid() {
+inline void SetupEquipReq::clear_bagguid() {
   bagguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 DressEquipReq::bagguid() const {
-  // @@protoc_insertion_point(field_get:DressEquipReq.BagGuid)
+inline ::google::protobuf::uint64 SetupEquipReq::bagguid() const {
+  // @@protoc_insertion_point(field_get:SetupEquipReq.BagGuid)
   return bagguid_;
 }
-inline void DressEquipReq::set_bagguid(::google::protobuf::uint64 value) {
+inline void SetupEquipReq::set_bagguid(::google::protobuf::uint64 value) {
   
   bagguid_ = value;
-  // @@protoc_insertion_point(field_set:DressEquipReq.BagGuid)
+  // @@protoc_insertion_point(field_set:SetupEquipReq.BagGuid)
 }
 
 // -------------------------------------------------------------------
 
-// DressEquipAck
+// SetupEquipAck
 
 // uint32 RetCode = 1;
-inline void DressEquipAck::clear_retcode() {
+inline void SetupEquipAck::clear_retcode() {
   retcode_ = 0u;
 }
-inline ::google::protobuf::uint32 DressEquipAck::retcode() const {
-  // @@protoc_insertion_point(field_get:DressEquipAck.RetCode)
+inline ::google::protobuf::uint32 SetupEquipAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupEquipAck.RetCode)
   return retcode_;
 }
-inline void DressEquipAck::set_retcode(::google::protobuf::uint32 value) {
+inline void SetupEquipAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
-  // @@protoc_insertion_point(field_set:DressEquipAck.RetCode)
+  // @@protoc_insertion_point(field_set:SetupEquipAck.RetCode)
 }
 
 // -------------------------------------------------------------------
 
-// UnDressEquipReq
+// UnsetEquipReq
 
 // uint64 EquipGuid = 1;
-inline void UnDressEquipReq::clear_equipguid() {
+inline void UnsetEquipReq::clear_equipguid() {
   equipguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 UnDressEquipReq::equipguid() const {
-  // @@protoc_insertion_point(field_get:UnDressEquipReq.EquipGuid)
+inline ::google::protobuf::uint64 UnsetEquipReq::equipguid() const {
+  // @@protoc_insertion_point(field_get:UnsetEquipReq.EquipGuid)
   return equipguid_;
 }
-inline void UnDressEquipReq::set_equipguid(::google::protobuf::uint64 value) {
+inline void UnsetEquipReq::set_equipguid(::google::protobuf::uint64 value) {
   
   equipguid_ = value;
-  // @@protoc_insertion_point(field_set:UnDressEquipReq.EquipGuid)
+  // @@protoc_insertion_point(field_set:UnsetEquipReq.EquipGuid)
 }
 
 // -------------------------------------------------------------------
 
-// UnDressEquipAck
+// UnsetEquipAck
 
 // uint32 RetCode = 1;
-inline void UnDressEquipAck::clear_retcode() {
+inline void UnsetEquipAck::clear_retcode() {
   retcode_ = 0u;
 }
-inline ::google::protobuf::uint32 UnDressEquipAck::retcode() const {
-  // @@protoc_insertion_point(field_get:UnDressEquipAck.RetCode)
+inline ::google::protobuf::uint32 UnsetEquipAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnsetEquipAck.RetCode)
   return retcode_;
 }
-inline void UnDressEquipAck::set_retcode(::google::protobuf::uint32 value) {
+inline void UnsetEquipAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
-  // @@protoc_insertion_point(field_set:UnDressEquipAck.RetCode)
+  // @@protoc_insertion_point(field_set:UnsetEquipAck.RetCode)
 }
 
 // -------------------------------------------------------------------
 
-// DressGemReq
+// SetupGemReq
 
 // uint64 GemGuid = 1;
-inline void DressGemReq::clear_gemguid() {
+inline void SetupGemReq::clear_gemguid() {
   gemguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 DressGemReq::gemguid() const {
-  // @@protoc_insertion_point(field_get:DressGemReq.GemGuid)
+inline ::google::protobuf::uint64 SetupGemReq::gemguid() const {
+  // @@protoc_insertion_point(field_get:SetupGemReq.GemGuid)
   return gemguid_;
 }
-inline void DressGemReq::set_gemguid(::google::protobuf::uint64 value) {
+inline void SetupGemReq::set_gemguid(::google::protobuf::uint64 value) {
   
   gemguid_ = value;
-  // @@protoc_insertion_point(field_set:DressGemReq.GemGuid)
+  // @@protoc_insertion_point(field_set:SetupGemReq.GemGuid)
 }
 
 // uint64 BagGuid = 2;
-inline void DressGemReq::clear_bagguid() {
+inline void SetupGemReq::clear_bagguid() {
   bagguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 DressGemReq::bagguid() const {
-  // @@protoc_insertion_point(field_get:DressGemReq.BagGuid)
+inline ::google::protobuf::uint64 SetupGemReq::bagguid() const {
+  // @@protoc_insertion_point(field_get:SetupGemReq.BagGuid)
   return bagguid_;
 }
-inline void DressGemReq::set_bagguid(::google::protobuf::uint64 value) {
+inline void SetupGemReq::set_bagguid(::google::protobuf::uint64 value) {
   
   bagguid_ = value;
-  // @@protoc_insertion_point(field_set:DressGemReq.BagGuid)
+  // @@protoc_insertion_point(field_set:SetupGemReq.BagGuid)
 }
 
 // int32 TargetPos = 3;
-inline void DressGemReq::clear_targetpos() {
+inline void SetupGemReq::clear_targetpos() {
   targetpos_ = 0;
 }
-inline ::google::protobuf::int32 DressGemReq::targetpos() const {
-  // @@protoc_insertion_point(field_get:DressGemReq.TargetPos)
+inline ::google::protobuf::int32 SetupGemReq::targetpos() const {
+  // @@protoc_insertion_point(field_get:SetupGemReq.TargetPos)
   return targetpos_;
 }
-inline void DressGemReq::set_targetpos(::google::protobuf::int32 value) {
+inline void SetupGemReq::set_targetpos(::google::protobuf::int32 value) {
   
   targetpos_ = value;
-  // @@protoc_insertion_point(field_set:DressGemReq.TargetPos)
+  // @@protoc_insertion_point(field_set:SetupGemReq.TargetPos)
 }
 
 // -------------------------------------------------------------------
 
-// DressGemAck
+// SetupGemAck
 
 // uint32 RetCode = 1;
-inline void DressGemAck::clear_retcode() {
+inline void SetupGemAck::clear_retcode() {
   retcode_ = 0u;
 }
-inline ::google::protobuf::uint32 DressGemAck::retcode() const {
-  // @@protoc_insertion_point(field_get:DressGemAck.RetCode)
+inline ::google::protobuf::uint32 SetupGemAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupGemAck.RetCode)
   return retcode_;
 }
-inline void DressGemAck::set_retcode(::google::protobuf::uint32 value) {
+inline void SetupGemAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
-  // @@protoc_insertion_point(field_set:DressGemAck.RetCode)
+  // @@protoc_insertion_point(field_set:SetupGemAck.RetCode)
 }
 
 // -------------------------------------------------------------------
 
-// UnDressGemReq
+// UnsetGemReq
 
 // uint64 GemGuid = 1;
-inline void UnDressGemReq::clear_gemguid() {
+inline void UnsetGemReq::clear_gemguid() {
   gemguid_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 UnDressGemReq::gemguid() const {
-  // @@protoc_insertion_point(field_get:UnDressGemReq.GemGuid)
+inline ::google::protobuf::uint64 UnsetGemReq::gemguid() const {
+  // @@protoc_insertion_point(field_get:UnsetGemReq.GemGuid)
   return gemguid_;
 }
-inline void UnDressGemReq::set_gemguid(::google::protobuf::uint64 value) {
+inline void UnsetGemReq::set_gemguid(::google::protobuf::uint64 value) {
   
   gemguid_ = value;
-  // @@protoc_insertion_point(field_set:UnDressGemReq.GemGuid)
+  // @@protoc_insertion_point(field_set:UnsetGemReq.GemGuid)
 }
 
 // -------------------------------------------------------------------
 
-// UnDressGemAck
+// UnsetGemAck
 
 // uint32 RetCode = 1;
-inline void UnDressGemAck::clear_retcode() {
+inline void UnsetGemAck::clear_retcode() {
   retcode_ = 0u;
 }
-inline ::google::protobuf::uint32 UnDressGemAck::retcode() const {
-  // @@protoc_insertion_point(field_get:UnDressGemAck.RetCode)
+inline ::google::protobuf::uint32 UnsetGemAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnsetGemAck.RetCode)
   return retcode_;
 }
-inline void UnDressGemAck::set_retcode(::google::protobuf::uint32 value) {
+inline void UnsetGemAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
-  // @@protoc_insertion_point(field_set:UnDressGemAck.RetCode)
+  // @@protoc_insertion_point(field_set:UnsetGemAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// SetupPartnerReq
+
+// uint64 PartnerGuid = 1;
+inline void SetupPartnerReq::clear_partnerguid() {
+  partnerguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupPartnerReq::partnerguid() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerReq.PartnerGuid)
+  return partnerguid_;
+}
+inline void SetupPartnerReq::set_partnerguid(::google::protobuf::uint64 value) {
+  
+  partnerguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerReq.PartnerGuid)
+}
+
+// int32 TargetPos = 2;
+inline void SetupPartnerReq::clear_targetpos() {
+  targetpos_ = 0;
+}
+inline ::google::protobuf::int32 SetupPartnerReq::targetpos() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerReq.TargetPos)
+  return targetpos_;
+}
+inline void SetupPartnerReq::set_targetpos(::google::protobuf::int32 value) {
+  
+  targetpos_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerReq.TargetPos)
+}
+
+// -------------------------------------------------------------------
+
+// SetupPartnerAck
+
+// uint32 RetCode = 1;
+inline void SetupPartnerAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 SetupPartnerAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupPartnerAck.RetCode)
+  return retcode_;
+}
+inline void SetupPartnerAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupPartnerAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// UnsetPartnerReq
+
+// int32 TargetPos = 1;
+inline void UnsetPartnerReq::clear_targetpos() {
+  targetpos_ = 0;
+}
+inline ::google::protobuf::int32 UnsetPartnerReq::targetpos() const {
+  // @@protoc_insertion_point(field_get:UnsetPartnerReq.TargetPos)
+  return targetpos_;
+}
+inline void UnsetPartnerReq::set_targetpos(::google::protobuf::int32 value) {
+  
+  targetpos_ = value;
+  // @@protoc_insertion_point(field_set:UnsetPartnerReq.TargetPos)
+}
+
+// -------------------------------------------------------------------
+
+// UnsetPartnerAck
+
+// uint32 RetCode = 1;
+inline void UnsetPartnerAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 UnsetPartnerAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnsetPartnerAck.RetCode)
+  return retcode_;
+}
+inline void UnsetPartnerAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:UnsetPartnerAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// SetupMountReq
+
+// uint64 MountGuid = 1;
+inline void SetupMountReq::clear_mountguid() {
+  mountguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetupMountReq::mountguid() const {
+  // @@protoc_insertion_point(field_get:SetupMountReq.MountGuid)
+  return mountguid_;
+}
+inline void SetupMountReq::set_mountguid(::google::protobuf::uint64 value) {
+  
+  mountguid_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountReq.MountGuid)
+}
+
+// int32 TargetPos = 2;
+inline void SetupMountReq::clear_targetpos() {
+  targetpos_ = 0;
+}
+inline ::google::protobuf::int32 SetupMountReq::targetpos() const {
+  // @@protoc_insertion_point(field_get:SetupMountReq.TargetPos)
+  return targetpos_;
+}
+inline void SetupMountReq::set_targetpos(::google::protobuf::int32 value) {
+  
+  targetpos_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountReq.TargetPos)
+}
+
+// -------------------------------------------------------------------
+
+// SetupMountAck
+
+// uint32 RetCode = 1;
+inline void SetupMountAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 SetupMountAck::retcode() const {
+  // @@protoc_insertion_point(field_get:SetupMountAck.RetCode)
+  return retcode_;
+}
+inline void SetupMountAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:SetupMountAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// UnsetMountReq
+
+// uint64 MountGuid = 1;
+inline void UnsetMountReq::clear_mountguid() {
+  mountguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 UnsetMountReq::mountguid() const {
+  // @@protoc_insertion_point(field_get:UnsetMountReq.MountGuid)
+  return mountguid_;
+}
+inline void UnsetMountReq::set_mountguid(::google::protobuf::uint64 value) {
+  
+  mountguid_ = value;
+  // @@protoc_insertion_point(field_set:UnsetMountReq.MountGuid)
+}
+
+// -------------------------------------------------------------------
+
+// UnsetMountAck
+
+// uint32 RetCode = 1;
+inline void UnsetMountAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 UnsetMountAck::retcode() const {
+  // @@protoc_insertion_point(field_get:UnsetMountAck.RetCode)
+  return retcode_;
+}
+inline void UnsetMountAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:UnsetMountAck.RetCode)
 }
 
 // -------------------------------------------------------------------
@@ -13948,6 +14974,22 @@ inline void ObjectChangeNotify::set_allocated_strvalue(::std::string* strvalue) 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

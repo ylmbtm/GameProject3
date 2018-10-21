@@ -38,14 +38,15 @@ public:
 
 	EquipDataObject* GetEquipByGuid(UINT64 uGuid);
 
+	//uguid：装备guid, ubagguid， 装备在背包中的格子guid
 	UINT32 DressEquip(UINT64 uGuid, UINT64 uBagGuid);
 
 	UINT32 UnDressEquip(UINT64 uGuid);
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
-	BOOL OnMsgUnDressEquipReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgSetupEquipReq(NetPacket* pNetPacket);  //穿装备请求
+	BOOL OnMsgUnsetEquipReq(NetPacket* pNetPacket);  //穿装备请求
 	//*********************消息处理定义结束******************************
 
 public:

@@ -13,6 +13,7 @@
 #include "../ConfigData/ConfigData.h"
 #include "BagModule.h"
 #include "../ServerData/RoleData.h"
+#include "PartnerModule.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -378,7 +379,7 @@ BOOL CLogicMsgHandler::OnMsgAbortCopyReq(NetPacket* pNetPacket)
 }
 
 BOOL CLogicMsgHandler::OnMsgBackToCityReq( NetPacket* pNetPacket )
-{
+{ 
 	BackToCityReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
@@ -459,9 +460,15 @@ BOOL CLogicMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>
 		ERROR_RETURN_TRUE(pBag != NULL);
 		pBag->AddItem(CommonConvert::StringToInt(vtParam[1].c_str()), CommonConvert::StringToInt(vtParam[2].c_str()));
 	}
-	else if(vtParam[0].compare("xxxx") == 0)
+	else if(vtParam[0].compare("@@AddPartner") == 0)
 	{
-
+		CPartnerModule *pPartnerModule = (CPartnerModule*)pPlayer->GetModuleByType(MT_PARTNER);
+		ERROR_RETURN_TRUE(pPartnerModule != NULL);
+		
+		for (int i = 0; i < 20; i++)
+		{
+			pPartnerModule->AddPartner(i + 1);
+		}
 	}
 
 	return TRUE;
