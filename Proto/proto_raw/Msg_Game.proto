@@ -395,7 +395,6 @@ message LogicRegToLoginAck {
 message WatchHeartBeatReq {
 	uint32	Data = 1;
 	uint64	ProcessID	= 2;
-	
 }
 
 message WatchHeartBeatAck {
@@ -404,42 +403,73 @@ message WatchHeartBeatAck {
 	uint64	ProcessID	= 3;
 }
 
-
-
-message DressEquipReq {
+message SetupEquipReq {
 	uint64	EquipGuid = 1;
 	uint64	BagGuid = 2;
 }
 
-message DressEquipAck {
+message SetupEquipAck {
 	uint32	RetCode	= 1;
 }
 
-message UnDressEquipReq {
+message UnsetEquipReq {
 	uint64	EquipGuid = 1;
 }
 
-message UnDressEquipAck {
+message UnsetEquipAck {
 	uint32	RetCode	= 1;
 }
 
 
-
-message DressGemReq {
+message SetupGemReq {
 	uint64	GemGuid		= 1;
 	uint64	BagGuid		= 2;
 	int32	TargetPos	= 3;
 }
 
-message DressGemAck {
+message SetupGemAck {
 	uint32	RetCode	= 1;
 }
 
-message UnDressGemReq {
+message UnsetGemReq {
 	uint64	GemGuid = 1;
 }
 
-message UnDressGemAck {
+message UnsetGemAck {
+	uint32	RetCode	= 1;
+}
+
+message SetupPartnerReq {
+	uint64	PartnerGuid	= 1;
+	int32	TargetPos	= 2;
+}
+
+message SetupPartnerAck {
+	uint32	RetCode	= 1;
+}
+
+message UnsetPartnerReq {
+	int32	TargetPos = 1;
+}
+
+message UnsetPartnerAck {
+	uint32	RetCode	= 1;
+}
+
+message SetupMountReq {
+	uint64	MountGuid	= 1;
+	int32	TargetPos	= 2;
+}
+
+message SetupMountAck {
+	uint32	RetCode	= 1;
+}
+
+message UnsetMountReq {
+	uint64	MountGuid = 1;
+}
+
+message UnsetMountAck {
 	uint32	RetCode	= 1;
 }
 

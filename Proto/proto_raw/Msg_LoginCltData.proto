@@ -70,7 +70,7 @@ message PartnerItem {
 	int32  StarLevel = 5;	  //星级
 	int32  RefineExp = 6;	  //精验的经验
 	int32  StarExp = 7;		  //星级经验
-	int32  IsUsing = 8;		  //是否上阵
+	int32  SetPos = 8;		  //上阵位置
 }
 
 message PartnerChangeNty{
@@ -80,7 +80,7 @@ message PartnerChangeNty{
 
 message MountItem {
 	uint64 Guid = 1;
-	int32  ItemID = 2;
+	int32  MountID = 2;
 	int32  StrengthLvl = 3;   //强化等级
 	int32  RefineLevel = 4;   //精炼等级
 	int32  StarLevel = 5;	  //星级

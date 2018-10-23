@@ -107,7 +107,13 @@ message DBPetData {
 }
 
 message DBMountItem {
-	bool	IsUsing = 1;       //是否使用中
+	uint64	RoleID = 1; 		//角色ID
+	uint64	Guid = 2;
+	int32	MountID = 3;
+	int32	StrengthLvl = 4;   //强化等级
+	int32	RefineLevel = 5;   //精炼等级
+	int32	StarLevel = 6;	  //星级
+	bool	IsUsing = 7;       //是否使用中
 }
 
 message DBMountData {
@@ -121,7 +127,7 @@ message DBPartnerItem {
 	int32	StrengthLvl = 4;   //强化等级
 	int32	RefineLevel = 5;   //精炼等级
 	int32	StarLevel = 6;	  //星级
-	bool	IsUsing = 7;       //是否使用中
+	int32	SetPos = 7;       //上阵位置
 }
 
 message DBPartnerData {
