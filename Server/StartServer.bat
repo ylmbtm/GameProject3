@@ -25,8 +25,8 @@ set PressDir=%cd%\Client\\PressureTest\Debug\
 set choice=
 set /p choice=          «Î—°‘Ò:
 IF NOT "%choice%"=="" SET choice=%choice:~0,1%
-if /i "%choice%"=="1" start /D %DebugDir%  /MIN  %DebugDir%LoginServer_d.exe & start /D %DebugDir% /MIN %DebugDir%ProxyServer_d.exe &  start /D %DebugDir% /MIN %DebugDir%DBServer_d.exe &  start /D %DebugDir% /MIN %DebugDir%GameServer_d.exe &  start /D %DebugDir% /MIN %DebugDir%LogServer_d.exe &  start /D %DebugDir% /MIN %DebugDir%LogicServer_d.exe & start /D %DebugDir% /MIN %DebugDir%AccountServer_d.exe
-if /i "%choice%"=="2" start /D %ReleaseDir% /MIN %ReleaseDir%LoginServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%ProxyServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%DBServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%GameServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%LogServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%LogicServer.exe & start /D %ReleaseDir% /MIN %ReleaseDir%AccountServer.exe
+if /i "%choice%"=="1" start /D %DebugDir%  /MIN  StartServer.bat
+if /i "%choice%"=="2" start /D %ReleaseDir% /MIN StartServer.bat
 if /i "%choice%"=="3" taskkill /im LoginServer.exe & taskkill /im ProxyServer.exe & taskkill /im DBServer.exe & taskkill /im GameServer.exe & taskkill /im LogServer.exe & taskkill /im LogicServer.exe & taskkill /im PressureTest.exe & taskkill /im AccountServer.exe /im LoginServer_d.exe & taskkill /im ProxyServer_d.exe & taskkill /im DBServer_d.exe & taskkill /im GameServer_d.exe & taskkill /im LogServer_d.exe & taskkill /im LogicServer_d.exe & taskkill /im PressureTest.exe & taskkill /im AccountServer_d.exe
 if /i "%choice%"=="4" start /D %ClientDir% %ClientDir%PressureTest.exe
 if /i "%choice%"=="5" cls & goto start

@@ -276,6 +276,5 @@ proto/proto-gen-cs
 proto/proto-gen-lua
 *.unsuccessfulbuild
 *.cc
-*.dll
 *.asset
 *.exp
