@@ -42,7 +42,9 @@ BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 	CPlayerObject* pPlayer = GetByKey(u64RoleID);
 	ERROR_RETURN_FALSE(pPlayer != NULL);
 
-	pPlayer->OnDestroy();
+	//pPlayer->OnDestroy();
+
+	pPlayer->Uninit();
 
 	return Delete(u64RoleID);
 }
@@ -51,9 +53,9 @@ BOOL CPlayerManager::TryCleanPlayer()
 {
 	if (GetCount() >= 3000)
 	{
-		//开始要清理人员了
+		//开始要清理人员了, 找一个离线时间最长的角色清理出内存
 		UINT64 uMinLeaveTime = 0x0fffffffff;
-		UINT64 uRoleID = 0;
+		UINT64 uReleaseRoleID = 0;
 
 		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
 		ERROR_RETURN_FALSE(pNode != NULL);
@@ -75,11 +77,14 @@ BOOL CPlayerManager::TryCleanPlayer()
 			if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
 			{
 				uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
-				uRoleID = pTempObj->GetObjectID();
+				uReleaseRoleID = pTempObj->GetObjectID();
 			}
 		}
 
-		ReleasePlayer(uRoleID);
+		if (uReleaseRoleID != 0)
+		{
+			ReleasePlayer(uReleaseRoleID);
+		}
 	}
 
 	return TRUE;

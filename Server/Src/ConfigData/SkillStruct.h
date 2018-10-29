@@ -30,6 +30,13 @@ enum EBulletType
 	TYPE_BOUNDCE		= 8,//弹跳飞弹
 };
 
+enum EAffectShip
+{
+	EAS_Self = 0, //影响自己
+	EAS_Enem = 1, //影响敌方
+	EAS_Ally = 2, //影响友方
+	EAS_Each = 3, //影响所有
+};
 
 enum ESelectPolicy
 {

@@ -69,12 +69,11 @@ public:
 	UINT64			GetLastSkillTick(UINT32 dwSkillID);
 	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
 	BOOL			StartSkill(UINT32 dwSkillID);
-	BOOL			GetAffectTargets(std::vector<CSceneObject*>& vtTargets);
 
-	BOOL			IsInCircle(float radius, float height, Vector3D hitPoint);
-	BOOL			IsInBox(float length, float width, Vector3D hitPoint, FLOAT ft);
-	BOOL			IsInSphere(float radius, Vector3D hitPoint);
-	BOOL			IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir);
+	BOOL			IsInCircle(Vector3D hitPoint,float radius, float height);
+	BOOL			IsInBox(Vector3D hitPoint, float hitDir, float length, float width);
+	BOOL			IsInSphere(Vector3D hitPoint,float radius);
+	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 
 public:

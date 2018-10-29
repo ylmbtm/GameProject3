@@ -94,7 +94,6 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 	printf(szLog);
 	m_CritSec.Unlock();
 
-
 	return ;
 }
 
@@ -126,7 +125,6 @@ void CLog::LogError( char* lpszFormat, ... )
 	m_LogCount++;
 	printf(szLog);
 	m_CritSec.Unlock();
-
 
 	return ;
 }

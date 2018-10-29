@@ -266,7 +266,7 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
-		ERROR_RETURN_FALSE(pOther != NULL)
+		ERROR_RETURN_FALSE(pOther != NULL);
 
 		if(!pOther->IsConnected())
 		{

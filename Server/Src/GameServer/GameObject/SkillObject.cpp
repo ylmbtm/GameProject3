@@ -168,6 +168,8 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 {
+	ERROR_RETURN_FALSE(m_pCastObject != NULL);
+
 	switch (SkillEvent.RangeType)
 	{
 		case TYPE_OBJECTS:

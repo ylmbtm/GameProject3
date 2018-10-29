@@ -78,12 +78,8 @@ BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 
 BOOL CPlayerObject::OnDestroy()
 {
-	for(int i = MT_ROLE; i < MT_END; i++)
-	{
-		CModuleBase* pBase = m_MoudleList.at(i);
-		ERROR_RETURN_FALSE(pBase != NULL);
-		pBase->OnDestroy();
-	}
+	DestroyAllModule();
+
 	return TRUE;
 }
 

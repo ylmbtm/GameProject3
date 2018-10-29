@@ -27,7 +27,7 @@ public:
 
 	BOOL		OnUpdate( UINT64 uTick );
 
-	UINT32      MakeCopyID();
+	UINT32      MakeCopyGUID();
 
 	BOOL		SendCityReport();
 

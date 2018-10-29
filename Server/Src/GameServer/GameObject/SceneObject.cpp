@@ -250,16 +250,9 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
 }
 
 
-BOOL CSceneObject::GetAffectTargets(std::vector<CSceneObject*>& vtTargets)
-{
-	vtTargets.clear();
 
 
-
-	return TRUE;
-}
-
-BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
+BOOL CSceneObject::IsInCircle(Vector3D hitPoint, float radius, float height)
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(m_dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
@@ -272,16 +265,16 @@ BOOL CSceneObject::IsInCircle(float radius, float height, Vector3D hitPoint)
 	return TRUE;
 }
 
-BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint, FLOAT ft)
+BOOL CSceneObject::IsInBox(Vector3D hitPoint, FLOAT hitDir, float length, float width)
 {
-	float radius = 1.0f;
+	float radius = 1.0f; //玩家自身的半径
 
 	CPoint2D A(-width / 2, -length / 2), B(-width / 2, length / 2), C(width / 2, length / 2), D(width / 2, -length / 2);
 
-	A.Rotate(ft * DEG_TO_RAD);
-	B.Rotate(ft * DEG_TO_RAD);
-	C.Rotate(ft * DEG_TO_RAD);
-	D.Rotate(ft * DEG_TO_RAD);
+	A.Rotate(hitDir * DEG_TO_RAD);
+	B.Rotate(hitDir * DEG_TO_RAD);
+	C.Rotate(hitDir * DEG_TO_RAD);
+	D.Rotate(hitDir * DEG_TO_RAD);
 
 	CPoint2D rolept(m_Pos.m_x, m_Pos.m_z);
 
@@ -308,7 +301,7 @@ BOOL CSceneObject::IsInBox(float length, float width, Vector3D hitPoint, FLOAT f
 	return FALSE;
 }
 
-BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
+BOOL CSceneObject::IsInSphere(Vector3D hitPoint, float radius)
 {
 	Vector3D dir = m_Pos - hitPoint;
 	if (dir.SquaredLength() > radius * radius)
@@ -318,7 +311,7 @@ BOOL CSceneObject::IsInSphere(float radius, Vector3D hitPoint)
 	return TRUE;
 }
 
-BOOL CSceneObject::IsInSector(float radius, float hAngle, Vector3D hitPoint, Vector3D hitDir)
+BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir,float radius, float hAngle)
 {
 	float maxDis = radius;// +target.Radius;
 	if (m_Pos.Distance2D(hitPoint) > maxDis)
@@ -328,10 +321,10 @@ BOOL CSceneObject::IsInSector(float radius, float hAngle, Vector3D hitPoint, Vec
 
 	Vector3D vtDir = m_Pos - hitPoint;
 
-	if (vtDir.AngleBetween2D(hitDir) > hAngle / 2)
-	{
-		return FALSE;
-	}
+	//if (vtDir.AngleBetween2D(hitDir) > hAngle / 2)
+	//{
+	//	return FALSE;
+	//}
 
 	return TRUE;
 }

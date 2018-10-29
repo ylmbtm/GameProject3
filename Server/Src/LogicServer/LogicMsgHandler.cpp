@@ -39,8 +39,6 @@ BOOL CLogicMsgHandler::Uninit()
 
 BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 {
-	CPlayerManager::GetInstancePtr()->TryCleanPlayer();
-
 	if (CPlayerManager::GetInstancePtr()->GetCount() > 0)
 	{
 		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
@@ -58,6 +56,8 @@ BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 			}
 		}
 	}
+
+	CPlayerManager::GetInstancePtr()->TryCleanPlayer();
 
 	return TRUE;
 }

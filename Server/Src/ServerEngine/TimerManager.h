@@ -204,7 +204,7 @@ public:
 
 	UINT64     m_dwCurTime;
 
-	UINT64     m_dwInitTime;  //定时器开始工作时间(不对开始工作时间之间的定时器发生作用)
+	UINT64     m_dwInitTime;  //定时器开始工作时间(不对开始工作时间之前的定时器发生作用)
 public:
 };
 
