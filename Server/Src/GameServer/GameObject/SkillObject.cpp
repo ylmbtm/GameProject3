@@ -185,8 +185,13 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 			FLOAT offsetX	= SkillEvent.RangeParams[3];
 			FLOAT offsetZ	= SkillEvent.RangeParams[4];
 
+			Vector3D hitPoint = m_pCastObject->m_Pos;
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
 
+			CScene *pScene = m_pCastObject->GetScene();
+			ERROR_RETURN_FALSE(pScene != NULL);
 
+			pScene->SelectTargetsInCircle(m_vtTargets, hitPoint, radius, height);
 		}
 		break;
 		case TYPE_CYLINDER:
@@ -196,6 +201,16 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 			FLOAT height	= SkillEvent.RangeParams[2];
 			FLOAT offsetX	= SkillEvent.RangeParams[3];
 			FLOAT offsetZ	= SkillEvent.RangeParams[4];
+
+			Vector3D hitPoint = m_pCastObject->m_Pos;
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
+
+			FLOAT hitDir = m_pCastObject->m_ft;
+
+			CScene *pScene = m_pCastObject->GetScene();
+			ERROR_RETURN_FALSE(pScene != NULL);
+
+			pScene->SelectTargetsInSector(m_vtTargets, hitPoint, hitDir, radius, hAngle);
 		}
 		break;
 		case TYPE_BOX:
@@ -205,6 +220,16 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 			FLOAT height	= SkillEvent.RangeParams[2];
 			FLOAT offsetX	= SkillEvent.RangeParams[3];
 			FLOAT offsetZ	= SkillEvent.RangeParams[4];
+
+			Vector3D hitPoint = m_pCastObject->m_Pos;
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
+
+			FLOAT hitDir = m_pCastObject->m_ft;
+
+			CScene *pScene = m_pCastObject->GetScene();
+			ERROR_RETURN_FALSE(pScene != NULL);
+
+			pScene->SelectTargetsInSquare(m_vtTargets, hitPoint, hitDir, length, width);
 		}
 		break;
 	}

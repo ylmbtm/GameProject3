@@ -60,6 +60,10 @@ public:
 	BOOL			UpdateAiController(UINT64 uFilterID);
 	UINT64			SelectController(UINT64 uFilterID);
 
+	BOOL			SelectTargetsInCircle(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float radius, float height);
+	BOOL			SelectTargetsInSquare(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float length, float width);
+	BOOL			SelectTargetsInSector(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle);
+
 	//在单人PVE情况下，副本应该只有一个人
 	CSceneObject*   GetOwnPlayer();
 

@@ -329,11 +329,11 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		goto EXT;
 	}
 
-	m_strHost = host;
-	m_strUser = user;
-	m_strPwd = passwd;
-	m_strDB	= db;
-	m_nPort = port;
+	m_strHost		= host;
+	m_strUser		= user;
+	m_strPwd		= passwd;
+	m_strDB			= db;
+	m_nPort			= port;
 	m_strCharSet	= charSetName;
 
 	//选择制定的数据库失败

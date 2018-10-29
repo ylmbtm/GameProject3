@@ -878,6 +878,80 @@ UINT64 CScene::SelectController(UINT64 uFilterID)
 	return 0;
 }
 
+BOOL CScene::SelectTargetsInCircle(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float radius, float height)
+{
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInCircle(hitPoint, radius, height))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInCircle(hitPoint, radius, height))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+	return TRUE;
+}
+
+BOOL CScene::SelectTargetsInSquare(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float length, float width)
+{
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInSquare(hitPoint, hitDir, length, width))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInSquare(hitPoint, hitDir, length, width))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL CScene::SelectTargetsInSector(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle)
+{
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInSector(hitPoint, hitDir, radius, hAngle))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	{
+		CSceneObject* pObject = itor->second;
+		ERROR_RETURN_FALSE(pObject != NULL);
+		if (pObject->IsInSector(hitPoint, hitDir, radius, hAngle))
+		{
+			vTargets.emplace_back(pObject);
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL CScene::IsFinished()
 {
 	return m_bFinished;

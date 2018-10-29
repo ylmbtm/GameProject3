@@ -71,8 +71,7 @@ public:
 	BOOL			StartSkill(UINT32 dwSkillID);
 
 	BOOL			IsInCircle(Vector3D hitPoint,float radius, float height);
-	BOOL			IsInBox(Vector3D hitPoint, float hitDir, float length, float width);
-	BOOL			IsInSphere(Vector3D hitPoint,float radius);
+	BOOL			IsInSquare(Vector3D hitPoint, float hitDir, float length, float width);
 	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 

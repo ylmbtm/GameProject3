@@ -265,7 +265,7 @@ BOOL CSceneObject::IsInCircle(Vector3D hitPoint, float radius, float height)
 	return TRUE;
 }
 
-BOOL CSceneObject::IsInBox(Vector3D hitPoint, FLOAT hitDir, float length, float width)
+BOOL CSceneObject::IsInSquare(Vector3D hitPoint, FLOAT hitDir, float length, float width)
 {
 	float radius = 1.0f; //玩家自身的半径
 
@@ -299,16 +299,6 @@ BOOL CSceneObject::IsInBox(Vector3D hitPoint, FLOAT hitDir, float length, float 
 	}
 
 	return FALSE;
-}
-
-BOOL CSceneObject::IsInSphere(Vector3D hitPoint, float radius)
-{
-	Vector3D dir = m_Pos - hitPoint;
-	if (dir.SquaredLength() > radius * radius)
-	{
-		return FALSE;
-	}
-	return TRUE;
 }
 
 BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir,float radius, float hAngle)

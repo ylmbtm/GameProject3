@@ -27,15 +27,6 @@ public:
 
 	BOOL	LoadScriptFile(std::vector<std::string>& vtScriptList);
 
-	//"pilsfdb="
-	//p  指针
-	//i  整型 32位
-	//l  整型 64位
-	//s  字符串
-	//f  浮点数
-	//d  双精度
-	//b  布尔
-	//
 	BOOL	CallLuaFunction(std::string strFuncName, char* pStrParamSig, ...);
 
 	BOOL	GetStackParams(char* pStrParamSig, ...);
