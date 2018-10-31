@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[81];
+  static const ::google::protobuf::internal::ParseTable schema[83];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -204,6 +204,10 @@ void InitDefaultsStoreBuyAckImpl();
 void InitDefaultsStoreBuyAck();
 void InitDefaultsObjectChangeNotifyImpl();
 void InitDefaultsObjectChangeNotify();
+void InitDefaultsHitEffectItemImpl();
+void InitDefaultsHitEffectItem();
+void InitDefaultsHitEffectNtfImpl();
+void InitDefaultsHitEffectNtf();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -286,6 +290,8 @@ inline void InitDefaults() {
   InitDefaultsStoreBuyReq();
   InitDefaultsStoreBuyAck();
   InitDefaultsObjectChangeNotify();
+  InitDefaultsHitEffectItem();
+  InitDefaultsHitEffectNtf();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -363,6 +369,12 @@ extern EnterSceneAckDefaultTypeInternal _EnterSceneAck_default_instance_;
 class EnterSceneReq;
 class EnterSceneReqDefaultTypeInternal;
 extern EnterSceneReqDefaultTypeInternal _EnterSceneReq_default_instance_;
+class HitEffectItem;
+class HitEffectItemDefaultTypeInternal;
+extern HitEffectItemDefaultTypeInternal _HitEffectItem_default_instance_;
+class HitEffectNtf;
+class HitEffectNtfDefaultTypeInternal;
+extern HitEffectNtfDefaultTypeInternal _HitEffectNtf_default_instance_;
 class LeaveSceneAck;
 class LeaveSceneAckDefaultTypeInternal;
 extern LeaveSceneAckDefaultTypeInternal _LeaveSceneAck_default_instance_;
@@ -9914,6 +9926,245 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsObjectChangeNotifyImpl();
 };
+// -------------------------------------------------------------------
+
+class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:HitEffectItem) */ {
+ public:
+  HitEffectItem();
+  virtual ~HitEffectItem();
+
+  HitEffectItem(const HitEffectItem& from);
+
+  inline HitEffectItem& operator=(const HitEffectItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  HitEffectItem(HitEffectItem&& from) noexcept
+    : HitEffectItem() {
+    *this = ::std::move(from);
+  }
+
+  inline HitEffectItem& operator=(HitEffectItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const HitEffectItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const HitEffectItem* internal_default_instance() {
+    return reinterpret_cast<const HitEffectItem*>(
+               &_HitEffectItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    81;
+
+  void Swap(HitEffectItem* other);
+  friend void swap(HitEffectItem& a, HitEffectItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline HitEffectItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  HitEffectItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const HitEffectItem& from);
+  void MergeFrom(const HitEffectItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(HitEffectItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 TargetGUID = 1;
+  void clear_targetguid();
+  static const int kTargetGUIDFieldNumber = 1;
+  ::google::protobuf::uint64 targetguid() const;
+  void set_targetguid(::google::protobuf::uint64 value);
+
+  // int32 ValueID = 2;
+  void clear_valueid();
+  static const int kValueIDFieldNumber = 2;
+  ::google::protobuf::int32 valueid() const;
+  void set_valueid(::google::protobuf::int32 value);
+
+  // int32 Value = 3;
+  void clear_value();
+  static const int kValueFieldNumber = 3;
+  ::google::protobuf::int32 value() const;
+  void set_value(::google::protobuf::int32 value);
+
+  // uint64 Detail = 5;
+  void clear_detail();
+  static const int kDetailFieldNumber = 5;
+  ::google::protobuf::uint64 detail() const;
+  void set_detail(::google::protobuf::uint64 value);
+
+  // int32 Reason = 4;
+  void clear_reason();
+  static const int kReasonFieldNumber = 4;
+  ::google::protobuf::int32 reason() const;
+  void set_reason(::google::protobuf::int32 value);
+
+  // bool Crit = 6;
+  void clear_crit();
+  static const int kCritFieldNumber = 6;
+  bool crit() const;
+  void set_crit(bool value);
+
+  // @@protoc_insertion_point(class_scope:HitEffectItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 targetguid_;
+  ::google::protobuf::int32 valueid_;
+  ::google::protobuf::int32 value_;
+  ::google::protobuf::uint64 detail_;
+  ::google::protobuf::int32 reason_;
+  bool crit_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsHitEffectItemImpl();
+};
+// -------------------------------------------------------------------
+
+class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:HitEffectNtf) */ {
+ public:
+  HitEffectNtf();
+  virtual ~HitEffectNtf();
+
+  HitEffectNtf(const HitEffectNtf& from);
+
+  inline HitEffectNtf& operator=(const HitEffectNtf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  HitEffectNtf(HitEffectNtf&& from) noexcept
+    : HitEffectNtf() {
+    *this = ::std::move(from);
+  }
+
+  inline HitEffectNtf& operator=(HitEffectNtf&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const HitEffectNtf& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const HitEffectNtf* internal_default_instance() {
+    return reinterpret_cast<const HitEffectNtf*>(
+               &_HitEffectNtf_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    82;
+
+  void Swap(HitEffectNtf* other);
+  friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline HitEffectNtf* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  HitEffectNtf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const HitEffectNtf& from);
+  void MergeFrom(const HitEffectNtf& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(HitEffectNtf* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .HitEffectItem ItemList = 1;
+  int itemlist_size() const;
+  void clear_itemlist();
+  static const int kItemListFieldNumber = 1;
+  const ::HitEffectItem& itemlist(int index) const;
+  ::HitEffectItem* mutable_itemlist(int index);
+  ::HitEffectItem* add_itemlist();
+  ::google::protobuf::RepeatedPtrField< ::HitEffectItem >*
+      mutable_itemlist();
+  const ::google::protobuf::RepeatedPtrField< ::HitEffectItem >&
+      itemlist() const;
+
+  // @@protoc_insertion_point(class_scope:HitEffectNtf)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::HitEffectItem > itemlist_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsHitEffectNtfImpl();
+};
 // ===================================================================
 
 
@@ -14971,9 +15222,135 @@ inline void ObjectChangeNotify::set_allocated_strvalue(::std::string* strvalue) 
   // @@protoc_insertion_point(field_set_allocated:ObjectChangeNotify.StrValue)
 }
 
+// -------------------------------------------------------------------
+
+// HitEffectItem
+
+// uint64 TargetGUID = 1;
+inline void HitEffectItem::clear_targetguid() {
+  targetguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 HitEffectItem::targetguid() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.TargetGUID)
+  return targetguid_;
+}
+inline void HitEffectItem::set_targetguid(::google::protobuf::uint64 value) {
+  
+  targetguid_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.TargetGUID)
+}
+
+// int32 ValueID = 2;
+inline void HitEffectItem::clear_valueid() {
+  valueid_ = 0;
+}
+inline ::google::protobuf::int32 HitEffectItem::valueid() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.ValueID)
+  return valueid_;
+}
+inline void HitEffectItem::set_valueid(::google::protobuf::int32 value) {
+  
+  valueid_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.ValueID)
+}
+
+// int32 Value = 3;
+inline void HitEffectItem::clear_value() {
+  value_ = 0;
+}
+inline ::google::protobuf::int32 HitEffectItem::value() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.Value)
+  return value_;
+}
+inline void HitEffectItem::set_value(::google::protobuf::int32 value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.Value)
+}
+
+// int32 Reason = 4;
+inline void HitEffectItem::clear_reason() {
+  reason_ = 0;
+}
+inline ::google::protobuf::int32 HitEffectItem::reason() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.Reason)
+  return reason_;
+}
+inline void HitEffectItem::set_reason(::google::protobuf::int32 value) {
+  
+  reason_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.Reason)
+}
+
+// uint64 Detail = 5;
+inline void HitEffectItem::clear_detail() {
+  detail_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 HitEffectItem::detail() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.Detail)
+  return detail_;
+}
+inline void HitEffectItem::set_detail(::google::protobuf::uint64 value) {
+  
+  detail_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.Detail)
+}
+
+// bool Crit = 6;
+inline void HitEffectItem::clear_crit() {
+  crit_ = false;
+}
+inline bool HitEffectItem::crit() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.Crit)
+  return crit_;
+}
+inline void HitEffectItem::set_crit(bool value) {
+  
+  crit_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.Crit)
+}
+
+// -------------------------------------------------------------------
+
+// HitEffectNtf
+
+// repeated .HitEffectItem ItemList = 1;
+inline int HitEffectNtf::itemlist_size() const {
+  return itemlist_.size();
+}
+inline void HitEffectNtf::clear_itemlist() {
+  itemlist_.Clear();
+}
+inline const ::HitEffectItem& HitEffectNtf::itemlist(int index) const {
+  // @@protoc_insertion_point(field_get:HitEffectNtf.ItemList)
+  return itemlist_.Get(index);
+}
+inline ::HitEffectItem* HitEffectNtf::mutable_itemlist(int index) {
+  // @@protoc_insertion_point(field_mutable:HitEffectNtf.ItemList)
+  return itemlist_.Mutable(index);
+}
+inline ::HitEffectItem* HitEffectNtf::add_itemlist() {
+  // @@protoc_insertion_point(field_add:HitEffectNtf.ItemList)
+  return itemlist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::HitEffectItem >*
+HitEffectNtf::mutable_itemlist() {
+  // @@protoc_insertion_point(field_mutable_list:HitEffectNtf.ItemList)
+  return &itemlist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::HitEffectItem >&
+HitEffectNtf::itemlist() const {
+  // @@protoc_insertion_point(field_list:HitEffectNtf.ItemList)
+  return itemlist_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

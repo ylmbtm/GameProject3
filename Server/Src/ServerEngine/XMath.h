@@ -138,6 +138,11 @@ public:
 		return acos((m_x * dest.m_x + m_y * dest.m_y) / Length() / dest.Length());
 	}
 
+	float ToAngle()
+	{
+		return AngleBetween(Vector2D(0,0));
+	}
+
 	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
 	{
 		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));

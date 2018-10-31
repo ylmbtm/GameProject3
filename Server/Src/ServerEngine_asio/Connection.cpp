@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Connection.h"
+#include "DataBuffer.h"
 #include "CommandDef.h"
 #include <boost/asio/placeholders.hpp>
 #include "PacketHeader.h"
@@ -26,6 +27,8 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 	m_nCheckNo          = 0;
 
 	m_IsSending			= FALSE;
+	
+	m_pSendingBuffer	= NULL;
 }
 
 CConnection::~CConnection(void)
@@ -146,7 +149,7 @@ BOOL CConnection::ExtractBuffer()
 
 		if (dwPacketSize <= m_dwDataLen)
 		{
-			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
+			IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, dwPacketSize);
 
@@ -160,7 +163,7 @@ BOOL CConnection::ExtractBuffer()
 		}
 		else
 		{
-			IDataBuffer* pDataBuffer =  CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwPacketSize);
+			IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
 			memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_dwDataLen);
 
 			pDataBuffer->SetTotalLenth(m_dwDataLen);
@@ -183,13 +186,16 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-
-
+	m_hSocket.shutdown(boost::asio::socket_base::shutdown_receive);
+	m_hSocket.shutdown(boost::asio::socket_base::shutdown_send);
 	m_hSocket.close();
-	m_bConnected        = FALSE;
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-	m_pDataHandler->OnCloseConnect(this);
+	if(m_bConnected && m_pDataHandler != NULL)
+	{
+		m_pDataHandler->OnCloseConnect(this);
+	}
+	m_bConnected = FALSE;
 	return TRUE;
 }
 
@@ -285,33 +291,76 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 	return TRUE;
 }
 
+BOOL CConnection::CheckHeader(CHAR* m_pPacket)
+{
+	/*
+	1.首先验证包的验证吗
+	2.包的长度
+	3.包的序号
+	*/
+	PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
+	if (pHeader->CheckCode != 0x88)
+	{
+		return FALSE;
+	}
+
+	if (pHeader->dwSize > 1024 * 1024)
+	{
+		return FALSE;
+	}
+
+	if (pHeader->dwMsgID > 4999999)
+	{
+		return FALSE;
+	}
+
+	/*if(m_nCheckNo == 0)
+	{
+	m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+	}
+	else
+	{
+	if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
+	{
+	m_nCheckNo += 1;
+	}
+	else
+	{
+	return FALSE;
+	}*/
+
+	return TRUE;
+}
 BOOL CConnection::DoSend()
 {
 	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
-	IDataBuffer* pBuffer = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
 	int nCurPos = 0;
+
+	IDataBuffer* pBuffer = NULL;
 	while(m_SendBuffList.pop(pBuffer))
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
 		if(pFirstBuff == NULL)
 		{
+			pFirstBuff = pBuffer;
+
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				pSendingBuffer = pBuffer;
 				break;
 			}
 
-			pFirstBuff = pBuffer;
+			pBuffer = NULL;
 		}
 		else
 		{
 			if(pSendingBuffer == NULL)
 			{
-				pSendingBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pSendingBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
 				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
 				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
 				nCurPos += pFirstBuff->GetTotalLenth();
@@ -323,7 +372,7 @@ BOOL CConnection::DoSend()
 			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
 			nCurPos += pBuffer->GetTotalLenth();
 			pBuffer->Release();
-
+			pBuffer = NULL;
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
 				break;
@@ -393,6 +442,7 @@ CConnection* CConnectionMgr::CreateConnection()
 	}
 	m_CritSecConnList.Unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
+	ERROR_RETURN_NULL(pTemp->m_hSocket.is_open() == FALSE);
 	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
 	return pTemp;
 }

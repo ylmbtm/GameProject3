@@ -198,6 +198,7 @@ enum MessageID {
 	MSG_SWITCH_MOUNT_ACK			= 3000035;
 	
 	MSG_SCENEOBJ_CHAGE_NTF			= 3000036;
+	MSG_ACTOR_HITEFFECT_NTF			= 3000037;
 
 	MSG_SCENESVR_MSGID_END			= 3999999;
 	////////////////////////////////////////////////////////////////////

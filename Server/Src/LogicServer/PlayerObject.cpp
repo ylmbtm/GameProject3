@@ -46,7 +46,9 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_dwToCopySvrID     = 0;
 	m_IsOnline			= FALSE;
 
-	return CreateAllModule();
+	ERROR_RETURN_FALSE(CreateAllModule());
+
+	return TRUE;
 }
 
 BOOL CPlayerObject::Uninit()

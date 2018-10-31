@@ -473,7 +473,6 @@ message UnsetMountAck {
 	uint32	RetCode	= 1;
 }
 
-
 message StoreBuyReq {
 	int32	StoreType = 1;
 	int32	StoreID = 2;
@@ -484,12 +483,30 @@ message StoreBuyAck {
 	uint32	RetCode	= 1;
 }
 
+//玩家一些数据发生变化，由逻辑服通知战斗服
 message ObjectChangeNotify {
-	int64	RoleID = 1;	 //变化的角色ID
+	int64	RoleID = 1;	    //变化的角色ID
 	int32	ChangeType = 2; //变化的类型
 	int64	IntValue1 = 3;
 	int64   IntValue2 = 4;
 	string  StrValue = 5;
 }
+
+message HitEffectItem
+{
+    uint64            TargetGUID  = 1;
+    int32             ValueID     = 2;
+    int32             Value       = 3;
+    int32             Reason      = 4;
+    uint64            Detail      = 5;
+    bool              Crit        = 6;
+}
+
+message HitEffectNtf
+{
+    repeated HitEffectItem ItemList = 1;
+}
+
+
 
 

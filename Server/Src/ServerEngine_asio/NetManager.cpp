@@ -156,7 +156,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u6
 		return FALSE;
 	}
 
-	IDataBuffer* pDataBuffer = CBufferManagerAll::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+	IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
 	ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();

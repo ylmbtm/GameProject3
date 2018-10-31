@@ -172,6 +172,11 @@ public:
 
 	/**释放一块已经不再使用的内存*/
 	virtual BOOL DestoryObject(ShareObject* pobject);
+
+	mapUsedSMBlock& GetUsedDataList()
+	{
+		return m_mapUsedSMBlock;
+	}
 };
 
 template<typename T>
