@@ -23,8 +23,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicServer", "LogicServer\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CenterServer", "CenterServer\CenterServer.vcxproj", "{8F862C32-4904-4B3A-ADB5-852DD8D8BDB8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HttpServer", "HttpServer\HttpServer.vcxproj", "{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WatchServer", "WatchServer\WatchServer.vcxproj", "{398AED55-152C-4102-BA05-511AEC1AA780}"
 EndProject
 Global
@@ -69,10 +67,6 @@ Global
 		{8F862C32-4904-4B3A-ADB5-852DD8D8BDB8}.Debug|x64.Build.0 = Debug|x64
 		{8F862C32-4904-4B3A-ADB5-852DD8D8BDB8}.Release|x64.ActiveCfg = Release|x64
 		{8F862C32-4904-4B3A-ADB5-852DD8D8BDB8}.Release|x64.Build.0 = Release|x64
-		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Debug|x64.ActiveCfg = Debug|x64
-		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Debug|x64.Build.0 = Debug|x64
-		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Release|x64.ActiveCfg = Release|x64
-		{D533D305-E18B-4DDC-BBDD-C1A5B96B8C65}.Release|x64.Build.0 = Release|x64
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Debug|x64.ActiveCfg = Debug|x64
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Debug|x64.Build.0 = Debug|x64
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Release|x64.ActiveCfg = Release|x64
