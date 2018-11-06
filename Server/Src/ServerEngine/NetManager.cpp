@@ -301,7 +301,7 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
 		pConnection->Close();
-		return NULL;
+		return pConnection;
 	}
 	return pConnection;
 }
@@ -338,6 +338,13 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 
 	pConnection->SetDataHandler(m_pBufferHandler);
 
+	if (hSocket == INVALID_SOCKET || hSocket == 0)
+	{
+		pConnection->Close();
+
+		return pConnection;
+	}
+
 	struct epoll_event EpollEvent;
 	EpollEvent.data.ptr = pConnection;
 	if (bConnect)
@@ -353,7 +360,7 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	{
 		pConnection->Close();
 
-		return NULL;
+		return pConnection;
 	}
 
 	return pConnection;
@@ -609,7 +616,7 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPort )
 {
 	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
-	if(hSocket == INVALID_SOCKET)
+	if(hSocket == INVALID_SOCKET || hSocket == 0)
 	{
 		CommonSocket::CloseSocket(hSocket);
 		CLog::GetInstancePtr()->LogError("创建套接字失败!!");
@@ -620,15 +627,14 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 
 	CommonSocket::SetSocketNoDelay(hSocket);
 
+#ifdef WIN32
 	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
-	if(pConnection == NULL)
+	if (pConnection == NULL)
 	{
 		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 
 		return NULL;
 	}
-
-#ifdef WIN32
 
 	pConnection->m_IoOverlapRecv.Clear();
 
@@ -636,22 +642,31 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 
 	pConnection->m_IoOverlapRecv.dwConnID = pConnection->GetConnectionID();
 
+	pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
+
 	BOOL bRet = CommonSocket::ConnectSocketEx(hSocket, strIpAddr.c_str(), sPort, (LPOVERLAPPED)&pConnection->m_IoOverlapRecv);
 
-#else
-
-	BOOL bRet = CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort);
-
-#endif
 	if(!bRet)
 	{
 		pConnection->Close();
-
-		//CLog::GetInstancePtr()->LogError("连接服务器%s : %d失败!!", strIpAddr.c_str(), sPort);
 	}
 
-	pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
+#else
+	BOOL bRet = CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort);
+	if (!bRet)
+	{
+		CommonSocket::CloseSocket(hSocket);
+	}
+		
+	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
+	if (pConnection == NULL)
+	{
+		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 
+		return NULL;
+	}
+#endif
+	
 	return pConnection;
 }
 

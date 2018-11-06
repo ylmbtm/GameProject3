@@ -84,7 +84,6 @@ BOOL   CommonSocket::InitNetwork()
 		return FALSE;
 	}
 #endif
-
 	return TRUE;
 }
 
@@ -93,7 +92,6 @@ BOOL   CommonSocket::UninitNetwork()
 #if WIN32
 	return (0 == WSACleanup());
 #endif
-
 	return TRUE;
 }
 
@@ -104,6 +102,10 @@ void   CommonSocket::CloseSocket(SOCKET hSocket)
 #else
 	close(hSocket);
 #endif
+
+	hSocket = -1;
+
+	return;
 }
 
 std::string CommonSocket::GetLocalIP()
@@ -172,11 +174,12 @@ BOOL	CommonSocket::ConnectSocket(SOCKET hSocket, const char* pAddr, short sPort)
 	}
 
 	sockaddr_in  svrAddr;
+	memset(&svrAddr, 0, sizeof(svrAddr));
 	svrAddr.sin_family = AF_INET;
 	svrAddr.sin_port   = htons(sPort);
 	inet_pton(AF_INET, pAddr, &svrAddr.sin_addr);
 
-	if(0 == connect(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in)))
+	if(0 == connect(hSocket, (const sockaddr*)&svrAddr, sizeof(svrAddr)))
 	{
 		return TRUE;
 	}

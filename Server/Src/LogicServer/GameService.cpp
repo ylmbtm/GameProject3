@@ -16,7 +16,12 @@
 #include "GmCommand.h"
 CGameService::CGameService(void)
 {
-
+	m_dwLogConnID	= 0;
+	m_dwLoginConnID = 0;
+	m_dwDBConnID	= 0;
+	m_dwCenterID	= 0;   //中心服的连接ID
+	m_dwWatchSvrConnID = 0;
+	m_dwWatchIndex	= 0;
 }
 
 CGameService::~CGameService(void)

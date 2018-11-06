@@ -71,6 +71,9 @@ public:
 	bool open(const char* host, const char* user, const char* passwd, const char* db,
 	          unsigned int port, const char* charSetName = "utf8", unsigned long client_flag = 0);
 
+	bool setOpenParam(const char* host, const char* user, const char* passwd, const char* db,
+		unsigned int port, const char* charSetName = "utf8", unsigned long client_flag = 0);
+
 	void close();
 
 	/* 返回句柄 */

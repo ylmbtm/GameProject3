@@ -6,7 +6,9 @@
 #include "../Message/Msg_ID.pb.h"
 CGameService::CGameService(void)
 {
-	m_dwLogicConnID = 0;
+	m_dwLogicConnID		= 0;
+	m_dwWatchSvrConnID	= 0;
+	m_dwWatchIndex		= 0;
 }
 
 CGameService::~CGameService(void)

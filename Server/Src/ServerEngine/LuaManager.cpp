@@ -8,7 +8,7 @@ CLuaHelper::CLuaHelper()
 
 CLuaHelper::~CLuaHelper()
 {
-	ASSERT(m_pLuaState != NULL);
+	//ASSERT(m_pLuaState != NULL);
 	//因为CLuaHelper是帮助类，所以这个指针必须在对象析构前要调用Deattch,
 	//而且m_pLuaState赋值也只能是通过Attach来做;
 

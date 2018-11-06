@@ -12,7 +12,7 @@ CC_LIB=-L/usr/lib \
 	-L/lib \
 	-L/usr/lib64/mysql \
 	-L/usr/lib/mysql \
-	-lpthread -lprotobuf -lmysqlclient -lsqlite3 -llua
+	-lpthread -lprotobuf -lmysqlclient -lsqlite3 -llua -ldl
 			 
 MY_LIB=-L../Debug \
 	-L../ServerEngine \

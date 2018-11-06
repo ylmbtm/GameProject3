@@ -355,6 +355,17 @@ EXT:
 	return ret;
 }
 
+bool CppMySQL3DB::setOpenParam(const char* host, const char* user, const char* passwd, const char* db, unsigned int port, const char* charSetName /*= "utf8"*/, unsigned long client_flag /*= 0*/)
+{
+	m_strHost = host;
+	m_strUser = user;
+	m_strPwd = passwd;
+	m_strDB = db;
+	m_nPort = port;
+	m_strCharSet = charSetName;
+	return true;
+}
+
 void CppMySQL3DB::close()
 {
 	if ( _db_ptr != NULL )
@@ -437,7 +448,7 @@ bool CppMySQL3DB::reboot()
 
 bool CppMySQL3DB::reconnect()
 {
-	if (ping())
+	if (_db_ptr!= NULL && ping())
 	{
 		return true;
 	}

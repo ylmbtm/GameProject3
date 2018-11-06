@@ -274,7 +274,7 @@ BOOL CConnection::Close()
 
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-	if(m_bConnected && m_pDataHandler != NULL)
+	if(m_pDataHandler != NULL)
 	{
 		m_pDataHandler->OnCloseConnect(this);
 	}

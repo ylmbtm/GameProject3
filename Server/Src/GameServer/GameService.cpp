@@ -8,7 +8,11 @@
 
 CGameService::CGameService(void)
 {
-
+	m_dwLogicConnID		= 0;
+	m_dwProxyConnID		= 0;
+	m_dwServerID		= 0;
+	m_dwWatchSvrConnID	= 0;
+	m_dwWatchIndex		= 0;
 }
 
 CGameService::~CGameService(void)
