@@ -513,3 +513,8 @@ BOOL CommonFunc::KillProcess(UINT64 dwPid)
 #endif
 	return TRUE;
 }
+
+INT32 CommonFunc::Min(INT32 nValue1, INT32 nValue2)
+{
+	return (nValue1 < nValue2) ? nValue1 : nValue2;
+}

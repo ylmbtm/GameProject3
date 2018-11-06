@@ -103,8 +103,6 @@ BOOL CGameService::Init()
 	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
 	///////////////////////////////////////////////
 
-
-
 	if (!CPayManager::GetInstancePtr()->InitPayManager())
 	{
 		CLog::GetInstancePtr()->LogError("初始化支付管理器失败!");

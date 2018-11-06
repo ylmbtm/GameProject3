@@ -188,7 +188,7 @@ UINT64 CSimpleManager::GetGuildID( UINT64 u64ID )
 
 UINT32 CSimpleManager::GetTotalCount()
 {
-	return m_mapID2Simple.size();
+	return (UINT32)m_mapID2Simple.size();
 }
 
 UINT32 CSimpleManager::GetCurrOnline()

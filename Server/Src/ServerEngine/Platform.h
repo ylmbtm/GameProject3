@@ -42,6 +42,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <dirent.h>
+#include <netdb.h>
 
 #define WSAEWOULDBLOCK 		EWOULDBLOCK
 #define WSAEINPROGRESS 		EINPROGRESS

@@ -46,7 +46,7 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCar
 	m_pRoleDataObject->lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
-	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), min(ROLE_NAME_LEN, Name.size()));
+	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)Name.size()));
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
 	m_pRoleDataObject->unlock();

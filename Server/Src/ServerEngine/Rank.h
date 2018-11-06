@@ -64,7 +64,7 @@ public:
 	{
 		nOrgIndex = -1;
 		nTargetIndex = -1;
-		std::vector<TRankItem>::size_type nCount = m_vtRankList.size();
+		INT32 nCount = (INT32)m_vtRankList.size();
 		if(nCount == 0)
 		{
 			return FALSE;
@@ -76,10 +76,10 @@ public:
 		}
 		else
 		{
-			std::vector<TRankItem>::size_type left = 0, right = nCount - 1;
+			INT32 left = 0, right = nCount - 1;
 			while (left <= right)
 			{
-				int mid = left + (right - left) / 2;
+				INT32 mid = left + (right - left) / 2;
 				if ((RankValue > m_vtRankList[mid].RankValue) && (RankValue <= m_vtRankList[mid - 1].RankValue))
 				{
 					nTargetIndex = mid;
@@ -96,8 +96,8 @@ public:
 			}
 		}
 
-		std::vector<TRankItem>::size_type myIndex = nCount - 1;
-		for (std::vector<TRankItem>::size_type i = nTargetIndex; i < nCount; i++)
+		INT32 myIndex = nCount - 1;
+		for (INT32 i = nTargetIndex; i < nCount; i++)
 		{
 			if (m_vtRankList[i].RankID == RankID)
 			{
@@ -116,7 +116,7 @@ public:
 
 	void Clear()
 	{
-		for(std::vector<TRankItem>::size_type i = 0; i < m_vtRankList.size(); i++)
+		for(INT32 i = 0; i < m_vtRankList.size(); i++)
 		{
 			m_vtRankList[i].RankID = 0;
 			m_vtRankList[i].RankValue = -1;
@@ -126,7 +126,7 @@ public:
 
 	INT32 SetRankItem(UINT64 RankID, UINT64 RankValue)
 	{
-		std::vector<TRankItem>::size_type nCount = m_vtRankList.size();
+		INT32 nCount = (INT32)m_vtRankList.size();
 		UINT64 MinValue = m_vtRankList[nCount - 1].RankValue;
 		if (RankValue <= MinValue)
 		{
@@ -151,7 +151,7 @@ public:
 			nOrgIndex = nCount - 1;
 		}
 
-		for (std::vector<TRankItem>::size_type i = nOrgIndex; i > nTargetIndex; i--)
+		for (INT32 i = nOrgIndex; i > nTargetIndex; i--)
 		{
 			m_vtRankList[i].RankID = m_vtRankList[i - 1].RankID;
 			m_vtRankList[i].RankValue = m_vtRankList[i - 1].RankValue;

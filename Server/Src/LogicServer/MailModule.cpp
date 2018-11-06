@@ -111,7 +111,7 @@ BOOL CMailModule::SendMail(std::string strSender, std::string strTitle, std::str
 	pMailObject->lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
-	strncpy(pMailObject->m_szSender, strSender.c_str(), min(ROLE_NAME_LEN, strSender.size()));
+	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 	pMailObject->unlock();
 	return AddMail(pMailObject);
