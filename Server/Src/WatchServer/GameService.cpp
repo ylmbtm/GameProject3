@@ -68,7 +68,7 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 
 BOOL CGameService::OnSecondTimer()
 {
-
+	m_WatchMsgHandler.OnSecondTimer();
 
 	return TRUE;
 }

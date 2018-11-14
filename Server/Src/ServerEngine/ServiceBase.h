@@ -16,7 +16,7 @@ protected:
 public:
 	static ServiceBase* GetInstancePtr();
 
-	BOOL            StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather);
+	BOOL            StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp="");
 
 	BOOL            StopNetwork();
 

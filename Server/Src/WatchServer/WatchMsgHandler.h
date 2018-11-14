@@ -41,13 +41,15 @@ public:
 	BOOL		OnNewConnect(CConnection* pConn);
 
 	BOOL		OnCloseConnect(CConnection* pConn);
+
+	BOOL		OnSecondTimer();
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgUpdateServerReq(NetPacket* pNetPacket);  //更新服务器
 	BOOL OnMsgStartServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgStopServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgServerHeartReq(NetPacket* pNetPacket);
-	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
+	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
 	BOOL UpdateServer_Thread();

@@ -203,6 +203,12 @@
     <ClInclude Include="LuaManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AVLTree.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="MemObjectPool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

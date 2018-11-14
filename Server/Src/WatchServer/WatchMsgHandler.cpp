@@ -46,7 +46,7 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ,	OnMsgStartServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ,	OnMsgServerHeartReq)
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgGmCommandReq)
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgWebCommandReq)
 	}
 
 	return FALSE;
@@ -82,6 +82,12 @@ BOOL CWatchMsgHandler::OnNewConnect(CConnection* pConn)
 
 BOOL CWatchMsgHandler::OnCloseConnect(CConnection* pConn)
 {
+	return TRUE;
+}
+
+BOOL CWatchMsgHandler::OnSecondTimer()
+{
+
 	return TRUE;
 }
 
@@ -195,7 +201,7 @@ BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
 }
 
 
-BOOL CWatchMsgHandler::OnMsgGmCommandReq(NetPacket* pNetPacket)
+BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
 	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
@@ -306,6 +312,7 @@ BOOL CWatchMsgHandler::StartProcess(ServerProcessInfo& processData, INT32 nIndex
 	}
 
 	processData.ProscessStatus = EPS_Starting;
+
 	processData.LastHeartTick = CommonFunc::GetTickCount();
 
 	return TRUE;

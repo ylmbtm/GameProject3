@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstarFinder.h" />
+    <ClInclude Include="AVLTree.h" />
     <ClInclude Include="CommandLine.h" />
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="LockFreeQueueImpl.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LuaManager.h" />
+    <ClInclude Include="MemObjectPool.h" />
     <ClInclude Include="NetManager.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Rank.h" />

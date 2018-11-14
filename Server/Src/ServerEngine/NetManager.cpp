@@ -84,13 +84,20 @@ BOOL CNetManager::WorkThread_Listen()
 	return TRUE;
 }
 
-BOOL CNetManager::StartListen(UINT16 nPortNum)
+BOOL CNetManager::StartListen(UINT16 nPortNum, std::string strListenIp)
 {
 	sockaddr_in SvrAddr;
 	SvrAddr.sin_family		= AF_INET;
 	SvrAddr.sin_port		= htons(nPortNum);
-	SvrAddr.sin_addr.s_addr	= htonl(INADDR_ANY);		//支持多IP地址监听
-	//inet_pton(AF_INET, CGlobalConfig::GetInstancePtr()->m_strIpAddr.c_str(), &SvrAddr.sin_addr);
+	
+	if (strListenIp.empty() || strListenIp.length() < 4)
+	{
+		SvrAddr.sin_addr.s_addr = htonl(INADDR_ANY);		//支持多IP地址监听
+	}
+	else
+	{
+		inet_pton(AF_INET, strListenIp.c_str(), &SvrAddr.sin_addr);
+	}
 
 	m_hListenSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(m_hListenSocket == INVALID_SOCKET)
@@ -499,7 +506,7 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 #endif
 
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler )
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string &strListenIp)
 {
 	ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
@@ -525,7 +532,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 		return FALSE;
 	}
 
-	if(!StartListen(nPortNum))
+	if(!StartListen(nPortNum, strListenIp))
 	{
 		CLog::GetInstancePtr()->LogError("开启监听失败！！");
 		return FALSE;

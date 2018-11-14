@@ -164,6 +164,7 @@
     <ClCompile Include="StoreModule.cpp" />
     <ClCompile Include="TaskModule.cpp" />
     <ClCompile Include="LogicMsgHandler.cpp" />
+    <ClCompile Include="WebCommandHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConfigData\ConfigData.h" />

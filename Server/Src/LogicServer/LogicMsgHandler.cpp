@@ -87,6 +87,7 @@ BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
 			PROCESS_MESSAGE_ITEM(MSG_TEST_ADD_ITEM,			OnMsgTestAddItemReq);
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgWebCommandReq);
 	}
 
 
@@ -417,7 +418,7 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	{
 		std::vector<std::string> vtParam;
 		CommonConvert::SpliteString(Req.content(), " ", vtParam);
-		ProcessGameCommand(pHeader->u64TargetID, vtParam);
+		ProcessGMCommand(pHeader->u64TargetID, vtParam);
 	}
 	else
 	{
@@ -447,7 +448,7 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CLogicMsgHandler::ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
+BOOL CLogicMsgHandler::ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
 {
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
 	ERROR_RETURN_TRUE(pPlayer != NULL);

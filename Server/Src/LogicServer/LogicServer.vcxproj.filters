@@ -150,6 +150,9 @@
     <ClCompile Include="GmCommand.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="WebCommandHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">

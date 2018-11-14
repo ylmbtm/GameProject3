@@ -23,10 +23,7 @@ public:
 	BOOL OnSecondTimer();
 
 public:
-	BOOL ProcessGameCommand(UINT64 u64ID, std::vector<std::string>& vtParam);
-
-
-
+	BOOL ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& vtParam);
 
 public:
 	//*********************消息处理定义开始******************************
@@ -47,6 +44,7 @@ public:
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
 	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
 	BOOL OnMsgTestAddItemReq(NetPacket* pNetPacket);
+	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

@@ -173,7 +173,7 @@ public:
 
 	~CBufferManager()
 	{
-
+		ReleaseMemory();
 	}
 
 	IDataBuffer* AllocDataBuff()
@@ -222,6 +222,27 @@ public:
 		m_dwBufferCount += 1;
 		m_CritSec.Unlock();
 		return pDataBuffer;
+	}
+
+	void ReleaseMemory()
+	{
+		CDataBuffer<SIZE>* pBufferNode = m_pFreeList;
+		while (pBufferNode)
+		{
+			CDataBuffer<SIZE>* pTempNode = pBufferNode;
+			pBufferNode = pTempNode->m_pNext;
+			delete pTempNode;
+		}
+
+		pBufferNode = m_pUsedList;
+		while (pBufferNode)
+		{
+			CDataBuffer<SIZE>* pTempNode = pBufferNode;
+			pBufferNode = pTempNode->m_pNext;
+			delete pTempNode;
+		}
+
+		return;
 	}
 
 	void PrintOutList(CDataBuffer<SIZE>* pList)
