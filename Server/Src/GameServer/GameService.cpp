@@ -82,6 +82,7 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 		m_SceneManager.SendCityReport();
 		return TRUE;
 	}
+
 	if(pConn->GetConnectionID() == m_dwProxyConnID)
 	{
 		RegisterToProxySvr();

@@ -79,8 +79,6 @@ public:
 
 	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
 
-
-
 public:
 	UINT32 m_dwRecommendSvrID;
 

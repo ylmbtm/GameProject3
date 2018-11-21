@@ -19,7 +19,7 @@ CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler )
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler , std::string &strListenIp)
 {
 	if(pBufferHandler == NULL)
 	{
@@ -32,7 +32,12 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 	CConnectionMgr::GetInstancePtr()->InitConnectionList(nMaxConn, m_IoService);
 
-	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address_v4::from_string("0.0.0.0"), nPortNum);
+	if (strListenIp.empty() || strListenIp.length() < 4)
+	{
+		strListenIp = "0.0.0.0";
+	}
+	
+	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address_v4::from_string(strListenIp), nPortNum);
 
 	m_pAcceptor = new boost::asio::ip::tcp::acceptor(m_IoService, ep);
 
@@ -96,20 +101,35 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 
 void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::error_code& e)
 {
-	m_pBufferHandler->OnNewConnect(pConnection);
+	if (!e)
+	{
+		m_pBufferHandler->OnNewConnect(pConnection);
 
-	pConnection->DoReceive();
+		pConnection->DoReceive();
+	}
+	else
+	{
+		pConnection->Close();
+	}
 
 	return ;
 }
 
 void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::error_code& e)
 {
-	m_pBufferHandler->OnNewConnect(pConnection);
+	if (!e)
+	{
+		m_pBufferHandler->OnNewConnect(pConnection);
 
-	pConnection->DoReceive();
+		pConnection->DoReceive();
 
-	WaitForConnect();
+		WaitForConnect();
+	}
+	else
+	{
+		pConnection->Close();
+		//这里是监听出错，需要处理．
+	}
 
 	return ;
 }

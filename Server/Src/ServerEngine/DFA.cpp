@@ -78,7 +78,7 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 		KeyType p = pdata[currentPos];
 		DFANode* pnode = GetNode(p);
 		++s_length;
-		if (pnode == NULL)///如果没有找到到。从下一个开始找
+		if (pnode == NULL)
 		{
 			if (bReturn == false)
 			{
@@ -91,7 +91,6 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 		}
 		else if (pnode->HasEnding())
 		{
-			//记录最佳匹配长度
 			s_maxlen = s_length;
 
 			if (bReturn)
@@ -99,7 +98,6 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 				m_start = currentPos;
 			}
 
-			//如果只有一个子节点或者没有节点则直接返回
 			if (pnode->GetChildCount() <= 1)
 			{
 				return TRUE;
@@ -160,7 +158,7 @@ BOOL DFANode::LoadFile(const std::string& filename)
 	{
 		fgets(line, 1024, pFile);
 
-		int nLen = strlen(line);
+		int nLen = (int)strlen(line);
 		if (line[nLen - 1] == '\n')
 		{
 			line[nLen - 1] = 0;
@@ -176,7 +174,7 @@ BOOL DFANode::LoadFile(const std::string& filename)
 			continue;
 		}
 
-		strcat(line, "#");//每个字符添加#作为结尾符
+		strcat(line, "#");
 
 		std::string tmpline = line;
 
@@ -213,15 +211,13 @@ BOOL DFANode::FilterKeyWords(std::string& word, const std::string& dest /*= "***
 
 	std::transform(wpData.begin(), wpData.end(), wpData.begin(), toupper);
 
-	//用来记录字符串的查询位置
+
 	int start = 0, strlen = 0;
-	int lastPos = -1;	//上次替换的位置
+	int lastPos = -1;	
 	BOOL keyflag = FALSE;
 
-	//替换成的宽字符和长度
 	while (HasKeyWord(wpData.c_str(), (int)wpData.size()))
 	{
-		//获取敏感词在字符串中的位置和长度，判断是否是连续敏感词，如果是则替换为空
 		GetKeyPos(start, strlen);
 		if (lastPos == start)
 		{
@@ -233,11 +229,10 @@ BOOL DFANode::FilterKeyWords(std::string& word, const std::string& dest /*= "***
 			wpData.replace(wpData.begin() + start, wpData.begin() + start + strlen, dest.c_str());
 			lastPos = start + (int)dest.size();
 		}
-		//表示含有敏感词
+
 		keyflag = TRUE;
 	}
 
-	//如果有敏感词，则需要使用替换后的字符串
 	if (keyflag)
 	{
 		word = wpData;

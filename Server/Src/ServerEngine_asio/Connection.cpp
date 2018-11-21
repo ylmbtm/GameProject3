@@ -37,7 +37,7 @@ CConnection::~CConnection(void)
 
 	m_dwDataLen			= 0;
 
-	m_u64ConnData        = 0;
+	m_u64ConnData       = 0;
 
 	m_dwConnID          = 0;
 
@@ -284,8 +284,9 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 
 	if (!m_IsSending)
 	{
-		CHAR szBuf[1] = { 0 };
-		boost::asio::async_write(m_hSocket, boost::asio::buffer(szBuf, 0), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+		m_hSocket.get_io_service().post(boost::bind(&CConnection::DoSend, this));
+		//CHAR szBuf[1] = { 0 };
+		//boost::asio::async_write(m_hSocket, boost::asio::buffer(szBuf, 0), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 	}
 
 	return TRUE;
@@ -333,9 +334,14 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 }
 BOOL CConnection::DoSend()
 {
+	if (m_pSendingBuffer != NULL)
+	{
+		m_pSendingBuffer->Release();
+		m_pSendingBuffer = NULL;
+	}
+
 	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
-	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
 	int nCurPos = 0;
 
@@ -350,7 +356,7 @@ BOOL CConnection::DoSend()
 
 			if(nSendSize >= RECV_BUF_SIZE)
 			{
-				pSendingBuffer = pBuffer;
+				m_pSendingBuffer = pBuffer;
 				break;
 			}
 
@@ -358,18 +364,18 @@ BOOL CConnection::DoSend()
 		}
 		else
 		{
-			if(pSendingBuffer == NULL)
+			if(m_pSendingBuffer == NULL)
 			{
-				pSendingBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
-				pFirstBuff->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
-				pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
+				m_pSendingBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(RECV_BUF_SIZE);
+				pFirstBuff->CopyTo(m_pSendingBuffer->GetBuffer() + nCurPos, pFirstBuff->GetTotalLenth());
+				m_pSendingBuffer->SetTotalLenth(m_pSendingBuffer->GetTotalLenth() + pFirstBuff->GetTotalLenth());
 				nCurPos += pFirstBuff->GetTotalLenth();
 				pFirstBuff->Release();
 				pFirstBuff = NULL;
 			}
 
-			pBuffer->CopyTo(pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
-			pSendingBuffer->SetTotalLenth(pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
+			pBuffer->CopyTo(m_pSendingBuffer->GetBuffer() + nCurPos, pBuffer->GetTotalLenth());
+			m_pSendingBuffer->SetTotalLenth(m_pSendingBuffer->GetTotalLenth() + pBuffer->GetTotalLenth());
 			nCurPos += pBuffer->GetTotalLenth();
 			pBuffer->Release();
 			pBuffer = NULL;
@@ -380,18 +386,18 @@ BOOL CConnection::DoSend()
 		}
 	}
 
-	if(pSendingBuffer == NULL)
+	if(m_pSendingBuffer == NULL)
 	{
-		pSendingBuffer = pFirstBuff;
+		m_pSendingBuffer = pFirstBuff;
 	}
 
-	if(pSendingBuffer == NULL)
+	if(m_pSendingBuffer == NULL)
 	{
 		m_IsSending = FALSE;
 		return FALSE;
 	}
 
-	boost::asio::async_write(m_hSocket, boost::asio::buffer(pSendingBuffer->GetBuffer(), pSendingBuffer->GetBufferSize()), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	boost::asio::async_write(m_hSocket, boost::asio::buffer(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize()), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 	return TRUE;
 }

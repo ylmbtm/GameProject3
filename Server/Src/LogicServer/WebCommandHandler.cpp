@@ -14,8 +14,8 @@ BOOL CLogicMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
-	std::string strEvent = Params.GetStrValue("event");
-	CLog::GetInstancePtr()->LogError("GmCommand Event:%s", strEvent.c_str());
+	std::string strEvent = Params.GetStrValue("Action");
+	CLog::GetInstancePtr()->LogError("GmCommand Action:%s", strEvent.c_str());
 	
 
 	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());

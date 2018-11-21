@@ -104,8 +104,9 @@ enum EShareData
 
 enum EGuildPos
 {
-	EGP_MEMBER = 0,
-	EGP_LEADER = 1,
+	EGP_MEMBER		= 0,
+	EGP_LEADER		= 1,
+	EGP_VICELEADER  = 2,
 };
 
 #endif //__SERVER_STRUCT_H__
