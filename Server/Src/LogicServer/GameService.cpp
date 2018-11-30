@@ -157,7 +157,7 @@ BOOL CGameService::ConnectToLogServer()
 	}
 	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
 	std::string strLogIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogIp, nLogPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strLogIp, nLogPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	m_dwLogConnID = pConnection->GetConnectionID();
@@ -172,7 +172,7 @@ BOOL CGameService::ConnectToLoginSvr()
 	}
 	UINT32 nLoginPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
 	std::string strLoginIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLoginIp, nLoginPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strLoginIp, nLoginPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwLoginConnID = pConnection->GetConnectionID();
 	return TRUE;
@@ -186,7 +186,7 @@ BOOL CGameService::ConnectToDBSvr()
 	}
 	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_port");
 	std::string strDBIp = CConfigFile::GetInstancePtr()->GetStringValue("db_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strDBIp, nDBPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strDBIp, nDBPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwDBConnID = pConnection->GetConnectionID();
 	return TRUE;
@@ -201,7 +201,7 @@ BOOL CGameService::ConnectToCenterSvr()
 	}
 	UINT32 nCenterPort = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_port");
 	std::string strCenterIp = CConfigFile::GetInstancePtr()->GetStringValue("center_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strCenterIp, nCenterPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strCenterIp, nCenterPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwCenterID = pConnection->GetConnectionID();
 	return TRUE;
@@ -408,7 +408,7 @@ BOOL CGameService::ConnectToWatchServer()
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strWatchIp, nWatchPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwWatchSvrConnID = pConnection->GetConnectionID();
 	return TRUE;

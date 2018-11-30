@@ -65,6 +65,7 @@ BOOL CNetManager::WaitForConnect()
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	if(pConnection == NULL)
 	{
+		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -73,7 +74,14 @@ BOOL CNetManager::WaitForConnect()
 	return TRUE;
 }
 
-CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+CConnection* CNetManager::ConnectTo_Async(std::string strIpAddr, UINT16 sPort)
+{
+	ASSERT_FAIELD;
+
+	return NULL;
+}
+
+CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 {
 	//boost::asio::ip::tcp::resolver resolver(m_IoService);
 	//boost::asio::ip::tcp::resolver::query query(serverip.c_str(), Helper::IntToString(portnumber));

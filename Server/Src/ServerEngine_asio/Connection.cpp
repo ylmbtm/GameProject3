@@ -405,13 +405,30 @@ BOOL CConnection::DoSend()
 
 void CConnection::HandReaddata(const boost::system::error_code& error, size_t len)
 {
-	HandleRecvEvent(len);
+	if (!error)
+	{
+		if (HandleRecvEvent(len))
+		{
+			return;
+		}
+	}
+
+	Close();
+
+	return;
 }
 
 
 void CConnection::HandWritedata(const boost::system::error_code& error, size_t len)
 {
-	DoSend();
+	if (!error)
+	{
+		DoSend();
+		return;
+	}
+
+
+	Close();
 
 	return;
 }

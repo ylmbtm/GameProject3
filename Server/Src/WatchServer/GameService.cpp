@@ -114,7 +114,7 @@ BOOL CGameService::Uninit()
 
 // BOOL CGameService::SendHttpRequest(std::string host, INT32 nPort, std::string strData)
 // {
-// 	ServiceBase::GetInstancePtr()->ConnectToOtherSvr(host, nPort);
+// 	ServiceBase::GetInstancePtr()->ConnectTo(host, nPort);
 //
 //
 // }

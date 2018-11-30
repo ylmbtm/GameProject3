@@ -157,7 +157,7 @@ BOOL CGameService::ConnectToWatchServer()
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strWatchIp, nWatchPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwWatchSvrConnID = pConnection->GetConnectionID();
 	return TRUE;

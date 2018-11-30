@@ -59,9 +59,9 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 		pTempObject->m_uCreateTime	= QueryResult.getInt64Field("create_time");
 		pTempObject->m_uSealTime = QueryResult.getInt64Field("seal_end_time");
 
-		if(m_u64MaxID < QueryResult.getInt64Field("id"))
+		if(m_u64MaxID < (UINT64)QueryResult.getInt64Field("id"))
 		{
-			m_u64MaxID = QueryResult.getInt64Field("id");
+			m_u64MaxID = (UINT64)QueryResult.getInt64Field("id");
 		}
 
 		QueryResult.nextRow();

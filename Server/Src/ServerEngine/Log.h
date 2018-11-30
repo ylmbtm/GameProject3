@@ -77,6 +77,15 @@ protected:
 	return NULL;	\
 }
 
+#define ERROR_RETURN_NONE(P) \
+	if(P == FALSE)\
+{\
+	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+	ASSERT_FAIELD; \
+	return ;	\
+}
+
+
 
 #define ERROR_RETURN_CODE(P, Code) \
 	if(P == FALSE)\

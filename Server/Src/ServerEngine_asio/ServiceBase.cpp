@@ -115,7 +115,7 @@ BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 	return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
 }
 
-CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 {
 	if(strIpAddr.empty() || sPort <= 0)
 	{
@@ -123,7 +123,7 @@ CConnection* ServiceBase::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 		return NULL;
 	}
 
-	return CNetManager::GetInstancePtr()->ConnectToOtherSvr(strIpAddr, sPort);
+	return CNetManager::GetInstancePtr()->ConnectTo_Async(strIpAddr, sPort);
 }
 
 BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )

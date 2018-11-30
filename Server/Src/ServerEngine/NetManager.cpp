@@ -581,7 +581,7 @@ BOOL CNetManager::StopListen()
 	return TRUE;
 }
 
-CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort )
+CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 {
 	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(hSocket == INVALID_SOCKET)
@@ -608,7 +608,10 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 		return NULL;
 	}
 
+	CommonSocket::SetSocketUnblock(hSocket);
+
 	pConnection->SetConnectionOK(TRUE);
+
 	m_pBufferHandler->OnNewConnect(pConnection);
 
 	if(!pConnection->DoReceive())
@@ -620,7 +623,7 @@ CConnection* CNetManager::ConnectToOtherSvr( std::string strIpAddr, UINT16 sPort
 	return pConnection;
 }
 
-CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPort )
+CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 {
 	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(hSocket == INVALID_SOCKET || hSocket == 0)
@@ -663,6 +666,7 @@ CConnection* CNetManager::ConnectToOtherSvrEx( std::string strIpAddr, UINT16 sPo
 	if (!bRet)
 	{
 		CommonSocket::CloseSocket(hSocket);
+		return NULL;
 	}
 		
 	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);

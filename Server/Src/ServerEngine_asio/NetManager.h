@@ -31,7 +31,8 @@ public:
 public:
 	BOOL	WaitForConnect();
 public:
-	CConnection*	ConnectToOtherSvr(std::string strIpAddr, UINT16 sPort);
+	CConnection*	ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
 	void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
 	void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);

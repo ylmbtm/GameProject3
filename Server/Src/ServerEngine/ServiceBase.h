@@ -26,7 +26,7 @@ public:
 
 	BOOL			OnNewConnect(CConnection* pConnection);
 
-	CConnection*	ConnectToOtherSvr(std::string strIpAddr, UINT16 sPort);
+	CConnection*	ConnectTo(std::string strIpAddr, UINT16 sPort);
 
 	template<typename T>
 	BOOL			SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);

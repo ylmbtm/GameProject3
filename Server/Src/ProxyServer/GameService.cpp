@@ -130,7 +130,7 @@ BOOL CGameService::ConnectToLogicSvr()
 	}
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
-	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strLogicIp, nLogicPort);
+	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
 	m_dwLogicConnID = pConn->GetConnectionID();
 	return TRUE;
@@ -193,7 +193,7 @@ BOOL CGameService::ConnectToWatchServer()
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectToOtherSvr(strWatchIp, nWatchPort);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwWatchSvrConnID = pConnection->GetConnectionID();
 	return TRUE;
