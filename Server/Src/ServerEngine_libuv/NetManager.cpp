@@ -2,12 +2,68 @@
 #include "NetManager.h"
 #include "Connection.h"
 #include "CommandDef.h"
-#include "boost/asio/placeholders.hpp"
-#include <boost/asio/impl/connect.hpp>
 #include "../ServerEngine/CommonConvert.h"
 #include "Log.h"
 #include "PacketHeader.h"
 #include "DataBuffer.h"
+
+
+void _Run_Loop(void *arg) {
+	
+	CNetManager *pNetManager = (CNetManager *)arg;
+	
+	pNetManager->RunLoop();
+
+	return;
+}
+
+void On_Connection(uv_connect_t* req, int status)
+{
+	CConnection *pConnection = (CConnection *)req->data;
+
+	if (status == 0)
+	{
+		//成功
+		CNetManager::GetInstancePtr()->HandleConnect(pConnection, status);
+	}
+	else
+	{
+		//失败
+		pConnection->Close();
+	}
+
+	return;
+}
+
+void On_RecvConnection(uv_stream_t* pServer, int status)
+{
+	if (status < 0) {
+		//失败
+		return;
+	}
+
+	CConnection *pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	if (pConnection == NULL)
+	{
+		ASSERT_FAIELD;
+		return;
+	}
+
+	CNetManager *pNetManager = CNetManager::GetInstancePtr();
+
+	uv_tcp_init(pNetManager->m_pMainLoop, pConnection->GetSocket());
+
+	if (uv_accept(pServer, (uv_stream_t*)pConnection->GetSocket()) == 0)
+	{
+		pNetManager->HandleAccept(pConnection, 0);
+	}
+	else 
+	{
+		pConnection->Close();
+	}
+
+	return;
+}
 
 
 CNetManager::CNetManager(void)
@@ -19,7 +75,7 @@ CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler , std::string &strListenIp)
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string &strListenIp)
 {
 	if(pBufferHandler == NULL)
 	{
@@ -30,27 +86,39 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 	m_pBufferHandler = pBufferHandler;
 
-	CConnectionMgr::GetInstancePtr()->InitConnectionList(nMaxConn, m_IoService);
+	CConnectionMgr::GetInstancePtr()->InitConnectionList(nMaxConn);
 
 	if (strListenIp.empty() || strListenIp.length() < 4)
 	{
 		strListenIp = "0.0.0.0";
 	}
 	
-	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address_v4::from_string(strListenIp), nPortNum);
+	m_pMainLoop = uv_default_loop();
 
-	m_pAcceptor = new boost::asio::ip::tcp::acceptor(m_IoService, ep);
+	uv_tcp_init(m_pMainLoop, &m_ListenSocket);
 
-	WaitForConnect();
+	sockaddr_in addr;
 
-	m_pWorkThread = new boost::thread(boost::bind(&boost::asio::io_service::run, &m_IoService));
+	uv_ip4_addr(strListenIp.c_str(), nPortNum, &addr);
+
+	uv_tcp_bind(&m_ListenSocket, (const struct sockaddr*)&addr, 0);
+
+	int nRetCode = uv_listen((uv_stream_t*)&m_ListenSocket, 20, On_RecvConnection);
+	if (nRetCode)
+	{
+		return FALSE;
+	}
+
+	uv_thread_create(&m_LoopThreadID, _Run_Loop, this);
 
 	return TRUE;
 }
 
 BOOL CNetManager::Close()
 {
-	m_IoService.stop();
+	uv_stop(m_pMainLoop);
+	uv_loop_close(m_pMainLoop);
+	uv_thread_join(&m_LoopThreadID);
 
 	CConnectionMgr::GetInstancePtr()->CloseAllConnection();
 
@@ -59,87 +127,73 @@ BOOL CNetManager::Close()
 	return TRUE;
 }
 
-
-BOOL CNetManager::WaitForConnect()
-{
-	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	if(pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
-	m_pAcceptor->async_accept(pConnection->GetSocket(), boost::bind(&CNetManager::HandleAccept, this,  pConnection, boost::asio::placeholders::error));
-
-	return TRUE;
-}
-
 CConnection* CNetManager::ConnectTo_Sync(std::string strIpAddr, UINT16 sPort)
 {
 	ASSERT_FAIELD;
-
 	return NULL;
 }
 
 CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 {
-	//boost::asio::ip::tcp::resolver resolver(m_IoService);
-	//boost::asio::ip::tcp::resolver::query query(serverip.c_str(), Helper::IntToString(portnumber));
-	//boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
-	//boost::asio::ip::tcp::resolver::iterator end;
-	//boost::system::error_code error = boost::asio::error::host_not_found;
-
-	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	if(pConnection == NULL)
+	struct sockaddr_in bind_addr;
+	int iret = uv_ip4_addr(strIpAddr.c_str(), sPort, &bind_addr);
+	if (iret) 
 	{
 		return NULL;
 	}
 
-	//boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(strIpAddr), sPort);
+	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	if (pConnection == NULL)
+	{
+		return NULL;
+	}
 
-	boost::asio::ip::tcp::resolver resolver(m_IoService);
-	boost::asio::ip::tcp::resolver::query query(strIpAddr, CommonConvert::IntToString(sPort));
-	boost::asio::ip::tcp::resolver::iterator enditor = resolver.resolve(query);
-
-	boost::asio::async_connect(pConnection->GetSocket(), enditor, boost::bind(&CNetManager::HandleConnect, this, pConnection, boost::asio::placeholders::error));
+	iret = uv_tcp_init(m_pMainLoop, pConnection->GetSocket());
+	pConnection->GetSocket()->data = pConnection;
+	pConnection->m_ConnectReq.data = pConnection;
+	
+	iret = uv_tcp_connect(&pConnection->m_ConnectReq, pConnection->GetSocket(), (const sockaddr*)&bind_addr, On_Connection);
+	if (iret) 
+	{
+		pConnection->Close();
+	}
 
 	return pConnection;
 }
 
 
-void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::error_code& e)
+void CNetManager::HandleConnect(CConnection* pConnection, INT32 dwStatus)
 {
-	if (!e)
-	{
-		m_pBufferHandler->OnNewConnect(pConnection);
+	m_pBufferHandler->OnNewConnect(pConnection);
 
-		pConnection->DoReceive();
-	}
-	else
-	{
-		pConnection->Close();
-	}
+	pConnection->DoReceive();
 
 	return ;
 }
 
-void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::error_code& e)
+void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 {
-	if (!e)
+	if (dwStatus == 0)
 	{
 		m_pBufferHandler->OnNewConnect(pConnection);
 
 		pConnection->DoReceive();
-
-		WaitForConnect();
 	}
 	else
 	{
 		pConnection->Close();
-		//这里是监听出错，需要处理．
+		//处理错误
 	}
+	
+	return;
+}
 
-	return ;
+
+void CNetManager::RunLoop()
+{
+	uv_run(m_pMainLoop, UV_RUN_DEFAULT);
+
+	return;
 }
 
 BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
@@ -219,7 +273,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 
 	if (!pConnection->m_IsSending)
 	{
-		m_IoService.post(boost::bind(&CConnection::DoSend, pConnection));
+		
 	}
 
 	return TRUE;

@@ -1,13 +1,6 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-#include "boost/system/error_code.hpp"
-#include "boost/asio/ip/tcp.hpp"
-#include <boost/thread.hpp>
-#include <boost/thread/thread.hpp>
-#include "boost/asio/io_service.hpp"
-#include "boost/asio/connect.hpp"
-
 
 ////////////////////////////////////////////////
 class CNetManager
@@ -30,23 +23,25 @@ public:
 	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
 	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer);
+
 public:
-	BOOL	WaitForConnect();
-public:
+	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
+
+	CConnection*	ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+
+	void HandleConnect(CConnection* pConnection, INT32 dwStatus);
+
+	void HandleAccept(CConnection* pConnection, INT32 dwStatus);
 	
-	CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
-
-	CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
-
-	void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
-
-	void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);
-
 	BOOL PostSendOperation(CConnection* pConnection);
+
+	void RunLoop();
+
+	uv_tcp_t						m_ListenSocket;
+	uv_loop_t*						m_pMainLoop;
+	uv_thread_t						m_LoopThreadID;
 	
-	boost::asio::ip::tcp::acceptor* m_pAcceptor;
-	boost::asio::io_service         m_IoService;
-	boost::thread*                   m_pWorkThread;
+public:
 	IDataHandler*					m_pBufferHandler;
 };
 

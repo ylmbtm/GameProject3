@@ -617,7 +617,6 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 	if(!pConnection->DoReceive())
 	{
 		pConnection->Close();
-		return NULL;
 	}
 
 	return pConnection;
@@ -787,20 +786,20 @@ Th_RetName _NetListenThread( void* pParam )
 
 BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 {
-#ifdef WIN32
 	if (!pConnection->m_IsSending)
 	{
+#ifdef WIN32
 		pConnection->m_IsSending = TRUE;
 		pConnection->m_IoOverLapPost.Clear();
 		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
 		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
 		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
-	}
 #else
-	struct epoll_event EpollEvent;
-	EpollEvent.data.ptr = pConnection;
-	EpollEvent.events = EPOLLOUT | EPOLLET;
-	epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+		struct epoll_event EpollEvent;
+		EpollEvent.data.ptr = pConnection;
+		EpollEvent.events = EPOLLOUT | EPOLLET;
+		epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
 #endif
+	}
 	return TRUE;
 }

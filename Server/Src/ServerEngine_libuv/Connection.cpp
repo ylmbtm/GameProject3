@@ -2,13 +2,86 @@
 #include "Connection.h"
 #include "DataBuffer.h"
 #include "CommandDef.h"
-#include <boost/asio/placeholders.hpp>
 #include "PacketHeader.h"
 
-#include <boost/asio.hpp>
+void On_AllocBuff(uv_handle_t* handle,size_t suggested_size,uv_buf_t* buf)
+{
+	CConnection *pConnection = (CConnection *)handle->data;
+
+	buf->base = pConnection->m_pRecvBuf + pConnection->m_dwDataLen;
+
+	buf->len = RECV_BUF_SIZE - pConnection->m_dwDataLen;
+
+	return;
+}
+
+void On_ReadData(uv_stream_t* stream,ssize_t nread,const uv_buf_t* buf)
+{
+	CConnection *pConnection = (CConnection *)stream->data;
+	if (nread >= 0)
+	{
+		pConnection->HandReaddata(nread);
+
+		return;
+	}
+
+	//uv_last_error(uv_default_loop());
+		
 
 
-CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservice)
+	pConnection->Close();
+
+	return;
+}
+
+void On_WriteData(uv_write_t* req, int status)
+{
+	CConnection *pConnection = (CConnection *)req->data;
+
+	ERROR_RETURN_NONE(pConnection != NULL);
+
+	pConnection->DoSend();
+
+	if (status == 0)
+	{
+		//成功
+	}
+	else
+	{
+		//失败
+	}
+
+	return;
+}
+
+void On_Shutdown(uv_shutdown_t* req, int status)
+{
+	CConnection *pConnection = (CConnection *)req->data;
+
+	ERROR_RETURN_NONE(pConnection != NULL);
+
+	if (status == 0)
+	{
+		//成功
+	}
+	else
+	{
+		//失败
+	}
+
+	return;
+}
+
+void On_Close(uv_handle_t* handle)
+{
+	CConnection *pConnection = (CConnection *)handle->data;
+
+	ERROR_RETURN_NONE(pConnection != NULL);
+
+	return;
+}
+
+CConnection::CConnection()
 {
 	m_pDataHandler		= NULL;
 
@@ -29,6 +102,8 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 	m_IsSending			= FALSE;
 	
 	m_pSendingBuffer	= NULL;
+
+	m_hSocket.data		= (void*)this;
 }
 
 CConnection::~CConnection(void)
@@ -54,11 +129,11 @@ CConnection::~CConnection(void)
 
 BOOL CConnection::DoReceive()
 {
-	//boost::asio::async_read(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-
-	//boost::asio::async_read_some(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-
-	m_hSocket.async_read_some(boost::asio::buffer(m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen), boost::bind(&CConnection::HandReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	if (0 != uv_read_start((uv_stream_t*)&m_hSocket, On_AllocBuff, On_ReadData))
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -76,6 +151,7 @@ UINT64 CConnection::GetConnectionData()
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
 	ASSERT(dwConnID != 0);
+
 	ASSERT(!m_bConnected);
 
 	m_dwConnID = dwConnID;
@@ -86,6 +162,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
 	ASSERT(m_dwConnID != 0);
+
 	m_u64ConnData = dwData;
 
 	return ;
@@ -186,9 +263,9 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-	m_hSocket.shutdown(boost::asio::socket_base::shutdown_receive);
-	m_hSocket.shutdown(boost::asio::socket_base::shutdown_send);
-	m_hSocket.close();
+	uv_read_stop((uv_stream_t*)&m_hSocket);
+	uv_shutdown(&m_ShutdownReq, (uv_stream_t*)&m_hSocket, On_Shutdown);
+	uv_close((uv_handle_t*)&m_hSocket, On_Close);
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
 	if(m_bConnected && m_pDataHandler != NULL)
@@ -226,14 +303,14 @@ BOOL CConnection::SetDataHandler( IDataHandler* pHandler )
 	return TRUE;
 }
 
-boost::asio::ip::tcp::socket& CConnection::GetSocket()
+uv_tcp_t* CConnection::GetSocket()
 {
-	return m_hSocket;
+	return &m_hSocket;
 }
 
 BOOL CConnection::IsConnectionOK()
 {
-	return m_bConnected && m_hSocket.is_open();
+	return m_bConnected && !uv_is_closing((uv_handle_t *)&m_hSocket);
 }
 
 BOOL CConnection::SetConnectionOK( BOOL bOk )
@@ -390,39 +467,23 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	boost::asio::async_write(m_hSocket, boost::asio::buffer(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize()), boost::bind(&CConnection::HandWritedata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	m_WriteReq.data = (void*)this;
+	uv_buf_t buf = uv_buf_init(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize());
+	uv_write(&m_WriteReq, (uv_stream_t *)&m_hSocket, &buf, 1, On_WriteData);
 
 	return TRUE;
 }
 
 
-void CConnection::HandReaddata(const boost::system::error_code& error, size_t len)
+void CConnection::HandReaddata(size_t len)
 {
-	if (!error)
-	{
-		if (HandleRecvEvent(len))
-		{
-			return;
-		}
-	}
-
-	Close();
-
-	return;
+	HandleRecvEvent((UINT32)len);
 }
 
 
-void CConnection::HandWritedata(const boost::system::error_code& error, size_t len)
+void CConnection::HandWritedata(size_t len)
 {
-	if (!error)
-	{
-		DoSend();
-
-		return;
-	}
-
-
-	Close();
+	DoSend();
 
 	return;
 }
@@ -459,7 +520,7 @@ CConnection* CConnectionMgr::CreateConnection()
 	}
 	m_CritSecConnList.Unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
-	ERROR_RETURN_NULL(pTemp->m_hSocket.is_open() == FALSE);
+	ERROR_RETURN_NULL(uv_is_closing((uv_handle_t *)pTemp->GetSocket()));
 	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
 	return pTemp;
 }
@@ -574,7 +635,7 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 
 	return TRUE;
 }
-BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service& ioservice)
+BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons)
 {
 	ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
 	ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
@@ -582,7 +643,7 @@ BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons, boost::asio::io_service
 	m_vtConnList.assign(nMaxCons, NULL);
 	for(UINT32 i = 0; i < nMaxCons; i++)
 	{
-		CConnection* pConn = new CConnection(ioservice);
+		CConnection* pConn = new CConnection();
 
 		m_vtConnList[i] = pConn;
 

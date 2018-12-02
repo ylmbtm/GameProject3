@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{73ED3DBA-7E01-4531-B4A6-C5CFA66EFEC1}</ProjectGuid>
+    <RootNamespace>ServerEngine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../Bin/Debug64/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../Bin/Release64/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;../../Common/Lua;../ServerEngine/;C:\Users\Administrator\Documents\GitHub\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <AdditionalOptions>-Zm110 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Lib>
+      <OutputFile>..\Bin\Debug64\$(ProjectName)_d.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../Common;../../Common/protobuf/src;../../Common/MySql;../../Common/Lua;../ServerEngine/;C:\Users\Administrator\Documents\GitHub\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SERVER_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <OutputFile>..\Bin\Release64\$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ServerEngine\AstarFinder.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonConvert.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonFunc.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonSocket.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonThreadFunc.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonWorkThread.cpp" />
+    <ClCompile Include="..\ServerEngine\ConfigFile.cpp" />
+    <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="..\ServerEngine\CrashReport.cpp" />
+    <ClCompile Include="..\ServerEngine\DataBuffer.cpp" />
+    <ClCompile Include="..\ServerEngine\DBInterface\CppMysql.cpp" />
+    <ClCompile Include="..\ServerEngine\DBInterface\DBConnection.cpp" />
+    <ClCompile Include="..\ServerEngine\DBInterface\DBRecordSet.cpp" />
+    <ClCompile Include="..\ServerEngine\DBInterface\DBStoredProc.cpp" />
+    <ClCompile Include="..\ServerEngine\Log.cpp" />
+    <ClCompile Include="..\ServerEngine\LuaManager.cpp" />
+    <ClCompile Include="NetManager.cpp" />
+    <ClCompile Include="ServiceBase.cpp" />
+    <ClCompile Include="..\ServerEngine\SharedMemory.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\ServerEngine\TimerManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ServerEngine\AstarFinder.h" />
+    <ClInclude Include="..\ServerEngine\CommonConvert.h" />
+    <ClInclude Include="..\ServerEngine\CommonFunc.h" />
+    <ClInclude Include="..\ServerEngine\CommonMsgQueue.h" />
+    <ClInclude Include="..\ServerEngine\CommonSocket.h" />
+    <ClInclude Include="..\ServerEngine\CommonThreadFunc.h" />
+    <ClInclude Include="..\ServerEngine\CommonWorkThread.h" />
+    <ClInclude Include="..\ServerEngine\ConfigFile.h" />
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="..\ServerEngine\CrashReport.h" />
+    <ClInclude Include="..\ServerEngine\DataBuffer.h" />
+    <ClInclude Include="..\ServerEngine\DBInterface\CppMysql.h" />
+    <ClInclude Include="..\ServerEngine\DBInterface\DBConnection.h" />
+    <ClInclude Include="..\ServerEngine\DBInterface\DBInterface.h" />
+    <ClInclude Include="..\ServerEngine\DBInterface\DBRecordSet.h" />
+    <ClInclude Include="..\ServerEngine\DBInterface\DBStoredProc.h" />
+    <ClInclude Include="EventFuncManager.h" />
+    <ClInclude Include="..\ServerEngine\LockFreeQueue.h" />
+    <ClInclude Include="..\ServerEngine\LockFreeQueueImpl.h" />
+    <ClInclude Include="..\ServerEngine\Log.h" />
+    <ClInclude Include="..\ServerEngine\LuaManager.h" />
+    <ClInclude Include="NetManager.h" />
+    <ClInclude Include="..\ServerEngine\Platform.h" />
+    <ClInclude Include="ServerEngine.h" />
+    <ClInclude Include="ServiceBase.h" />
+    <ClInclude Include="..\ServerEngine\SharedMemory.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="..\ServerEngine\TimerManager.h" />
+    <ClInclude Include="..\ServerEngine\XMath.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
