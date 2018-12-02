@@ -1,16 +1,21 @@
 Game Engine Frame
 ===============
-一个跨平台的游戏服务器框架， 支持windows和linux下编译部署。
-采用的是目前流行的多进架构，将不同的业务分布到不同的进程实例上，根据业务的不同， 
-实例部署的个数也不同。
+跨平台的多进程游戏服务器框架，支持windows(iocp)和linux(epoll)。  
 
-email : ylmbtm@163.com   QQ群 : 45139128 (加群后可以获取全部客户端代码和资源, 服务器链接需要的第三lib在群文件中)
+ServerEngine有三个版本:  
+ServerEgine:       基于Socket API实现。  
+ServerEgine_asio:  基于boost的库ASIO实现。  
+ServerEgine_libuv: 基于开源的网络库libuv实现。  
 
-结构
+email : ylmbtm@163.com   QQ群 : 45139128 
+
+**在群文件中有全部客户端代码和资源, 链接需要的第三方lib库, 以及数据库sql文件**.
+
+1.服务器基本结构
 ===============
 ![结构](https://wx2.sinaimg.cn/mw690/79045675gy1fvbd68kd1uj20vv0rlmz8.jpg)
 
-服务器说明
+2.服务器功能说明
 ===============
 ### 1.登录服务器(LoginServer)
 	说明: 接受玩家的登录连接， 处理登录请求消息
@@ -39,9 +44,7 @@ email : ylmbtm@163.com   QQ群 : 45139128 (加群后可以获取全部客户端�
 ### 9.监视服务器(WatchServer)
 	说明: 主要负责接受WEB后台的控制命令， 启动服务器， 关闭服务器，监视服务器状态,  更新服务器程序和配制。
 
-
-
-体验客户端效果(加群可以获取全部客户端代码及资源)
+3.体验客户端效果(加群可以获取全部客户端代码及资源)
 ===============
 ![login1](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uoqa8j20pg0etabd.jpg)
 ![login2](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uqpclj20wg0fxgn8.jpg)
