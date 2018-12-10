@@ -1,19 +1,24 @@
 ﻿#include "stdafx.h"
 #include "GameService.h"
-#include "TimerManager.h"
 
-#include "../Message/Msg_ID.pb.h"
 #include "DataPool.h"
-#include "SimpleManager.h"
 #include "../ConfigData/ConfigData.h"
+#include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_Game.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Msg_ID.pb.h"
+
+#include "TimerManager.h"
+#include "SimpleManager.h"
 #include "GlobalDataMgr.h"
 #include "GroupMailMgr.h"
 #include "PayManager.h"
 #include "GuildManager.h"
-#include "../Message/Msg_Game.pb.h"
-#include "../Message/Msg_RetCode.pb.h"
-#include "../Message/Msg_ID.pb.h"
+
+#include "ActivityManager.h"
+
 #include "GmCommand.h"
+
 CGameService::CGameService(void)
 {
 	m_dwLogConnID	= 0;
@@ -106,6 +111,8 @@ BOOL CGameService::Init()
 	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData(tDBConnection);
 
 	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
+
+	CActivityManager::GetInstancePtr()->LoadActivityData(tDBConnection);
 	///////////////////////////////////////////////
 
 	if (!CPayManager::GetInstancePtr()->InitPayManager())

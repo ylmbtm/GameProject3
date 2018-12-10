@@ -26,20 +26,27 @@ CActivityManager* CActivityManager::GetInstancePtr()
 
 BOOL CActivityManager::Init()
 {
-	TimerManager::GetInstancePtr()->AddFixTimer(0, 1, &CActivityManager::ActivityTimer, this);
+
 
 	return TRUE;
 }
 
-BOOL CActivityManager::ActivityTimer(UINT32 dwData)
+BOOL CActivityManager::LoadActivityData(CppMySQL3DB& tDBConnection)
 {
-	for(std::map <UINT32, StActivityInfo>::iterator itor = CConfigData::GetInstancePtr()->m_mapActivityInfo.begin();
-	        itor != CConfigData::GetInstancePtr()->m_mapActivityInfo.end();
-	        itor++)
+
+
+	return TRUE;
+}
+
+BOOL CActivityManager::OnSecondTimer()
+{
+	for (std::map <UINT32, StActivityInfo>::iterator itor = CConfigData::GetInstancePtr()->m_mapActivityInfo.begin();
+		itor != CConfigData::GetInstancePtr()->m_mapActivityInfo.end();
+		itor++)
 	{
 		StActivityInfo& ActInfo = itor->second;
 
-		if(ActInfo.Statue == 0)
+		if (ActInfo.Statue == 0)
 		{
 			continue;
 		}
@@ -49,3 +56,4 @@ BOOL CActivityManager::ActivityTimer(UINT32 dwData)
 
 	return TRUE;
 }
+

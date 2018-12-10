@@ -134,6 +134,13 @@ public:
 	/* 删除制定的数据库*/
 	int dropDB(const char* name);
 
+	/*修改当前的数据库*/
+	bool changeCurDB(const char* name);
+
+	INT64 getAutoIncrementID(const char* szTableName, const char* szDBName);
+
+	bool  setAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName);
+
 private:
 	CppMySQL3DB(const CppMySQL3DB& db);
 	CppMySQL3DB& operator=(const CppMySQL3DB& db);

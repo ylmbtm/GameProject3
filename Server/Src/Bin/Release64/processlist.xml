@@ -5,5 +5,5 @@
   <Process Name="DBServer_d.exe" Params=""  KillAll="" />
   <Process Name="GameServer_d.exe" Params="id=1 port=9008"  KillAll="" />
   <Process Name="ProxyServer_d.exe" Params=""  KillAll="" />
-   <Process Name="LogicServer_d.exe" Params=""  KillAll="1" />
+  <Process Name="LogicServer_d.exe" Params=""  KillAll="1" />
 </Root>

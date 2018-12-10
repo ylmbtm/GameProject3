@@ -40,7 +40,7 @@ public:
 
 	BOOL	Reconnect(void);
 
-	bool    Ping();
+	BOOL    Ping();
 
 private:
 	MYSQL*       m_pMySql;

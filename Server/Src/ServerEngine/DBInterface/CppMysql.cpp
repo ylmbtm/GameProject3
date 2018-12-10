@@ -599,3 +599,69 @@ int CppMySQL3DB::dropDB(const char*  name)
 	return -1;
 }
 
+bool CppMySQL3DB::changeCurDB(const char* name)
+{
+	if (_db_ptr == NULL)
+	{
+		return false;
+	}
+
+	if (0 == mysql_select_db(_db_ptr, name))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+INT64 CppMySQL3DB::getAutoIncrementID(const char* szTableName, const char* szDBName)
+{
+	if ((szTableName == NULL) || (szDBName == NULL))
+	{
+		ASSERT_FAIELD;
+		return 0;
+	}
+
+	char strSql[1024];
+	snprintf(strSql, 1024, "SELECT auto_increment FROM information_schema.tables where table_schema=\"%s\" and table_name=\"%s\"", szDBName, szTableName);
+
+	CppMySQLQuery tQuery;
+
+	int nRet = mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql));
+	if (nRet != 0)
+	{
+		int nError = mysql_errno(_db_ptr);
+		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+		{
+			reconnect();
+			nRet = mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql));
+		}
+	}
+
+	if (0 == nRet)
+	{
+		tQuery.m_MysqlRes = mysql_store_result(_db_ptr);
+	}
+
+	INT64 tId = tQuery.getInt64Field(0);
+	return tId;
+}
+
+bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName)
+{
+	if ((szTableName == NULL) || (szDBName == NULL))
+	{
+		ASSERT_FAIELD;
+		return 0;
+	}
+
+	char strSql[1024];
+	snprintf(strSql, 1024, "alter table %s.%s AUTO_INCREMENT=%lld;", szDBName, szTableName, nId);
+
+	if (!mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql)))
+	{
+		return true;
+	}
+
+	return false;
+}

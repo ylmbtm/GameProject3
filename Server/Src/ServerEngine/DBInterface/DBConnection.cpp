@@ -344,14 +344,14 @@ BOOL CDBConnection::Query( std::string sql )
 	return TRUE;
 }
 
-bool CDBConnection::Ping()
+BOOL CDBConnection::Ping()
 {
 	if (mysql_ping(m_pMySql) == 0)
 	{
-		return true;
+		return TRUE;
 	}
 
-	return false;
+	return FALSE;
 }
 
 int CDBConnection::GetError( void ) const

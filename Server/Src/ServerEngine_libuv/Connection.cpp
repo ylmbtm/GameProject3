@@ -334,16 +334,15 @@ BOOL CConnection::Clear()
 
 	m_pBufPos   = m_pRecvBuf;
 
-	if(m_pCurRecvBuffer != NULL)
-	{
-		m_pCurRecvBuffer->Release();
-	}
-
-	m_pCurRecvBuffer = NULL;
-
 	m_nCheckNo = 0;
 
 	m_IsSending	= FALSE;
+
+	if (m_pCurRecvBuffer != NULL)
+	{
+		m_pCurRecvBuffer->Release();
+		m_pCurRecvBuffer = NULL;
+	}
 
 	IDataBuffer* pBuff = NULL;
 	while(m_SendBuffList.pop(pBuff))
@@ -353,7 +352,6 @@ BOOL CConnection::Clear()
 
 	return TRUE;
 }
-
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
@@ -402,6 +400,7 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 
 	return TRUE;
 }
+
 BOOL CConnection::DoSend()
 {
 	if (m_pSendingBuffer != NULL)
