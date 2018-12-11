@@ -285,10 +285,10 @@ BOOL CConnection::HandleRecvEvent(UINT32 dwBytes)
 		return FALSE;
 	}
 
-	if (!DoReceive())
-	{
-		return FALSE;
-	}
+	//if (!DoReceive())
+	//{
+	//	return FALSE;
+	//}
 
 	return TRUE;
 }

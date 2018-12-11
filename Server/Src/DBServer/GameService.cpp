@@ -59,7 +59,6 @@ BOOL CGameService::Init()
 
 	m_DBWriterManger.Init();
 
-
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;

@@ -202,6 +202,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u6
 
 	if (pConn->SendBuffer(pDataBuffer))
 	{
+		PostSendOperation(pConn);
 		return TRUE;
 	}
 

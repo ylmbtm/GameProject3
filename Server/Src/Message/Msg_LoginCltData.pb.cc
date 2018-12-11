@@ -460,6 +460,8 @@ void InitDefaultsRoleLoginAckImpl() {
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsBagItem();
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsMailItem();
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsTaskItem();
+  protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsCopyItem();
+  protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsChapterItem();
   {
     void* ptr = &::_RoleLoginAck_default_instance_;
     new (ptr) ::RoleLoginAck();
@@ -611,7 +613,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TaskItem, roleid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TaskItem, taskid_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TaskChangeNty, _internal_metadata_),
@@ -625,7 +626,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CopyItem, roleid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CopyItem, copyid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CopyItem, starnum_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CopyItem, battlecnt_),
@@ -635,11 +635,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, roleid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, copytype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, chapterid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, staraward_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, sceneaward_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ChapterItem, copytype_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionItem, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -671,6 +670,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::RoleLoginAck, bagitemlist_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::RoleLoginAck, maillist_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::RoleLoginAck, tasklist_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::RoleLoginAck, copylist_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::RoleLoginAck, chapterlist_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::BagItem)},
@@ -688,11 +689,11 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 117, -1, sizeof(::MailItem)},
   { 123, -1, sizeof(::MailChangeNty)},
   { 130, -1, sizeof(::TaskItem)},
-  { 137, -1, sizeof(::TaskChangeNty)},
-  { 144, -1, sizeof(::CopyItem)},
-  { 154, -1, sizeof(::ChapterItem)},
-  { 164, -1, sizeof(::ActionItem)},
-  { 171, -1, sizeof(::RoleLoginAck)},
+  { 136, -1, sizeof(::TaskChangeNty)},
+  { 143, -1, sizeof(::CopyItem)},
+  { 152, -1, sizeof(::ChapterItem)},
+  { 161, -1, sizeof(::ActionItem)},
+  { 168, -1, sizeof(::RoleLoginAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -775,30 +776,31 @@ void AddDescriptorsImpl() {
       "2\n.MountItem\022\022\n\nRemoveList\030\002 \003(\004\"\030\n\010Mail"
       "Item\022\014\n\004Guid\030\001 \001(\004\"B\n\rMailChangeNty\022\035\n\nC"
       "hangeList\030\001 \003(\0132\t.MailItem\022\022\n\nRemoveList"
-      "\030\002 \003(\004\"*\n\010TaskItem\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006Ta"
-      "skID\030\002 \001(\r\"B\n\rTaskChangeNty\022\035\n\nChangeLis"
-      "t\030\001 \003(\0132\t.TaskItem\022\022\n\nRemoveList\030\002 \003(\004\"`"
-      "\n\010CopyItem\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006CopyID\030\002 \001"
-      "(\r\022\017\n\007StarNum\030\003 \001(\005\022\021\n\tBattleCnt\030\004 \001(\005\022\020"
-      "\n\010ResetCnt\030\005 \001(\005\"i\n\013ChapterItem\022\016\n\006RoleI"
-      "D\030\001 \001(\004\022\020\n\010CopyType\030\002 \001(\r\022\021\n\tChapterID\030\003"
-      " \001(\r\022\021\n\tStarAward\030\004 \001(\r\022\022\n\nSceneAward\030\005 "
-      "\001(\r\",\n\nActionItem\022\016\n\006Action\030\001 \001(\003\022\016\n\006Act"
-      "ime\030\002 \001(\003\"\301\003\n\014RoleLoginAck\022\017\n\007RetCode\030\001 "
-      "\001(\r\022\021\n\tAccountID\030\002 \001(\004\022\016\n\006RoleID\030\003 \001(\004\022\016"
-      "\n\006Carrer\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\013\n\003Exp\030\006 \001"
-      "(\003\022\014\n\004Name\030\007 \001(\t\022\016\n\006VipLvl\030\010 \001(\005\022\016\n\006VipE"
-      "xp\030\t \001(\005\022\022\n\nFightValue\030\n \001(\003\022\037\n\nActionLi"
-      "st\030\013 \003(\0132\013.ActionItem\022\035\n\tEquipList\030\014 \003(\013"
-      "2\n.EquipItem\022\031\n\007GemList\030\r \003(\0132\010.GemItem\022"
-      "\031\n\007PetList\030\016 \003(\0132\010.PetItem\022!\n\013PartnerLis"
-      "t\030\017 \003(\0132\014.PartnerItem\022\035\n\tMountList\030\020 \003(\013"
-      "2\n.MountItem\022\035\n\013BagItemList\030\021 \003(\0132\010.BagI"
-      "tem\022\033\n\010MailList\030\022 \003(\0132\t.MailItem\022\033\n\010Task"
-      "List\030\023 \003(\0132\t.TaskItemb\006proto3"
+      "\030\002 \003(\004\"\032\n\010TaskItem\022\016\n\006TaskID\030\002 \001(\r\"B\n\rTa"
+      "skChangeNty\022\035\n\nChangeList\030\001 \003(\0132\t.TaskIt"
+      "em\022\022\n\nRemoveList\030\002 \003(\004\"P\n\010CopyItem\022\016\n\006Co"
+      "pyID\030\001 \001(\r\022\017\n\007StarNum\030\002 \001(\005\022\021\n\tBattleCnt"
+      "\030\003 \001(\005\022\020\n\010ResetCnt\030\004 \001(\005\"Y\n\013ChapterItem\022"
+      "\021\n\tChapterID\030\001 \001(\r\022\021\n\tStarAward\030\002 \001(\r\022\022\n"
+      "\nSceneAward\030\003 \001(\r\022\020\n\010CopyType\030\004 \001(\r\",\n\nA"
+      "ctionItem\022\016\n\006Action\030\001 \001(\003\022\016\n\006Actime\030\002 \001("
+      "\003\"\201\004\n\014RoleLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\021\n\tA"
+      "ccountID\030\002 \001(\004\022\016\n\006RoleID\030\003 \001(\004\022\016\n\006Carrer"
+      "\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\013\n\003Exp\030\006 \001(\003\022\014\n\004Na"
+      "me\030\007 \001(\t\022\016\n\006VipLvl\030\010 \001(\005\022\016\n\006VipExp\030\t \001(\005"
+      "\022\022\n\nFightValue\030\n \001(\003\022\037\n\nActionList\030\013 \003(\013"
+      "2\013.ActionItem\022\035\n\tEquipList\030\014 \003(\0132\n.Equip"
+      "Item\022\031\n\007GemList\030\r \003(\0132\010.GemItem\022\031\n\007PetLi"
+      "st\030\016 \003(\0132\010.PetItem\022!\n\013PartnerList\030\017 \003(\0132"
+      "\014.PartnerItem\022\035\n\tMountList\030\020 \003(\0132\n.Mount"
+      "Item\022\035\n\013BagItemList\030\021 \003(\0132\010.BagItem\022\033\n\010M"
+      "ailList\030\022 \003(\0132\t.MailItem\022\033\n\010TaskList\030\023 \003"
+      "(\0132\t.TaskItem\022\033\n\010CopyList\030\024 \003(\0132\t.CopyIt"
+      "em\022!\n\013ChapterList\030\025 \003(\0132\014.ChapterItemb\006p"
+      "roto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2229);
+      descriptor, 2245);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_LoginCltData.proto", &protobuf_RegisterTypes);
 }
@@ -6066,7 +6068,6 @@ void MailChangeNty::InternalSwap(MailChangeNty* other) {
 void TaskItem::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int TaskItem::kRoleIDFieldNumber;
 const int TaskItem::kTaskIDFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -6083,16 +6084,12 @@ TaskItem::TaskItem(const TaskItem& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&roleid_, &from.roleid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&taskid_) -
-    reinterpret_cast<char*>(&roleid_)) + sizeof(taskid_));
+  taskid_ = from.taskid_;
   // @@protoc_insertion_point(copy_constructor:TaskItem)
 }
 
 void TaskItem::SharedCtor() {
-  ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&taskid_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(taskid_));
+  taskid_ = 0u;
   _cached_size_ = 0;
 }
 
@@ -6133,9 +6130,7 @@ void TaskItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&taskid_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(taskid_));
+  taskid_ = 0u;
   _internal_metadata_.Clear();
 }
 
@@ -6149,20 +6144,6 @@ bool TaskItem::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 RoleID = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &roleid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // uint32 TaskID = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -6203,11 +6184,6 @@ void TaskItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roleid(), output);
-  }
-
   // uint32 TaskID = 2;
   if (this->taskid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->taskid(), output);
@@ -6226,11 +6202,6 @@ void TaskItem::SerializeWithCachedSizes(
   // @@protoc_insertion_point(serialize_to_array_start:TaskItem)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
-
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roleid(), target);
-  }
 
   // uint32 TaskID = 2;
   if (this->taskid() != 0) {
@@ -6254,13 +6225,6 @@ size_t TaskItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->roleid());
-  }
-
   // uint32 TaskID = 2;
   if (this->taskid() != 0) {
     total_size += 1 +
@@ -6297,9 +6261,6 @@ void TaskItem::MergeFrom(const TaskItem& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.roleid() != 0) {
-    set_roleid(from.roleid());
-  }
   if (from.taskid() != 0) {
     set_taskid(from.taskid());
   }
@@ -6329,7 +6290,6 @@ void TaskItem::Swap(TaskItem* other) {
 }
 void TaskItem::InternalSwap(TaskItem* other) {
   using std::swap;
-  swap(roleid_, other->roleid_);
   swap(taskid_, other->taskid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -6652,7 +6612,6 @@ void TaskChangeNty::InternalSwap(TaskChangeNty* other) {
 void CopyItem::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int CopyItem::kRoleIDFieldNumber;
 const int CopyItem::kCopyIDFieldNumber;
 const int CopyItem::kStarNumFieldNumber;
 const int CopyItem::kBattleCntFieldNumber;
@@ -6672,16 +6631,16 @@ CopyItem::CopyItem(const CopyItem& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&roleid_, &from.roleid_,
+  ::memcpy(&copyid_, &from.copyid_,
     static_cast<size_t>(reinterpret_cast<char*>(&resetcnt_) -
-    reinterpret_cast<char*>(&roleid_)) + sizeof(resetcnt_));
+    reinterpret_cast<char*>(&copyid_)) + sizeof(resetcnt_));
   // @@protoc_insertion_point(copy_constructor:CopyItem)
 }
 
 void CopyItem::SharedCtor() {
-  ::memset(&roleid_, 0, static_cast<size_t>(
+  ::memset(&copyid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&resetcnt_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(resetcnt_));
+      reinterpret_cast<char*>(&copyid_)) + sizeof(resetcnt_));
   _cached_size_ = 0;
 }
 
@@ -6722,9 +6681,9 @@ void CopyItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&roleid_, 0, static_cast<size_t>(
+  ::memset(&copyid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&resetcnt_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(resetcnt_));
+      reinterpret_cast<char*>(&copyid_)) + sizeof(resetcnt_));
   _internal_metadata_.Clear();
 }
 
@@ -6738,24 +6697,10 @@ bool CopyItem::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 RoleID = 1;
+      // uint32 CopyID = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &roleid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 CopyID = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -6766,10 +6711,10 @@ bool CopyItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 StarNum = 3;
-      case 3: {
+      // int32 StarNum = 2;
+      case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -6780,10 +6725,10 @@ bool CopyItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 BattleCnt = 4;
-      case 4: {
+      // int32 BattleCnt = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -6794,10 +6739,10 @@ bool CopyItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 ResetCnt = 5;
-      case 5: {
+      // int32 ResetCnt = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -6834,29 +6779,24 @@ void CopyItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roleid(), output);
-  }
-
-  // uint32 CopyID = 2;
+  // uint32 CopyID = 1;
   if (this->copyid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->copyid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->copyid(), output);
   }
 
-  // int32 StarNum = 3;
+  // int32 StarNum = 2;
   if (this->starnum() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->starnum(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->starnum(), output);
   }
 
-  // int32 BattleCnt = 4;
+  // int32 BattleCnt = 3;
   if (this->battlecnt() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->battlecnt(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->battlecnt(), output);
   }
 
-  // int32 ResetCnt = 5;
+  // int32 ResetCnt = 4;
   if (this->resetcnt() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->resetcnt(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->resetcnt(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6873,29 +6813,24 @@ void CopyItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roleid(), target);
-  }
-
-  // uint32 CopyID = 2;
+  // uint32 CopyID = 1;
   if (this->copyid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->copyid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->copyid(), target);
   }
 
-  // int32 StarNum = 3;
+  // int32 StarNum = 2;
   if (this->starnum() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->starnum(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->starnum(), target);
   }
 
-  // int32 BattleCnt = 4;
+  // int32 BattleCnt = 3;
   if (this->battlecnt() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->battlecnt(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->battlecnt(), target);
   }
 
-  // int32 ResetCnt = 5;
+  // int32 ResetCnt = 4;
   if (this->resetcnt() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->resetcnt(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->resetcnt(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6915,35 +6850,28 @@ size_t CopyItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->roleid());
-  }
-
-  // uint32 CopyID = 2;
+  // uint32 CopyID = 1;
   if (this->copyid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->copyid());
   }
 
-  // int32 StarNum = 3;
+  // int32 StarNum = 2;
   if (this->starnum() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->starnum());
   }
 
-  // int32 BattleCnt = 4;
+  // int32 BattleCnt = 3;
   if (this->battlecnt() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->battlecnt());
   }
 
-  // int32 ResetCnt = 5;
+  // int32 ResetCnt = 4;
   if (this->resetcnt() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -6979,9 +6907,6 @@ void CopyItem::MergeFrom(const CopyItem& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.roleid() != 0) {
-    set_roleid(from.roleid());
-  }
   if (from.copyid() != 0) {
     set_copyid(from.copyid());
   }
@@ -7020,7 +6945,6 @@ void CopyItem::Swap(CopyItem* other) {
 }
 void CopyItem::InternalSwap(CopyItem* other) {
   using std::swap;
-  swap(roleid_, other->roleid_);
   swap(copyid_, other->copyid_);
   swap(starnum_, other->starnum_);
   swap(battlecnt_, other->battlecnt_);
@@ -7040,11 +6964,10 @@ void CopyItem::InternalSwap(CopyItem* other) {
 void ChapterItem::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ChapterItem::kRoleIDFieldNumber;
-const int ChapterItem::kCopyTypeFieldNumber;
 const int ChapterItem::kChapterIDFieldNumber;
 const int ChapterItem::kStarAwardFieldNumber;
 const int ChapterItem::kSceneAwardFieldNumber;
+const int ChapterItem::kCopyTypeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChapterItem::ChapterItem()
@@ -7060,16 +6983,16 @@ ChapterItem::ChapterItem(const ChapterItem& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&roleid_, &from.roleid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&sceneaward_) -
-    reinterpret_cast<char*>(&roleid_)) + sizeof(sceneaward_));
+  ::memcpy(&chapterid_, &from.chapterid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&copytype_) -
+    reinterpret_cast<char*>(&chapterid_)) + sizeof(copytype_));
   // @@protoc_insertion_point(copy_constructor:ChapterItem)
 }
 
 void ChapterItem::SharedCtor() {
-  ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&sceneaward_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(sceneaward_));
+  ::memset(&chapterid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&copytype_) -
+      reinterpret_cast<char*>(&chapterid_)) + sizeof(copytype_));
   _cached_size_ = 0;
 }
 
@@ -7110,9 +7033,9 @@ void ChapterItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&sceneaward_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(sceneaward_));
+  ::memset(&chapterid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&copytype_) -
+      reinterpret_cast<char*>(&chapterid_)) + sizeof(copytype_));
   _internal_metadata_.Clear();
 }
 
@@ -7126,38 +7049,10 @@ bool ChapterItem::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 RoleID = 1;
+      // uint32 ChapterID = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &roleid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 CopyType = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &copytype_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 ChapterID = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -7168,10 +7063,10 @@ bool ChapterItem::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 StarAward = 4;
-      case 4: {
+      // uint32 StarAward = 2;
+      case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -7182,14 +7077,28 @@ bool ChapterItem::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 SceneAward = 5;
-      case 5: {
+      // uint32 SceneAward = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &sceneaward_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 CopyType = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &copytype_)));
         } else {
           goto handle_unusual;
         }
@@ -7222,29 +7131,24 @@ void ChapterItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roleid(), output);
-  }
-
-  // uint32 CopyType = 2;
-  if (this->copytype() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->copytype(), output);
-  }
-
-  // uint32 ChapterID = 3;
+  // uint32 ChapterID = 1;
   if (this->chapterid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->chapterid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->chapterid(), output);
   }
 
-  // uint32 StarAward = 4;
+  // uint32 StarAward = 2;
   if (this->staraward() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->staraward(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->staraward(), output);
   }
 
-  // uint32 SceneAward = 5;
+  // uint32 SceneAward = 3;
   if (this->sceneaward() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->sceneaward(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->sceneaward(), output);
+  }
+
+  // uint32 CopyType = 4;
+  if (this->copytype() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->copytype(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7261,29 +7165,24 @@ void ChapterItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roleid(), target);
-  }
-
-  // uint32 CopyType = 2;
-  if (this->copytype() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->copytype(), target);
-  }
-
-  // uint32 ChapterID = 3;
+  // uint32 ChapterID = 1;
   if (this->chapterid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->chapterid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->chapterid(), target);
   }
 
-  // uint32 StarAward = 4;
+  // uint32 StarAward = 2;
   if (this->staraward() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->staraward(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->staraward(), target);
   }
 
-  // uint32 SceneAward = 5;
+  // uint32 SceneAward = 3;
   if (this->sceneaward() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->sceneaward(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->sceneaward(), target);
+  }
+
+  // uint32 CopyType = 4;
+  if (this->copytype() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->copytype(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7303,39 +7202,32 @@ size_t ChapterItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint64 RoleID = 1;
-  if (this->roleid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->roleid());
-  }
-
-  // uint32 CopyType = 2;
-  if (this->copytype() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->copytype());
-  }
-
-  // uint32 ChapterID = 3;
+  // uint32 ChapterID = 1;
   if (this->chapterid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->chapterid());
   }
 
-  // uint32 StarAward = 4;
+  // uint32 StarAward = 2;
   if (this->staraward() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->staraward());
   }
 
-  // uint32 SceneAward = 5;
+  // uint32 SceneAward = 3;
   if (this->sceneaward() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->sceneaward());
+  }
+
+  // uint32 CopyType = 4;
+  if (this->copytype() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->copytype());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -7367,12 +7259,6 @@ void ChapterItem::MergeFrom(const ChapterItem& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.roleid() != 0) {
-    set_roleid(from.roleid());
-  }
-  if (from.copytype() != 0) {
-    set_copytype(from.copytype());
-  }
   if (from.chapterid() != 0) {
     set_chapterid(from.chapterid());
   }
@@ -7381,6 +7267,9 @@ void ChapterItem::MergeFrom(const ChapterItem& from) {
   }
   if (from.sceneaward() != 0) {
     set_sceneaward(from.sceneaward());
+  }
+  if (from.copytype() != 0) {
+    set_copytype(from.copytype());
   }
 }
 
@@ -7408,11 +7297,10 @@ void ChapterItem::Swap(ChapterItem* other) {
 }
 void ChapterItem::InternalSwap(ChapterItem* other) {
   using std::swap;
-  swap(roleid_, other->roleid_);
-  swap(copytype_, other->copytype_);
   swap(chapterid_, other->chapterid_);
   swap(staraward_, other->staraward_);
   swap(sceneaward_, other->sceneaward_);
+  swap(copytype_, other->copytype_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -7727,6 +7615,8 @@ const int RoleLoginAck::kMountListFieldNumber;
 const int RoleLoginAck::kBagItemListFieldNumber;
 const int RoleLoginAck::kMailListFieldNumber;
 const int RoleLoginAck::kTaskListFieldNumber;
+const int RoleLoginAck::kCopyListFieldNumber;
+const int RoleLoginAck::kChapterListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RoleLoginAck::RoleLoginAck()
@@ -7749,6 +7639,8 @@ RoleLoginAck::RoleLoginAck(const RoleLoginAck& from)
       bagitemlist_(from.bagitemlist_),
       maillist_(from.maillist_),
       tasklist_(from.tasklist_),
+      copylist_(from.copylist_),
+      chapterlist_(from.chapterlist_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -7816,6 +7708,8 @@ void RoleLoginAck::Clear() {
   bagitemlist_.Clear();
   maillist_.Clear();
   tasklist_.Clear();
+  copylist_.Clear();
+  chapterlist_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&accountid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&vipexp_) -
@@ -8083,6 +7977,30 @@ bool RoleLoginAck::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated .CopyItem CopyList = 20;
+      case 20: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(162u /* 162 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_copylist()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .ChapterItem ChapterList = 21;
+      case 21: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(170u /* 170 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_chapterlist()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -8227,6 +8145,20 @@ void RoleLoginAck::SerializeWithCachedSizes(
       19, this->tasklist(static_cast<int>(i)), output);
   }
 
+  // repeated .CopyItem CopyList = 20;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->copylist_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      20, this->copylist(static_cast<int>(i)), output);
+  }
+
+  // repeated .ChapterItem ChapterList = 21;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->chapterlist_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      21, this->chapterlist(static_cast<int>(i)), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -8369,6 +8301,22 @@ void RoleLoginAck::SerializeWithCachedSizes(
         19, this->tasklist(static_cast<int>(i)), deterministic, target);
   }
 
+  // repeated .CopyItem CopyList = 20;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->copylist_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        20, this->copylist(static_cast<int>(i)), deterministic, target);
+  }
+
+  // repeated .ChapterItem ChapterList = 21;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->chapterlist_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        21, this->chapterlist(static_cast<int>(i)), deterministic, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -8485,6 +8433,28 @@ size_t RoleLoginAck::ByteSizeLong() const {
     }
   }
 
+  // repeated .CopyItem CopyList = 20;
+  {
+    unsigned int count = static_cast<unsigned int>(this->copylist_size());
+    total_size += 2UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->copylist(static_cast<int>(i)));
+    }
+  }
+
+  // repeated .ChapterItem ChapterList = 21;
+  {
+    unsigned int count = static_cast<unsigned int>(this->chapterlist_size());
+    total_size += 2UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->chapterlist(static_cast<int>(i)));
+    }
+  }
+
   // string Name = 7;
   if (this->name().size() > 0) {
     total_size += 1 +
@@ -8593,6 +8563,8 @@ void RoleLoginAck::MergeFrom(const RoleLoginAck& from) {
   bagitemlist_.MergeFrom(from.bagitemlist_);
   maillist_.MergeFrom(from.maillist_);
   tasklist_.MergeFrom(from.tasklist_);
+  copylist_.MergeFrom(from.copylist_);
+  chapterlist_.MergeFrom(from.chapterlist_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -8659,6 +8631,8 @@ void RoleLoginAck::InternalSwap(RoleLoginAck* other) {
   bagitemlist_.InternalSwap(&other->bagitemlist_);
   maillist_.InternalSwap(&other->maillist_);
   tasklist_.InternalSwap(&other->tasklist_);
+  copylist_.InternalSwap(&other->copylist_);
+  chapterlist_.InternalSwap(&other->chapterlist_);
   name_.Swap(&other->name_);
   swap(accountid_, other->accountid_);
   swap(retcode_, other->retcode_);

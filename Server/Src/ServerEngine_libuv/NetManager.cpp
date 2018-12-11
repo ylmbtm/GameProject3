@@ -17,6 +17,17 @@ void _Run_Loop(void *arg) {
 	return;
 }
 
+void On_Async_Event(uv_async_t* handle)
+{
+	CConnection *pConnection = (CConnection *)handle->data;
+
+	pConnection->DoSend();
+
+	uv_close((uv_handle_t*)&pConnection->m_AsyncReq, NULL);
+
+	return;
+}
+
 void On_Connection(uv_connect_t* req, int status)
 {
 	CConnection *pConnection = (CConnection *)req->data;
@@ -256,6 +267,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u6
 
 	if (pConn->SendBuffer(pDataBuffer))
 	{
+		PostSendOperation(pConn);
 		return TRUE;
 	}
 
@@ -273,7 +285,11 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 
 	if (!pConnection->m_IsSending)
 	{
-		
+		uv_async_init(m_pMainLoop, &pConnection->m_AsyncReq, On_Async_Event);
+
+		pConnection->m_AsyncReq.data = pConnection;
+
+		uv_async_send(&pConnection->m_AsyncReq);
 	}
 
 	return TRUE;

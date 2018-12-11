@@ -786,6 +786,12 @@ Th_RetName _NetListenThread( void* pParam )
 
 BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 {
+	if (pConnection == NULL)
+	{
+		ASSERT_FAIELD;
+		return FALSE;
+	}
+
 	if (!pConnection->m_IsSending)
 	{
 #ifdef WIN32

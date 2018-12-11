@@ -63,7 +63,7 @@ struct ActivityDataObject : public ShareObject
 	UINT32 m_dwActivityID;  //活动ID
 	UINT64 m_uRoleID;		//角色ID
 	UINT32 m_dwActivityType;//活动类型
-	UINT64 m_uJoinTime;    //参与时间
+	UINT64 m_uJoinTime;     //参与时间
 	UINT32 m_dwDataLen;     //数据时间长度
 	union
 	{

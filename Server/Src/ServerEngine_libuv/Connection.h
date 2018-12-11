@@ -57,6 +57,7 @@ public:
 	uv_connect_t				m_ConnectReq;
 	uv_write_t					m_WriteReq;
 	uv_shutdown_t				m_ShutdownReq;
+	uv_async_t					m_AsyncReq;
 
 	BOOL						m_bConnected;
 

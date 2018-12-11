@@ -275,11 +275,11 @@ BOOL CConfigData::ReadCopyInfo(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StCopyInfo stValue;
-		stValue.dwCopyID = QueryData.getIntField("Id");
-		stValue.dwCopyType = QueryData.getIntField("CopyType");
-		stValue.dwCostActID = QueryData.getIntField("CostActionId");
-		stValue.dwCostActNum = QueryData.getIntField("CostActionNum");
-		stValue.dwGetMoneyID = QueryData.getIntField("GetMoneyId");
+		stValue.dwCopyID		= QueryData.getIntField("Id");
+		stValue.dwCopyType		= QueryData.getIntField("CopyType");
+		stValue.dwCostActID		= QueryData.getIntField("CostActionId");
+		stValue.dwCostActNum	= QueryData.getIntField("CostActionNum");
+		stValue.dwGetMoneyID	= QueryData.getIntField("GetMoneyId");
 		stValue.dwGetMoneyRatio = QueryData.getIntField("GetMoneyRatio");
 		m_mapCopyInfo.insert(std::make_pair(stValue.dwCopyID, stValue));
 		QueryData.nextRow();

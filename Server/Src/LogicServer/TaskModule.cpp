@@ -95,7 +95,7 @@ BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwPa
 	{
 		TaskDataObject* pDataObj = itor->second;
 
-		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo(pDataObj->m_uTaskID);
+		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo((UINT32)pDataObj->m_uTaskID);
 		ERROR_CONTINUE_EX(pInfo != NULL);
 
 		if(pInfo->TaskEvent != taskEvent)
