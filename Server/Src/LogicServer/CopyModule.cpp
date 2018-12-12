@@ -80,27 +80,27 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 
 BOOL CCopyModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
-	for (auto itor = m_mapCopyData.begin(); itor != m_mapCopyData.end(); itor++)
-	{
-		CopyDataObject* pObject = itor->second;
-
-		CopyItem* pItem = Ack.add_copylist();
-		pItem->set_copyid(pObject->m_dwCopyID);
-		pItem->set_battlecnt(pObject->m_dwBattleCnt);
-		pItem->set_resetcnt(pObject->m_dwResetCnt);
-		pItem->set_starnum(pObject->m_dwStarNum);
-	}
-
-	for (auto itor = m_mapChapterData.begin(); itor != m_mapChapterData.end(); itor++)
-	{
-		ChapterDataObject* pObject = itor->second;
-
-		ChapterItem* pItem = Ack.add_chapterlist();
-		pItem->set_chapterid(pObject->m_dwChapter);
-		pItem->set_copytype(pObject->m_dwCopyType);
-		pItem->set_sceneaward(pObject->m_dwSceneAward);
-		pItem->set_staraward(pObject->m_dwStarAward);
-	}
+// 	for (auto itor = m_mapCopyData.begin(); itor != m_mapCopyData.end(); itor++)
+// 	{
+// 		CopyDataObject* pObject = itor->second;
+// 
+// 		CopyItem* pItem = Ack.add_copylist();
+// 		pItem->set_copyid(pObject->m_dwCopyID);
+// 		pItem->set_battlecnt(pObject->m_dwBattleCnt);
+// 		pItem->set_resetcnt(pObject->m_dwResetCnt);
+// 		pItem->set_starnum(pObject->m_dwStarNum);
+// 	}
+// 
+// 	for (auto itor = m_mapChapterData.begin(); itor != m_mapChapterData.end(); itor++)
+// 	{
+// 		ChapterDataObject* pObject = itor->second;
+// 
+// 		ChapterItem* pItem = Ack.add_chapterlist();
+// 		pItem->set_chapterid(pObject->m_dwChapter);
+// 		pItem->set_copytype(pObject->m_dwCopyType);
+// 		pItem->set_sceneaward(pObject->m_dwSceneAward);
+// 		pItem->set_staraward(pObject->m_dwStarAward);
+// 	}
 
 	return TRUE;
 }
