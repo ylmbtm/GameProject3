@@ -17,6 +17,6 @@
 #include "CommandDef.h"
 #include "CommonThreadFunc.h"
 #include "SharedMemory.h"
+#include "SpinLock.h"
 #include "ServiceBase.h"
-
 #endif //_SERVER_ENGINE_H_

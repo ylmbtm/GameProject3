@@ -5,8 +5,6 @@
 #include "Connection.h"
 #include "google/protobuf/message.h"
 #include "ConfigFile.h"
-#include "SpinLock.h"
-
 
 class ServiceBase : public IDataHandler//, public CEventFuncManager
 {

@@ -108,23 +108,11 @@ CConnection::CConnection()
 
 CConnection::~CConnection(void)
 {
-	m_pDataHandler		= NULL;
-
-	m_dwDataLen			= 0;
-
-	m_u64ConnData       = 0;
+	Reset();
 
 	m_dwConnID          = 0;
 
-	m_bConnected		= FALSE;
-
-	m_pCurRecvBuffer    = NULL;
-
-	m_pBufPos           = m_pRecvBuf;
-
-	m_nCheckNo          = 0;
-
-	m_IsSending			= FALSE;
+	m_pDataHandler		= NULL;
 }
 
 BOOL CConnection::DoReceive()
@@ -268,7 +256,7 @@ BOOL CConnection::Close()
 	uv_close((uv_handle_t*)&m_hSocket, On_Close);
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-	if(m_bConnected && m_pDataHandler != NULL)
+	if(m_pDataHandler != NULL)
 	{
 		m_pDataHandler->OnCloseConnect(this);
 	}
@@ -322,7 +310,7 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 	return TRUE;
 }
 
-BOOL CConnection::Clear()
+BOOL CConnection::Reset()
 {
 	m_bConnected = FALSE;
 
@@ -355,9 +343,7 @@ BOOL CConnection::Clear()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	m_SendBuffList.push(pBuff);
-
-	return TRUE;
+	return m_SendBuffList.push(pBuff);
 }
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
@@ -577,7 +563,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 
-	pConnection->Clear();
+	pConnection->Reset();
 
 	dwConnID += (UINT32)m_vtConnList.size();
 
@@ -604,7 +590,10 @@ BOOL CConnectionMgr::DestroyAllConnection()
 	for(size_t i = 0; i < m_vtConnList.size(); i++)
 	{
 		pConn = m_vtConnList.at(i);
-		pConn->Close();
+		if (pConn->IsConnectionOK())
+		{
+			pConn->Close();
+		}
 		delete pConn;
 	}
 

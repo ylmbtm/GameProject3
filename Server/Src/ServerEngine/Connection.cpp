@@ -4,7 +4,7 @@
 #include "CommonSocket.h"
 #include "PacketHeader.h"
 
-void NetIoOperatorData::Clear()
+void NetIoOperatorData::Reset()
 {
 #ifdef WIN32
 	memset(&Overlap, 0, sizeof(Overlap));
@@ -40,30 +40,17 @@ CConnection::CConnection()
 	m_IsSending			= FALSE;
 
 	m_pSendingBuffer	= NULL;
+
 	m_nSendingPos		= 0;
 }
 
 CConnection::~CConnection(void)
 {
-	m_hSocket           = INVALID_SOCKET;
-
-	m_pDataHandler		= NULL;
-
-	m_dwDataLen			= 0;
-
-	m_u64ConnData        = 0;
+	Reset();
 
 	m_dwConnID          = 0;
 
-	m_bConnected		= FALSE;
-
-	m_pCurRecvBuffer    = NULL;
-
-	m_pBufPos           = m_pRecvBuf;
-
-	m_nCheckNo          = 0;
-
-	m_IsSending			= FALSE;
+	m_pDataHandler		= NULL;
 }
 
 #ifdef WIN32
@@ -77,7 +64,7 @@ BOOL CConnection::DoReceive()
 
 	DWORD dwRecvBytes = 0, dwFlags = 0;
 
-	m_IoOverlapRecv.Clear();
+	m_IoOverlapRecv.Reset();
 	m_IoOverlapRecv.dwCmdType = NET_MSG_RECV;
 	m_IoOverlapRecv.dwConnID = m_dwConnID;
 
@@ -268,17 +255,24 @@ BOOL CConnection::ExtractBuffer()
 BOOL CConnection::Close()
 {
 	CommonSocket::ShutDownSend(m_hSocket);
+
 	CommonSocket::ShutDownRecv(m_hSocket);
+
 	CommonSocket::CloseSocket(m_hSocket);
+
 	m_hSocket           = INVALID_SOCKET;
 
 	m_dwDataLen         = 0;
+
 	m_IsSending			= FALSE;
+
 	if(m_pDataHandler != NULL)
 	{
 		m_pDataHandler->OnCloseConnect(this);
 	}
+
 	m_bConnected = FALSE;
+
 	return TRUE;
 }
 
@@ -352,7 +346,7 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 }
 
 
-BOOL CConnection::Clear()
+BOOL CConnection::Reset()
 {
 	m_hSocket = INVALID_SOCKET;
 
@@ -436,8 +430,6 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 #ifdef WIN32
 BOOL CConnection::DoSend()
 {
-	mCritSending.Lock();
-
 	IDataBuffer* pFirstBuff = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
@@ -492,21 +484,19 @@ BOOL CConnection::DoSend()
 	if(pSendingBuffer == NULL)
 	{
 		m_IsSending = FALSE;
-		mCritSending.Unlock();
 		return TRUE;
 	}
 
 	WSABUF  DataBuf;
 	DataBuf.len = pSendingBuffer->GetTotalLenth();
 	DataBuf.buf = pSendingBuffer->GetBuffer();
-	m_IoOverlapSend.Clear();
+	m_IoOverlapSend.Reset();
 	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendingBuffer;
 	m_IoOverlapSend.dwConnID = m_dwConnID;
 
 	DWORD dwSendBytes = 0;
 	int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
-	mCritSending.Unlock();
 	if(nRet == 0) //发送成功
 	{
 		if(dwSendBytes < DataBuf.len)
@@ -697,7 +687,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 
-	pConnection->Clear();
+	pConnection->Reset();
 
 	dwConnID += (UINT32)m_vtConnList.size();
 
@@ -724,7 +714,10 @@ BOOL CConnectionMgr::DestroyAllConnection()
 	for(size_t i = 0; i < m_vtConnList.size(); i++)
 	{
 		pConn = m_vtConnList.at(i);
-		pConn->Close();
+		if (pConn->IsConnectionOK())
+		{
+			pConn->Close();
+		}
 		delete pConn;
 	}
 

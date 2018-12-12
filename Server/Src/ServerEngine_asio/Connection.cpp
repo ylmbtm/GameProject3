@@ -33,23 +33,11 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 
 CConnection::~CConnection(void)
 {
-	m_pDataHandler		= NULL;
-
-	m_dwDataLen			= 0;
-
-	m_u64ConnData       = 0;
+	Reset();
 
 	m_dwConnID          = 0;
 
-	m_bConnected		= FALSE;
-
-	m_pCurRecvBuffer    = NULL;
-
-	m_pBufPos           = m_pRecvBuf;
-
-	m_nCheckNo          = 0;
-
-	m_IsSending			= FALSE;
+	m_pDataHandler		= NULL;
 }
 
 BOOL CConnection::DoReceive()
@@ -76,6 +64,7 @@ UINT64 CConnection::GetConnectionData()
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
 	ASSERT(dwConnID != 0);
+
 	ASSERT(!m_bConnected);
 
 	m_dwConnID = dwConnID;
@@ -86,6 +75,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
 	ASSERT(m_dwConnID != 0);
+
 	m_u64ConnData = dwData;
 
 	return ;
@@ -191,7 +181,7 @@ BOOL CConnection::Close()
 	m_hSocket.close();
 	m_dwDataLen         = 0;
 	m_IsSending			= FALSE;
-	if(m_bConnected && m_pDataHandler != NULL)
+	if(m_pDataHandler != NULL)
 	{
 		m_pDataHandler->OnCloseConnect(this);
 	}
@@ -245,7 +235,7 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 	return TRUE;
 }
 
-BOOL CConnection::Clear()
+BOOL CConnection::Reset()
 {
 	m_bConnected = FALSE;
 
@@ -257,16 +247,15 @@ BOOL CConnection::Clear()
 
 	m_pBufPos   = m_pRecvBuf;
 
-	if(m_pCurRecvBuffer != NULL)
-	{
-		m_pCurRecvBuffer->Release();
-	}
-
-	m_pCurRecvBuffer = NULL;
-
 	m_nCheckNo = 0;
 
 	m_IsSending	= FALSE;
+
+	if (m_pCurRecvBuffer != NULL)
+	{
+		m_pCurRecvBuffer->Release();
+		m_pCurRecvBuffer = NULL;
+	}
 
 	IDataBuffer* pBuff = NULL;
 	while(m_SendBuffList.pop(pBuff))
@@ -277,12 +266,9 @@ BOOL CConnection::Clear()
 	return TRUE;
 }
 
-
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	m_SendBuffList.push(pBuff);
-
-	return TRUE;
+	return m_SendBuffList.push(pBuff);
 }
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
@@ -325,6 +311,7 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 
 	return TRUE;
 }
+
 BOOL CConnection::DoSend()
 {
 	if (m_pSendingBuffer != NULL)
@@ -400,7 +387,7 @@ void CConnection::HandReaddata(const boost::system::error_code& error, size_t le
 {
 	if (!error)
 	{
-		if (HandleRecvEvent(len))
+		if (HandleRecvEvent((UINT32)len))
 		{
 			return;
 		}
@@ -517,7 +504,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 
-	pConnection->Clear();
+	pConnection->Reset();
 
 	dwConnID += (UINT32)m_vtConnList.size();
 
@@ -544,7 +531,10 @@ BOOL CConnectionMgr::DestroyAllConnection()
 	for(size_t i = 0; i < m_vtConnList.size(); i++)
 	{
 		pConn = m_vtConnList.at(i);
-		pConn->Close();
+		if (pConn->IsConnectionOK())
+		{
+			pConn->Close();
+		}
 		delete pConn;
 	}
 

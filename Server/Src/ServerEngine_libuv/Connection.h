@@ -41,7 +41,7 @@ public:
 
 	BOOL	SetConnectionOK(BOOL bOk);
 
-	BOOL    Clear();
+	BOOL    Reset();
 
 	BOOL    SendBuffer(IDataBuffer*	pBuff);
 

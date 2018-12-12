@@ -26,6 +26,7 @@
 #include "CommonFunc.h"
 #include "CommonConvert.h"
 
+
 #define HAVE_RINT 1
 #endif
 

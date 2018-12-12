@@ -645,7 +645,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 
-	pConnection->m_IoOverlapRecv.Clear();
+	pConnection->m_IoOverlapRecv.Reset();
 
 	pConnection->m_IoOverlapRecv.dwCmdType = NET_MSG_CONNECT;
 
@@ -796,7 +796,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 	{
 #ifdef WIN32
 		pConnection->m_IsSending = TRUE;
-		pConnection->m_IoOverLapPost.Clear();
+		pConnection->m_IoOverLapPost.Reset();
 		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
 		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
 		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
