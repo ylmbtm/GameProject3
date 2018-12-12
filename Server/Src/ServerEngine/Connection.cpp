@@ -430,6 +430,7 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 #ifdef WIN32
 BOOL CConnection::DoSend()
 {
+	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;

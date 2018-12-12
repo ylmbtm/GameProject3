@@ -314,13 +314,14 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 
 BOOL CConnection::DoSend()
 {
+	m_IsSending = TRUE;
+
 	if (m_pSendingBuffer != NULL)
 	{
 		m_pSendingBuffer->Release();
 		m_pSendingBuffer = NULL;
 	}
 
-	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
 	int nSendSize = 0;
 	int nCurPos = 0;
