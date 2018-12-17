@@ -1,10 +1,7 @@
 ﻿#ifndef __CLIENT_OBJECT_H__
 #define __CLIENT_OBJECT_H__
 #include "behaviac/behaviac.h"
-#include "Platform.h"
-#include "CommandDef.h"
 #include "../../Connector/ClientConnector.h"
-
 
 #define ST_NONE				0
 #define ST_Register			1
@@ -42,7 +39,7 @@ public:
 
 	~CClientObject(void);
 
-	BEHAVIAC_DECLARE_AGENTTYPE(CClientObject, behaviac::Agent)
+	BEHAVIAC_DECLARE_AGENTTYPE(CClientObject, behaviac::Agent);
 
 	BOOL    DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
@@ -73,7 +70,7 @@ public:
 	BOOL    OnMsgOtherLoginNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL    OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL    OnMsgObjectNewNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
-	BOOL    OnMsgObjectActionNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
+	BOOL OnMsgObjectChangeNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 	BOOL    OnMsgObjectRemoveNty(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
 
@@ -97,6 +94,7 @@ public:
 	std::string         m_strAccountName;
 	std::string			m_strPassword;
 	std::string			m_strRoleName;
+	UINT32				m_dwCarrerID;
 
 	FLOAT               m_x;
 	FLOAT				m_y;
@@ -107,7 +105,7 @@ public:
 	UINT32				m_dwCopyGuid;
 	UINT32				m_dwCopyID;
 	UINT32				m_dwToCopyID;
-	UINT32              m_dwMoveTime;
+	UINT64              m_uMoveTime;
 
 public:
 	VOID  TestMove();

@@ -6,7 +6,7 @@
 #pragma once
 
 #include "targetver.h"
-
+#include <io.h>
 #include <stdio.h>
 #include <tchar.h>
 
@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <direct.h>
 #include <time.h>
+#include "..\Src\ServerEngine\Platform.h"
 //#define ASSERT_FAIELD (ASSERT(false))
 
 #define ASSERT_FAIELD (assert(false))
@@ -29,6 +30,6 @@
 #define ASSERT assert
 
 #pragma  comment(lib,"ws2_32")
-#pragma  comment(lib, "Mswsock") 
+#pragma  comment(lib, "Mswsock")
 
 // TODO: 在此处引用程序需要的其他头文件
