@@ -347,6 +347,10 @@ void AVLTree<TKey, TValue>::SingRotateLeft(TNodeTypePtr& pNode)
 	TNodeTypePtr pTempNode;
 	pTempNode = pNode->m_pLeft;
 	pNode->m_pLeft  = pTempNode->m_pRight;
+	if (pNode->m_pLeft != NULL)
+	{
+		pNode->m_pLeft->m_pParent = pNode;
+	}
 	pTempNode->m_pRight = pNode;
 	pNode->m_pParent = pTempNode;
 
@@ -363,6 +367,10 @@ void AVLTree<TKey, TValue>::SingRotateRight(TNodeTypePtr& pNode)
 	TNodeTypePtr pTempNode;
 	pTempNode = pNode->m_pRight;
 	pNode->m_pRight = pTempNode->m_pLeft;
+	if (pNode->m_pRight != NULL)
+	{
+		pNode->m_pRight->m_pParent = pNode;
+	}
 	pTempNode->m_pLeft = pNode;
 	pNode->m_pParent = pTempNode;
 

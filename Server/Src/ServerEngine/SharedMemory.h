@@ -116,7 +116,6 @@ private:
 	///创建一个新页
 	BOOL NewPage();
 
-
 	/**
 	* @brief		初始化数据区域
 	* @details		数据清0，并设置保护区域
@@ -341,7 +340,7 @@ public:
 			if (pdata->isRelease())
 			{
 				///释放的时候执行一次保存...如果上次没有保存成功或者，释放前修改了就再保存一次
-				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime)) ///change by dsq
+				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime))
 				{
 					pBlock->m_beforeTime = time(NULL);/// add by dsq
 					pdata->Update(pdb);
@@ -355,14 +354,6 @@ public:
 
 		}
 
-
-		//xLogMessager::getSingleton().logMessage(std::string("sync db module:") + m_moduleName +
-		//                                        std::string(" finished.write:") + Helper::IntToString(writetimes) +
-		//                                        std::string(" .new:") + Helper::IntToString(newtimes) +
-		//                                        std::string(" .desdroy:") + Helper::IntToString(deletetimes) +
-		//                                        std::string(".release:") + Helper::IntToString(releasetime),
-		//                                        Log_ErrorLevel
-		//                                       );
 		return hasOprate;
 	}
 private:

@@ -315,7 +315,7 @@ BOOL CommonSocket::SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nK
 
 	if (nRet == SOCKET_ERROR)
 	{
-
+		return FALSE;
 	}
 #else
 	setsockopt(hSocket, SOL_TCP, TCP_KEEPIDLE,  (void*)&nKeepIdle, sizeof(nKeepIdle));

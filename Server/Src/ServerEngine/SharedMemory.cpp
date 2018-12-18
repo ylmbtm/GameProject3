@@ -205,11 +205,9 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize,
 	m_nPageCount = 0;
 
 	shareMemoryPage firstpage;
-	//firstpage.m_shm = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, pagename.c_str());
 	firstpage.m_shm = CommonFunc::OpenShareMemory(m_nModuleID, 0);
 	if(firstpage.m_shm != NULL)
 	{
-		//firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 		firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);
 		if(firstpage.m_pdata != NULL)
 		{
@@ -220,23 +218,22 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize,
 		}
 		else
 		{
-			//UINT32 dwError = CommonFunc::GetLastError();
-			//printf("---error---:%d", dwError);
+			return;
 		}
 	}
 	else
 	{
 		if (!noCreate)
-		{
+		{ 
 			shareMemoryPage firstpage;
 
-			//firstpage.m_shm = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, pagename.c_str());
 			firstpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, 0, size);
 			if(firstpage.m_shm == NULL)
 			{
 				ASSERT_FAIELD;
+				return;
 			}
-			//firstpage.m_pdata = (CHAR*)MapViewOfFile(firstpage.m_shm, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+
 			firstpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(firstpage.m_shm);
 
 			///找到头数据块的头
