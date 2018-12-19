@@ -100,7 +100,7 @@ public:
 
 	UINT64						m_LastRecvTick;
 
-	ArrayLockFreeQueue < IDataBuffer*, 1 << 12 > m_SendBuffList;
+	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
 
 
 
