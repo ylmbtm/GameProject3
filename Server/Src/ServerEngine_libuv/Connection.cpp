@@ -278,6 +278,7 @@ BOOL CConnection::HandleRecvEvent(UINT32 dwBytes)
 	//	return FALSE;
 	//}
 
+	m_LastRecvTick = CommonFunc::GetTickCount();
 	return TRUE;
 }
 
@@ -406,7 +407,7 @@ BOOL CConnection::DoSend()
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
-		if(pFirstBuff == NULL)
+		if(pFirstBuff == NULL && pSendingBuffer == NULL)
 		{
 			pFirstBuff = pBuffer;
 

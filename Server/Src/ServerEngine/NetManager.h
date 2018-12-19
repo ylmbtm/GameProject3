@@ -61,7 +61,7 @@ public:
 
 	BOOL	EventDelete(CConnection* pConnection);
 
-	BOOL	PostSendOperation(CConnection* pConnection);
+	BOOL	PostSendOperation(CConnection* pConnection, BOOL bCheck = TRUE);
 
 	CConnection*	AssociateCompletePort(SOCKET hSocket, BOOL bConnect);
 

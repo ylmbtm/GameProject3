@@ -144,6 +144,7 @@ UINT64 CConnection::GetConnectionData()
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
 	ASSERT(dwConnID != 0);
+
 	ASSERT(!m_bConnected);
 
 	m_dwConnID = dwConnID;
@@ -154,6 +155,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
 	ASSERT(m_dwConnID != 0);
+
 	m_u64ConnData = dwData;
 
 	return ;
@@ -430,7 +432,6 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 #ifdef WIN32
 BOOL CConnection::DoSend()
 {
-	m_IsSending = TRUE;
 	IDataBuffer* pFirstBuff = NULL;
 	IDataBuffer* pSendingBuffer = NULL;
 	int nSendSize = 0;
@@ -441,7 +442,7 @@ BOOL CConnection::DoSend()
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
-		if(pFirstBuff == NULL)
+		if(pFirstBuff == NULL && pSendingBuffer == NULL)
 		{
 			pFirstBuff = pBuffer;
 
@@ -512,7 +513,6 @@ BOOL CConnection::DoSend()
 		{
 			Close();
 			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
-			return FALSE;
 		}
 	}
 
