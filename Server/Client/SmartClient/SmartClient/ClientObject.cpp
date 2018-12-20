@@ -147,8 +147,7 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 	{
 		if(m_ClientConnector.GetConnectState() == Not_Connect)
 		{
-			m_ClientConnector.SetClientID(0);
-			m_ClientConnector.ConnectToServer("127.0.0.1", 5678);
+			m_ClientConnector.ConnectTo("127.0.0.1", 5678);
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 5678);
 		}
 
@@ -274,7 +273,7 @@ BOOL CClientObject::OnMsgSelectServerAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_ClientConnector.DisConnect();
-	m_ClientConnector.ConnectToServer(Ack.serveraddr(), Ack.serverport());
+	m_ClientConnector.ConnectTo(Ack.serveraddr(), Ack.serverport());
 	m_dwHostState = ST_SelectSvrOK;
 	return TRUE;
 }
@@ -483,7 +482,7 @@ BOOL CClientObject::SendAbortCopyReq()
 
 BOOL CClientObject::OnMsgOtherLoginNty( UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen )
 {
-	m_ClientConnector.CloseConnector();
+	m_ClientConnector.DisConnect();
 	return TRUE;
 }
 

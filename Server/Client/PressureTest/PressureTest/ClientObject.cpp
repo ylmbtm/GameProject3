@@ -8,8 +8,17 @@
 #include "..\Src\Message\Msg_LoginCltData.pb.h"
 #include "..\Src\ServerEngine\XMath.h"
 #include "..\Src\ServerEngine\CommonFunc.h"
-#include "..\Src\ServerEngine\CommandDef.h"
 #include "..\Src\ServerEngine\PacketHeader.h"
+
+#define PROCESS_MESSAGE_ITEM_CLIENT__(dwMsgID, Func) \
+		case dwMsgID:{\
+		if(Func(dwMsgID, PacketBuf, BufLen)){return TRUE;}}break;
+
+
+#define PROCESS_MESSAGE_ITEM_CLIENT(dwMsgID, Func) \
+		case dwMsgID:{\
+		printf("---Receive Message:[%s]---- \n", #dwMsgID); \
+		if(Func(dwMsgID, PacketBuf, BufLen)){return TRUE;}}break;
 
 int g_LoginReqCount = 0;
 int g_LoginCount	= 0;
@@ -156,14 +165,12 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 
 	if(m_dwHostState == ST_NONE)
 	{
-		if(m_ClientConnector.GetConnectState() == Not_Connect)
+		if(m_ClientConnector.GetConnectState() == ECS_NO_CONNECT)
 		{
-			m_ClientConnector.SetClientID(0);
-			m_ClientConnector.ConnectToServer("127.0.0.1", 9001);
+			m_ClientConnector.ConnectTo("127.0.0.1", 9001);
 			//m_ClientConnector.ConnectToServer("47.93.31.69", 9001);
 		}
-
-		if(m_ClientConnector.GetConnectState() == Succ_Connect)
+		else if (m_ClientConnector.GetConnectState() == ECS_CONNECTED)
 		{
 			SendNewAccountReq(m_strAccountName, m_strPassword);
 
@@ -265,7 +272,6 @@ BOOL CClientObject::OnMsgAccountLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 
 	if(Ack.retcode() == MRC_UNKNOW_ERROR)
 	{
-		MessageBox(NULL, "登录失败! 密码或账号不对!!", "提示", MB_OK);
 		m_dwHostState = ST_Overed;
 		return TRUE;
 	}
@@ -285,7 +291,7 @@ BOOL CClientObject::OnMsgSelectServerAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_ClientConnector.DisConnect();
-	m_ClientConnector.ConnectToServer(Ack.serveraddr(), Ack.serverport());
+	m_ClientConnector.ConnectTo(Ack.serveraddr(), Ack.serverport());
 	m_dwHostState = ST_SelectSvrOK;
 	return TRUE;
 }
@@ -518,7 +524,8 @@ BOOL CClientObject::SendAbortCopyReq()
 
 BOOL CClientObject::OnMsgOtherLoginNty( UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen )
 {
-	m_ClientConnector.CloseConnector();
+	m_ClientConnector.DisConnect();
+
 	return TRUE;
 }
 

@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "ClientObject.h"
 #include "..\Src\ServerEngine\CommonThreadFunc.h"
+#include "..\Src\ServerEngine\CommonFunc.h"
+#include "..\Src\ServerEngine\CommonSocket.h"
 
 #define RUN_TIME 50
 
@@ -43,6 +45,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	int nRobotNum = 0;
 	printf("请输入需要启动的机器人数目: ");
 	scanf_s("%d", &nRobotNum);
+
+	CommonSocket::InitNetwork();
 
 	if(nRobotNum <= 0)
 	{

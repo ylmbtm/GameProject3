@@ -13,18 +13,12 @@ CClientConnector::CClientConnector(void)
 	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
 	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
 
-	m_ConnectState	= Not_Connect;
-
-	m_u64ClientID = 0;
-
-	CommonSocket::InitNetwork();
+	m_ConnectState	= ECS_NO_CONNECT;
 }
 
 CClientConnector::~CClientConnector(void)
 {
-	m_u64ClientID = 0;
-
-	m_ConnectState	= Not_Connect;
+	m_ConnectState	= ECS_NO_CONNECT;
 
 	m_hSocket		= INVALID_SOCKET;
 
@@ -32,31 +26,7 @@ CClientConnector::~CClientConnector(void)
 	m_PacketLen = 0;
 	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
 	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
-
-	CommonSocket::UninitNetwork();
 }
-
-
-BOOL CClientConnector::InitConnector()
-{
-
-
-	return TRUE;
-}
-
-BOOL CClientConnector::CloseConnector()
-{
-
-	return TRUE;
-}
-
-BOOL CClientConnector::SetClientID( UINT64 u64ClientID )
-{
-	m_u64ClientID = u64ClientID;
-
-	return TRUE;
-}
-
 
 BOOL CClientConnector::SendData(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT64 u64TargetID, UINT32 dwUserData)
 {
@@ -83,7 +53,7 @@ BOOL CClientConnector::SendData( char* pData, INT32 dwLen )
 		return FALSE;
 	}
 
-	if(m_ConnectState != Succ_Connect)
+	if(m_ConnectState != ECS_CONNECTED)
 	{
 		return FALSE;
 	}
@@ -101,35 +71,11 @@ BOOL CClientConnector::SendData( char* pData, INT32 dwLen )
 	{
 		if(nWriteLen < dwLen)
 		{
-			SetConnectState(Not_Connect);
+			SetConnectState(ECS_NO_CONNECT);
 			CommonSocket::CloseSocket(m_hSocket);
 			return FALSE;
 		}
 	}
-
-	return TRUE;
-}
-
-BOOL CClientConnector::ConnectLoginSvr(BOOL bConnect)
-{
-	if(bConnect)
-	{
-		if(m_strLoginIp.empty())
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
-
-		DisConnect();
-
-		if(!ConnectToServer(m_strLoginIp, m_sLoginPort))
-		{
-			ASSERT_FAIELD;
-			return FALSE;
-		}
-	}
-
-
 
 	return TRUE;
 }
@@ -166,12 +112,12 @@ BOOL CClientConnector::UnregisterMsgHandler( IMessageHandler* pMsgHandler )
 
 BOOL CClientConnector::Render()
 {
-	if(m_ConnectState == Not_Connect)
+	if(m_ConnectState == ECS_NO_CONNECT)
 	{
 		return FALSE;
 	}
 
-	if(m_ConnectState == Start_Connect)
+	if(m_ConnectState == ECS_CONNECTING)
 	{
 		return FALSE;
 	}
@@ -206,23 +152,23 @@ BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 	return TRUE;
 }
 
-BOOL CClientConnector::ConnectToServer( std::string strIpAddr, UINT16 sPort )
+BOOL CClientConnector::ConnectTo( std::string strIpAddr, UINT16 sPort )
 {
-	if(m_ConnectState != Not_Connect)
+	if(m_ConnectState != ECS_NO_CONNECT)
 	{
 		printf("连接服务器失败， 服务器己连接!\n");
 
 		return FALSE;
 	}
 
-	SetConnectState(Start_Connect);
+	SetConnectState(ECS_CONNECTING);
 
 	m_hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if((m_hSocket == INVALID_SOCKET) || (m_hSocket == NULL))
 	{
 		printf("创建套接字失败!\n");
 
-		SetConnectState(Not_Connect);
+		SetConnectState(ECS_NO_CONNECT);
 
 		return FALSE;
 	}
@@ -232,7 +178,7 @@ BOOL CClientConnector::ConnectToServer( std::string strIpAddr, UINT16 sPort )
 	{
 		printf("连接服务器失败!\n");
 
-		SetConnectState(Not_Connect);
+		SetConnectState(ECS_NO_CONNECT);
 
 		CommonSocket::CloseSocket(m_hSocket);
 
@@ -241,7 +187,7 @@ BOOL CClientConnector::ConnectToServer( std::string strIpAddr, UINT16 sPort )
 
 	CommonSocket::SetSocketUnblock(m_hSocket);
 
-	SetConnectState(Succ_Connect);
+	SetConnectState(ECS_CONNECTED);
 
 	return TRUE;
 }
@@ -252,19 +198,23 @@ BOOL CClientConnector::DisConnect()
 	CommonSocket::ShutDownSend(m_hSocket);
 	CommonSocket::CloseSocket(m_hSocket);
 
-	m_ConnectState = Not_Connect;
+	m_ConnectState = ECS_NO_CONNECT;
 
 	m_nDataLen = 0;
+
 	m_PacketLen = 0;
+
 	memset(m_PackBuffer, 0, CONST_BUFF_SIZE);
+
 	memset(m_DataBuffer, 0, CONST_BUFF_SIZE);
+
 	return TRUE;
 }
 
 
 void CClientConnector::SetConnectState( ConnectState val )
 {
-	if(val == Succ_Connect)
+	if(val == ECS_CONNECTED)
 	{
 		printf("连接服务器成功!\n");
 	}
@@ -284,11 +234,7 @@ BOOL CClientConnector::ReceiveData()
 	if(nReadLen < 0)
 	{
 		DWORD nError = CommonSocket::GetSocketLastError();
-		if(nError == WSAEWOULDBLOCK)
-		{
-
-		}
-		else
+		if(nError != WSAEWOULDBLOCK)
 		{
 			printf("接收数据发生错误:%s!\n", CommonSocket::GetLastErrorStr(nError).c_str());
 		}
@@ -299,7 +245,7 @@ BOOL CClientConnector::ReceiveData()
 	{
 		printf("对方关闭了连接!\n");
 
-		SetConnectState(Not_Connect);
+		SetConnectState(ECS_NO_CONNECT);
 
 		CommonSocket::CloseSocket(m_hSocket);
 
@@ -366,12 +312,9 @@ UINT32 CClientConnector::GetServerTime()
 	return m_dwServerTime + (m_dwServerTick - dwTick) / 1000;
 }
 
-BOOL CClientConnector::SetLoginServerAddr( std::string strIpAddr, UINT16 sPort )
+BOOL CClientConnector::IsConnected()
 {
-	m_strLoginIp = strIpAddr;
-	m_sLoginPort = sPort;
-
-	return TRUE;
+	return m_ConnectState == ECS_CONNECTED;
 }
 
 
