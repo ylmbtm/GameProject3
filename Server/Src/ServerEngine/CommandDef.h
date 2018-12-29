@@ -26,12 +26,6 @@ BOOL ClassName##::DispatchPacket(NetPacket *pNetPacket) \
 	return TRUE;\
 }
 
-
-#define PROCESS_MESSAGE_ITEM_CLIENT(dwMsgID, Func) \
-		case dwMsgID:{\
-		printf("---Receive Message:[%s]---- \n", #dwMsgID); \
-		if(Func(dwMsgID, PacketBuf, BufLen)){return TRUE;}}break;
-
 #endif /* __MSG_DEFINE_H__ */
 
 
