@@ -332,7 +332,7 @@ BOOL CConnection::DoSend()
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
-		if(pFirstBuff == NULL && pSendingBuffer == NULL)
+		if(pFirstBuff == NULL && m_pSendingBuffer == NULL)
 		{
 			pFirstBuff = pBuffer;
 

@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[83];
+  static const ::google::protobuf::internal::ParseTable schema[85];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -208,6 +208,10 @@ void InitDefaultsHitEffectItemImpl();
 void InitDefaultsHitEffectItem();
 void InitDefaultsHitEffectNtfImpl();
 void InitDefaultsHitEffectNtf();
+void InitDefaultsUseItemReqImpl();
+void InitDefaultsUseItemReq();
+void InitDefaultsUseItemAckImpl();
+void InitDefaultsUseItemAck();
 inline void InitDefaults() {
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
@@ -292,6 +296,8 @@ inline void InitDefaults() {
   InitDefaultsObjectChangeNotify();
   InitDefaultsHitEffectItem();
   InitDefaultsHitEffectNtf();
+  InitDefaultsUseItemReq();
+  InitDefaultsUseItemAck();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
 class AbortCopyAck;
@@ -531,6 +537,12 @@ extern UseHpBottleAckDefaultTypeInternal _UseHpBottleAck_default_instance_;
 class UseHpBottleReq;
 class UseHpBottleReqDefaultTypeInternal;
 extern UseHpBottleReqDefaultTypeInternal _UseHpBottleReq_default_instance_;
+class UseItemAck;
+class UseItemAckDefaultTypeInternal;
+extern UseItemAckDefaultTypeInternal _UseItemAck_default_instance_;
+class UseItemReq;
+class UseItemReqDefaultTypeInternal;
+extern UseItemReqDefaultTypeInternal _UseItemReq_default_instance_;
 class UseMpBottleAck;
 class UseMpBottleAckDefaultTypeInternal;
 extern UseMpBottleAckDefaultTypeInternal _UseMpBottleAck_default_instance_;
@@ -10165,6 +10177,190 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsHitEffectNtfImpl();
 };
+// -------------------------------------------------------------------
+
+class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UseItemReq) */ {
+ public:
+  UseItemReq();
+  virtual ~UseItemReq();
+
+  UseItemReq(const UseItemReq& from);
+
+  inline UseItemReq& operator=(const UseItemReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UseItemReq(UseItemReq&& from) noexcept
+    : UseItemReq() {
+    *this = ::std::move(from);
+  }
+
+  inline UseItemReq& operator=(UseItemReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UseItemReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UseItemReq* internal_default_instance() {
+    return reinterpret_cast<const UseItemReq*>(
+               &_UseItemReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    83;
+
+  void Swap(UseItemReq* other);
+  friend void swap(UseItemReq& a, UseItemReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UseItemReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UseItemReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UseItemReq& from);
+  void MergeFrom(const UseItemReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UseItemReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:UseItemReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUseItemReqImpl();
+};
+// -------------------------------------------------------------------
+
+class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:UseItemAck) */ {
+ public:
+  UseItemAck();
+  virtual ~UseItemAck();
+
+  UseItemAck(const UseItemAck& from);
+
+  inline UseItemAck& operator=(const UseItemAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UseItemAck(UseItemAck&& from) noexcept
+    : UseItemAck() {
+    *this = ::std::move(from);
+  }
+
+  inline UseItemAck& operator=(UseItemAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UseItemAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UseItemAck* internal_default_instance() {
+    return reinterpret_cast<const UseItemAck*>(
+               &_UseItemAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    84;
+
+  void Swap(UseItemAck* other);
+  friend void swap(UseItemAck& a, UseItemAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UseItemAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UseItemAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UseItemAck& from);
+  void MergeFrom(const UseItemAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UseItemAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:UseItemAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsUseItemAckImpl();
+};
 // ===================================================================
 
 
@@ -15344,9 +15540,21 @@ HitEffectNtf::itemlist() const {
   return itemlist_;
 }
 
+// -------------------------------------------------------------------
+
+// UseItemReq
+
+// -------------------------------------------------------------------
+
+// UseItemAck
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

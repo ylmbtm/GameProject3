@@ -784,7 +784,7 @@ Th_RetName _NetListenThread( void* pParam )
 }
 
 
-BOOL CNetManager::PostSendOperation(CConnection* pConnection)
+BOOL CNetManager::PostSendOperation(CConnection* pConnection, BOOL bCheck)
 {
 	if (pConnection == NULL)
 	{
@@ -792,7 +792,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 		return FALSE;
 	}
 
-	if (!pConnection->m_IsSending)
+	if (!pConnection->m_IsSending || !bCheck)
 	{
 #ifdef WIN32
 		pConnection->m_IsSending = TRUE;

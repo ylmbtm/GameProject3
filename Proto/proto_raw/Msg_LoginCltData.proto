@@ -104,8 +104,7 @@ message MailChangeNty{
 }
 
 message TaskItem {
-	uint64  RoleID = 1;			//角色ID
-	uint32  TaskID = 2;
+	uint32  TaskID = 1;
 }
 
 message TaskChangeNty {
@@ -114,19 +113,17 @@ message TaskChangeNty {
 }
 
 message CopyItem {
-	uint64	RoleID = 1;			//角色ID
-	uint32  CopyID = 2;
-	int32	StarNum = 3;
-	int32   BattleCnt = 4;
-	int32   ResetCnt = 5;
+	uint32  CopyID = 1;
+	int32	StarNum = 2;
+	int32   BattleCnt = 3;
+	int32   ResetCnt = 4;
 }
 
 message ChapterItem {
-	uint64	RoleID = 1;			//角色ID
-	uint32  CopyType = 2;
-	uint32  ChapterID = 3;
-	uint32  StarAward = 4;
-	uint32  SceneAward = 5;
+	uint32  ChapterID = 1;
+	uint32  StarAward = 2;
+	uint32  SceneAward = 3;
+	uint32  CopyType = 4;
 }
 
 
@@ -137,25 +134,27 @@ message ActionItem {
 
 
 message RoleLoginAck {
-	uint32   RetCode = 1;
-	uint64   AccountID = 2;
-	uint64   RoleID = 3;
-	int32    Carrer = 4;
-	int32    Level = 5;
-	int64    Exp = 6;
-	string   Name = 7;
-	int32    VipLvl = 8;
-	int32    VipExp = 9;
-	int64    FightValue =  10;
-	repeated ActionItem ActionList = 11;
-	repeated EquipItem EquipList = 12;
-	repeated GemItem GemList = 13;
-	repeated PetItem PetList = 14;
-	repeated PartnerItem PartnerList = 15;
-	repeated MountItem MountList = 16;
-	repeated BagItem  BagItemList = 17;
-	repeated MailItem MailList = 18;
-	repeated TaskItem TaskList = 19;
+	uint32   RetCode			= 1;
+	uint64   AccountID			= 2;
+	uint64   RoleID				= 3;
+	int32    Carrer				= 4;
+	int32    Level				= 5;
+	int64    Exp				= 6;
+	string   Name				= 7;
+	int32    VipLvl				= 8;
+	int32    VipExp				= 9;
+	int64    FightValue			=  10;
+	repeated ActionItem ActionList	= 11;
+	repeated EquipItem EquipList	= 12;
+	repeated GemItem GemList		= 13;
+	repeated PetItem PetList		= 14;
+	repeated PartnerItem PartnerList= 15;
+	repeated MountItem MountList	= 16;
+	repeated BagItem  BagItemList	= 17;
+	repeated MailItem MailList		= 18;
+	repeated TaskItem TaskList		= 19;
+	repeated CopyItem CopyList		= 20;
+	repeated ChapterItem ChapterList= 21;
 }
 
 

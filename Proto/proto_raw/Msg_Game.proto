@@ -507,6 +507,12 @@ message HitEffectNtf
     repeated HitEffectItem ItemList = 1;
 }
 
+message UseItemReq {
+}
+
+message UseItemAck {
+}
+
 
 
 
