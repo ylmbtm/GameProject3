@@ -122,35 +122,6 @@ inline bool EActionStatue_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EActionStatue>(
     EActionStatue_descriptor(), name, value);
 }
-enum ECampType {
-  CT_NONE = 0,
-  CT_PVE_PLAYER = 1,
-  CT_PVE_ENEMY = 2,
-  CT_PVE_NEUTRAL = 3,
-  CT_PVP_PLAYER1 = 4,
-  CT_PVP_PLAYER2 = 5,
-  CT_PVP_PLAYER3 = 6,
-  CT_PVP_PLAYER4 = 7,
-  CT_PVP_PLAYER5 = 8,
-  CT_CMAP_END = 100,
-  ECampType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  ECampType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool ECampType_IsValid(int value);
-const ECampType ECampType_MIN = CT_NONE;
-const ECampType ECampType_MAX = CT_CMAP_END;
-const int ECampType_ARRAYSIZE = ECampType_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* ECampType_descriptor();
-inline const ::std::string& ECampType_Name(ECampType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ECampType_descriptor(), value);
-}
-inline bool ECampType_Parse(
-    const ::std::string& name, ECampType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ECampType>(
-    ECampType_descriptor(), name, value);
-}
 enum ECopyType {
   CPT_NONE = 0,
   CPT_LOGIN = 1,
@@ -335,6 +306,29 @@ inline bool EAttrID_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<EAttrID>(
     EAttrID_descriptor(), name, value);
 }
+enum EShip {
+  TYPE_NONE = 0,
+  TYPE_ALLY = 1,
+  TYPE_ENEMY = 2,
+  TYPE_NEUTRAL = 3,
+  EShip_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EShip_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EShip_IsValid(int value);
+const EShip EShip_MIN = TYPE_NONE;
+const EShip EShip_MAX = TYPE_NEUTRAL;
+const int EShip_ARRAYSIZE = EShip_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EShip_descriptor();
+inline const ::std::string& EShip_Name(EShip value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EShip_descriptor(), value);
+}
+inline bool EShip_Parse(
+    const ::std::string& name, EShip* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EShip>(
+    EShip_descriptor(), name, value);
+}
 enum EBuffType {
   BFT_NONE = 0,
   EBuffType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
@@ -467,11 +461,6 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::EActionStatue>() {
   return ::EActionStatue_descriptor();
 }
-template <> struct is_proto_enum< ::ECampType> : ::google::protobuf::internal::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ECampType>() {
-  return ::ECampType_descriptor();
-}
 template <> struct is_proto_enum< ::ECopyType> : ::google::protobuf::internal::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ECopyType>() {
@@ -501,6 +490,11 @@ template <> struct is_proto_enum< ::EAttrID> : ::google::protobuf::internal::tru
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::EAttrID>() {
   return ::EAttrID_descriptor();
+}
+template <> struct is_proto_enum< ::EShip> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EShip>() {
+  return ::EShip_descriptor();
 }
 template <> struct is_proto_enum< ::EBuffType> : ::google::protobuf::internal::true_type {};
 template <>

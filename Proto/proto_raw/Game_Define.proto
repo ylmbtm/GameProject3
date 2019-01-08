@@ -28,21 +28,6 @@ enum EActionStatue {
 	AS_END = 0xfffffff;  //技能动作开始
 }
 
-enum ECampType {
-    CT_NONE			= 0;			//无阵营
-	CT_PVE_PLAYER	= 1;		//玩家阵营
-	CT_PVE_ENEMY	= 2;     //玩家敌对阵营
-	CT_PVE_NEUTRAL	= 3;	    //中立阵营
-
-	CT_PVP_PLAYER1	= 4;     //PVP中玩家1
-	CT_PVP_PLAYER2	= 5;		//PVP中玩家2
-	CT_PVP_PLAYER3	= 6;		//PVP中玩家3
-	CT_PVP_PLAYER4	= 7;		//PVP中玩家4
-	CT_PVP_PLAYER5	= 8;		//PVP中玩家5
-
-	CT_CMAP_END = 100;
-}
-
 enum ECopyType {
     CPT_NONE = 0;			//无阵营
 	CPT_LOGIN = 1;          //登陆副本
@@ -136,6 +121,14 @@ enum EAttrID{
 	FLASH_DODGE  = 19;//抗暴
 	FIRE_DODGE   = 20;//抗暴
 	TOXIN_DODGE  = 21;//抗毒
+}
+
+enum EShip
+{
+    TYPE_NONE    =  0;
+    TYPE_ALLY    =  1;
+    TYPE_ENEMY   =  2;
+    TYPE_NEUTRAL =  3;
 }
 
 

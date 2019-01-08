@@ -16,10 +16,10 @@ SceneLogic_City::~SceneLogic_City()
 
 BOOL SceneLogic_City::OnObjectCreate(CSceneObject* pObject)
 {
-	ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
-	ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
+		ERROR_RETURN_TRUE(pObject->m_dwCamp < m_vtBornPos.size());
+		ERROR_RETURN_TRUE(pObject->m_dwCamp > 0);
 		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, m_vtBornPos[pObject->m_dwCamp].m_y, m_vtBornPos[pObject->m_dwCamp].m_z);
 	}
 	return TRUE;

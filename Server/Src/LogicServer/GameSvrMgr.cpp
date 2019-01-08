@@ -110,7 +110,8 @@ BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID)
 	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
 
 	TransferDataReq Req;
-	Req.set_camp(CT_PVE_PLAYER);
+	//在主城里所有的玩家都是同一个阵营，都是1
+	Req.set_camp(1);
 	ERROR_RETURN_FALSE(pPlayer->ToTransferData(Req));
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, u64ID, dwCopyGuid, Req);
 	pPlayer->m_dwToCopyID = dwCopyID;
@@ -129,7 +130,7 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 
 	TransferDataReq Req;
 	ERROR_RETURN_FALSE(pPlayer->ToTransferData(Req));
-	Req.set_camp(CT_PVE_PLAYER);
+	Req.set_camp(1);
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwServerID);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, u64ID, dwCopyGuid, Req);
@@ -230,7 +231,7 @@ BOOL CGameSvrMgr::OnCreateMainCopy(CreateNewSceneAck& Ack)
 
 	TransferDataReq Req;
 	ERROR_RETURN_FALSE(pPlayer->ToTransferData(Req));
-	Req.set_camp(CT_PVE_PLAYER);
+	Req.set_camp(1);
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
 	ERROR_RETURN_FALSE(dwConnID != 0);
 

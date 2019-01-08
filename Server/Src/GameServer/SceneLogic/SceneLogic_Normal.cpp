@@ -20,8 +20,8 @@ BOOL SceneLogic_Normal::OnObjectCreate(CSceneObject* pObject)
 	//玩家数据传过来了。
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
-		ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
-		ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
+		ERROR_RETURN_TRUE(pObject->m_dwCamp > 0);
+		ERROR_RETURN_TRUE(pObject->m_dwCamp < m_vtBornPos.size());
 		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, m_vtBornPos[pObject->m_dwCamp].m_y, m_vtBornPos[pObject->m_dwCamp].m_z);
 
 		return TRUE;

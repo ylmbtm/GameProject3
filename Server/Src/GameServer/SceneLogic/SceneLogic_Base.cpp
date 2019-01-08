@@ -31,7 +31,10 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 			}
 		}
 
-		m_vtBornPos[dwCamp] = pt;
+		if (dwCamp >= m_vtBornPos.size())
+		{
+			m_vtBornPos.resize(dwCamp + 1, pt);
+		}
 	}
 
 	return TRUE;

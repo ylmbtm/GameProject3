@@ -3,7 +3,6 @@
 
 INT32 DFANode::s_length = 0;
 INT32 DFANode::s_maxlen = 0;
-std::string DFANode::s_str = "";
 
 //--------------------------------------------------------------------------------------------------------
 DFANode::DFANode(KeyType key) : m_key(key), m_start(0)

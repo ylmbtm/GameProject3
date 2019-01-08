@@ -51,7 +51,6 @@ protected:
 
 	static INT32 s_length;		//记录匹配到的长度
 	static INT32 s_maxlen;		//记录最佳匹配长度
-	static std::string s_str;	//静态的用来替换的字符串
 };
 
 #endif

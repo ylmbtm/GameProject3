@@ -39,7 +39,7 @@ public:
 	
 	BattleResult m_BattleResult;
 
-	CPoint3D m_vtBornPos[CT_CMAP_END];
+	std::vector<CPoint3D> m_vtBornPos;
 };
 
 #endif //_SCENELOGIC_BASE_H_

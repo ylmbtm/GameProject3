@@ -50,51 +50,48 @@ void AddDescriptorsImpl() {
       "\020\003\022\n\n\006AT_FLY\020\004\022\r\n\tAT_DANCE1\020\005\022\r\n\tAT_DANC"
       "E2\020\006\022\r\n\tAT_DANCE3\020\007\022\r\n\tAT_DANCE4\020\010*F\n\rEA"
       "ctionStatue\022\013\n\007AS_NONE\020\000\022\013\n\007AS_HURT\020\001\022\014\n"
-      "\010AS_START\020\002\022\r\n\006AS_END\020\377\377\377\177*\306\001\n\tECampType"
-      "\022\013\n\007CT_NONE\020\000\022\021\n\rCT_PVE_PLAYER\020\001\022\020\n\014CT_P"
-      "VE_ENEMY\020\002\022\022\n\016CT_PVE_NEUTRAL\020\003\022\022\n\016CT_PVP"
-      "_PLAYER1\020\004\022\022\n\016CT_PVP_PLAYER2\020\005\022\022\n\016CT_PVP"
-      "_PLAYER3\020\006\022\022\n\016CT_PVP_PLAYER4\020\007\022\022\n\016CT_PVP"
-      "_PLAYER5\020\010\022\017\n\013CT_CMAP_END\020d*q\n\tECopyType"
-      "\022\014\n\010CPT_NONE\020\000\022\r\n\tCPT_LOGIN\020\001\022\017\n\013CPT_SEL"
-      "ROLE\020\002\022\014\n\010CPT_CITY\020\003\022\014\n\010CPT_MAIN\020\004\022\r\n\tCP"
-      "T_WORLD\020\005\022\013\n\007CPT_END\020d*\320\001\n\rEObjectStatus"
-      "\022\014\n\010EOS_NONE\020\000\022\014\n\010EOS_DEAD\020\001\022\014\n\010EOS_IDLE"
-      "\020\002\022\014\n\010EOS_WALK\020\003\022\013\n\007EOS_RUN\020\004\022\013\n\007EOS_FLY"
-      "\020\005\022\020\n\014EOS_NOT_MOVE\020\006\022\020\n\014EOS_NOT_CAST\020\007\022\022"
-      "\n\016EOS_NOT_BEHURT\020\010\022\025\n\021EOS_NOT_BECONTROL\020"
-      "\t\022\017\n\013EOS_STEALTH\020\n\022\r\n\tEOS_BLIND\020\013*\224\002\n\tEI"
-      "temType\022\014\n\010EIT_NONE\020\000\022\r\n\tEIT_EQUIP\020\001\022\022\n\016"
-      "EIT_ACTIONDRUG\020\002\022\013\n\007EIT_MAT\020\003\022\013\n\007EIT_BOX"
-      "\020\004\022\013\n\007EIT_KEY\020\005\022\014\n\010EIT_CHIP\020\006\022\013\n\007EIT_GEM"
-      "\020\007\022\017\n\013EIT_FASHION\020\010\022\r\n\tEIT_MONEY\020\t\022\016\n\nEI"
-      "T_ACTION\020\n\022\013\n\007EIT_EXP\020\013\022\014\n\010EIT_RUNE\020\014\022\017\n"
-      "\013EIT_PETSOUL\020\r\022\014\n\010EIT_TASK\020\016\022\014\n\010EIT_DRUG"
-      "\020\017\022\013\n\007EIT_PET\020\020\022\017\n\013EIT_PARTNER\020\021*\212\001\n\010EBa"
-      "gType\022\014\n\010EBT_NONE\020\000\022\014\n\010EBT_ITEM\020\001\022\013\n\007EBT"
-      "_GEM\020\002\022\017\n\013EBT_FASHION\020\003\022\014\n\010EBT_CHIP\020\004\022\014\n"
-      "\010EBT_RUNE\020\005\022\014\n\010EBT_TASK\020\006\022\014\n\010EBT_SOUL\020\007\022"
-      "\014\n\010EBT_CARD\020\010*4\n\rEFunctionType\022\021\n\rFUNC_B"
-      "EGIN_ID\020\000\022\020\n\013FUNC_END_ID\020\226\001*\245\002\n\007EAttrID\022"
-      "\010\n\004NONE\020\000\022\006\n\002HP\020\001\022\006\n\002MP\020\002\022\n\n\006HP_MAX\020\003\022\n\n"
-      "\006MP_MAX\020\004\022\n\n\006HP_REC\020\005\022\n\n\006MP_REC\020\006\022\t\n\005SPE"
-      "ED\020\007\022\n\n\006ATTACK\020\010\022\013\n\007ELEMENT\020\t\022\r\n\tMAGIC_D"
-      "EF\020\n\022\016\n\nPHYSIC_DEF\020\013\022\007\n\003HIT\020\014\022\t\n\005DODGE\020\r"
-      "\022\r\n\tMORE_HURT\020\016\022\r\n\tLESS_HURT\020\017\022\014\n\010CRIT_H"
-      "IT\020\020\022\014\n\010CRIT_DEF\020\021\022\r\n\tICE_DODGE\020\022\022\017\n\013FLA"
-      "SH_DODGE\020\023\022\016\n\nFIRE_DODGE\020\024\022\017\n\013TOXIN_DODG"
-      "E\020\025*\031\n\tEBuffType\022\014\n\010BFT_NONE\020\000*W\n\014EChatC"
-      "hannel\022\014\n\010CHL_NONE\020\000\022\r\n\tCHL_WORLD\020\001\022\017\n\013C"
-      "HL_PRIVATE\020\002\022\r\n\tCHL_GUILD\020\003\022\n\n\006CHL_GM\020\004*"
-      "\230\001\n\tEEquipPos\022\014\n\010EEP_NONE\020\000\022\016\n\nEEP_HELME"
-      "T\020\001\022\020\n\014EEP_NECKLACE\020\002\022\r\n\tEEP_ARMOR\020\003\022\r\n\t"
-      "EEP_SHOES\020\004\022\r\n\tEEP_WRIST\020\005\022\014\n\010EEP_RING\020\006"
-      "\022\020\n\014EEP_TALISMAN\020\007\022\016\n\nEEP_WEAPON\020\010*K\n\013ET"
-      "askStatus\022\014\n\010ETS_INIT\020\000\022\016\n\nETS_ACCEPT\020\001\022"
-      "\016\n\nETS_FINISH\020\002\022\016\n\nETS_COMMIT\020\003b\006proto3"
+      "\010AS_START\020\002\022\r\n\006AS_END\020\377\377\377\177*q\n\tECopyType\022"
+      "\014\n\010CPT_NONE\020\000\022\r\n\tCPT_LOGIN\020\001\022\017\n\013CPT_SELR"
+      "OLE\020\002\022\014\n\010CPT_CITY\020\003\022\014\n\010CPT_MAIN\020\004\022\r\n\tCPT"
+      "_WORLD\020\005\022\013\n\007CPT_END\020d*\320\001\n\rEObjectStatus\022"
+      "\014\n\010EOS_NONE\020\000\022\014\n\010EOS_DEAD\020\001\022\014\n\010EOS_IDLE\020"
+      "\002\022\014\n\010EOS_WALK\020\003\022\013\n\007EOS_RUN\020\004\022\013\n\007EOS_FLY\020"
+      "\005\022\020\n\014EOS_NOT_MOVE\020\006\022\020\n\014EOS_NOT_CAST\020\007\022\022\n"
+      "\016EOS_NOT_BEHURT\020\010\022\025\n\021EOS_NOT_BECONTROL\020\t"
+      "\022\017\n\013EOS_STEALTH\020\n\022\r\n\tEOS_BLIND\020\013*\224\002\n\tEIt"
+      "emType\022\014\n\010EIT_NONE\020\000\022\r\n\tEIT_EQUIP\020\001\022\022\n\016E"
+      "IT_ACTIONDRUG\020\002\022\013\n\007EIT_MAT\020\003\022\013\n\007EIT_BOX\020"
+      "\004\022\013\n\007EIT_KEY\020\005\022\014\n\010EIT_CHIP\020\006\022\013\n\007EIT_GEM\020"
+      "\007\022\017\n\013EIT_FASHION\020\010\022\r\n\tEIT_MONEY\020\t\022\016\n\nEIT"
+      "_ACTION\020\n\022\013\n\007EIT_EXP\020\013\022\014\n\010EIT_RUNE\020\014\022\017\n\013"
+      "EIT_PETSOUL\020\r\022\014\n\010EIT_TASK\020\016\022\014\n\010EIT_DRUG\020"
+      "\017\022\013\n\007EIT_PET\020\020\022\017\n\013EIT_PARTNER\020\021*\212\001\n\010EBag"
+      "Type\022\014\n\010EBT_NONE\020\000\022\014\n\010EBT_ITEM\020\001\022\013\n\007EBT_"
+      "GEM\020\002\022\017\n\013EBT_FASHION\020\003\022\014\n\010EBT_CHIP\020\004\022\014\n\010"
+      "EBT_RUNE\020\005\022\014\n\010EBT_TASK\020\006\022\014\n\010EBT_SOUL\020\007\022\014"
+      "\n\010EBT_CARD\020\010*4\n\rEFunctionType\022\021\n\rFUNC_BE"
+      "GIN_ID\020\000\022\020\n\013FUNC_END_ID\020\226\001*\245\002\n\007EAttrID\022\010"
+      "\n\004NONE\020\000\022\006\n\002HP\020\001\022\006\n\002MP\020\002\022\n\n\006HP_MAX\020\003\022\n\n\006"
+      "MP_MAX\020\004\022\n\n\006HP_REC\020\005\022\n\n\006MP_REC\020\006\022\t\n\005SPEE"
+      "D\020\007\022\n\n\006ATTACK\020\010\022\013\n\007ELEMENT\020\t\022\r\n\tMAGIC_DE"
+      "F\020\n\022\016\n\nPHYSIC_DEF\020\013\022\007\n\003HIT\020\014\022\t\n\005DODGE\020\r\022"
+      "\r\n\tMORE_HURT\020\016\022\r\n\tLESS_HURT\020\017\022\014\n\010CRIT_HI"
+      "T\020\020\022\014\n\010CRIT_DEF\020\021\022\r\n\tICE_DODGE\020\022\022\017\n\013FLAS"
+      "H_DODGE\020\023\022\016\n\nFIRE_DODGE\020\024\022\017\n\013TOXIN_DODGE"
+      "\020\025*G\n\005EShip\022\r\n\tTYPE_NONE\020\000\022\r\n\tTYPE_ALLY\020"
+      "\001\022\016\n\nTYPE_ENEMY\020\002\022\020\n\014TYPE_NEUTRAL\020\003*\031\n\tE"
+      "BuffType\022\014\n\010BFT_NONE\020\000*W\n\014EChatChannel\022\014"
+      "\n\010CHL_NONE\020\000\022\r\n\tCHL_WORLD\020\001\022\017\n\013CHL_PRIVA"
+      "TE\020\002\022\r\n\tCHL_GUILD\020\003\022\n\n\006CHL_GM\020\004*\230\001\n\tEEqu"
+      "ipPos\022\014\n\010EEP_NONE\020\000\022\016\n\nEEP_HELMET\020\001\022\020\n\014E"
+      "EP_NECKLACE\020\002\022\r\n\tEEP_ARMOR\020\003\022\r\n\tEEP_SHOE"
+      "S\020\004\022\r\n\tEEP_WRIST\020\005\022\014\n\010EEP_RING\020\006\022\020\n\014EEP_"
+      "TALISMAN\020\007\022\016\n\nEEP_WEAPON\020\010*K\n\013ETaskStatu"
+      "s\022\014\n\010ETS_INIT\020\000\022\016\n\nETS_ACCEPT\020\001\022\016\n\nETS_F"
+      "INISH\020\002\022\016\n\nETS_COMMIT\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1999);
+      descriptor, 1871);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Game_Define.proto", &protobuf_RegisterTypes);
 }
@@ -166,31 +163,9 @@ bool EActionStatue_IsValid(int value) {
   }
 }
 
-const ::google::protobuf::EnumDescriptor* ECampType_descriptor() {
-  protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[3];
-}
-bool ECampType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 100:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::google::protobuf::EnumDescriptor* ECopyType_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[4];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[3];
 }
 bool ECopyType_IsValid(int value) {
   switch (value) {
@@ -209,7 +184,7 @@ bool ECopyType_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EObjectStatus_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[5];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[4];
 }
 bool EObjectStatus_IsValid(int value) {
   switch (value) {
@@ -233,7 +208,7 @@ bool EObjectStatus_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EItemType_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[6];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[5];
 }
 bool EItemType_IsValid(int value) {
   switch (value) {
@@ -263,7 +238,7 @@ bool EItemType_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EBagType_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[7];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[6];
 }
 bool EBagType_IsValid(int value) {
   switch (value) {
@@ -284,7 +259,7 @@ bool EBagType_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EFunctionType_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[8];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[7];
 }
 bool EFunctionType_IsValid(int value) {
   switch (value) {
@@ -298,7 +273,7 @@ bool EFunctionType_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EAttrID_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[9];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[8];
 }
 bool EAttrID_IsValid(int value) {
   switch (value) {
@@ -324,6 +299,22 @@ bool EAttrID_IsValid(int value) {
     case 19:
     case 20:
     case 21:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* EShip_descriptor() {
+  protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[9];
+}
+bool EShip_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;
