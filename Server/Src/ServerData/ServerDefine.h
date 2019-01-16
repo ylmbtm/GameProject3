@@ -38,6 +38,14 @@
 
 #define PARTNER_MAX_NUM		2
 
+//定义四种状态的基本移动速度
+#define SPEED_IDLE			(0.0f)
+#define SPEED_WALK			(2.5f)
+#define SPEED_RUN			(4.0f)
+#define SPEED_FLY			(6.5f)
+
+
+
 //副本战斗结果
 enum ECopyResult
 {
