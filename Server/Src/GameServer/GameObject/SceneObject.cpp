@@ -249,9 +249,6 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
 	return TRUE;
 }
 
-
-
-
 BOOL CSceneObject::IsInCircle(Vector3D hitPoint, float radius, float height)
 {
 	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(m_dwActorID);
@@ -442,8 +439,6 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 	m_Pos.m_y		= Req.hosty();
 	m_Pos.m_z		= Req.hostz();
 	m_ft			= Req.hostft();
-
-
 
 	return MRC_SUCCESSED;
 }

@@ -1,6 +1,7 @@
 ﻿#ifndef _DB_MSG_HANDLER_H_
 #define _DB_MSG_HANDLER_H_
 #include "DBManager.h"
+#include "LockFreeQueue.h"
 Th_RetName _DBWorkThread(void* pParam);
 
 class CDBMsgHandler

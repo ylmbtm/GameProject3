@@ -1,23 +1,19 @@
 ﻿#ifndef __SPIN_LOCK_h__
 #define __SPIN_LOCK_h__
-#include "atomic_ops.h"
+#include <atomic>
 
 class CSpinLock
 {
+	std::atomic_flag m_flag;
 public:
 	CSpinLock()
 	{
-		m_Value = 0;
+		
 	};
 
 	~CSpinLock()
 	{
-		m_Value = 0;
 	};
-
-
-public:
-	UINT64 m_Value;
 
 	void Lock()
 	{
@@ -57,8 +53,7 @@ public:
 
 	bool TryLock()
 	{
-		UINT64 nOne = 1, nZero = 0;
-		if (CAS(&m_Value, nZero, nOne))
+		if (m_flag.test_and_set(std::memory_order_acquire))
 		{
 			return true;
 		}
@@ -68,15 +63,8 @@ public:
 
 	void Unlock()
 	{
-		UINT64 nOne = 1, nZero = 0;
-		for (unsigned k = 0; k < 32; ++k)
-		{
-			if (CAS(&m_Value, nOne, nZero))
-			{
-				return;
-			}
-		}
-
+		m_flag.clear(std::memory_order_release);
+	
 		return ;
 	}
 

@@ -2,6 +2,7 @@
 #define __DB_ACCOUNT_OBJECT_H__
 #include "AVLTree.h"
 #include "DBInterface/CppMysql.h"
+#include "LockFreeQueue.h"
 
 Th_RetName _SaveAccountThread( void* pParam );
 

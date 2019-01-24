@@ -40,8 +40,8 @@ INT32 CGridManager::GetIndexByPos( FLOAT x, FLOAT z )
 		return -1;
 	}
 
-	INT32 nRow = (z - m_nTop) / CELL_SIZE + 1;
-	INT32 nCol = (x - m_nLeft) / CELL_SIZE + 1;
+	INT32 nRow = (INT32)((z - m_nTop) / CELL_SIZE + 1);
+	INT32 nCol = (INT32)((x - m_nLeft) / CELL_SIZE + 1);
 
 	if((nRow >= m_nMaxRows) || (nCol >= m_nMaxCols))
 	{

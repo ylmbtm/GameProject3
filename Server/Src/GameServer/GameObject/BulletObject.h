@@ -30,7 +30,7 @@ public:
 	UINT64		m_uStartTick;	//开始时间
 	UINT64		m_uLastTick;	//上一次时间
 	Vector3D	m_Pos;			//当前位置
-	FLOAT		m_vx, m_vz;		//当前向量
+	FLOAT		m_vx, m_vz;		//当前速度向量
 	UINT64      m_uLifeTick;	//生命期
 	BOOL		m_bFinished;	//是否完成
 	FLOAT		m_fSpeed;		//整度
