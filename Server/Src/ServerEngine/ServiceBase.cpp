@@ -86,15 +86,22 @@ BOOL ServiceBase::StopNetwork()
 template<typename T>
 BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
 
 	m_dwSendNum++;
+
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
 }
 
 BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
 
 	char szBuff[102400] = {0};
 
@@ -107,13 +114,22 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 
 BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
+
 	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMessageByConnID(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
 }
 
 BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 {
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
+
 	m_dwSendNum++;
 	return CNetManager::GetInstancePtr()->SendMsgBufByConnID(dwConnID, pDataBuffer);
 }

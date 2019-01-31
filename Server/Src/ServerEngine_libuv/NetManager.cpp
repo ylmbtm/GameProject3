@@ -236,7 +236,11 @@ BOOL	CNetManager::SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer)
 
 BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
+
 	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
 	if (pConn == NULL)
 	{

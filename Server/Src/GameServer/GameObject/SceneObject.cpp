@@ -42,11 +42,15 @@ BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 
 BOOL CSceneObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
+	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata);
 }
 
 BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
 {
+	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
 

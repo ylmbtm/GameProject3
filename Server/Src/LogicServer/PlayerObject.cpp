@@ -202,7 +202,11 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 
 BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID), dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID);
+
+	ERROR_RETURN_FALSE(dwConnID != 0);
+
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
 }
 
 BOOL CPlayerObject::OnAllModuleOK()

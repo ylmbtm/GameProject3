@@ -403,15 +403,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 			if ((EpollEvent[i].events & EPOLLERR) || (EpollEvent[i].events & EPOLLHUP))
 			{
-				if (!pConnection->IsConnectionOK())
-				{
-					//CLog::GetInstancePtr()->LogError("---未连接socket收到这个消息----EPOLLERR-----连接未成功-------%x!", pConnection);
-				}
-				else
-				{
-					//CLog::GetInstancePtr()->LogError("---己连接socket收到这个消息----EPOLLERR------连接断开------!");
-				}
-
 				EventDelete(pConnection);
 				pConnection->Close();
 				continue;
@@ -682,7 +673,11 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
 BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID <= 0)
+	{
+		return FALSE;
+	}
+	
 	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
 	if(pConn == NULL)
 	{
@@ -763,8 +758,6 @@ Th_RetName _NetEventThread( void* pParam )
 
 	pNetManager->WorkThread_ProcessEvent(0);
 
-	CLog::GetInstancePtr()->LogError("网络事件处理线程退出!");
-
 	CommonThreadFunc::ExitThread();
 
 	return Th_RetValue;
@@ -775,8 +768,6 @@ Th_RetName _NetListenThread( void* pParam )
 	CNetManager* pNetManager = CNetManager::GetInstancePtr();
 
 	pNetManager->WorkThread_Listen();
-
-	CLog::GetInstancePtr()->LogInfo("监听线程退出!");
 
 	CommonThreadFunc::ExitThread();
 

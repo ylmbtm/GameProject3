@@ -99,8 +99,6 @@ BOOL CConnection::DoReceive()
 			int nErr = CommonSocket::GetSocketLastError();
 			if( nErr == EAGAIN)
 			{
-				CLog::GetInstancePtr()->LogError("读成功了，缓冲区己经无数据可读!!");
-
 				return TRUE;
 			}
 			else
@@ -109,6 +107,11 @@ BOOL CConnection::DoReceive()
 
 				return FALSE;
 			}
+		}
+		else if (nBytes == 0)
+		{
+			//对方断开连接
+			return FALSE;
 		}
 		else
 		{
