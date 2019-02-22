@@ -52,8 +52,6 @@ protected:
 	lua_State*			m_pLuaState;
 };
 
-
-
 class CLuaManager : public CLuaHelper
 {
 private:

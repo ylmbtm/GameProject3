@@ -54,7 +54,6 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			//ASSERT_FAIELD;
 			break;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
@@ -67,7 +66,7 @@ BOOL CNetManager::WorkThread_Listen()
 
 			m_pBufferHandler->OnNewConnect(pConnection);
 
-			//在Windows的IOCP模式，一个新的连接必须首先调一次接收， 而EPOLL模型下，只要关注了，读事件就可以等事件到了之后发读的操作。
+			//在Windows的IOCP模式，一个新的连接必须首先调一次接收， 而EPOLL模型下，只要关注了读事件就可以等事件到了之后发读的操作。
 #ifdef WIN32
 			if(!pConnection->DoReceive())
 			{
@@ -84,20 +83,13 @@ BOOL CNetManager::WorkThread_Listen()
 	return TRUE;
 }
 
-BOOL CNetManager::StartListen(UINT16 nPortNum, std::string strListenIp)
+BOOL CNetManager::StartListen(UINT16 nPortNum)
 {
 	sockaddr_in SvrAddr;
 	SvrAddr.sin_family		= AF_INET;
 	SvrAddr.sin_port		= htons(nPortNum);
 	
-	if (strListenIp.empty() || strListenIp.length() < 4)
-	{
-		SvrAddr.sin_addr.s_addr = htonl(INADDR_ANY);		//支持多IP地址监听
-	}
-	else
-	{
-		inet_pton(AF_INET, strListenIp.c_str(), &SvrAddr.sin_addr);
-	}
+	SvrAddr.sin_addr.s_addr = htonl(INADDR_ANY);		//支持多IP地址监听
 
 	m_hListenSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(m_hListenSocket == INVALID_SOCKET)
@@ -497,7 +489,7 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 #endif
 
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string &strListenIp)
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler)
 {
 	ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
@@ -523,7 +515,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 		return FALSE;
 	}
 
-	if(!StartListen(nPortNum, strListenIp))
+	if(!StartListen(nPortNum))
 	{
 		CLog::GetInstancePtr()->LogError("开启监听失败！！");
 		return FALSE;

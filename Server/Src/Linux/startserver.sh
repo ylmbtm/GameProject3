@@ -1,11 +1,11 @@
 ./AccountServer &
 ./LoginServer &
-./LogicServer &
 ./DBServer &
+./LogicServer &
 ./ProxyServer &
 ./LogServer &
 ./CenterServer &
-./GameServer 1 9008 &
+./GameServer id=1 port=9008 &
 
 
  

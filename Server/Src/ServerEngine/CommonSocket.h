@@ -24,7 +24,7 @@ BOOL		InitNetwork();
 //反初始化网络
 BOOL		UninitNetwork();
 
-SOCKET		CreateSocket( int af, int type, int protocol);
+SOCKET		CreateSocket( int af = AF_INET, int type = SOCK_STREAM, int protocol = 0);
 
 BOOL		BindSocket( SOCKET hSocket, const struct sockaddr* pAddr, int nNamelen);
 
@@ -60,6 +60,8 @@ BOOL		SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize);
 
 #ifdef WIN32
 BOOL		ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
+
+BOOL		AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlapped);
 #endif
 }
 

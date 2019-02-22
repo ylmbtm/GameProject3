@@ -29,7 +29,7 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string &strListenIp);
+	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler);
 
 	BOOL	Close();
 
@@ -41,7 +41,7 @@ public:
 
 	BOOL	UninitNetwork();
 
-	BOOL	StartListen(UINT16 nPortNum, std::string strListenIp);
+	BOOL	StartListen(UINT16 nPortNum);
 
 	BOOL	StopListen();
 

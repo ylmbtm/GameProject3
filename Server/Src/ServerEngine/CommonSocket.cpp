@@ -268,13 +268,11 @@ BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPor
 	}
 
 	sockaddr_in  svrAddr;
-	svrAddr.sin_family		= AF_INET;
-	svrAddr.sin_port		= htons(0);
-	svrAddr.sin_addr.s_addr = INADDR_ANY;
 
-	CommonSocket::BindSocket(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in));
+	svrAddr.sin_family		= AF_INET;
 
 	svrAddr.sin_port   = htons(sPort);
+
 	inet_pton(AF_INET, pAddr, &svrAddr.sin_addr);
 
 	if(!lpfnConnectEx(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in), NULL, NULL, NULL, lpOverlapped))
