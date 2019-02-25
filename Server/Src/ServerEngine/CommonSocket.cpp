@@ -213,7 +213,6 @@ BOOL CommonSocket::IsSocketValid(SOCKET hSocket)
 	return TRUE;
 }
 
-
 std::string  CommonSocket::GetLastErrorStr(INT32 nError)
 {
 	std::string strErrorText;
@@ -228,7 +227,6 @@ std::string  CommonSocket::GetLastErrorStr(INT32 nError)
 #else
 	strErrorText = strerror(nError);
 #endif
-
 
 	return strErrorText;
 }
@@ -253,6 +251,34 @@ UINT32  CommonSocket::IpAddrStrToInt(const CHAR* pszIpAddr)
 
 
 #ifdef WIN32
+
+BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlapped)
+{
+	LPFN_ACCEPTEX lpfnAcceptEx = NULL;
+
+	DWORD dwBytes;
+	GUID GuidAcceptEx = WSAID_ACCEPTEX;
+	if (SOCKET_ERROR == WSAIoctl(hListenSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		&GuidAcceptEx, sizeof(GuidAcceptEx),
+		&lpfnAcceptEx, sizeof(lpfnAcceptEx),
+		&dwBytes, NULL, NULL))
+	{
+		return FALSE;
+	}
+
+	SOCKET hAcceptSocket = CreateSocket();
+
+	if (!lpfnAcceptEx(hListenSocket, hAcceptSocket, NULL, NULL, NULL, NULL, NULL, lpOverlapped))
+	{
+		if (ERROR_IO_PENDING != CommonSocket::GetSocketLastError())
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped)
 {
 	LPFN_CONNECTEX lpfnConnectEx = NULL;
