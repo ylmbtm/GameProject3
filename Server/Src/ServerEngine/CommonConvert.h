@@ -20,8 +20,11 @@ DOUBLE StringToDouble(char* pStr);
 std::string DoubleToString(DOUBLE dValue);
 
 std::string IntToString(UINT32 nValue);
+
 std::string IntToString(INT32 nValue);
+
 std::string IntToString(UINT64 nValue);
+
 std::string IntToString(INT64 nValue);
 
 BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
@@ -48,6 +51,8 @@ BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::st
 BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtStr);
 
 BOOL ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat);
+
+BOOL StringToVector(const char * pStrValue, INT32 IntVector[], INT32 nSize, char cDelim = ',');
 
 UINT32 VersionToInt(std::string& strVersion);
 

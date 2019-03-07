@@ -232,6 +232,47 @@ BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, 
 	return TRUE;
 }
 
+BOOL CommonConvert::StringToVector(const char * pStrValue, INT32 IntVector[], INT32 nSize, char cDelim)
+{
+	if (pStrValue == NULL)
+	{
+		return FALSE;
+	}
+
+	char szBuf[1024] = { 0 };	
+	strncpy(szBuf, pStrValue, 1024);
+
+	char *pBeginPos = szBuf;
+	char *pEndPos = strchr(pBeginPos, cDelim);
+
+	if (pBeginPos == pEndPos)
+	{
+		pBeginPos += 1;
+		pEndPos = strchr(pBeginPos, cDelim);
+	}
+
+	INT32 nIndex = 0;
+	while (pEndPos != NULL)
+	{
+		//*pEndPos = 0;
+		IntVector[nIndex++] = StringToInt(pBeginPos);
+		if (nIndex >= nSize)
+		{
+			return TRUE;
+		}
+
+		pBeginPos = pEndPos + 1;
+		pEndPos = strchr(pBeginPos, cDelim);
+	}
+
+	if (*pBeginPos != 0 && nIndex < nSize)
+	{
+		IntVector[nIndex++] = StringToInt(pBeginPos);
+	}
+	
+	return TRUE;
+}
+
 BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<std::string>& vtStr)
 {
 	vtStr.clear();
@@ -241,7 +282,7 @@ BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<s
 	posStart = 0;
 	while(std::string::npos != posEnd)
 	{
-		vtStr.push_back(strSrc.substr(posStart, posEnd - posStart));
+		vtStr.emplace_back(strSrc.substr(posStart, posEnd - posStart));
 
 		posStart = posEnd + 1;
 		posEnd = strSrc.find(cDelim, posStart);
@@ -249,7 +290,7 @@ BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<s
 
 	if(posStart != strSrc.length())
 	{
-		vtStr.push_back(strSrc.substr(posStart));
+		vtStr.emplace_back(strSrc.substr(posStart));
 	}
 
 	return TRUE;
@@ -380,31 +421,9 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 
 UINT32 CommonConvert::VersionToInt( std::string& strVersion )
 {
-	char szBuf[255] = {0};
-	strncpy(szBuf, strVersion.c_str(), 255);
-
-	char* pPos = strchr(szBuf, '.');
-	if(pPos == NULL)
-	{
-		return 0;
-	}
-
-	*pPos = 0;
-	UINT32 nVersion1 = CommonConvert::StringToInt(szBuf);
-
-	char* pOldPos = pPos + 1;
-	pPos = strchr(pPos + 1, '.');
-	if(pPos == NULL)
-	{
-		return 0;
-	}
-	*pPos = 0;
-	UINT32 nVersion2 = CommonConvert::StringToInt(pOldPos);
-
-	pOldPos = pPos + 1;
-	UINT32 nVersion3 = CommonConvert::StringToInt(pOldPos);
-
-	return nVersion1 * 1000000 + nVersion2 * 1000 + nVersion3;
+	INT32 nValue[3] = { 0 };
+	StringToVector(strVersion.c_str(), nValue, 3, '.');
+	return nValue[0] * 1000000 + nValue[1] * 1000 + nValue[2];
 }
 
 INT32 CommonConvert::CountSymbol(char* pStr, char cSymbol )
