@@ -301,6 +301,8 @@ BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPor
 
 	inet_pton(AF_INET, pAddr, &svrAddr.sin_addr);
 
+	CommonSocket::BindSocket(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in));
+
 	if(!lpfnConnectEx(hSocket, (const sockaddr*)&svrAddr, sizeof(sockaddr_in), NULL, NULL, NULL, lpOverlapped))
 	{
 		if(ERROR_IO_PENDING != CommonSocket::GetSocketLastError())
