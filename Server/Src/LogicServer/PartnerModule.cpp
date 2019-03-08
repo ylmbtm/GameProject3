@@ -3,7 +3,7 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "PacketHeader.h"
@@ -35,7 +35,7 @@ BOOL CPartnerModule::OnDestroy()
 {
 	for(auto itor = m_mapPartnerData.begin(); itor != m_mapPartnerData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapPartnerData.clear();
@@ -138,16 +138,16 @@ BOOL CPartnerModule::OnMsgSetupPartnerReq(NetPacket* pNetPacket)
 
 	if (m_vtSetupPartner[Req.targetpos() - 1] != NULL)
 	{
-		m_vtSetupPartner[Req.targetpos() - 1]->lock();
+		m_vtSetupPartner[Req.targetpos() - 1]->Lock();
 		m_vtSetupPartner[Req.targetpos() - 1]->m_SetPos = 0;
-		m_vtSetupPartner[Req.targetpos() - 1]->unlock();
+		m_vtSetupPartner[Req.targetpos() - 1]->Unlock();
 		m_setChange.insert(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
 	}
 
 	m_vtSetupPartner[Req.targetpos() - 1] = pPartnerObj;
-	pPartnerObj->lock();
+	pPartnerObj->Lock();
 	pPartnerObj->m_SetPos = Req.targetpos();
-	pPartnerObj->unlock();
+	pPartnerObj->Unlock();
 	m_setChange.insert(pPartnerObj->m_uGuid);
 	
 	SetupPartnerAck Ack;
@@ -173,9 +173,9 @@ BOOL CPartnerModule::OnMsgUnsetPartnerReq(NetPacket* pNetPacket)
 
 	if (m_vtSetupPartner[Req.targetpos() - 1] != NULL)
 	{
-		m_vtSetupPartner[Req.targetpos() - 1]->lock();
+		m_vtSetupPartner[Req.targetpos() - 1]->Lock();
 		m_vtSetupPartner[Req.targetpos() - 1]->m_SetPos = 0;
-		m_vtSetupPartner[Req.targetpos() - 1]->unlock();
+		m_vtSetupPartner[Req.targetpos() - 1]->Unlock();
 		m_setChange.insert(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
 	}
 
@@ -189,7 +189,7 @@ BOOL CPartnerModule::OnMsgUnsetPartnerReq(NetPacket* pNetPacket)
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
 	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(TRUE);
-	pObject->lock();
+	pObject->Lock();
 	pObject->m_PartnerID = dwPartnerID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -199,7 +199,7 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 	pObject->m_StarLevel = 1;
 	pObject->m_RefineLevel = 1;
 	pObject->m_SetPos = 0;
-	pObject->unlock();
+	pObject->Unlock();
 	m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	m_setChange.insert(pObject->m_uGuid);
 	return pObject->m_uGuid;

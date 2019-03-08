@@ -17,6 +17,7 @@
 #include "../ServerData/CounterData.h"
 #include "../ServerData/FriendData.h"
 #include "../ServerData/GemData.h"
+#include "../ServerData/SkillData.h"
 
 extern	SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool;
 extern	SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool;
@@ -36,9 +37,12 @@ extern	SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool;
 extern	SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool;
 extern	SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool;
 extern	SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool;
+extern	SharedMemory<SkillDataObject>*		g_pSkillDataObjectPool;
 std::string GenDataName(std::string strName);
 
 BOOL CreateDataPool();
 BOOL ReleaseDataPool();
+
+BOOL RestoreFromShareMemory();
 
 #endif //__DATA_MODULE_POOL_H__

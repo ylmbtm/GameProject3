@@ -468,14 +468,10 @@ BOOL CLuaHelper::RegisterFunction(const char* name, lua_CFunction fn)
 
 /*
 LuaManager luamgr;
-
 luamgr.Init();
 luamgr.RegisterFunction("TestAdd", ToLua_TestAdd);
 luamgr.LoadAllLua("F:\\GameRoot\\Server\\Lua\\Debug");
-
 int value = luamgr.GetGlobalVarInt("a");
-
-
 int a = 10;
 int b = 20;
 int c = 0;
@@ -487,8 +483,6 @@ luamgr.CallLuaFunction("add", "iip=i", a, b, &LuaClass, &c);
 CLuaManager::CLuaManager(void)
 {
 	m_pLuaState = NULL;
-
-	Init();
 }
 
 CLuaManager::~CLuaManager(void)
@@ -519,7 +513,9 @@ BOOL CLuaManager::Init()
 	ERROR_RETURN_FALSE(m_pLuaState == NULL);
 
 	m_pLuaState = luaL_newstate();
+
 	ERROR_RETURN_FALSE(m_pLuaState != NULL);
+
 	luaL_openlibs(m_pLuaState);
 
 	return TRUE;

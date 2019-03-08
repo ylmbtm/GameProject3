@@ -66,7 +66,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
       <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -101,8 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ConfigData\ConfigData.cpp" />
-    <ClCompile Include="..\ConfigData\CppSQLite3.cpp" />
+    <ClCompile Include="..\StaticData\CppSQLite3.cpp" />
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -115,6 +114,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\StaticData\StaticData.cpp" />
     <ClCompile Include="GameObject\BuffObject.cpp" />
     <ClCompile Include="GameObject\BulletObject.cpp" />
     <ClCompile Include="GameObject\MapObject.cpp" />
@@ -140,19 +140,20 @@
     <ClCompile Include="GameObject\SceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ConfigData\ConfigData.h" />
-    <ClInclude Include="..\ConfigData\ConfigStruct.h" />
-    <ClInclude Include="..\ConfigData\CppSQLite3.h" />
-    <ClInclude Include="..\ConfigData\SkillStruct.h" />
+    <ClInclude Include="..\StaticData\CppSQLite3.h" />
+    <ClInclude Include="..\StaticData\SkillStruct.h" />
     <ClInclude Include="..\Message\Game_Define.pb.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_Move.pb.h" />
+    <ClInclude Include="..\StaticData\StaticData.h" />
+    <ClInclude Include="..\StaticData\StaticStruct.h" />
     <ClInclude Include="GameObject\BuffObject.h" />
     <ClInclude Include="GameObject\BulletObject.h" />
     <ClInclude Include="GameObject\MapObject.h" />
     <ClInclude Include="GameObject\SkillObject.h" />
     <ClInclude Include="GameService.h" />
+    <ClInclude Include="GameStruct.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="MonsterCreator.h" />

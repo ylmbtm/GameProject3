@@ -3,8 +3,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "../Message/Msg_LoginDBData.pb.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 
 CActivityModule::CActivityModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -18,7 +18,7 @@ CActivityModule::~CActivityModule()
 
 BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 {
-	std::map <UINT32, StActivityInfo>& mapActivityList = CConfigData::GetInstancePtr()->m_mapActivityInfo;
+	std::map <UINT32, StActivityInfo>& mapActivityList = CStaticData::GetInstancePtr()->m_mapActivityInfo;
 	for(auto itor = mapActivityList.begin(); itor != mapActivityList.end(); itor ++)
 	{
 		StActivityInfo& tempInfo = itor->second;
@@ -44,7 +44,7 @@ BOOL CActivityModule::OnDestroy()
 {
 	for(auto itor = m_mapActivityData.begin(); itor != m_mapActivityData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapActivityData.clear();
@@ -54,7 +54,7 @@ BOOL CActivityModule::OnDestroy()
 
 BOOL CActivityModule::OnLogin()
 {
-	std::map <UINT32, StActivityInfo>& mapActivityList = CConfigData::GetInstancePtr()->m_mapActivityInfo;
+	std::map <UINT32, StActivityInfo>& mapActivityList = CStaticData::GetInstancePtr()->m_mapActivityInfo;
 	for(auto itor = mapActivityList.begin(); itor != mapActivityList.end(); itor ++)
 	{
 		StActivityInfo& tempInfo = itor->second;
@@ -111,5 +111,16 @@ BOOL CActivityModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 BOOL CActivityModule::NotifyChange()
 {
+	return TRUE;
+}
+
+BOOL CActivityModule::GetRedPoint()
+{
+	for (auto itor = m_mapActivityData.begin(); itor != m_mapActivityData.end(); itor++)
+	{
+		ActivityDataObject *pDataObject = itor->second;
+
+	}
+
 	return TRUE;
 }

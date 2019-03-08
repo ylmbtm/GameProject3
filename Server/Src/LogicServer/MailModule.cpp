@@ -2,7 +2,7 @@
 #include "MailModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 
@@ -27,7 +27,7 @@ BOOL CMailModule::OnDestroy()
 {
 	for(auto itor = m_mapMailData.begin(); itor != m_mapMailData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapMailData.clear();
@@ -96,7 +96,7 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 
 	MailDataObject* pObject = itor->second;
 
-	pObject->destroy();
+	pObject->Destroy();
 
 	m_mapMailData.erase(itor);
 
@@ -108,12 +108,12 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 BOOL CMailModule::SendMail(std::string strSender, std::string strTitle, std::string strContent)
 {
 	MailDataObject* pMailObject = g_pMailDataObjectPool->NewObject(TRUE);
-	pMailObject->lock();
+	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
-	pMailObject->unlock();
+	pMailObject->Unlock();
 	return AddMail(pMailObject);
 }
 

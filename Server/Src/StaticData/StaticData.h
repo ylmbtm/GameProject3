@@ -1,11 +1,11 @@
 ﻿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
 #include "CppSQLite3.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/SkillStruct.h"
-class CConfigData;
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/SkillStruct.h"
+class CStaticData;
 
-typedef BOOL(CConfigData::*DataFunc)(CppSQLite3Query& QueryData);
+typedef BOOL(CStaticData::*DataFunc)(CppSQLite3Query& QueryData);
 
 struct DataFuncNode
 {
@@ -19,12 +19,12 @@ struct DataFuncNode
 	}
 };
 
-class CConfigData
+class CStaticData
 {
-	CConfigData();
-	~CConfigData();
+	CStaticData();
+	~CStaticData();
 public:
-	static CConfigData* GetInstancePtr();
+	static CStaticData* GetInstancePtr();
 	BOOL InitDataReader();
 	BOOL LoadConfigData(std::string strDbFile);
 	BOOL ReloadConfigData(std::string strTbName);
@@ -35,7 +35,6 @@ public:
 	std::map<std::string, INT32>m_mapConstantValue;
 	BOOL ReadConstantData(CppSQLite3Query& QueryData);
 	INT32 GetConstantIntValue(std::string& strName);
-
 
 	//货币和体力
 	///////////////////////////////////////////////
@@ -65,6 +64,11 @@ public:
 	std::map<UINT32, StActorInfo> m_mapActor;
 	BOOL ReadActor(CppSQLite3Query& QueryData);
 	StActorInfo* GetActorInfo(UINT32 dwActorID);
+
+	//角色技能关系表
+	std::map<UINT32, StActorSkillInfo> m_mapActorSkill;
+	BOOL ReadActorSkillInfo(CppSQLite3Query& QueryData);
+	StActorSkillInfo* GetActorSkillInfo(UINT32 dwActorID);
 
 	//副本
 	///////////////////////////////////////////////
@@ -151,6 +155,11 @@ public:
 	std::map<UINT32, StSkillInfo> m_mapSkillInfo;
 	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
 	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
+	BOOL ReadSkillEvent();
+
+	std::map<UINT32, StComboSkillInfo> m_mapComboSkill;
+	BOOL ReadComboSkillInfo(CppSQLite3Query& QueryData);
+	StComboSkillInfo* GetComboSkillInfo(UINT32 dwSkillID);
 
 	//Buff
 	std::map<UINT32, StBuffInfo> m_mapBuffInfo;

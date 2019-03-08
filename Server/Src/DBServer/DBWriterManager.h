@@ -16,6 +16,7 @@
 #include "../ServerData/CounterData.h"
 #include "../ServerData/FriendData.h"
 #include "../ServerData/GemData.h"
+#include "../ServerData/SkillData.h"
 #include "DBInterface/DBConnection.h"
 
 Th_RetName _DBWriteThread(void* pParam);
@@ -54,7 +55,7 @@ public:
 	DataWriter<ActivityDataObject>* m_pActivityDataWriter;
 	DataWriter<CounterDataObject>* m_pCounterDataWriter;
 	DataWriter<FriendDataObject>* m_pFriendDataWriter;
-
+	DataWriter<SkillDataObject>* m_pSkillDataWriter;
 	BOOL			m_Stop;
 	THANDLE			m_hWorkThread;
 	CDBConnection   m_DBConnection;

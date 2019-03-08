@@ -24,6 +24,7 @@ BOOL CDBManager::Init()
 		CLog::GetInstancePtr()->LogError("CDBManager::Init Error: Can not open database!!!");
 		return FALSE;
 	}
+
 	return TRUE;
 }
 
@@ -273,6 +274,26 @@ BOOL CDBManager::GetPartnerData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from task where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBTaskData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_taskdata();
+		}
+		DBTaskItem* pItem = pData->add_tasklist();
+		pItem->set_taskid(QueryRes.getIntField("id", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_status(QueryRes.getIntField("task_status", 0));
+		pItem->set_progress(QueryRes.getIntField("progress", 0));
+	
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 
@@ -320,6 +341,30 @@ BOOL CDBManager::GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	return TRUE;
+}
+
+BOOL CDBManager::GetSkillData(UINT64 u64ID, DBRoleLoginAck& Ack)
+{
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from skill where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBSkillData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_skilldata();
+		}
+		DBSkillItem* pItem = pData->add_skilllist();
+		pItem->set_skillid(QueryRes.getIntField("id", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_level(QueryRes.getIntField("level", 0));
+		pItem->set_keypos(QueryRes.getIntField("key_pos", 0));
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 

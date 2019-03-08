@@ -69,6 +69,7 @@ enum EMouduleType
 	MT_ACTIVITY,
 	MT_COUNTER,
 	MT_STORE,
+	MT_SKILL,
 	MT_END
 };
 
@@ -108,6 +109,7 @@ enum EShareData
 	ESD_COUNTER,
 	ESD_FRIEND,
 	ESD_CHAPTER,
+	ESD_SKILL
 };
 
 enum EGuildPos

@@ -108,7 +108,9 @@ message NewItem {
 	int32	Mp			= 18;
 	int32	HpMax		= 19;
 	int32	MpMax		= 20;
-	repeated int32	Equips		= 21; 		//装备
+	repeated int32 Equips	= 21; 		//装备
+	repeated int32 Normals 	= 22;		//普通技能
+	repeated int32 Specials = 23;		//其它技能
 }
 
 message ObjectNewNty {

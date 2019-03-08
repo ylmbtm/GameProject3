@@ -2,7 +2,7 @@
 #include "GameService.h"
 
 #include "DataPool.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
@@ -16,7 +16,6 @@
 #include "GuildManager.h"
 
 #include "ActivityManager.h"
-
 #include "GmCommand.h"
 
 CGameService::CGameService(void)
@@ -83,7 +82,7 @@ BOOL CGameService::Init()
 
 	///////////////////////////////////
 	//服务器启动之前需要加载的数据
-	if (!CConfigData::GetInstancePtr()->LoadConfigData("Config.db"))
+	if (!CStaticData::GetInstancePtr()->LoadConfigData("Config.db"))
 	{
 		CLog::GetInstancePtr()->LogError("加载静态配制数据失败!");
 		return FALSE;

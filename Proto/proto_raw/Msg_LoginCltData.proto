@@ -133,6 +133,19 @@ message ActionItem {
 }
 
 
+message SkillItem {
+	uint32 SkillID = 1;
+	int32  Level = 2;
+	int32  KeyPos = 3;   //强化等级
+}
+
+message SkillChangeNty{
+	repeated SkillItem ChangeList = 1;
+	repeated uint64  RemoveList = 2;
+}
+
+
+
 message RoleLoginAck {
 	uint32   RetCode			= 1;
 	uint64   AccountID			= 2;
@@ -155,6 +168,7 @@ message RoleLoginAck {
 	repeated TaskItem TaskList		= 19;
 	repeated CopyItem CopyList		= 20;
 	repeated ChapterItem ChapterList= 21;
+	repeated SkillItem SkillList	= 22;
 }
 
 

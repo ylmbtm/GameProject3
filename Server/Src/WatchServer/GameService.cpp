@@ -75,9 +75,9 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-	}
+	//switch(pNetPacket->m_dwMsgID)
+	//{
+	//}
 
 	if (m_WatchMsgHandler.DispatchPacket(pNetPacket))
 	{

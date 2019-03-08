@@ -24,7 +24,7 @@ BOOL CFriendModule::OnDestroy()
 {
 	for(auto itor = m_mapFriendData.begin(); itor != m_mapFriendData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapFriendData.clear();

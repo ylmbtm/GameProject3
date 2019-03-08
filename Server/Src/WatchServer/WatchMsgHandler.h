@@ -1,7 +1,7 @@
 ﻿#ifndef _WATCH_MSG_HANDLER_H_
 #define _WATCH_MSG_HANDLER_H_
 
-#include "../ConfigData/ConfigStruct.h"
+#include "../StaticData/StaticStruct.h"
 #include "RapidXml.h"
 
 enum EProcessStatus

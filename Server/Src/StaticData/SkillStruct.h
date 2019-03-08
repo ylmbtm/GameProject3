@@ -106,7 +106,7 @@ struct StSkillEvent
 	FLOAT  RangeParams[5];				//范围参数
 	UINT32 RangeType;					//范围类型
 	UINT32 CenterType;					//中心点类型
-	std::vector<StBulletInfo> vtBullets;	//子弹列表
+	std::vector<StBulletInfo> vtBullets;//子弹列表
 };
 
 struct StSkillInfo
@@ -116,14 +116,20 @@ struct StSkillInfo
 	UINT32		CD;				//技能CD
 	UINT32		CostMp;			//消耗魔法值
 	UINT64		uDuration;		//技能持续总时间
-	FLOAT		AttackFix;		//固定伤害
-	FLOAT		AttackMuti;		//加成伤害
+	INT32		HarmFix;		//固定伤害
+	INT32		HarmRatio;		//加成伤害
 	std::vector<StSkillEvent> vtEvents; //技能事件列表
 };
 
+struct StComboSkillInfo
+{
+	UINT32		SkillID;				//主技能ID
+	std::vector<UINT32> vtComboSkill;	//连击技能
+};
+
+
 
 /*
-
 BOOL LoadSkillData()
 {
 	std::string xmlName = "";

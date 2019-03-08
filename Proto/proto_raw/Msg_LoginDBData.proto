@@ -92,6 +92,18 @@ message DBGemData {
 }
 
 
+message DBSkillItem {
+	uint64	RoleID = 1; 		//角色ID
+	uint32	SkillID = 2;		//技能ID
+	int32	Level = 3;          //技能等级
+	int32	KeyPos = 4;         //按键位置
+}
+
+message DBSkillData {
+	repeated	DBSkillItem SkillList = 1;
+}
+
+
 message DBPetItem {
 	uint64	RoleID = 1; 		//角色ID
 	uint64	Guid = 2;
@@ -137,6 +149,8 @@ message DBPartnerData {
 message DBTaskItem {
 	uint64  RoleID = 1;			//角色ID
 	uint32  TaskID = 2;
+	int32   Status = 3;
+	int32   Progress = 4;
 }
 
 message DBTaskData {
@@ -208,5 +222,6 @@ message DBRoleLoginAck {
 	DBActivityData		ActivityData= 13;
 	DBCounterData		CounterData	= 14;
 	DBFriendData		FriendData	= 15;
+	DBSkillData			SkillData	= 16;
 }
 

@@ -3,12 +3,12 @@
 #include "GameService.h"
 
 SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool		= NULL;
-SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool	= NULL;
+SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool		= NULL;
 SharedMemory<BagDataObject>*		g_pBagDataObjectPool		= NULL;
 SharedMemory<CopyDataObject>*		g_pCopyDataObjectPool		= NULL;
-SharedMemory<ChapterDataObject>*	g_pChapterDataObjectPool = NULL;
+SharedMemory<ChapterDataObject>*	g_pChapterDataObjectPool	= NULL;
 SharedMemory<EquipDataObject>*		g_pEquipDataObjectPool		= NULL;
-SharedMemory<GemDataObject>*		g_pGemDataObjectPool = NULL;
+SharedMemory<GemDataObject>*		g_pGemDataObjectPool		= NULL;
 SharedMemory<PetDataObject>*		g_pPetDataObjectPool		= NULL;
 SharedMemory<PartnerDataObject>*	g_pPartnerDataObjectPool	= NULL;
 SharedMemory<GuildDataObject>*		g_pGuildDataObjectPool		= NULL;
@@ -19,7 +19,9 @@ SharedMemory<MailDataObject>*		g_pMailDataObjectPool		= NULL;
 SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool	= NULL;
 SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool	= NULL;
 SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool	= NULL;
-SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool	= NULL;
+SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool		= NULL;
+SharedMemory<SkillDataObject>*		g_pSkillDataObjectPool		= NULL;
+
 BOOL CreateDataPool()
 {
 	g_pRoleDataObjectPool		= new SharedMemory<RoleDataObject>(ESD_ROLE, 1024);
@@ -39,8 +41,8 @@ BOOL CreateDataPool()
 	g_pGroupMailDataObjectPool  = new SharedMemory<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
 	g_pActivityDataObjectPool	= new SharedMemory<ActivityDataObject>(ESD_ACTIVITY, 1024);
 	g_pCounterDataObjectPool    = new SharedMemory<CounterDataObject>(ESD_COUNTER, 1024);
-	g_pFriendDataObjectPool    = new SharedMemory<FriendDataObject>(ESD_FRIEND, 1024);
-
+	g_pFriendDataObjectPool		= new SharedMemory<FriendDataObject>(ESD_FRIEND, 1024);
+	g_pSkillDataObjectPool		= new SharedMemory<SkillDataObject>(ESD_SKILL, 1024);
 
 	g_pRoleDataObjectPool->InitToMap();
 	g_pGlobalDataObjectPool->InitToMap();
@@ -59,6 +61,14 @@ BOOL CreateDataPool()
 	g_pActivityDataObjectPool->InitToMap();
 	g_pCounterDataObjectPool->InitToMap();
 	g_pFriendDataObjectPool->InitToMap();
+	g_pSkillDataObjectPool->InitToMap();
+
+	
+
+
+
+
+
 	return TRUE;
 }
 
@@ -81,6 +91,31 @@ BOOL ReleaseDataPool()
 	delete g_pActivityDataObjectPool;
 	delete g_pCounterDataObjectPool;
 	delete g_pFriendDataObjectPool;
+	return TRUE;
+}
+
+BOOL RestoreFromShareMemory()
+{
+// 	mapUsedSMBlock& usedMap =  g_pRoleDataObjectPool->GetUsedDataList();
+// 
+// 	for (auto itor = usedMap.begin(); itor != usedMap.end(); itor++)
+// 	{
+// 		RoleDataObject *pObject = itor->first;
+// 		CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->CreatePlayer(pObject->m_uRoleID);
+// 		pPlayer->Init(pObject->m_uRoleID);
+// 		CRoleModule *pRoleModule = (CRoleModule *)pPlayer->GetModuleByType(MT_ROLE);
+// 		pRoleModule->RestoreData(pObject);
+// 	}
+// 
+// 	mapUsedSMBlock& usedMap2 = g_pBagDataObjectPool->GetUsedDataList();
+// 	for (auto itor = usedMap2.begin(); itor != usedMap2.end(); itor++)
+// 	{
+// 		BagDataObject *pObject = itor->first;
+// 		CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pObject->m_uRoleID);
+// 		CBagModule *pBagModule = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
+// 		pBagModule->RestoreData(pObject);
+// 	}
+
 	return TRUE;
 }
 

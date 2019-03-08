@@ -4184,6 +4184,30 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
+  // repeated int32 Normals = 18;
+  int normals_size() const;
+  void clear_normals();
+  static const int kNormalsFieldNumber = 18;
+  ::google::protobuf::int32 normals(int index) const;
+  void set_normals(int index, ::google::protobuf::int32 value);
+  void add_normals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      normals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_normals();
+
+  // repeated int32 Specials = 19;
+  int specials_size() const;
+  void clear_specials();
+  static const int kSpecialsFieldNumber = 19;
+  ::google::protobuf::int32 specials(int index) const;
+  void set_specials(int index, ::google::protobuf::int32 value);
+  void add_specials(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      specials() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_specials();
+
   // string RoleName = 7;
   void clear_rolename();
   static const int kRoleNameFieldNumber = 7;
@@ -4294,6 +4318,10 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
   mutable int _equips_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > normals_;
+  mutable int _normals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > specials_;
+  mutable int _specials_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint32 retcode_;
   ::google::protobuf::int32 copyid_;
@@ -5037,6 +5065,18 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
+  // repeated int32 Skills = 8;
+  int skills_size() const;
+  void clear_skills();
+  static const int kSkillsFieldNumber = 8;
+  ::google::protobuf::int32 skills(int index) const;
+  void set_skills(int index, ::google::protobuf::int32 value);
+  void add_skills(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      skills() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_skills();
+
   // string Name = 2;
   void clear_name();
   static const int kNameFieldNumber = 2;
@@ -5083,6 +5123,8 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
   mutable int _equips_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
+  mutable int _skills_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::int32 carrerid_;
@@ -5188,6 +5230,18 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
+  // repeated int32 Skills = 7;
+  int skills_size() const;
+  void clear_skills();
+  static const int kSkillsFieldNumber = 7;
+  ::google::protobuf::int32 skills(int index) const;
+  void set_skills(int index, ::google::protobuf::int32 value);
+  void add_skills(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      skills() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_skills();
+
   // string Name = 4;
   void clear_name();
   static const int kNameFieldNumber = 4;
@@ -5232,6 +5286,8 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
+  mutable int _skills_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 petguid_;
   ::google::protobuf::int32 petid_;
@@ -5337,6 +5393,18 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
+  // repeated int32 Skills = 7;
+  int skills_size() const;
+  void clear_skills();
+  static const int kSkillsFieldNumber = 7;
+  ::google::protobuf::int32 skills(int index) const;
+  void set_skills(int index, ::google::protobuf::int32 value);
+  void add_skills(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      skills() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_skills();
+
   // string Name = 4;
   void clear_name();
   static const int kNameFieldNumber = 4;
@@ -5381,6 +5449,8 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
+  mutable int _skills_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 partnerguid_;
   ::google::protobuf::int32 parterid_;
@@ -12751,6 +12821,66 @@ EnterSceneAck::mutable_equips() {
   return &equips_;
 }
 
+// repeated int32 Normals = 18;
+inline int EnterSceneAck::normals_size() const {
+  return normals_.size();
+}
+inline void EnterSceneAck::clear_normals() {
+  normals_.Clear();
+}
+inline ::google::protobuf::int32 EnterSceneAck::normals(int index) const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Normals)
+  return normals_.Get(index);
+}
+inline void EnterSceneAck::set_normals(int index, ::google::protobuf::int32 value) {
+  normals_.Set(index, value);
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Normals)
+}
+inline void EnterSceneAck::add_normals(::google::protobuf::int32 value) {
+  normals_.Add(value);
+  // @@protoc_insertion_point(field_add:EnterSceneAck.Normals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+EnterSceneAck::normals() const {
+  // @@protoc_insertion_point(field_list:EnterSceneAck.Normals)
+  return normals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+EnterSceneAck::mutable_normals() {
+  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Normals)
+  return &normals_;
+}
+
+// repeated int32 Specials = 19;
+inline int EnterSceneAck::specials_size() const {
+  return specials_.size();
+}
+inline void EnterSceneAck::clear_specials() {
+  specials_.Clear();
+}
+inline ::google::protobuf::int32 EnterSceneAck::specials(int index) const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Specials)
+  return specials_.Get(index);
+}
+inline void EnterSceneAck::set_specials(int index, ::google::protobuf::int32 value) {
+  specials_.Set(index, value);
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Specials)
+}
+inline void EnterSceneAck::add_specials(::google::protobuf::int32 value) {
+  specials_.Add(value);
+  // @@protoc_insertion_point(field_add:EnterSceneAck.Specials)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+EnterSceneAck::specials() const {
+  // @@protoc_insertion_point(field_list:EnterSceneAck.Specials)
+  return specials_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+EnterSceneAck::mutable_specials() {
+  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Specials)
+  return &specials_;
+}
+
 // -------------------------------------------------------------------
 
 // AbortCopyReq
@@ -13074,6 +13204,36 @@ TransRoleData::mutable_propertys() {
   return &propertys_;
 }
 
+// repeated int32 Skills = 8;
+inline int TransRoleData::skills_size() const {
+  return skills_.size();
+}
+inline void TransRoleData::clear_skills() {
+  skills_.Clear();
+}
+inline ::google::protobuf::int32 TransRoleData::skills(int index) const {
+  // @@protoc_insertion_point(field_get:TransRoleData.Skills)
+  return skills_.Get(index);
+}
+inline void TransRoleData::set_skills(int index, ::google::protobuf::int32 value) {
+  skills_.Set(index, value);
+  // @@protoc_insertion_point(field_set:TransRoleData.Skills)
+}
+inline void TransRoleData::add_skills(::google::protobuf::int32 value) {
+  skills_.Add(value);
+  // @@protoc_insertion_point(field_add:TransRoleData.Skills)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+TransRoleData::skills() const {
+  // @@protoc_insertion_point(field_list:TransRoleData.Skills)
+  return skills_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+TransRoleData::mutable_skills() {
+  // @@protoc_insertion_point(field_mutable_list:TransRoleData.Skills)
+  return &skills_;
+}
+
 // -------------------------------------------------------------------
 
 // TransPetData
@@ -13217,6 +13377,36 @@ TransPetData::mutable_propertys() {
   return &propertys_;
 }
 
+// repeated int32 Skills = 7;
+inline int TransPetData::skills_size() const {
+  return skills_.size();
+}
+inline void TransPetData::clear_skills() {
+  skills_.Clear();
+}
+inline ::google::protobuf::int32 TransPetData::skills(int index) const {
+  // @@protoc_insertion_point(field_get:TransPetData.Skills)
+  return skills_.Get(index);
+}
+inline void TransPetData::set_skills(int index, ::google::protobuf::int32 value) {
+  skills_.Set(index, value);
+  // @@protoc_insertion_point(field_set:TransPetData.Skills)
+}
+inline void TransPetData::add_skills(::google::protobuf::int32 value) {
+  skills_.Add(value);
+  // @@protoc_insertion_point(field_add:TransPetData.Skills)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+TransPetData::skills() const {
+  // @@protoc_insertion_point(field_list:TransPetData.Skills)
+  return skills_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+TransPetData::mutable_skills() {
+  // @@protoc_insertion_point(field_mutable_list:TransPetData.Skills)
+  return &skills_;
+}
+
 // -------------------------------------------------------------------
 
 // TransPartnerData
@@ -13358,6 +13548,36 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 TransPartnerData::mutable_propertys() {
   // @@protoc_insertion_point(field_mutable_list:TransPartnerData.Propertys)
   return &propertys_;
+}
+
+// repeated int32 Skills = 7;
+inline int TransPartnerData::skills_size() const {
+  return skills_.size();
+}
+inline void TransPartnerData::clear_skills() {
+  skills_.Clear();
+}
+inline ::google::protobuf::int32 TransPartnerData::skills(int index) const {
+  // @@protoc_insertion_point(field_get:TransPartnerData.Skills)
+  return skills_.Get(index);
+}
+inline void TransPartnerData::set_skills(int index, ::google::protobuf::int32 value) {
+  skills_.Set(index, value);
+  // @@protoc_insertion_point(field_set:TransPartnerData.Skills)
+}
+inline void TransPartnerData::add_skills(::google::protobuf::int32 value) {
+  skills_.Add(value);
+  // @@protoc_insertion_point(field_add:TransPartnerData.Skills)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+TransPartnerData::skills() const {
+  // @@protoc_insertion_point(field_list:TransPartnerData.Skills)
+  return skills_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+TransPartnerData::mutable_skills() {
+  // @@protoc_insertion_point(field_mutable_list:TransPartnerData.Skills)
+  return &skills_;
 }
 
 // -------------------------------------------------------------------

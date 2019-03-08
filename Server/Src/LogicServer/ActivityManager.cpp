@@ -4,8 +4,8 @@
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
 #include "TimerManager.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 
 CActivityManager::CActivityManager()
 {
@@ -40,8 +40,8 @@ BOOL CActivityManager::LoadActivityData(CppMySQL3DB& tDBConnection)
 
 BOOL CActivityManager::OnSecondTimer()
 {
-	for (std::map <UINT32, StActivityInfo>::iterator itor = CConfigData::GetInstancePtr()->m_mapActivityInfo.begin();
-		itor != CConfigData::GetInstancePtr()->m_mapActivityInfo.end();
+	for (std::map <UINT32, StActivityInfo>::iterator itor = CStaticData::GetInstancePtr()->m_mapActivityInfo.begin();
+		itor != CStaticData::GetInstancePtr()->m_mapActivityInfo.end();
 		itor++)
 	{
 		StActivityInfo& ActInfo = itor->second;

@@ -60,14 +60,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -81,14 +81,14 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -101,8 +101,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ConfigData\ConfigData.cpp" />
-    <ClCompile Include="..\ConfigData\CppSQLite3.cpp" />
+    <ClCompile Include="..\StaticData\StaticData.cpp" />
+    <ClCompile Include="..\StaticData\CppSQLite3.cpp" />
     <ClCompile Include="..\Message\Game_Define.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -160,6 +160,7 @@
     <ClCompile Include="RankMananger.cpp" />
     <ClCompile Include="RoleModule.cpp" />
     <ClCompile Include="SimpleManager.cpp" />
+    <ClCompile Include="SkillModule.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -170,10 +171,10 @@
     <ClCompile Include="WebCommandHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ConfigData\ConfigData.h" />
-    <ClInclude Include="..\ConfigData\ConfigDefine.h" />
-    <ClInclude Include="..\ConfigData\ConfigStruct.h" />
-    <ClInclude Include="..\ConfigData\CppSQLite3.h" />
+    <ClInclude Include="..\StaticData\StaticData.h" />
+    <ClInclude Include="..\StaticData\ConfigDefine.h" />
+    <ClInclude Include="..\StaticData\StaticStruct.h" />
+    <ClInclude Include="..\StaticData\CppSQLite3.h" />
     <ClInclude Include="..\Message\Game_Define.pb.h" />
     <ClInclude Include="..\Message\Msg_Copy.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
@@ -196,7 +197,8 @@
     <ClInclude Include="..\ServerData\PetData.h" />
     <ClInclude Include="..\ServerData\RoleData.h" />
     <ClInclude Include="..\ServerData\ServerDefine.h" />
-    <ClInclude Include="..\ServerData\serverStruct.h" />
+    <ClInclude Include="..\ServerData\ServerStruct.h" />
+    <ClInclude Include="..\ServerData\SkillData.h" />
     <ClInclude Include="..\ServerData\StoreData.h" />
     <ClInclude Include="..\ServerData\TaskData.h" />
     <ClInclude Include="ActivityManager.h" />
@@ -227,6 +229,7 @@
     <ClInclude Include="RankMananger.h" />
     <ClInclude Include="RoleModule.h" />
     <ClInclude Include="SimpleManager.h" />
+    <ClInclude Include="SkillModule.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StoreModule.h" />
     <ClInclude Include="TaskModule.h" />

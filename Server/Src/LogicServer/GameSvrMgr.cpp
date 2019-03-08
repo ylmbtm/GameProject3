@@ -7,8 +7,8 @@
 #include "BagModule.h"
 #include "RoleModule.h"
 #include "../ServerData/ServerDefine.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 #include "../ServerData/RoleData.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
@@ -349,11 +349,11 @@ BOOL CGameSvrMgr::OnMainCopyResult(BattleResultNty& Nty)
 	CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
 	ERROR_RETURN_TRUE(pRoleModule != NULL);
 
-	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Nty.copyid());
+	StCopyInfo* pCopyInfo = CStaticData::GetInstancePtr()->GetCopyInfo(Nty.copyid());
 	ERROR_RETURN_TRUE(pCopyInfo != NULL);
 
 	std::vector<StItemData> vtItemList;
-	CConfigData::GetInstancePtr()->GetItemsFromAwardID(pCopyInfo->dwAwardID, pRoleModule->m_pRoleDataObject->m_CarrerID, vtItemList);
+	CStaticData::GetInstancePtr()->GetItemsFromAwardID(pCopyInfo->dwAwardID, pRoleModule->m_pRoleDataObject->m_CarrerID, vtItemList);
 
 	for(std::vector<StItemData>::size_type i = 0; i < vtItemList.size(); i++)
 	{

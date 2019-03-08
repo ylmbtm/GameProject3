@@ -1,11 +1,15 @@
 ﻿#ifndef _SCENE_OBJECT_H_
 #define _SCENE_OBJECT_H_
-#include "Position.h"
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Game_Define.pb.h"
+#include "../Message/Msg_Struct.h"
+
+#include "Position.h"
 #include "SkillObject.h"
 #include "MapObject.h"
 #include "XMath.h"
+#include "../GameStruct.h"
+
 class CScene;
 class ResultPlayer;
 class CBuffObject;
@@ -57,18 +61,24 @@ public:
 	BOOL			AddBuff(UINT32 dwBuffID);
 	BOOL			RemoveBuff(UINT32 dwBuffID);
 	BOOL			UpdateBuff(UINT64 uTick);
+	BOOL			ClearBuff();
 	std::map<UINT32, CBuffObject*> m_mapBuff;
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////
 	//技能
-	std::map<UINT32, UINT64> m_mapSkillTime;
+	std::vector<SkillData> m_vtNormals;
+	std::vector<SkillData> m_vtSpecials;
 	CSkillObject	m_SkillObject;
 	UINT32			ProcessSkill(const SkillCastReq& Req);
 	UINT32			ProcessAction(const ActionReqItem& Item);
-	UINT64			GetLastSkillTick(UINT32 dwSkillID);
-	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
-	BOOL			StartSkill(UINT32 dwSkillID);
+	UINT64			GetLastSkillTick(UINT64 uSkillID);
+	BOOL			SetLastSkillTick(UINT64 uSkillID, UINT64 uTick);
+	SkillData*		GetSkillData(UINT64 uSkillID);
+	/*BOOL			StartSkill(UINT32 dwSkillID);*/
+	INT32			GetSkillLevel(UINT64 dwSkillID);
+	BOOL			InitSkills(const google::protobuf::RepeatedField< ::google::protobuf::int32 >& vtSkills);
+	BOOL			InitSkills(); //怪物和招唤物使用
 
 	BOOL			IsInCircle(Vector3D hitPoint,float radius, float height);
 	BOOL			IsInSquare(Vector3D hitPoint, float hitDir, float length, float width);

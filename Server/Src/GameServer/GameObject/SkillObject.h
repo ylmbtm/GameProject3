@@ -1,7 +1,7 @@
 ﻿#ifndef __SKILL_OBJECT_H__
 #define __SKILL_OBJECT_H__
 
-#include "../ConfigData/SkillStruct.h"
+#include "../StaticData/SkillStruct.h"
 #include "XMath.h"
 class CSceneObject;
 
@@ -17,7 +17,7 @@ public:
 
 	BOOL OnSkillComplete();
 
-	BOOL StartSkill(UINT32 dwSkillID);
+	BOOL StartSkill(UINT32 dwSkillID, INT32 nLevel);
 
 	BOOL StopSkill();
 

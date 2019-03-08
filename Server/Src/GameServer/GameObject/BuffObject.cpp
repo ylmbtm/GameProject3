@@ -2,8 +2,8 @@
 #include "BuffObject.h"
 #include "../Message/Game_Define.pb.h"
 #include "TimerManager.h"
-#include "../ConfigData/ConfigData.h"
-#include "../ConfigData/ConfigStruct.h"
+#include "../StaticData/StaticData.h"
+#include "../StaticData/StaticStruct.h"
 #include "SceneObject.h"
 #include "LuaManager.h"
 
@@ -12,7 +12,7 @@ CBuffObject::CBuffObject(CSceneObject* pObject, UINT32 dwBuffID)
 	m_dwBuffID = dwBuffID;
 	m_pSceneObject = pObject;
 	m_bOver = FALSE;
-	m_pBuffInfo = CConfigData::GetInstancePtr()->GetBuffInfo(m_dwBuffID);
+	m_pBuffInfo = CStaticData::GetInstancePtr()->GetBuffInfo(m_dwBuffID);
 }
 
 CBuffObject::~CBuffObject()

@@ -15,7 +15,7 @@ CGuild::~CGuild()
 {
 	if(m_pGuildData != NULL)
 	{
-		m_pGuildData->release();
+		m_pGuildData->Release();
 	}
 }
 
@@ -84,12 +84,12 @@ MemberDataObject* CGuild::GetLeader()
 MemberDataObject* CGuild::AddGuildMember(UINT64 uRoleID)
 {
 	MemberDataObject* pMemberObject = g_pMemberDataObjectPool->NewObject(TRUE);
-	pMemberObject->lock();
+	pMemberObject->Lock();
 	pMemberObject->m_uRoleID = uRoleID;
 	pMemberObject->m_uGuildID = m_pGuildData->m_uGuid;
 	pMemberObject->m_Pos = EGP_MEMBER;
 	pMemberObject->m_dwJoinTime = CommonFunc::GetCurrTime();
-	pMemberObject->unlock();
+	pMemberObject->Unlock();
 
 	m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObject));
 

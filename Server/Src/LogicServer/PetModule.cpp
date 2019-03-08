@@ -26,7 +26,7 @@ BOOL CPetModule::OnDestroy()
 {
 	for(auto itor = m_mapPetData.begin(); itor != m_mapPetData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapPetData.clear();
@@ -99,7 +99,7 @@ BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
 	PetDataObject* pObject = g_pPetDataObjectPool->NewObject(TRUE);
-	pObject->lock();
+	pObject->Lock();
 	pObject->m_PetID = dwPetID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -108,7 +108,7 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 1;
 	pObject->m_RefineLevel = 1;
-	pObject->unlock();
+	pObject->Unlock();
 	m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
 }

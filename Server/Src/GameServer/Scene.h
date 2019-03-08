@@ -19,6 +19,8 @@ public:
 
 	BOOL	        Uninit();
 
+	BOOL			Reset();
+
 	UINT32	        GetCopyGuid();
 
 	UINT32          GetCopyID();

@@ -26,7 +26,7 @@ BOOL CMountModule::OnDestroy()
 {
 	for(auto itor = m_mapMountData.begin(); itor != m_mapMountData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapMountData.clear();
@@ -100,7 +100,7 @@ BOOL CMountModule::DispatchPacket(NetPacket* pNetPacket)
 UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
 	MountDataObject* pObject = g_pMountDataObjectPool->NewObject(TRUE);
-	pObject->lock();
+	pObject->Lock();
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -109,7 +109,7 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 	pObject->m_StarExp = 0;
 	pObject->m_StarLevel = 0;
 	pObject->m_IsUsing = FALSE;
-	pObject->unlock();
+	pObject->Unlock();
 	m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	return pObject->m_uGuid;
 }

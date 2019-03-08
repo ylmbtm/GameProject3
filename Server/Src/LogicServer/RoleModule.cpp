@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "RoleModule.h"
 #include "../ServerData/ServerDefine.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "DataPool.h"
 
 CRoleModule::CRoleModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -16,16 +16,16 @@ CRoleModule::~CRoleModule()
 
 BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 {
-	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+	StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 
 	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_Level = 1;
 
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
-		m_pRoleDataObject->m_Action[i] = CConfigData::GetInstancePtr()->GetActoinMaxValue(i + 1);
+		m_pRoleDataObject->m_Action[i] = CStaticData::GetInstancePtr()->GetActoinMaxValue(i + 1);
 		m_pRoleDataObject->m_Actime[i] = 0;
 	}
 
@@ -33,7 +33,7 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 
 	m_pRoleDataObject->m_uCreateTime = CommonFunc::GetCurrTime();
 
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 
 	m_dwActorID = pInfo->dwActorID;
 
@@ -43,19 +43,24 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel )
 {
 	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(TRUE);
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
 	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)Name.size()));
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
+
+	StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+	m_dwActorID = pInfo->dwActorID;
+
 	return TRUE;
 }
 
 BOOL CRoleModule::OnDestroy()
 {
-	m_pRoleDataObject->release();
+	m_pRoleDataObject->Release();
 
 	m_pRoleDataObject = NULL;
 
@@ -64,27 +69,23 @@ BOOL CRoleModule::OnDestroy()
 
 BOOL CRoleModule::OnLogin()
 {
-	StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
-	ERROR_RETURN_FALSE(pInfo != NULL);
-	m_dwActorID = pInfo->dwActorID;
-
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		UpdateAction(i + 1);
 	}
 
 	m_pRoleDataObject->m_uLogonTime = CommonFunc::GetCurrTime();
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 	return TRUE;
 }
 
 BOOL CRoleModule::OnLogout()
 {
 	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uLogoffTime = CommonFunc::GetCurrTime();
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 	return TRUE;
 }
 
@@ -96,7 +97,7 @@ BOOL CRoleModule::OnNewDay()
 BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 {
 	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(FALSE);
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();
 	strncpy(m_pRoleDataObject->m_szName, Ack.roledata().name().c_str(), Ack.roledata().name().size());
@@ -114,7 +115,7 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 
 	if(m_pRoleDataObject->m_CityCopyID == 0)
 	{
-		StCarrerInfo* pInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+		StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 		if(pInfo != NULL)
 		{
 			m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
@@ -131,7 +132,11 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 		m_pRoleDataObject->m_Actime[i] = Ack.roledata().actime(i);
 	}
 
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
+
+	StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+	m_dwActorID = pInfo->dwActorID;
 
 
 	return TRUE;
@@ -193,10 +198,10 @@ BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 		return FALSE;
 	}
 
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_Action[dwActionID - 1] -= nActionNum;
 
-	if (m_pRoleDataObject->m_Action[dwActionID - 1] < CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID) )
+	if (m_pRoleDataObject->m_Action[dwActionID - 1] < CStaticData::GetInstancePtr()->GetActoinMaxValue(dwActionID) )
 	{
 		if (m_pRoleDataObject->m_Actime[dwActionID - 1] <= 0)
 		{
@@ -207,7 +212,7 @@ BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 	{
 		m_pRoleDataObject->m_Actime[dwActionID - 1] = 0;
 	}
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 	return TRUE;
 }
 
@@ -261,22 +266,22 @@ UINT64 CRoleModule::AddAction(UINT32 dwActionID, INT64 nActionNum)
 		return 0;
 	}
 
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	UpdateAction(dwActionID);
 
 	m_pRoleDataObject->m_Action[dwActionID - 1] += nActionNum;
 
-	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
+	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CStaticData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
 	{
 		m_pRoleDataObject->m_Actime[dwActionID - 1] = 0;
 	}
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 	return m_pRoleDataObject->m_Action[dwActionID - 1];
 }
 
 BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 {
-	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
+	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CStaticData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
 	{
 		if (m_pRoleDataObject->m_Actime[dwActionID - 1] > 0)
 		{
@@ -293,22 +298,22 @@ BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 
 	UINT64 dwTimeElapse = CommonFunc::GetCurrTime() - m_pRoleDataObject->m_Actime[dwActionID - 1];
 
-	if (dwTimeElapse < CConfigData::GetInstancePtr()->GetActoinUnitTime(dwActionID))
+	if (dwTimeElapse < CStaticData::GetInstancePtr()->GetActoinUnitTime(dwActionID))
 	{
 		return FALSE;
 	}
 
-	UINT32 dwActionNum = int(dwTimeElapse) / CConfigData::GetInstancePtr()->GetActoinUnitTime(dwActionID);
+	UINT32 dwActionNum = int(dwTimeElapse) / CStaticData::GetInstancePtr()->GetActoinUnitTime(dwActionID);
 	m_pRoleDataObject->m_Action[dwActionID - 1] += dwActionNum;
 
-	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
+	if (m_pRoleDataObject->m_Action[dwActionID - 1] >= CStaticData::GetInstancePtr()->GetActoinMaxValue(dwActionID))
 	{
-		m_pRoleDataObject->m_Action[dwActionID - 1] = CConfigData::GetInstancePtr()->GetActoinMaxValue(dwActionID);
+		m_pRoleDataObject->m_Action[dwActionID - 1] = CStaticData::GetInstancePtr()->GetActoinMaxValue(dwActionID);
 		m_pRoleDataObject->m_Actime[dwActionID - 1] = 0;
 	}
 	else
 	{
-		m_pRoleDataObject->m_Actime[dwActionID - 1] = m_pRoleDataObject->m_Actime[dwActionID - 1] + dwActionNum * CConfigData::GetInstancePtr()->GetActoinUnitTime(dwActionID);
+		m_pRoleDataObject->m_Actime[dwActionID - 1] = m_pRoleDataObject->m_Actime[dwActionID - 1] + dwActionNum * CStaticData::GetInstancePtr()->GetActoinUnitTime(dwActionID);
 	}
 
 	return TRUE;
@@ -316,9 +321,9 @@ BOOL CRoleModule::UpdateAction(UINT32 dwActionID)
 
 BOOL CRoleModule::SetDelete( BOOL bDelete )
 {
-	m_pRoleDataObject->lock();
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_bDelete = bDelete;
-	m_pRoleDataObject->unlock();
+	m_pRoleDataObject->Unlock();
 	return TRUE;
 }
 

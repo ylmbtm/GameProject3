@@ -6,7 +6,8 @@ MY_INCLUDE=-I$(PWD) \
 		-I../../Common \
 		-I../../Common/Mysql \
 		-I../../Common/Sqlite  \
-		-I../../Common/Lua
+		-I../../Common/Lua	\
+		-I../../Common/toluapp
 		
 CC_LIB=-L/usr/lib \
 	-L/lib \

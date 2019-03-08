@@ -6,7 +6,7 @@
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 {
@@ -30,6 +30,11 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 CSceneObject::~CSceneObject()
 {
 	m_pScene = NULL;
+	
+	ClearBuff();
+
+	m_vtNormals.clear();
+	m_vtSpecials.clear();
 }
 
 
@@ -176,7 +181,18 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 		pItem->add_equips(m_Equips[i]);
 	}
 
+	for (int i = 0; i < m_vtNormals.size(); i++)
+	{
+		pItem->add_normals(m_vtNormals[i].uSkillID);
+	}
+
+	for (int i = 0; i < m_vtSpecials.size(); i++)
+	{
+		pItem->add_specials(m_vtSpecials[i].uSkillID);
+	}
+
 	m_bDataChange = FALSE;
+
 	return TRUE;
 }
 
@@ -203,6 +219,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	{
 		pItem->add_equips(m_Equips[i]);
 	}
+
 	m_bDataChange = FALSE;
 	return TRUE;
 }
@@ -235,27 +252,76 @@ BOOL CSceneObject::SetPos(FLOAT x, FLOAT y,  FLOAT z, FLOAT ft)
 	return TRUE;
 }
 
-UINT64 CSceneObject::GetLastSkillTick(UINT32 dwSkillID)
+UINT64 CSceneObject::GetLastSkillTick(UINT64 uSkillID)
 {
-	auto itor = m_mapSkillTime.find(dwSkillID);
-	if(itor != m_mapSkillTime.end())
+	for (int i = 0; i < m_vtSpecials.size(); i++)
 	{
-		return itor->second;
+		if (m_vtSpecials.at(i).uSkillID == uSkillID)
+		{
+			return m_vtSpecials.at(i).uLastTime;
+		}
+	}
+
+	for (int i = 0; i < m_vtNormals.size(); i++)
+	{
+		if (m_vtNormals.at(i).uSkillID == uSkillID)
+		{
+			return m_vtNormals.at(i).uLastTime;
+		}
 	}
 
 	return 0;
 }
 
-BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 dwTime)
+BOOL CSceneObject::SetLastSkillTick(UINT64 uSkillID, UINT64 uTime)
 {
-	m_mapSkillTime.insert(std::make_pair(dwSkillID, dwTime));
+	for (int i = 0; i < m_vtNormals.size(); i++)
+	{
+		if (m_vtNormals.at(i).uSkillID == uSkillID)
+		{
+			SkillData &tData = m_vtNormals.at(i);
+			tData.uLastTime = uTime;
+			return TRUE;
+		}
+	}
 
-	return TRUE;
+	for (int i = 0; i < m_vtSpecials.size(); i++)
+	{
+		if (m_vtSpecials.at(i).uSkillID == uSkillID)
+		{
+			SkillData &tData = m_vtSpecials.at(i);
+			tData.uLastTime = uTime;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+SkillData* CSceneObject::GetSkillData(UINT64 uSkillID)
+{
+	for (int i = 0; i < m_vtNormals.size(); i++)
+	{
+		if (m_vtNormals.at(i).uSkillID == uSkillID)
+		{
+			return &m_vtNormals[i];
+		}
+	}
+
+	for (int i = 0; i < m_vtSpecials.size(); i++)
+	{
+		if (m_vtSpecials.at(i).uSkillID == uSkillID)
+		{
+			return &m_vtSpecials[i];
+		}
+	}
+
+	return NULL;
 }
 
 BOOL CSceneObject::IsInCircle(Vector3D hitPoint, float radius, float height)
 {
-	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(m_dwActorID);
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(m_dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 
 	FLOAT fdistance = m_Pos.Distance2D(hitPoint);
@@ -376,21 +442,156 @@ BOOL CSceneObject::UpdateBuff(UINT64 uTick)
 }
 
 
-BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
+BOOL CSceneObject::ClearBuff()
 {
-	SkillCastReq Req;
-	Req.set_skillid(dwSkillID);
-	Req.set_objectguid(m_uGuid);
-	Req.set_hostx(m_Pos.m_x);
-	Req.set_hosty(m_Pos.m_y);
-	Req.set_hostz(m_Pos.m_z);
+	for (std::map<UINT32, CBuffObject*>::iterator itor = m_mapBuff.begin(); itor != m_mapBuff.end();)
+	{
+		CBuffObject* pBuffObject = itor->second;
+		ERROR_CONTINUE_EX(pBuffObject != NULL);
+		delete pBuffObject;
+	}
 
-	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
-
-	m_SkillObject.StartSkill(dwSkillID);
+	m_mapBuff.clear();
 
 	return TRUE;
+}
 
+// BOOL CSceneObject::StartSkill(UINT32 dwSkillID)
+// {
+// 	SkillCastReq Req;
+// 	Req.set_skillid(dwSkillID);
+// 	Req.set_objectguid(m_uGuid);
+// 	Req.set_hostx(m_Pos.m_x);
+// 	Req.set_hosty(m_Pos.m_y);
+// 	Req.set_hostz(m_Pos.m_z);
+// 
+// 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
+// 
+// 	m_SkillObject.StartSkill(dwSkillID);
+// 
+// 	return TRUE;
+// 
+// }
+
+INT32 CSceneObject::GetSkillLevel(UINT64 uSkillID)
+{
+	SkillData *pData  = GetSkillData(uSkillID);
+	if (pData != NULL)
+	{
+		return pData->nLevel;
+	}
+
+	ASSERT_FAIELD;
+
+	return 0;
+}
+
+BOOL CSceneObject::InitSkills(const google::protobuf::RepeatedField< ::google::protobuf::int32 >& vtSkills)
+{
+	m_vtNormals.clear();
+	m_vtSpecials.clear();
+	for (int i = 0; i < vtSkills.size(); i++)
+	{
+		SkillData tData;
+		tData.nKeyPos = i + 1;
+		tData.nLevel = 1;
+		tData.uLastTime = 0;
+		tData.uSkillID = vtSkills.Get(i);
+
+		if (i == 0)
+		{
+			m_vtNormals.emplace_back(tData);
+		}
+		else
+		{
+			m_vtSpecials.emplace_back(tData);
+		}
+	}
+
+	if (m_vtNormals.size() <= 0 || m_vtNormals[0].uSkillID <= 0)
+	{
+		return FALSE;
+	}
+
+	StComboSkillInfo* pComboInfo = CStaticData::GetInstancePtr()->GetComboSkillInfo(m_vtNormals[0].uSkillID);
+	if (pComboInfo == NULL)
+	{
+		//表示没有连招
+		return TRUE;
+	}
+
+	for (int i = 0; i < pComboInfo->vtComboSkill.size(); i++)
+	{
+		SkillData tData;
+		tData.nKeyPos = m_vtNormals[0].nKeyPos;
+		tData.nLevel = m_vtNormals[0].nLevel;
+		tData.uLastTime = 0;
+		tData.uSkillID = pComboInfo->vtComboSkill.at(i);
+		m_vtNormals.emplace_back(tData);
+	}
+
+	return TRUE;
+}
+
+BOOL CSceneObject::InitSkills()
+{
+	UINT32 dwActorID = GetActorID();
+	if (dwActorID <= 0)
+	{
+		return FALSE;
+	}
+
+	StActorSkillInfo *pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(dwActorID);
+	ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
+
+	m_vtNormals.clear();
+	m_vtSpecials.clear();
+
+	SkillData tData;
+	tData.nKeyPos = 1;
+	tData.nLevel = 1;
+	tData.uLastTime = 0; 
+	tData.uSkillID = pActorSkillInfo->NormalID;
+	m_vtNormals.emplace_back(tData);
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (pActorSkillInfo->Specials[i] <= 0)
+		{
+			break;
+		}
+
+		SkillData tData;
+		tData.nKeyPos = i + 2;
+		tData.nLevel = 1;
+		tData.uLastTime = 0;
+		tData.uSkillID = pActorSkillInfo->Specials[i];
+		m_vtSpecials.emplace_back(tData);
+	}
+
+	if (m_vtNormals.size() <= 0 || m_vtNormals[0].uSkillID <= 0)
+	{
+		return FALSE;
+	}
+
+	StComboSkillInfo* pComboInfo = CStaticData::GetInstancePtr()->GetComboSkillInfo(m_vtNormals[0].uSkillID);
+	if (pComboInfo == NULL)
+	{
+		//表示没有连招
+		return TRUE;
+	}
+
+	for (int i = 0; i < pComboInfo->vtComboSkill.size(); i++)
+	{
+		SkillData tData;
+		tData.nKeyPos = m_vtNormals[0].nKeyPos;
+		tData.nLevel = m_vtNormals[0].nLevel;
+		tData.uLastTime = 0;
+		tData.uSkillID = pComboInfo->vtComboSkill.at(i);
+		m_vtNormals.emplace_back(tData);
+	}
+
+	return TRUE;
 }
 
 UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
@@ -401,8 +602,14 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	ERROR_RETURN_CODE(m_pScene != NULL, MRC_UNKNOW_ERROR);
 
+	INT32 nLevel = GetSkillLevel(Req.skillid());
+	if (nLevel <= 0)
+	{
+		return MRC_INVALID_SKILL_ID;
+	}
+
 	//1. 技能是否存在
-	StSkillInfo* pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(Req.skillid(), 0);
+	StSkillInfo* pSkillInfo = CStaticData::GetInstancePtr()->GetSkillInfo(Req.skillid(), nLevel);
 	ERROR_RETURN_CODE(pSkillInfo != NULL, MRC_INVALID_SKILL_ID);
 
 	//2. 技能CD是否可以施放。
@@ -414,10 +621,11 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 	}
 
 	//3. 扣除放技能需要的东西
-	if (GetMp() < pSkillInfo->CostMp)
-	{
-		//	return MRC_SKILL_CD_ERROR;
-	}
+	//if (GetMp() < pSkillInfo->CostMp)
+	//{
+	//	return MRC_SKILL_CD_ERROR;
+	//}
+
 
 	m_SkillObject.StopSkill(); //停止当前的技能
 
@@ -431,7 +639,7 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
 
-	UINT32 dwRetCode = m_SkillObject.StartSkill(Req.skillid());
+	UINT32 dwRetCode = m_SkillObject.StartSkill(Req.skillid(), nLevel);
 	if (MRC_SUCCESSED != dwRetCode)
 	{
 		return dwRetCode;

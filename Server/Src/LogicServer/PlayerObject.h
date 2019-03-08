@@ -70,6 +70,7 @@ public:
 public:
 	UINT64			GetObjectID();
 	UINT32			GetCityCopyID();
+	UINT32			GetActorID();
 
 
 	//////////////////////////////////////////////////////////////////////////

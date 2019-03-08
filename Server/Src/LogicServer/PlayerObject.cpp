@@ -15,9 +15,10 @@
 #include "CounterModule.h"
 #include "StoreModule.h"
 #include "GemModule.h"
+#include "SkillModule.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ServerData/RoleData.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "../ServerData/CopyData.h"
 #include "../GameServer/GameService.h"
 #include "../Message/Msg_ID.pb.h"
@@ -167,6 +168,7 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_ACTIVITY]		= new CActivityModule(this);
 	m_MoudleList[MT_COUNTER]		= new CCounterModule(this);
 	m_MoudleList[MT_STORE]			= new CStoreModule(this);
+	m_MoudleList[MT_SKILL]			= new CSkillModule(this);
 
 	return TRUE;
 }
@@ -223,7 +225,7 @@ BOOL CPlayerObject::OnAllModuleOK()
 UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 {
 	return TRUE;
-	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(dwCopyID);
+	StCopyInfo* pCopyInfo = CStaticData::GetInstancePtr()->GetCopyInfo(dwCopyID);
 	ERROR_RETURN_CODE(m_u64ID != 0, MRC_INVALID_COPYID);
 
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
@@ -308,6 +310,15 @@ UINT32 CPlayerObject::GetCityCopyID()
 	return pModule->m_pRoleDataObject->m_CityCopyID;
 }
 
+UINT32 CPlayerObject::GetActorID()
+{
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+
+	ERROR_RETURN_CODE(pModule != NULL, 0);
+	
+	return pModule->GetActorID();
+}
+
 BOOL CPlayerObject::SendRoleLoginAck()
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
@@ -349,7 +360,6 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 	TransRoleData* pRoleData = Req.mutable_roledata();
 	ERROR_RETURN_FALSE(pRoleData != NULL);
 
-
 	pRoleData->set_roleid(m_u64ID);
 	pRoleData->set_carrerid(pModule->m_pRoleDataObject->m_CarrerID);
 	pRoleData->set_actorid(pModule->GetActorID());
@@ -377,7 +387,27 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 		}
 	}
 
-	//CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
+	CSkillModule *pSkillModule = (CSkillModule*)GetModuleByType(MT_SKILL);
+	ERROR_RETURN_FALSE(pSkillModule != NULL);
+
+	for (auto itor = pSkillModule->m_mapSkillData.begin(); itor != pSkillModule->m_mapSkillData.end(); ++itor)
+	{
+		if (itor->second->m_nKeyPos == 1)
+		{
+			pRoleData->add_skills(itor->second->m_dwSkillID);
+		}
+	}
+
+	for (auto itor = pSkillModule->m_mapSkillData.begin(); itor != pSkillModule->m_mapSkillData.end(); ++itor)
+	{
+		if (itor->second->m_nKeyPos != 1)
+		{
+			pRoleData->add_skills(itor->second->m_dwSkillID);
+		}
+	}
+	
+
+	CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
 
 
 	return TRUE;
@@ -427,7 +457,7 @@ BOOL CPlayerObject::CalcFightDataInfo()
 
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	ERROR_RETURN_FALSE(pModule != NULL);
-	StLevelInfo* pLevelInfo = CConfigData::GetInstancePtr()->GetCarrerLevelInfo(pModule->m_pRoleDataObject->m_CarrerID, pModule->m_pRoleDataObject->m_Level);
+	StLevelInfo* pLevelInfo = CStaticData::GetInstancePtr()->GetCarrerLevelInfo(pModule->m_pRoleDataObject->m_CarrerID, pModule->m_pRoleDataObject->m_Level);
 	ERROR_RETURN_FALSE(pLevelInfo != NULL);
 	memcpy(PropertyValue, pLevelInfo->Propertys, sizeof(INT32)*PROPERTY_NUM);
 
@@ -441,12 +471,12 @@ BOOL CPlayerObject::CalcFightDataInfo()
 
 BOOL CPlayerObject::ClearCopyState()
 {
-	m_dwCopyGuid = 0;        //当前的副本ID
-	m_dwCopyID = 0;        //当前的副本类型
-	m_dwCopySvrID = 0;        //副本服务器的ID
-	m_dwToCopyGuid = 0;        //正在前往的副本ID
-	m_dwToCopyID = 0;        //正在前往的副本类型
-	m_dwToCopySvrID = 0;
+	m_dwCopyGuid = 0;			//当前的副本ID
+	m_dwCopyID = 0;				//当前的副本类型
+	m_dwCopySvrID = 0;			//副本服务器的ID
+	m_dwToCopyGuid = 0;			//正在前往的副本ID
+	m_dwToCopyID = 0;			//正在前往的副本类型
+	m_dwToCopySvrID = 0;		//正在前往的副本服ID
 
 	return TRUE;
 }

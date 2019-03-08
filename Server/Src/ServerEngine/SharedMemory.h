@@ -6,50 +6,56 @@
 
 /**共享内存的状态
 */
-enum SharedMemoryState
+enum SharedMemoryStatus
 {
-	SMS_NONE,  ///未使用，空闲状态
-	SMS_USE,    //已经使用了，数据库服务器可以读取修改写入数据库
-	SMS_LOCK,///锁住状态，逻辑服务器正在写入
-	SMS_RELEASE,///逻辑服务器已经释放了。数据库服务器写入修改后可以置为SMS_NONE状态
-	SMS_DELETE,///删除标志
+	SMS_NONE,		//未使用空闲状态
+	SMS_USE,		//已经使用了，数据库服务器可以读取修改写入数据库
+	SMS_LOCK,		//锁住状态，逻辑服务器正在写入
+	SMS_RELEASE,	//逻辑服务器已经释放了。数据库服务器写入修改后可以置为SMS_NONE状态
+	SMS_DELETE,		//删除标志
 };
 
 ///所有放到sharedMemory里的元素都必须是从ShareObject派生的
-struct ShareObject
+class ShareObject
 {
+public:
 	ShareObject();
 
 	///开始修改，标记为被占用
-	void lock();
+	void Lock();
+
+	///标记为个改完成。
+	void Unlock();
+
+	///标记为已经释放了
+	void Release();
+
+	//标记为删除
+	void Destroy();
 
 	///判断是否被占有用
 	BOOL islock()const;
 
-	///标记为个改完成。
-	void unlock();
+	inline void useit();
 
-	void useit();
-
-	///标记为已经释放了
-	void release();
-
-	void destroy();
-
-	BOOL isDestroy() const;
+	inline BOOL isDestroy() const;
 
 	BOOL isRelease() const;
 
 	time_t getLastMotifyTime();
 
+	inline SharedMemoryStatus GetStatus();
+
+	UINT32 GetCheckCode();
+
 	///是否在使用
-	BOOL isUse() const;
+	inline BOOL isUse() const;
 
-	void reset();
-
-	UINT32					   m_dwCheckCode;
-	SharedMemoryState          m_State;
-	time_t                     m_updatetime;	///最后一次修改时间
+	inline void reset();
+private:
+	UINT32					   m_CheckCode;
+	SharedMemoryStatus         m_Status;
+	time_t                     m_UpdateTime;	///最后一次修改时间
 };
 
 ///记录每个T块的状态
@@ -57,7 +63,7 @@ struct _SMBlock
 {
 	UINT32			m_dwIndex;      //数据当前编号
 	BOOL			m_bUse;         //是否在使用true是正在使用，false是没有使用
-	BOOL			m_bNewBlock;	///是否是刚刚新创建的区块
+	BOOL			m_bNewBlock;	//是否是刚刚新创建的区块
 	time_t			m_beforeTime;   //DS服务器更新完成后回写的信息时间。
 	time_t          m_afterTime;
 	_SMBlock()
@@ -127,14 +133,11 @@ private:
 
 
 public:
-
 	///数据库服务器不需要初始化map,逻辑服务器才需要,所以分开
 	void InitToMap();
 
-
 	/**是否是首创共享内存*/
 	BOOL IsFirstCreated();
-
 
 	/**从共享内存里恢复其他页*/
 	void ImportOtherPage();
@@ -142,24 +145,21 @@ public:
 	/**获取数量*/
 	const UINT32 GetCount()const;
 
-	/**获取还有多少块空闲内存
-	*/
+	/**获取还有多少块空闲内存	*/
 	UINT32 GetFreeCount()const;
 
 	///获取已经使用了多少块
 	UINT32 GetUseCount()const;
 
-	/**通过id获取原始内存中的描述块指针
-	*/
+	/**通过id获取原始内存中的描述块指针*/
 	virtual _SMBlock* GetSMBbyRawIndex(INT32 index);
 
-	/**通过id获取原始内存中的描述块指针
-	*/
+	/**通过id获取原始内存中的描述块指针*/
 	virtual ShareObject*  GetObjectByRawindex(UINT32 index);
 
 	const UINT32 GetRawMemoryBlockSize();
 
-	const INT32 GetBlockSize() { return m_rawblockSize; }
+	const INT32 GetBlockSize();
 
 	/*处理已用区块中被数据库服务器释放的区块*/
 	void ProcessCleanDirtyData();
@@ -172,10 +172,7 @@ public:
 	/**释放一块已经不再使用的内存*/
 	virtual BOOL DestoryObject(ShareObject* pobject);
 
-	mapUsedSMBlock& GetUsedDataList()
-	{
-		return m_mapUsedSMBlock;
-	}
+	mapUsedSMBlock& GetUsedDataList();
 };
 
 template<typename T>
@@ -273,7 +270,7 @@ public:
 			{
 				continue;
 			}
-			if (pdata->m_dwCheckCode != BLOCK_CHECK_CODE)
+			if (pdata->GetCheckCode() != BLOCK_CHECK_CODE)
 			{
 				continue;
 			}

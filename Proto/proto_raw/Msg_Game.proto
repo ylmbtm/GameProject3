@@ -194,15 +194,17 @@ message EnterSceneAck {
 	int32	ActorID		= 6;
 	string	RoleName	= 7;
 	int32	Camp		= 8;
-	float	X		= 9;
-	float	Y		= 10;
-	float	Z		= 11;
-	float	Ft		= 12;
-	int32	Hp		= 13;
-	int32	Mp		= 14;
+	float	X			= 9;
+	float	Y			= 10;
+	float	Z			= 11;
+	float	Ft			= 12;
+	int32	Hp			= 13;
+	int32	Mp			= 14;
 	int32	HpMax		= 15;
 	int32	MpMax		= 16;
-	repeated int32	Equips		= 17; //武器
+	repeated int32 Equips= 17; //武器
+	repeated int32 Normals= 18;		//普通技能
+	repeated int32 Specials= 19;		//其它技能
 }
 
 message AbortCopyReq {
@@ -224,8 +226,6 @@ message BackToCityAck {
 	uint32	RetCode = 1;
 }
 
-
-
 message LeaveSceneReq {
 	uint64	RoleID = 1;
 	int32	Reason = 2;
@@ -234,7 +234,6 @@ message LeaveSceneReq {
 message LeaveSceneAck {
 	uint32	RetCode = 1;
 }
-///
 
 message TransRoleData {
 	uint64	RoleID		= 1;
@@ -244,6 +243,7 @@ message TransRoleData {
 	int32	Level		= 5;
 	repeated int32	Equips	= 6;
 	repeated int32	Propertys = 7;
+	repeated int32  Skills = 8;
 }
 
 message TransPetData {
@@ -253,6 +253,7 @@ message TransPetData {
 	string	Name		= 4;
 	int32	Level		= 5;
 	repeated int32 Propertys = 6;
+	repeated int32  Skills = 7;
 }
 
 
@@ -263,6 +264,7 @@ message TransPartnerData {
 	string	Name		= 4;
 	int32	Level		= 5;
 	repeated int32 Propertys = 6;
+	repeated int32  Skills = 7;
 }
 
 message TransferDataReq {
@@ -292,7 +294,6 @@ message NearByRoleItem {
 	int32	ActorID	= 2;
 	int32	Level	= 3;
 	string	Name	= 4;
-	
 }
 
 message CopyInsItem {
@@ -302,12 +303,11 @@ message CopyInsItem {
 	int32	ServerID	= 4;
 }
 
-
-message CopyReportReq {
+message CopyReportReq 
+{
 	int32	ServerID = 1;
 	repeated CopyInsItem CopyList = 2;
 }
-
 
 message UseHpBottleReq {
 
@@ -360,7 +360,6 @@ message SealAccountAck {
 	uint64	AccountID	= 3; //账号ID
 }
 
-
 message CommonReq {
 	uint32	Param1	= 1;
 }
@@ -369,13 +368,11 @@ message CommonAck {
 	uint32	RetCode	= 1;
 }
 
-
 message BroadMessageNotify {
 	uint32		MsgID			= 1;
 	repeated	uint32 ConnID	= 2;
     bytes		MsgData			= 3;	
 }
-
 
 message LogicRegToLoginReq {
 	int32	ServerID	= 1;
@@ -390,7 +387,6 @@ message LogicRegToLoginAck {
 	uint32	RetCode		= 1;
 	string	NewSvrName	= 2;
 }
-
 
 message WatchHeartBeatReq {
 	uint32	Data = 1;
@@ -419,7 +415,6 @@ message UnsetEquipReq {
 message UnsetEquipAck {
 	uint32	RetCode	= 1;
 }
-
 
 message SetupGemReq {
 	uint64	GemGuid		= 1;

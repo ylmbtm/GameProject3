@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fLoginDBData_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[27];
+  static const ::google::protobuf::internal::ParseTable schema[29];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -62,6 +62,10 @@ void InitDefaultsDBGemItemImpl();
 void InitDefaultsDBGemItem();
 void InitDefaultsDBGemDataImpl();
 void InitDefaultsDBGemData();
+void InitDefaultsDBSkillItemImpl();
+void InitDefaultsDBSkillItem();
+void InitDefaultsDBSkillDataImpl();
+void InitDefaultsDBSkillData();
 void InitDefaultsDBPetItemImpl();
 void InitDefaultsDBPetItem();
 void InitDefaultsDBPetDataImpl();
@@ -107,6 +111,8 @@ inline void InitDefaults() {
   InitDefaultsDBEquipData();
   InitDefaultsDBGemItem();
   InitDefaultsDBGemData();
+  InitDefaultsDBSkillItem();
+  InitDefaultsDBSkillData();
   InitDefaultsDBPetItem();
   InitDefaultsDBPetData();
   InitDefaultsDBMountItem();
@@ -201,6 +207,12 @@ extern DBRoleDataDefaultTypeInternal _DBRoleData_default_instance_;
 class DBRoleLoginAck;
 class DBRoleLoginAckDefaultTypeInternal;
 extern DBRoleLoginAckDefaultTypeInternal _DBRoleLoginAck_default_instance_;
+class DBSkillData;
+class DBSkillDataDefaultTypeInternal;
+extern DBSkillDataDefaultTypeInternal _DBSkillData_default_instance_;
+class DBSkillItem;
+class DBSkillItemDefaultTypeInternal;
+extern DBSkillItemDefaultTypeInternal _DBSkillItem_default_instance_;
 class DBTaskData;
 class DBTaskDataDefaultTypeInternal;
 extern DBTaskDataDefaultTypeInternal _DBTaskData_default_instance_;
@@ -1588,6 +1600,231 @@ class DBGemData : public ::google::protobuf::Message /* @@protoc_insertion_point
 };
 // -------------------------------------------------------------------
 
+class DBSkillItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DBSkillItem) */ {
+ public:
+  DBSkillItem();
+  virtual ~DBSkillItem();
+
+  DBSkillItem(const DBSkillItem& from);
+
+  inline DBSkillItem& operator=(const DBSkillItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DBSkillItem(DBSkillItem&& from) noexcept
+    : DBSkillItem() {
+    *this = ::std::move(from);
+  }
+
+  inline DBSkillItem& operator=(DBSkillItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DBSkillItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DBSkillItem* internal_default_instance() {
+    return reinterpret_cast<const DBSkillItem*>(
+               &_DBSkillItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    10;
+
+  void Swap(DBSkillItem* other);
+  friend void swap(DBSkillItem& a, DBSkillItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DBSkillItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DBSkillItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DBSkillItem& from);
+  void MergeFrom(const DBSkillItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DBSkillItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // uint32 SkillID = 2;
+  void clear_skillid();
+  static const int kSkillIDFieldNumber = 2;
+  ::google::protobuf::uint32 skillid() const;
+  void set_skillid(::google::protobuf::uint32 value);
+
+  // int32 Level = 3;
+  void clear_level();
+  static const int kLevelFieldNumber = 3;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
+
+  // int32 KeyPos = 4;
+  void clear_keypos();
+  static const int kKeyPosFieldNumber = 4;
+  ::google::protobuf::int32 keypos() const;
+  void set_keypos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:DBSkillItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint32 skillid_;
+  ::google::protobuf::int32 level_;
+  ::google::protobuf::int32 keypos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBSkillItemImpl();
+};
+// -------------------------------------------------------------------
+
+class DBSkillData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DBSkillData) */ {
+ public:
+  DBSkillData();
+  virtual ~DBSkillData();
+
+  DBSkillData(const DBSkillData& from);
+
+  inline DBSkillData& operator=(const DBSkillData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DBSkillData(DBSkillData&& from) noexcept
+    : DBSkillData() {
+    *this = ::std::move(from);
+  }
+
+  inline DBSkillData& operator=(DBSkillData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DBSkillData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DBSkillData* internal_default_instance() {
+    return reinterpret_cast<const DBSkillData*>(
+               &_DBSkillData_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    11;
+
+  void Swap(DBSkillData* other);
+  friend void swap(DBSkillData& a, DBSkillData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DBSkillData* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DBSkillData* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DBSkillData& from);
+  void MergeFrom(const DBSkillData& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DBSkillData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .DBSkillItem SkillList = 1;
+  int skilllist_size() const;
+  void clear_skilllist();
+  static const int kSkillListFieldNumber = 1;
+  const ::DBSkillItem& skilllist(int index) const;
+  ::DBSkillItem* mutable_skilllist(int index);
+  ::DBSkillItem* add_skilllist();
+  ::google::protobuf::RepeatedPtrField< ::DBSkillItem >*
+      mutable_skilllist();
+  const ::google::protobuf::RepeatedPtrField< ::DBSkillItem >&
+      skilllist() const;
+
+  // @@protoc_insertion_point(class_scope:DBSkillData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::DBSkillItem > skilllist_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBSkillDataImpl();
+};
+// -------------------------------------------------------------------
+
 class DBPetItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:DBPetItem) */ {
  public:
   DBPetItem();
@@ -1623,7 +1860,7 @@ class DBPetItem : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBPetItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(DBPetItem* other);
   friend void swap(DBPetItem& a, DBPetItem& b) {
@@ -1764,7 +2001,7 @@ class DBPetData : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_DBPetData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(DBPetData* other);
   friend void swap(DBPetData& a, DBPetData& b) {
@@ -1869,7 +2106,7 @@ class DBMountItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBMountItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    14;
 
   void Swap(DBMountItem* other);
   friend void swap(DBMountItem& a, DBMountItem& b) {
@@ -2010,7 +2247,7 @@ class DBMountData : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_DBMountData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    15;
 
   void Swap(DBMountData* other);
   friend void swap(DBMountData& a, DBMountData& b) {
@@ -2115,7 +2352,7 @@ class DBPartnerItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBPartnerItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    16;
 
   void Swap(DBPartnerItem* other);
   friend void swap(DBPartnerItem& a, DBPartnerItem& b) {
@@ -2256,7 +2493,7 @@ class DBPartnerData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBPartnerData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    17;
 
   void Swap(DBPartnerData* other);
   friend void swap(DBPartnerData& a, DBPartnerData& b) {
@@ -2361,7 +2598,7 @@ class DBTaskItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBTaskItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    18;
 
   void Swap(DBTaskItem* other);
   friend void swap(DBTaskItem& a, DBTaskItem& b) {
@@ -2420,12 +2657,26 @@ class DBTaskItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::uint32 taskid() const;
   void set_taskid(::google::protobuf::uint32 value);
 
+  // int32 Status = 3;
+  void clear_status();
+  static const int kStatusFieldNumber = 3;
+  ::google::protobuf::int32 status() const;
+  void set_status(::google::protobuf::int32 value);
+
+  // int32 Progress = 4;
+  void clear_progress();
+  static const int kProgressFieldNumber = 4;
+  ::google::protobuf::int32 progress() const;
+  void set_progress(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:DBTaskItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 taskid_;
+  ::google::protobuf::int32 status_;
+  ::google::protobuf::int32 progress_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBTaskItemImpl();
@@ -2467,7 +2718,7 @@ class DBTaskData : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBTaskData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    19;
 
   void Swap(DBTaskData* other);
   friend void swap(DBTaskData& a, DBTaskData& b) {
@@ -2572,7 +2823,7 @@ class DBMailItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBMailItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    20;
 
   void Swap(DBMailItem* other);
   friend void swap(DBMailItem& a, DBMailItem& b) {
@@ -2671,7 +2922,7 @@ class DBMailData : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_DBMailData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
+    21;
 
   void Swap(DBMailData* other);
   friend void swap(DBMailData& a, DBMailData& b) {
@@ -2776,7 +3027,7 @@ class DBActivityItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBActivityItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    20;
+    22;
 
   void Swap(DBActivityItem* other);
   friend void swap(DBActivityItem& a, DBActivityItem& b) {
@@ -2918,7 +3169,7 @@ class DBActivityData : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBActivityData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    21;
+    23;
 
   void Swap(DBActivityData* other);
   friend void swap(DBActivityData& a, DBActivityData& b) {
@@ -3023,7 +3274,7 @@ class DBCounterItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBCounterItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    22;
+    24;
 
   void Swap(DBCounterItem* other);
   friend void swap(DBCounterItem& a, DBCounterItem& b) {
@@ -3164,7 +3415,7 @@ class DBCounterData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_DBCounterData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    23;
+    25;
 
   void Swap(DBCounterData* other);
   friend void swap(DBCounterData& a, DBCounterData& b) {
@@ -3269,7 +3520,7 @@ class DBFriendItem : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_DBFriendItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    24;
+    26;
 
   void Swap(DBFriendItem* other);
   friend void swap(DBFriendItem& a, DBFriendItem& b) {
@@ -3375,7 +3626,7 @@ class DBFriendData : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_DBFriendData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    25;
+    27;
 
   void Swap(DBFriendData* other);
   friend void swap(DBFriendData& a, DBFriendData& b) {
@@ -3480,7 +3731,7 @@ class DBRoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_DBRoleLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    26;
+    28;
 
   void Swap(DBRoleLoginAck* other);
   friend void swap(DBRoleLoginAck& a, DBRoleLoginAck& b) {
@@ -3644,6 +3895,15 @@ class DBRoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_
   ::DBFriendData* release_frienddata();
   void set_allocated_frienddata(::DBFriendData* frienddata);
 
+  // .DBSkillData SkillData = 16;
+  bool has_skilldata() const;
+  void clear_skilldata();
+  static const int kSkillDataFieldNumber = 16;
+  const ::DBSkillData& skilldata() const;
+  ::DBSkillData* mutable_skilldata();
+  ::DBSkillData* release_skilldata();
+  void set_allocated_skilldata(::DBSkillData* skilldata);
+
   // uint64 RoleID = 2;
   void clear_roleid();
   static const int kRoleIDFieldNumber = 2;
@@ -3673,6 +3933,7 @@ class DBRoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_
   ::DBActivityData* activitydata_;
   ::DBCounterData* counterdata_;
   ::DBFriendData* frienddata_;
+  ::DBSkillData* skilldata_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
@@ -4691,6 +4952,100 @@ DBGemData::gemlist() const {
 
 // -------------------------------------------------------------------
 
+// DBSkillItem
+
+// uint64 RoleID = 1;
+inline void DBSkillItem::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBSkillItem::roleid() const {
+  // @@protoc_insertion_point(field_get:DBSkillItem.RoleID)
+  return roleid_;
+}
+inline void DBSkillItem::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:DBSkillItem.RoleID)
+}
+
+// uint32 SkillID = 2;
+inline void DBSkillItem::clear_skillid() {
+  skillid_ = 0u;
+}
+inline ::google::protobuf::uint32 DBSkillItem::skillid() const {
+  // @@protoc_insertion_point(field_get:DBSkillItem.SkillID)
+  return skillid_;
+}
+inline void DBSkillItem::set_skillid(::google::protobuf::uint32 value) {
+  
+  skillid_ = value;
+  // @@protoc_insertion_point(field_set:DBSkillItem.SkillID)
+}
+
+// int32 Level = 3;
+inline void DBSkillItem::clear_level() {
+  level_ = 0;
+}
+inline ::google::protobuf::int32 DBSkillItem::level() const {
+  // @@protoc_insertion_point(field_get:DBSkillItem.Level)
+  return level_;
+}
+inline void DBSkillItem::set_level(::google::protobuf::int32 value) {
+  
+  level_ = value;
+  // @@protoc_insertion_point(field_set:DBSkillItem.Level)
+}
+
+// int32 KeyPos = 4;
+inline void DBSkillItem::clear_keypos() {
+  keypos_ = 0;
+}
+inline ::google::protobuf::int32 DBSkillItem::keypos() const {
+  // @@protoc_insertion_point(field_get:DBSkillItem.KeyPos)
+  return keypos_;
+}
+inline void DBSkillItem::set_keypos(::google::protobuf::int32 value) {
+  
+  keypos_ = value;
+  // @@protoc_insertion_point(field_set:DBSkillItem.KeyPos)
+}
+
+// -------------------------------------------------------------------
+
+// DBSkillData
+
+// repeated .DBSkillItem SkillList = 1;
+inline int DBSkillData::skilllist_size() const {
+  return skilllist_.size();
+}
+inline void DBSkillData::clear_skilllist() {
+  skilllist_.Clear();
+}
+inline const ::DBSkillItem& DBSkillData::skilllist(int index) const {
+  // @@protoc_insertion_point(field_get:DBSkillData.SkillList)
+  return skilllist_.Get(index);
+}
+inline ::DBSkillItem* DBSkillData::mutable_skilllist(int index) {
+  // @@protoc_insertion_point(field_mutable:DBSkillData.SkillList)
+  return skilllist_.Mutable(index);
+}
+inline ::DBSkillItem* DBSkillData::add_skilllist() {
+  // @@protoc_insertion_point(field_add:DBSkillData.SkillList)
+  return skilllist_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DBSkillItem >*
+DBSkillData::mutable_skilllist() {
+  // @@protoc_insertion_point(field_mutable_list:DBSkillData.SkillList)
+  return &skilllist_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DBSkillItem >&
+DBSkillData::skilllist() const {
+  // @@protoc_insertion_point(field_list:DBSkillData.SkillList)
+  return skilllist_;
+}
+
+// -------------------------------------------------------------------
+
 // DBPetItem
 
 // uint64 RoleID = 1;
@@ -5127,6 +5482,34 @@ inline void DBTaskItem::set_taskid(::google::protobuf::uint32 value) {
   
   taskid_ = value;
   // @@protoc_insertion_point(field_set:DBTaskItem.TaskID)
+}
+
+// int32 Status = 3;
+inline void DBTaskItem::clear_status() {
+  status_ = 0;
+}
+inline ::google::protobuf::int32 DBTaskItem::status() const {
+  // @@protoc_insertion_point(field_get:DBTaskItem.Status)
+  return status_;
+}
+inline void DBTaskItem::set_status(::google::protobuf::int32 value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:DBTaskItem.Status)
+}
+
+// int32 Progress = 4;
+inline void DBTaskItem::clear_progress() {
+  progress_ = 0;
+}
+inline ::google::protobuf::int32 DBTaskItem::progress() const {
+  // @@protoc_insertion_point(field_get:DBTaskItem.Progress)
+  return progress_;
+}
+inline void DBTaskItem::set_progress(::google::protobuf::int32 value) {
+  
+  progress_ = value;
+  // @@protoc_insertion_point(field_set:DBTaskItem.Progress)
 }
 
 // -------------------------------------------------------------------
@@ -6130,9 +6513,53 @@ inline void DBRoleLoginAck::set_allocated_frienddata(::DBFriendData* frienddata)
   // @@protoc_insertion_point(field_set_allocated:DBRoleLoginAck.FriendData)
 }
 
+// .DBSkillData SkillData = 16;
+inline bool DBRoleLoginAck::has_skilldata() const {
+  return this != internal_default_instance() && skilldata_ != NULL;
+}
+inline void DBRoleLoginAck::clear_skilldata() {
+  if (GetArenaNoVirtual() == NULL && skilldata_ != NULL) delete skilldata_;
+  skilldata_ = NULL;
+}
+inline const ::DBSkillData& DBRoleLoginAck::skilldata() const {
+  const ::DBSkillData* p = skilldata_;
+  // @@protoc_insertion_point(field_get:DBRoleLoginAck.SkillData)
+  return p != NULL ? *p : *reinterpret_cast<const ::DBSkillData*>(
+      &::_DBSkillData_default_instance_);
+}
+inline ::DBSkillData* DBRoleLoginAck::mutable_skilldata() {
+  
+  if (skilldata_ == NULL) {
+    skilldata_ = new ::DBSkillData;
+  }
+  // @@protoc_insertion_point(field_mutable:DBRoleLoginAck.SkillData)
+  return skilldata_;
+}
+inline ::DBSkillData* DBRoleLoginAck::release_skilldata() {
+  // @@protoc_insertion_point(field_release:DBRoleLoginAck.SkillData)
+  
+  ::DBSkillData* temp = skilldata_;
+  skilldata_ = NULL;
+  return temp;
+}
+inline void DBRoleLoginAck::set_allocated_skilldata(::DBSkillData* skilldata) {
+  delete skilldata_;
+  skilldata_ = skilldata;
+  if (skilldata) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DBRoleLoginAck.SkillData)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

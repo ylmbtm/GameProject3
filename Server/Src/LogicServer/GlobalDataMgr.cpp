@@ -52,9 +52,9 @@ BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 
 UINT64 CGlobalDataManager::MakeNewGuid()
 {
-	m_pGlobalDataObject->lock();
+	m_pGlobalDataObject->Lock();
 	m_pGlobalDataObject->m_u64Guid	  += 1;
-	m_pGlobalDataObject->unlock();
+	m_pGlobalDataObject->Unlock();
 	return m_pGlobalDataObject->m_u64Guid;
 }
 

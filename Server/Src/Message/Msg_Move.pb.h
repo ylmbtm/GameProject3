@@ -1453,6 +1453,30 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
+  // repeated int32 Normals = 22;
+  int normals_size() const;
+  void clear_normals();
+  static const int kNormalsFieldNumber = 22;
+  ::google::protobuf::int32 normals(int index) const;
+  void set_normals(int index, ::google::protobuf::int32 value);
+  void add_normals(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      normals() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_normals();
+
+  // repeated int32 Specials = 23;
+  int specials_size() const;
+  void clear_specials();
+  static const int kSpecialsFieldNumber = 23;
+  ::google::protobuf::int32 specials(int index) const;
+  void set_specials(int index, ::google::protobuf::int32 value);
+  void add_specials(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      specials() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_specials();
+
   // string Name = 8;
   void clear_name();
   static const int kNameFieldNumber = 8;
@@ -1587,6 +1611,10 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
   mutable int _equips_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > normals_;
+  mutable int _normals_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > specials_;
+  mutable int _specials_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 objtype_;
@@ -3576,6 +3604,66 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 NewItem::mutable_equips() {
   // @@protoc_insertion_point(field_mutable_list:NewItem.Equips)
   return &equips_;
+}
+
+// repeated int32 Normals = 22;
+inline int NewItem::normals_size() const {
+  return normals_.size();
+}
+inline void NewItem::clear_normals() {
+  normals_.Clear();
+}
+inline ::google::protobuf::int32 NewItem::normals(int index) const {
+  // @@protoc_insertion_point(field_get:NewItem.Normals)
+  return normals_.Get(index);
+}
+inline void NewItem::set_normals(int index, ::google::protobuf::int32 value) {
+  normals_.Set(index, value);
+  // @@protoc_insertion_point(field_set:NewItem.Normals)
+}
+inline void NewItem::add_normals(::google::protobuf::int32 value) {
+  normals_.Add(value);
+  // @@protoc_insertion_point(field_add:NewItem.Normals)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+NewItem::normals() const {
+  // @@protoc_insertion_point(field_list:NewItem.Normals)
+  return normals_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+NewItem::mutable_normals() {
+  // @@protoc_insertion_point(field_mutable_list:NewItem.Normals)
+  return &normals_;
+}
+
+// repeated int32 Specials = 23;
+inline int NewItem::specials_size() const {
+  return specials_.size();
+}
+inline void NewItem::clear_specials() {
+  specials_.Clear();
+}
+inline ::google::protobuf::int32 NewItem::specials(int index) const {
+  // @@protoc_insertion_point(field_get:NewItem.Specials)
+  return specials_.Get(index);
+}
+inline void NewItem::set_specials(int index, ::google::protobuf::int32 value) {
+  specials_.Set(index, value);
+  // @@protoc_insertion_point(field_set:NewItem.Specials)
+}
+inline void NewItem::add_specials(::google::protobuf::int32 value) {
+  specials_.Add(value);
+  // @@protoc_insertion_point(field_add:NewItem.Specials)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+NewItem::specials() const {
+  // @@protoc_insertion_point(field_list:NewItem.Specials)
+  return specials_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+NewItem::mutable_specials() {
+  // @@protoc_insertion_point(field_mutable_list:NewItem.Specials)
+  return &specials_;
 }
 
 // -------------------------------------------------------------------

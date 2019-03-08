@@ -28,7 +28,7 @@ BOOL CCounterModule::OnDestroy()
 
 		for(auto vtitor = vtObject.begin(); vtitor != vtObject.end(); vtitor++)
 		{
-			(*vtitor)->release();
+			(*vtitor)->Release();
 		}
 	}
 

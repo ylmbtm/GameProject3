@@ -519,6 +519,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, hpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, mpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, equips_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, normals_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, specials_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ObjectNewNty, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -584,13 +586,13 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 65, -1, sizeof(::ObjectActionAck)},
   { 71, -1, sizeof(::ActionNtyItem)},
   { 94, -1, sizeof(::NewItem)},
-  { 120, -1, sizeof(::ObjectNewNty)},
-  { 126, -1, sizeof(::ObjectRemoveNty)},
-  { 132, -1, sizeof(::BulletItem)},
-  { 148, -1, sizeof(::BulletNewNtf)},
-  { 154, -1, sizeof(::HeartBeatReq)},
-  { 160, -1, sizeof(::HeartBeatAck)},
-  { 167, -1, sizeof(::ObjectDieNotify)},
+  { 122, -1, sizeof(::ObjectNewNty)},
+  { 128, -1, sizeof(::ObjectRemoveNty)},
+  { 134, -1, sizeof(::BulletItem)},
+  { 150, -1, sizeof(::BulletNewNtf)},
+  { 156, -1, sizeof(::HeartBeatReq)},
+  { 162, -1, sizeof(::HeartBeatAck)},
+  { 169, -1, sizeof(::ObjectDieNotify)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -661,7 +663,7 @@ void AddDescriptorsImpl() {
       "t\030\t \001(\002\022\017\n\007ActorID\030\n \001(\005\022\017\n\007MountID\030\013 \001("
       "\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013ControlerID\030\r \001(\004\022\n\n"
       "\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n\005HpMax\030\020 \001(\005\022\r\n\005"
-      "MpMax\030\021 \001(\005\022\016\n\006Equips\030\022 \003(\005\"\317\002\n\007NewItem\022"
+      "MpMax\030\021 \001(\005\022\016\n\006Equips\030\022 \003(\005\"\362\002\n\007NewItem\022"
       "\022\n\nObjectGuid\030\001 \001(\004\022\017\n\007ObjType\030\002 \001(\005\022\023\n\013"
       "ObjectState\030\003 \001(\005\022\021\n\tBuffState\030\004 \001(\005\022\017\n\007"
       "ActorID\030\005 \001(\005\022\017\n\007MountID\030\006 \001(\005\022\014\n\004Camp\030\007"
@@ -670,21 +672,22 @@ void AddDescriptorsImpl() {
       "onID\030\014 \001(\004\022\t\n\001X\030\r \001(\002\022\t\n\001Y\030\016 \001(\002\022\t\n\001Z\030\017 "
       "\001(\002\022\n\n\002Ft\030\020 \001(\002\022\n\n\002Hp\030\021 \001(\005\022\n\n\002Mp\030\022 \001(\005\022"
       "\r\n\005HpMax\030\023 \001(\005\022\r\n\005MpMax\030\024 \001(\005\022\016\n\006Equips\030"
-      "\025 \003(\005\")\n\014ObjectNewNty\022\031\n\007NewList\030\001 \003(\0132\010"
-      ".NewItem\"%\n\017ObjectRemoveNty\022\022\n\nRemoveLis"
-      "t\030\001 \003(\004\"\262\001\n\nBulletItem\022\022\n\nObjectGuid\030\001 \001"
-      "(\004\022\022\n\nTargetGuid\030\002 \001(\004\022\020\n\010BulletID\030\003 \001(\005"
-      "\022\t\n\001X\030\004 \001(\002\022\t\n\001Y\030\005 \001(\002\022\t\n\001Z\030\006 \001(\002\022\n\n\002VX\030"
-      "\007 \001(\002\022\n\n\002VZ\030\010 \001(\002\022\r\n\005Speed\030\t \001(\002\022\020\n\010AccS"
-      "peed\030\n \001(\002\022\020\n\010LeftTime\030\013 \001(\002\"-\n\014BulletNe"
-      "wNtf\022\035\n\010ItemList\030\001 \003(\0132\013.BulletItem\"!\n\014H"
-      "eartBeatReq\022\021\n\tTimeStamp\030\001 \001(\r\"5\n\014HeartB"
-      "eatAck\022\021\n\tTimeStamp\030\001 \001(\r\022\022\n\nServerTime\030"
-      "\002 \001(\r\"%\n\017ObjectDieNotify\022\022\n\nObjectGuid\030\001"
-      " \001(\004b\006proto3"
+      "\025 \003(\005\022\017\n\007Normals\030\026 \003(\005\022\020\n\010Specials\030\027 \003(\005"
+      "\")\n\014ObjectNewNty\022\031\n\007NewList\030\001 \003(\0132\010.NewI"
+      "tem\"%\n\017ObjectRemoveNty\022\022\n\nRemoveList\030\001 \003"
+      "(\004\"\262\001\n\nBulletItem\022\022\n\nObjectGuid\030\001 \001(\004\022\022\n"
+      "\nTargetGuid\030\002 \001(\004\022\020\n\010BulletID\030\003 \001(\005\022\t\n\001X"
+      "\030\004 \001(\002\022\t\n\001Y\030\005 \001(\002\022\t\n\001Z\030\006 \001(\002\022\n\n\002VX\030\007 \001(\002"
+      "\022\n\n\002VZ\030\010 \001(\002\022\r\n\005Speed\030\t \001(\002\022\020\n\010AccSpeed\030"
+      "\n \001(\002\022\020\n\010LeftTime\030\013 \001(\002\"-\n\014BulletNewNtf\022"
+      "\035\n\010ItemList\030\001 \003(\0132\013.BulletItem\"!\n\014HeartB"
+      "eatReq\022\021\n\tTimeStamp\030\001 \001(\r\"5\n\014HeartBeatAc"
+      "k\022\021\n\tTimeStamp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r"
+      "\"%\n\017ObjectDieNotify\022\022\n\nObjectGuid\030\001 \001(\004b"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1852);
+      descriptor, 1887);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Move.proto", &protobuf_RegisterTypes);
 }
@@ -4363,6 +4366,8 @@ const int NewItem::kMpFieldNumber;
 const int NewItem::kHpMaxFieldNumber;
 const int NewItem::kMpMaxFieldNumber;
 const int NewItem::kEquipsFieldNumber;
+const int NewItem::kNormalsFieldNumber;
+const int NewItem::kSpecialsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 NewItem::NewItem()
@@ -4377,6 +4382,8 @@ NewItem::NewItem(const NewItem& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       equips_(from.equips_),
+      normals_(from.normals_),
+      specials_(from.specials_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -4436,6 +4443,8 @@ void NewItem::Clear() {
   (void) cached_has_bits;
 
   equips_.Clear();
+  normals_.Clear();
+  specials_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&objectguid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&mpmax_) -
@@ -4754,6 +4763,44 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 Normals = 22;
+      case 22: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(178u /* 178 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_normals())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(176u /* 176 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 2, 178u, input, this->mutable_normals())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated int32 Specials = 23;
+      case 23: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(186u /* 186 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_specials())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(184u /* 184 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 2, 186u, input, this->mutable_specials())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -4896,6 +4943,28 @@ void NewItem::SerializeWithCachedSizes(
       this->equips(i), output);
   }
 
+  // repeated int32 Normals = 22;
+  if (this->normals_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(22, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _normals_cached_byte_size_));
+  }
+  for (int i = 0, n = this->normals_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->normals(i), output);
+  }
+
+  // repeated int32 Specials = 23;
+  if (this->specials_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(23, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _specials_cached_byte_size_));
+  }
+  for (int i = 0, n = this->specials_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->specials(i), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -5029,6 +5098,32 @@ void NewItem::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->equips_, target);
   }
 
+  // repeated int32 Normals = 22;
+  if (this->normals_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      22,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _normals_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->normals_, target);
+  }
+
+  // repeated int32 Specials = 23;
+  if (this->specials_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      23,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _specials_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->specials_, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -5058,6 +5153,38 @@ size_t NewItem::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _equips_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Normals = 22;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->normals_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _normals_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Specials = 23;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->specials_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _specials_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -5224,6 +5351,8 @@ void NewItem::MergeFrom(const NewItem& from) {
   (void) cached_has_bits;
 
   equips_.MergeFrom(from.equips_);
+  normals_.MergeFrom(from.normals_);
+  specials_.MergeFrom(from.specials_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -5312,6 +5441,8 @@ void NewItem::Swap(NewItem* other) {
 void NewItem::InternalSwap(NewItem* other) {
   using std::swap;
   equips_.InternalSwap(&other->equips_);
+  normals_.InternalSwap(&other->normals_);
+  specials_.InternalSwap(&other->specials_);
   name_.Swap(&other->name_);
   swap(objectguid_, other->objectguid_);
   swap(objtype_, other->objtype_);

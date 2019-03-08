@@ -14,40 +14,20 @@
 #include "MonsterCreator.h"
 #include "RapidXml.h"
 #include "SceneXmlMgr.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 #include "GameObject/SkillObject.h"
 #include "GameObject/BulletObject.h"
 
 
 CScene::CScene()
 {
-	m_dwCopyGuid		= 0;
-	m_dwCopyID			= 0;
-	m_dwCopyType		= 0;
-	m_dwPlayerNum		= 0;
-	m_uCreateKey		= 0;
-	m_dwLoginNum		= 0;
-	m_uStartTime		= 0;
-	m_uMaxGuid			= 0;
-	m_uCreateTime		= 0;
-	m_pMonsterCreator	= NULL;
-	m_bFinished			= FALSE;
+	Reset();
 }
 
 CScene::~CScene()
 {
-	m_dwCopyGuid		= 0;
-	m_dwCopyID			= 0;
-	m_dwCopyType		= 0;
-	m_dwPlayerNum		= 0;
-	m_uCreateKey		= 0;
-	m_dwLoginNum		= 0;
-	m_uStartTime		= 0;
-	m_uMaxGuid			= 0;
-	m_uCreateTime		= 0;
-	m_pMonsterCreator	= NULL;
-	m_bFinished			= FALSE;
+	Reset();
 }
 
 BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey)
@@ -87,6 +67,23 @@ BOOL CScene::Uninit()
 	delete m_pMonsterCreator;
 
 	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwCopyType));
+
+	return TRUE;
+}
+
+BOOL CScene::Reset()
+{
+	m_dwCopyGuid = 0;
+	m_dwCopyID = 0;
+	m_dwCopyType = 0;
+	m_dwPlayerNum = 0;
+	m_uCreateKey = 0;
+	m_dwLoginNum = 0;
+	m_uStartTime = 0;
+	m_uMaxGuid = 0;
+	m_uCreateTime = 0;
+	m_pMonsterCreator = NULL;
+	m_bFinished = FALSE;
 
 	return TRUE;
 }
@@ -162,6 +159,7 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 		}
 		pTargetObj->SubHp(1);
 	}
+
 
 	return TRUE;
 }
@@ -545,6 +543,17 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	{
 		Ack.add_equips(pSceneObj->m_Equips[i]);
 	}
+
+	for (int i = 0; i < pSceneObj->m_vtNormals.size(); i++)
+	{
+		Ack.add_normals(pSceneObj->m_vtNormals[i].uSkillID);
+	}
+
+	for (int i = 0; i < pSceneObj->m_vtSpecials.size(); i++)
+	{
+		Ack.add_specials(pSceneObj->m_vtSpecials[i].uSkillID);
+	}
+
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
@@ -1088,7 +1097,7 @@ BOOL CScene::SyncObjectState()
 
 CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
-	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), this);
 
@@ -1104,6 +1113,9 @@ CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FL
 
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
+	pObject->InitSkills();
+	//指定位置
 	pObject->SetPos(x, y, z, ft);
 
 	m_pSceneLogic->OnObjectCreate(pObject);
@@ -1136,8 +1148,11 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 	{
 		pObject->m_Propertys[i] = roleData.propertys(i);
 	}
+
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
+	pObject->InitSkills(roleData.skills());
 
 	m_pSceneLogic->OnObjectCreate(pObject);
 
@@ -1148,7 +1163,7 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 
 CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UINT32 dwCamp )
 {
-	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(petData.actorid());
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(petData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(petData.petguid(), this);
 	ERROR_RETURN_NULL(pObject != NULL);
@@ -1167,15 +1182,22 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
+	//设置技能
+	pObject->InitSkills(petData.skills());
+
+	//指定坐标 在主人附近
 	m_pSceneLogic->OnObjectCreate(pObject);
+
 	AddMonster(pObject);
+
 	BroadNewObject(pObject);
+
 	return pObject;
 }
 
 CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 uHostID, UINT32 dwCamp  )
 {
-	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(partnerData.actorid());
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(partnerData.partnerguid(), this);
 	ERROR_RETURN_NULL(pObject != NULL);
@@ -1194,15 +1216,23 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
+	//设置技能
+	pObject->InitSkills(partnerData.skills());
+
+	//指定坐标 在主人附近
+
 	m_pSceneLogic->OnObjectCreate(pObject);
+
 	AddMonster(pObject);
+
 	BroadNewObject(pObject);
+
 	return pObject;
 }
 
 CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft)
 {
-	StActorInfo* pActorInfo = CConfigData::GetInstancePtr()->GetActorInfo(dwActorID);
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(dwActorID);
 	ERROR_RETURN_NULL(pActorInfo != NULL);
 	CSceneObject* pObject = new CSceneObject(GenNewGuid(), this);
 
@@ -1219,11 +1249,18 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 	}
 	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
 	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
+
+	pObject->InitSkills();
+
+	//指定位置
 	pObject->SetPos(x, y, z, ft);
 
 	m_pSceneLogic->OnObjectCreate(pObject);
+
 	AddMonster(pObject);
+
 	BroadNewObject(pObject);
+
 	return pObject;
 }
 
@@ -1286,7 +1323,7 @@ BOOL CScene::IsMonsterAllDie()
 
 BOOL CScene::ReadSceneXml()
 {
-	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(m_dwCopyID);
+	StCopyInfo* pCopyInfo = CStaticData::GetInstancePtr()->GetCopyInfo(m_dwCopyID);
 	ERROR_RETURN_FALSE(pCopyInfo != NULL);
 	pCopyInfo->strXml = CommonConvert::IntToString(m_dwCopyID) + ".xml";
 	rapidxml::xml_document<char>* pXmlDoc = CSceneXmlManager::GetInstancePtr()->GetXmlDocument(pCopyInfo->strXml);

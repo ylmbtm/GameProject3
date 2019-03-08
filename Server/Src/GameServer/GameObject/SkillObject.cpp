@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "SkillObject.h"
 #include "SceneObject.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 #include "../Message/Game_Define.pb.h"
-#include "../ConfigData/ConfigStruct.h"
+#include "../StaticData/StaticStruct.h"
 #include "../Scene.h"
 
 CSkillObject::CSkillObject()
@@ -59,9 +59,9 @@ BOOL CSkillObject::OnSkillComplete()
 	return TRUE;
 }
 
-BOOL CSkillObject::StartSkill(UINT32 dwSkillID)
+BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 {
-	m_pSkillInfo = CConfigData::GetInstancePtr()->GetSkillInfo(dwSkillID, 0);
+	m_pSkillInfo = CStaticData::GetInstancePtr()->GetSkillInfo(dwSkillID, nLevel);
 
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
 

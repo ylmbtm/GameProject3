@@ -5,8 +5,8 @@
 #include "../Message/Msg_Game.pb.h"
 #include "../ServerEngine/PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
-#include "../ConfigData/ConfigStruct.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticStruct.h"
+#include "../StaticData/StaticData.h"
 #include "BagModule.h"
 #include "PlayerObject.h"
 
@@ -77,7 +77,7 @@ BOOL CStoreModule::OnMsgStoreBuyReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	StStoreItemInfo* pInfo = CConfigData::GetInstancePtr()->GetStoreItemInfo(Req.storeid());
+	StStoreItemInfo* pInfo = CStaticData::GetInstancePtr()->GetStoreItemInfo(Req.storeid());
 	ERROR_RETURN_TRUE(pInfo != NULL);
 
 	CBagModule* pMoudule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);

@@ -1,13 +1,14 @@
-﻿#ifndef __ACTIVITY_MODULE_H__
-#define __ACTIVITY_MODULE_H__
+﻿#ifndef __SKILL_MODULE_H__
+#define __SKILL_MODULE_H__
 #include "ModuleBase.h"
-struct ActivityDataObject;
-class CActivityModule  : public CModuleBase
+#include "../ServerData/SkillData.h"
+struct SkillDataObject;
+class CSkillModule  : public CModuleBase
 {
 public:
-	CActivityModule(CPlayerObject* pOwner);
+	CSkillModule(CPlayerObject* pOwner);
 
-	~CActivityModule();
+	~CSkillModule();
 
 public:
 	BOOL OnCreate(UINT64 u64RoleID);
@@ -28,15 +29,16 @@ public:
 
 	BOOL NotifyChange();
 
-	BOOL GetRedPoint();
+	SkillDataObject* GetSkillData(UINT32 dwSkillID);
+
 public:
 	//*********************消息处理定义开始******************************
 
 	//*********************消息处理定义结束******************************
-	std::map<UINT32, ActivityDataObject*> m_mapActivityData;
-public:
 
+public:
+	std::map<UINT32, SkillDataObject*> m_mapSkillData;
 
 };
 
-#endif //__ACTIVITY_MODULE_H__
+#endif //__COUNTER_MODULE_H__

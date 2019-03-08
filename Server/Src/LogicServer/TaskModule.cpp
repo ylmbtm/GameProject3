@@ -2,7 +2,7 @@
 #include "TaskModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
@@ -27,7 +27,7 @@ BOOL CTaskModule::OnDestroy()
 {
 	for(auto itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapTaskData.clear();
@@ -57,9 +57,12 @@ BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBTaskItem& TaskItem = TaskData.tasklist(i);
 		TaskDataObject* pObject = g_pTaskDataObjectPool->NewObject(FALSE);
-		pObject->lock();
-
-		pObject->unlock();
+		pObject->Lock();
+		pObject->m_nProgress = TaskItem.progress();
+		pObject->m_uRoleID = TaskItem.roleid();
+		pObject->m_uTaskID = TaskItem.taskid();
+		pObject->m_TaskStatus = TaskItem.status();
+		pObject->Unlock();
 
 		if(pObject->m_TaskStatus == ETS_COMMIT)
 		{
@@ -91,11 +94,11 @@ BOOL CTaskModule::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2)
 {
-	for(std::map<UINT64, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
+	for(std::map<UINT32, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
 	{
 		TaskDataObject* pDataObj = itor->second;
 
-		StTaskInfo* pInfo = CConfigData::GetInstancePtr()->GetTaskInfo((UINT32)pDataObj->m_uTaskID);
+		StTaskInfo* pInfo = CStaticData::GetInstancePtr()->GetTaskInfo(pDataObj->m_uTaskID);
 		ERROR_CONTINUE_EX(pInfo != NULL);
 
 		if(pInfo->TaskEvent != taskEvent)
@@ -108,7 +111,7 @@ BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwPa
 			continue;
 		}
 
-		if(pDataObj->m_FinishCount >= pInfo->NeedCount)
+		if(pDataObj->m_nProgress >= pInfo->NeedCount)
 		{
 
 		}

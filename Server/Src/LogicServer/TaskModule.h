@@ -2,7 +2,7 @@
 #define __TASK_MODULE_H__
 #include "ModuleBase.h"
 #include "../ServerData/TaskData.h"
-#include "../ConfigData/ConfigDefine.h"
+#include "../StaticData/ConfigDefine.h"
 
 struct TaskDataObject;
 class CTaskModule  : public CModuleBase
@@ -37,12 +37,12 @@ public:
 
 	BOOL NotifyChange();
 public:
-	std::map<UINT64, TaskDataObject*>m_mapTaskData;
+	std::map<UINT32, TaskDataObject*>m_mapTaskData;
 
-	std::map<UINT64, TaskDataObject*>m_mapCommitTask;
+	std::map<UINT32, TaskDataObject*>m_mapCommitTask;
 
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
+	std::set<UINT32> m_setChange;
+	std::set<UINT32> m_setRemove;
 };
 
 #endif //__PARTNER_MODULE_H__

@@ -75,18 +75,18 @@ CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 n
 {
 	CGuild* pGuild = new CGuild();
 	pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(TRUE);
-	pGuild->m_pGuildData->lock();
+	pGuild->m_pGuildData->Lock();
 	pGuild->m_pGuildData->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	strncpy(pGuild->m_pGuildData->m_szName, strName.c_str(), CommonFunc::Min(GUILD_NAME_LEN, (INT32)strName.size()));
-	pGuild->m_pGuildData->unlock();
+	pGuild->m_pGuildData->Unlock();
 
 	MemberDataObject* pMemberObj = g_pMemberDataObjectPool->NewObject(TRUE);
-	pMemberObj->lock();
+	pMemberObj->Lock();
 	pMemberObj->m_uRoleID = uRoleID;
 	pMemberObj->m_dwJoinTime = CommonFunc::GetCurrTime();
 	pMemberObj->m_uGuildID = pGuild->m_pGuildData->m_uGuid;
 	pMemberObj->m_Pos = EGP_LEADER;
-	pMemberObj->unlock();
+	pMemberObj->Unlock();
 	pGuild->m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObj));
 	return pGuild;
 }

@@ -2156,6 +2156,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::EnterSceneAck, hpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::EnterSceneAck, mpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::EnterSceneAck, equips_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::EnterSceneAck, normals_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::EnterSceneAck, specials_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::AbortCopyReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2207,6 +2209,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransRoleData, level_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransRoleData, equips_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransRoleData, propertys_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransRoleData, skills_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPetData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2218,6 +2221,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPetData, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPetData, level_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPetData, propertys_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPetData, skills_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPartnerData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2229,6 +2233,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPartnerData, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPartnerData, level_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPartnerData, propertys_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransPartnerData, skills_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TransferDataReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2588,60 +2593,60 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 217, -1, sizeof(::CreateNewSceneAck)},
   { 229, -1, sizeof(::EnterSceneReq)},
   { 238, -1, sizeof(::EnterSceneAck)},
-  { 260, -1, sizeof(::AbortCopyReq)},
-  { 268, -1, sizeof(::AbortCopyAck)},
-  { 274, -1, sizeof(::BackToCityReq)},
-  { 280, -1, sizeof(::BackToCityAck)},
-  { 286, -1, sizeof(::LeaveSceneReq)},
-  { 293, -1, sizeof(::LeaveSceneAck)},
-  { 299, -1, sizeof(::TransRoleData)},
-  { 311, -1, sizeof(::TransPetData)},
-  { 322, -1, sizeof(::TransPartnerData)},
-  { 333, -1, sizeof(::TransferDataReq)},
-  { 342, -1, sizeof(::TransferDataAck)},
-  { 352, -1, sizeof(::NotifyIntoScene)},
-  { 361, -1, sizeof(::NearByRoleItem)},
-  { 370, -1, sizeof(::CopyInsItem)},
-  { 379, -1, sizeof(::CopyReportReq)},
-  { 386, -1, sizeof(::UseHpBottleReq)},
-  { 391, -1, sizeof(::UseHpBottleAck)},
-  { 398, -1, sizeof(::UseMpBottleReq)},
-  { 403, -1, sizeof(::UseMpBottleAck)},
-  { 410, -1, sizeof(::ChatMessageReq)},
-  { 420, -1, sizeof(::ChatMessageAck)},
-  { 426, -1, sizeof(::ChatMessageNty)},
-  { 436, -1, sizeof(::SealAccountReq)},
-  { 446, -1, sizeof(::SealAccountAck)},
-  { 454, -1, sizeof(::CommonReq)},
-  { 460, -1, sizeof(::CommonAck)},
-  { 466, -1, sizeof(::BroadMessageNotify)},
-  { 474, -1, sizeof(::LogicRegToLoginReq)},
-  { 485, -1, sizeof(::LogicRegToLoginAck)},
-  { 492, -1, sizeof(::WatchHeartBeatReq)},
-  { 499, -1, sizeof(::WatchHeartBeatAck)},
-  { 507, -1, sizeof(::SetupEquipReq)},
-  { 514, -1, sizeof(::SetupEquipAck)},
-  { 520, -1, sizeof(::UnsetEquipReq)},
-  { 526, -1, sizeof(::UnsetEquipAck)},
-  { 532, -1, sizeof(::SetupGemReq)},
-  { 540, -1, sizeof(::SetupGemAck)},
-  { 546, -1, sizeof(::UnsetGemReq)},
-  { 552, -1, sizeof(::UnsetGemAck)},
-  { 558, -1, sizeof(::SetupPartnerReq)},
-  { 565, -1, sizeof(::SetupPartnerAck)},
-  { 571, -1, sizeof(::UnsetPartnerReq)},
-  { 577, -1, sizeof(::UnsetPartnerAck)},
-  { 583, -1, sizeof(::SetupMountReq)},
-  { 590, -1, sizeof(::SetupMountAck)},
-  { 596, -1, sizeof(::UnsetMountReq)},
-  { 602, -1, sizeof(::UnsetMountAck)},
-  { 608, -1, sizeof(::StoreBuyReq)},
-  { 616, -1, sizeof(::StoreBuyAck)},
-  { 622, -1, sizeof(::ObjectChangeNotify)},
-  { 632, -1, sizeof(::HitEffectItem)},
-  { 643, -1, sizeof(::HitEffectNtf)},
-  { 649, -1, sizeof(::UseItemReq)},
-  { 654, -1, sizeof(::UseItemAck)},
+  { 262, -1, sizeof(::AbortCopyReq)},
+  { 270, -1, sizeof(::AbortCopyAck)},
+  { 276, -1, sizeof(::BackToCityReq)},
+  { 282, -1, sizeof(::BackToCityAck)},
+  { 288, -1, sizeof(::LeaveSceneReq)},
+  { 295, -1, sizeof(::LeaveSceneAck)},
+  { 301, -1, sizeof(::TransRoleData)},
+  { 314, -1, sizeof(::TransPetData)},
+  { 326, -1, sizeof(::TransPartnerData)},
+  { 338, -1, sizeof(::TransferDataReq)},
+  { 347, -1, sizeof(::TransferDataAck)},
+  { 357, -1, sizeof(::NotifyIntoScene)},
+  { 366, -1, sizeof(::NearByRoleItem)},
+  { 375, -1, sizeof(::CopyInsItem)},
+  { 384, -1, sizeof(::CopyReportReq)},
+  { 391, -1, sizeof(::UseHpBottleReq)},
+  { 396, -1, sizeof(::UseHpBottleAck)},
+  { 403, -1, sizeof(::UseMpBottleReq)},
+  { 408, -1, sizeof(::UseMpBottleAck)},
+  { 415, -1, sizeof(::ChatMessageReq)},
+  { 425, -1, sizeof(::ChatMessageAck)},
+  { 431, -1, sizeof(::ChatMessageNty)},
+  { 441, -1, sizeof(::SealAccountReq)},
+  { 451, -1, sizeof(::SealAccountAck)},
+  { 459, -1, sizeof(::CommonReq)},
+  { 465, -1, sizeof(::CommonAck)},
+  { 471, -1, sizeof(::BroadMessageNotify)},
+  { 479, -1, sizeof(::LogicRegToLoginReq)},
+  { 490, -1, sizeof(::LogicRegToLoginAck)},
+  { 497, -1, sizeof(::WatchHeartBeatReq)},
+  { 504, -1, sizeof(::WatchHeartBeatAck)},
+  { 512, -1, sizeof(::SetupEquipReq)},
+  { 519, -1, sizeof(::SetupEquipAck)},
+  { 525, -1, sizeof(::UnsetEquipReq)},
+  { 531, -1, sizeof(::UnsetEquipAck)},
+  { 537, -1, sizeof(::SetupGemReq)},
+  { 545, -1, sizeof(::SetupGemAck)},
+  { 551, -1, sizeof(::UnsetGemReq)},
+  { 557, -1, sizeof(::UnsetGemAck)},
+  { 563, -1, sizeof(::SetupPartnerReq)},
+  { 570, -1, sizeof(::SetupPartnerAck)},
+  { 576, -1, sizeof(::UnsetPartnerReq)},
+  { 582, -1, sizeof(::UnsetPartnerAck)},
+  { 588, -1, sizeof(::SetupMountReq)},
+  { 595, -1, sizeof(::SetupMountAck)},
+  { 601, -1, sizeof(::UnsetMountReq)},
+  { 607, -1, sizeof(::UnsetMountAck)},
+  { 613, -1, sizeof(::StoreBuyReq)},
+  { 621, -1, sizeof(::StoreBuyAck)},
+  { 627, -1, sizeof(::ObjectChangeNotify)},
+  { 637, -1, sizeof(::HitEffectItem)},
+  { 648, -1, sizeof(::HitEffectNtf)},
+  { 654, -1, sizeof(::UseItemReq)},
+  { 659, -1, sizeof(::UseItemAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -2808,98 +2813,100 @@ void AddDescriptorsImpl() {
       "\030\004 \001(\004\022\020\n\010ServerID\030\005 \001(\005\022\020\n\010CopyType\030\006 \001"
       "(\005\022\021\n\tPlayerNum\030\007 \001(\005\"S\n\rEnterSceneReq\022\016"
       "\n\006RoleID\030\001 \001(\004\022\020\n\010ServerID\030\002 \001(\005\022\020\n\010Copy"
-      "Guid\030\003 \001(\005\022\016\n\006CopyID\030\004 \001(\005\"\206\002\n\rEnterScen"
+      "Guid\030\003 \001(\005\022\016\n\006CopyID\030\004 \001(\005\"\251\002\n\rEnterScen"
       "eAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006CopyID\030\002 \001(\005\022\020\n"
       "\010CopyGuid\030\003 \001(\005\022\016\n\006RoleID\030\004 \001(\004\022\016\n\006Carre"
       "r\030\005 \001(\005\022\017\n\007ActorID\030\006 \001(\005\022\020\n\010RoleName\030\007 \001"
       "(\t\022\014\n\004Camp\030\010 \001(\005\022\t\n\001X\030\t \001(\002\022\t\n\001Y\030\n \001(\002\022\t"
       "\n\001Z\030\013 \001(\002\022\n\n\002Ft\030\014 \001(\002\022\n\n\002Hp\030\r \001(\005\022\n\n\002Mp\030"
       "\016 \001(\005\022\r\n\005HpMax\030\017 \001(\005\022\r\n\005MpMax\030\020 \001(\005\022\016\n\006E"
-      "quips\030\021 \003(\005\"B\n\014AbortCopyReq\022\016\n\006CopyID\030\001 "
-      "\001(\005\022\020\n\010CopyGuid\030\002 \001(\005\022\020\n\010ServerID\030\003 \001(\005\""
-      "\037\n\014AbortCopyAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\rBack"
-      "ToCityReq\022\r\n\005Param\030\001 \001(\r\" \n\rBackToCityAc"
-      "k\022\017\n\007RetCode\030\001 \001(\r\"/\n\rLeaveSceneReq\022\016\n\006R"
-      "oleID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rLeaveScen"
-      "eAck\022\017\n\007RetCode\030\001 \001(\r\"\202\001\n\rTransRoleData\022"
-      "\016\n\006RoleID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\020\n\010CarrerI"
-      "D\030\003 \001(\005\022\017\n\007ActorID\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022"
-      "\016\n\006Equips\030\006 \003(\005\022\021\n\tPropertys\030\007 \003(\005\"o\n\014Tr"
-      "ansPetData\022\017\n\007PetGuid\030\001 \001(\004\022\r\n\005PetID\030\002 \001"
-      "(\005\022\017\n\007ActorID\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\022\r\n\005Lev"
-      "el\030\005 \001(\005\022\021\n\tPropertys\030\006 \003(\005\"z\n\020TransPart"
-      "nerData\022\023\n\013PartnerGuid\030\001 \001(\004\022\020\n\010ParterID"
-      "\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\022\r\n"
-      "\005Level\030\005 \001(\005\022\021\n\tPropertys\030\006 \003(\005\"\211\001\n\017Tran"
-      "sferDataReq\022\014\n\004Camp\030\001 \001(\005\022 \n\010RoleData\030\002 "
-      "\001(\0132\016.TransRoleData\022\036\n\007PetData\030\003 \001(\0132\r.T"
-      "ransPetData\022&\n\013PartnerData\030\004 \001(\0132\021.Trans"
-      "PartnerData\"f\n\017TransferDataAck\022\017\n\007RetCod"
-      "e\030\001 \001(\r\022\016\n\006RoleID\030\002 \001(\004\022\016\n\006CopyID\030\003 \001(\005\022"
-      "\020\n\010CopyGuid\030\004 \001(\005\022\020\n\010ServerID\030\005 \001(\005\"U\n\017N"
-      "otifyIntoScene\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006CopyID"
-      "\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001(\005\022\020\n\010ServerID\030\004 \001"
-      "(\005\"N\n\016NearByRoleItem\022\016\n\006RoleID\030\001 \001(\004\022\017\n\007"
-      "ActorID\030\002 \001(\005\022\r\n\005Level\030\003 \001(\005\022\014\n\004Name\030\004 \001"
-      "(\t\"S\n\013CopyInsItem\022\020\n\010CopyGuid\030\001 \001(\r\022\016\n\006C"
-      "opyID\030\002 \001(\005\022\020\n\010CopyType\030\003 \001(\005\022\020\n\010ServerI"
-      "D\030\004 \001(\005\"A\n\rCopyReportReq\022\020\n\010ServerID\030\001 \001"
-      "(\005\022\036\n\010CopyList\030\002 \003(\0132\014.CopyInsItem\"\020\n\016Us"
-      "eHpBottleReq\"0\n\016UseHpBottleAck\022\017\n\007RetCod"
-      "e\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005\"\020\n\016UseMpBottleReq"
-      "\"0\n\016UseMpBottleAck\022\017\n\007RetCode\030\001 \001(\r\022\r\n\005C"
-      "ount\030\002 \001(\005\"c\n\016ChatMessageReq\022\017\n\007SrcName\030"
-      "\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004\022\017\n\007Channel\030\003 \001(\005\022\017\n"
-      "\007GuildID\030\004 \001(\004\022\017\n\007Content\030\005 \001(\t\"!\n\016ChatM"
-      "essageAck\022\017\n\007RetCode\030\001 \001(\r\"c\n\016ChatMessag"
-      "eNty\022\017\n\007SrcName\030\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004\022\017\n\007"
-      "Channel\030\003 \001(\005\022\017\n\007GuildID\030\004 \001(\004\022\017\n\007Conten"
-      "t\030\005 \001(\t\"i\n\016SealAccountReq\022\023\n\013AccountName"
-      "\030\001 \001(\t\022\021\n\tAccountID\030\002 \001(\004\022\017\n\007Channel\030\003 \001"
-      "(\005\022\020\n\010SealTime\030\004 \001(\005\022\014\n\004Seal\030\005 \001(\010\"I\n\016Se"
-      "alAccountAck\022\017\n\007RetCode\030\001 \001(\r\022\023\n\013Account"
-      "Name\030\002 \001(\t\022\021\n\tAccountID\030\003 \001(\004\"\033\n\tCommonR"
-      "eq\022\016\n\006Param1\030\001 \001(\r\"\034\n\tCommonAck\022\017\n\007RetCo"
-      "de\030\001 \001(\r\"D\n\022BroadMessageNotify\022\r\n\005MsgID\030"
-      "\001 \001(\r\022\016\n\006ConnID\030\002 \003(\r\022\017\n\007MsgData\030\003 \001(\014\"\205"
-      "\001\n\022LogicRegToLoginReq\022\020\n\010ServerID\030\001 \001(\005\022"
-      "\022\n\nServerName\030\002 \001(\t\022\020\n\010ServerIp\030\003 \001(\t\022\022\n"
-      "\nServerPort\030\004 \001(\005\022\020\n\010HttpPort\030\005 \001(\005\022\021\n\tW"
-      "atchPort\030\006 \001(\005\"9\n\022LogicRegToLoginAck\022\017\n\007"
-      "RetCode\030\001 \001(\r\022\022\n\nNewSvrName\030\002 \001(\t\"4\n\021Wat"
-      "chHeartBeatReq\022\014\n\004Data\030\001 \001(\r\022\021\n\tProcessI"
-      "D\030\002 \001(\004\"E\n\021WatchHeartBeatAck\022\017\n\007RetCode\030"
-      "\001 \001(\r\022\014\n\004Data\030\002 \001(\r\022\021\n\tProcessID\030\003 \001(\004\"3"
-      "\n\rSetupEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\022\017\n\007Ba"
-      "gGuid\030\002 \001(\004\" \n\rSetupEquipAck\022\017\n\007RetCode\030"
-      "\001 \001(\r\"\"\n\rUnsetEquipReq\022\021\n\tEquipGuid\030\001 \001("
-      "\004\" \n\rUnsetEquipAck\022\017\n\007RetCode\030\001 \001(\r\"B\n\013S"
-      "etupGemReq\022\017\n\007GemGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002"
-      " \001(\004\022\021\n\tTargetPos\030\003 \001(\005\"\036\n\013SetupGemAck\022\017"
-      "\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetGemReq\022\017\n\007GemGui"
-      "d\030\001 \001(\004\"\036\n\013UnsetGemAck\022\017\n\007RetCode\030\001 \001(\r\""
-      "9\n\017SetupPartnerReq\022\023\n\013PartnerGuid\030\001 \001(\004\022"
-      "\021\n\tTargetPos\030\002 \001(\005\"\"\n\017SetupPartnerAck\022\017\n"
-      "\007RetCode\030\001 \001(\r\"$\n\017UnsetPartnerReq\022\021\n\tTar"
-      "getPos\030\001 \001(\005\"\"\n\017UnsetPartnerAck\022\017\n\007RetCo"
-      "de\030\001 \001(\r\"5\n\rSetupMountReq\022\021\n\tMountGuid\030\001"
-      " \001(\004\022\021\n\tTargetPos\030\002 \001(\005\" \n\rSetupMountAck"
-      "\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetMountReq\022\021\n\tMo"
-      "untGuid\030\001 \001(\004\" \n\rUnsetMountAck\022\017\n\007RetCod"
-      "e\030\001 \001(\r\"A\n\013StoreBuyReq\022\021\n\tStoreType\030\001 \001("
-      "\005\022\017\n\007StoreID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n\013St"
-      "oreBuyAck\022\017\n\007RetCode\030\001 \001(\r\"p\n\022ObjectChan"
-      "geNotify\022\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeType\030\002"
-      " \001(\005\022\021\n\tIntValue1\030\003 \001(\003\022\021\n\tIntValue2\030\004 \001"
-      "(\003\022\020\n\010StrValue\030\005 \001(\t\"q\n\rHitEffectItem\022\022\n"
-      "\nTargetGUID\030\001 \001(\004\022\017\n\007ValueID\030\002 \001(\005\022\r\n\005Va"
-      "lue\030\003 \001(\005\022\016\n\006Reason\030\004 \001(\005\022\016\n\006Detail\030\005 \001("
-      "\004\022\014\n\004Crit\030\006 \001(\010\"0\n\014HitEffectNtf\022 \n\010ItemL"
-      "ist\030\001 \003(\0132\016.HitEffectItem\"\014\n\nUseItemReq\""
-      "\014\n\nUseItemAckb\006proto3"
+      "quips\030\021 \003(\005\022\017\n\007Normals\030\022 \003(\005\022\020\n\010Specials"
+      "\030\023 \003(\005\"B\n\014AbortCopyReq\022\016\n\006CopyID\030\001 \001(\005\022\020"
+      "\n\010CopyGuid\030\002 \001(\005\022\020\n\010ServerID\030\003 \001(\005\"\037\n\014Ab"
+      "ortCopyAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\rBackToCit"
+      "yReq\022\r\n\005Param\030\001 \001(\r\" \n\rBackToCityAck\022\017\n\007"
+      "RetCode\030\001 \001(\r\"/\n\rLeaveSceneReq\022\016\n\006RoleID"
+      "\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rLeaveSceneAck\022"
+      "\017\n\007RetCode\030\001 \001(\r\"\222\001\n\rTransRoleData\022\016\n\006Ro"
+      "leID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\020\n\010CarrerID\030\003 \001"
+      "(\005\022\017\n\007ActorID\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\016\n\006Eq"
+      "uips\030\006 \003(\005\022\021\n\tPropertys\030\007 \003(\005\022\016\n\006Skills\030"
+      "\010 \003(\005\"\177\n\014TransPetData\022\017\n\007PetGuid\030\001 \001(\004\022\r"
+      "\n\005PetID\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005\022\014\n\004Name\030\004"
+      " \001(\t\022\r\n\005Level\030\005 \001(\005\022\021\n\tPropertys\030\006 \003(\005\022\016"
+      "\n\006Skills\030\007 \003(\005\"\212\001\n\020TransPartnerData\022\023\n\013P"
+      "artnerGuid\030\001 \001(\004\022\020\n\010ParterID\030\002 \001(\005\022\017\n\007Ac"
+      "torID\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\022\r\n\005Level\030\005 \001(\005"
+      "\022\021\n\tPropertys\030\006 \003(\005\022\016\n\006Skills\030\007 \003(\005\"\211\001\n\017"
+      "TransferDataReq\022\014\n\004Camp\030\001 \001(\005\022 \n\010RoleDat"
+      "a\030\002 \001(\0132\016.TransRoleData\022\036\n\007PetData\030\003 \001(\013"
+      "2\r.TransPetData\022&\n\013PartnerData\030\004 \001(\0132\021.T"
+      "ransPartnerData\"f\n\017TransferDataAck\022\017\n\007Re"
+      "tCode\030\001 \001(\r\022\016\n\006RoleID\030\002 \001(\004\022\016\n\006CopyID\030\003 "
+      "\001(\005\022\020\n\010CopyGuid\030\004 \001(\005\022\020\n\010ServerID\030\005 \001(\005\""
+      "U\n\017NotifyIntoScene\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006Co"
+      "pyID\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001(\005\022\020\n\010ServerID"
+      "\030\004 \001(\005\"N\n\016NearByRoleItem\022\016\n\006RoleID\030\001 \001(\004"
+      "\022\017\n\007ActorID\030\002 \001(\005\022\r\n\005Level\030\003 \001(\005\022\014\n\004Name"
+      "\030\004 \001(\t\"S\n\013CopyInsItem\022\020\n\010CopyGuid\030\001 \001(\r\022"
+      "\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyType\030\003 \001(\005\022\020\n\010Ser"
+      "verID\030\004 \001(\005\"A\n\rCopyReportReq\022\020\n\010ServerID"
+      "\030\001 \001(\005\022\036\n\010CopyList\030\002 \003(\0132\014.CopyInsItem\"\020"
+      "\n\016UseHpBottleReq\"0\n\016UseHpBottleAck\022\017\n\007Re"
+      "tCode\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005\"\020\n\016UseMpBottl"
+      "eReq\"0\n\016UseMpBottleAck\022\017\n\007RetCode\030\001 \001(\r\022"
+      "\r\n\005Count\030\002 \001(\005\"c\n\016ChatMessageReq\022\017\n\007SrcN"
+      "ame\030\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004\022\017\n\007Channel\030\003 \001("
+      "\005\022\017\n\007GuildID\030\004 \001(\004\022\017\n\007Content\030\005 \001(\t\"!\n\016C"
+      "hatMessageAck\022\017\n\007RetCode\030\001 \001(\r\"c\n\016ChatMe"
+      "ssageNty\022\017\n\007SrcName\030\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004"
+      "\022\017\n\007Channel\030\003 \001(\005\022\017\n\007GuildID\030\004 \001(\004\022\017\n\007Co"
+      "ntent\030\005 \001(\t\"i\n\016SealAccountReq\022\023\n\013Account"
+      "Name\030\001 \001(\t\022\021\n\tAccountID\030\002 \001(\004\022\017\n\007Channel"
+      "\030\003 \001(\005\022\020\n\010SealTime\030\004 \001(\005\022\014\n\004Seal\030\005 \001(\010\"I"
+      "\n\016SealAccountAck\022\017\n\007RetCode\030\001 \001(\r\022\023\n\013Acc"
+      "ountName\030\002 \001(\t\022\021\n\tAccountID\030\003 \001(\004\"\033\n\tCom"
+      "monReq\022\016\n\006Param1\030\001 \001(\r\"\034\n\tCommonAck\022\017\n\007R"
+      "etCode\030\001 \001(\r\"D\n\022BroadMessageNotify\022\r\n\005Ms"
+      "gID\030\001 \001(\r\022\016\n\006ConnID\030\002 \003(\r\022\017\n\007MsgData\030\003 \001"
+      "(\014\"\205\001\n\022LogicRegToLoginReq\022\020\n\010ServerID\030\001 "
+      "\001(\005\022\022\n\nServerName\030\002 \001(\t\022\020\n\010ServerIp\030\003 \001("
+      "\t\022\022\n\nServerPort\030\004 \001(\005\022\020\n\010HttpPort\030\005 \001(\005\022"
+      "\021\n\tWatchPort\030\006 \001(\005\"9\n\022LogicRegToLoginAck"
+      "\022\017\n\007RetCode\030\001 \001(\r\022\022\n\nNewSvrName\030\002 \001(\t\"4\n"
+      "\021WatchHeartBeatReq\022\014\n\004Data\030\001 \001(\r\022\021\n\tProc"
+      "essID\030\002 \001(\004\"E\n\021WatchHeartBeatAck\022\017\n\007RetC"
+      "ode\030\001 \001(\r\022\014\n\004Data\030\002 \001(\r\022\021\n\tProcessID\030\003 \001"
+      "(\004\"3\n\rSetupEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\022\017"
+      "\n\007BagGuid\030\002 \001(\004\" \n\rSetupEquipAck\022\017\n\007RetC"
+      "ode\030\001 \001(\r\"\"\n\rUnsetEquipReq\022\021\n\tEquipGuid\030"
+      "\001 \001(\004\" \n\rUnsetEquipAck\022\017\n\007RetCode\030\001 \001(\r\""
+      "B\n\013SetupGemReq\022\017\n\007GemGuid\030\001 \001(\004\022\017\n\007BagGu"
+      "id\030\002 \001(\004\022\021\n\tTargetPos\030\003 \001(\005\"\036\n\013SetupGemA"
+      "ck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetGemReq\022\017\n\007Ge"
+      "mGuid\030\001 \001(\004\"\036\n\013UnsetGemAck\022\017\n\007RetCode\030\001 "
+      "\001(\r\"9\n\017SetupPartnerReq\022\023\n\013PartnerGuid\030\001 "
+      "\001(\004\022\021\n\tTargetPos\030\002 \001(\005\"\"\n\017SetupPartnerAc"
+      "k\022\017\n\007RetCode\030\001 \001(\r\"$\n\017UnsetPartnerReq\022\021\n"
+      "\tTargetPos\030\001 \001(\005\"\"\n\017UnsetPartnerAck\022\017\n\007R"
+      "etCode\030\001 \001(\r\"5\n\rSetupMountReq\022\021\n\tMountGu"
+      "id\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001(\005\" \n\rSetupMoun"
+      "tAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetMountReq\022\021"
+      "\n\tMountGuid\030\001 \001(\004\" \n\rUnsetMountAck\022\017\n\007Re"
+      "tCode\030\001 \001(\r\"A\n\013StoreBuyReq\022\021\n\tStoreType\030"
+      "\001 \001(\005\022\017\n\007StoreID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036"
+      "\n\013StoreBuyAck\022\017\n\007RetCode\030\001 \001(\r\"p\n\022Object"
+      "ChangeNotify\022\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeTy"
+      "pe\030\002 \001(\005\022\021\n\tIntValue1\030\003 \001(\003\022\021\n\tIntValue2"
+      "\030\004 \001(\003\022\020\n\010StrValue\030\005 \001(\t\"q\n\rHitEffectIte"
+      "m\022\022\n\nTargetGUID\030\001 \001(\004\022\017\n\007ValueID\030\002 \001(\005\022\r"
+      "\n\005Value\030\003 \001(\005\022\016\n\006Reason\030\004 \001(\005\022\016\n\006Detail\030"
+      "\005 \001(\004\022\014\n\004Crit\030\006 \001(\010\"0\n\014HitEffectNtf\022 \n\010I"
+      "temList\030\001 \003(\0132\016.HitEffectItem\"\014\n\nUseItem"
+      "Req\"\014\n\nUseItemAckb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 5701);
+      descriptor, 5785);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Game.proto", &protobuf_RegisterTypes);
 }
@@ -12660,6 +12667,8 @@ const int EnterSceneAck::kMpFieldNumber;
 const int EnterSceneAck::kHpMaxFieldNumber;
 const int EnterSceneAck::kMpMaxFieldNumber;
 const int EnterSceneAck::kEquipsFieldNumber;
+const int EnterSceneAck::kNormalsFieldNumber;
+const int EnterSceneAck::kSpecialsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EnterSceneAck::EnterSceneAck()
@@ -12674,6 +12683,8 @@ EnterSceneAck::EnterSceneAck(const EnterSceneAck& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       equips_(from.equips_),
+      normals_(from.normals_),
+      specials_(from.specials_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   rolename_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -12733,6 +12744,8 @@ void EnterSceneAck::Clear() {
   (void) cached_has_bits;
 
   equips_.Clear();
+  normals_.Clear();
+  specials_.Clear();
   rolename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&retcode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&mpmax_) -
@@ -12995,6 +13008,44 @@ bool EnterSceneAck::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 Normals = 18;
+      case 18: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(146u /* 146 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_normals())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(144u /* 144 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 2, 146u, input, this->mutable_normals())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated int32 Specials = 19;
+      case 19: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(154u /* 154 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_specials())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(152u /* 152 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 2, 154u, input, this->mutable_specials())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -13117,6 +13168,28 @@ void EnterSceneAck::SerializeWithCachedSizes(
       this->equips(i), output);
   }
 
+  // repeated int32 Normals = 18;
+  if (this->normals_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(18, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _normals_cached_byte_size_));
+  }
+  for (int i = 0, n = this->normals_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->normals(i), output);
+  }
+
+  // repeated int32 Specials = 19;
+  if (this->specials_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(19, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _specials_cached_byte_size_));
+  }
+  for (int i = 0, n = this->specials_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->specials(i), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -13230,6 +13303,32 @@ void EnterSceneAck::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->equips_, target);
   }
 
+  // repeated int32 Normals = 18;
+  if (this->normals_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      18,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _normals_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->normals_, target);
+  }
+
+  // repeated int32 Specials = 19;
+  if (this->specials_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      19,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _specials_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->specials_, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -13259,6 +13358,38 @@ size_t EnterSceneAck::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _equips_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Normals = 18;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->normals_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _normals_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Specials = 19;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->specials_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _specials_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -13397,6 +13528,8 @@ void EnterSceneAck::MergeFrom(const EnterSceneAck& from) {
   (void) cached_has_bits;
 
   equips_.MergeFrom(from.equips_);
+  normals_.MergeFrom(from.normals_);
+  specials_.MergeFrom(from.specials_);
   if (from.rolename().size() > 0) {
 
     rolename_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.rolename_);
@@ -13473,6 +13606,8 @@ void EnterSceneAck::Swap(EnterSceneAck* other) {
 void EnterSceneAck::InternalSwap(EnterSceneAck* other) {
   using std::swap;
   equips_.InternalSwap(&other->equips_);
+  normals_.InternalSwap(&other->normals_);
+  specials_.InternalSwap(&other->specials_);
   rolename_.Swap(&other->rolename_);
   swap(retcode_, other->retcode_);
   swap(copyid_, other->copyid_);
@@ -15059,6 +15194,7 @@ const int TransRoleData::kActorIDFieldNumber;
 const int TransRoleData::kLevelFieldNumber;
 const int TransRoleData::kEquipsFieldNumber;
 const int TransRoleData::kPropertysFieldNumber;
+const int TransRoleData::kSkillsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TransRoleData::TransRoleData()
@@ -15074,6 +15210,7 @@ TransRoleData::TransRoleData(const TransRoleData& from)
       _internal_metadata_(NULL),
       equips_(from.equips_),
       propertys_(from.propertys_),
+      skills_(from.skills_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -15134,6 +15271,7 @@ void TransRoleData::Clear() {
 
   equips_.Clear();
   propertys_.Clear();
+  skills_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&roleid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&level_) -
@@ -15261,6 +15399,25 @@ bool TransRoleData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 Skills = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_skills())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 66u, input, this->mutable_skills())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -15339,6 +15496,17 @@ void TransRoleData::SerializeWithCachedSizes(
       this->propertys(i), output);
   }
 
+  // repeated int32 Skills = 8;
+  if (this->skills_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(8, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _skills_cached_byte_size_));
+  }
+  for (int i = 0, n = this->skills_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->skills(i), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -15410,6 +15578,19 @@ void TransRoleData::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->propertys_, target);
   }
 
+  // repeated int32 Skills = 8;
+  if (this->skills_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      8,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _skills_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->skills_, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -15455,6 +15636,22 @@ size_t TransRoleData::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _propertys_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Skills = 8;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->skills_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _skills_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -15525,6 +15722,7 @@ void TransRoleData::MergeFrom(const TransRoleData& from) {
 
   equips_.MergeFrom(from.equips_);
   propertys_.MergeFrom(from.propertys_);
+  skills_.MergeFrom(from.skills_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -15569,6 +15767,7 @@ void TransRoleData::InternalSwap(TransRoleData* other) {
   using std::swap;
   equips_.InternalSwap(&other->equips_);
   propertys_.InternalSwap(&other->propertys_);
+  skills_.InternalSwap(&other->skills_);
   name_.Swap(&other->name_);
   swap(roleid_, other->roleid_);
   swap(carrerid_, other->carrerid_);
@@ -15595,6 +15794,7 @@ const int TransPetData::kActorIDFieldNumber;
 const int TransPetData::kNameFieldNumber;
 const int TransPetData::kLevelFieldNumber;
 const int TransPetData::kPropertysFieldNumber;
+const int TransPetData::kSkillsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TransPetData::TransPetData()
@@ -15609,6 +15809,7 @@ TransPetData::TransPetData(const TransPetData& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       propertys_(from.propertys_),
+      skills_(from.skills_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -15668,6 +15869,7 @@ void TransPetData::Clear() {
   (void) cached_has_bits;
 
   propertys_.Clear();
+  skills_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&petguid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&level_) -
@@ -15776,6 +15978,25 @@ bool TransPetData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 Skills = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_skills())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 58u, input, this->mutable_skills())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -15843,6 +16064,17 @@ void TransPetData::SerializeWithCachedSizes(
       this->propertys(i), output);
   }
 
+  // repeated int32 Skills = 7;
+  if (this->skills_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(7, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _skills_cached_byte_size_));
+  }
+  for (int i = 0, n = this->skills_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->skills(i), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -15901,6 +16133,19 @@ void TransPetData::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->propertys_, target);
   }
 
+  // repeated int32 Skills = 7;
+  if (this->skills_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      7,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _skills_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->skills_, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -15930,6 +16175,22 @@ size_t TransPetData::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _propertys_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Skills = 7;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->skills_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _skills_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -15999,6 +16260,7 @@ void TransPetData::MergeFrom(const TransPetData& from) {
   (void) cached_has_bits;
 
   propertys_.MergeFrom(from.propertys_);
+  skills_.MergeFrom(from.skills_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -16042,6 +16304,7 @@ void TransPetData::Swap(TransPetData* other) {
 void TransPetData::InternalSwap(TransPetData* other) {
   using std::swap;
   propertys_.InternalSwap(&other->propertys_);
+  skills_.InternalSwap(&other->skills_);
   name_.Swap(&other->name_);
   swap(petguid_, other->petguid_);
   swap(petid_, other->petid_);
@@ -16068,6 +16331,7 @@ const int TransPartnerData::kActorIDFieldNumber;
 const int TransPartnerData::kNameFieldNumber;
 const int TransPartnerData::kLevelFieldNumber;
 const int TransPartnerData::kPropertysFieldNumber;
+const int TransPartnerData::kSkillsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TransPartnerData::TransPartnerData()
@@ -16082,6 +16346,7 @@ TransPartnerData::TransPartnerData(const TransPartnerData& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       propertys_(from.propertys_),
+      skills_(from.skills_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -16141,6 +16406,7 @@ void TransPartnerData::Clear() {
   (void) cached_has_bits;
 
   propertys_.Clear();
+  skills_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&partnerguid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&level_) -
@@ -16249,6 +16515,25 @@ bool TransPartnerData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 Skills = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_skills())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 58u, input, this->mutable_skills())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -16316,6 +16601,17 @@ void TransPartnerData::SerializeWithCachedSizes(
       this->propertys(i), output);
   }
 
+  // repeated int32 Skills = 7;
+  if (this->skills_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(7, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _skills_cached_byte_size_));
+  }
+  for (int i = 0, n = this->skills_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->skills(i), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -16374,6 +16670,19 @@ void TransPartnerData::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->propertys_, target);
   }
 
+  // repeated int32 Skills = 7;
+  if (this->skills_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      7,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _skills_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->skills_, target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -16403,6 +16712,22 @@ size_t TransPartnerData::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _propertys_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated int32 Skills = 7;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->skills_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _skills_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -16472,6 +16797,7 @@ void TransPartnerData::MergeFrom(const TransPartnerData& from) {
   (void) cached_has_bits;
 
   propertys_.MergeFrom(from.propertys_);
+  skills_.MergeFrom(from.skills_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -16515,6 +16841,7 @@ void TransPartnerData::Swap(TransPartnerData* other) {
 void TransPartnerData::InternalSwap(TransPartnerData* other) {
   using std::swap;
   propertys_.InternalSwap(&other->propertys_);
+  skills_.InternalSwap(&other->skills_);
   name_.Swap(&other->name_);
   swap(partnerguid_, other->partnerguid_);
   swap(parterid_, other->parterid_);

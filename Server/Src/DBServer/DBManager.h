@@ -29,6 +29,7 @@ public:
 	BOOL	GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack);
 	BOOL	GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack);
+	BOOL	GetSkillData(UINT64 u64ID, DBRoleLoginAck& Ack);
 
 	CppMySQL3DB     m_DBConnection;
 };

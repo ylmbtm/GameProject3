@@ -10,7 +10,7 @@
 #include "SimpleManager.h"
 #include "../ServerData/ServerDefine.h"
 #include "GlobalDataMgr.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "BagModule.h"
 #include "../ServerData/RoleData.h"
 #include "PartnerModule.h"
@@ -164,7 +164,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	StCarrerInfo* pCarrerInfo = CConfigData::GetInstancePtr()->GetCarrerInfo(Req.carrer());
+	StCarrerInfo* pCarrerInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(Req.carrer());
 	if (pCarrerInfo == NULL)
 	{
 		Ack.set_retcode(MRC_INVALID_CARRERID);
@@ -341,7 +341,7 @@ BOOL CLogicMsgHandler::OnMsgMainCopyReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == 0);
 	ERROR_RETURN_TRUE(Req.copyid() != 0);
 
-	StCopyInfo* pCopyInfo = CConfigData::GetInstancePtr()->GetCopyInfo(Req.copyid());
+	StCopyInfo* pCopyInfo = CStaticData::GetInstancePtr()->GetCopyInfo(Req.copyid());
 	ERROR_RETURN_TRUE(pCopyInfo != NULL);
 
 	UINT32 dwRetCode = pPlayer->CheckCopyConditoin(Req.copyid());

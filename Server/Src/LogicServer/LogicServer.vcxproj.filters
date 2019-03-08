@@ -16,11 +16,14 @@
     <Filter Include="ServerData">
       <UniqueIdentifier>{913de128-cbda-4ce2-9716-099610d60508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ConfigData">
-      <UniqueIdentifier>{aa905f56-049e-445f-a450-395241343af6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Proto">
       <UniqueIdentifier>{624aba6b-aa13-4379-8e5d-dd4bee847a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pkg">
+      <UniqueIdentifier>{9146afe4-c658-4975-8aca-ccd4e602a42c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StaticData">
+      <UniqueIdentifier>{aa905f56-049e-445f-a450-395241343af6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,8 +60,8 @@
     <ClCompile Include="CopyModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\ConfigData\ConfigData.cpp">
-      <Filter>ConfigData</Filter>
+    <ClCompile Include="..\StaticData\StaticData.cpp">
+      <Filter>StaticData</Filter>
     </ClCompile>
     <ClCompile Include="PetModule.cpp">
       <Filter>源文件</Filter>
@@ -135,8 +138,8 @@
     <ClCompile Include="..\Message\Msg_ID.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
-    <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
-      <Filter>ConfigData</Filter>
+    <ClCompile Include="..\StaticData\CppSQLite3.cpp">
+      <Filter>StaticData</Filter>
     </ClCompile>
     <ClCompile Include="LogManager.cpp">
       <Filter>源文件</Filter>
@@ -151,6 +154,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WebCommandHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,7 +191,7 @@
     <ClInclude Include="DataPool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerData\serverStruct.h">
+    <ClInclude Include="..\ServerData\ServerStruct.h">
       <Filter>ServerData</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\RoleData.h">
@@ -195,10 +201,10 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ConfigData\ConfigData.h">
-      <Filter>ConfigData</Filter>
+      <Filter>StaticData</Filter>
     </ClInclude>
     <ClInclude Include="..\ConfigData\ConfigStruct.h">
-      <Filter>ConfigData</Filter>
+      <Filter>StaticData</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\ServerDefine.h">
       <Filter>ServerData</Filter>
@@ -290,8 +296,8 @@
     <ClInclude Include="LogicMsgHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ConfigData\ConfigDefine.h">
-      <Filter>ConfigData</Filter>
+    <ClInclude Include="..\StaticData\ConfigDefine.h">
+      <Filter>StaticData</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\ActivityData.h">
       <Filter>ServerData</Filter>
@@ -314,8 +320,8 @@
     <ClInclude Include="..\Message\Msg_ID.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
-    <ClInclude Include="..\ConfigData\CppSQLite3.h">
-      <Filter>ConfigData</Filter>
+    <ClInclude Include="..\StaticData\CppSQLite3.h">
+      <Filter>StaticData</Filter>
     </ClInclude>
     <ClInclude Include="LogManager.h">
       <Filter>头文件</Filter>
@@ -336,6 +342,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\TaskData.h">
+      <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillModule.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerData\SkillData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
   </ItemGroup>

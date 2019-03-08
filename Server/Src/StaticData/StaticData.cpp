@@ -1,49 +1,56 @@
 ﻿#include "stdafx.h"
-#include "ConfigData.h"
+#include "StaticData.h"
+#include "RapidXml.h"
 
-CConfigData::CConfigData()
+CStaticData::CStaticData()
 {
 	InitDataReader();
 }
 
-CConfigData::~CConfigData()
+CStaticData::~CStaticData()
 {
 
 }
 
-CConfigData* CConfigData::GetInstancePtr()
+CStaticData* CStaticData::GetInstancePtr()
 {
-	static CConfigData _StaticMgr;
+	static CStaticData _StaticMgr;
 
 	return &_StaticMgr;
 }
 
-BOOL CConfigData::InitDataReader()
+BOOL CStaticData::InitDataReader()
 {
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Constant",    &CConfigData::ReadConstantData));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Role",        &CConfigData::ReadCarrer));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel",   &CConfigData::ReadCarrerLevel));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor",       &CConfigData::ReadActor));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy",        &CConfigData::ReadCopyInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CConfigData::ReadItemData));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CConfigData::ReadActionCfg));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CConfigData::ReadLanguage));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CConfigData::ReadAwardData));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CConfigData::ReadFuncInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CConfigData::ReadFuncVipInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CConfigData::ReadFuncCostInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CConfigData::ReadEquipInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",			&CConfigData::ReadGemInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CConfigData::ReadPetInfo));
- 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CConfigData::ReadPartnerInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CConfigData::ReadTaskInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CConfigData::ReadSkillInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CConfigData::ReadBuffInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CConfigData::ReadStoreInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Constant",    &CStaticData::ReadConstantData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Role",        &CStaticData::ReadCarrer));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_RoleLevel",   &CStaticData::ReadCarrerLevel));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor",       &CStaticData::ReadActor));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy",        &CStaticData::ReadCopyInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CStaticData::ReadItemData));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CStaticData::ReadActionCfg));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor_Skill",	&CStaticData::ReadActorSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",		&CStaticData::ReadEquipInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",			&CStaticData::ReadGemInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",		&CStaticData::ReadPartnerInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",		&CStaticData::ReadStoreInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Combo_Skill",	&CStaticData::ReadComboSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",		&CStaticData::ReadSkillInfo));
+
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CStaticData::ReadLanguage));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CStaticData::ReadAwardData));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CStaticData::ReadFuncInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CStaticData::ReadFuncVipInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CStaticData::ReadFuncCostInfo));
+
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
+
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CStaticData::ReadTaskInfo));
+// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CStaticData::ReadBuffInfo));
+
 	return TRUE;
 }
 
-BOOL CConfigData::LoadConfigData(std::string strDbFile)
+BOOL CStaticData::LoadConfigData(std::string strDbFile)
 {
 	try
 	{
@@ -66,10 +73,12 @@ BOOL CConfigData::LoadConfigData(std::string strDbFile)
 
 	m_DBConnection.close();
 
+	//ReadSkillEvent();
+
 	return TRUE;
 }
 
-BOOL CConfigData::ReloadConfigData( std::string strTbName )
+BOOL CStaticData::ReloadConfigData( std::string strTbName )
 {
 	try
 	{
@@ -100,7 +109,7 @@ BOOL CConfigData::ReloadConfigData( std::string strTbName )
 	return TRUE;
 }
 
-BOOL CConfigData::ReadConstantData(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadConstantData(CppSQLite3Query& QueryData)
 {
 	m_mapConstantValue.clear();
 	while(!QueryData.eof())
@@ -116,7 +125,7 @@ BOOL CConfigData::ReadConstantData(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-INT32 CConfigData::GetConstantIntValue(std::string& strName)
+INT32 CStaticData::GetConstantIntValue(std::string& strName)
 {
 	std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(strName);
 	if (itor != m_mapConstantValue.end())
@@ -128,7 +137,7 @@ INT32 CConfigData::GetConstantIntValue(std::string& strName)
 }
 
 
-INT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
+INT64 CStaticData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {
 	if((dwMoneyID <= 0) || (dwMoneyID >= m_vtMoneyList.size()))
 	{
@@ -139,7 +148,7 @@ INT64 CConfigData::GetMoneyMaxValue(UINT32 dwMoneyID)
 	return m_vtActionList.at(dwMoneyID - 1).dwMax;
 }
 
-INT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
+INT64 CStaticData::GetActoinMaxValue(UINT32 dwActionID)
 {
 	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
 	{
@@ -150,7 +159,7 @@ INT64 CConfigData::GetActoinMaxValue(UINT32 dwActionID)
 	return m_vtActionList.at(dwActionID - 1).dwMax;
 }
 
-UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
+UINT32 CStaticData::GetActoinUnitTime(UINT32 dwActionID)
 {
 	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
 	{
@@ -161,7 +170,7 @@ UINT32 CConfigData::GetActoinUnitTime(UINT32 dwActionID)
 	return m_vtActionList.at(dwActionID - 1).UnitTime;
 }
 
-BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadCarrer(CppSQLite3Query& QueryData)
 {
 	m_mapCarrer.clear();
 
@@ -178,7 +187,7 @@ BOOL CConfigData::ReadCarrer(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StCarrerInfo* CConfigData::GetCarrerInfo(UINT32 dwCarrerID)
+StCarrerInfo* CStaticData::GetCarrerInfo(UINT32 dwCarrerID)
 {
 	std::map<UINT32, StCarrerInfo>::iterator itor = m_mapCarrer.find(dwCarrerID);
 
@@ -187,12 +196,12 @@ StCarrerInfo* CConfigData::GetCarrerInfo(UINT32 dwCarrerID)
 	return &itor->second;
 }
 
-BOOL CConfigData::ReadMoneyCfg(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadMoneyCfg(CppSQLite3Query& QueryData)
 {
 	return TRUE;
 }
 
-BOOL CConfigData::ReadActionCfg(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadActionCfg(CppSQLite3Query& QueryData)
 {
 	m_vtActionList.clear();
 	while(!QueryData.eof())
@@ -208,7 +217,7 @@ BOOL CConfigData::ReadActionCfg(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-BOOL CConfigData::ReadCarrerLevel(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadCarrerLevel(CppSQLite3Query& QueryData)
 {
 	while(!QueryData.eof())
 	{
@@ -230,12 +239,12 @@ BOOL CConfigData::ReadCarrerLevel(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StLevelInfo* CConfigData::GetCarrerLevelInfo(UINT32 dwCarrerID, UINT32 dwLevel)
+StLevelInfo* CStaticData::GetCarrerLevelInfo(UINT32 dwCarrerID, UINT32 dwLevel)
 {
 	return &m_CarrerLevel[dwCarrerID - 1][dwLevel - 1];
 }
 
-BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadActor(CppSQLite3Query& QueryData)
 {
 	m_mapActor.clear();
 
@@ -256,7 +265,7 @@ BOOL CConfigData::ReadActor(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StActorInfo* CConfigData::GetActorInfo(UINT32 dwActorID)
+StActorInfo* CStaticData::GetActorInfo(UINT32 dwActorID)
 {
 	ERROR_RETURN_NULL(dwActorID != 0);
 	std::map<UINT32, StActorInfo>::iterator itor = m_mapActor.find(dwActorID);
@@ -268,7 +277,39 @@ StActorInfo* CConfigData::GetActorInfo(UINT32 dwActorID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadCopyInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadActorSkillInfo(CppSQLite3Query& QueryData)
+{
+	m_mapActorSkill.clear();
+
+	while (!QueryData.eof())
+	{
+		StActorSkillInfo stValue;
+		stValue.dwActorID = QueryData.getIntField("Id");
+		stValue.NormalID = QueryData.getIntField("Normal1");
+		stValue.Specials[0] = QueryData.getIntField("Special1");
+		stValue.Specials[1] = QueryData.getIntField("Special2");
+		stValue.Specials[2] = QueryData.getIntField("Special3");
+		stValue.Specials[3] = QueryData.getIntField("Special4");
+		stValue.Specials[4] = QueryData.getIntField("Special5");
+		m_mapActorSkill.insert(std::make_pair(stValue.dwActorID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StActorSkillInfo* CStaticData::GetActorSkillInfo(UINT32 dwActorID)
+{
+	ERROR_RETURN_NULL(dwActorID != 0);
+	std::map<UINT32, StActorSkillInfo>::iterator itor = m_mapActorSkill.find(dwActorID);
+	if (itor != m_mapActorSkill.end())
+	{
+		return &itor->second;
+	}
+	return NULL;
+}
+
+BOOL CStaticData::ReadCopyInfo(CppSQLite3Query& QueryData)
 {
 	m_mapCopyInfo.clear();
 
@@ -288,7 +329,7 @@ BOOL CConfigData::ReadCopyInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
+StCopyInfo* CStaticData::GetCopyInfo(UINT32 dwCopyID)
 {
 	ERROR_RETURN_NULL(dwCopyID != 0);
 	std::map<UINT32, StCopyInfo>::iterator itor = m_mapCopyInfo.find(dwCopyID);
@@ -299,7 +340,7 @@ StCopyInfo* CConfigData::GetCopyInfo(UINT32 dwCopyID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadLanguage(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadLanguage(CppSQLite3Query& QueryData)
 {
 	m_mapLanguage.clear();
 
@@ -329,7 +370,7 @@ BOOL CConfigData::ReadLanguage(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
+std::string& CStaticData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 {
 	static std::string strNull = "null";
 
@@ -347,13 +388,13 @@ std::string& CConfigData::GetLanguageText( UINT32 dwID, UINT32 dwLang )
 	return strNull;
 }
 
-std::string& CConfigData::GetLanguageText(std::string strID, UINT32 dwLang)
+std::string& CStaticData::GetLanguageText(std::string strID, UINT32 dwLang)
 {
 	static std::string strNull = "null";
 	return strNull;
 }
 
-BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadAwardData(CppSQLite3Query& QueryData)
 {
 	m_mapAwardItem.clear();
 
@@ -427,7 +468,7 @@ BOOL CConfigData::ReadAwardData(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-BOOL CConfigData::ParseToDropItem(std::string strDrop, StDropItem& item)
+BOOL CStaticData::ParseToDropItem(std::string strDrop, StDropItem& item)
 {
 	std::vector<std::string> vtRet;
 	CommonConvert::SpliteString(strDrop, "|", vtRet);
@@ -445,7 +486,7 @@ BOOL CConfigData::ParseToDropItem(std::string strDrop, StDropItem& item)
 	return TRUE;
 }
 
-BOOL CConfigData::GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& AwardItem)
+BOOL CStaticData::GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& AwardItem)
 {
 	std::map<UINT32, std::vector<StAwardItem>>::iterator itor =  m_mapAwardItem.find(nAwardID);
 	if(itor == m_mapAwardItem.end())
@@ -467,7 +508,7 @@ BOOL CConfigData::GetAwardItem(INT32 nAwardID, INT32 nCarrer, StAwardItem& Award
 	return FALSE;
 }
 
-BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nCarrer, INT32 nIndex, StItemData& ItemData)
+BOOL CStaticData::GetAwardItemByIndex(INT32 nAwardID, INT32 nCarrer, INT32 nIndex, StItemData& ItemData)
 {
 	StAwardItem AwardItem;
 
@@ -487,7 +528,7 @@ BOOL CConfigData::GetAwardItemByIndex(INT32 nAwardID, INT32 nCarrer, INT32 nInde
 	return TRUE;
 }
 
-BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector<StItemData>& vtItemList)
+BOOL CStaticData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector<StItemData>& vtItemList)
 {
 	StAwardItem AwardItem;
 
@@ -546,7 +587,7 @@ BOOL CConfigData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector
 	return TRUE;
 }
 
-BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTimes, std::vector<StItemData>& vtItemList)
+BOOL CStaticData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTimes, std::vector<StItemData>& vtItemList)
 {
 	StAwardItem AwardItem;
 
@@ -602,7 +643,7 @@ BOOL CConfigData::GetItemsAwardIDTimes(INT32 nAwardID, INT32 nCarrer, INT32 nTim
 	return TRUE;
 }
 
-BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadItemData(CppSQLite3Query& QueryData)
 {
 	m_mapItem.clear();
 
@@ -625,7 +666,7 @@ BOOL CConfigData::ReadItemData(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-BOOL CConfigData::ReadFuncInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadFuncInfo(CppSQLite3Query& QueryData)
 {
 	while(!QueryData.eof())
 	{
@@ -637,7 +678,7 @@ BOOL CConfigData::ReadFuncInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StFuncInfo* CConfigData::GetFuncInfo(UINT32 dwFuncID)
+StFuncInfo* CStaticData::GetFuncInfo(UINT32 dwFuncID)
 {
 	ERROR_RETURN_NULL(dwFuncID != 0);
 	auto itor = m_mapFuncInfo.find(dwFuncID);
@@ -649,7 +690,7 @@ StFuncInfo* CConfigData::GetFuncInfo(UINT32 dwFuncID)
 	return NULL;
 }
 
-BOOL CConfigData::IsFuncOpen(UINT32 dwFuncID, INT32 level, INT32 viplevel)
+BOOL CStaticData::IsFuncOpen(UINT32 dwFuncID, INT32 level, INT32 viplevel)
 {
 	StFuncInfo* pFuncInfo = GetFuncInfo(dwFuncID);
 	ERROR_RETURN_FALSE (pFuncInfo != NULL);
@@ -687,7 +728,7 @@ BOOL CConfigData::IsFuncOpen(UINT32 dwFuncID, INT32 level, INT32 viplevel)
 	return FALSE;
 }
 
-BOOL CConfigData::ReadFuncVipInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadFuncVipInfo(CppSQLite3Query& QueryData)
 {
 	m_mapFuncVipInfo.clear();
 
@@ -701,7 +742,7 @@ BOOL CConfigData::ReadFuncVipInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StFuncVipInfo* CConfigData::GetFuncVipInfo(UINT32 dwFuncID)
+StFuncVipInfo* CStaticData::GetFuncVipInfo(UINT32 dwFuncID)
 {
 	ERROR_RETURN_NULL(dwFuncID != 0);
 	auto itor = m_mapFuncVipInfo.find(dwFuncID);
@@ -713,7 +754,7 @@ StFuncVipInfo* CConfigData::GetFuncVipInfo(UINT32 dwFuncID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadFuncCostInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadFuncCostInfo(CppSQLite3Query& QueryData)
 {
 	m_mapFuncCostInfo.clear();
 
@@ -728,7 +769,7 @@ BOOL CConfigData::ReadFuncCostInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-INT32 CConfigData::GetFuncCostInfo(UINT32 dwFuncID, INT32 Times)
+INT32 CStaticData::GetFuncCostInfo(UINT32 dwFuncID, INT32 Times)
 {
 	ERROR_RETURN_FALSE(dwFuncID > 0);
 
@@ -743,7 +784,7 @@ INT32 CConfigData::GetFuncCostInfo(UINT32 dwFuncID, INT32 Times)
 	return 0;
 }
 
-BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadEquipInfo(CppSQLite3Query& QueryData)
 {
 	m_mapEquipInfo.clear();
 
@@ -760,7 +801,7 @@ BOOL CConfigData::ReadEquipInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StEquipInfo* CConfigData::GetEquipInfo(UINT32 dwEquipID)
+StEquipInfo* CStaticData::GetEquipInfo(UINT32 dwEquipID)
 {
 	ERROR_RETURN_NULL(dwEquipID != 0);
 	auto itor = m_mapEquipInfo.find(dwEquipID);
@@ -772,7 +813,7 @@ StEquipInfo* CConfigData::GetEquipInfo(UINT32 dwEquipID)
 }
 
 
-BOOL CConfigData::ReadGemInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadGemInfo(CppSQLite3Query& QueryData)
 {
 	m_mapGemInfo.clear();
 
@@ -788,7 +829,7 @@ BOOL CConfigData::ReadGemInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StGemInfo* CConfigData::GetGemInfo(UINT32 dwGemID)
+StGemInfo* CStaticData::GetGemInfo(UINT32 dwGemID)
 {
 	ERROR_RETURN_NULL(dwGemID != 0);
 	auto itor = m_mapGemInfo.find(dwGemID);
@@ -799,7 +840,7 @@ StGemInfo* CConfigData::GetGemInfo(UINT32 dwGemID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadPetInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadPetInfo(CppSQLite3Query& QueryData)
 {
 	m_mapPetInfo.clear();
 
@@ -814,7 +855,7 @@ BOOL CConfigData::ReadPetInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StPetInfo* CConfigData::GetPetInfo(UINT32 dwPetID)
+StPetInfo* CStaticData::GetPetInfo(UINT32 dwPetID)
 {
 	ERROR_RETURN_NULL(dwPetID != 0);
 	auto itor = m_mapPetInfo.find(dwPetID);
@@ -825,7 +866,7 @@ StPetInfo* CConfigData::GetPetInfo(UINT32 dwPetID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadPartnerInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadPartnerInfo(CppSQLite3Query& QueryData)
 {
 	m_mapPartnerInfo.clear();
 
@@ -841,7 +882,7 @@ BOOL CConfigData::ReadPartnerInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StPartnerInfo* CConfigData::GetPartnerInfo(UINT32 dwPartnerID)
+StPartnerInfo* CStaticData::GetPartnerInfo(UINT32 dwPartnerID)
 {
 	ERROR_RETURN_NULL(dwPartnerID != 0);
 	auto itor = m_mapPartnerInfo.find(dwPartnerID);
@@ -852,7 +893,7 @@ StPartnerInfo* CConfigData::GetPartnerInfo(UINT32 dwPartnerID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadTaskInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadTaskInfo(CppSQLite3Query& QueryData)
 {
 	m_mapTaskInfo.clear();
 
@@ -866,7 +907,7 @@ BOOL CConfigData::ReadTaskInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StTaskInfo* CConfigData::GetTaskInfo(UINT32 dwTaskID)
+StTaskInfo* CStaticData::GetTaskInfo(UINT32 dwTaskID)
 {
 	ERROR_RETURN_NULL(dwTaskID != 0);
 	auto itor = m_mapTaskInfo.find(dwTaskID);
@@ -877,15 +918,19 @@ StTaskInfo* CConfigData::GetTaskInfo(UINT32 dwTaskID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadSkillInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadSkillInfo(CppSQLite3Query& QueryData)
 {
 	m_mapSkillInfo.clear();
 
 	while(!QueryData.eof())
 	{
 		StSkillInfo stValue;
-		stValue.SkillID = QueryData.getIntField("id");
-		stValue.Level = QueryData.getIntField("level");
+		stValue.SkillID = QueryData.getIntField("Id");
+		stValue.Level = QueryData.getIntField("Level");
+		stValue.CD = QueryData.getIntField("CountDown");
+		stValue.HarmFix = QueryData.getIntField("HarmFix");
+		stValue.HarmRatio = QueryData.getIntField("HarmRatio");
+
 		UINT32 dwNewID = stValue.Level << 20 | stValue.SkillID;
 		m_mapSkillInfo.insert(std::make_pair(dwNewID, stValue));
 		QueryData.nextRow();
@@ -894,7 +939,7 @@ BOOL CConfigData::ReadSkillInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StSkillInfo* CConfigData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
+StSkillInfo* CStaticData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
 {
 	ERROR_RETURN_NULL(dwSkillID != 0);
 	ERROR_RETURN_NULL(dwLevel != 0);
@@ -907,7 +952,103 @@ StSkillInfo* CConfigData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
 	return NULL;
 }
 
-BOOL CConfigData::ReadBuffInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadSkillEvent()
+{
+	return TRUE;
+	std::string strPath = "Skill/Battle_Skill.xml";
+
+	rapidxml::xml_document<char>* pXMLDoc = NULL;
+	
+	FILE* pFile = fopen(strPath.c_str(), "rb");
+	ERROR_RETURN_FALSE(pFile != NULL);
+	fseek(pFile, 0, SEEK_END);
+	INT32 nSize = ftell(pFile);
+	rewind(pFile);
+	char* pBuff = (char*)malloc(nSize + 1);
+	memset(pBuff, 0, nSize + 1);
+	fread(pBuff, nSize, 1, pFile);
+	fclose(pFile);
+	pXMLDoc = new rapidxml::xml_document<char>();
+	pXMLDoc->parse<0>(pBuff);
+
+	rapidxml::xml_node<char>* pXmlRoot = pXMLDoc->first_node("Root");
+	ERROR_RETURN_FALSE(pXmlRoot != NULL);
+	
+	for (auto pSkillNode = pXmlRoot->first_node("Skill"); pSkillNode != NULL; pSkillNode = pSkillNode->next_sibling("Skill"))
+	{
+		//取技能ID
+		auto pAttr = pSkillNode->first_attribute("id", strlen("id"), false);
+		INT32 dwSkillID = CommonConvert::StringToInt(pAttr->value());;
+		
+		StSkillInfo *pSkillInfo = GetSkillInfo(1, 1);
+
+		for (auto pEventNode = pSkillNode->first_node("ActScope"); pEventNode != NULL; pEventNode = pEventNode->next_sibling("ActScope"))
+		{
+			StSkillEvent tEvent;
+			tEvent.ActionID = 0;
+			tEvent.AttackFix = 0;
+			tEvent.AttackMuti = 0;
+			tEvent.RangeParams[0] = 0;
+			pSkillInfo->vtEvents.push_back(tEvent);
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL CStaticData::ReadComboSkillInfo(CppSQLite3Query& QueryData)
+{
+	m_mapComboSkill.clear();
+
+	while (!QueryData.eof())
+	{
+		StComboSkillInfo stValue;
+		stValue.SkillID = QueryData.getIntField("SkillId");
+		
+		INT32 nValue = QueryData.getIntField("Combo1");
+		if (nValue != 0)
+		{
+			stValue.vtComboSkill.push_back(nValue);
+		}
+
+		nValue = QueryData.getIntField("Combo2");
+		if (nValue != 0)
+		{
+			stValue.vtComboSkill.push_back(nValue);
+		}
+
+		nValue = QueryData.getIntField("Combo3");
+		if (nValue != 0)
+		{
+			stValue.vtComboSkill.push_back(nValue);
+		}
+
+		nValue = QueryData.getIntField("Combo4");
+		if (nValue != 0)
+		{
+			stValue.vtComboSkill.push_back(nValue);
+		}
+
+		m_mapComboSkill.insert(std::make_pair(stValue.SkillID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StComboSkillInfo* CStaticData::GetComboSkillInfo(UINT32 dwSkillID)
+{
+	ERROR_RETURN_NULL(dwSkillID != 0);
+	auto itor = m_mapComboSkill.find(dwSkillID);
+	if (itor != m_mapComboSkill.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
+}
+
+BOOL CStaticData::ReadBuffInfo(CppSQLite3Query& QueryData)
 {
 	m_mapBuffInfo.clear();
 
@@ -923,7 +1064,7 @@ BOOL CConfigData::ReadBuffInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StBuffInfo* CConfigData::GetBuffInfo(UINT32 dwBuffID)
+StBuffInfo* CStaticData::GetBuffInfo(UINT32 dwBuffID)
 {
 	ERROR_RETURN_NULL(dwBuffID != 0);
 	auto itor = m_mapBuffInfo.find(dwBuffID);
@@ -935,7 +1076,7 @@ StBuffInfo* CConfigData::GetBuffInfo(UINT32 dwBuffID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadStoreInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadStoreInfo(CppSQLite3Query& QueryData)
 {
 	m_mapStoreInfo.clear();
 
@@ -955,7 +1096,7 @@ BOOL CConfigData::ReadStoreInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreID)
+StStoreItemInfo* CStaticData::GetStoreItemInfo(UINT32 dwStoreID)
 {
 	ERROR_RETURN_NULL(dwStoreID != 0);
 	auto itor = m_mapStoreInfo.find(dwStoreID);
@@ -967,7 +1108,7 @@ StStoreItemInfo* CConfigData::GetStoreItemInfo(UINT32 dwStoreID)
 	return NULL;
 }
 
-BOOL CConfigData::ReadActivityInfo(CppSQLite3Query& QueryData)
+BOOL CStaticData::ReadActivityInfo(CppSQLite3Query& QueryData)
 {
 	m_mapActivityInfo.clear();
 
@@ -983,7 +1124,7 @@ BOOL CConfigData::ReadActivityInfo(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-StActivityInfo* CConfigData::GetActivityInfo(UINT32 dwActivityID)
+StActivityInfo* CStaticData::GetActivityInfo(UINT32 dwActivityID)
 {
 	ERROR_RETURN_NULL(dwActivityID != 0);
 	auto itor = m_mapActivityInfo.find(dwActivityID);
@@ -995,7 +1136,7 @@ StActivityInfo* CConfigData::GetActivityInfo(UINT32 dwActivityID)
 	return NULL;
 }
 
-StItemInfo* CConfigData::GetItemInfo(UINT32 dwItemID)
+StItemInfo* CStaticData::GetItemInfo(UINT32 dwItemID)
 {
 	ERROR_RETURN_NULL(dwItemID != 0);
 	auto itor = m_mapItem.find(dwItemID);

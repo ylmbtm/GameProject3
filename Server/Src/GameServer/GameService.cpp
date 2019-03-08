@@ -2,7 +2,7 @@
 #include "GameService.h"
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
-#include "../ConfigData/ConfigData.h"
+#include "../StaticData/StaticData.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 
@@ -61,7 +61,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	CConfigData::GetInstancePtr()->LoadConfigData("Config.db");
+	CStaticData::GetInstancePtr()->LoadConfigData("Config.db");
 
 
 	if(!m_SceneManager.Init(TRUE))

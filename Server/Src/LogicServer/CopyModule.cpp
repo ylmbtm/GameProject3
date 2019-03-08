@@ -23,7 +23,7 @@ BOOL CCopyModule::OnDestroy()
 {
 	for(auto itor = m_mapCopyData.begin(); itor != m_mapCopyData.end(); itor++)
 	{
-		itor->second->release();
+		itor->second->Release();
 	}
 
 	m_mapCopyData.clear();
@@ -75,6 +75,7 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_dwStarAward = ChapterItem.staraward();
 		m_mapChapterData.insert(std::make_pair(pObject->m_dwCopyType << 16 | pObject->m_dwChapter, pObject));
 	}
+
 	return TRUE;
 }
 

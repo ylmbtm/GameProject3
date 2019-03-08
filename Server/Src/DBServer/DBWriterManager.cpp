@@ -30,7 +30,8 @@ BOOL CDBWriterManager::Init()
 	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
 	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>(ESD_ACTIVITY, 1024);
 	m_pCounterDataWriter    = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
-	m_pFriendDataWriter    = new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
+	m_pFriendDataWriter		= new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
+	m_pSkillDataWriter		= new DataWriter<SkillDataObject>(ESD_SKILL, 1024);
 
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
@@ -74,6 +75,7 @@ void CDBWriterManager::SaveDataToDB()
 	m_pActivityDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pCounterDataWriter->SaveModifyToDB(&m_DBConnection);
 	m_pFriendDataWriter->SaveModifyToDB(&m_DBConnection);
+	m_pSkillDataWriter->SaveModifyToDB(&m_DBConnection);
 }
 
 BOOL CDBWriterManager::IsStop()

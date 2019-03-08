@@ -1,5 +1,5 @@
-﻿#ifndef __CONFIG_STRUCT_H__
-#define __CONFIG_STRUCT_H__
+﻿#ifndef __STATIC_STRUCT_H__
+#define __STATIC_STRUCT_H__
 
 struct  StConstantValue
 {
@@ -57,6 +57,16 @@ struct StActorInfo
 	std::string strName;
 };
 
+struct StActorSkillInfo
+{
+	StActorSkillInfo()
+	{
+	}
+	UINT32  dwActorID = 0;
+	INT32   NormalID = 0;
+	INT32   Specials[5] = { 0 };
+};
+
 struct StCarrerInfo
 {
 	StCarrerInfo()
@@ -86,7 +96,7 @@ struct StLevelInfo
 	UINT32 dwCarrerID;
 	UINT32 dwLevel;
 	UINT32 dwNeedExp;
-	INT32 Propertys[PROPERTY_NUM];
+	INT32  Propertys[PROPERTY_NUM];
 	UINT32 dwFightValue;
 };
 
@@ -235,6 +245,4 @@ struct StActivityInfo
 	UINT32 EndTime;
 };
 
-
-
-#endif //__CONFIG_STRUCT_H__
+#endif //__STATIC_STRUCT_H__
