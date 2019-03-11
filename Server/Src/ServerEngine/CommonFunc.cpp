@@ -282,12 +282,8 @@ VOID CommonFunc::Sleep(UINT32 dwMilliseconds)
 	struct timespec req;
 	req.tv_sec = 0;
 	req.tv_nsec = dwMilliseconds * 1000000;
-	if (-1 == nanosleep(&req, NULL))
-	{
-		return;
-	}
+	nanosleep(&req, NULL);
 #endif
-
 	return;
 }
 

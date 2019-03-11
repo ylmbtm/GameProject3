@@ -4,7 +4,7 @@
 
 class CSpinLock
 {
-	std::atomic_flag m_flag;
+	std::atomic_flag m_flag = ATOMIC_FLAG_INIT;
 public:
 	CSpinLock()
 	{
@@ -17,21 +17,11 @@ public:
 
 	void Lock()
 	{
-		for (unsigned k = 0; !TryLock(); ++k)
+		for (unsigned k = 0; TryLock(); ++k)
 		{
-			if (k % 64 == 0)
+			if (k % 1024 == 0)
 			{
-#ifdef WIN32
-				::Sleep(0);
-#else
-				struct timespec req;
-				req.tv_sec = 0;
-				req.tv_nsec = 0;
-				if (-1 == nanosleep(&req, NULL))
-				{
-					return;
-				}
-#endif
+				CommonFunc::Sleep(1);
 			}
 		}
 
@@ -40,7 +30,7 @@ public:
 
 	bool TryLockTimes(unsigned nTimes)
 	{
-		for (unsigned k = 0; !TryLock(); ++k)
+		for (unsigned k = 0; TryLock(); ++k)
 		{
 			if (k >= nTimes)
 			{
@@ -53,17 +43,14 @@ public:
 
 	bool TryLock()
 	{
-		if (m_flag.test_and_set(std::memory_order_acquire))
-		{
-			return true;
-		}
+		bool bRet = m_flag.test_and_set(/*std::memory_order_acquire*/);
 
-		return false;
+		return bRet;
 	}
 
 	void Unlock()
 	{
-		m_flag.clear(std::memory_order_release);
+		m_flag.clear(/*std::memory_order_release*/);
 	
 		return ;
 	}

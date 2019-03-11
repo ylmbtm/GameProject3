@@ -44,7 +44,7 @@ protected:
 
 	std::deque<NetPacket>*				m_pRecvDataQueue;
 	std::deque<NetPacket>*				m_pDispathQueue;
-	CSpinLock							m_SpinLock;
+	CSpinLock							m_QueueLock;
 
 	//以下用于统计
 	UINT64								m_dwLastTick;

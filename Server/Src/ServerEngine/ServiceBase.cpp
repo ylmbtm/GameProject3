@@ -37,9 +37,9 @@ BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnectio
 {
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
 
-	m_SpinLock.Lock();
+	m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID));
-	m_SpinLock.Unlock();
+	m_QueueLock.Unlock();
 	return TRUE;
 }
 
@@ -149,18 +149,18 @@ BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 
-	m_SpinLock.Lock();
+	m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, CLOSE_CONNECTION));
-	m_SpinLock.Unlock();
+	m_QueueLock.Unlock();
 	return TRUE;
 }
 
 BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
 {
 	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
-	m_SpinLock.Lock();
+	m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, NEW_CONNECTION));
-	m_SpinLock.Unlock();
+	m_QueueLock.Unlock();
 	return TRUE;
 }
 
@@ -179,34 +179,37 @@ BOOL ServiceBase::Update()
 
 	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
-	m_SpinLock.Lock();
+	m_QueueLock.Lock();
 	std::swap(m_pRecvDataQueue, m_pDispathQueue);
-	m_SpinLock.Unlock();
+	m_QueueLock.Unlock();
 
-	for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); itor++)
+	if (m_pDispathQueue->size() > 0)
 	{
-		NetPacket& item = *itor;
-		if (item.m_dwMsgID == NEW_CONNECTION)
+		for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); itor++)
 		{
-			m_pPacketDispatcher->OnNewConnect((CConnection*)item.m_pDataBuffer);
-		}
-		else if (item.m_dwMsgID == CLOSE_CONNECTION)
-		{
-			m_pPacketDispatcher->OnCloseConnect((CConnection*)item.m_pDataBuffer);
-			//发送通知
-			CConnectionMgr::GetInstancePtr()->DeleteConnection((CConnection*)item.m_pDataBuffer);
-		}
-		else
-		{
-			m_pPacketDispatcher->DispatchPacket(&item);
+			NetPacket& item = *itor;
+			if (item.m_dwMsgID == NEW_CONNECTION)
+			{
+				m_pPacketDispatcher->OnNewConnect((CConnection*)item.m_pDataBuffer);
+			}
+			else if (item.m_dwMsgID == CLOSE_CONNECTION)
+			{
+				m_pPacketDispatcher->OnCloseConnect((CConnection*)item.m_pDataBuffer);
+				//发送通知
+				CConnectionMgr::GetInstancePtr()->DeleteConnection((CConnection*)item.m_pDataBuffer);
+			}
+			else
+			{
+				m_pPacketDispatcher->DispatchPacket(&item);
 
-			item.m_pDataBuffer->Release();
+				item.m_pDataBuffer->Release();
 
-			m_dwRecvNum += 1;
+				m_dwRecvNum += 1;
+			}
 		}
+
+		m_pDispathQueue->clear();
 	}
-
-	m_pDispathQueue->clear();
 
 	m_dwFps += 1;
 
