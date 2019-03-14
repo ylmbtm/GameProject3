@@ -132,10 +132,10 @@ BOOL CClientConnector::Render()
 
 BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen)
 {
-	switch(dwMsgID)
-	{
-		default:
-		{
+	//switch(dwMsgID)
+	//{
+	//	default:
+	//	{
 			for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
 			{
 				IMessageHandler* pHandler = *itor;
@@ -145,9 +145,9 @@ BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 					break;
 				}
 			}
-		}
-		break;
-	}
+	//	}
+	//	break;
+	//}
 
 	return TRUE;
 }

@@ -535,5 +535,12 @@ BOOL CClientObject::OnMsgRoleLoginAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 	Ack.ParsePartialFromArray(PacketBuf, BufLen);
 	PacketHeader* pHeader = (PacketHeader*)PacketBuf;
 	m_RoleIDList.push_back(Ack.roleid());
+
+	static int loginnum = 0;
+
+	loginnum++;
+
+	printf("login success num:%d\n", loginnum);
+
 	return TRUE;
 }

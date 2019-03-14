@@ -25,9 +25,9 @@
 #include <time.h>
 
 #define ASSERT_FAIELD (assert(false))
-
+#ifndef ASSERT
 #define ASSERT assert
-
+#endif
 #pragma  comment(lib,"ws2_32")
 #pragma  comment(lib, "Mswsock")
 
