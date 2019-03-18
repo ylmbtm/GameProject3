@@ -77,6 +77,8 @@ public:
 
 	BOOL	SetIsOnline(UINT64 u64ID, BOOL bOnline);
 
+	BOOL	GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64> &vtRoleIDs);
+
 public:
 	std::map<UINT64, CSimpleInfo*> m_mapID2Simple;
 

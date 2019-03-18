@@ -1,6 +1,7 @@
 ﻿#ifndef _SCENE_OBJECT_H_
 #define _SCENE_OBJECT_H_
 #include "../Message/Msg_Move.pb.h"
+#include "../Message/Msg_Game.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "../Message/Msg_Struct.h"
 
@@ -85,6 +86,14 @@ public:
 	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////////////////////////
+	//伤害效果
+	BOOL			NotifyHitEffect(CSceneObject *pTarget, BOOL  bCritHit, INT32 nHurtValue);
+
+	HitEffectNtf	m_EffectNtf;
+	
+	//////////////////////////////////////////////////////////////////////////
+
 public:
 	//对象的基本信息
 	//////////////////////////////////////////////////////////
@@ -112,6 +121,8 @@ public:
 
 	BOOL			m_bIsCampCheck;					//是否影响阵营结算
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
+
+	
 
 	//////////////////////////////////////////////////////////
 	//对象的一些标记

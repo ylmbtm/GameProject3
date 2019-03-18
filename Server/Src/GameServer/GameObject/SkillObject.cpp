@@ -9,38 +9,42 @@
 
 CSkillObject::CSkillObject()
 {
-	m_pCastObject = NULL;
-	m_dwStartTick = 0;
-	m_dwSkillID = 0;
-	m_pSkillInfo = NULL;
+	m_pCastObject	= NULL;
+	m_dwStartTick	= 0;
+	m_dwSkillID		= 0;
+	m_pSkillInfo	= NULL;
+	m_pSkillEventInfo = NULL;
+	m_vtTargets.clear();
 }
 
 CSkillObject::~CSkillObject()
 {
-	m_pCastObject = NULL;
-	m_dwStartTick = 0;
-	m_dwSkillID = 0;
-	m_pSkillInfo = NULL;
+	m_pCastObject	= NULL;
+	m_dwStartTick	= 0;
+	m_dwSkillID		= 0;
+	m_pSkillInfo	= NULL;
+	m_pSkillEventInfo = NULL;
+	m_vtTargets.clear();
 }
 
 
 BOOL CSkillObject::OnUpdate( UINT64 uTick )
 {
-	if (m_dwSkillID == 0 || m_pSkillInfo == NULL)
+	if (m_dwSkillID == 0 || m_pSkillInfo == NULL || m_pSkillEventInfo == NULL)
 	{
 		return TRUE;
 	}
 
-	if (m_dwEventIndex >= m_pSkillInfo->vtEvents.size())
+	if (m_dwEventIndex >= m_pSkillEventInfo->vtEvents.size())
 	{
 		return TRUE;
 	}
 
 	UINT64 uElaspedTick = uTick - m_dwStartTick;
 
-	if(uElaspedTick >= m_pSkillInfo->vtEvents[m_dwEventIndex].TrigerTime)
+	if(uElaspedTick >= m_pSkillEventInfo->vtEvents[m_dwEventIndex].TrigerTime)
 	{
-		ProcessEvent(m_pSkillInfo->vtEvents[m_dwEventIndex]);
+		ProcessEvent(m_pSkillEventInfo->vtEvents[m_dwEventIndex]);
 
 		m_dwEventIndex += 1;
 	}
@@ -62,8 +66,10 @@ BOOL CSkillObject::OnSkillComplete()
 BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 {
 	m_pSkillInfo = CStaticData::GetInstancePtr()->GetSkillInfo(dwSkillID, nLevel);
-
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
+
+	m_pSkillEventInfo = CStaticData::GetInstancePtr()->GetSkillEventInfo(dwSkillID);
+	ERROR_RETURN_FALSE(m_pSkillEventInfo != NULL);
 
 	m_dwSkillID = dwSkillID;
 
@@ -79,14 +85,6 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 	//5.位移技能
 	//6.波次技能(闪电链)
 	//7.产生子弹的技能
-
-	//先依据阵营和规则取出伤害的目标
-	//std::vector<CSceneObject*>& vtTargets = m_pCastObject->GetAffectTargets();
-
-	//for (int i = 0; i < vtTargets.size(); i++)
-	//{
-	//	SkillFight(vtTargets.at(i));
-	//}
 
 	OnUpdate(m_dwStartTick);
 
@@ -128,6 +126,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 	if (dwRandValue > (800 + m_pCastObject->m_Propertys[8] - pTarget->m_Propertys[7]) && dwRandValue > 500)
 	{
 		//未命中
+		m_pCastObject->NotifyHitEffect(pTarget, FALSE, 0);
 		return TRUE;
 	}
 
@@ -144,7 +143,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 nHurt = SkillEvent.AttackMuti * m_pCastObject->m_Propertys[5] + SkillEvent.AttackFix;
+	INT32 nHurt = SkillEvent.HurtMuti * m_pCastObject->m_Propertys[5] + SkillEvent.HurtFix;
 	nHurt = nHurt - pTarget->m_Propertys[1];
 	if (nHurt <= 0)
 	{
@@ -160,11 +159,10 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 		}
 	}
 
-	pTarget->m_Propertys[HP] -= nHurt;
-	if (pTarget->m_Propertys[HP] <= 0)
-	{
-		pTarget->m_Propertys[HP] = 0;
-	}
+	//pTarget->SubHp(nHurt);
+	pTarget->SubHp(nHurt);
+	m_pCastObject->NotifyHitEffect(pTarget, bCriticalHit, -nHurt);
+
 	return TRUE;
 }
 
@@ -268,7 +266,7 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 
 		ERROR_RETURN_FALSE(pScene != NULL);
 
-		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType, data.AttackFix, data.AttackMuti);
+		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType, data.HurtFix, data.HurtMuti);
 	}
 
 	return TRUE;

@@ -155,7 +155,11 @@ public:
 	std::map<UINT32, StSkillInfo> m_mapSkillInfo;
 	BOOL ReadSkillInfo(CppSQLite3Query& QueryData);
 	StSkillInfo* GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel);
+
+	//技能事件
+	std::map<UINT32, StSkillEventInfo> m_mapSkillEvent;
 	BOOL ReadSkillEvent();
+	StSkillEventInfo* GetSkillEventInfo(UINT32 dwSkillID);
 
 	std::map<UINT32, StComboSkillInfo> m_mapComboSkill;
 	BOOL ReadComboSkillInfo(CppSQLite3Query& QueryData);

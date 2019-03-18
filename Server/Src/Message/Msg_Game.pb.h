@@ -2490,10 +2490,10 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated .RoleItem RoleList = 2;
+  // repeated .RoleItem RoleList = 3;
   int rolelist_size() const;
   void clear_rolelist();
-  static const int kRoleListFieldNumber = 2;
+  static const int kRoleListFieldNumber = 3;
   const ::RoleItem& rolelist(int index) const;
   ::RoleItem* mutable_rolelist(int index);
   ::RoleItem* add_rolelist();
@@ -2501,6 +2501,12 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
       mutable_rolelist();
   const ::google::protobuf::RepeatedPtrField< ::RoleItem >&
       rolelist() const;
+
+  // uint64 AccountID = 2;
+  void clear_accountid();
+  static const int kAccountIDFieldNumber = 2;
+  ::google::protobuf::uint64 accountid() const;
+  void set_accountid(::google::protobuf::uint64 value);
 
   // uint32 RetCode = 1;
   void clear_retcode();
@@ -2513,6 +2519,7 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::RoleItem > rolelist_;
+  ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -10098,33 +10105,15 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 targetguid() const;
   void set_targetguid(::google::protobuf::uint64 value);
 
-  // int32 ValueID = 2;
-  void clear_valueid();
-  static const int kValueIDFieldNumber = 2;
-  ::google::protobuf::int32 valueid() const;
-  void set_valueid(::google::protobuf::int32 value);
+  // int32 HurtValue = 2;
+  void clear_hurtvalue();
+  static const int kHurtValueFieldNumber = 2;
+  ::google::protobuf::int32 hurtvalue() const;
+  void set_hurtvalue(::google::protobuf::int32 value);
 
-  // int32 Value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  ::google::protobuf::int32 value() const;
-  void set_value(::google::protobuf::int32 value);
-
-  // uint64 Detail = 5;
-  void clear_detail();
-  static const int kDetailFieldNumber = 5;
-  ::google::protobuf::uint64 detail() const;
-  void set_detail(::google::protobuf::uint64 value);
-
-  // int32 Reason = 4;
-  void clear_reason();
-  static const int kReasonFieldNumber = 4;
-  ::google::protobuf::int32 reason() const;
-  void set_reason(::google::protobuf::int32 value);
-
-  // bool Crit = 6;
+  // bool Crit = 3;
   void clear_crit();
-  static const int kCritFieldNumber = 6;
+  static const int kCritFieldNumber = 3;
   bool crit() const;
   void set_crit(bool value);
 
@@ -10133,10 +10122,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 targetguid_;
-  ::google::protobuf::int32 valueid_;
-  ::google::protobuf::int32 value_;
-  ::google::protobuf::uint64 detail_;
-  ::google::protobuf::int32 reason_;
+  ::google::protobuf::int32 hurtvalue_;
   bool crit_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -11828,7 +11814,21 @@ inline void RoleListAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:RoleListAck.RetCode)
 }
 
-// repeated .RoleItem RoleList = 2;
+// uint64 AccountID = 2;
+inline void RoleListAck::clear_accountid() {
+  accountid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 RoleListAck::accountid() const {
+  // @@protoc_insertion_point(field_get:RoleListAck.AccountID)
+  return accountid_;
+}
+inline void RoleListAck::set_accountid(::google::protobuf::uint64 value) {
+  
+  accountid_ = value;
+  // @@protoc_insertion_point(field_set:RoleListAck.AccountID)
+}
+
+// repeated .RoleItem RoleList = 3;
 inline int RoleListAck::rolelist_size() const {
   return rolelist_.size();
 }
@@ -15656,63 +15656,21 @@ inline void HitEffectItem::set_targetguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:HitEffectItem.TargetGUID)
 }
 
-// int32 ValueID = 2;
-inline void HitEffectItem::clear_valueid() {
-  valueid_ = 0;
+// int32 HurtValue = 2;
+inline void HitEffectItem::clear_hurtvalue() {
+  hurtvalue_ = 0;
 }
-inline ::google::protobuf::int32 HitEffectItem::valueid() const {
-  // @@protoc_insertion_point(field_get:HitEffectItem.ValueID)
-  return valueid_;
+inline ::google::protobuf::int32 HitEffectItem::hurtvalue() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.HurtValue)
+  return hurtvalue_;
 }
-inline void HitEffectItem::set_valueid(::google::protobuf::int32 value) {
+inline void HitEffectItem::set_hurtvalue(::google::protobuf::int32 value) {
   
-  valueid_ = value;
-  // @@protoc_insertion_point(field_set:HitEffectItem.ValueID)
+  hurtvalue_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.HurtValue)
 }
 
-// int32 Value = 3;
-inline void HitEffectItem::clear_value() {
-  value_ = 0;
-}
-inline ::google::protobuf::int32 HitEffectItem::value() const {
-  // @@protoc_insertion_point(field_get:HitEffectItem.Value)
-  return value_;
-}
-inline void HitEffectItem::set_value(::google::protobuf::int32 value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:HitEffectItem.Value)
-}
-
-// int32 Reason = 4;
-inline void HitEffectItem::clear_reason() {
-  reason_ = 0;
-}
-inline ::google::protobuf::int32 HitEffectItem::reason() const {
-  // @@protoc_insertion_point(field_get:HitEffectItem.Reason)
-  return reason_;
-}
-inline void HitEffectItem::set_reason(::google::protobuf::int32 value) {
-  
-  reason_ = value;
-  // @@protoc_insertion_point(field_set:HitEffectItem.Reason)
-}
-
-// uint64 Detail = 5;
-inline void HitEffectItem::clear_detail() {
-  detail_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 HitEffectItem::detail() const {
-  // @@protoc_insertion_point(field_get:HitEffectItem.Detail)
-  return detail_;
-}
-inline void HitEffectItem::set_detail(::google::protobuf::uint64 value) {
-  
-  detail_ = value;
-  // @@protoc_insertion_point(field_set:HitEffectItem.Detail)
-}
-
-// bool Crit = 6;
+// bool Crit = 3;
 inline void HitEffectItem::clear_crit() {
   crit_ = false;
 }

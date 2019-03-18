@@ -73,25 +73,10 @@ enum EMouduleType
 	MT_END
 };
 
-enum EAddWay
-{
-	Add_ = 1,
-	Cost_
-};
-
-enum EActivtyType
-{
-	ACT_NONE		= 0,
-	ACT_LOGINAWARD	= 1,
-	ACT_SINCHRAGE	= 2,
-	ACT_SUMCHARGE	= 3,
-	ACT_OPEN_FUND	= 4,
-	ACT_DISCOUNT_SALE = 5,
-};
-
 enum EShareData
 {
-	ESD_ROLE = 1,
+	ESD_BEGIN,
+	ESD_ROLE,
 	ESD_GLOBAL,
 	ESD_BAG,
 	ESD_COPY,
@@ -109,8 +94,27 @@ enum EShareData
 	ESD_COUNTER,
 	ESD_FRIEND,
 	ESD_CHAPTER,
-	ESD_SKILL
+	ESD_SKILL,
+	ESD_END
 };
+
+enum EAddWay
+{
+	Add_ = 1,
+	Cost_
+};
+
+enum EActivtyType
+{
+	ACT_NONE		= 0,
+	ACT_LOGINAWARD	= 1,
+	ACT_SINCHRAGE	= 2,
+	ACT_SUMCHARGE	= 3,
+	ACT_OPEN_FUND	= 4,
+	ACT_DISCOUNT_SALE = 5,
+};
+
+
 
 enum EGuildPos
 {

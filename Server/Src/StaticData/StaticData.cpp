@@ -928,8 +928,8 @@ BOOL CStaticData::ReadSkillInfo(CppSQLite3Query& QueryData)
 		stValue.SkillID = QueryData.getIntField("Id");
 		stValue.Level = QueryData.getIntField("Level");
 		stValue.CD = QueryData.getIntField("CountDown");
-		stValue.HarmFix = QueryData.getIntField("HarmFix");
-		stValue.HarmRatio = QueryData.getIntField("HarmRatio");
+		stValue.HurtFix = QueryData.getIntField("HurtFix");
+		stValue.HurtMuti = QueryData.getIntField("HurtMuti");
 
 		UINT32 dwNewID = stValue.Level << 20 | stValue.SkillID;
 		m_mapSkillInfo.insert(std::make_pair(dwNewID, stValue));
@@ -980,20 +980,48 @@ BOOL CStaticData::ReadSkillEvent()
 		auto pAttr = pSkillNode->first_attribute("id", strlen("id"), false);
 		INT32 dwSkillID = CommonConvert::StringToInt(pAttr->value());;
 		
-		StSkillInfo *pSkillInfo = GetSkillInfo(1, 1);
+		StSkillEventInfo tSkillEventInfo ;
 
 		for (auto pEventNode = pSkillNode->first_node("ActScope"); pEventNode != NULL; pEventNode = pEventNode->next_sibling("ActScope"))
 		{
 			StSkillEvent tEvent;
 			tEvent.ActionID = 0;
-			tEvent.AttackFix = 0;
-			tEvent.AttackMuti = 0;
+			tEvent.HurtFix = 0;
+			tEvent.HurtMuti = 0;
 			tEvent.RangeParams[0] = 0;
-			pSkillInfo->vtEvents.push_back(tEvent);
+			tSkillEventInfo.vtEvents.push_back(tEvent);
 		}
+
+		m_mapSkillEvent.insert(std::make_pair(dwSkillID, tSkillEventInfo));
 	}
 
 	return TRUE;
+}
+
+StSkillEventInfo* CStaticData::GetSkillEventInfo(UINT32 dwSkillID)
+{
+	ERROR_RETURN_NULL(dwSkillID != 0);
+	auto itor = m_mapSkillEvent.find(dwSkillID);
+	if (itor != m_mapSkillEvent.end())
+	{
+		return &itor->second;
+	}
+
+	StSkillEventInfo tInfo;
+	tInfo.SkillID = dwSkillID;
+
+	StSkillEvent tEvent;
+	tEvent.TrigerTime = 0;
+	tEvent.RangeType = TYPE_OBJECTS;
+	tEvent.HurtFix = 1;
+
+	tInfo.vtEvents.push_back(tEvent);
+	
+	m_mapSkillEvent.insert(std::make_pair(dwSkillID, tInfo));
+
+	return GetSkillEventInfo(dwSkillID);
+
+	return NULL;
 }
 
 BOOL CStaticData::ReadComboSkillInfo(CppSQLite3Query& QueryData)

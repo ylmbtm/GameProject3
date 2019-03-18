@@ -386,6 +386,24 @@ BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir,float radius, floa
 	return TRUE;
 }
 
+BOOL CSceneObject::NotifyHitEffect(CSceneObject *pTarget, BOOL bCritHit, INT32 nHurtValue)
+{
+	HitEffectItem* pItem = m_EffectNtf.add_itemlist();
+	pItem->set_targetguid(pTarget->GetObjectGUID());
+	pItem->set_crit(bCritHit);
+	pItem->set_hurtvalue(nHurtValue);
+
+	SendMsgProtoBuf(MSG_ACTOR_HITEFFECT_NTF, m_EffectNtf);
+	m_EffectNtf.Clear();
+
+	if (pTarget->GetObjType() == OT_PLAYER && pTarget->GetObjectGUID() != GetObjectGUID())
+	{
+		pTarget->NotifyHitEffect(pTarget, bCritHit, nHurtValue);
+	}
+
+	return TRUE;
+}
+
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 {
 	pResult->set_objectid(m_uGuid);
@@ -598,8 +616,6 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 {
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
 
-	return MRC_SUCCESSED;
-
 	ERROR_RETURN_CODE(m_pScene != NULL, MRC_UNKNOW_ERROR);
 
 	INT32 nLevel = GetSkillLevel(Req.skillid());
@@ -639,10 +655,9 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
 
-	UINT32 dwRetCode = m_SkillObject.StartSkill(Req.skillid(), nLevel);
-	if (MRC_SUCCESSED != dwRetCode)
+	if (!m_SkillObject.StartSkill(Req.skillid(), nLevel))
 	{
-		return dwRetCode;
+		return MRC_UNKNOW_ERROR;
 	}
 
 	SetLastSkillTick(Req.skillid(), uCurTick);

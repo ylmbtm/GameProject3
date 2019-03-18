@@ -204,6 +204,23 @@ BOOL CSimpleManager::SetIsOnline(UINT64 u64ID, BOOL bOnline)
 	return TRUE;
 }
 
+BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64> &vtRoleIDs)
+{
+	std::map<UINT64, CSimpleInfo*>::iterator itor = m_mapID2Simple.begin();
+	for (;itor != m_mapID2Simple.end(); ++itor)
+	{
+		CSimpleInfo *pInfo = itor->second;
+		ERROR_RETURN_FALSE(pInfo != NULL);
+
+		if (pInfo->m_uAccountID == uAccountID)
+		{
+			vtRoleIDs.push_back(pInfo->m_uRoleID);
+		}
+	}
+
+	return TRUE;
+}
+
 CSimpleInfo* CSimpleManager::CreateSimpleInfo( UINT64 u64ID, UINT64 u64AccID, std::string strName, UINT32 dwCarrerID)
 {
 	CSimpleInfo* pInfo = new CSimpleInfo();

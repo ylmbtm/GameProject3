@@ -89,24 +89,24 @@ struct StBulletInfo
 	FLOAT  Angle;		//角度
 	FLOAT  Speed;       //速度
 	FLOAT  AccSpd;		//加速度
-	FLOAT  AttackFix;	//固定伤害
-	FLOAT  AttackMuti;	//加成伤害
+	FLOAT  HurtFix;		//固定伤害
+	FLOAT  HurtMuti;	//加成伤害
 	FLOAT  Radius;		//半径
 };
 
 
 struct StSkillEvent
 {
-	UINT64 TrigerTime;					//触发时间
-	UINT32 ActionID;					//受击动作, 击退，击飞， 击倒
-	UINT32 SelfBuffID;					//自己的BuffID
-	UINT32 TargetBuffID;				//目标的BuffID
-	FLOAT  AttackFix;					//固定伤害
-	FLOAT  AttackMuti;					//加成伤害
-	FLOAT  RangeParams[5];				//范围参数
-	UINT32 RangeType;					//范围类型
-	UINT32 CenterType;					//中心点类型
-	std::vector<StBulletInfo> vtBullets;//子弹列表
+	UINT64 TrigerTime = 0;					//触发时间
+	UINT32 ActionID = 0;					//受击动作, 击退，击飞， 击倒
+	UINT32 SelfBuffID = 0;					//自己的BuffID
+	UINT32 TargetBuffID = 0;				//目标的BuffID
+	FLOAT  HurtFix = 0;						//固定伤害
+	FLOAT  HurtMuti = 0;					//加成伤害
+	FLOAT  RangeParams[5] = {0};			//范围参数
+	UINT32 RangeType = 0;					//范围类型
+	UINT32 CenterType = 0;					//中心点类型
+	std::vector<StBulletInfo> vtBullets;	//子弹列表
 };
 
 struct StSkillInfo
@@ -116,8 +116,14 @@ struct StSkillInfo
 	UINT32		CD;				//技能CD
 	UINT32		CostMp;			//消耗魔法值
 	UINT64		uDuration;		//技能持续总时间
-	INT32		HarmFix;		//固定伤害
-	INT32		HarmRatio;		//加成伤害
+	INT32		HurtFix;		//固定伤害
+	INT32		HurtMuti;		//加成伤害
+};
+
+
+struct StSkillEventInfo
+{
+	UINT32		SkillID;		//技能ID
 	std::vector<StSkillEvent> vtEvents; //技能事件列表
 };
 
