@@ -302,7 +302,7 @@ public:
 public:
 	IDataBuffer* AllocDataBuff(int nSize);
 
-	CBufferManager<64>    g_BufferManager64B;		//管理64B的内存池，
+	CBufferManager<64>     g_BufferManager64B;		//管理64B的内存池，
 	CBufferManager<128>    g_BufferManager128B;		//管理128B的内存池，
 	CBufferManager<256>    g_BufferManager256B;		//管理256B的内存池，
 	CBufferManager<512>    g_BufferManager512B;		//管理512B的内存池，

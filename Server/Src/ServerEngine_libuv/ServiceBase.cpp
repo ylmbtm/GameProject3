@@ -49,7 +49,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 		return FALSE;
 	}
 
-	if((nPortNum <= 0) || (nMaxConn <= 0))
+	if((nPortNum == 0) || (nMaxConn == 0))
 	{
 		ASSERT_FAIELD;
 		return FALSE;
@@ -114,7 +114,7 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 
 BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen)
 {
-	if (dwConnID <= 0)
+	if (dwConnID == 0)
 	{
 		return FALSE;
 	}
@@ -132,7 +132,7 @@ BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 
 CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 {
-	if(strIpAddr.empty() || sPort <= 0)
+	if(strIpAddr.empty() || sPort == 0)
 	{
 		ASSERT_FAIELD;
 		return NULL;

@@ -213,8 +213,17 @@ public:
 	}
 };
 
+class DataWriterBase
+{
+public:
+	DataWriterBase() {};
 
-template <typename T> class DataWriter
+	virtual ~DataWriterBase() {};
+
+	virtual BOOL SaveModifyToDB(IDBInterface* pdb) { return TRUE; };
+};
+
+template <typename T> class DataWriter : public DataWriterBase
 {
 public:
 	DataWriter(const UINT32& nModuleID, UINT32 nCount)
@@ -251,7 +260,7 @@ public:
 		}
 
 		INT32 newtimes = 0, writetimes = 0, deletetimes = 0, releasetime = 0;
-		BOOL hasOprate = false; //是否有操作
+		BOOL hasOprate = false;
 		///获取所有修改过的数据,getRawMemoryBlockSize会重新计算所有共享块，
 		UINT32 temblockSize = m_MemoryPool->GetRawMemoryBlockSize();
 		for (UINT32 r = 0; r < temblockSize; r++)
@@ -278,12 +287,12 @@ public:
 			{
 				continue;
 			}
-			///正在修改数据,跳过
+
 			if (pdata->islock())
 			{
 				continue;
 			}
-			///优先回调删除
+
 			if (pdata->isDestroy())
 			{
 				pdata->Delete(pdb);
@@ -310,7 +319,6 @@ public:
 			beforeTime = pBlock->m_beforeTime;
 			afterTime = pBlock->m_afterTime;
 			BOOL needsave = false;
-			///保存完毕的时间大于保存前的时间,那么上一次保存成功的
 			if (afterTime >= beforeTime)
 			{
 				if (lastMotifyTime > beforeTime)
@@ -320,7 +328,7 @@ public:
 			}
 			else
 			{
-				needsave = true;///上一次保存失败,立即保存
+				needsave = true;
 			}
 
 			if (needsave)
@@ -339,7 +347,7 @@ public:
 				///释放的时候执行一次保存...如果上次没有保存成功或者，释放前修改了就再保存一次
 				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime))
 				{
-					pBlock->m_beforeTime = time(NULL);/// add by dsq
+					pBlock->m_beforeTime = time(NULL);
 					pdata->Update(pdb);
 					hasOprate = true;
 					writetimes++;
@@ -348,8 +356,9 @@ public:
 				m_MemoryPool->DestoryObject(pdata);
 				releasetime++;
 			}
-
 		}
+
+		//CLog::GetInstancePtr()->LogError("moduleid:%d write:%d new:%d desdroy:%d release:%d");
 
 		return hasOprate;
 	}

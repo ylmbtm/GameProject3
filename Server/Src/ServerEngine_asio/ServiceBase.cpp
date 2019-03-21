@@ -49,7 +49,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 		return FALSE;
 	}
 
-	if((nPortNum <= 0) || (nMaxConn <= 0))
+	if((nPortNum == 0) || (nMaxConn == 0))
 	{
 		ASSERT_FAIELD;
 		return FALSE;

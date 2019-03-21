@@ -5,7 +5,7 @@
 class  CProxyPlayer
 {
 public:
-	CProxyPlayer(): m_u64RoleID(0), m_dwGameSvrID(0) {}
+	CProxyPlayer();
 
 	~CProxyPlayer();
 

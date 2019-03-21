@@ -125,7 +125,7 @@ BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targ
 
 BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 {
-	if (dwConnID <= 0)
+	if (dwConnID == 0)
 	{
 		return FALSE;
 	}

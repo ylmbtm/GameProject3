@@ -150,8 +150,11 @@ public:
 	sqlite_int64 getInt64Field(int nField, sqlite_int64 nNullValue = 0);
 	sqlite_int64 getInt64Field(const char* szField, sqlite_int64 nNullValue = 0);
 
-	double getFloatField(int nField, double fNullValue = 0.0);
-	double getFloatField(const char* szField, double fNullValue = 0.0);
+	float getFloatField(int nField, float fNullValue = 0.0);
+	float getFloatField(const char* szField, float fNullValue = 0.0);
+
+	double getDoubleField(int nField, double fNullValue = 0.0);
+	double getDoubleField(const char* szField, double fNullValue = 0.0);
 
 	const char* getStringField(int nField, const char* szNullValue = "");
 	const char* getStringField(const char* szField, const char* szNullValue = "");

@@ -1,0 +1,20 @@
+$#include  "PlayerObject.h"
+
+//副本战斗结果
+enum ECopyResult
+{
+	CR_NONE = 0,	//未结算
+	CR_WIN,         //胜利
+	CR_LOST,		//失败
+	CR_DRAW			//平局
+};
+
+class CPlayerObject
+{
+	UINT64			GetObjectID();
+
+	UINT32			GetCityCopyID();
+
+	UINT32			CheckCopyConditoin(UINT32 dwCopyID);
+};
+

@@ -318,11 +318,11 @@ INT32 CommonFunc::GetRandNum(INT32 nType)
 
 	static INT32 nRandIndex[100] = {0};
 	static INT32 vtGlobalRankValue[10000];
-	static BOOL  bInit = false;
+	static BOOL  bInit = FALSE;
 
-	if(bInit == false)
+	if(bInit == FALSE)
 	{
-		bInit = true;
+		bInit = TRUE;
 		INT32  nTempIndex;
 		UINT32 nTemp;
 		for(int j = 0; j < 10000; j++ )

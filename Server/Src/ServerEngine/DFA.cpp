@@ -79,7 +79,7 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 		++s_length;
 		if (pnode == NULL)
 		{
-			if (bReturn == false)
+			if (bReturn == FALSE)
 			{
 				return FALSE;
 			}
@@ -109,9 +109,9 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 			return s_maxlen != 0;
 		}
 
-		bool b = pnode->HasKeyWord(pdata + startpos, len - startpos, false);
+		BOOL b = pnode->HasKeyWord(pdata + startpos, len - startpos, FALSE);
 
-		if (b == true)
+		if (b == TRUE)
 		{
 			if (bReturn)
 			{
@@ -122,7 +122,7 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 		}
 		else
 		{
-			if (bReturn == false)
+			if (bReturn == FALSE)
 			{
 				return FALSE;
 			}
