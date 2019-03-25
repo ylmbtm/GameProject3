@@ -9,7 +9,7 @@ class CSceneObject;
 class CBulletObject
 {
 public:
-	CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAngle, FLOAT AttackFix, FLOAT AttackMuti);
+	CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAngle);
 
 	~CBulletObject();
 

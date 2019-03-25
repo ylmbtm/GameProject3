@@ -89,8 +89,6 @@ struct StBulletInfo
 	FLOAT  Angle;		//角度
 	FLOAT  Speed;       //速度
 	FLOAT  AccSpd;		//加速度
-	FLOAT  HurtFix;		//固定伤害
-	FLOAT  HurtMuti;	//加成伤害
 	FLOAT  Radius;		//半径
 };
 
@@ -101,8 +99,6 @@ struct StSkillEvent
 	UINT32 ActionID = 0;					//受击动作, 击退，击飞， 击倒
 	UINT32 SelfBuffID = 0;					//自己的BuffID
 	UINT32 TargetBuffID = 0;				//目标的BuffID
-	FLOAT  HurtFix = 0;						//固定伤害
-	FLOAT  HurtMuti = 0;					//加成伤害
 	FLOAT  RangeParams[5] = {0};			//范围参数
 	UINT32 RangeType = 0;					//范围类型
 	UINT32 CenterType = 0;					//中心点类型

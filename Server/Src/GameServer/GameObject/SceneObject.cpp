@@ -175,6 +175,7 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);
 	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	pItem->set_speed(m_Propertys[SPEED]);
 	pItem->set_camp(m_dwCamp);
 	for (int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
@@ -214,6 +215,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_mp(m_Propertys[MP]);
 	pItem->set_hpmax(m_Propertys[HP_MAX]);
 	pItem->set_mpmax(m_Propertys[MP_MAX]);
+	pItem->set_speed(m_Propertys[SPEED]);
 	pItem->set_camp(m_dwCamp);
 	for (int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
@@ -554,7 +556,7 @@ BOOL CSceneObject::InitSkills(const google::protobuf::RepeatedField< ::google::p
 BOOL CSceneObject::InitSkills()
 {
 	UINT32 dwActorID = GetActorID();
-	if (dwActorID <= 0)
+	if (dwActorID == 0)
 	{
 		return FALSE;
 	}

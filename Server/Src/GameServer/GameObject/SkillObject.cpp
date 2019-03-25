@@ -15,6 +15,7 @@ CSkillObject::CSkillObject()
 	m_pSkillInfo	= NULL;
 	m_pSkillEventInfo = NULL;
 	m_vtTargets.clear();
+	m_dwEventIndex = 0;
 }
 
 CSkillObject::~CSkillObject()
@@ -143,7 +144,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 nHurt = SkillEvent.HurtMuti * m_pCastObject->m_Propertys[5] + SkillEvent.HurtFix;
+	INT32 nHurt = m_pCastObject->m_Propertys[5];
 	nHurt = nHurt - pTarget->m_Propertys[1];
 	if (nHurt <= 0)
 	{
@@ -159,8 +160,8 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 		}
 	}
 
-	//pTarget->SubHp(nHurt);
 	pTarget->SubHp(nHurt);
+
 	m_pCastObject->NotifyHitEffect(pTarget, bCriticalHit, -nHurt);
 
 	return TRUE;
@@ -266,7 +267,7 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 
 		ERROR_RETURN_FALSE(pScene != NULL);
 
-		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType, data.HurtFix, data.HurtMuti);
+		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType);
 	}
 
 	return TRUE;

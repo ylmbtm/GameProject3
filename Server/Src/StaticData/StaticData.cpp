@@ -41,9 +41,7 @@ BOOL CStaticData::InitDataReader()
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CStaticData::ReadFuncInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CStaticData::ReadFuncVipInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CStaticData::ReadFuncCostInfo));
-
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
-
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CStaticData::ReadTaskInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CStaticData::ReadBuffInfo));
 
@@ -139,7 +137,7 @@ INT32 CStaticData::GetConstantIntValue(std::string& strName)
 
 INT64 CStaticData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {
-	if((dwMoneyID <= 0) || (dwMoneyID >= m_vtMoneyList.size()))
+	if((dwMoneyID == 0) || (dwMoneyID >= m_vtMoneyList.size()))
 	{
 		ASSERT_FAIELD;
 		return 1;
@@ -251,8 +249,11 @@ BOOL CStaticData::ReadActor(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StActorInfo stValue;
-		stValue.dwID = QueryData.getIntField("Id");
-		int nIndex  = QueryData.fieldIndex("P1");
+		stValue.dwID		= QueryData.getIntField("Id");
+		stValue.InitLevel = QueryData.getIntField("Level");
+		stValue.fDefSpeed	= QueryData.getFloatField("DefSpeed");
+
+		int nIndex = QueryData.fieldIndex("P1");
 		for(int i = 0; i < PROPERTY_NUM; i++)
 		{
 			stValue.Propertys[i] = QueryData.getIntField(i + nIndex, 0);
@@ -986,8 +987,6 @@ BOOL CStaticData::ReadSkillEvent()
 		{
 			StSkillEvent tEvent;
 			tEvent.ActionID = 0;
-			tEvent.HurtFix = 0;
-			tEvent.HurtMuti = 0;
 			tEvent.RangeParams[0] = 0;
 			tSkillEventInfo.vtEvents.push_back(tEvent);
 		}
@@ -1013,7 +1012,6 @@ StSkillEventInfo* CStaticData::GetSkillEventInfo(UINT32 dwSkillID)
 	StSkillEvent tEvent;
 	tEvent.TrigerTime = 0;
 	tEvent.RangeType = TYPE_OBJECTS;
-	tEvent.HurtFix = 1;
 
 	tInfo.vtEvents.push_back(tEvent);
 	

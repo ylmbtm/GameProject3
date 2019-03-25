@@ -3,7 +3,7 @@
 #include "SceneObject.h"
 #include "XMath.h"
 
-CBulletObject::CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAngle, FLOAT AttackFix, FLOAT AttackMuti)
+CBulletObject::CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAngle)
 {
 	m_pCastObject	= NULL;
 	m_pTargetObject = NULL;
@@ -11,7 +11,13 @@ CBulletObject::CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAn
 	m_dwType		= dwType;
 	m_vx			= sin(fAngle * DEG_TO_RAD);
 	m_vz			= cos(fAngle * DEG_TO_RAD);
-
+	m_uStartTick	= 0;
+	m_uLastTick		= 0;
+	m_uLifeTick		= 0;
+	m_fSpeed		= 0;
+	m_fAccSpeed		= 0;
+	m_dwID			= dwID;
+	m_uGuid			= uGuid;
 }
 
 CBulletObject::~CBulletObject()
