@@ -14,7 +14,7 @@ class SceneLogicBase
 public:
 	SceneLogicBase(CScene* pScene);
 
-	~SceneLogicBase();
+	virtual ~SceneLogicBase();
 public:
 	virtual BOOL ReadFromXml(rapidxml::xml_node<char>* pNode);
 

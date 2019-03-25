@@ -2,38 +2,38 @@
 
 message ResultObject{
     uint64 ObjectID = 1;
-	int32  ActorID = 2;
-	int32  ObjectType = 3;
-	int32  Result = 4;
-	int32  Kill = 5;
-	int32  Death = 6;
-	int32  Heal = 7;
-	int32  Damage = 8;
+    int32  ActorID = 2;
+    int32  ObjectType = 3;
+    int32  Result = 4;
+    int32  Kill = 5;
+    int32  Death = 6;
+    int32  Heal = 7;
+    int32  Damage = 8;
 }
 
 message ResultPlayer {
-	uint64 ObjectID = 1;
-	int32  ActorID = 2;
-	int32  ObjectType = 3;
-	int32  Result = 4;
-	int32  Kill = 5;
-	int32  Death = 6;
-	int32  Heal = 7;
-	int32  Damage = 8;
+    uint64 ObjectID = 1;
+    int32  ActorID = 2;
+    int32  ObjectType = 3;
+    int32  Result = 4;
+    int32  Kill = 5;
+    int32  Death = 6;
+    int32  Heal = 7;
+    int32  Damage = 8;
 }
 
 message BattleResultNty {
     int32 ServerID = 1;
-	uint32 CopyGuid = 2;
-	int32 CopyID = 3;
-	int32 CopyType = 4;
-	int32  LeftTime = 5;
-	repeated ResultPlayer PlayerList = 6;
-	repeated ResultObject ObjectList = 7;
+    uint32 CopyGuid = 2;
+    int32 CopyID = 3;
+    int32 CopyType = 4;
+    int32  LeftTime = 5;
+    repeated ResultPlayer PlayerList = 6;
+    repeated ResultObject ObjectList = 7;
 }
 
 message MainCopyReq {
-	int32   CopyID  = 1;  //副本类型
+    int32   CopyID  = 1;  //副本类型
 }
 
 message MainCopyAck {
@@ -42,12 +42,12 @@ message MainCopyAck {
 
 message ItemData {
     int32   ItemID = 1;
-	int32   ItemNum = 2;
+    int32   ItemNum = 2;
 }
 
 
 message MainCopyResultNty {
     uint64  RoleID = 1;
-	repeated ItemData ItemList = 2;
+    repeated ItemData ItemList = 2;
 }
 

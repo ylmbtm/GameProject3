@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	UINT32 dwSvrID = cmdLine.GetIntValue("id");
 	UINT32 dwPort = cmdLine.GetIntValue("port");
 
-	if((dwSvrID <= 0) || (dwPort <= 0))
+	if((dwSvrID == 0) || (dwPort == 0))
 	{
 		printf("Error Invalid ServerID:%d or Invalid Port:%d!!!", dwSvrID, dwPort);
 		getchar();

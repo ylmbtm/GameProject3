@@ -21,6 +21,7 @@ CAccountObjectMgr::CAccountObjectMgr()
 	m_IsRun			= FALSE;
 	m_hThread		= NULL;
 	m_bCrossChannel = FALSE;
+	m_u64MaxID		= 0;
 }
 
 CAccountObjectMgr::~CAccountObjectMgr()

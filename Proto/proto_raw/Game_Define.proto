@@ -1,64 +1,64 @@
 ﻿syntax = "proto3";
 enum EObjectType {
-	OT_NONE   = 0;  //无类别
-	OT_PLAYER = 1;  //玩家
-	OT_ROBOT  = 2;  //机器人
-	OT_MONSTER= 3;  //怪
-	OT_PET    = 4;  //宠物
-	OT_PARTNER= 5;  //伙伴
-	OT_SUMMON = 6;  //招唤物
+    OT_NONE   = 0;  //无类别
+    OT_PLAYER = 1;  //玩家
+    OT_ROBOT  = 2;  //机器人
+    OT_MONSTER= 3;  //怪
+    OT_PET    = 4;  //宠物
+    OT_PARTNER= 5;  //伙伴
+    OT_SUMMON = 6;  //招唤物
 }
 
 enum EActionType {
-    AT_NONE		= 0;    //无
-	AT_IDLE		= 1;    //静
-	AT_WALK		= 2;    //走
-	AT_RUN		= 3;    //跑
-	AT_FLY		= 4;    //飞
-	AT_DANCE1	= 5;  //跳舞动作1;
-	AT_DANCE2	= 6;  //跳舞动作2;
-	AT_DANCE3	= 7;  //跳舞动作3;
-	AT_DANCE4	= 8;  //跳舞动作4;
+    AT_NONE      = 0;  //无
+    AT_IDLE      = 1;  //静
+    AT_WALK      = 2;  //走
+    AT_RUN       = 3;  //跑
+    AT_FLY       = 4;  //飞
+    AT_DANCE1    = 5;  //跳舞动作1;
+    AT_DANCE2    = 6;  //跳舞动作2;
+    AT_DANCE3    = 7;  //跳舞动作3;
+    AT_DANCE4    = 8;  //跳舞动作4;
 }
 
 enum EActionStatue {
-    AS_NONE			= 0;    //无动作
-	AS_HURT			=	0x1;  //伤害
-	AS_START		= 0x2; //开始动作
-	AS_END = 0xfffffff;  //技能动作开始
+    AS_NONE         = 0;          //无动作
+    AS_HURT         = 0x1;        //伤害
+    AS_START        = 0x2;        //开始动作
+    AS_END          = 0xfffffff;  //技能动作开始
 }
-
+    
 enum ECopyType {
-    CPT_NONE = 0;			//无阵营
-	CPT_LOGIN = 1;          //登陆副本
-	CPT_SELROLE = 2;        //选角副本
-	CPT_CITY = 3;           //主城
-	CPT_MAIN = 4;           //主线副本
-	CPT_WORLD = 5;          //大世界
-	
-	CPT_END = 100;
+    CPT_NONE     = 0;        //无阵营
+    CPT_LOGIN    = 1;        //登陆副本
+    CPT_SELROLE  = 2;        //选角副本
+    CPT_CITY     = 3;        //主城
+    CPT_MAIN     = 4;        //主线副本
+    CPT_WORLD    = 5;        //大世界
+    
+    CPT_END = 100;
 }
 
 enum EObjectStatus
 {
-	EOS_NONE			= 0;//无
-	EOS_DEAD			= 1;//死亡
-	EOS_IDLE			= 2;//静止
-	EOS_WALK			= 3;//走
-	EOS_RUN				= 4;//跑
-	EOS_FLY				= 5;//飞
-	EOS_NOT_MOVE		= 6;//不能移动
-	EOS_NOT_CAST		= 7;//不能放技能
-	EOS_NOT_BEHURT		= 8;//不能被攻击
-	EOS_NOT_BECONTROL	= 9;//无法被控制
-	EOS_STEALTH			= 10;//隐身
-	EOS_BLIND			= 11;//瞎的
+    EOS_NONE            = 0;//无
+    EOS_DEAD            = 1;//死亡
+    EOS_IDLE            = 2;//静止
+    EOS_WALK            = 3;//走
+    EOS_RUN             = 4;//跑
+    EOS_FLY             = 5;//飞
+    EOS_NOT_MOVE        = 6;//不能移动
+    EOS_NOT_CAST        = 7;//不能放技能
+    EOS_NOT_BEHURT      = 8;//不能被攻击
+    EOS_NOT_BECONTROL   = 9;//无法被控制
+    EOS_STEALTH         = 10;//隐身
+    EOS_BLIND           = 11;//瞎的
 };
 
 
 enum EItemType
 {
-	EIT_NONE 		 = 0;
+    EIT_NONE         = 0;
     EIT_EQUIP        = 1;
     EIT_ACTIONDRUG   = 2;
     EIT_MAT          = 3;
@@ -74,8 +74,8 @@ enum EItemType
     EIT_PETSOUL      = 13; 
     EIT_TASK         = 14;
     EIT_DRUG         = 15;
-	EIT_PET			 = 16;
-	EIT_PARTNER		 = 17;
+    EIT_PET          = 16;
+    EIT_PARTNER      = 17;
 }
 
 enum EBagType
@@ -92,35 +92,31 @@ enum EBagType
 }
 
 enum EFunctionType{
-	FUNC_BEGIN_ID  = 0;  //!功能ID开始标记
-	
-	FUNC_END_ID = 150; //!功能ID结束标记
+    FUNC_BEGIN_ID  = 0;  //!功能ID开始标记
+    
+    FUNC_END_ID = 150; //!功能ID结束标记
 }
 
 
 enum EAttrID{
-	NONE		= 0; 
-	HP			= 1;//血量
-	MP			= 2;//蓝量
-	HP_MAX		= 3;//最大血量
-	MP_MAX		= 4;//最大蓝量
-	HP_REC		= 5;//血恢复速度
-	MP_REC		= 6;//蓝恢复速度
-	SPEED		= 7;//移动速度
-	ATTACK		= 8;//攻击力
-	ELEMENT     = 9;//元素伤害
-	MAGIC_DEF	= 10;//魔防
-	PHYSIC_DEF	= 11;//物防
-	HIT			= 12;//命中
-    DODGE		= 13;//闪避
-	MORE_HURT   = 14;//伤害加深
-	LESS_HURT   = 15;//伤害减免
-	CRIT_HIT    = 16;//暴击
-	CRIT_DEF    = 17;//抗暴
-	ICE_DODGE  = 18;//抗暴
-	FLASH_DODGE  = 19;//抗暴
-	FIRE_DODGE   = 20;//抗暴
-	TOXIN_DODGE  = 21;//抗毒
+    NONE          = 0; 
+    HP            = 1;  //生命值
+    MP            = 2;  //魔法值
+    HP_MAX        = 3;  //最大生命值
+    MP_MAX        = 4;  //最大魔法值
+    SPEED         = 5;  //移动速度
+    ATTACK        = 6;  //攻击
+    ELEMENT       = 7;  //元素伤害
+    MAGIC_DEF     = 8;  //魔防
+    PHYSIC_DEF    = 9;  //物防
+    HIT_RATE      = 10; //命中
+    DODGE         = 11; //闪避
+    MORE_HURT     = 12; //伤害加深
+    LESS_HURT     = 13; //伤害减免
+    CRIT_HIT      = 14; //暴击
+    CRIT_DEF      = 15; //抗暴
+    CRIT_HURT     = 16; //暴伤
+    MAX_ID        = 22;
 }
 
 enum EShip
@@ -133,34 +129,34 @@ enum EShip
 
 
 enum EBuffType{
-	BFT_NONE		= 0; 
+    BFT_NONE        = 0; 
 }
 
 enum EChatChannel{
-	CHL_NONE		= 0; 
-	CHL_WORLD       = 1;//世界聊天
-	CHL_PRIVATE     = 2;//私聊
-	CHL_GUILD		= 3;//公会
-	CHL_GM			= 4;//GM命令
+    CHL_NONE        = 0; 
+    CHL_WORLD       = 1;//世界聊天
+    CHL_PRIVATE     = 2;//私聊
+    CHL_GUILD       = 3;//公会
+    CHL_GM          = 4;//GM命令
 }
 
 
 enum EEquipPos{
-	EEP_NONE		= 0; 
-	EEP_HELMET		= 1; 
-	EEP_NECKLACE	= 2; 
-	EEP_ARMOR		= 3; 
-	EEP_SHOES		= 4; 
-	EEP_WRIST		= 5; 
-	EEP_RING		= 6; 
-	EEP_TALISMAN	= 7; 
-	EEP_WEAPON		= 8; 
+    EEP_NONE        = 0; 
+    EEP_HELMET      = 1; 
+    EEP_NECKLACE    = 2; 
+    EEP_ARMOR       = 3; 
+    EEP_SHOES       = 4; 
+    EEP_WRIST       = 5; 
+    EEP_RING        = 6; 
+    EEP_TALISMAN    = 7; 
+    EEP_WEAPON      = 8; 
 }
 
 enum ETaskStatus{
-	ETS_INIT		= 0; 
-	ETS_ACCEPT		= 1; 
-	ETS_FINISH		= 2; 
-	ETS_COMMIT		= 3;
+    ETS_INIT        = 0; 
+    ETS_ACCEPT      = 1; 
+    ETS_FINISH      = 2; 
+    ETS_COMMIT      = 3;
 }
 

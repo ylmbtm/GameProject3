@@ -12,6 +12,8 @@ CBuffObject::CBuffObject(CSceneObject* pObject, UINT32 dwBuffID)
 	m_dwBuffID = dwBuffID;
 	m_pSceneObject = pObject;
 	m_bOver = FALSE;
+	m_dwStartTime = 0;
+	m_dwLastTime = 0;
 	m_pBuffInfo = CStaticData::GetInstancePtr()->GetBuffInfo(m_dwBuffID);
 }
 
@@ -21,6 +23,8 @@ CBuffObject::~CBuffObject()
 	m_pSceneObject = NULL;
 	m_pBuffInfo = NULL;
 	m_bOver = FALSE;
+	m_dwStartTime = 0;
+	m_dwLastTime = 0;
 }
 
 BOOL CBuffObject::OnAddBuff()

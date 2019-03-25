@@ -40,9 +40,8 @@ CPlayerObject* CPlayerManager::CreatePlayerByID( UINT64 u64RoleID )
 BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 {
 	CPlayerObject* pPlayer = GetByKey(u64RoleID);
-	ERROR_RETURN_FALSE(pPlayer != NULL);
 
-	//pPlayer->OnDestroy();
+	ERROR_RETURN_FALSE(pPlayer != NULL);
 
 	pPlayer->Uninit();
 

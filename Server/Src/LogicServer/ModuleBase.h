@@ -13,7 +13,7 @@ class CModuleBase
 public:
 	CModuleBase(CPlayerObject* pOwner);
 
-	~CModuleBase();
+	virtual ~CModuleBase();
 
 	virtual BOOL OnCreate(UINT64 u64RoleID) = 0;
 

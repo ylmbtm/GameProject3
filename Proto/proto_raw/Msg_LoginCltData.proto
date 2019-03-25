@@ -1,174 +1,174 @@
 syntax = "proto3";
 
 message BagItem {
-	uint64	Guid		= 1;
-	uint64	ItemGuid	= 2;
-	int32	ItemID		= 3;
-	int64	ItemNum		= 4;
-	bool	Bind		= 5;	//是否是邦定
+    uint64   Guid        = 1;
+    uint64   ItemGuid    = 2;
+    int32    ItemID      = 3;
+    int64    ItemNum     = 4;
+    bool     Bind        = 5;    //是否是邦定
 }
 
 message BagChangeNty{
-	repeated	BagItem ChangeList = 1;
-	repeated	uint64  RemoveList = 2;
+    repeated    BagItem ChangeList = 1;
+    repeated    uint64  RemoveList = 2;
 }
 
 message EquipItem {
-	uint64	Guid		= 1;
-	int32	EquipID		= 2;
-	int32	StrengthLvl	= 3;   //强化等级
-	int32	RefineLevel	= 4;   //精炼等级
-	int32	StarLevel	= 5;	  //星级
-	int32	RefineExp	= 6;	  //精验的经验
-	int32	StarExp		= 7;		  //星级经验
-	int32	IsUsing		= 8;		  //是否上阵
+    uint64   Guid        = 1;
+    int32    EquipID     = 2;
+    int32    StrengthLvl = 3;   //强化等级
+    int32    RefineLevel = 4;   //精炼等级
+    int32    StarLevel   = 5;      //星级
+    int32    RefineExp   = 6;      //精验的经验
+    int32    StarExp     = 7;          //星级经验
+    int32    IsUsing     = 8;          //是否上阵
 }
 
 message EquipChangeNty{
-	repeated EquipItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated EquipItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 
 message GemItem {
-	uint64	Guid		= 1;
-	int32	GemID		= 2;
-	int32	StrengthLvl	= 3;	//强化等级
-	int32	RefineLevel	= 4;	//精炼等级
-	int32	StarLevel	= 5;	//星级
-	int32	RefineExp	= 6;	//精验的经验
-	int32	StarExp		= 7;	//星级经验
-	int32	Pos			= 8;	//位置
+    uint64   Guid        = 1;
+    int32    GemID       = 2;
+    int32    StrengthLvl = 3;    //强化等级
+    int32    RefineLevel = 4;    //精炼等级
+    int32    StarLevel   = 5;    //星级
+    int32    RefineExp   = 6;    //精验的经验
+    int32    StarExp     = 7;    //星级经验
+    int32    Pos         = 8;    //位置
 }
 
 message GemChangeNty{
-	repeated GemItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated GemItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message PetItem {
-	uint64 Guid = 1;
-	int32  PetID = 2;
-	int32  StrengthLvl = 3;   //强化等级
-	int32  RefineLevel = 4;   //精炼等级
-	int32  StarLevel = 5;	  //星级
-	int32  RefineExp = 6;	  //精验的经验
-	int32  StarExp = 7;		  //星级经验
-	int32  IsUsing = 8;		  //是否上阵
+    uint64 Guid = 1;
+    int32  PetID = 2;
+    int32  StrengthLvl = 3;   //强化等级
+    int32  RefineLevel = 4;   //精炼等级
+    int32  StarLevel = 5;      //星级
+    int32  RefineExp = 6;      //精验的经验
+    int32  StarExp = 7;          //星级经验
+    int32  IsUsing = 8;          //是否上阵
 }
 
 message PetChangeNty{
-	repeated PetItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated PetItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message PartnerItem {
-	uint64 Guid = 1;
-	int32  PartnerID = 2;
-	int32  StrengthLvl = 3;   //强化等级
-	int32  RefineLevel = 4;   //精炼等级
-	int32  StarLevel = 5;	  //星级
-	int32  RefineExp = 6;	  //精验的经验
-	int32  StarExp = 7;		  //星级经验
-	int32  SetPos = 8;		  //上阵位置
+    uint64 Guid = 1;
+    int32  PartnerID = 2;
+    int32  StrengthLvl = 3;   //强化等级
+    int32  RefineLevel = 4;   //精炼等级
+    int32  StarLevel = 5;      //星级
+    int32  RefineExp = 6;      //精验的经验
+    int32  StarExp = 7;          //星级经验
+    int32  SetPos = 8;          //上阵位置
 }
 
 message PartnerChangeNty{
-	repeated PartnerItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated PartnerItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message MountItem {
-	uint64 Guid = 1;
-	int32  MountID = 2;
-	int32  StrengthLvl = 3;   //强化等级
-	int32  RefineLevel = 4;   //精炼等级
-	int32  StarLevel = 5;	  //星级
-	int32  RefineExp = 6;	  //精验的经验
-	int32  StarExp = 7;		  //星级经验
-	int32  IsUsing = 8;		  //是否上阵
+    uint64 Guid = 1;
+    int32  MountID = 2;
+    int32  StrengthLvl = 3;   //强化等级
+    int32  RefineLevel = 4;   //精炼等级
+    int32  StarLevel = 5;      //星级
+    int32  RefineExp = 6;      //精验的经验
+    int32  StarExp = 7;          //星级经验
+    int32  IsUsing = 8;          //是否上阵
 }
 
 message MountChangeNty{
-	repeated MountItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated MountItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message MailItem {
-	uint64 Guid = 1;
+    uint64 Guid = 1;
 }
 
 message MailChangeNty{
-	repeated MailItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated MailItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message TaskItem {
-	uint32  TaskID = 1;
+    uint32  TaskID = 1;
 }
 
 message TaskChangeNty {
-	repeated TaskItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated TaskItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 message CopyItem {
-	uint32  CopyID = 1;
-	int32	StarNum = 2;
-	int32   BattleCnt = 3;
-	int32   ResetCnt = 4;
+    uint32  CopyID = 1;
+    int32   StarNum = 2;
+    int32   BattleCnt = 3;
+    int32   ResetCnt = 4;
 }
 
 message ChapterItem {
-	uint32  ChapterID = 1;
-	uint32  StarAward = 2;
-	uint32  SceneAward = 3;
-	uint32  CopyType = 4;
+    uint32  ChapterID = 1;
+    uint32  StarAward = 2;
+    uint32  SceneAward = 3;
+    uint32  CopyType = 4;
 }
 
 
 message ActionItem {
-	int64 Action = 1;
-	int64 Actime = 2;
+    int64 Action = 1;
+    int64 Actime = 2;
 }
 
 
 message SkillItem {
-	uint32 SkillID = 1;
-	int32  Level = 2;
-	int32  KeyPos = 3;   //强化等级
+    uint32 SkillID = 1;
+    int32  Level = 2;
+    int32  KeyPos = 3;   //强化等级
 }
 
 message SkillChangeNty{
-	repeated SkillItem ChangeList = 1;
-	repeated uint64  RemoveList = 2;
+    repeated SkillItem ChangeList = 1;
+    repeated uint64  RemoveList = 2;
 }
 
 
 
 message RoleLoginAck {
-	uint32   RetCode			= 1;
-	uint64   AccountID			= 2;
-	uint64   RoleID				= 3;
-	int32    Carrer				= 4;
-	int32    Level				= 5;
-	int64    Exp				= 6;
-	string   Name				= 7;
-	int32    VipLvl				= 8;
-	int32    VipExp				= 9;
-	int64    FightValue			=  10;
-	repeated ActionItem ActionList	= 11;
-	repeated EquipItem EquipList	= 12;
-	repeated GemItem GemList		= 13;
-	repeated PetItem PetList		= 14;
-	repeated PartnerItem PartnerList= 15;
-	repeated MountItem MountList	= 16;
-	repeated BagItem  BagItemList	= 17;
-	repeated MailItem MailList		= 18;
-	repeated TaskItem TaskList		= 19;
-	repeated CopyItem CopyList		= 20;
-	repeated ChapterItem ChapterList= 21;
-	repeated SkillItem SkillList	= 22;
+    uint32   RetCode            = 1;
+    uint64   AccountID            = 2;
+    uint64   RoleID                = 3;
+    int32    Carrer                = 4;
+    int32    Level                = 5;
+    int64    Exp                = 6;
+    string   Name                = 7;
+    int32    VipLvl                = 8;
+    int32    VipExp                = 9;
+    int64    FightValue            =  10;
+    repeated ActionItem ActionList    = 11;
+    repeated EquipItem EquipList    = 12;
+    repeated GemItem GemList        = 13;
+    repeated PetItem PetList        = 14;
+    repeated PartnerItem PartnerList= 15;
+    repeated MountItem MountList    = 16;
+    repeated BagItem  BagItemList    = 17;
+    repeated MailItem MailList        = 18;
+    repeated TaskItem TaskList        = 19;
+    repeated CopyItem CopyList        = 20;
+    repeated ChapterItem ChapterList= 21;
+    repeated SkillItem SkillList    = 22;
 }
 
 

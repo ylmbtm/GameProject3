@@ -43,6 +43,8 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
+	Ack.set_accountid(u64AccountID);
+
 	while(!QueryRes.eof())
 	{
 		RoleItem* pNode = Ack.add_rolelist();
