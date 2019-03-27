@@ -123,7 +123,7 @@ BOOL CStaticData::ReadConstantData(CppSQLite3Query& QueryData)
 	return TRUE;
 }
 
-INT32 CStaticData::GetConstantIntValue(std::string& strName)
+INT32 CStaticData::GetConstantValue(std::string& strName)
 {
 	std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(strName);
 	if (itor != m_mapConstantValue.end())
@@ -131,9 +131,22 @@ INT32 CStaticData::GetConstantIntValue(std::string& strName)
 		return itor->second;
 	}
 
+    ASSERT_FAIELD;
 	return 0;
 }
 
+
+INT32 CStaticData::GetConstantValue(char *pszName)
+{
+    std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(pszName);
+    if (itor != m_mapConstantValue.end())
+    {
+        return itor->second;
+    }
+
+    ASSERT_FAIELD;
+    return 0;
+}
 
 INT64 CStaticData::GetMoneyMaxValue(UINT32 dwMoneyID)
 {

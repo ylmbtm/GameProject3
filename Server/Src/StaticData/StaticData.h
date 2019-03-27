@@ -34,7 +34,8 @@ public:
 	///////////////////////////////////////////////
 	std::map<std::string, INT32>m_mapConstantValue;
 	BOOL ReadConstantData(CppSQLite3Query& QueryData);
-	INT32 GetConstantIntValue(std::string& strName);
+	INT32 GetConstantValue(std::string& strName);
+	INT32 GetConstantValue(char *pszName);
 
 	//货币和体力
 	///////////////////////////////////////////////

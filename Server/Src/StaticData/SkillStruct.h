@@ -84,12 +84,13 @@ struct StBuffInfo
 
 struct StBulletInfo
 {
-	UINT32 BulletID;	//子弹ID
-	UINT32 BulletType;	//子弹类型
-	FLOAT  Angle;		//角度
+	UINT32 BulletID;    //子弹ID
+	UINT32 BulletType;  //子弹类型
+	FLOAT  Angle;       //角度
 	FLOAT  Speed;       //速度
-	FLOAT  AccSpd;		//加速度
-	FLOAT  Radius;		//半径
+	FLOAT  AccSpd;      //加速度
+	FLOAT  Radius;      //半径
+	UINT32 LifeTime;    //生命期
 };
 
 
@@ -100,7 +101,7 @@ struct StSkillEvent
 	UINT32 SelfBuffID = 0;					//自己的BuffID
 	UINT32 TargetBuffID = 0;				//目标的BuffID
 	FLOAT  RangeParams[5] = {0};			//范围参数
-	UINT32 RangeType = 0;					//范围类型
+	ERangeType RangeType = TYPE_OBJECTS;	//范围类型
 	UINT32 CenterType = 0;					//中心点类型
 	std::vector<StBulletInfo> vtBullets;	//子弹列表
 };
@@ -130,80 +131,4 @@ struct StComboSkillInfo
 };
 
 
-
-/*
-BOOL LoadSkillData()
-{
-	std::string xmlName = "";
-	rapidxml::xml_document<char>* pXmlDoc = new rapidxml::xml_document<char>();
-	ERROR_RETURN_FALSE(pXmlDoc != NULL);
-
-	for ()
-	{
-
-	}
-
-	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Root");
-	ERROR_RETURN_FALSE(pXmlRoot != NULL);
-
-
-	for (auto pSkillNode = pXmlRoot->first_node("Skill"); pSkillNode != NULL; pSkillNode = pSkillNode->next_sibling("Skill"))
-	{
-
-	}
-}
-
-
-BOOL ParseDocument(rapidxml::xml_document<char>* pXmlDoc)
-{
-
-
-	return TRUE;
-}
-
-BOOL ParseSkill(rapidxml::xml_node<char>* pXmlNode)
-{
-
-
-	return TRUE;
-}
-
-
-BOOL ParseActScope(rapidxml::xml_node<char>* pXmlNode)
-{
-	for (auto pResultNode = pXmlNode->first_node(); pResultNode != NULL; pResultNode = pResultNode->next_sibling())
-	{
-		if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-		else if (pResultNode->name() == "ActDamage")
-		{
-
-		}
-	}
-
-	return TRUE;
-}
-*/
 #endif //__CONFIG_STRUCT_H__

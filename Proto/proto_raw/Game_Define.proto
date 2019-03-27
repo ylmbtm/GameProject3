@@ -99,24 +99,23 @@ enum EFunctionType{
 
 
 enum EAttrID{
-    NONE          = 0; 
-    HP            = 1;  //生命值
-    MP            = 2;  //魔法值
-    HP_MAX        = 3;  //最大生命值
-    MP_MAX        = 4;  //最大魔法值
-    SPEED         = 5;  //移动速度
-    ATTACK        = 6;  //攻击
-    ELEMENT       = 7;  //元素伤害
-    MAGIC_DEF     = 8;  //魔防
-    PHYSIC_DEF    = 9;  //物防
-    HIT_RATE      = 10; //命中
-    DODGE         = 11; //闪避
-    MORE_HURT     = 12; //伤害加深
-    LESS_HURT     = 13; //伤害减免
-    CRIT_HIT      = 14; //暴击
-    CRIT_DEF      = 15; //抗暴
-    CRIT_HURT     = 16; //暴伤
-    MAX_ID        = 22;
+    HP            = 0;  //生命值
+    MP            = 1;  //魔法值
+    HP_MAX        = 2;  //最大生命值
+    MP_MAX        = 3;  //最大魔法值
+    SPEED         = 4;  //移动速度
+    ATTACK        = 5;  //攻击
+    ELEMENT       = 6;  //元素伤害
+    MAGIC_DEF     = 7;  //魔防
+    PHYSIC_DEF    = 8;  //物防
+    HIT_RATE      = 9; //命中
+    DODGE         = 10; //闪避
+    MORE_HURT     = 11; //伤害加深
+    LESS_HURT     = 12; //伤害减免
+    CRIT_HIT      = 13; //暴击
+    CRIT_DEF      = 14; //抗暴
+    CRIT_HURT     = 15; //暴伤
+    ATTR_NUM  　　= 16; //属性个数
 }
 
 enum EShip
