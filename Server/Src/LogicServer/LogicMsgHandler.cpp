@@ -135,8 +135,50 @@ BOOL CLogicMsgHandler::OnMsgRoleListAck(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
-	//可能有新创建的角色还没有写回数据库
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf((UINT32)pHeader->u64TargetID,  MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
+	std::vector<UINT64> vtRoleIDs;
+	CSimpleManager::GetInstancePtr()->GetRoleIDsByAccountID(Ack.accountid(), vtRoleIDs);
+
+	if (Ack.rolelist_size() == vtRoleIDs.size())
+	{
+		return ServiceBase::GetInstancePtr()->SendMsgProtoBuf((UINT32)pHeader->u64TargetID, MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
+	}
+
+	//否则说明有玩家的数据还没有写到数据库中
+	//这个时候就说明这个玩家的数据需要从内存中取
+
+	for (INT32 i = 0; i < vtRoleIDs.size(); i++)
+	{
+		UINT64 uRoleID = vtRoleIDs.at(i);
+		BOOL bFind = FALSE;
+
+		for (int j = 0; j < Ack.rolelist_size(); j++)
+		{
+			const RoleItem &item = Ack.rolelist(j);
+			if (item.roleid() == uRoleID)
+			{
+				bFind = TRUE;
+				break;
+			}
+		}
+
+		//表示没有找到,这时候,就只能从内存中来取了
+		if (!bFind) 
+		{
+			CPlayerObject *pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uRoleID);
+			ERROR_RETURN_TRUE(pPlayer != NULL);
+
+			CRoleModule *pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
+			ERROR_RETURN_TRUE(pRoleModule != NULL);
+
+			RoleItem* pNode = Ack.add_rolelist();
+			pNode->set_roleid(pRoleModule->m_pRoleDataObject->m_uRoleID);
+			pNode->set_name(pRoleModule->m_pRoleDataObject->m_szName);
+			pNode->set_carrer(pRoleModule->m_pRoleDataObject->m_CarrerID);
+			pNode->set_level(pRoleModule->m_pRoleDataObject->m_Level);
+		}
+	}
+	
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf((UINT32)pHeader->u64TargetID, MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
 }
 
 
@@ -414,7 +456,8 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
-	if((Req.content().size() > 2) && (Req.content().at(0) == '@') && (Req.content().at(1) == '@'))
+    BOOL bEnableGm = CStaticData::GetInstancePtr()->GetConstantValue("Enable_Gm");
+	if(bEnableGm && (Req.content().size() > 2) && (Req.content().at(0) == '@') && (Req.content().at(1) == '@'))
 	{
 		std::vector<std::string> vtParam;
 		CommonConvert::SpliteString(Req.content(), " ", vtParam);

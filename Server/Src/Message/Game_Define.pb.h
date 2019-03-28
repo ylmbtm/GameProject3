@@ -266,34 +266,29 @@ inline bool EFunctionType_Parse(
     EFunctionType_descriptor(), name, value);
 }
 enum EAttrID {
-  NONE = 0,
-  HP = 1,
-  MP = 2,
-  HP_MAX = 3,
-  MP_MAX = 4,
-  HP_REC = 5,
-  MP_REC = 6,
-  SPEED = 7,
-  ATTACK = 8,
-  ELEMENT = 9,
-  MAGIC_DEF = 10,
-  PHYSIC_DEF = 11,
-  HIT = 12,
-  DODGE = 13,
-  MORE_HURT = 14,
-  LESS_HURT = 15,
-  CRIT_HIT = 16,
-  CRIT_DEF = 17,
-  ICE_DODGE = 18,
-  FLASH_DODGE = 19,
-  FIRE_DODGE = 20,
-  TOXIN_DODGE = 21,
+  HP = 0,
+  MP = 1,
+  HP_MAX = 2,
+  MP_MAX = 3,
+  SPEED = 4,
+  ATTACK = 5,
+  ELEMENT = 6,
+  MAGIC_DEF = 7,
+  PHYSIC_DEF = 8,
+  HIT_RATE = 9,
+  DODGE = 10,
+  MORE_HURT = 11,
+  LESS_HURT = 12,
+  CRIT_HIT = 13,
+  CRIT_DEF = 14,
+  CRIT_HURT = 15,
+  MAX_ID = 22,
   EAttrID_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EAttrID_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EAttrID_IsValid(int value);
-const EAttrID EAttrID_MIN = NONE;
-const EAttrID EAttrID_MAX = TOXIN_DODGE;
+const EAttrID EAttrID_MIN = HP;
+const EAttrID EAttrID_MAX = MAX_ID;
 const int EAttrID_ARRAYSIZE = EAttrID_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EAttrID_descriptor();

@@ -1216,10 +1216,10 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 Equips = 18;
+  // repeated int32 Equips = 19;
   int equips_size() const;
   void clear_equips();
-  static const int kEquipsFieldNumber = 18;
+  static const int kEquipsFieldNumber = 19;
   ::google::protobuf::int32 equips(int index) const;
   void set_equips(int index, ::google::protobuf::int32 value);
   void add_equips(::google::protobuf::int32 value);
@@ -1330,6 +1330,12 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
+  // int32 Speed = 18;
+  void clear_speed();
+  static const int kSpeedFieldNumber = 18;
+  ::google::protobuf::int32 speed() const;
+  void set_speed(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:ActionNtyItem)
  private:
 
@@ -1353,6 +1359,7 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
   ::google::protobuf::int32 mpmax_;
+  ::google::protobuf::int32 speed_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsActionNtyItemImpl();
@@ -1441,10 +1448,10 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 Equips = 21;
+  // repeated int32 Equips = 22;
   int equips_size() const;
   void clear_equips();
-  static const int kEquipsFieldNumber = 21;
+  static const int kEquipsFieldNumber = 22;
   ::google::protobuf::int32 equips(int index) const;
   void set_equips(int index, ::google::protobuf::int32 value);
   void add_equips(::google::protobuf::int32 value);
@@ -1453,10 +1460,10 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
-  // repeated int32 Normals = 22;
+  // repeated int32 Normals = 23;
   int normals_size() const;
   void clear_normals();
-  static const int kNormalsFieldNumber = 22;
+  static const int kNormalsFieldNumber = 23;
   ::google::protobuf::int32 normals(int index) const;
   void set_normals(int index, ::google::protobuf::int32 value);
   void add_normals(::google::protobuf::int32 value);
@@ -1465,10 +1472,10 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_normals();
 
-  // repeated int32 Specials = 23;
+  // repeated int32 Specials = 24;
   int specials_size() const;
   void clear_specials();
-  static const int kSpecialsFieldNumber = 23;
+  static const int kSpecialsFieldNumber = 24;
   ::google::protobuf::int32 specials(int index) const;
   void set_specials(int index, ::google::protobuf::int32 value);
   void add_specials(::google::protobuf::int32 value);
@@ -1605,6 +1612,12 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
+  // int32 Speed = 21;
+  void clear_speed();
+  static const int kSpeedFieldNumber = 21;
+  ::google::protobuf::int32 speed() const;
+  void set_speed(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:NewItem)
  private:
 
@@ -1635,6 +1648,7 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
   ::google::protobuf::int32 mpmax_;
+  ::google::protobuf::int32 speed_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsNewItemImpl();
@@ -3223,7 +3237,21 @@ inline void ActionNtyItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.MpMax)
 }
 
-// repeated int32 Equips = 18;
+// int32 Speed = 18;
+inline void ActionNtyItem::clear_speed() {
+  speed_ = 0;
+}
+inline ::google::protobuf::int32 ActionNtyItem::speed() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.Speed)
+  return speed_;
+}
+inline void ActionNtyItem::set_speed(::google::protobuf::int32 value) {
+  
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.Speed)
+}
+
+// repeated int32 Equips = 19;
 inline int ActionNtyItem::equips_size() const {
   return equips_.size();
 }
@@ -3576,7 +3604,21 @@ inline void NewItem::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.MpMax)
 }
 
-// repeated int32 Equips = 21;
+// int32 Speed = 21;
+inline void NewItem::clear_speed() {
+  speed_ = 0;
+}
+inline ::google::protobuf::int32 NewItem::speed() const {
+  // @@protoc_insertion_point(field_get:NewItem.Speed)
+  return speed_;
+}
+inline void NewItem::set_speed(::google::protobuf::int32 value) {
+  
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.Speed)
+}
+
+// repeated int32 Equips = 22;
 inline int NewItem::equips_size() const {
   return equips_.size();
 }
@@ -3606,7 +3648,7 @@ NewItem::mutable_equips() {
   return &equips_;
 }
 
-// repeated int32 Normals = 22;
+// repeated int32 Normals = 23;
 inline int NewItem::normals_size() const {
   return normals_.size();
 }
@@ -3636,7 +3678,7 @@ NewItem::mutable_normals() {
   return &normals_;
 }
 
-// repeated int32 Specials = 23;
+// repeated int32 Specials = 24;
 inline int NewItem::specials_size() const {
   return specials_.size();
 }

@@ -45,7 +45,7 @@ BOOL CLogMsgHandler::OnUpdate(UINT64 uTick)
 		m_nLastWriteTime = uTick;
 	}
 
-	if (m_nWriteCount <= 0)
+	if (m_nWriteCount == 0)
 	{
 		return TRUE;
 	}

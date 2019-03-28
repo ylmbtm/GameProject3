@@ -4179,10 +4179,10 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 Equips = 17;
+  // repeated int32 Equips = 18;
   int equips_size() const;
   void clear_equips();
-  static const int kEquipsFieldNumber = 17;
+  static const int kEquipsFieldNumber = 18;
   ::google::protobuf::int32 equips(int index) const;
   void set_equips(int index, ::google::protobuf::int32 value);
   void add_equips(::google::protobuf::int32 value);
@@ -4191,10 +4191,10 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
-  // repeated int32 Normals = 18;
+  // repeated int32 Normals = 19;
   int normals_size() const;
   void clear_normals();
-  static const int kNormalsFieldNumber = 18;
+  static const int kNormalsFieldNumber = 19;
   ::google::protobuf::int32 normals(int index) const;
   void set_normals(int index, ::google::protobuf::int32 value);
   void add_normals(::google::protobuf::int32 value);
@@ -4203,10 +4203,10 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_normals();
 
-  // repeated int32 Specials = 19;
+  // repeated int32 Specials = 20;
   int specials_size() const;
   void clear_specials();
-  static const int kSpecialsFieldNumber = 19;
+  static const int kSpecialsFieldNumber = 20;
   ::google::protobuf::int32 specials(int index) const;
   void set_specials(int index, ::google::protobuf::int32 value);
   void add_specials(::google::protobuf::int32 value);
@@ -4319,6 +4319,12 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 mpmax() const;
   void set_mpmax(::google::protobuf::int32 value);
 
+  // int32 Speed = 17;
+  void clear_speed();
+  static const int kSpeedFieldNumber = 17;
+  ::google::protobuf::int32 speed() const;
+  void set_speed(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:EnterSceneAck)
  private:
 
@@ -4345,6 +4351,7 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 mp_;
   ::google::protobuf::int32 hpmax_;
   ::google::protobuf::int32 mpmax_;
+  ::google::protobuf::int32 speed_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsEnterSceneAckImpl();
@@ -12791,7 +12798,21 @@ inline void EnterSceneAck::set_mpmax(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:EnterSceneAck.MpMax)
 }
 
-// repeated int32 Equips = 17;
+// int32 Speed = 17;
+inline void EnterSceneAck::clear_speed() {
+  speed_ = 0;
+}
+inline ::google::protobuf::int32 EnterSceneAck::speed() const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Speed)
+  return speed_;
+}
+inline void EnterSceneAck::set_speed(::google::protobuf::int32 value) {
+  
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:EnterSceneAck.Speed)
+}
+
+// repeated int32 Equips = 18;
 inline int EnterSceneAck::equips_size() const {
   return equips_.size();
 }
@@ -12821,7 +12842,7 @@ EnterSceneAck::mutable_equips() {
   return &equips_;
 }
 
-// repeated int32 Normals = 18;
+// repeated int32 Normals = 19;
 inline int EnterSceneAck::normals_size() const {
   return normals_.size();
 }
@@ -12851,7 +12872,7 @@ EnterSceneAck::mutable_normals() {
   return &normals_;
 }
 
-// repeated int32 Specials = 19;
+// repeated int32 Specials = 20;
 inline int EnterSceneAck::specials_size() const {
   return specials_.size();
 }

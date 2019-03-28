@@ -200,12 +200,6 @@
     <ClInclude Include="CopyModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ConfigData\ConfigData.h">
-      <Filter>StaticData</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ConfigData\ConfigStruct.h">
-      <Filter>StaticData</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerData\ServerDefine.h">
       <Filter>ServerData</Filter>
     </ClInclude>
@@ -349,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\SkillData.h">
       <Filter>ServerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StaticData\StaticData.h">
+      <Filter>StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StaticData\StaticStruct.h">
+      <Filter>StaticData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

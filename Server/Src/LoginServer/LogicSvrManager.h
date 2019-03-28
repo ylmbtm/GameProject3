@@ -25,6 +25,8 @@ struct LogicServerNode
 		m_Flag			= 0;
 		m_bDelete		= FALSE;
 		m_uLastUpdate	= 0;
+		m_dwMinVersion	= 0;
+		m_dwMaxVersion  = 0;
 	}
 
 	BOOL CheckIP(UINT32 dwIPaddr);

@@ -138,7 +138,7 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	CSceneObject* pSceneObj = GetPlayer(Req.objectguid());
+	CSceneObject* pSceneObj = GetSceneObject(Req.objectguid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
 
 	UINT32 dwRetCode = pSceneObj->ProcessSkill(Req);
@@ -148,18 +148,6 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 		Ack.set_retcode(dwRetCode);
 		pSceneObj->SendMsgProtoBuf(MSG_SKILL_CAST_ACK, Ack);
 	}
-
-	for (int i = 0; i < Req.targetobjects_size(); i++)
-	{
-		UINT64 uTargetID = Req.targetobjects(i);
-		CSceneObject *pTargetObj = GetSceneObject(uTargetID);
-		if (pTargetObj == NULL)
-		{
-			continue;
-		}
-		pTargetObj->SubHp(1);
-	}
-
 
 	return TRUE;
 }
@@ -531,6 +519,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	Ack.set_mp(pSceneObj->m_Propertys[MP]);
 	Ack.set_hpmax(pSceneObj->m_Propertys[HP_MAX]);
 	Ack.set_mpmax(pSceneObj->m_Propertys[MP_MAX]);
+	Ack.set_speed(pSceneObj->m_Propertys[SPEED]);
 
 	Ack.set_camp(pSceneObj->m_dwCamp);
 
@@ -1105,14 +1094,11 @@ CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FL
 	pObject->m_dwObjType = OT_MONSTER;
 	pObject->m_dwActorID = dwActorID;
 	pObject->m_strName = pActorInfo->strName;
-	pObject->m_dwLevel =  pActorInfo->Level;
+	pObject->m_dwLevel =  pActorInfo->InitLevel;
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
 	}
-
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
 	pObject->InitSkills();
 	//指定位置
@@ -1149,9 +1135,6 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 		pObject->m_Propertys[i] = roleData.propertys(i);
 	}
 
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
-
 	pObject->InitSkills(roleData.skills());
 
 	m_pSceneLogic->OnObjectCreate(pObject);
@@ -1179,8 +1162,6 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	{
 		pObject->m_Propertys[i] = petData.propertys(i);
 	}
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
 	//设置技能
 	pObject->InitSkills(petData.skills());
@@ -1213,8 +1194,6 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	{
 		pObject->m_Propertys[i] = partnerData.propertys(i);
 	}
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
 	//设置技能
 	pObject->InitSkills(partnerData.skills());
@@ -1242,13 +1221,11 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 	pObject->m_dwObjType = OT_SUMMON;
 	pObject->m_dwActorID = dwActorID;
 	pObject->m_strName = pActorInfo->strName;
-	pObject->m_dwLevel = 0;// partnerData.level();
+	pObject->m_dwLevel = pActorInfo->InitLevel;
 	for (int i = 0; i < PROPERTY_NUM; i++)
 	{
 		pObject->m_Propertys[i] = pActorInfo->Propertys[i];
 	}
-	pObject->m_Propertys[HP] = pObject->m_Propertys[HP_MAX];
-	pObject->m_Propertys[MP] = pObject->m_Propertys[MP_MAX];
 
 	pObject->InitSkills();
 
@@ -1264,9 +1241,9 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 	return pObject;
 }
 
-CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, UINT32 dwType, FLOAT Angle, FLOAT Fix, FLOAT Muti)
+CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, UINT32 dwType, FLOAT Angle)
 {
-	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, dwType, Angle, Fix, Muti);
+	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, dwType, Angle);
 
 	m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
 

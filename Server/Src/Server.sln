@@ -25,6 +25,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CenterServer", "CenterServe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WatchServer", "WatchServer\WatchServer.vcxproj", "{398AED55-152C-4102-BA05-511AEC1AA780}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerEngine_libuv", "ServerEngine_libuv\ServerEngine_libuv.vcxproj", "{73ED3DBA-7E01-4531-B4A6-C5CFA66EFEC1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerEngine_asio", "ServerEngine_asio\ServerEngine_asio.vcxproj", "{4D748B17-0220-45C8-9A08-3B3617ED0788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +75,10 @@ Global
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Debug|x64.Build.0 = Debug|x64
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Release|x64.ActiveCfg = Release|x64
 		{398AED55-152C-4102-BA05-511AEC1AA780}.Release|x64.Build.0 = Release|x64
+		{73ED3DBA-7E01-4531-B4A6-C5CFA66EFEC1}.Debug|x64.ActiveCfg = Debug|x64
+		{73ED3DBA-7E01-4531-B4A6-C5CFA66EFEC1}.Release|x64.ActiveCfg = Release|x64
+		{4D748B17-0220-45C8-9A08-3B3617ED0788}.Debug|x64.ActiveCfg = Debug|x64
+		{4D748B17-0220-45C8-9A08-3B3617ED0788}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
