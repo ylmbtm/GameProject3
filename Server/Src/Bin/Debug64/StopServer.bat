@@ -1,6 +1,5 @@
 taskkill /im ProxyServer_d.exe
 taskkill /im GameServer_d.exe
- 1 9008
 taskkill /im LogicServer_d.exe
 
 taskkill /im DBServer_d.exe
