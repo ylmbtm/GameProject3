@@ -115,7 +115,7 @@ enum EAttrID{
     CRIT_HIT      = 13; //暴击
     CRIT_DEF      = 14; //抗暴
     CRIT_HURT     = 15; //暴伤
-    ATTR_NUM  　　= 16; //属性个数
+    ATTR_NUM      = 16; //属性个数
 }
 
 enum EShip

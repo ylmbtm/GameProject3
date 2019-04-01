@@ -282,13 +282,13 @@ enum EAttrID {
   CRIT_HIT = 13,
   CRIT_DEF = 14,
   CRIT_HURT = 15,
-  MAX_ID = 22,
+  ATTR_NUM = 16,
   EAttrID_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EAttrID_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EAttrID_IsValid(int value);
 const EAttrID EAttrID_MIN = HP;
-const EAttrID EAttrID_MAX = MAX_ID;
+const EAttrID EAttrID_MAX = ATTR_NUM;
 const int EAttrID_ARRAYSIZE = EAttrID_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EAttrID_descriptor();

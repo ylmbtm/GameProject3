@@ -3,14 +3,14 @@
  <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.367" ID="61009" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.200" EdTime="0.300" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.200" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
  <Skill ID="1001" Name="连环斩1" SkillDistance="4.300" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="1" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.367">
  <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.367" ID="61009" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.200" EdTime="0.300" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.200" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
  
@@ -18,7 +18,7 @@
  <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_shengwushi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.333" ID="61010" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" EdTime="0.300" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.182" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
  
@@ -26,7 +26,7 @@
  <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_03" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.367" ID="61011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" EdTime="0.300" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.182" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
  
@@ -34,7 +34,7 @@
  <ActAnim StTime="0.000" EdTime="1.167" AnimName="attack_04" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="1.167" Path="Sound/Sound/sound_attack1_shengwushi_04" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="1.167" ID="61012" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" EdTime="0.300" Affect="5" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.182" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
  
@@ -43,7 +43,7 @@
  <ActAnim StTime="1.000" EdTime="2.100" AnimName="xuli_02" Loopped="false" PlaySpeed="1.000" />
  <ActEffect StTime="0.000" EdTime="1.000" ID="61020" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="true" />
  <ActEffect StTime="1.000" EdTime="2.100" ID="64054" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="true" />
- <ActScope StTime="1.000" EdTime="2.100" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="6~360~2~0~0">
+ <ActScope StTime="1.000"  RangeType="1" RangeParams="6~360~2~0~0">
  </ActScope>
  <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActAudio StTime="1.000" EdTime="2.100" Path="Sound/Sound/sound_roar_shengwushi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
@@ -55,7 +55,7 @@
  <ActAnim StTime="0.333" EdTime="2.233" AnimName="skill_shenweizhan_02" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="2.233" Path="Sound/Sound/sound_skill_shengwushi_shenweizhan" Volume="1.000" Pitch="1.400" Loopped="false" />
  <ActEffect StTime="0.333" EdTime="2.233" ID="61018" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.833" EdTime="0.833" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="6~3~2~0~0">
+ <ActScope StTime="0.833"  RangeType="2" RangeParams="6~3~2~0~0">
  </ActScope> 
  </Skill>
  
@@ -64,7 +64,7 @@
  <ActAnim StTime="0.333" EdTime="2.066" AnimName="skill_poxiezhan_02" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="2.066" Path="Sound/Sound/sound_skill_shengwushi_poxiezhan" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.333" EdTime="2.066" ID="61016" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.833" EdTime="0.833" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="5~360~2~0~0">
+ <ActScope StTime="0.833"  RangeType="1" RangeParams="5~360~2~0~0">
  </ActScope>
  </Skill>
  
@@ -76,12 +76,12 @@
  <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai1" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActAudio StTime="0.000" EdTime="5.000" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai2" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="5.000" ID="64011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.500" EdTime="4.500" Affect="5" Policy="0" MaxNum="10" ProcessLoops="8" ProcessInterval="0.500" RangeType="1" RangeParams="4~360~2~0~0">
+ <ActScope StTime="0.500" RangeType="1" RangeParams="4~360~2~0~0">
  </ActScope> 
  </Skill>
  <Skill ID="1009" Name="苍冥火" SkillDistance="0.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="2" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.267">
  <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" Affect="0" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.167"  RangeType="0" RangeParams="">
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="( 0.00, 0.00, 4.00)" StartPos="1" Probably="1.000" />
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="(-3.46, 0.00,-2.00)" StartPos="1" Probably="1.000" />
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="( 3.46, 0.00,-2.00)" StartPos="1" Probably="1.000" />
@@ -91,14 +91,14 @@
  
  <Skill ID="2001" Name="火球术1" SkillDistance="20.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="1" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.267">
  <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" EdTime="0.167" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="">
  <ActFlyObject ID="2" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  </ActScope>
  </Skill>
  
  <Skill ID="2002" Name="火球术2" SkillDistance="20.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="1" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.433">
  <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.200" EdTime="0.200" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.200" RangeType="0" RangeParams="">
  <ActFlyObject ID="2" Euler="(0.00,-10.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  <ActFlyObject ID="2" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  <ActFlyObject ID="2" Euler="(0.00,10.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
@@ -107,7 +107,7 @@
  
  <Skill ID="2003" Name="火球术3" SkillDistance="20.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="1" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.267">
  <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" EdTime="0.167" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.167" RangeType="0" RangeParams="">
  <ActFlyObject ID="2" Euler="(0.00,-20.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  <ActFlyObject ID="2" Euler="(0.00,-10.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  <ActFlyObject ID="2" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
@@ -123,7 +123,7 @@
  <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.333" EdTime="2.065" Path="Sound/Sound/sound_longxi" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.333" EdTime="2.065" ID="64004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.500" EdTime="1.000" Affect="5" Policy="0" ProcessLoops="4" ProcessInterval="0.500" RangeType="2" RangeParams="9~2~2~0~0">
+ <ActScope StTime="0.500" RangeType="2" RangeParams="9~2~2~0~0">
  </ActScope>
  </Skill>
  
@@ -135,7 +135,7 @@
  <ActAudio StTime="1.700" EdTime="1.724" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="1.700" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActEffect StTime="1.700" EdTime="3.000" ID="64023" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="1.700" EdTime="1.724" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="9~360~2~0~0">
+ <ActScope StTime="1.700"  RangeType="1" RangeParams="9~360~2~0~0">
  </ActScope>
  </Skill>
  
@@ -145,7 +145,7 @@
  <ActEffect StTime="0.000" EdTime="1.000" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_fashi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActAudio StTime="1.000" EdTime="1.024" Path="Sound/Sound/sound_roar_fashi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActScope StTime="1.000" EdTime="1.024" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="1.000" RangeType="0" RangeParams="">
  <ActFlyObject ID="4" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" StartPos="2" Probably="1.000" />
  </ActScope>
  </Skill>
@@ -155,7 +155,7 @@
  <ActAnim StTime="0.333" EdTime="0.533" AnimName="skill_dihuogongji_02" Loopped="false" PlaySpeed="1.000" />
  <ActAnim StTime="0.533" EdTime="4.736" AnimName="skill_dihuogongji_03" Loopped="true" PlaySpeed="1.000" />
  <ActAnim StTime="4.736" EdTime="5.236" AnimName="skill_dihuogongji_04" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.600" Affect="0" Policy="0" MaxNum="10" ProcessLoops="9" ProcessInterval="0.500" RangeType="3" RangeParams="4~1~2~2">
+ <ActScope StTime="0.600"  RangeType="3" RangeParams="4~1~2~2">
  <ActFlyObject ID="5" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" StartPos="0" Probably="1.000" />
  </ActScope>
  </Skill>
@@ -164,14 +164,14 @@
  <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_longxi_01" Loopped="false" PlaySpeed="1.000" />
  <ActAnim StTime="0.333" EdTime="2.065" AnimName="skill_longxi_03" Loopped="false" PlaySpeed="1.000" />
  <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.333" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.333" RangeType="0" RangeParams="">
  <ActFlyObject ID="6" Euler="(0.00,0.00,0.00)" Offset="( 0.00, 0.00, 0.00)" StartPos="0" Probably="1.000" /> 
  </ActScope> 
  </Skill>
 
  <Skill ID="2009" Name="苍冥火" SkillDistance="0.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="2" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.267">
  <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" Affect="0" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.167"  RangeType="0" RangeParams="">
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="( 0.00, 0.00, 4.00)" StartPos="1" Probably="1.000" />
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="(-3.46, 0.00,-2.00)" StartPos="1" Probably="1.000" />
  <ActFlyObject ID="7" Euler="(0.00,0.00,0.00)" Offset="( 3.46, 0.00,-2.00)" StartPos="1" Probably="1.000" />
@@ -180,7 +180,7 @@
 
  <Skill ID="2010" Name="寒冰墙" SkillDistance="20.000" SkillRadius="0.000" SkillAngles="180.000" SkillLength="0.000" SkillWidth="0.000" CD="0.000" Type="1" CastType="3" CostType="0" HitTargetType="2" HitTargetNpc="0" CostNum="0" CostItemID="0" Warning="false" WarnTime="0.000" Duration="0.267">
  <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" EdTime="0.167" Affect="1" Policy="0" RangeType="0" RangeParams="">
+ <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="">
  <ActFlyObject ID="9" Euler="(0.00,0.00,0.00)" Offset="(0.00,0.00,0.00)" Probably="1.000" />
  </ActScope>
  </Skill> 
@@ -290,7 +290,7 @@
  <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_kuangzhanshi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.333" ID="61001" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.100" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
 
@@ -298,7 +298,7 @@
  <ActAnim StTime="0.000" EdTime="0.467" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.467" ID="61002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.100" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
 
@@ -306,7 +306,7 @@
  <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.433" Path="Sound/Sound/sound_attack1_kuangzhanshi_03" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.433" ID="61003" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" Affect="1" Policy="0" RangeType="1" RangeParams="4.3~180~2~0~0">
+ <ActScope StTime="0.100" RangeType="1" RangeParams="4.3~180~2~0~0">
  </ActScope>
  </Skill>
 
@@ -315,7 +315,7 @@
  <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_04" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.467" ID="61004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActEffect StTime="0.200" EdTime="0.467" ID="61006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
- <ActScope StTime="0.200" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="4~2~2~0~0">
+ <ActScope StTime="0.200"  RangeType="1" RangeParams="4~2~2~0~0">
  </ActScope>
  </Skill>
 
@@ -323,7 +323,7 @@
  <ActAnim StTime="0.000" EdTime="0.767" AnimName="attack_05" Loopped="false" PlaySpeed="1.000" />
  <ActAudio StTime="0.000" EdTime="0.767" Path="Sound/Sound/sound_attack1_kuangzhanshi_05" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.000" EdTime="0.767" ID="61005" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
- <ActScope StTime="0.100" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="5~360~2~0~0">
+ <ActScope StTime="0.100"  RangeType="1" RangeParams="5~360~2~0~0">
  </ActScope>
  </Skill>
 
@@ -331,7 +331,7 @@
  <ActAnim StTime="0.000" EdTime="1.267" AnimName="skill_baoleizhixin" Loopped="false" PlaySpeed="1.000" />
  <ActEffect StTime="0.100" EdTime="1.267" ID="68017" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_skill_kuangzhanshi_baoleizhixin" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActScope StTime="0.100" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="3~180~2~0~0">
+ <ActScope StTime="0.100"  RangeType="1" RangeParams="3~180~2~0~0">
  </ActScope> 
  </Skill>
 
@@ -345,16 +345,16 @@
  <ActEffect StTime="0.100" EdTime="3.899" ID="64002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActAudio StTime="0.000" EdTime="3.899" Path="Sound/Sound/sound_skill_fengkuang" Volume="1.000" Pitch="1.000" Loopped="false" />
  
- <ActScope StTime="0.466" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="5~2~2~0~0">
+ <ActScope StTime="0.466"  RangeType="2" RangeParams="5~2~2~0~0">
  </ActScope>
- <ActScope StTime="1.924" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="5~2~2~0~0">
+ <ActScope StTime="1.924"  RangeType="2" RangeParams="5~2~2~0~0">
 
  </ActScope>
- <ActScope StTime="2.560" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="5~2~2~0~0">
+ <ActScope StTime="2.560"  RangeType="2" RangeParams="5~2~2~0~0">
  </ActScope>
- <ActScope StTime="2.500" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="5~2~2~0~0">
+ <ActScope StTime="2.500"  RangeType="2" RangeParams="5~2~2~0~0">
  </ActScope>
- <ActScope StTime="3.100" Affect="5" Policy="0" MaxNum="10" RangeType="2" RangeParams="5~2~2~0~0">
+ <ActScope StTime="3.100"  RangeType="2" RangeParams="5~2~2~0~0">
  </ActScope>
  <ActShake StTime="0.466" EdTime="0.666"/>
  <ActShake StTime="1.266" EdTime="1.466"/>
@@ -372,7 +372,7 @@
  <ActAudio StTime="0.000" EdTime="5.433" Path="Sound/Sound/sound_skill_kuangzhanshi_kuangbaoxuanfeng" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActCanMove StTime="0.400" EdTime="4.333"/>
  <ActCanTurn StTime="0.400" EdTime="4.333"/> 
- <ActScope StTime="0.400" EdTime="4.333" Affect="5" Policy="0" MaxNum="10" ProcessLoops="10" ProcessInterval="0.500" RangeType="1" RangeParams="4~360~2~0~0">
+ <ActScope StTime="0.400" RangeType="1" RangeParams="4~360~2~0~0">
  </ActScope> 
  </Skill>
 
@@ -382,7 +382,7 @@
  <ActAudio StTime="0.600" EdTime="1.433" Path="Sound/Sound/sound_skill_kuangzhanshi_zhanzhengjianta" Volume="1.000" Pitch="1.000" Loopped="false" />
  <ActEffect StTime="0.600" EdTime="1.433" ID="64014" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActShake StTime="0.800" EdTime="1.300"/> 
- <ActScope StTime="0.800" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="5~360~2~0~0">
+ <ActScope StTime="0.800"  RangeType="1" RangeParams="5~360~2~0~0">
  </ActScope>
  </Skill>
 
@@ -394,9 +394,9 @@
  <ActEffect StTime="1.000" EdTime="1.600" ID="64006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
  <ActEffect StTime="1.600" EdTime="2.367" ID="64007" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
  <ActAudio StTime="0.000" EdTime="2.367" Path="Sound/Sound/sound_skill_kuangzhanshi_xuli" Volume="1.000" Pitch="1.000" Loopped="false" /> 
- <ActScope StTime="1.000" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="4~360~2~0~0">
+ <ActScope StTime="1.000"  RangeType="1" RangeParams="4~360~2~0~0">
  </ActScope>
- <ActScope StTime="1.600" Affect="5" Policy="0" MaxNum="10" RangeType="1" RangeParams="4~360~2~0~0">
+ <ActScope StTime="1.600"  RangeType="1" RangeParams="4~360~2~0~0">
  </ActScope> 
  </Skill>
 

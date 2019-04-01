@@ -542,6 +542,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, objectguid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, targetguid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, casterguid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, bulletid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, x_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, y_),
@@ -550,6 +551,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, vz_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, accspeed_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, lifetime_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletItem, lefttime_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BulletNewNtf, _internal_metadata_),
@@ -591,10 +593,10 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 124, -1, sizeof(::ObjectNewNty)},
   { 130, -1, sizeof(::ObjectRemoveNty)},
   { 136, -1, sizeof(::BulletItem)},
-  { 152, -1, sizeof(::BulletNewNtf)},
-  { 158, -1, sizeof(::HeartBeatReq)},
-  { 164, -1, sizeof(::HeartBeatAck)},
-  { 171, -1, sizeof(::ObjectDieNotify)},
+  { 154, -1, sizeof(::BulletNewNtf)},
+  { 160, -1, sizeof(::HeartBeatReq)},
+  { 166, -1, sizeof(::HeartBeatAck)},
+  { 173, -1, sizeof(::ObjectDieNotify)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -677,19 +679,20 @@ void AddDescriptorsImpl() {
       " \001(\005\022\r\n\005Speed\030\025 \001(\005\022\016\n\006Equips\030\026 \003(\005\022\017\n\007N"
       "ormals\030\027 \003(\005\022\020\n\010Specials\030\030 \003(\005\")\n\014Object"
       "NewNty\022\031\n\007NewList\030\001 \003(\0132\010.NewItem\"%\n\017Obj"
-      "ectRemoveNty\022\022\n\nRemoveList\030\001 \003(\004\"\262\001\n\nBul"
+      "ectRemoveNty\022\022\n\nRemoveList\030\001 \003(\004\"\330\001\n\nBul"
       "letItem\022\022\n\nObjectGuid\030\001 \001(\004\022\022\n\nTargetGui"
-      "d\030\002 \001(\004\022\020\n\010BulletID\030\003 \001(\005\022\t\n\001X\030\004 \001(\002\022\t\n\001"
-      "Y\030\005 \001(\002\022\t\n\001Z\030\006 \001(\002\022\n\n\002VX\030\007 \001(\002\022\n\n\002VZ\030\010 \001"
-      "(\002\022\r\n\005Speed\030\t \001(\002\022\020\n\010AccSpeed\030\n \001(\002\022\020\n\010L"
-      "eftTime\030\013 \001(\002\"-\n\014BulletNewNtf\022\035\n\010ItemLis"
-      "t\030\001 \003(\0132\013.BulletItem\"!\n\014HeartBeatReq\022\021\n\t"
-      "TimeStamp\030\001 \001(\r\"5\n\014HeartBeatAck\022\021\n\tTimeS"
-      "tamp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r\"%\n\017Object"
-      "DieNotify\022\022\n\nObjectGuid\030\001 \001(\004b\006proto3"
+      "d\030\002 \001(\004\022\022\n\nCasterGuid\030\003 \001(\004\022\020\n\010BulletID\030"
+      "\004 \001(\005\022\t\n\001X\030\005 \001(\002\022\t\n\001Y\030\006 \001(\002\022\t\n\001Z\030\007 \001(\002\022\n"
+      "\n\002VX\030\010 \001(\002\022\n\n\002VZ\030\t \001(\002\022\r\n\005Speed\030\n \001(\002\022\020\n"
+      "\010AccSpeed\030\013 \001(\002\022\020\n\010LifeTime\030\014 \001(\002\022\020\n\010Lef"
+      "tTime\030\r \001(\002\"-\n\014BulletNewNtf\022\035\n\010ItemList\030"
+      "\001 \003(\0132\013.BulletItem\"!\n\014HeartBeatReq\022\021\n\tTi"
+      "meStamp\030\001 \001(\r\"5\n\014HeartBeatAck\022\021\n\tTimeSta"
+      "mp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r\"%\n\017ObjectDi"
+      "eNotify\022\022\n\nObjectGuid\030\001 \001(\004b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1917);
+      descriptor, 1955);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Move.proto", &protobuf_RegisterTypes);
 }
@@ -6059,6 +6062,7 @@ void BulletItem::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int BulletItem::kObjectGuidFieldNumber;
 const int BulletItem::kTargetGuidFieldNumber;
+const int BulletItem::kCasterGuidFieldNumber;
 const int BulletItem::kBulletIDFieldNumber;
 const int BulletItem::kXFieldNumber;
 const int BulletItem::kYFieldNumber;
@@ -6067,6 +6071,7 @@ const int BulletItem::kVXFieldNumber;
 const int BulletItem::kVZFieldNumber;
 const int BulletItem::kSpeedFieldNumber;
 const int BulletItem::kAccSpeedFieldNumber;
+const int BulletItem::kLifeTimeFieldNumber;
 const int BulletItem::kLeftTimeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -6177,10 +6182,24 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 BulletID = 3;
+      // uint64 CasterGuid = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &casterguid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 BulletID = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -6191,10 +6210,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float X = 4;
-      case 4: {
+      // float X = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(37u /* 37 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6205,10 +6224,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float Y = 5;
-      case 5: {
+      // float Y = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6219,10 +6238,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float Z = 6;
-      case 6: {
+      // float Z = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(53u /* 53 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6233,10 +6252,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float VX = 7;
-      case 7: {
+      // float VX = 8;
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(61u /* 61 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(69u /* 69 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6247,10 +6266,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float VZ = 8;
-      case 8: {
+      // float VZ = 9;
+      case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(69u /* 69 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(77u /* 77 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6261,10 +6280,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float Speed = 9;
-      case 9: {
+      // float Speed = 10;
+      case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(77u /* 77 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(85u /* 85 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6275,10 +6294,10 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float AccSpeed = 10;
-      case 10: {
+      // float AccSpeed = 11;
+      case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(85u /* 85 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(93u /* 93 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6289,10 +6308,24 @@ bool BulletItem::MergePartialFromCodedStream(
         break;
       }
 
-      // float LeftTime = 11;
-      case 11: {
+      // float LifeTime = 12;
+      case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(93u /* 93 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(101u /* 101 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &lifetime_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float LeftTime = 13;
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(109u /* 109 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
@@ -6339,49 +6372,59 @@ void BulletItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->targetguid(), output);
   }
 
-  // int32 BulletID = 3;
+  // uint64 CasterGuid = 3;
+  if (this->casterguid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(3, this->casterguid(), output);
+  }
+
+  // int32 BulletID = 4;
   if (this->bulletid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->bulletid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->bulletid(), output);
   }
 
-  // float X = 4;
+  // float X = 5;
   if (this->x() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->x(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->x(), output);
   }
 
-  // float Y = 5;
+  // float Y = 6;
   if (this->y() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->y(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->y(), output);
   }
 
-  // float Z = 6;
+  // float Z = 7;
   if (this->z() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->z(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->z(), output);
   }
 
-  // float VX = 7;
+  // float VX = 8;
   if (this->vx() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->vx(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(8, this->vx(), output);
   }
 
-  // float VZ = 8;
+  // float VZ = 9;
   if (this->vz() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(8, this->vz(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(9, this->vz(), output);
   }
 
-  // float Speed = 9;
+  // float Speed = 10;
   if (this->speed() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(9, this->speed(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(10, this->speed(), output);
   }
 
-  // float AccSpeed = 10;
+  // float AccSpeed = 11;
   if (this->accspeed() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(10, this->accspeed(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(11, this->accspeed(), output);
   }
 
-  // float LeftTime = 11;
+  // float LifeTime = 12;
+  if (this->lifetime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(12, this->lifetime(), output);
+  }
+
+  // float LeftTime = 13;
   if (this->lefttime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(11, this->lefttime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(13, this->lefttime(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6408,49 +6451,59 @@ void BulletItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->targetguid(), target);
   }
 
-  // int32 BulletID = 3;
+  // uint64 CasterGuid = 3;
+  if (this->casterguid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(3, this->casterguid(), target);
+  }
+
+  // int32 BulletID = 4;
   if (this->bulletid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->bulletid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->bulletid(), target);
   }
 
-  // float X = 4;
+  // float X = 5;
   if (this->x() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->x(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->x(), target);
   }
 
-  // float Y = 5;
+  // float Y = 6;
   if (this->y() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->y(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->y(), target);
   }
 
-  // float Z = 6;
+  // float Z = 7;
   if (this->z() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->z(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->z(), target);
   }
 
-  // float VX = 7;
+  // float VX = 8;
   if (this->vx() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->vx(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(8, this->vx(), target);
   }
 
-  // float VZ = 8;
+  // float VZ = 9;
   if (this->vz() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(8, this->vz(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(9, this->vz(), target);
   }
 
-  // float Speed = 9;
+  // float Speed = 10;
   if (this->speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(9, this->speed(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(10, this->speed(), target);
   }
 
-  // float AccSpeed = 10;
+  // float AccSpeed = 11;
   if (this->accspeed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(10, this->accspeed(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(11, this->accspeed(), target);
   }
 
-  // float LeftTime = 11;
+  // float LifeTime = 12;
+  if (this->lifetime() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(12, this->lifetime(), target);
+  }
+
+  // float LeftTime = 13;
   if (this->lefttime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(11, this->lefttime(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(13, this->lefttime(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6484,49 +6537,61 @@ size_t BulletItem::ByteSizeLong() const {
         this->targetguid());
   }
 
-  // int32 BulletID = 3;
+  // uint64 CasterGuid = 3;
+  if (this->casterguid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->casterguid());
+  }
+
+  // int32 BulletID = 4;
   if (this->bulletid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->bulletid());
   }
 
-  // float X = 4;
+  // float X = 5;
   if (this->x() != 0) {
     total_size += 1 + 4;
   }
 
-  // float Y = 5;
+  // float Y = 6;
   if (this->y() != 0) {
     total_size += 1 + 4;
   }
 
-  // float Z = 6;
+  // float Z = 7;
   if (this->z() != 0) {
     total_size += 1 + 4;
   }
 
-  // float VX = 7;
+  // float VX = 8;
   if (this->vx() != 0) {
     total_size += 1 + 4;
   }
 
-  // float VZ = 8;
+  // float VZ = 9;
   if (this->vz() != 0) {
     total_size += 1 + 4;
   }
 
-  // float Speed = 9;
+  // float Speed = 10;
   if (this->speed() != 0) {
     total_size += 1 + 4;
   }
 
-  // float AccSpeed = 10;
+  // float AccSpeed = 11;
   if (this->accspeed() != 0) {
     total_size += 1 + 4;
   }
 
-  // float LeftTime = 11;
+  // float LifeTime = 12;
+  if (this->lifetime() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float LeftTime = 13;
   if (this->lefttime() != 0) {
     total_size += 1 + 4;
   }
@@ -6566,6 +6631,9 @@ void BulletItem::MergeFrom(const BulletItem& from) {
   if (from.targetguid() != 0) {
     set_targetguid(from.targetguid());
   }
+  if (from.casterguid() != 0) {
+    set_casterguid(from.casterguid());
+  }
   if (from.bulletid() != 0) {
     set_bulletid(from.bulletid());
   }
@@ -6589,6 +6657,9 @@ void BulletItem::MergeFrom(const BulletItem& from) {
   }
   if (from.accspeed() != 0) {
     set_accspeed(from.accspeed());
+  }
+  if (from.lifetime() != 0) {
+    set_lifetime(from.lifetime());
   }
   if (from.lefttime() != 0) {
     set_lefttime(from.lefttime());
@@ -6621,6 +6692,7 @@ void BulletItem::InternalSwap(BulletItem* other) {
   using std::swap;
   swap(objectguid_, other->objectguid_);
   swap(targetguid_, other->targetguid_);
+  swap(casterguid_, other->casterguid_);
   swap(bulletid_, other->bulletid_);
   swap(x_, other->x_);
   swap(y_, other->y_);
@@ -6629,6 +6701,7 @@ void BulletItem::InternalSwap(BulletItem* other) {
   swap(vz_, other->vz_);
   swap(speed_, other->speed_);
   swap(accspeed_, other->accspeed_);
+  swap(lifetime_, other->lifetime_);
   swap(lefttime_, other->lefttime_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

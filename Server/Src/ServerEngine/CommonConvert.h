@@ -52,7 +52,9 @@ BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtS
 
 BOOL ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat);
 
-BOOL StringToVector(const char * pStrValue, INT32 IntVector[], INT32 nSize, char cDelim = ',');
+BOOL StringToVector(const char* pStrValue, INT32 IntVector[], INT32 nSize, char cDelim = ',');
+
+BOOL StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim = ',');
 
 UINT32 VersionToInt(std::string& strVersion);
 

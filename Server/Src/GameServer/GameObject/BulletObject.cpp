@@ -3,20 +3,16 @@
 #include "SceneObject.h"
 #include "XMath.h"
 
-CBulletObject::CBulletObject(UINT64 uGuid, UINT32 dwID, UINT32 dwType, FLOAT fAngle)
+CBulletObject::CBulletObject(UINT64 uGuid, StBulletInfo* pBulletInfo, FLOAT fAngle)
 {
 	m_pCastObject	= NULL;
 	m_pTargetObject = NULL;
 	m_bFinished		= FALSE;
-	m_dwType		= dwType;
+	m_pBulletInfo = pBulletInfo;
 	m_vx			= sin(fAngle * DEG_TO_RAD);
 	m_vz			= cos(fAngle * DEG_TO_RAD);
 	m_uStartTick	= 0;
 	m_uLastTick		= 0;
-	m_uLifeTick		= 0;
-	m_fSpeed		= 0;
-	m_fAccSpeed		= 0;
-	m_dwID			= dwID;
 	m_uGuid			= uGuid;
 }
 
@@ -25,9 +21,9 @@ CBulletObject::~CBulletObject()
 	m_pCastObject	= NULL;
 	m_pTargetObject = NULL;
 	m_bFinished		= FALSE;
-	m_dwType		= 0;
 	m_vx			= 0;
 	m_vz			= 0;
+	m_pBulletInfo = NULL;
 }
 
 BOOL CBulletObject::OnUpdate(UINT64 uTick)
@@ -36,7 +32,7 @@ BOOL CBulletObject::OnUpdate(UINT64 uTick)
 
 	m_Pos.m_z += m_vz * (uTick - m_uLastTick) / 1000;
 
-	if ((uTick - m_uStartTick) > m_uLifeTick)
+	if ((uTick - m_uStartTick) > m_pBulletInfo->LifeTime)
 	{
 		m_bFinished = TRUE;
 	}
@@ -49,7 +45,7 @@ BOOL CBulletObject::SaveNewData(BulletNewNtf& Ntf)
 	BulletItem* pItem = Ntf.add_itemlist();
 
 	pItem->set_objectguid(m_uGuid);
-	pItem->set_bulletid(m_dwID);
+	pItem->set_bulletid(m_pBulletInfo->BulletID);
 	pItem->set_x(m_Pos.m_x);
 	pItem->set_y(m_Pos.m_y);
 	pItem->set_z(m_Pos.m_z);

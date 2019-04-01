@@ -232,18 +232,18 @@ BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, 
 	return TRUE;
 }
 
-BOOL CommonConvert::StringToVector(const char * pStrValue, INT32 IntVector[], INT32 nSize, char cDelim)
+BOOL CommonConvert::StringToVector(const char* pStrValue, INT32 IntVector[], INT32 nSize, char cDelim)
 {
 	if (pStrValue == NULL)
 	{
 		return FALSE;
 	}
 
-	char szBuf[1024] = { 0 };	
+	char szBuf[1024] = { 0 };
 	strncpy(szBuf, pStrValue, 1024);
 
-	char *pBeginPos = szBuf;
-	char *pEndPos = strchr(pBeginPos, cDelim);
+	char* pBeginPos = szBuf;
+	char* pEndPos = strchr(pBeginPos, cDelim);
 
 	if (pBeginPos == pEndPos)
 	{
@@ -269,7 +269,47 @@ BOOL CommonConvert::StringToVector(const char * pStrValue, INT32 IntVector[], IN
 	{
 		IntVector[nIndex++] = StringToInt(pBeginPos);
 	}
-	
+
+	return TRUE;
+}
+
+BOOL CommonConvert::StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim /*= ','*/)
+{
+	if (pStrValue == NULL)
+	{
+		return FALSE;
+	}
+
+	char szBuf[1024] = { 0 };
+	strncpy(szBuf, pStrValue, 1024);
+
+	char* pBeginPos = szBuf;
+	char* pEndPos = strchr(pBeginPos, cDelim);
+
+	if (pBeginPos == pEndPos)
+	{
+		pBeginPos += 1;
+		pEndPos = strchr(pBeginPos, cDelim);
+	}
+
+	INT32 nIndex = 0;
+	while (pEndPos != NULL)
+	{
+		FloatVector[nIndex++] = StringToFloat(pBeginPos);
+		if (nIndex >= nSize)
+		{
+			return TRUE;
+		}
+
+		pBeginPos = pEndPos + 1;
+		pEndPos = strchr(pBeginPos, cDelim);
+	}
+
+	if (*pBeginPos != 0 && nIndex < nSize)
+	{
+		FloatVector[nIndex++] = StringToFloat(pBeginPos);
+	}
+
 	return TRUE;
 }
 
@@ -377,21 +417,33 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	{
 		chr = *(str + i);
 		if ((chr & 0x80) != 0) // 判断是否ASCII编码,如果不是,说明有可能是UTF-8,ASCII用7位编码,但用一个字节存,最高位标记为0,o0xxxxxxx
-		{ bAllAscii = FALSE; }
+		{
+			bAllAscii = FALSE;
+		}
 		if (nBytes == 0) //如果不是ASCII码,应该是多字节符,计算字节数
 		{
 			if (chr >= 0x80)
 			{
 				if (chr >= 0xFC && chr <= 0xFD)
-				{ nBytes = 6; }
+				{
+					nBytes = 6;
+				}
 				else if (chr >= 0xF8)
-				{ nBytes = 5; }
+				{
+					nBytes = 5;
+				}
 				else if (chr >= 0xF0)
-				{ nBytes = 4; }
+				{
+					nBytes = 4;
+				}
 				else if (chr >= 0xE0)
-				{ nBytes = 3; }
+				{
+					nBytes = 3;
+				}
 				else if (chr >= 0xC0)
-				{ nBytes = 2; }
+				{
+					nBytes = 2;
+				}
 				else
 				{
 					return FALSE;

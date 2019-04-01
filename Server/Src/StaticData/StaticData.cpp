@@ -71,7 +71,7 @@ BOOL CStaticData::LoadConfigData(std::string strDbFile)
 
 	m_DBConnection.close();
 
-	//ReadSkillEvent();
+	ReadSkillEvent();
 
 	return TRUE;
 }
@@ -131,21 +131,21 @@ INT32 CStaticData::GetConstantValue(std::string& strName)
 		return itor->second;
 	}
 
-    ASSERT_FAIELD;
+	ASSERT_FAIELD;
 	return 0;
 }
 
 
-INT32 CStaticData::GetConstantValue(char *pszName)
+INT32 CStaticData::GetConstantValue(char* pszName)
 {
-    std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(pszName);
-    if (itor != m_mapConstantValue.end())
-    {
-        return itor->second;
-    }
+	std::map<std::string, INT32>::iterator itor = m_mapConstantValue.find(pszName);
+	if (itor != m_mapConstantValue.end())
+	{
+		return itor->second;
+	}
 
-    ASSERT_FAIELD;
-    return 0;
+	ASSERT_FAIELD;
+	return 0;
 }
 
 INT64 CStaticData::GetMoneyMaxValue(UINT32 dwMoneyID)
@@ -968,11 +968,10 @@ StSkillInfo* CStaticData::GetSkillInfo(UINT32 dwSkillID, UINT32 dwLevel)
 
 BOOL CStaticData::ReadSkillEvent()
 {
-	return TRUE;
 	std::string strPath = "Skill/Battle_Skill.xml";
 
 	rapidxml::xml_document<char>* pXMLDoc = NULL;
-	
+
 	FILE* pFile = fopen(strPath.c_str(), "rb");
 	ERROR_RETURN_FALSE(pFile != NULL);
 	fseek(pFile, 0, SEEK_END);
@@ -987,20 +986,32 @@ BOOL CStaticData::ReadSkillEvent()
 
 	rapidxml::xml_node<char>* pXmlRoot = pXMLDoc->first_node("Root");
 	ERROR_RETURN_FALSE(pXmlRoot != NULL);
-	
+
 	for (auto pSkillNode = pXmlRoot->first_node("Skill"); pSkillNode != NULL; pSkillNode = pSkillNode->next_sibling("Skill"))
 	{
 		//取技能ID
 		auto pAttr = pSkillNode->first_attribute("id", strlen("id"), false);
 		INT32 dwSkillID = CommonConvert::StringToInt(pAttr->value());;
-		
+
 		StSkillEventInfo tSkillEventInfo ;
 
 		for (auto pEventNode = pSkillNode->first_node("ActScope"); pEventNode != NULL; pEventNode = pEventNode->next_sibling("ActScope"))
 		{
 			StSkillEvent tEvent;
 			tEvent.ActionID = 0;
-			tEvent.RangeParams[0] = 0;
+			pAttr = pEventNode->first_attribute("RangeType", strlen("RangeType"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+
+			tEvent.RangeType = (ERangeType)CommonConvert::StringToInt(pAttr->value());;
+			pAttr = pEventNode->first_attribute("RangeParams", strlen("RangeParams"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+			CommonConvert::StringToVector(pAttr->value(), tEvent.RangeParams, 5, '~');;
 			tSkillEventInfo.vtEvents.push_back(tEvent);
 		}
 
@@ -1019,19 +1030,6 @@ StSkillEventInfo* CStaticData::GetSkillEventInfo(UINT32 dwSkillID)
 		return &itor->second;
 	}
 
-	StSkillEventInfo tInfo;
-	tInfo.SkillID = dwSkillID;
-
-	StSkillEvent tEvent;
-	tEvent.TrigerTime = 0;
-	tEvent.RangeType = TYPE_OBJECTS;
-
-	tInfo.vtEvents.push_back(tEvent);
-	
-	m_mapSkillEvent.insert(std::make_pair(dwSkillID, tInfo));
-
-	return GetSkillEventInfo(dwSkillID);
-
 	return NULL;
 }
 
@@ -1043,7 +1041,7 @@ BOOL CStaticData::ReadComboSkillInfo(CppSQLite3Query& QueryData)
 	{
 		StComboSkillInfo stValue;
 		stValue.SkillID = QueryData.getIntField("SkillId");
-		
+
 		INT32 nValue = QueryData.getIntField("Combo1");
 		if (nValue != 0)
 		{

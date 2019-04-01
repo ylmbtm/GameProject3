@@ -1960,57 +1960,69 @@ class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::uint64 targetguid() const;
   void set_targetguid(::google::protobuf::uint64 value);
 
-  // int32 BulletID = 3;
+  // uint64 CasterGuid = 3;
+  void clear_casterguid();
+  static const int kCasterGuidFieldNumber = 3;
+  ::google::protobuf::uint64 casterguid() const;
+  void set_casterguid(::google::protobuf::uint64 value);
+
+  // int32 BulletID = 4;
   void clear_bulletid();
-  static const int kBulletIDFieldNumber = 3;
+  static const int kBulletIDFieldNumber = 4;
   ::google::protobuf::int32 bulletid() const;
   void set_bulletid(::google::protobuf::int32 value);
 
-  // float X = 4;
+  // float X = 5;
   void clear_x();
-  static const int kXFieldNumber = 4;
+  static const int kXFieldNumber = 5;
   float x() const;
   void set_x(float value);
 
-  // float Y = 5;
+  // float Y = 6;
   void clear_y();
-  static const int kYFieldNumber = 5;
+  static const int kYFieldNumber = 6;
   float y() const;
   void set_y(float value);
 
-  // float Z = 6;
+  // float Z = 7;
   void clear_z();
-  static const int kZFieldNumber = 6;
+  static const int kZFieldNumber = 7;
   float z() const;
   void set_z(float value);
 
-  // float VX = 7;
+  // float VX = 8;
   void clear_vx();
-  static const int kVXFieldNumber = 7;
+  static const int kVXFieldNumber = 8;
   float vx() const;
   void set_vx(float value);
 
-  // float VZ = 8;
+  // float VZ = 9;
   void clear_vz();
-  static const int kVZFieldNumber = 8;
+  static const int kVZFieldNumber = 9;
   float vz() const;
   void set_vz(float value);
 
-  // float Speed = 9;
+  // float Speed = 10;
   void clear_speed();
-  static const int kSpeedFieldNumber = 9;
+  static const int kSpeedFieldNumber = 10;
   float speed() const;
   void set_speed(float value);
 
-  // float AccSpeed = 10;
+  // float AccSpeed = 11;
   void clear_accspeed();
-  static const int kAccSpeedFieldNumber = 10;
+  static const int kAccSpeedFieldNumber = 11;
   float accspeed() const;
   void set_accspeed(float value);
 
-  // float LeftTime = 11;
+  // float LifeTime = 12;
+  void clear_lifetime();
+  static const int kLifeTimeFieldNumber = 12;
+  float lifetime() const;
+  void set_lifetime(float value);
+
+  // float LeftTime = 13;
   void clear_lefttime();
-  static const int kLeftTimeFieldNumber = 11;
+  static const int kLeftTimeFieldNumber = 13;
   float lefttime() const;
   void set_lefttime(float value);
 
@@ -2020,6 +2032,7 @@ class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::uint64 targetguid_;
+  ::google::protobuf::uint64 casterguid_;
   ::google::protobuf::int32 bulletid_;
   float x_;
   float y_;
@@ -2028,6 +2041,7 @@ class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float vz_;
   float speed_;
   float accspeed_;
+  float lifetime_;
   float lefttime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
@@ -3808,7 +3822,21 @@ inline void BulletItem::set_targetguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:BulletItem.TargetGuid)
 }
 
-// int32 BulletID = 3;
+// uint64 CasterGuid = 3;
+inline void BulletItem::clear_casterguid() {
+  casterguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 BulletItem::casterguid() const {
+  // @@protoc_insertion_point(field_get:BulletItem.CasterGuid)
+  return casterguid_;
+}
+inline void BulletItem::set_casterguid(::google::protobuf::uint64 value) {
+  
+  casterguid_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.CasterGuid)
+}
+
+// int32 BulletID = 4;
 inline void BulletItem::clear_bulletid() {
   bulletid_ = 0;
 }
@@ -3822,7 +3850,7 @@ inline void BulletItem::set_bulletid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BulletItem.BulletID)
 }
 
-// float X = 4;
+// float X = 5;
 inline void BulletItem::clear_x() {
   x_ = 0;
 }
@@ -3836,7 +3864,7 @@ inline void BulletItem::set_x(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.X)
 }
 
-// float Y = 5;
+// float Y = 6;
 inline void BulletItem::clear_y() {
   y_ = 0;
 }
@@ -3850,7 +3878,7 @@ inline void BulletItem::set_y(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.Y)
 }
 
-// float Z = 6;
+// float Z = 7;
 inline void BulletItem::clear_z() {
   z_ = 0;
 }
@@ -3864,7 +3892,7 @@ inline void BulletItem::set_z(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.Z)
 }
 
-// float VX = 7;
+// float VX = 8;
 inline void BulletItem::clear_vx() {
   vx_ = 0;
 }
@@ -3878,7 +3906,7 @@ inline void BulletItem::set_vx(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.VX)
 }
 
-// float VZ = 8;
+// float VZ = 9;
 inline void BulletItem::clear_vz() {
   vz_ = 0;
 }
@@ -3892,7 +3920,7 @@ inline void BulletItem::set_vz(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.VZ)
 }
 
-// float Speed = 9;
+// float Speed = 10;
 inline void BulletItem::clear_speed() {
   speed_ = 0;
 }
@@ -3906,7 +3934,7 @@ inline void BulletItem::set_speed(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.Speed)
 }
 
-// float AccSpeed = 10;
+// float AccSpeed = 11;
 inline void BulletItem::clear_accspeed() {
   accspeed_ = 0;
 }
@@ -3920,7 +3948,21 @@ inline void BulletItem::set_accspeed(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.AccSpeed)
 }
 
-// float LeftTime = 11;
+// float LifeTime = 12;
+inline void BulletItem::clear_lifetime() {
+  lifetime_ = 0;
+}
+inline float BulletItem::lifetime() const {
+  // @@protoc_insertion_point(field_get:BulletItem.LifeTime)
+  return lifetime_;
+}
+inline void BulletItem::set_lifetime(float value) {
+  
+  lifetime_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.LifeTime)
+}
+
+// float LeftTime = 13;
 inline void BulletItem::clear_lefttime() {
   lefttime_ = 0;
 }

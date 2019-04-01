@@ -124,7 +124,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
-	if (dwRandValue > (800 + m_pCastObject->m_Propertys[8] - pTarget->m_Propertys[7]) && dwRandValue > 500)
+	if (dwRandValue < (8000 + m_pCastObject->m_Propertys[HIT_RATE] - pTarget->m_Propertys[DODGE]) || dwRandValue < 5000)
 	{
 		//未命中
 		m_pCastObject->NotifyHitEffect(pTarget, FALSE, 0);
@@ -134,18 +134,22 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 	//判断是否爆击
 	dwRandValue = CommonFunc::GetRandNum(1);
 	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (m_pCastObject->m_Propertys[9] - m_pCastObject->m_Propertys[10]) || dwRandValue < 10)
+	if (dwRandValue < (m_pCastObject->m_Propertys[CRIT_HIT] - m_pCastObject->m_Propertys[CRIT_DEF]) || dwRandValue < 100)
 	{
 		bCriticalHit = TRUE;
 	}
 
 	//最终伤害加成
-	UINT32 dwFinalAdd = m_pCastObject->m_Propertys[6] - pTarget->m_Propertys[5] + 1000;
+	INT32 nFinalAdd = m_pCastObject->m_Propertys[MORE_HURT] - pTarget->m_Propertys[LESS_HURT];
+	if (nFinalAdd < 0)
+	{
+		nFinalAdd = 0;
+	}
 
 	//伤害随机
 	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 nHurt = m_pCastObject->m_Propertys[5];
-	nHurt = nHurt - pTarget->m_Propertys[1];
+	INT32 nHurt = m_pCastObject->m_Propertys[ATTACK];
+	nHurt = nHurt - pTarget->m_Propertys[HP];
 	if (nHurt <= 0)
 	{
 		nHurt = 1;
@@ -153,7 +157,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 	else
 	{
 		nHurt = nHurt * dwFightRand / 1000;
-		nHurt = nHurt * dwFinalAdd / 1000;
+		nHurt = nHurt * nFinalAdd / 1000;
 		if (bCriticalHit)
 		{
 			nHurt = nHurt * 15 / 10;
@@ -173,12 +177,12 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 
 	switch (SkillEvent.RangeType)
 	{
-		case TYPE_OBJECTS:
+		case ERT_OBJECTS:
 		{
 			//什么都不需要做，直接使用客户端传过来的目标列表
 		}
 		break;
-		case TYPE_CIRCLE:
+		case ERT_CIRCLE:
 		{
 			FLOAT radius	= SkillEvent.RangeParams[0];
 			FLOAT hAngle	= SkillEvent.RangeParams[1];
@@ -189,13 +193,13 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 			Vector3D hitPoint = m_pCastObject->m_Pos;
 			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
 
-			CScene *pScene = m_pCastObject->GetScene();
+			CScene* pScene = m_pCastObject->GetScene();
 			ERROR_RETURN_FALSE(pScene != NULL);
 
 			pScene->SelectTargetsInCircle(m_vtTargets, hitPoint, radius, height);
 		}
 		break;
-		case TYPE_CYLINDER:
+		case ERT_CYLINDER:
 		{
 			FLOAT radius	= SkillEvent.RangeParams[0];
 			FLOAT hAngle	= SkillEvent.RangeParams[1];
@@ -208,13 +212,13 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 
 			FLOAT hitDir = m_pCastObject->m_ft;
 
-			CScene *pScene = m_pCastObject->GetScene();
+			CScene* pScene = m_pCastObject->GetScene();
 			ERROR_RETURN_FALSE(pScene != NULL);
 
 			pScene->SelectTargetsInSector(m_vtTargets, hitPoint, hitDir, radius, hAngle);
 		}
 		break;
-		case TYPE_BOX:
+		case ERT_BOX:
 		{
 			FLOAT length	= SkillEvent.RangeParams[0];
 			FLOAT width		= SkillEvent.RangeParams[1];
@@ -227,10 +231,14 @@ BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 
 			FLOAT hitDir = m_pCastObject->m_ft;
 
-			CScene *pScene = m_pCastObject->GetScene();
+			CScene* pScene = m_pCastObject->GetScene();
 			ERROR_RETURN_FALSE(pScene != NULL);
 
 			pScene->SelectTargetsInSquare(m_vtTargets, hitPoint, hitDir, length, width);
+		}
+		case ERT_LINK:
+		{
+
 		}
 		break;
 	}
@@ -267,7 +275,7 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 
 		ERROR_RETURN_FALSE(pScene != NULL);
 
-		pScene->CreateBullet(data.BulletID, m_pCastObject->m_ft + data.Angle, data.BulletType);
+		pScene->CreateBullet(&data, m_pCastObject->m_ft + data.Angle);
 	}
 
 	return TRUE;

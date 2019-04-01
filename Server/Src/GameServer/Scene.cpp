@@ -717,7 +717,7 @@ VOID CScene::DeletePlayer(UINT64 uID)
 	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
 	if(itor != m_PlayerMap.end())
 	{
-		CSceneObject *pObject = itor->second;
+		CSceneObject* pObject = itor->second;
 		delete pObject;
 		m_PlayerMap.erase(itor);
 	}
@@ -746,7 +746,7 @@ VOID CScene::DeleteMonster(UINT64 uID)
 	std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.find(uID);
 	if(itor != m_MonsterMap.end())
 	{
-		CSceneObject *pObject = itor->second;
+		CSceneObject* pObject = itor->second;
 		delete pObject;
 		m_MonsterMap.erase(itor);
 	}
@@ -876,7 +876,7 @@ UINT64 CScene::SelectController(UINT64 uFilterID)
 	return 0;
 }
 
-BOOL CScene::SelectTargetsInCircle(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float radius, float height)
+BOOL CScene::SelectTargetsInCircle(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float radius, float height)
 {
 	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
@@ -900,7 +900,7 @@ BOOL CScene::SelectTargetsInCircle(std::vector<CSceneObject*> &vTargets, Vector3
 	return TRUE;
 }
 
-BOOL CScene::SelectTargetsInSquare(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float length, float width)
+BOOL CScene::SelectTargetsInSquare(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float length, float width)
 {
 	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
@@ -925,7 +925,7 @@ BOOL CScene::SelectTargetsInSquare(std::vector<CSceneObject*> &vTargets, Vector3
 	return TRUE;
 }
 
-BOOL CScene::SelectTargetsInSector(std::vector<CSceneObject*> &vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle)
+BOOL CScene::SelectTargetsInSector(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle)
 {
 	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
 	{
@@ -1241,11 +1241,11 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 	return pObject;
 }
 
-CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, UINT32 dwType, FLOAT Angle)
+CBulletObject* CScene::CreateBullet(StBulletInfo* pBulletInfo, FLOAT Angle)
 {
-	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), dwBulletID, dwType, Angle);
+	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), pBulletInfo, Angle);
 
-	m_BulletMap.insert(std::make_pair(pBullet->m_dwID, pBullet));
+	m_BulletMap.insert(std::make_pair(pBullet->m_uGuid, pBullet));
 
 	BroadNewBullet(pBullet);
 
