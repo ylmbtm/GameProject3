@@ -29,6 +29,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "Msg_Game.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_Msg_5fLoginCltData_2eproto {
@@ -36,7 +37,7 @@ namespace protobuf_Msg_5fLoginCltData_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[22];
+  static const ::google::protobuf::internal::ParseTable schema[21];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -80,8 +81,6 @@ void InitDefaultsChapterItemImpl();
 void InitDefaultsChapterItem();
 void InitDefaultsActionItemImpl();
 void InitDefaultsActionItem();
-void InitDefaultsSkillItemImpl();
-void InitDefaultsSkillItem();
 void InitDefaultsSkillChangeNtyImpl();
 void InitDefaultsSkillChangeNty();
 void InitDefaultsRoleLoginAckImpl();
@@ -106,7 +105,6 @@ inline void InitDefaults() {
   InitDefaultsCopyItem();
   InitDefaultsChapterItem();
   InitDefaultsActionItem();
-  InitDefaultsSkillItem();
   InitDefaultsSkillChangeNty();
   InitDefaultsRoleLoginAck();
 }
@@ -168,9 +166,6 @@ extern RoleLoginAckDefaultTypeInternal _RoleLoginAck_default_instance_;
 class SkillChangeNty;
 class SkillChangeNtyDefaultTypeInternal;
 extern SkillChangeNtyDefaultTypeInternal _SkillChangeNty_default_instance_;
-class SkillItem;
-class SkillItemDefaultTypeInternal;
-extern SkillItemDefaultTypeInternal _SkillItem_default_instance_;
 class TaskChangeNty;
 class TaskChangeNtyDefaultTypeInternal;
 extern TaskChangeNtyDefaultTypeInternal _TaskChangeNty_default_instance_;
@@ -2543,119 +2538,6 @@ class ActionItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
 };
 // -------------------------------------------------------------------
 
-class SkillItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillItem) */ {
- public:
-  SkillItem();
-  virtual ~SkillItem();
-
-  SkillItem(const SkillItem& from);
-
-  inline SkillItem& operator=(const SkillItem& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SkillItem(SkillItem&& from) noexcept
-    : SkillItem() {
-    *this = ::std::move(from);
-  }
-
-  inline SkillItem& operator=(SkillItem&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const SkillItem& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SkillItem* internal_default_instance() {
-    return reinterpret_cast<const SkillItem*>(
-               &_SkillItem_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
-
-  void Swap(SkillItem* other);
-  friend void swap(SkillItem& a, SkillItem& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SkillItem* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  SkillItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const SkillItem& from);
-  void MergeFrom(const SkillItem& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(SkillItem* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint32 SkillID = 1;
-  void clear_skillid();
-  static const int kSkillIDFieldNumber = 1;
-  ::google::protobuf::uint32 skillid() const;
-  void set_skillid(::google::protobuf::uint32 value);
-
-  // int32 Level = 2;
-  void clear_level();
-  static const int kLevelFieldNumber = 2;
-  ::google::protobuf::int32 level() const;
-  void set_level(::google::protobuf::int32 value);
-
-  // int32 KeyPos = 3;
-  void clear_keypos();
-  static const int kKeyPosFieldNumber = 3;
-  ::google::protobuf::int32 keypos() const;
-  void set_keypos(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:SkillItem)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 skillid_;
-  ::google::protobuf::int32 level_;
-  ::google::protobuf::int32 keypos_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fLoginCltData_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsSkillItemImpl();
-};
-// -------------------------------------------------------------------
-
 class SkillChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillChangeNty) */ {
  public:
   SkillChangeNty();
@@ -2691,7 +2573,7 @@ class SkillChangeNty : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SkillChangeNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    20;
+    19;
 
   void Swap(SkillChangeNty* other);
   friend void swap(SkillChangeNty& a, SkillChangeNty& b) {
@@ -2810,7 +2692,7 @@ class RoleLoginAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoleLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    21;
+    20;
 
   void Swap(RoleLoginAck* other);
   friend void swap(RoleLoginAck& a, RoleLoginAck& b) {
@@ -4462,52 +4344,6 @@ inline void ActionItem::set_actime(::google::protobuf::int64 value) {
 
 // -------------------------------------------------------------------
 
-// SkillItem
-
-// uint32 SkillID = 1;
-inline void SkillItem::clear_skillid() {
-  skillid_ = 0u;
-}
-inline ::google::protobuf::uint32 SkillItem::skillid() const {
-  // @@protoc_insertion_point(field_get:SkillItem.SkillID)
-  return skillid_;
-}
-inline void SkillItem::set_skillid(::google::protobuf::uint32 value) {
-  
-  skillid_ = value;
-  // @@protoc_insertion_point(field_set:SkillItem.SkillID)
-}
-
-// int32 Level = 2;
-inline void SkillItem::clear_level() {
-  level_ = 0;
-}
-inline ::google::protobuf::int32 SkillItem::level() const {
-  // @@protoc_insertion_point(field_get:SkillItem.Level)
-  return level_;
-}
-inline void SkillItem::set_level(::google::protobuf::int32 value) {
-  
-  level_ = value;
-  // @@protoc_insertion_point(field_set:SkillItem.Level)
-}
-
-// int32 KeyPos = 3;
-inline void SkillItem::clear_keypos() {
-  keypos_ = 0;
-}
-inline ::google::protobuf::int32 SkillItem::keypos() const {
-  // @@protoc_insertion_point(field_get:SkillItem.KeyPos)
-  return keypos_;
-}
-inline void SkillItem::set_keypos(::google::protobuf::int32 value) {
-  
-  keypos_ = value;
-  // @@protoc_insertion_point(field_set:SkillItem.KeyPos)
-}
-
-// -------------------------------------------------------------------
-
 // SkillChangeNty
 
 // repeated .SkillItem ChangeList = 1;
@@ -5116,8 +4952,6 @@ RoleLoginAck::skilllist() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

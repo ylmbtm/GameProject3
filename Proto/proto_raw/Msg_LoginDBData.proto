@@ -68,12 +68,9 @@ message DBEquipItem {
     bool     IsUsing = 9;       //是否使用中
 }
 
-
-
 message DBEquipData {
     repeated    DBEquipItem EquipList = 1;
 }
-
 
 message DBGemItem {
     uint64   RoleID = 1;         //角色ID

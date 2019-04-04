@@ -1,4 +1,11 @@
 ﻿syntax = "proto3";
+
+message SkillItem {
+    uint32 SkillID = 1;
+    int32  Level = 2;
+    int32  KeyPos = 3;   //强化等级
+}
+
 message CheckVersionReq {
     string   ClientVerion   = 1;
     int32    Channel        = 2;
@@ -166,6 +173,8 @@ message CreateNewSceneReq{
     uint64   CreateParam   = 4;
 }
 
+
+
 ///创建场景
 message CreateNewSceneAck{
     uint32    RetCode        = 1;
@@ -205,8 +214,7 @@ message EnterSceneAck {
     int32    MpMax          = 16;
     int32    Speed          = 17;
     repeated int32 Equips   = 18; //武器
-    repeated int32 Normals  = 19;        //普通技能
-    repeated int32 Specials = 20;        //其它技能
+    repeated SkillItem Skills  = 19;//技能
 }
 
 message AbortCopyReq {
@@ -245,7 +253,7 @@ message TransRoleData {
     int32    Level         = 5;
     repeated int32 Equips  = 6;
     repeated int32 Propertys= 7;
-    repeated int32 Skills = 8;
+    repeated SkillItem Skills = 8;
 }
 
 message TransPetData {
@@ -255,7 +263,7 @@ message TransPetData {
     string   Name         = 4;
     int32    Level        = 5;
     repeated int32 Propertys= 6;
-    repeated int32  Skills = 7;
+    repeated SkillItem  Skills = 7;
 }
 
 
@@ -266,7 +274,7 @@ message TransPartnerData {
     string   Name           = 4;
     int32    Level          = 5;
     repeated int32 Propertys= 6;
-    repeated int32  Skills  = 7;
+    repeated SkillItem  Skills  = 7;
 }
 
 message TransferDataReq {

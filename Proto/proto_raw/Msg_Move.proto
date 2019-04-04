@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "Msg_Game.proto";
 
 //请求释放技能
 message SkillCastReq
@@ -111,8 +112,7 @@ message NewItem {
     int32     MpMax         = 20;
     int32     Speed         = 21;
     repeated int32 Equips   = 22;        //装备
-    repeated int32 Normals  = 23;        //普通技能
-    repeated int32 Specials = 24;        //其它技能
+    repeated SkillItem Skills  = 23;     //普通技能
 }
 
 message ObjectNewNty {

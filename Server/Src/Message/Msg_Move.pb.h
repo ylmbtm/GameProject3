@@ -29,6 +29,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "Msg_Game.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_Msg_5fMove_2eproto {
@@ -1460,29 +1461,17 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
-  // repeated int32 Normals = 23;
-  int normals_size() const;
-  void clear_normals();
-  static const int kNormalsFieldNumber = 23;
-  ::google::protobuf::int32 normals(int index) const;
-  void set_normals(int index, ::google::protobuf::int32 value);
-  void add_normals(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      normals() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_normals();
-
-  // repeated int32 Specials = 24;
-  int specials_size() const;
-  void clear_specials();
-  static const int kSpecialsFieldNumber = 24;
-  ::google::protobuf::int32 specials(int index) const;
-  void set_specials(int index, ::google::protobuf::int32 value);
-  void add_specials(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      specials() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_specials();
+  // repeated .SkillItem Skills = 23;
+  int skills_size() const;
+  void clear_skills();
+  static const int kSkillsFieldNumber = 23;
+  const ::SkillItem& skills(int index) const;
+  ::SkillItem* mutable_skills(int index);
+  ::SkillItem* add_skills();
+  ::google::protobuf::RepeatedPtrField< ::SkillItem >*
+      mutable_skills();
+  const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+      skills() const;
 
   // string Name = 8;
   void clear_name();
@@ -1624,10 +1613,7 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
   mutable int _equips_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > normals_;
-  mutable int _normals_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > specials_;
-  mutable int _specials_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::SkillItem > skills_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 objtype_;
@@ -3662,64 +3648,34 @@ NewItem::mutable_equips() {
   return &equips_;
 }
 
-// repeated int32 Normals = 23;
-inline int NewItem::normals_size() const {
-  return normals_.size();
+// repeated .SkillItem Skills = 23;
+inline int NewItem::skills_size() const {
+  return skills_.size();
 }
-inline void NewItem::clear_normals() {
-  normals_.Clear();
+inline void NewItem::clear_skills() {
+  skills_.Clear();
 }
-inline ::google::protobuf::int32 NewItem::normals(int index) const {
-  // @@protoc_insertion_point(field_get:NewItem.Normals)
-  return normals_.Get(index);
+inline const ::SkillItem& NewItem::skills(int index) const {
+  // @@protoc_insertion_point(field_get:NewItem.Skills)
+  return skills_.Get(index);
 }
-inline void NewItem::set_normals(int index, ::google::protobuf::int32 value) {
-  normals_.Set(index, value);
-  // @@protoc_insertion_point(field_set:NewItem.Normals)
+inline ::SkillItem* NewItem::mutable_skills(int index) {
+  // @@protoc_insertion_point(field_mutable:NewItem.Skills)
+  return skills_.Mutable(index);
 }
-inline void NewItem::add_normals(::google::protobuf::int32 value) {
-  normals_.Add(value);
-  // @@protoc_insertion_point(field_add:NewItem.Normals)
+inline ::SkillItem* NewItem::add_skills() {
+  // @@protoc_insertion_point(field_add:NewItem.Skills)
+  return skills_.Add();
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-NewItem::normals() const {
-  // @@protoc_insertion_point(field_list:NewItem.Normals)
-  return normals_;
+inline ::google::protobuf::RepeatedPtrField< ::SkillItem >*
+NewItem::mutable_skills() {
+  // @@protoc_insertion_point(field_mutable_list:NewItem.Skills)
+  return &skills_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-NewItem::mutable_normals() {
-  // @@protoc_insertion_point(field_mutable_list:NewItem.Normals)
-  return &normals_;
-}
-
-// repeated int32 Specials = 24;
-inline int NewItem::specials_size() const {
-  return specials_.size();
-}
-inline void NewItem::clear_specials() {
-  specials_.Clear();
-}
-inline ::google::protobuf::int32 NewItem::specials(int index) const {
-  // @@protoc_insertion_point(field_get:NewItem.Specials)
-  return specials_.Get(index);
-}
-inline void NewItem::set_specials(int index, ::google::protobuf::int32 value) {
-  specials_.Set(index, value);
-  // @@protoc_insertion_point(field_set:NewItem.Specials)
-}
-inline void NewItem::add_specials(::google::protobuf::int32 value) {
-  specials_.Add(value);
-  // @@protoc_insertion_point(field_add:NewItem.Specials)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-NewItem::specials() const {
-  // @@protoc_insertion_point(field_list:NewItem.Specials)
-  return specials_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-NewItem::mutable_specials() {
-  // @@protoc_insertion_point(field_mutable_list:NewItem.Specials)
-  return &specials_;
+inline const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+NewItem::skills() const {
+  // @@protoc_insertion_point(field_list:NewItem.Skills)
+  return skills_;
 }
 
 // -------------------------------------------------------------------

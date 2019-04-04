@@ -262,6 +262,7 @@ void InitDefaultsNewItemImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
+  protobuf_Msg_5fGame_2eproto::InitDefaultsSkillItem();
   {
     void* ptr = &::_NewItem_default_instance_;
     new (ptr) ::NewItem();
@@ -521,8 +522,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, mpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, equips_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, normals_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, specials_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, skills_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ObjectNewNty, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -590,13 +590,13 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 65, -1, sizeof(::ObjectActionAck)},
   { 71, -1, sizeof(::ActionNtyItem)},
   { 95, -1, sizeof(::NewItem)},
-  { 124, -1, sizeof(::ObjectNewNty)},
-  { 130, -1, sizeof(::ObjectRemoveNty)},
-  { 136, -1, sizeof(::BulletItem)},
-  { 154, -1, sizeof(::BulletNewNtf)},
-  { 160, -1, sizeof(::HeartBeatReq)},
-  { 166, -1, sizeof(::HeartBeatAck)},
-  { 173, -1, sizeof(::ObjectDieNotify)},
+  { 123, -1, sizeof(::ObjectNewNty)},
+  { 129, -1, sizeof(::ObjectRemoveNty)},
+  { 135, -1, sizeof(::BulletItem)},
+  { 153, -1, sizeof(::BulletNewNtf)},
+  { 159, -1, sizeof(::HeartBeatReq)},
+  { 165, -1, sizeof(::HeartBeatAck)},
+  { 172, -1, sizeof(::ObjectDieNotify)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -641,60 +641,62 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016Msg_Move.proto\"\314\001\n\014SkillCastReq\022\022\n\nObj"
-      "ectGuid\030\001 \001(\004\022\017\n\007SkillID\030\002 \001(\005\022\r\n\005HostX\030"
-      "\003 \001(\002\022\r\n\005HostY\030\004 \001(\002\022\r\n\005HostZ\030\005 \001(\002\022\016\n\006H"
-      "ostFt\030\006 \001(\002\022\017\n\007TargetX\030\007 \001(\002\022\017\n\007TargetY\030"
-      "\010 \001(\002\022\017\n\007TargetZ\030\t \001(\002\022\020\n\010TargetFt\030\n \001(\002"
-      "\022\025\n\rTargetObjects\030\013 \003(\004\"\037\n\014SkillCastAck\022"
-      "\017\n\007RetCode\030\001 \001(\r\"\242\001\n\017SkillResultItem\022\022\n\n"
-      "ObjectGuid\030\001 \001(\004\022\017\n\007SkillID\030\002 \001(\005\022\020\n\010Act"
-      "ionID\030\003 \001(\005\022\014\n\004OrgX\030\004 \001(\002\022\014\n\004OrgY\030\005 \001(\002\022"
-      "\014\n\004OrgZ\030\006 \001(\002\022\r\n\005OrgFt\030\007 \001(\002\022\020\n\010HpChange"
-      "\030\010 \001(\005\022\r\n\005bCrit\030\t \001(\010\"4\n\016SkillResultNtf\022"
-      "\"\n\010ItemList\030\001 \003(\0132\020.SkillResultItem\"5\n\017O"
-      "bjectActionReq\022\"\n\nActionList\030\001 \003(\0132\016.Act"
-      "ionReqItem\"5\n\017ObjectActionNty\022\"\n\nActionL"
-      "ist\030\001 \003(\0132\016.ActionNtyItem\"r\n\rActionReqIt"
-      "em\022\022\n\nObjectGuid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005"
-      "\022\r\n\005HostX\030\003 \001(\002\022\r\n\005HostY\030\004 \001(\002\022\r\n\005HostZ\030"
-      "\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\"5\n\017ObjectActionAck"
-      "\022\"\n\nActionList\030\001 \003(\0132\016.ActionReqItem\"\303\002\n"
-      "\rActionNtyItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020\n\010Ac"
-      "tionID\030\002 \001(\005\022\014\n\004Camp\030\003 \001(\005\022\023\n\013ObjectStat"
-      "e\030\004 \001(\005\022\021\n\tBuffState\030\005 \001(\005\022\r\n\005HostX\030\006 \001("
-      "\002\022\r\n\005HostY\030\007 \001(\002\022\r\n\005HostZ\030\010 \001(\002\022\016\n\006HostF"
-      "t\030\t \001(\002\022\017\n\007ActorID\030\n \001(\005\022\017\n\007MountID\030\013 \001("
-      "\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013ControlerID\030\r \001(\004\022\n\n"
-      "\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n\005HpMax\030\020 \001(\005\022\r\n\005"
-      "MpMax\030\021 \001(\005\022\r\n\005Speed\030\022 \001(\005\022\016\n\006Equips\030\023 \003"
-      "(\005\"\201\003\n\007NewItem\022\022\n\nObjectGuid\030\001 \001(\004\022\017\n\007Ob"
-      "jType\030\002 \001(\005\022\023\n\013ObjectState\030\003 \001(\005\022\021\n\tBuff"
-      "State\030\004 \001(\005\022\017\n\007ActorID\030\005 \001(\005\022\017\n\007MountID\030"
-      "\006 \001(\005\022\014\n\004Camp\030\007 \001(\005\022\014\n\004Name\030\010 \001(\t\022\r\n\005Lev"
-      "el\030\t \001(\005\022\020\n\010HostGuid\030\n \001(\004\022\023\n\013ControlerI"
-      "D\030\013 \001(\004\022\020\n\010SummonID\030\014 \001(\004\022\t\n\001X\030\r \001(\002\022\t\n\001"
-      "Y\030\016 \001(\002\022\t\n\001Z\030\017 \001(\002\022\n\n\002Ft\030\020 \001(\002\022\n\n\002Hp\030\021 \001"
-      "(\005\022\n\n\002Mp\030\022 \001(\005\022\r\n\005HpMax\030\023 \001(\005\022\r\n\005MpMax\030\024"
-      " \001(\005\022\r\n\005Speed\030\025 \001(\005\022\016\n\006Equips\030\026 \003(\005\022\017\n\007N"
-      "ormals\030\027 \003(\005\022\020\n\010Specials\030\030 \003(\005\")\n\014Object"
-      "NewNty\022\031\n\007NewList\030\001 \003(\0132\010.NewItem\"%\n\017Obj"
-      "ectRemoveNty\022\022\n\nRemoveList\030\001 \003(\004\"\330\001\n\nBul"
-      "letItem\022\022\n\nObjectGuid\030\001 \001(\004\022\022\n\nTargetGui"
-      "d\030\002 \001(\004\022\022\n\nCasterGuid\030\003 \001(\004\022\020\n\010BulletID\030"
-      "\004 \001(\005\022\t\n\001X\030\005 \001(\002\022\t\n\001Y\030\006 \001(\002\022\t\n\001Z\030\007 \001(\002\022\n"
-      "\n\002VX\030\010 \001(\002\022\n\n\002VZ\030\t \001(\002\022\r\n\005Speed\030\n \001(\002\022\020\n"
-      "\010AccSpeed\030\013 \001(\002\022\020\n\010LifeTime\030\014 \001(\002\022\020\n\010Lef"
-      "tTime\030\r \001(\002\"-\n\014BulletNewNtf\022\035\n\010ItemList\030"
-      "\001 \003(\0132\013.BulletItem\"!\n\014HeartBeatReq\022\021\n\tTi"
-      "meStamp\030\001 \001(\r\"5\n\014HeartBeatAck\022\021\n\tTimeSta"
-      "mp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r\"%\n\017ObjectDi"
-      "eNotify\022\022\n\nObjectGuid\030\001 \001(\004b\006proto3"
+      "\n\016Msg_Move.proto\032\016Msg_Game.proto\"\314\001\n\014Ski"
+      "llCastReq\022\022\n\nObjectGuid\030\001 \001(\004\022\017\n\007SkillID"
+      "\030\002 \001(\005\022\r\n\005HostX\030\003 \001(\002\022\r\n\005HostY\030\004 \001(\002\022\r\n\005"
+      "HostZ\030\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\022\017\n\007TargetX\030\007"
+      " \001(\002\022\017\n\007TargetY\030\010 \001(\002\022\017\n\007TargetZ\030\t \001(\002\022\020"
+      "\n\010TargetFt\030\n \001(\002\022\025\n\rTargetObjects\030\013 \003(\004\""
+      "\037\n\014SkillCastAck\022\017\n\007RetCode\030\001 \001(\r\"\242\001\n\017Ski"
+      "llResultItem\022\022\n\nObjectGuid\030\001 \001(\004\022\017\n\007Skil"
+      "lID\030\002 \001(\005\022\020\n\010ActionID\030\003 \001(\005\022\014\n\004OrgX\030\004 \001("
+      "\002\022\014\n\004OrgY\030\005 \001(\002\022\014\n\004OrgZ\030\006 \001(\002\022\r\n\005OrgFt\030\007"
+      " \001(\002\022\020\n\010HpChange\030\010 \001(\005\022\r\n\005bCrit\030\t \001(\010\"4\n"
+      "\016SkillResultNtf\022\"\n\010ItemList\030\001 \003(\0132\020.Skil"
+      "lResultItem\"5\n\017ObjectActionReq\022\"\n\nAction"
+      "List\030\001 \003(\0132\016.ActionReqItem\"5\n\017ObjectActi"
+      "onNty\022\"\n\nActionList\030\001 \003(\0132\016.ActionNtyIte"
+      "m\"r\n\rActionReqItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020"
+      "\n\010ActionID\030\002 \001(\005\022\r\n\005HostX\030\003 \001(\002\022\r\n\005HostY"
+      "\030\004 \001(\002\022\r\n\005HostZ\030\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\"5\n"
+      "\017ObjectActionAck\022\"\n\nActionList\030\001 \003(\0132\016.A"
+      "ctionReqItem\"\303\002\n\rActionNtyItem\022\022\n\nObject"
+      "Guid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\014\n\004Camp\030\003 \001"
+      "(\005\022\023\n\013ObjectState\030\004 \001(\005\022\021\n\tBuffState\030\005 \001"
+      "(\005\022\r\n\005HostX\030\006 \001(\002\022\r\n\005HostY\030\007 \001(\002\022\r\n\005Host"
+      "Z\030\010 \001(\002\022\016\n\006HostFt\030\t \001(\002\022\017\n\007ActorID\030\n \001(\005"
+      "\022\017\n\007MountID\030\013 \001(\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013Cont"
+      "rolerID\030\r \001(\004\022\n\n\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n"
+      "\005HpMax\030\020 \001(\005\022\r\n\005MpMax\030\021 \001(\005\022\r\n\005Speed\030\022 \001"
+      "(\005\022\016\n\006Equips\030\023 \003(\005\"\372\002\n\007NewItem\022\022\n\nObject"
+      "Guid\030\001 \001(\004\022\017\n\007ObjType\030\002 \001(\005\022\023\n\013ObjectSta"
+      "te\030\003 \001(\005\022\021\n\tBuffState\030\004 \001(\005\022\017\n\007ActorID\030\005"
+      " \001(\005\022\017\n\007MountID\030\006 \001(\005\022\014\n\004Camp\030\007 \001(\005\022\014\n\004N"
+      "ame\030\010 \001(\t\022\r\n\005Level\030\t \001(\005\022\020\n\010HostGuid\030\n \001"
+      "(\004\022\023\n\013ControlerID\030\013 \001(\004\022\020\n\010SummonID\030\014 \001("
+      "\004\022\t\n\001X\030\r \001(\002\022\t\n\001Y\030\016 \001(\002\022\t\n\001Z\030\017 \001(\002\022\n\n\002Ft"
+      "\030\020 \001(\002\022\n\n\002Hp\030\021 \001(\005\022\n\n\002Mp\030\022 \001(\005\022\r\n\005HpMax\030"
+      "\023 \001(\005\022\r\n\005MpMax\030\024 \001(\005\022\r\n\005Speed\030\025 \001(\005\022\016\n\006E"
+      "quips\030\026 \003(\005\022\032\n\006Skills\030\027 \003(\0132\n.SkillItem\""
+      ")\n\014ObjectNewNty\022\031\n\007NewList\030\001 \003(\0132\010.NewIt"
+      "em\"%\n\017ObjectRemoveNty\022\022\n\nRemoveList\030\001 \003("
+      "\004\"\330\001\n\nBulletItem\022\022\n\nObjectGuid\030\001 \001(\004\022\022\n\n"
+      "TargetGuid\030\002 \001(\004\022\022\n\nCasterGuid\030\003 \001(\004\022\020\n\010"
+      "BulletID\030\004 \001(\005\022\t\n\001X\030\005 \001(\002\022\t\n\001Y\030\006 \001(\002\022\t\n\001"
+      "Z\030\007 \001(\002\022\n\n\002VX\030\010 \001(\002\022\n\n\002VZ\030\t \001(\002\022\r\n\005Speed"
+      "\030\n \001(\002\022\020\n\010AccSpeed\030\013 \001(\002\022\020\n\010LifeTime\030\014 \001"
+      "(\002\022\020\n\010LeftTime\030\r \001(\002\"-\n\014BulletNewNtf\022\035\n\010"
+      "ItemList\030\001 \003(\0132\013.BulletItem\"!\n\014HeartBeat"
+      "Req\022\021\n\tTimeStamp\030\001 \001(\r\"5\n\014HeartBeatAck\022\021"
+      "\n\tTimeStamp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r\"%\n"
+      "\017ObjectDieNotify\022\022\n\nObjectGuid\030\001 \001(\004b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1955);
+      descriptor, 1964);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Move.proto", &protobuf_RegisterTypes);
+  ::protobuf_Msg_5fGame_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -4408,8 +4410,7 @@ const int NewItem::kHpMaxFieldNumber;
 const int NewItem::kMpMaxFieldNumber;
 const int NewItem::kSpeedFieldNumber;
 const int NewItem::kEquipsFieldNumber;
-const int NewItem::kNormalsFieldNumber;
-const int NewItem::kSpecialsFieldNumber;
+const int NewItem::kSkillsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 NewItem::NewItem()
@@ -4424,8 +4425,7 @@ NewItem::NewItem(const NewItem& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       equips_(from.equips_),
-      normals_(from.normals_),
-      specials_(from.specials_),
+      skills_(from.skills_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -4485,8 +4485,7 @@ void NewItem::Clear() {
   (void) cached_has_bits;
 
   equips_.Clear();
-  normals_.Clear();
-  specials_.Clear();
+  skills_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&objectguid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&speed_) -
@@ -4819,38 +4818,12 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 Normals = 23;
+      // repeated .SkillItem Skills = 23;
       case 23: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(186u /* 186 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_normals())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(184u /* 184 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 186u, input, this->mutable_normals())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated int32 Specials = 24;
-      case 24: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(194u /* 194 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_specials())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(192u /* 192 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 194u, input, this->mutable_specials())));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_skills()));
         } else {
           goto handle_unusual;
         }
@@ -5004,26 +4977,11 @@ void NewItem::SerializeWithCachedSizes(
       this->equips(i), output);
   }
 
-  // repeated int32 Normals = 23;
-  if (this->normals_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(23, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _normals_cached_byte_size_));
-  }
-  for (int i = 0, n = this->normals_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
-      this->normals(i), output);
-  }
-
-  // repeated int32 Specials = 24;
-  if (this->specials_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(24, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _specials_cached_byte_size_));
-  }
-  for (int i = 0, n = this->specials_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
-      this->specials(i), output);
+  // repeated .SkillItem Skills = 23;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->skills_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      23, this->skills(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5164,30 +5122,12 @@ void NewItem::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->equips_, target);
   }
 
-  // repeated int32 Normals = 23;
-  if (this->normals_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      23,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _normals_cached_byte_size_), target);
+  // repeated .SkillItem Skills = 23;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->skills_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32NoTagToArray(this->normals_, target);
-  }
-
-  // repeated int32 Specials = 24;
-  if (this->specials_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      24,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _specials_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32NoTagToArray(this->specials_, target);
+      InternalWriteMessageNoVirtualToArray(
+        23, this->skills(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5223,36 +5163,15 @@ size_t NewItem::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated int32 Normals = 23;
+  // repeated .SkillItem Skills = 23;
   {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      Int32Size(this->normals_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+    unsigned int count = static_cast<unsigned int>(this->skills_size());
+    total_size += 2UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->skills(static_cast<int>(i)));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _normals_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
-  // repeated int32 Specials = 24;
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      Int32Size(this->specials_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _specials_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
   // string Name = 8;
@@ -5424,8 +5343,7 @@ void NewItem::MergeFrom(const NewItem& from) {
   (void) cached_has_bits;
 
   equips_.MergeFrom(from.equips_);
-  normals_.MergeFrom(from.normals_);
-  specials_.MergeFrom(from.specials_);
+  skills_.MergeFrom(from.skills_);
   if (from.name().size() > 0) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
@@ -5517,8 +5435,7 @@ void NewItem::Swap(NewItem* other) {
 void NewItem::InternalSwap(NewItem* other) {
   using std::swap;
   equips_.InternalSwap(&other->equips_);
-  normals_.InternalSwap(&other->normals_);
-  specials_.InternalSwap(&other->specials_);
+  skills_.InternalSwap(&other->skills_);
   name_.Swap(&other->name_);
   swap(objectguid_, other->objectguid_);
   swap(objtype_, other->objtype_);

@@ -944,6 +944,7 @@ BOOL CStaticData::ReadSkillInfo(CppSQLite3Query& QueryData)
 		stValue.CD = QueryData.getIntField("CountDown");
 		stValue.HurtFix = QueryData.getIntField("HurtFix");
 		stValue.HurtMuti = QueryData.getIntField("HurtMuti");
+		stValue.SkillType = QueryData.getIntField("SkillType");
 
 		UINT32 dwNewID = stValue.Level << 20 | stValue.SkillID;
 		m_mapSkillInfo.insert(std::make_pair(dwNewID, stValue));
@@ -989,11 +990,17 @@ BOOL CStaticData::ReadSkillEvent()
 
 	for (auto pSkillNode = pXmlRoot->first_node("Skill"); pSkillNode != NULL; pSkillNode = pSkillNode->next_sibling("Skill"))
 	{
-		//取技能ID
-		auto pAttr = pSkillNode->first_attribute("id", strlen("id"), false);
-		INT32 dwSkillID = CommonConvert::StringToInt(pAttr->value());;
+		StSkillEventInfo tSkillEventInfo;
 
-		StSkillEventInfo tSkillEventInfo ;
+		//取技能ID
+		auto pAttr = pSkillNode->first_attribute("ID", strlen("ID"), false);
+		tSkillEventInfo.dwSkillID = CommonConvert::StringToInt(pAttr->value());
+
+		pAttr = pSkillNode->first_attribute("Duration", strlen("Duration"), false);
+		tSkillEventInfo.uDuration = CommonConvert::StringToFloat(pAttr->value()) * 1000;
+
+		pAttr = pSkillNode->first_attribute("CastType", strlen("CastType"), false);
+		tSkillEventInfo.dwCastType = CommonConvert::StringToInt(pAttr->value());
 
 		for (auto pEventNode = pSkillNode->first_node("ActScope"); pEventNode != NULL; pEventNode = pEventNode->next_sibling("ActScope"))
 		{
@@ -1012,10 +1019,28 @@ BOOL CStaticData::ReadSkillEvent()
 				continue;
 			}
 			CommonConvert::StringToVector(pAttr->value(), tEvent.RangeParams, 5, '~');;
+
+
+			pAttr = pEventNode->first_attribute("StTime", strlen("StTime"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+
+			tEvent.TrigerTime = (UINT64)(CommonConvert::StringToFloat(pAttr->value()) * 1000);
+
+			//////////////////////////////////////////////////////////////////////////
+			//解析子弹
+
+			for (auto pBulletNode = pEventNode->first_node("ActFlyObject"); pBulletNode != NULL; pBulletNode = pBulletNode->next_sibling("ActScope"))
+			{
+
+			}
+
 			tSkillEventInfo.vtEvents.push_back(tEvent);
 		}
 
-		m_mapSkillEvent.insert(std::make_pair(dwSkillID, tSkillEventInfo));
+		m_mapSkillEvent.insert(std::make_pair(tSkillEventInfo.dwSkillID, tSkillEventInfo));
 	}
 
 	return TRUE;

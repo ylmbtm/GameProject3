@@ -110,11 +110,6 @@ class ActionItemDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<ActionItem>
       _instance;
 } _ActionItem_default_instance_;
-class SkillItemDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SkillItem>
-      _instance;
-} _SkillItem_default_instance_;
 class SkillChangeNtyDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<SkillChangeNty>
@@ -457,28 +452,11 @@ void InitDefaultsActionItem() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsActionItemImpl);
 }
 
-void InitDefaultsSkillItemImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  ::google::protobuf::internal::InitProtobufDefaults();
-  {
-    void* ptr = &::_SkillItem_default_instance_;
-    new (ptr) ::SkillItem();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::SkillItem::InitAsDefaultInstance();
-}
-
-void InitDefaultsSkillItem() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsSkillItemImpl);
-}
-
 void InitDefaultsSkillChangeNtyImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
-  protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsSkillItem();
+  protobuf_Msg_5fGame_2eproto::InitDefaultsSkillItem();
   {
     void* ptr = &::_SkillChangeNty_default_instance_;
     new (ptr) ::SkillChangeNty();
@@ -507,7 +485,7 @@ void InitDefaultsRoleLoginAckImpl() {
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsTaskItem();
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsCopyItem();
   protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsChapterItem();
-  protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsSkillItem();
+  protobuf_Msg_5fGame_2eproto::InitDefaultsSkillItem();
   {
     void* ptr = &::_RoleLoginAck_default_instance_;
     new (ptr) ::RoleLoginAck();
@@ -521,7 +499,7 @@ void InitDefaultsRoleLoginAck() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsRoleLoginAckImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[22];
+::google::protobuf::Metadata file_level_metadata[21];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -693,14 +671,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionItem, action_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionItem, actime_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillItem, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillItem, skillid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillItem, level_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillItem, keypos_),
-  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillChangeNty, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -755,9 +725,8 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 143, -1, sizeof(::CopyItem)},
   { 152, -1, sizeof(::ChapterItem)},
   { 161, -1, sizeof(::ActionItem)},
-  { 168, -1, sizeof(::SkillItem)},
-  { 176, -1, sizeof(::SkillChangeNty)},
-  { 183, -1, sizeof(::RoleLoginAck)},
+  { 168, -1, sizeof(::SkillChangeNty)},
+  { 175, -1, sizeof(::RoleLoginAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -780,7 +749,6 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::_CopyItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_ChapterItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_ActionItem_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_SkillItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_SkillChangeNty_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_RoleLoginAck_default_instance_),
 };
@@ -801,78 +769,78 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 22);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 21);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\026Msg_LoginCltData.proto\"X\n\007BagItem\022\014\n\004G"
-      "uid\030\001 \001(\004\022\020\n\010ItemGuid\030\002 \001(\004\022\016\n\006ItemID\030\003 "
-      "\001(\005\022\017\n\007ItemNum\030\004 \001(\003\022\014\n\004Bind\030\005 \001(\010\"@\n\014Ba"
-      "gChangeNty\022\034\n\nChangeList\030\001 \003(\0132\010.BagItem"
-      "\022\022\n\nRemoveList\030\002 \003(\004\"\234\001\n\tEquipItem\022\014\n\004Gu"
-      "id\030\001 \001(\004\022\017\n\007EquipID\030\002 \001(\005\022\023\n\013StrengthLvl"
-      "\030\003 \001(\005\022\023\n\013RefineLevel\030\004 \001(\005\022\021\n\tStarLevel"
-      "\030\005 \001(\005\022\021\n\tRefineExp\030\006 \001(\005\022\017\n\007StarExp\030\007 \001"
-      "(\005\022\017\n\007IsUsing\030\010 \001(\005\"D\n\016EquipChangeNty\022\036\n"
-      "\nChangeList\030\001 \003(\0132\n.EquipItem\022\022\n\nRemoveL"
-      "ist\030\002 \003(\004\"\224\001\n\007GemItem\022\014\n\004Guid\030\001 \001(\004\022\r\n\005G"
-      "emID\030\002 \001(\005\022\023\n\013StrengthLvl\030\003 \001(\005\022\023\n\013Refin"
-      "eLevel\030\004 \001(\005\022\021\n\tStarLevel\030\005 \001(\005\022\021\n\tRefin"
-      "eExp\030\006 \001(\005\022\017\n\007StarExp\030\007 \001(\005\022\013\n\003Pos\030\010 \001(\005"
-      "\"@\n\014GemChangeNty\022\034\n\nChangeList\030\001 \003(\0132\010.G"
-      "emItem\022\022\n\nRemoveList\030\002 \003(\004\"\230\001\n\007PetItem\022\014"
-      "\n\004Guid\030\001 \001(\004\022\r\n\005PetID\030\002 \001(\005\022\023\n\013StrengthL"
-      "vl\030\003 \001(\005\022\023\n\013RefineLevel\030\004 \001(\005\022\021\n\tStarLev"
-      "el\030\005 \001(\005\022\021\n\tRefineExp\030\006 \001(\005\022\017\n\007StarExp\030\007"
-      " \001(\005\022\017\n\007IsUsing\030\010 \001(\005\"@\n\014PetChangeNty\022\034\n"
-      "\nChangeList\030\001 \003(\0132\010.PetItem\022\022\n\nRemoveLis"
-      "t\030\002 \003(\004\"\237\001\n\013PartnerItem\022\014\n\004Guid\030\001 \001(\004\022\021\n"
-      "\tPartnerID\030\002 \001(\005\022\023\n\013StrengthLvl\030\003 \001(\005\022\023\n"
-      "\013RefineLevel\030\004 \001(\005\022\021\n\tStarLevel\030\005 \001(\005\022\021\n"
-      "\tRefineExp\030\006 \001(\005\022\017\n\007StarExp\030\007 \001(\005\022\016\n\006Set"
-      "Pos\030\010 \001(\005\"H\n\020PartnerChangeNty\022 \n\nChangeL"
-      "ist\030\001 \003(\0132\014.PartnerItem\022\022\n\nRemoveList\030\002 "
-      "\003(\004\"\234\001\n\tMountItem\022\014\n\004Guid\030\001 \001(\004\022\017\n\007Mount"
-      "ID\030\002 \001(\005\022\023\n\013StrengthLvl\030\003 \001(\005\022\023\n\013RefineL"
-      "evel\030\004 \001(\005\022\021\n\tStarLevel\030\005 \001(\005\022\021\n\tRefineE"
-      "xp\030\006 \001(\005\022\017\n\007StarExp\030\007 \001(\005\022\017\n\007IsUsing\030\010 \001"
-      "(\005\"D\n\016MountChangeNty\022\036\n\nChangeList\030\001 \003(\013"
-      "2\n.MountItem\022\022\n\nRemoveList\030\002 \003(\004\"\030\n\010Mail"
-      "Item\022\014\n\004Guid\030\001 \001(\004\"B\n\rMailChangeNty\022\035\n\nC"
-      "hangeList\030\001 \003(\0132\t.MailItem\022\022\n\nRemoveList"
-      "\030\002 \003(\004\"\032\n\010TaskItem\022\016\n\006TaskID\030\001 \001(\r\"B\n\rTa"
-      "skChangeNty\022\035\n\nChangeList\030\001 \003(\0132\t.TaskIt"
-      "em\022\022\n\nRemoveList\030\002 \003(\004\"P\n\010CopyItem\022\016\n\006Co"
-      "pyID\030\001 \001(\r\022\017\n\007StarNum\030\002 \001(\005\022\021\n\tBattleCnt"
-      "\030\003 \001(\005\022\020\n\010ResetCnt\030\004 \001(\005\"Y\n\013ChapterItem\022"
-      "\021\n\tChapterID\030\001 \001(\r\022\021\n\tStarAward\030\002 \001(\r\022\022\n"
-      "\nSceneAward\030\003 \001(\r\022\020\n\010CopyType\030\004 \001(\r\",\n\nA"
-      "ctionItem\022\016\n\006Action\030\001 \001(\003\022\016\n\006Actime\030\002 \001("
-      "\003\";\n\tSkillItem\022\017\n\007SkillID\030\001 \001(\r\022\r\n\005Level"
-      "\030\002 \001(\005\022\016\n\006KeyPos\030\003 \001(\005\"D\n\016SkillChangeNty"
-      "\022\036\n\nChangeList\030\001 \003(\0132\n.SkillItem\022\022\n\nRemo"
-      "veList\030\002 \003(\004\"\240\004\n\014RoleLoginAck\022\017\n\007RetCode"
-      "\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022\016\n\006RoleID\030\003 \001("
-      "\004\022\016\n\006Carrer\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\013\n\003Exp\030"
-      "\006 \001(\003\022\014\n\004Name\030\007 \001(\t\022\016\n\006VipLvl\030\010 \001(\005\022\016\n\006V"
-      "ipExp\030\t \001(\005\022\022\n\nFightValue\030\n \001(\003\022\037\n\nActio"
-      "nList\030\013 \003(\0132\013.ActionItem\022\035\n\tEquipList\030\014 "
-      "\003(\0132\n.EquipItem\022\031\n\007GemList\030\r \003(\0132\010.GemIt"
-      "em\022\031\n\007PetList\030\016 \003(\0132\010.PetItem\022!\n\013Partner"
-      "List\030\017 \003(\0132\014.PartnerItem\022\035\n\tMountList\030\020 "
-      "\003(\0132\n.MountItem\022\035\n\013BagItemList\030\021 \003(\0132\010.B"
-      "agItem\022\033\n\010MailList\030\022 \003(\0132\t.MailItem\022\033\n\010T"
-      "askList\030\023 \003(\0132\t.TaskItem\022\033\n\010CopyList\030\024 \003"
-      "(\0132\t.CopyItem\022!\n\013ChapterList\030\025 \003(\0132\014.Cha"
-      "pterItem\022\035\n\tSkillList\030\026 \003(\0132\n.SkillItemb"
-      "\006proto3"
+      "\n\026Msg_LoginCltData.proto\032\016Msg_Game.proto"
+      "\"X\n\007BagItem\022\014\n\004Guid\030\001 \001(\004\022\020\n\010ItemGuid\030\002 "
+      "\001(\004\022\016\n\006ItemID\030\003 \001(\005\022\017\n\007ItemNum\030\004 \001(\003\022\014\n\004"
+      "Bind\030\005 \001(\010\"@\n\014BagChangeNty\022\034\n\nChangeList"
+      "\030\001 \003(\0132\010.BagItem\022\022\n\nRemoveList\030\002 \003(\004\"\234\001\n"
+      "\tEquipItem\022\014\n\004Guid\030\001 \001(\004\022\017\n\007EquipID\030\002 \001("
+      "\005\022\023\n\013StrengthLvl\030\003 \001(\005\022\023\n\013RefineLevel\030\004 "
+      "\001(\005\022\021\n\tStarLevel\030\005 \001(\005\022\021\n\tRefineExp\030\006 \001("
+      "\005\022\017\n\007StarExp\030\007 \001(\005\022\017\n\007IsUsing\030\010 \001(\005\"D\n\016E"
+      "quipChangeNty\022\036\n\nChangeList\030\001 \003(\0132\n.Equi"
+      "pItem\022\022\n\nRemoveList\030\002 \003(\004\"\224\001\n\007GemItem\022\014\n"
+      "\004Guid\030\001 \001(\004\022\r\n\005GemID\030\002 \001(\005\022\023\n\013StrengthLv"
+      "l\030\003 \001(\005\022\023\n\013RefineLevel\030\004 \001(\005\022\021\n\tStarLeve"
+      "l\030\005 \001(\005\022\021\n\tRefineExp\030\006 \001(\005\022\017\n\007StarExp\030\007 "
+      "\001(\005\022\013\n\003Pos\030\010 \001(\005\"@\n\014GemChangeNty\022\034\n\nChan"
+      "geList\030\001 \003(\0132\010.GemItem\022\022\n\nRemoveList\030\002 \003"
+      "(\004\"\230\001\n\007PetItem\022\014\n\004Guid\030\001 \001(\004\022\r\n\005PetID\030\002 "
+      "\001(\005\022\023\n\013StrengthLvl\030\003 \001(\005\022\023\n\013RefineLevel\030"
+      "\004 \001(\005\022\021\n\tStarLevel\030\005 \001(\005\022\021\n\tRefineExp\030\006 "
+      "\001(\005\022\017\n\007StarExp\030\007 \001(\005\022\017\n\007IsUsing\030\010 \001(\005\"@\n"
+      "\014PetChangeNty\022\034\n\nChangeList\030\001 \003(\0132\010.PetI"
+      "tem\022\022\n\nRemoveList\030\002 \003(\004\"\237\001\n\013PartnerItem\022"
+      "\014\n\004Guid\030\001 \001(\004\022\021\n\tPartnerID\030\002 \001(\005\022\023\n\013Stre"
+      "ngthLvl\030\003 \001(\005\022\023\n\013RefineLevel\030\004 \001(\005\022\021\n\tSt"
+      "arLevel\030\005 \001(\005\022\021\n\tRefineExp\030\006 \001(\005\022\017\n\007Star"
+      "Exp\030\007 \001(\005\022\016\n\006SetPos\030\010 \001(\005\"H\n\020PartnerChan"
+      "geNty\022 \n\nChangeList\030\001 \003(\0132\014.PartnerItem\022"
+      "\022\n\nRemoveList\030\002 \003(\004\"\234\001\n\tMountItem\022\014\n\004Gui"
+      "d\030\001 \001(\004\022\017\n\007MountID\030\002 \001(\005\022\023\n\013StrengthLvl\030"
+      "\003 \001(\005\022\023\n\013RefineLevel\030\004 \001(\005\022\021\n\tStarLevel\030"
+      "\005 \001(\005\022\021\n\tRefineExp\030\006 \001(\005\022\017\n\007StarExp\030\007 \001("
+      "\005\022\017\n\007IsUsing\030\010 \001(\005\"D\n\016MountChangeNty\022\036\n\n"
+      "ChangeList\030\001 \003(\0132\n.MountItem\022\022\n\nRemoveLi"
+      "st\030\002 \003(\004\"\030\n\010MailItem\022\014\n\004Guid\030\001 \001(\004\"B\n\rMa"
+      "ilChangeNty\022\035\n\nChangeList\030\001 \003(\0132\t.MailIt"
+      "em\022\022\n\nRemoveList\030\002 \003(\004\"\032\n\010TaskItem\022\016\n\006Ta"
+      "skID\030\001 \001(\r\"B\n\rTaskChangeNty\022\035\n\nChangeLis"
+      "t\030\001 \003(\0132\t.TaskItem\022\022\n\nRemoveList\030\002 \003(\004\"P"
+      "\n\010CopyItem\022\016\n\006CopyID\030\001 \001(\r\022\017\n\007StarNum\030\002 "
+      "\001(\005\022\021\n\tBattleCnt\030\003 \001(\005\022\020\n\010ResetCnt\030\004 \001(\005"
+      "\"Y\n\013ChapterItem\022\021\n\tChapterID\030\001 \001(\r\022\021\n\tSt"
+      "arAward\030\002 \001(\r\022\022\n\nSceneAward\030\003 \001(\r\022\020\n\010Cop"
+      "yType\030\004 \001(\r\",\n\nActionItem\022\016\n\006Action\030\001 \001("
+      "\003\022\016\n\006Actime\030\002 \001(\003\"D\n\016SkillChangeNty\022\036\n\nC"
+      "hangeList\030\001 \003(\0132\n.SkillItem\022\022\n\nRemoveLis"
+      "t\030\002 \003(\004\"\240\004\n\014RoleLoginAck\022\017\n\007RetCode\030\001 \001("
+      "\r\022\021\n\tAccountID\030\002 \001(\004\022\016\n\006RoleID\030\003 \001(\004\022\016\n\006"
+      "Carrer\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\013\n\003Exp\030\006 \001(\003"
+      "\022\014\n\004Name\030\007 \001(\t\022\016\n\006VipLvl\030\010 \001(\005\022\016\n\006VipExp"
+      "\030\t \001(\005\022\022\n\nFightValue\030\n \001(\003\022\037\n\nActionList"
+      "\030\013 \003(\0132\013.ActionItem\022\035\n\tEquipList\030\014 \003(\0132\n"
+      ".EquipItem\022\031\n\007GemList\030\r \003(\0132\010.GemItem\022\031\n"
+      "\007PetList\030\016 \003(\0132\010.PetItem\022!\n\013PartnerList\030"
+      "\017 \003(\0132\014.PartnerItem\022\035\n\tMountList\030\020 \003(\0132\n"
+      ".MountItem\022\035\n\013BagItemList\030\021 \003(\0132\010.BagIte"
+      "m\022\033\n\010MailList\030\022 \003(\0132\t.MailItem\022\033\n\010TaskLi"
+      "st\030\023 \003(\0132\t.TaskItem\022\033\n\010CopyList\030\024 \003(\0132\t."
+      "CopyItem\022!\n\013ChapterList\030\025 \003(\0132\014.ChapterI"
+      "tem\022\035\n\tSkillList\030\026 \003(\0132\n.SkillItemb\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2407);
+      descriptor, 2362);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_LoginCltData.proto", &protobuf_RegisterTypes);
+  ::protobuf_Msg_5fGame_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -7656,322 +7624,6 @@ void ActionItem::InternalSwap(ActionItem* other) {
 }
 
 ::google::protobuf::Metadata ActionItem::GetMetadata() const {
-  protobuf_Msg_5fLoginCltData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Msg_5fLoginCltData_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-
-// ===================================================================
-
-void SkillItem::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SkillItem::kSkillIDFieldNumber;
-const int SkillItem::kLevelFieldNumber;
-const int SkillItem::kKeyPosFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-SkillItem::SkillItem()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsSkillItem();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:SkillItem)
-}
-SkillItem::SkillItem(const SkillItem& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&skillid_, &from.skillid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&keypos_) -
-    reinterpret_cast<char*>(&skillid_)) + sizeof(keypos_));
-  // @@protoc_insertion_point(copy_constructor:SkillItem)
-}
-
-void SkillItem::SharedCtor() {
-  ::memset(&skillid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keypos_) -
-      reinterpret_cast<char*>(&skillid_)) + sizeof(keypos_));
-  _cached_size_ = 0;
-}
-
-SkillItem::~SkillItem() {
-  // @@protoc_insertion_point(destructor:SkillItem)
-  SharedDtor();
-}
-
-void SkillItem::SharedDtor() {
-}
-
-void SkillItem::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* SkillItem::descriptor() {
-  ::protobuf_Msg_5fLoginCltData_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Msg_5fLoginCltData_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const SkillItem& SkillItem::default_instance() {
-  ::protobuf_Msg_5fLoginCltData_2eproto::InitDefaultsSkillItem();
-  return *internal_default_instance();
-}
-
-SkillItem* SkillItem::New(::google::protobuf::Arena* arena) const {
-  SkillItem* n = new SkillItem;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void SkillItem::Clear() {
-// @@protoc_insertion_point(message_clear_start:SkillItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&skillid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keypos_) -
-      reinterpret_cast<char*>(&skillid_)) + sizeof(keypos_));
-  _internal_metadata_.Clear();
-}
-
-bool SkillItem::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:SkillItem)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 SkillID = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &skillid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // int32 Level = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &level_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // int32 KeyPos = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &keypos_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:SkillItem)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:SkillItem)
-  return false;
-#undef DO_
-}
-
-void SkillItem::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:SkillItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 SkillID = 1;
-  if (this->skillid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->skillid(), output);
-  }
-
-  // int32 Level = 2;
-  if (this->level() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->level(), output);
-  }
-
-  // int32 KeyPos = 3;
-  if (this->keypos() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->keypos(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:SkillItem)
-}
-
-::google::protobuf::uint8* SkillItem::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:SkillItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 SkillID = 1;
-  if (this->skillid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->skillid(), target);
-  }
-
-  // int32 Level = 2;
-  if (this->level() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->level(), target);
-  }
-
-  // int32 KeyPos = 3;
-  if (this->keypos() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->keypos(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:SkillItem)
-  return target;
-}
-
-size_t SkillItem::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:SkillItem)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  // uint32 SkillID = 1;
-  if (this->skillid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->skillid());
-  }
-
-  // int32 Level = 2;
-  if (this->level() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->level());
-  }
-
-  // int32 KeyPos = 3;
-  if (this->keypos() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->keypos());
-  }
-
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void SkillItem::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:SkillItem)
-  GOOGLE_DCHECK_NE(&from, this);
-  const SkillItem* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SkillItem>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:SkillItem)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:SkillItem)
-    MergeFrom(*source);
-  }
-}
-
-void SkillItem::MergeFrom(const SkillItem& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:SkillItem)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.skillid() != 0) {
-    set_skillid(from.skillid());
-  }
-  if (from.level() != 0) {
-    set_level(from.level());
-  }
-  if (from.keypos() != 0) {
-    set_keypos(from.keypos());
-  }
-}
-
-void SkillItem::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:SkillItem)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void SkillItem::CopyFrom(const SkillItem& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:SkillItem)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool SkillItem::IsInitialized() const {
-  return true;
-}
-
-void SkillItem::Swap(SkillItem* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void SkillItem::InternalSwap(SkillItem* other) {
-  using std::swap;
-  swap(skillid_, other->skillid_);
-  swap(level_, other->level_);
-  swap(keypos_, other->keypos_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata SkillItem::GetMetadata() const {
   protobuf_Msg_5fLoginCltData_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Msg_5fLoginCltData_2eproto::file_level_metadata[kIndexInFileMessages];
 }

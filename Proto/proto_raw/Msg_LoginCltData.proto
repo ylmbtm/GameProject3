@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "Msg_Game.proto";
 
 message BagItem {
     uint64   Guid        = 1;
@@ -126,25 +127,16 @@ message ChapterItem {
     uint32  CopyType = 4;
 }
 
-
 message ActionItem {
     int64 Action = 1;
     int64 Actime = 2;
 }
 
 
-message SkillItem {
-    uint32 SkillID = 1;
-    int32  Level = 2;
-    int32  KeyPos = 3;   //强化等级
-}
-
 message SkillChangeNty{
     repeated SkillItem ChangeList = 1;
     repeated uint64  RemoveList = 2;
 }
-
-
 
 message RoleLoginAck {
     uint32   RetCode            = 1;

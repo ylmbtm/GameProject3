@@ -36,12 +36,14 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[85];
+  static const ::google::protobuf::internal::ParseTable schema[86];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
+void InitDefaultsSkillItemImpl();
+void InitDefaultsSkillItem();
 void InitDefaultsCheckVersionReqImpl();
 void InitDefaultsCheckVersionReq();
 void InitDefaultsCheckVersionAckImpl();
@@ -213,6 +215,7 @@ void InitDefaultsUseItemReq();
 void InitDefaultsUseItemAckImpl();
 void InitDefaultsUseItemAck();
 inline void InitDefaults() {
+  InitDefaultsSkillItem();
   InitDefaultsCheckVersionReq();
   InitDefaultsCheckVersionAck();
   InitDefaultsAccountRegReq();
@@ -480,6 +483,9 @@ extern SetupPartnerAckDefaultTypeInternal _SetupPartnerAck_default_instance_;
 class SetupPartnerReq;
 class SetupPartnerReqDefaultTypeInternal;
 extern SetupPartnerReqDefaultTypeInternal _SetupPartnerReq_default_instance_;
+class SkillItem;
+class SkillItemDefaultTypeInternal;
+extern SkillItemDefaultTypeInternal _SkillItem_default_instance_;
 class StoreBuyAck;
 class StoreBuyAckDefaultTypeInternal;
 extern StoreBuyAckDefaultTypeInternal _StoreBuyAck_default_instance_;
@@ -558,6 +564,119 @@ extern WatchHeartBeatReqDefaultTypeInternal _WatchHeartBeatReq_default_instance_
 
 // ===================================================================
 
+class SkillItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SkillItem) */ {
+ public:
+  SkillItem();
+  virtual ~SkillItem();
+
+  SkillItem(const SkillItem& from);
+
+  inline SkillItem& operator=(const SkillItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SkillItem(SkillItem&& from) noexcept
+    : SkillItem() {
+    *this = ::std::move(from);
+  }
+
+  inline SkillItem& operator=(SkillItem&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SkillItem& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SkillItem* internal_default_instance() {
+    return reinterpret_cast<const SkillItem*>(
+               &_SkillItem_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    0;
+
+  void Swap(SkillItem* other);
+  friend void swap(SkillItem& a, SkillItem& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SkillItem* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SkillItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SkillItem& from);
+  void MergeFrom(const SkillItem& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SkillItem* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 SkillID = 1;
+  void clear_skillid();
+  static const int kSkillIDFieldNumber = 1;
+  ::google::protobuf::uint32 skillid() const;
+  void set_skillid(::google::protobuf::uint32 value);
+
+  // int32 Level = 2;
+  void clear_level();
+  static const int kLevelFieldNumber = 2;
+  ::google::protobuf::int32 level() const;
+  void set_level(::google::protobuf::int32 value);
+
+  // int32 KeyPos = 3;
+  void clear_keypos();
+  static const int kKeyPosFieldNumber = 3;
+  ::google::protobuf::int32 keypos() const;
+  void set_keypos(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:SkillItem)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 skillid_;
+  ::google::protobuf::int32 level_;
+  ::google::protobuf::int32 keypos_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSkillItemImpl();
+};
+// -------------------------------------------------------------------
+
 class CheckVersionReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CheckVersionReq) */ {
  public:
   CheckVersionReq();
@@ -593,7 +712,7 @@ class CheckVersionReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_CheckVersionReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+    1;
 
   void Swap(CheckVersionReq* other);
   friend void swap(CheckVersionReq& a, CheckVersionReq& b) {
@@ -707,7 +826,7 @@ class CheckVersionAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_CheckVersionAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(CheckVersionAck* other);
   friend void swap(CheckVersionAck& a, CheckVersionAck& b) {
@@ -821,7 +940,7 @@ class AccountRegReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_AccountRegReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(AccountRegReq* other);
   friend void swap(AccountRegReq& a, AccountRegReq& b) {
@@ -965,7 +1084,7 @@ class AccountRegAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_AccountRegAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(AccountRegAck* other);
   friend void swap(AccountRegAck& a, AccountRegAck& b) {
@@ -1071,7 +1190,7 @@ class AccountLoginReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_AccountLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(AccountLoginReq* other);
   friend void swap(AccountLoginReq& a, AccountLoginReq& b) {
@@ -1222,7 +1341,7 @@ class AccountLoginAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_AccountLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(AccountLoginAck* other);
   friend void swap(AccountLoginAck& a, AccountLoginAck& b) {
@@ -1350,7 +1469,7 @@ class ClientServerListReq : public ::google::protobuf::Message /* @@protoc_inser
                &_ClientServerListReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(ClientServerListReq* other);
   friend void swap(ClientServerListReq& a, ClientServerListReq& b) {
@@ -1471,7 +1590,7 @@ class ClientServerNode : public ::google::protobuf::Message /* @@protoc_insertio
                &_ClientServerNode_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(ClientServerNode* other);
   friend void swap(ClientServerNode& a, ClientServerNode& b) {
@@ -1606,7 +1725,7 @@ class ClientServerListAck : public ::google::protobuf::Message /* @@protoc_inser
                &_ClientServerListAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(ClientServerListAck* other);
   friend void swap(ClientServerListAck& a, ClientServerListAck& b) {
@@ -1718,7 +1837,7 @@ class SvrRegToSvrReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SvrRegToSvrReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(SvrRegToSvrReq* other);
   friend void swap(SvrRegToSvrReq& a, SvrRegToSvrReq& b) {
@@ -1861,7 +1980,7 @@ class SvrRegToSvrAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SvrRegToSvrAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(SvrRegToSvrAck* other);
   friend void swap(SvrRegToSvrAck& a, SvrRegToSvrAck& b) {
@@ -1975,7 +2094,7 @@ class SelectServerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SelectServerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    11;
+    12;
 
   void Swap(SelectServerReq* other);
   friend void swap(SelectServerReq& a, SelectServerReq& b) {
@@ -2074,7 +2193,7 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SelectServerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    12;
+    13;
 
   void Swap(SelectServerAck* other);
   friend void swap(SelectServerAck& a, SelectServerAck& b) {
@@ -2209,7 +2328,7 @@ class RoleItem : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_RoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(RoleItem* other);
   friend void swap(RoleItem& a, RoleItem& b) {
@@ -2337,7 +2456,7 @@ class RoleListReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoleListReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    14;
+    15;
 
   void Swap(RoleListReq* other);
   friend void swap(RoleListReq& a, RoleListReq& b) {
@@ -2443,7 +2562,7 @@ class RoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoleListAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    15;
+    16;
 
   void Swap(RoleListAck* other);
   friend void swap(RoleListAck& a, RoleListAck& b) {
@@ -2562,7 +2681,7 @@ class RoleCreateReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleCreateReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    16;
+    17;
 
   void Swap(RoleCreateReq* other);
   friend void swap(RoleCreateReq& a, RoleCreateReq& b) {
@@ -2690,7 +2809,7 @@ class RoleCreateAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleCreateAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    17;
+    18;
 
   void Swap(RoleCreateAck* other);
   friend void swap(RoleCreateAck& a, RoleCreateAck& b) {
@@ -2825,7 +2944,7 @@ class RoleDeleteReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleDeleteReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    18;
+    19;
 
   void Swap(RoleDeleteReq* other);
   friend void swap(RoleDeleteReq& a, RoleDeleteReq& b) {
@@ -2931,7 +3050,7 @@ class RoleDeleteAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleDeleteAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    19;
+    20;
 
   void Swap(RoleDeleteAck* other);
   friend void swap(RoleDeleteAck& a, RoleDeleteAck& b) {
@@ -3030,7 +3149,7 @@ class RoleLoginReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoleLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    20;
+    21;
 
   void Swap(RoleLoginReq* other);
   friend void swap(RoleLoginReq& a, RoleLoginReq& b) {
@@ -3143,7 +3262,7 @@ class RoleLogoutReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleLogoutReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    21;
+    22;
 
   void Swap(RoleLogoutReq* other);
   friend void swap(RoleLogoutReq& a, RoleLogoutReq& b) {
@@ -3242,7 +3361,7 @@ class RoleLogoutAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RoleLogoutAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    22;
+    23;
 
   void Swap(RoleLogoutAck* other);
   friend void swap(RoleLogoutAck& a, RoleLogoutAck& b) {
@@ -3341,7 +3460,7 @@ class RoleDisconnectReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_RoleDisconnectReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    23;
+    24;
 
   void Swap(RoleDisconnectReq* other);
   friend void swap(RoleDisconnectReq& a, RoleDisconnectReq& b) {
@@ -3454,7 +3573,7 @@ class RoleDisconnectAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_RoleDisconnectAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    24;
+    25;
 
   void Swap(RoleDisconnectAck* other);
   friend void swap(RoleDisconnectAck& a, RoleDisconnectAck& b) {
@@ -3553,7 +3672,7 @@ class RoleReconnectReq : public ::google::protobuf::Message /* @@protoc_insertio
                &_RoleReconnectReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    25;
+    26;
 
   void Swap(RoleReconnectReq* other);
   friend void swap(RoleReconnectReq& a, RoleReconnectReq& b) {
@@ -3652,7 +3771,7 @@ class RoleReconnectAck : public ::google::protobuf::Message /* @@protoc_insertio
                &_RoleReconnectAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    26;
+    27;
 
   void Swap(RoleReconnectAck* other);
   friend void swap(RoleReconnectAck& a, RoleReconnectAck& b) {
@@ -3751,7 +3870,7 @@ class CreateNewSceneReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_CreateNewSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    27;
+    28;
 
   void Swap(CreateNewSceneReq* other);
   friend void swap(CreateNewSceneReq& a, CreateNewSceneReq& b) {
@@ -3871,7 +3990,7 @@ class CreateNewSceneAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_CreateNewSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    28;
+    29;
 
   void Swap(CreateNewSceneAck* other);
   friend void swap(CreateNewSceneAck& a, CreateNewSceneAck& b) {
@@ -4012,7 +4131,7 @@ class EnterSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EnterSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    29;
+    30;
 
   void Swap(EnterSceneReq* other);
   friend void swap(EnterSceneReq& a, EnterSceneReq& b) {
@@ -4132,7 +4251,7 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_EnterSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    30;
+    31;
 
   void Swap(EnterSceneAck* other);
   friend void swap(EnterSceneAck& a, EnterSceneAck& b) {
@@ -4191,29 +4310,17 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_equips();
 
-  // repeated int32 Normals = 19;
-  int normals_size() const;
-  void clear_normals();
-  static const int kNormalsFieldNumber = 19;
-  ::google::protobuf::int32 normals(int index) const;
-  void set_normals(int index, ::google::protobuf::int32 value);
-  void add_normals(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      normals() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_normals();
-
-  // repeated int32 Specials = 20;
-  int specials_size() const;
-  void clear_specials();
-  static const int kSpecialsFieldNumber = 20;
-  ::google::protobuf::int32 specials(int index) const;
-  void set_specials(int index, ::google::protobuf::int32 value);
-  void add_specials(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      specials() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_specials();
+  // repeated .SkillItem Skills = 19;
+  int skills_size() const;
+  void clear_skills();
+  static const int kSkillsFieldNumber = 19;
+  const ::SkillItem& skills(int index) const;
+  ::SkillItem* mutable_skills(int index);
+  ::SkillItem* add_skills();
+  ::google::protobuf::RepeatedPtrField< ::SkillItem >*
+      mutable_skills();
+  const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+      skills() const;
 
   // string RoleName = 7;
   void clear_rolename();
@@ -4331,10 +4438,7 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > equips_;
   mutable int _equips_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > normals_;
-  mutable int _normals_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > specials_;
-  mutable int _specials_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::SkillItem > skills_;
   ::google::protobuf::internal::ArenaStringPtr rolename_;
   ::google::protobuf::uint32 retcode_;
   ::google::protobuf::int32 copyid_;
@@ -4393,7 +4497,7 @@ class AbortCopyReq : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_AbortCopyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    31;
+    32;
 
   void Swap(AbortCopyReq* other);
   friend void swap(AbortCopyReq& a, AbortCopyReq& b) {
@@ -4506,7 +4610,7 @@ class AbortCopyAck : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_AbortCopyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    32;
+    33;
 
   void Swap(AbortCopyAck* other);
   friend void swap(AbortCopyAck& a, AbortCopyAck& b) {
@@ -4605,7 +4709,7 @@ class BackToCityReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_BackToCityReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    33;
+    34;
 
   void Swap(BackToCityReq* other);
   friend void swap(BackToCityReq& a, BackToCityReq& b) {
@@ -4704,7 +4808,7 @@ class BackToCityAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_BackToCityAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    34;
+    35;
 
   void Swap(BackToCityAck* other);
   friend void swap(BackToCityAck& a, BackToCityAck& b) {
@@ -4803,7 +4907,7 @@ class LeaveSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    35;
+    36;
 
   void Swap(LeaveSceneReq* other);
   friend void swap(LeaveSceneReq& a, LeaveSceneReq& b) {
@@ -4909,7 +5013,7 @@ class LeaveSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    36;
+    37;
 
   void Swap(LeaveSceneAck* other);
   friend void swap(LeaveSceneAck& a, LeaveSceneAck& b) {
@@ -5008,7 +5112,7 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_TransRoleData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    37;
+    38;
 
   void Swap(TransRoleData* other);
   friend void swap(TransRoleData& a, TransRoleData& b) {
@@ -5079,17 +5183,17 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
-  // repeated int32 Skills = 8;
+  // repeated .SkillItem Skills = 8;
   int skills_size() const;
   void clear_skills();
   static const int kSkillsFieldNumber = 8;
-  ::google::protobuf::int32 skills(int index) const;
-  void set_skills(int index, ::google::protobuf::int32 value);
-  void add_skills(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      skills() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  const ::SkillItem& skills(int index) const;
+  ::SkillItem* mutable_skills(int index);
+  ::SkillItem* add_skills();
+  ::google::protobuf::RepeatedPtrField< ::SkillItem >*
       mutable_skills();
+  const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+      skills() const;
 
   // string Name = 2;
   void clear_name();
@@ -5137,8 +5241,7 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
   mutable int _equips_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
-  mutable int _skills_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::SkillItem > skills_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::int32 carrerid_;
@@ -5185,7 +5288,7 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_TransPetData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    38;
+    39;
 
   void Swap(TransPetData* other);
   friend void swap(TransPetData& a, TransPetData& b) {
@@ -5244,17 +5347,17 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
-  // repeated int32 Skills = 7;
+  // repeated .SkillItem Skills = 7;
   int skills_size() const;
   void clear_skills();
   static const int kSkillsFieldNumber = 7;
-  ::google::protobuf::int32 skills(int index) const;
-  void set_skills(int index, ::google::protobuf::int32 value);
-  void add_skills(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      skills() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  const ::SkillItem& skills(int index) const;
+  ::SkillItem* mutable_skills(int index);
+  ::SkillItem* add_skills();
+  ::google::protobuf::RepeatedPtrField< ::SkillItem >*
       mutable_skills();
+  const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+      skills() const;
 
   // string Name = 4;
   void clear_name();
@@ -5300,8 +5403,7 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
-  mutable int _skills_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::SkillItem > skills_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 petguid_;
   ::google::protobuf::int32 petid_;
@@ -5348,7 +5450,7 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
                &_TransPartnerData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    39;
+    40;
 
   void Swap(TransPartnerData* other);
   friend void swap(TransPartnerData& a, TransPartnerData& b) {
@@ -5407,17 +5509,17 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_propertys();
 
-  // repeated int32 Skills = 7;
+  // repeated .SkillItem Skills = 7;
   int skills_size() const;
   void clear_skills();
   static const int kSkillsFieldNumber = 7;
-  ::google::protobuf::int32 skills(int index) const;
-  void set_skills(int index, ::google::protobuf::int32 value);
-  void add_skills(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      skills() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  const ::SkillItem& skills(int index) const;
+  ::SkillItem* mutable_skills(int index);
+  ::SkillItem* add_skills();
+  ::google::protobuf::RepeatedPtrField< ::SkillItem >*
       mutable_skills();
+  const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+      skills() const;
 
   // string Name = 4;
   void clear_name();
@@ -5463,8 +5565,7 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > propertys_;
   mutable int _propertys_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > skills_;
-  mutable int _skills_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::SkillItem > skills_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 partnerguid_;
   ::google::protobuf::int32 parterid_;
@@ -5511,7 +5612,7 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_TransferDataReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    40;
+    41;
 
   void Swap(TransferDataReq* other);
   friend void swap(TransferDataReq& a, TransferDataReq& b) {
@@ -5640,7 +5741,7 @@ class TransferDataAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_TransferDataAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    41;
+    42;
 
   void Swap(TransferDataAck* other);
   friend void swap(TransferDataAck& a, TransferDataAck& b) {
@@ -5767,7 +5868,7 @@ class NotifyIntoScene : public ::google::protobuf::Message /* @@protoc_insertion
                &_NotifyIntoScene_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    42;
+    43;
 
   void Swap(NotifyIntoScene* other);
   friend void swap(NotifyIntoScene& a, NotifyIntoScene& b) {
@@ -5887,7 +5988,7 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_NearByRoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    43;
+    44;
 
   void Swap(NearByRoleItem* other);
   friend void swap(NearByRoleItem& a, NearByRoleItem& b) {
@@ -6015,7 +6116,7 @@ class CopyInsItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_CopyInsItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    44;
+    45;
 
   void Swap(CopyInsItem* other);
   friend void swap(CopyInsItem& a, CopyInsItem& b) {
@@ -6135,7 +6236,7 @@ class CopyReportReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_CopyReportReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    45;
+    46;
 
   void Swap(CopyReportReq* other);
   friend void swap(CopyReportReq& a, CopyReportReq& b) {
@@ -6247,7 +6348,7 @@ class UseHpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    46;
+    47;
 
   void Swap(UseHpBottleReq* other);
   friend void swap(UseHpBottleReq& a, UseHpBottleReq& b) {
@@ -6339,7 +6440,7 @@ class UseHpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    47;
+    48;
 
   void Swap(UseHpBottleAck* other);
   friend void swap(UseHpBottleAck& a, UseHpBottleAck& b) {
@@ -6445,7 +6546,7 @@ class UseMpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    48;
+    49;
 
   void Swap(UseMpBottleReq* other);
   friend void swap(UseMpBottleReq& a, UseMpBottleReq& b) {
@@ -6537,7 +6638,7 @@ class UseMpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    49;
+    50;
 
   void Swap(UseMpBottleAck* other);
   friend void swap(UseMpBottleAck& a, UseMpBottleAck& b) {
@@ -6643,7 +6744,7 @@ class ChatMessageReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    50;
+    51;
 
   void Swap(ChatMessageReq* other);
   friend void swap(ChatMessageReq& a, ChatMessageReq& b) {
@@ -6786,7 +6887,7 @@ class ChatMessageAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    51;
+    52;
 
   void Swap(ChatMessageAck* other);
   friend void swap(ChatMessageAck& a, ChatMessageAck& b) {
@@ -6885,7 +6986,7 @@ class ChatMessageNty : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    52;
+    53;
 
   void Swap(ChatMessageNty* other);
   friend void swap(ChatMessageNty& a, ChatMessageNty& b) {
@@ -7028,7 +7129,7 @@ class SealAccountReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    53;
+    54;
 
   void Swap(SealAccountReq* other);
   friend void swap(SealAccountReq& a, SealAccountReq& b) {
@@ -7163,7 +7264,7 @@ class SealAccountAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    54;
+    55;
 
   void Swap(SealAccountAck* other);
   friend void swap(SealAccountAck& a, SealAccountAck& b) {
@@ -7284,7 +7385,7 @@ class CommonReq : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    55;
+    56;
 
   void Swap(CommonReq* other);
   friend void swap(CommonReq& a, CommonReq& b) {
@@ -7383,7 +7484,7 @@ class CommonAck : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    56;
+    57;
 
   void Swap(CommonAck* other);
   friend void swap(CommonAck& a, CommonAck& b) {
@@ -7482,7 +7583,7 @@ class BroadMessageNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_BroadMessageNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    57;
+    58;
 
   void Swap(BroadMessageNotify* other);
   friend void swap(BroadMessageNotify& a, BroadMessageNotify& b) {
@@ -7610,7 +7711,7 @@ class LogicRegToLoginReq : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    58;
+    59;
 
   void Swap(LogicRegToLoginReq* other);
   friend void swap(LogicRegToLoginReq& a, LogicRegToLoginReq& b) {
@@ -7760,7 +7861,7 @@ class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    59;
+    60;
 
   void Swap(LogicRegToLoginAck* other);
   friend void swap(LogicRegToLoginAck& a, LogicRegToLoginAck& b) {
@@ -7874,7 +7975,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    60;
+    61;
 
   void Swap(WatchHeartBeatReq* other);
   friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
@@ -7980,7 +8081,7 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    61;
+    62;
 
   void Swap(WatchHeartBeatAck* other);
   friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
@@ -8093,7 +8194,7 @@ class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    62;
+    63;
 
   void Swap(SetupEquipReq* other);
   friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
@@ -8199,7 +8300,7 @@ class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    63;
+    64;
 
   void Swap(SetupEquipAck* other);
   friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
@@ -8298,7 +8399,7 @@ class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    64;
+    65;
 
   void Swap(UnsetEquipReq* other);
   friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
@@ -8397,7 +8498,7 @@ class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    65;
+    66;
 
   void Swap(UnsetEquipAck* other);
   friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
@@ -8496,7 +8597,7 @@ class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    66;
+    67;
 
   void Swap(SetupGemReq* other);
   friend void swap(SetupGemReq& a, SetupGemReq& b) {
@@ -8609,7 +8710,7 @@ class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    67;
+    68;
 
   void Swap(SetupGemAck* other);
   friend void swap(SetupGemAck& a, SetupGemAck& b) {
@@ -8708,7 +8809,7 @@ class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    68;
+    69;
 
   void Swap(UnsetGemReq* other);
   friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
@@ -8807,7 +8908,7 @@ class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    69;
+    70;
 
   void Swap(UnsetGemAck* other);
   friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
@@ -8906,7 +9007,7 @@ class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    71;
 
   void Swap(SetupPartnerReq* other);
   friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
@@ -9012,7 +9113,7 @@ class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    72;
 
   void Swap(SetupPartnerAck* other);
   friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
@@ -9111,7 +9212,7 @@ class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    73;
 
   void Swap(UnsetPartnerReq* other);
   friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
@@ -9210,7 +9311,7 @@ class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    73;
+    74;
 
   void Swap(UnsetPartnerAck* other);
   friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
@@ -9309,7 +9410,7 @@ class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    74;
+    75;
 
   void Swap(SetupMountReq* other);
   friend void swap(SetupMountReq& a, SetupMountReq& b) {
@@ -9415,7 +9516,7 @@ class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    75;
+    76;
 
   void Swap(SetupMountAck* other);
   friend void swap(SetupMountAck& a, SetupMountAck& b) {
@@ -9514,7 +9615,7 @@ class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    76;
+    77;
 
   void Swap(UnsetMountReq* other);
   friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
@@ -9613,7 +9714,7 @@ class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    77;
+    78;
 
   void Swap(UnsetMountAck* other);
   friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
@@ -9712,7 +9813,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    78;
+    79;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -9825,7 +9926,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    79;
+    80;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -9924,7 +10025,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    80;
+    81;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -10059,7 +10160,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_HitEffectItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    81;
+    82;
 
   void Swap(HitEffectItem* other);
   friend void swap(HitEffectItem& a, HitEffectItem& b) {
@@ -10172,7 +10273,7 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HitEffectNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    82;
+    83;
 
   void Swap(HitEffectNtf* other);
   friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
@@ -10277,7 +10378,7 @@ class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    83;
+    84;
 
   void Swap(UseItemReq* other);
   friend void swap(UseItemReq& a, UseItemReq& b) {
@@ -10369,7 +10470,7 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    84;
+    85;
 
   void Swap(UseItemAck* other);
   friend void swap(UseItemAck& a, UseItemAck& b) {
@@ -10433,6 +10534,52 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// SkillItem
+
+// uint32 SkillID = 1;
+inline void SkillItem::clear_skillid() {
+  skillid_ = 0u;
+}
+inline ::google::protobuf::uint32 SkillItem::skillid() const {
+  // @@protoc_insertion_point(field_get:SkillItem.SkillID)
+  return skillid_;
+}
+inline void SkillItem::set_skillid(::google::protobuf::uint32 value) {
+  
+  skillid_ = value;
+  // @@protoc_insertion_point(field_set:SkillItem.SkillID)
+}
+
+// int32 Level = 2;
+inline void SkillItem::clear_level() {
+  level_ = 0;
+}
+inline ::google::protobuf::int32 SkillItem::level() const {
+  // @@protoc_insertion_point(field_get:SkillItem.Level)
+  return level_;
+}
+inline void SkillItem::set_level(::google::protobuf::int32 value) {
+  
+  level_ = value;
+  // @@protoc_insertion_point(field_set:SkillItem.Level)
+}
+
+// int32 KeyPos = 3;
+inline void SkillItem::clear_keypos() {
+  keypos_ = 0;
+}
+inline ::google::protobuf::int32 SkillItem::keypos() const {
+  // @@protoc_insertion_point(field_get:SkillItem.KeyPos)
+  return keypos_;
+}
+inline void SkillItem::set_keypos(::google::protobuf::int32 value) {
+  
+  keypos_ = value;
+  // @@protoc_insertion_point(field_set:SkillItem.KeyPos)
+}
+
+// -------------------------------------------------------------------
+
 // CheckVersionReq
 
 // string ClientVerion = 1;
@@ -12842,64 +12989,34 @@ EnterSceneAck::mutable_equips() {
   return &equips_;
 }
 
-// repeated int32 Normals = 19;
-inline int EnterSceneAck::normals_size() const {
-  return normals_.size();
+// repeated .SkillItem Skills = 19;
+inline int EnterSceneAck::skills_size() const {
+  return skills_.size();
 }
-inline void EnterSceneAck::clear_normals() {
-  normals_.Clear();
+inline void EnterSceneAck::clear_skills() {
+  skills_.Clear();
 }
-inline ::google::protobuf::int32 EnterSceneAck::normals(int index) const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.Normals)
-  return normals_.Get(index);
+inline const ::SkillItem& EnterSceneAck::skills(int index) const {
+  // @@protoc_insertion_point(field_get:EnterSceneAck.Skills)
+  return skills_.Get(index);
 }
-inline void EnterSceneAck::set_normals(int index, ::google::protobuf::int32 value) {
-  normals_.Set(index, value);
-  // @@protoc_insertion_point(field_set:EnterSceneAck.Normals)
+inline ::SkillItem* EnterSceneAck::mutable_skills(int index) {
+  // @@protoc_insertion_point(field_mutable:EnterSceneAck.Skills)
+  return skills_.Mutable(index);
 }
-inline void EnterSceneAck::add_normals(::google::protobuf::int32 value) {
-  normals_.Add(value);
-  // @@protoc_insertion_point(field_add:EnterSceneAck.Normals)
+inline ::SkillItem* EnterSceneAck::add_skills() {
+  // @@protoc_insertion_point(field_add:EnterSceneAck.Skills)
+  return skills_.Add();
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-EnterSceneAck::normals() const {
-  // @@protoc_insertion_point(field_list:EnterSceneAck.Normals)
-  return normals_;
+inline ::google::protobuf::RepeatedPtrField< ::SkillItem >*
+EnterSceneAck::mutable_skills() {
+  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Skills)
+  return &skills_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-EnterSceneAck::mutable_normals() {
-  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Normals)
-  return &normals_;
-}
-
-// repeated int32 Specials = 20;
-inline int EnterSceneAck::specials_size() const {
-  return specials_.size();
-}
-inline void EnterSceneAck::clear_specials() {
-  specials_.Clear();
-}
-inline ::google::protobuf::int32 EnterSceneAck::specials(int index) const {
-  // @@protoc_insertion_point(field_get:EnterSceneAck.Specials)
-  return specials_.Get(index);
-}
-inline void EnterSceneAck::set_specials(int index, ::google::protobuf::int32 value) {
-  specials_.Set(index, value);
-  // @@protoc_insertion_point(field_set:EnterSceneAck.Specials)
-}
-inline void EnterSceneAck::add_specials(::google::protobuf::int32 value) {
-  specials_.Add(value);
-  // @@protoc_insertion_point(field_add:EnterSceneAck.Specials)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-EnterSceneAck::specials() const {
-  // @@protoc_insertion_point(field_list:EnterSceneAck.Specials)
-  return specials_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-EnterSceneAck::mutable_specials() {
-  // @@protoc_insertion_point(field_mutable_list:EnterSceneAck.Specials)
-  return &specials_;
+inline const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+EnterSceneAck::skills() const {
+  // @@protoc_insertion_point(field_list:EnterSceneAck.Skills)
+  return skills_;
 }
 
 // -------------------------------------------------------------------
@@ -13225,34 +13342,34 @@ TransRoleData::mutable_propertys() {
   return &propertys_;
 }
 
-// repeated int32 Skills = 8;
+// repeated .SkillItem Skills = 8;
 inline int TransRoleData::skills_size() const {
   return skills_.size();
 }
 inline void TransRoleData::clear_skills() {
   skills_.Clear();
 }
-inline ::google::protobuf::int32 TransRoleData::skills(int index) const {
+inline const ::SkillItem& TransRoleData::skills(int index) const {
   // @@protoc_insertion_point(field_get:TransRoleData.Skills)
   return skills_.Get(index);
 }
-inline void TransRoleData::set_skills(int index, ::google::protobuf::int32 value) {
-  skills_.Set(index, value);
-  // @@protoc_insertion_point(field_set:TransRoleData.Skills)
+inline ::SkillItem* TransRoleData::mutable_skills(int index) {
+  // @@protoc_insertion_point(field_mutable:TransRoleData.Skills)
+  return skills_.Mutable(index);
 }
-inline void TransRoleData::add_skills(::google::protobuf::int32 value) {
-  skills_.Add(value);
+inline ::SkillItem* TransRoleData::add_skills() {
   // @@protoc_insertion_point(field_add:TransRoleData.Skills)
+  return skills_.Add();
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-TransRoleData::skills() const {
-  // @@protoc_insertion_point(field_list:TransRoleData.Skills)
-  return skills_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::SkillItem >*
 TransRoleData::mutable_skills() {
   // @@protoc_insertion_point(field_mutable_list:TransRoleData.Skills)
   return &skills_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+TransRoleData::skills() const {
+  // @@protoc_insertion_point(field_list:TransRoleData.Skills)
+  return skills_;
 }
 
 // -------------------------------------------------------------------
@@ -13398,34 +13515,34 @@ TransPetData::mutable_propertys() {
   return &propertys_;
 }
 
-// repeated int32 Skills = 7;
+// repeated .SkillItem Skills = 7;
 inline int TransPetData::skills_size() const {
   return skills_.size();
 }
 inline void TransPetData::clear_skills() {
   skills_.Clear();
 }
-inline ::google::protobuf::int32 TransPetData::skills(int index) const {
+inline const ::SkillItem& TransPetData::skills(int index) const {
   // @@protoc_insertion_point(field_get:TransPetData.Skills)
   return skills_.Get(index);
 }
-inline void TransPetData::set_skills(int index, ::google::protobuf::int32 value) {
-  skills_.Set(index, value);
-  // @@protoc_insertion_point(field_set:TransPetData.Skills)
+inline ::SkillItem* TransPetData::mutable_skills(int index) {
+  // @@protoc_insertion_point(field_mutable:TransPetData.Skills)
+  return skills_.Mutable(index);
 }
-inline void TransPetData::add_skills(::google::protobuf::int32 value) {
-  skills_.Add(value);
+inline ::SkillItem* TransPetData::add_skills() {
   // @@protoc_insertion_point(field_add:TransPetData.Skills)
+  return skills_.Add();
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-TransPetData::skills() const {
-  // @@protoc_insertion_point(field_list:TransPetData.Skills)
-  return skills_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::SkillItem >*
 TransPetData::mutable_skills() {
   // @@protoc_insertion_point(field_mutable_list:TransPetData.Skills)
   return &skills_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+TransPetData::skills() const {
+  // @@protoc_insertion_point(field_list:TransPetData.Skills)
+  return skills_;
 }
 
 // -------------------------------------------------------------------
@@ -13571,34 +13688,34 @@ TransPartnerData::mutable_propertys() {
   return &propertys_;
 }
 
-// repeated int32 Skills = 7;
+// repeated .SkillItem Skills = 7;
 inline int TransPartnerData::skills_size() const {
   return skills_.size();
 }
 inline void TransPartnerData::clear_skills() {
   skills_.Clear();
 }
-inline ::google::protobuf::int32 TransPartnerData::skills(int index) const {
+inline const ::SkillItem& TransPartnerData::skills(int index) const {
   // @@protoc_insertion_point(field_get:TransPartnerData.Skills)
   return skills_.Get(index);
 }
-inline void TransPartnerData::set_skills(int index, ::google::protobuf::int32 value) {
-  skills_.Set(index, value);
-  // @@protoc_insertion_point(field_set:TransPartnerData.Skills)
+inline ::SkillItem* TransPartnerData::mutable_skills(int index) {
+  // @@protoc_insertion_point(field_mutable:TransPartnerData.Skills)
+  return skills_.Mutable(index);
 }
-inline void TransPartnerData::add_skills(::google::protobuf::int32 value) {
-  skills_.Add(value);
+inline ::SkillItem* TransPartnerData::add_skills() {
   // @@protoc_insertion_point(field_add:TransPartnerData.Skills)
+  return skills_.Add();
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-TransPartnerData::skills() const {
-  // @@protoc_insertion_point(field_list:TransPartnerData.Skills)
-  return skills_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedPtrField< ::SkillItem >*
 TransPartnerData::mutable_skills() {
   // @@protoc_insertion_point(field_mutable_list:TransPartnerData.Skills)
   return &skills_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::SkillItem >&
+TransPartnerData::skills() const {
+  // @@protoc_insertion_point(field_list:TransPartnerData.Skills)
+  return skills_;
 }
 
 // -------------------------------------------------------------------
@@ -15750,6 +15867,8 @@ HitEffectNtf::itemlist() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
