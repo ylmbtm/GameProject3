@@ -3,7 +3,7 @@
 
 struct SkillData
 {
-	UINT32 uSkillID;
+	UINT32 dwSkillID;
 	INT32  nLevel;
 	INT32  nKeyPos;
 	INT64  uLastTime;

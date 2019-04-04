@@ -3106,11 +3106,11 @@ class DBActivityItem : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::uint32 activitytype() const;
   void set_activitytype(::google::protobuf::uint32 value);
 
-  // uint32 StartTime = 4;
-  void clear_starttime();
-  static const int kStartTimeFieldNumber = 4;
-  ::google::protobuf::uint32 starttime() const;
-  void set_starttime(::google::protobuf::uint32 value);
+  // uint32 JoinTime = 4;
+  void clear_jointime();
+  static const int kJoinTimeFieldNumber = 4;
+  ::google::protobuf::uint32 jointime() const;
+  void set_jointime(::google::protobuf::uint32 value);
 
   // uint32 DataLen = 5;
   void clear_datalen();
@@ -3126,7 +3126,7 @@ class DBActivityItem : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::uint32 activityid_;
   ::google::protobuf::uint32 activitytype_;
-  ::google::protobuf::uint32 starttime_;
+  ::google::protobuf::uint32 jointime_;
   ::google::protobuf::uint32 datalen_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
@@ -5644,18 +5644,18 @@ inline void DBActivityItem::set_activitytype(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:DBActivityItem.ActivityType)
 }
 
-// uint32 StartTime = 4;
-inline void DBActivityItem::clear_starttime() {
-  starttime_ = 0u;
+// uint32 JoinTime = 4;
+inline void DBActivityItem::clear_jointime() {
+  jointime_ = 0u;
 }
-inline ::google::protobuf::uint32 DBActivityItem::starttime() const {
-  // @@protoc_insertion_point(field_get:DBActivityItem.StartTime)
-  return starttime_;
+inline ::google::protobuf::uint32 DBActivityItem::jointime() const {
+  // @@protoc_insertion_point(field_get:DBActivityItem.JoinTime)
+  return jointime_;
 }
-inline void DBActivityItem::set_starttime(::google::protobuf::uint32 value) {
+inline void DBActivityItem::set_jointime(::google::protobuf::uint32 value) {
   
-  starttime_ = value;
-  // @@protoc_insertion_point(field_set:DBActivityItem.StartTime)
+  jointime_ = value;
+  // @@protoc_insertion_point(field_set:DBActivityItem.JoinTime)
 }
 
 // uint32 DataLen = 5;

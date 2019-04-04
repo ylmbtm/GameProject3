@@ -290,6 +290,77 @@ void CppMySQLQuery::nextRow()
 	_row = mysql_fetch_row(m_MysqlRes);
 }
 
+const unsigned char* CppMySQLQuery::getBlobField(int nField, int& nLen)
+{
+	const unsigned char* pData = (const unsigned char*)getStringField(nField);
+	if (NULL == pData)
+	{
+		return NULL;
+	}
+
+	unsigned   long*   FieldLength = mysql_fetch_lengths(m_MysqlRes);
+	nLen = (int)FieldLength[nField];
+
+	return pData;
+}
+
+const unsigned char* CppMySQLQuery::getBlobField(const char* szField, int& nLen)
+{
+	if (NULL == m_MysqlRes)
+	{
+		return NULL;
+	}
+
+	int nField = fieldIndex(szField);
+	if (nField == -1)
+	{
+		return NULL;
+	}
+
+	const unsigned char* pData = (const unsigned char*)getStringField(nField);
+	if (NULL == pData)
+	{
+		return NULL;
+	}
+
+	unsigned   long*   FieldLength = mysql_fetch_lengths(m_MysqlRes);
+	nLen = (int)FieldLength[nField];
+
+	return pData;
+}
+
+bool CppMySQLQuery::fieldIsNull(int nField)
+{
+	if (NULL == m_MysqlRes)
+	{
+		return NULL;
+	}
+
+	const unsigned char* pData = (const unsigned char*)getStringField(nField);
+	if (NULL == pData)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+bool CppMySQLQuery::fieldIsNull(const char* szField)
+{
+	if (NULL == m_MysqlRes)
+	{
+		return NULL;
+	}
+
+	const unsigned char* pData = (const unsigned char*)getStringField(szField);
+	if (NULL == pData)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 bool CppMySQLQuery::eof()
 {
 	return (_row == NULL);
@@ -448,7 +519,7 @@ bool CppMySQL3DB::reboot()
 
 bool CppMySQL3DB::reconnect()
 {
-	if (_db_ptr!= NULL && ping())
+	if (_db_ptr != NULL && ping())
 	{
 		return true;
 	}

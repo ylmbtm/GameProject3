@@ -6,54 +6,51 @@
 #include "../Message/Game_Define.pb.h"
 #include "../StaticData/StaticStruct.h"
 #include "../Scene.h"
+#include "../Message/Msg_ID.pb.h"
 
 CSkillObject::CSkillObject()
 {
-	m_pCastObject	= NULL;
-	m_dwStartTick	= 0;
-	m_dwSkillID		= 0;
-	m_pSkillInfo	= NULL;
-	m_pSkillEventInfo = NULL;
-	m_vtTargets.clear();
-	m_dwEventIndex = 0;
+	m_pCastObject = NULL;
+	ResetSkill();
 }
 
 CSkillObject::~CSkillObject()
 {
 	m_pCastObject	= NULL;
-	m_dwStartTick	= 0;
-	m_dwSkillID		= 0;
-	m_pSkillInfo	= NULL;
-	m_pSkillEventInfo = NULL;
-	m_vtTargets.clear();
+	ResetSkill();
 }
 
 
 BOOL CSkillObject::OnUpdate( UINT64 uTick )
 {
-	if (m_dwSkillID == 0 || m_pSkillInfo == NULL || m_pSkillEventInfo == NULL)
+	if (m_SkillStatus != ESS_RUNNING)
 	{
 		return TRUE;
 	}
 
-	if (m_dwEventIndex >= m_pSkillEventInfo->vtEvents.size())
+	if (m_dwSkillID == 0 || m_pSkillInfo == NULL || m_pSkillEventInfo == NULL)
 	{
 		return TRUE;
 	}
 
 	UINT64 uElaspedTick = uTick - m_dwStartTick;
 
-	if(uElaspedTick >= m_pSkillEventInfo->vtEvents[m_dwEventIndex].TrigerTime)
-	{
-		ProcessEvent(m_pSkillEventInfo->vtEvents[m_dwEventIndex]);
 
-		m_dwEventIndex += 1;
+	if (m_dwEventIndex < m_pSkillEventInfo->vtEvents.size())
+	{
+		if (uElaspedTick >= m_pSkillEventInfo->vtEvents[m_dwEventIndex].TrigerTime)
+		{
+			ProcessEvent(m_pSkillEventInfo->vtEvents[m_dwEventIndex]);
+
+			m_dwEventIndex += 1;
+		}
 	}
 
-	if (uElaspedTick >= m_pSkillInfo->uDuration)
+	if (uElaspedTick > m_pSkillEventInfo->uDuration)
 	{
 		//响应技能结束
 		OnSkillComplete();
+		return TRUE;
 	}
 
 	return TRUE;
@@ -61,22 +58,50 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 
 BOOL CSkillObject::OnSkillComplete()
 {
+	m_SkillStatus = ESS_FINISHED;
+	//如果当前是
+	if (m_bComboSkill)
+	{
+		m_bComboSkill = FALSE;
+		UINT32 dwSkillID = m_pCastObject->GetNextComboSkill(m_dwSkillID);
+		if (dwSkillID != 0)
+		{
+			SkillCastReq Req;
+			Req.set_objectguid(m_pCastObject->GetObjectGUID());
+			Req.set_skillid(dwSkillID);
+			Req.set_hostx(m_pCastObject->GetPos().m_x);
+			Req.set_hosty(m_pCastObject->GetPos().m_y);
+			Req.set_hostz(m_pCastObject->GetPos().m_z);
+			Req.set_hostft(m_pCastObject->GetFaceTo());
+			m_pCastObject->GetScene()->BroadMessage(MSG_SKILL_CAST_NTF, Req);
+			StartSkill(dwSkillID, m_pSkillInfo->Level);
+		}
+
+		return TRUE;
+	}
 	return TRUE;
 }
 
 BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 {
+	m_dwSkillID = dwSkillID;
+
+	m_dwStartTick = CommonFunc::GetTickCount();
+
+	m_dwEventIndex = 0;
+
 	m_pSkillInfo = CStaticData::GetInstancePtr()->GetSkillInfo(dwSkillID, nLevel);
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
 
 	m_pSkillEventInfo = CStaticData::GetInstancePtr()->GetSkillEventInfo(dwSkillID);
 	ERROR_RETURN_FALSE(m_pSkillEventInfo != NULL);
 
-	m_dwSkillID = dwSkillID;
+	if (ESCT_TYPE_INSTANT == m_pSkillEventInfo->dwCastType)
+	{
+		m_vtTargets.clear();
+	}
 
-	m_dwStartTick = CommonFunc::GetTickCount();
-
-	m_dwEventIndex = 0;
+	m_SkillStatus = ESS_RUNNING;
 
 	//计算攻击目标
 	//1.直接带有目标， 2.需要自己计算目标
@@ -87,6 +112,7 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 	//6.波次技能(闪电链)
 	//7.产生子弹的技能
 
+
 	OnUpdate(m_dwStartTick);
 
 	return TRUE;
@@ -95,10 +121,19 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 
 BOOL CSkillObject::StopSkill()
 {
+	ResetSkill();
+	return TRUE;
+}
+
+BOOL CSkillObject::ResetSkill()
+{
+	m_dwStartTick = 0;
 	m_dwSkillID = 0;
-	m_pSkillInfo = 0;
-	m_dwEventIndex = 0;
+	m_pSkillInfo = NULL;
+	m_pSkillEventInfo = NULL;
 	m_vtTargets.clear();
+	m_dwEventIndex = 0;
+	m_SkillStatus = ESS_INIT;
 	return TRUE;
 }
 
@@ -124,7 +159,7 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
-	if (dwRandValue < (8000 + m_pCastObject->m_Propertys[HIT_RATE] - pTarget->m_Propertys[DODGE]) || dwRandValue < 5000)
+	if (dwRandValue > (8000 + m_pCastObject->m_Propertys[HIT_RATE] - pTarget->m_Propertys[DODGE]) && dwRandValue > 5000)
 	{
 		//未命中
 		m_pCastObject->NotifyHitEffect(pTarget, FALSE, 0);
@@ -147,21 +182,21 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 	}
 
 	//伤害随机
-	UINT32 dwFightRand = 900 + CommonFunc::GetRandNum(1) % 200;
-	INT32 nHurt = m_pCastObject->m_Propertys[ATTACK];
-	nHurt = nHurt - pTarget->m_Propertys[HP];
-	if (nHurt <= 0)
+	INT32 nFightRand = 9000 + CommonFunc::GetRandNum(1) % 2000;
+
+	INT32 nDefendValue = (m_pSkillInfo->SkillType == ESTMAGIC) ? pTarget->m_Propertys[MAGIC_DEF] : pTarget->m_Propertys[PHYSIC_DEF];
+
+	INT32 nHurt = m_pCastObject->m_Propertys[ATTACK] - nDefendValue;
+	if (nHurt < 0)
 	{
 		nHurt = 1;
 	}
-	else
+
+	nHurt = nHurt * nFightRand / 10000;
+	nHurt += nHurt * nFinalAdd / 10000;
+	if (bCriticalHit)
 	{
-		nHurt = nHurt * dwFightRand / 1000;
-		nHurt = nHurt * nFinalAdd / 1000;
-		if (bCriticalHit)
-		{
-			nHurt = nHurt * 15 / 10;
-		}
+		nHurt = nHurt * 3 / 2;
 	}
 
 	pTarget->SubHp(nHurt);
@@ -259,6 +294,11 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 	{
 		CSceneObject* pTempObject = *itor;
 
+		if (pTempObject == m_pCastObject)
+		{
+			continue;
+		}
+
 		if (SkillEvent.TargetBuffID != 0)
 		{
 			pTempObject->AddBuff(SkillEvent.TargetBuffID);
@@ -279,5 +319,22 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 	}
 
 	return TRUE;
+}
+
+ESkillStatus CSkillObject::GetSkillStatus()
+{
+	return m_SkillStatus;
+}
+
+BOOL CSkillObject::SetComboSkill(BOOL bCombo)
+{
+	m_bComboSkill = bCombo;
+
+	return TRUE;
+}
+
+UINT32 CSkillObject::GetSkillID()
+{
+	return m_dwSkillID;
 }
 

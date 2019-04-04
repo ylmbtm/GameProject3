@@ -52,6 +52,9 @@ public:
 	BOOL			SetDead(BOOL bDead);
 
 	BOOL			SetPos(FLOAT x, FLOAT y, FLOAT z, FLOAT ft = 0);
+	Vector3D&       GetPos();
+
+	FLOAT           GetFaceTo();
 
 	BOOL			SaveBattleResult(ResultPlayer* pResult);
 
@@ -73,25 +76,26 @@ public:
 	CSkillObject	m_SkillObject;
 	UINT32			ProcessSkill(const SkillCastReq& Req);
 	UINT32			ProcessAction(const ActionReqItem& Item);
-	UINT64			GetLastSkillTick(UINT64 uSkillID);
-	BOOL			SetLastSkillTick(UINT64 uSkillID, UINT64 uTick);
-	SkillData*		GetSkillData(UINT64 uSkillID);
-	/*BOOL			StartSkill(UINT32 dwSkillID);*/
-	INT32			GetSkillLevel(UINT64 dwSkillID);
-	BOOL			InitSkills(const google::protobuf::RepeatedField< ::google::protobuf::int32 >& vtSkills);
+	UINT64			GetLastSkillTick(UINT32 dwSkillID);
+	BOOL			SetLastSkillTick(UINT32 dwSkillID, UINT64 uTick);
+	SkillData*		GetSkillData(UINT32 dwSkillID);
+	INT32			GetSkillLevel(UINT32 dwSkillID);
+	BOOL			InitSkills(const google::protobuf::RepeatedPtrField<::SkillItem>& vtSkills);
 	BOOL			InitSkills(); //怪物和招唤物使用
+	UINT32          GetNextComboSkill(UINT32 dwSkillID);
+	BOOL            CheckSkillCD(UINT32 dwSkillID, UINT64 uCD);
 
-	BOOL			IsInCircle(Vector3D hitPoint,float radius, float height);
+	BOOL			IsInCircle(Vector3D hitPoint, float radius, float height);
 	BOOL			IsInSquare(Vector3D hitPoint, float hitDir, float length, float width);
 	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////
 	//伤害效果
-	BOOL			NotifyHitEffect(CSceneObject *pTarget, BOOL  bCritHit, INT32 nHurtValue);
+	BOOL			NotifyHitEffect(CSceneObject* pTarget, BOOL  bCritHit, INT32 nHurtValue);
 
 	HitEffectNtf	m_EffectNtf;
-	
+
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -122,7 +126,7 @@ public:
 	BOOL			m_bIsCampCheck;					//是否影响阵营结算
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
 
-	
+
 
 	//////////////////////////////////////////////////////////
 	//对象的一些标记

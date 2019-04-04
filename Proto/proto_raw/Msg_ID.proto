@@ -203,17 +203,6 @@ enum MessageID {
     MSG_SCENESVR_MSGID_END           = 3999999;
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-
-    MSG_REQ_USEITEM             = 1103;//使用物品
-    MSG_ACK_USEITEM             = 1104;//使用物品
-    MSG_REQ_DRESS_GEM           = 1109;//镶嵌宝石
-    MSG_ACK_DRESS_GEM           = 1110;//镶嵌宝石
-    MSG_REQ_UNLOAD_GEM          = 1111;//卸下宝石
-    MSG_ACK_UNLOAD_GEM          = 1112;//卸下宝石
-    MSG_REQ_COMPOSE_CHIP        = 1113;//合成碎片
-    MSG_ACK_COMPOSE_CHIP        = 1114;//合成碎片
-
     MSG_REQ_STRENGTHEN_EQUIP    = 1115;//强化装备
     MSG_ACK_STRENGTHEN_EQUIP    = 1116;//强化装备
     MSG_REQ_ADVANCE_EQUIP       = 1117;//进阶装备
@@ -227,13 +216,6 @@ enum MessageID {
     MSG_ACK_ONEKEYTODRESSGEM    = 1152;//镶嵌宝石
     MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//镶嵌宝石
     MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//镶嵌宝石
-
-    MSG_REQ_GET_CHAPTERAWARD    = 1201;//领取章节奖励
-    MSG_ACK_GET_CHAPTERAWARD    = 1202;//领取章节奖励
-    MSG_REQ_BATTLE_CHECK        = 1203;//战前检查
-    MSG_ACK_BATTLE_CHECK        = 1204;//战前检查
-    MSG_REQ_PASSCOPY            = 1205;//通关
-    MSG_ACK_PASSCOPY            = 1206;//通关
 
     MSG_REQ_SETMOUNT            = 1301;//坐骑上阵
     MSG_ACK_SETMOUNT            = 1302;//坐骑上阵
@@ -270,14 +252,5 @@ enum MessageID {
 
     MSG_REQ_SUBMIT_TASK         = 1613;//提交日常任务
     MSG_ACK_SUBMIT_TASK         = 1614;//提交日常任务
-
-    MSG_REQ_ADDHERO_EXP         = 2001;//增加经验
-    MSG_ACK_ADDHERO_EXP         = 2002;//增加经验
-
-    MSG_ENTER_VIEW_NTF          = 3001;//对象进入视野
-    MSG_LEAVE_VIEW_NTF          = 3002;//对象离开视野  
-    MSG_ACTOR_VALUECHANGE_NTF   = 3003;
-    MSG_ACTOR_SKILLCAST_NTF     = 3004;
-    MSG_ACTOR_DIE_NTF           = 3005;
 }
 

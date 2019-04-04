@@ -167,7 +167,7 @@ message DBActivityItem {
     uint64    RoleID = 1;            //角色ID
     uint32    ActivityID = 2;  //活动ID
     uint32    ActivityType = 3;//活动类型
-    uint32    StartTime = 4;    //参与时间
+    uint32    JoinTime = 4;    //参与时间
     uint32    DataLen = 5;     //数据时间长度
     bytes     Data = 6;    //活动数据
 }

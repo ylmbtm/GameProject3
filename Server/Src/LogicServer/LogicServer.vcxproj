@@ -218,6 +218,7 @@
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />
     <ClInclude Include="LogManager.h" />
+    <ClInclude Include="Lua_Script.h" />
     <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />
     <ClInclude Include="MountModule.h" />

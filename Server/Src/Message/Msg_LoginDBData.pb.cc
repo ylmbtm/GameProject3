@@ -897,7 +897,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, roleid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, activityid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, activitytype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, starttime_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, jointime_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, datalen_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBActivityItem, data_),
   ~0u,  // no _has_bits_
@@ -1098,35 +1098,34 @@ void AddDescriptorsImpl() {
       "\020\n\010Progress\030\004 \001(\005\"+\n\nDBTaskData\022\035\n\010TaskL"
       "ist\030\001 \003(\0132\013.DBTaskItem\"\034\n\nDBMailItem\022\016\n\006"
       "RoleID\030\001 \001(\004\"+\n\nDBMailData\022\035\n\010MailList\030\001"
-      " \003(\0132\013.DBMailItem\"|\n\016DBActivityItem\022\016\n\006R"
+      " \003(\0132\013.DBMailItem\"{\n\016DBActivityItem\022\016\n\006R"
       "oleID\030\001 \001(\004\022\022\n\nActivityID\030\002 \001(\r\022\024\n\014Activ"
-      "ityType\030\003 \001(\r\022\021\n\tStartTime\030\004 \001(\r\022\017\n\007Data"
-      "Len\030\005 \001(\r\022\014\n\004Data\030\006 \001(\014\"7\n\016DBActivityDat"
-      "a\022%\n\014ActivityList\030\001 \003(\0132\017.DBActivityItem"
-      "\"~\n\rDBCounterItem\022\016\n\006RoleID\030\001 \001(\004\022\021\n\tCou"
-      "nterID\030\002 \001(\004\022\r\n\005Index\030\003 \001(\r\022\r\n\005Value\030\004 \001"
-      "(\r\022\014\n\004Time\030\005 \001(\r\022\016\n\006Param1\030\006 \001(\r\022\016\n\006Para"
-      "m2\030\007 \001(\r\"4\n\rDBCounterData\022#\n\013CounterList"
-      "\030\001 \003(\0132\016.DBCounterItem\"0\n\014DBFriendItem\022\016"
-      "\n\006RoleID\030\001 \001(\004\022\020\n\010FriendID\030\002 \001(\004\"1\n\014DBFr"
-      "iendData\022!\n\nFriendList\030\001 \003(\0132\r.DBFriendI"
-      "tem\"\373\003\n\016DBRoleLoginAck\022\017\n\007RetCode\030\001 \001(\r\022"
-      "\016\n\006RoleID\030\002 \001(\004\022\035\n\010RoleData\030\003 \001(\0132\013.DBRo"
-      "leData\022\033\n\007BagData\030\004 \001(\0132\n.DBBagData\022\035\n\010C"
-      "opyData\030\005 \001(\0132\013.DBCopyData\022\037\n\tEquipData\030"
-      "\006 \001(\0132\014.DBEquipData\022\033\n\007GemData\030\007 \001(\0132\n.D"
-      "BGemData\022\033\n\007PetData\030\010 \001(\0132\n.DBPetData\022#\n"
-      "\013PartnerData\030\t \001(\0132\016.DBPartnerData\022\035\n\010Ta"
-      "skData\030\n \001(\0132\013.DBTaskData\022\035\n\010MailData\030\013 "
-      "\001(\0132\013.DBMailData\022\037\n\tMountData\030\014 \001(\0132\014.DB"
-      "MountData\022%\n\014ActivityData\030\r \001(\0132\017.DBActi"
-      "vityData\022#\n\013CounterData\030\016 \001(\0132\016.DBCounte"
-      "rData\022!\n\nFriendData\030\017 \001(\0132\r.DBFriendData"
-      "\022\037\n\tSkillData\030\020 \001(\0132\014.DBSkillDatab\006proto"
-      "3"
+      "ityType\030\003 \001(\r\022\020\n\010JoinTime\030\004 \001(\r\022\017\n\007DataL"
+      "en\030\005 \001(\r\022\014\n\004Data\030\006 \001(\014\"7\n\016DBActivityData"
+      "\022%\n\014ActivityList\030\001 \003(\0132\017.DBActivityItem\""
+      "~\n\rDBCounterItem\022\016\n\006RoleID\030\001 \001(\004\022\021\n\tCoun"
+      "terID\030\002 \001(\004\022\r\n\005Index\030\003 \001(\r\022\r\n\005Value\030\004 \001("
+      "\r\022\014\n\004Time\030\005 \001(\r\022\016\n\006Param1\030\006 \001(\r\022\016\n\006Param"
+      "2\030\007 \001(\r\"4\n\rDBCounterData\022#\n\013CounterList\030"
+      "\001 \003(\0132\016.DBCounterItem\"0\n\014DBFriendItem\022\016\n"
+      "\006RoleID\030\001 \001(\004\022\020\n\010FriendID\030\002 \001(\004\"1\n\014DBFri"
+      "endData\022!\n\nFriendList\030\001 \003(\0132\r.DBFriendIt"
+      "em\"\373\003\n\016DBRoleLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\016"
+      "\n\006RoleID\030\002 \001(\004\022\035\n\010RoleData\030\003 \001(\0132\013.DBRol"
+      "eData\022\033\n\007BagData\030\004 \001(\0132\n.DBBagData\022\035\n\010Co"
+      "pyData\030\005 \001(\0132\013.DBCopyData\022\037\n\tEquipData\030\006"
+      " \001(\0132\014.DBEquipData\022\033\n\007GemData\030\007 \001(\0132\n.DB"
+      "GemData\022\033\n\007PetData\030\010 \001(\0132\n.DBPetData\022#\n\013"
+      "PartnerData\030\t \001(\0132\016.DBPartnerData\022\035\n\010Tas"
+      "kData\030\n \001(\0132\013.DBTaskData\022\035\n\010MailData\030\013 \001"
+      "(\0132\013.DBMailData\022\037\n\tMountData\030\014 \001(\0132\014.DBM"
+      "ountData\022%\n\014ActivityData\030\r \001(\0132\017.DBActiv"
+      "ityData\022#\n\013CounterData\030\016 \001(\0132\016.DBCounter"
+      "Data\022!\n\nFriendData\030\017 \001(\0132\r.DBFriendData\022"
+      "\037\n\tSkillData\030\020 \001(\0132\014.DBSkillDatab\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 3121);
+      descriptor, 3120);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_LoginDBData.proto", &protobuf_RegisterTypes);
 }
@@ -9163,7 +9162,7 @@ void DBActivityItem::InitAsDefaultInstance() {
 const int DBActivityItem::kRoleIDFieldNumber;
 const int DBActivityItem::kActivityIDFieldNumber;
 const int DBActivityItem::kActivityTypeFieldNumber;
-const int DBActivityItem::kStartTimeFieldNumber;
+const int DBActivityItem::kJoinTimeFieldNumber;
 const int DBActivityItem::kDataLenFieldNumber;
 const int DBActivityItem::kDataFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -9296,14 +9295,14 @@ bool DBActivityItem::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 StartTime = 4;
+      // uint32 JoinTime = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &starttime_)));
+                 input, &jointime_)));
         } else {
           goto handle_unusual;
         }
@@ -9377,9 +9376,9 @@ void DBActivityItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->activitytype(), output);
   }
 
-  // uint32 StartTime = 4;
-  if (this->starttime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->starttime(), output);
+  // uint32 JoinTime = 4;
+  if (this->jointime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->jointime(), output);
   }
 
   // uint32 DataLen = 5;
@@ -9422,9 +9421,9 @@ void DBActivityItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->activitytype(), target);
   }
 
-  // uint32 StartTime = 4;
-  if (this->starttime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->starttime(), target);
+  // uint32 JoinTime = 4;
+  if (this->jointime() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->jointime(), target);
   }
 
   // uint32 DataLen = 5;
@@ -9484,11 +9483,11 @@ size_t DBActivityItem::ByteSizeLong() const {
         this->activitytype());
   }
 
-  // uint32 StartTime = 4;
-  if (this->starttime() != 0) {
+  // uint32 JoinTime = 4;
+  if (this->jointime() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->starttime());
+        this->jointime());
   }
 
   // uint32 DataLen = 5;
@@ -9540,8 +9539,8 @@ void DBActivityItem::MergeFrom(const DBActivityItem& from) {
   if (from.activitytype() != 0) {
     set_activitytype(from.activitytype());
   }
-  if (from.starttime() != 0) {
-    set_starttime(from.starttime());
+  if (from.jointime() != 0) {
+    set_jointime(from.jointime());
   }
   if (from.datalen() != 0) {
     set_datalen(from.datalen());
@@ -9576,7 +9575,7 @@ void DBActivityItem::InternalSwap(DBActivityItem* other) {
   swap(roleid_, other->roleid_);
   swap(activityid_, other->activityid_);
   swap(activitytype_, other->activitytype_);
-  swap(starttime_, other->starttime_);
+  swap(jointime_, other->jointime_);
   swap(datalen_, other->datalen_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

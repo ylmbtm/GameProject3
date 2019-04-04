@@ -87,9 +87,6 @@
     <ClCompile Include="GameObject\SkillObject.cpp">
       <Filter>SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\ConfigData\CppSQLite3.cpp">
-      <Filter>StaticData</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject\MapObject.cpp">
       <Filter>SceneObject</Filter>
     </ClCompile>
@@ -101,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="..\StaticData\StaticData.cpp">
       <Filter>StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StaticData\CppSQLite3.cpp">
+      <Filter>StaticData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_LoginCltData.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="..\StaticData\StaticStruct.h">
       <Filter>StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StaticData\ConfigDefine.h">
+      <Filter>StaticData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_LoginCltData.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

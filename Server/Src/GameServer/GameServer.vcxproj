@@ -101,6 +101,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Message\Msg_LoginCltData.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\StaticData\CppSQLite3.cpp" />
     <ClCompile Include="..\Message\Msg_Copy.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -140,6 +144,8 @@
     <ClCompile Include="GameObject\SceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Message\Msg_LoginCltData.pb.h" />
+    <ClInclude Include="..\StaticData\ConfigDefine.h" />
     <ClInclude Include="..\StaticData\CppSQLite3.h" />
     <ClInclude Include="..\StaticData\SkillStruct.h" />
     <ClInclude Include="..\Message\Game_Define.pb.h" />

@@ -535,12 +535,18 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	for (int i = 0; i < pSceneObj->m_vtNormals.size(); i++)
 	{
-		Ack.add_normals(pSceneObj->m_vtNormals[i].uSkillID);
+		SkillItem* pSkillItem = Ack.add_skills();
+		pSkillItem->set_keypos(pSceneObj->m_vtNormals[i].nKeyPos);
+		pSkillItem->set_level(pSceneObj->m_vtNormals[i].nLevel);
+		pSkillItem->set_skillid(pSceneObj->m_vtNormals[i].dwSkillID);
 	}
 
 	for (int i = 0; i < pSceneObj->m_vtSpecials.size(); i++)
 	{
-		Ack.add_specials(pSceneObj->m_vtSpecials[i].uSkillID);
+		SkillItem* pSkillItem = Ack.add_skills();
+		pSkillItem->set_keypos(pSceneObj->m_vtSpecials[i].nKeyPos);
+		pSkillItem->set_level(pSceneObj->m_vtSpecials[i].nLevel);
+		pSkillItem->set_skillid(pSceneObj->m_vtSpecials[i].dwSkillID);
 	}
 
 
