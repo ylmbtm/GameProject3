@@ -65,7 +65,7 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBPartnerItem& PartnerItem = PartnerData.partnerlist(i);
 
-		PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(FALSE);
+		PartnerDataObject* pObject = DataPool::CreateObject<PartnerDataObject>(ESD_PARTNER, FALSE);
 		pObject->m_uGuid = PartnerItem.guid();
 		pObject->m_uRoleID = PartnerItem.roleid();
 		pObject->m_PartnerID = PartnerItem.partnerid();
@@ -188,7 +188,7 @@ BOOL CPartnerModule::OnMsgUnsetPartnerReq(NetPacket* pNetPacket)
 
 UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 {
-	PartnerDataObject* pObject = g_pPartnerDataObjectPool->NewObject(TRUE);
+	PartnerDataObject* pObject = DataPool::CreateObject<PartnerDataObject>(ESD_PARTNER, TRUE);
 	pObject->Lock();
 	pObject->m_PartnerID = dwPartnerID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();

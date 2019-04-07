@@ -63,10 +63,10 @@ BOOL CCounterModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < CounterData.counterlist_size(); i++)
 	{
 		const DBCounterItem& CounterItem = CounterData.counterlist(i);
-		CounterDataObject* pObject = g_pCounterDataObjectPool->NewObject(FALSE);
+		CounterDataObject* pObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, FALSE);
 
 
-		//m_mapCounterData.insert(std::make_pair(pObject->m_uGuid, pObject));
+		//m_mapCounterData.insert(std::make_pair(pObject->m_uCounterID, pObject));
 	}
 	return TRUE;
 }
@@ -88,7 +88,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT64 uID, UINT32 dwIndex, BO
 	{
 		if(bCreate)
 		{
-			CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewObject(TRUE);
+			CounterDataObject* pTempObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, TRUE);
 			std::vector<CounterDataObject*> tempvt;
 			tempvt.push_back(pTempObject);
 			m_mapCounterData.insert(std::make_pair(uID, tempvt));
@@ -118,7 +118,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT64 uID, UINT32 dwIndex, BO
 
 	if(bCreate)
 	{
-		CounterDataObject* pTempObject = g_pCounterDataObjectPool->NewObject(TRUE);
+		CounterDataObject* pTempObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, TRUE);
 		std::vector<CounterDataObject*> tempvt;
 		itor->second.push_back(pTempObject);
 		return pTempObject;

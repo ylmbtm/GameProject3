@@ -315,8 +315,26 @@ UINT32 CPlayerObject::GetActorID()
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 
 	ERROR_RETURN_CODE(pModule != NULL, 0);
-	
+
 	return pModule->GetActorID();
+}
+
+CHAR* CPlayerObject::GetName()
+{
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+
+	ERROR_RETURN_CODE(pModule != NULL, 0);
+
+	return pModule->GetName();
+}
+
+UINT32 CPlayerObject::GetCarrerID()
+{
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+
+	ERROR_RETURN_CODE(pModule != NULL, 0);
+
+	return pModule->GetCarrerID();
 }
 
 BOOL CPlayerObject::SendRoleLoginAck()
@@ -333,6 +351,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
 	}
 
 	SendMsgProtoBuf(MSG_ROLE_LOGIN_ACK, Ack);
+
 	return TRUE;
 }
 
@@ -387,25 +406,16 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 		}
 	}
 
-	CSkillModule *pSkillModule = (CSkillModule*)GetModuleByType(MT_SKILL);
+	CSkillModule* pSkillModule = (CSkillModule*)GetModuleByType(MT_SKILL);
 	ERROR_RETURN_FALSE(pSkillModule != NULL);
 
 	for (auto itor = pSkillModule->m_mapSkillData.begin(); itor != pSkillModule->m_mapSkillData.end(); ++itor)
 	{
-		if (itor->second->m_nKeyPos == 1)
-		{
-			pRoleData->add_skills(itor->second->m_dwSkillID);
-		}
+		SkillItem* pSkillItem = pRoleData->add_skills();
+		pSkillItem->set_keypos(itor->second->m_nKeyPos);
+		pSkillItem->set_level(itor->second->m_nLevel);
+		pSkillItem->set_skillid(itor->second->m_dwSkillID);
 	}
-
-	for (auto itor = pSkillModule->m_mapSkillData.begin(); itor != pSkillModule->m_mapSkillData.end(); ++itor)
-	{
-		if (itor->second->m_nKeyPos != 1)
-		{
-			pRoleData->add_skills(itor->second->m_dwSkillID);
-		}
-	}
-	
 
 	CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
 

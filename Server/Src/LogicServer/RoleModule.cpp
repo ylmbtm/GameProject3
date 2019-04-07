@@ -42,7 +42,7 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 
 BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(TRUE);
+	m_pRoleDataObject = DataPool::CreateObject<RoleDataObject>(ESD_ROLE, TRUE);
 	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
@@ -96,7 +96,7 @@ BOOL CRoleModule::OnNewDay()
 
 BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 {
-	m_pRoleDataObject = g_pRoleDataObjectPool->NewObject(FALSE);
+	m_pRoleDataObject = DataPool::CreateObject<RoleDataObject>(ESD_ROLE, FALSE);
 	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();
@@ -137,7 +137,6 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
 	m_dwActorID = pInfo->dwActorID;
-
 
 	return TRUE;
 }
@@ -330,6 +329,16 @@ BOOL CRoleModule::SetDelete( BOOL bDelete )
 UINT32 CRoleModule::GetActorID()
 {
 	return m_dwActorID;
+}
+
+CHAR* CRoleModule::GetName()
+{
+	return m_pRoleDataObject->m_szName;
+}
+
+UINT32 CRoleModule::GetCarrerID()
+{
+	return m_pRoleDataObject->m_CarrerID;
 }
 
 UINT64 CRoleModule::AddExp( INT32 nExp )

@@ -55,7 +55,7 @@ BOOL CPetModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < PetData.petlist_size(); i++)
 	{
 		const DBPetItem& PetItem = PetData.petlist(i);
-		PetDataObject* pObject = g_pPetDataObjectPool->NewObject(FALSE);
+		PetDataObject* pObject = DataPool::CreateObject<PetDataObject>(ESD_PET, FALSE);
 		pObject->m_uGuid = PetItem.guid();
 		pObject->m_uRoleID = PetItem.roleid();
 		pObject->m_PetID = PetItem.petid();
@@ -98,7 +98,7 @@ BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
 
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
 {
-	PetDataObject* pObject = g_pPetDataObjectPool->NewObject(TRUE);
+	PetDataObject* pObject = DataPool::CreateObject<PetDataObject>(ESD_PET, TRUE);
 	pObject->Lock();
 	pObject->m_PetID = dwPetID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();

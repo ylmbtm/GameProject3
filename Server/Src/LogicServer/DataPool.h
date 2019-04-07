@@ -19,30 +19,48 @@
 #include "../ServerData/GemData.h"
 #include "../ServerData/SkillData.h"
 
-extern	SharedMemory<RoleDataObject>*		g_pRoleDataObjectPool;
-extern	SharedMemory<GlobalDataObject>*		g_pGlobalDataObjectPool;
-extern	SharedMemory<BagDataObject>*		g_pBagDataObjectPool;
-extern	SharedMemory<CopyDataObject>*		g_pCopyDataObjectPool;
-extern	SharedMemory<ChapterDataObject>*	g_pChapterDataObjectPool;
-extern	SharedMemory<EquipDataObject>*		g_pEquipDataObjectPool;
-extern	SharedMemory<GemDataObject>*		g_pGemDataObjectPool;
-extern	SharedMemory<PetDataObject>*		g_pPetDataObjectPool;
-extern	SharedMemory<PartnerDataObject>*	g_pPartnerDataObjectPool;
-extern	SharedMemory<GuildDataObject>*		g_pGuildDataObjectPool;
-extern	SharedMemory<MemberDataObject>*		g_pMemberDataObjectPool;
-extern	SharedMemory<TaskDataObject>*		g_pTaskDataObjectPool;
-extern	SharedMemory<MountDataObject>*		g_pMountDataObjectPool;
-extern	SharedMemory<MailDataObject>*		g_pMailDataObjectPool;
-extern	SharedMemory<GroupMailDataObject>*	g_pGroupMailDataObjectPool;
-extern	SharedMemory<ActivityDataObject>*	g_pActivityDataObjectPool;
-extern	SharedMemory<CounterDataObject>*	g_pCounterDataObjectPool;
-extern	SharedMemory<FriendDataObject>*		g_pFriendDataObjectPool;
-extern	SharedMemory<SkillDataObject>*		g_pSkillDataObjectPool;
-std::string GenDataName(std::string strName);
+namespace DataPool
+{
+	template <class T>
+	T* CreateObject(EShareData nIndex, BOOL bNewBlock = TRUE)
+	{
+		SharedMemoryBase *pShareBase = CDataPool::GetInstancePtr()->GetSharePool(nIndex);
 
-BOOL CreateDataPool();
-BOOL ReleaseDataPool();
+		T* pTmp = static_cast<T*>(pShareBase->NewObject(bNewBlock));
 
-BOOL RestoreFromShareMemory();
+		return pTmp;
+	}
+
+}
+
+class CDataPool
+{
+	CDataPool();
+	~CDataPool();
+
+public:
+	static CDataPool* GetInstancePtr();
+
+	BOOL InitDataPool();
+
+	BOOL ReleaseDataPool();
+
+	BOOL RestoreFromShareMemory();
+
+	SharedMemoryBase* GetSharePool(EShareData nIndex);
+
+protected:
+	std::vector<SharedMemoryBase*>		m_vtDataObjectPools;
+};
+
+
+
+
+
+
+
+
+
+
 
 #endif //__DATA_MODULE_POOL_H__

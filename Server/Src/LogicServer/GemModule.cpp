@@ -66,7 +66,7 @@ BOOL CGemModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < GemData.gemlist_size(); i++)
 	{
 		const DBGemItem& ItemData = GemData.gemlist(i);
-		GemDataObject* pObject = g_pGemDataObjectPool->NewObject(FALSE);
+		GemDataObject* pObject = DataPool::CreateObject<GemDataObject>(ESD_GEM, FALSE);
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_GemID = ItemData.gemid();
@@ -109,7 +109,7 @@ BOOL CGemModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 UINT64 CGemModule::AddGem(UINT32 dwGemID)
 {
-	GemDataObject* pObject = g_pGemDataObjectPool->NewObject(TRUE);
+	GemDataObject* pObject = DataPool::CreateObject<GemDataObject>(ESD_GEM, TRUE);
 	pObject->Lock();
 	pObject->m_GemID = dwGemID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();

@@ -65,7 +65,7 @@ BOOL CEquipModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < EquipData.equiplist_size(); i++)
 	{
 		const DBEquipItem& ItemData = EquipData.equiplist(i);
-		EquipDataObject* pObject = g_pEquipDataObjectPool->NewObject(FALSE);
+		EquipDataObject* pObject = DataPool::CreateObject<EquipDataObject>(ESD_EQUIP, FALSE);
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_EquipID = ItemData.equipid();
@@ -108,7 +108,7 @@ BOOL CEquipModule::SaveToClientLoginData(RoleLoginAck& Ack)
 
 UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 {
-	EquipDataObject* pObject = g_pEquipDataObjectPool->NewObject(TRUE);
+	EquipDataObject* pObject = DataPool::CreateObject<EquipDataObject>(ESD_EQUIP, TRUE);
 	pObject->Lock();
 	pObject->m_EquipID = dwEquipID;
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();

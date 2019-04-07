@@ -55,7 +55,7 @@ BOOL CMountModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < MountData.mountlist_size(); i++)
 	{
 		const DBMountItem& MountItem = MountData.mountlist(i);
-		MountDataObject* pObject = g_pMountDataObjectPool->NewObject(FALSE);
+		MountDataObject* pObject = DataPool::CreateObject<MountDataObject>(ESD_MOUNT, FALSE);
 		pObject->m_uGuid = MountItem.guid();
 		pObject->m_uRoleID = MountItem.roleid();
 		pObject->m_MountID = MountItem.mountid();
@@ -99,7 +99,7 @@ BOOL CMountModule::DispatchPacket(NetPacket* pNetPacket)
 
 UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
-	MountDataObject* pObject = g_pMountDataObjectPool->NewObject(TRUE);
+	MountDataObject* pObject = DataPool::CreateObject<MountDataObject>(ESD_MOUNT, TRUE);
 	pObject->Lock();
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->m_MountID = dwMountID;

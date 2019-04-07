@@ -41,7 +41,7 @@ BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
 		dwMaxGuid = (dwMaxGuid << 48) + 1;
 	}
 	dwMaxGuid += 100;
-	m_pGlobalDataObject = g_pGlobalDataObjectPool->NewObject(FALSE);
+	m_pGlobalDataObject = DataPool::CreateObject<GlobalDataObject>(ESD_GLOBAL, FALSE);
 	m_pGlobalDataObject->m_dwServerID = CGameService::GetInstancePtr()->GetServerID();
 	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;
 	m_pGlobalDataObject->m_dwMaxOnline = dwMaxOnline;

@@ -27,7 +27,7 @@ BOOL CGuildManager::LoadAllGuildData(CppMySQL3DB& tDBConnection)
 	while(!QueryResult.eof())
 	{
 		CGuild* pGuild = new CGuild();
-		pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(FALSE);
+		pGuild->m_pGuildData = DataPool::CreateObject<GuildDataObject>(ESD_GUILD, FALSE);
 		pGuild->m_pGuildData->m_uGuid = QueryResult.getInt64Field("id");
 		pGuild->m_pGuildData->m_Level = QueryResult.getIntField("level");
 		strncpy(pGuild->m_pGuildData->m_szName, QueryResult.getStringField("name"), GUILD_NAME_LEN);
@@ -74,13 +74,13 @@ CGuild* CGuildManager::GetGuildByID( UINT64 u64ID )
 CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 nIcon)
 {
 	CGuild* pGuild = new CGuild();
-	pGuild->m_pGuildData = g_pGuildDataObjectPool->NewObject(TRUE);
+	pGuild->m_pGuildData = DataPool::CreateObject<GuildDataObject>(ESD_GUILD, TRUE);
 	pGuild->m_pGuildData->Lock();
 	pGuild->m_pGuildData->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	strncpy(pGuild->m_pGuildData->m_szName, strName.c_str(), CommonFunc::Min(GUILD_NAME_LEN, (INT32)strName.size()));
 	pGuild->m_pGuildData->Unlock();
 
-	MemberDataObject* pMemberObj = g_pMemberDataObjectPool->NewObject(TRUE);
+	MemberDataObject* pMemberObj = DataPool::CreateObject<MemberDataObject>(ESD_GUILD_MEMBER, TRUE);
 	pMemberObj->Lock();
 	pMemberObj->m_uRoleID = uRoleID;
 	pMemberObj->m_dwJoinTime = CommonFunc::GetCurrTime();

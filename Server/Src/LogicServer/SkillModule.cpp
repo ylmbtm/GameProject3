@@ -24,7 +24,7 @@ BOOL CSkillModule::OnCreate(UINT64 u64RoleID)
 	StActorSkillInfo *pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
 
-	SkillDataObject* pObject = g_pSkillDataObjectPool->NewObject(TRUE);
+	SkillDataObject* pObject = DataPool::CreateObject<SkillDataObject>(ESD_SKILL, TRUE);
 	pObject->Lock();
 	pObject->m_nKeyPos = 1;
 	pObject->m_nLevel = 1;
@@ -40,7 +40,7 @@ BOOL CSkillModule::OnCreate(UINT64 u64RoleID)
 			break;
 		}
 
-		pObject = g_pSkillDataObjectPool->NewObject(TRUE);
+		pObject = DataPool::CreateObject<SkillDataObject>(ESD_SKILL, TRUE);
 		pObject->Lock();
 		pObject->m_nKeyPos = i+2;
 		pObject->m_nLevel = 1;
@@ -83,6 +83,7 @@ BOOL CSkillModule::OnNewDay()
 
 BOOL CSkillModule::DispatchPacket(NetPacket* pNetPacket)
 {
+	//默认必须返回FALSE, 表示消息未处理,后面继续处理
 	return FALSE;
 }
 
@@ -92,7 +93,7 @@ BOOL CSkillModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < SkillData.skilllist_size(); i++)
 	{
 		const DBSkillItem& SkillItem = SkillData.skilllist(i);
-		SkillDataObject* pObject = g_pSkillDataObjectPool->NewObject(FALSE);
+		SkillDataObject* pObject = DataPool::CreateObject<SkillDataObject>(ESD_SKILL, FALSE);
 		pObject->m_nKeyPos = SkillItem.keypos();
 		pObject->m_nLevel = SkillItem.level();
 		pObject->m_uRoleID = SkillItem.roleid();

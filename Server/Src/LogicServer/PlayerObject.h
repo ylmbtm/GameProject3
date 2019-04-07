@@ -71,6 +71,8 @@ public:
 	UINT64			GetObjectID();
 	UINT32			GetCityCopyID();
 	UINT32			GetActorID();
+	CHAR*			GetName();
+	UINT32			GetCarrerID();
 
 
 	//////////////////////////////////////////////////////////////////////////

@@ -46,10 +46,14 @@ public:
 
 	BOOL    SetDelete(BOOL bDelete);
 
-	UINT32  GetActorID();
-
 	UINT64  AddExp(INT32 nExp);
 
+public:
+	UINT32  GetActorID();
+
+	CHAR*	GetName();
+
+	UINT32	GetCarrerID();
 public:
 	UINT32           m_dwActorID;
 

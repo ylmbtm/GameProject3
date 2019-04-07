@@ -56,7 +56,7 @@ BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < TaskData.tasklist_size(); i++)
 	{
 		const DBTaskItem& TaskItem = TaskData.tasklist(i);
-		TaskDataObject* pObject = g_pTaskDataObjectPool->NewObject(FALSE);
+		TaskDataObject* pObject = DataPool::CreateObject<TaskDataObject>(ESD_TASK, FALSE);
 		pObject->Lock();
 		pObject->m_nProgress = TaskItem.progress();
 		pObject->m_uRoleID = TaskItem.roleid();

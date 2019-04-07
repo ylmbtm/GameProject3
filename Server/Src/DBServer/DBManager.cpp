@@ -293,7 +293,7 @@ BOOL CDBManager::GetTaskData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
 		pItem->set_status(QueryRes.getIntField("task_status", 0));
 		pItem->set_progress(QueryRes.getIntField("progress", 0));
-	
+
 		QueryRes.nextRow();
 	}
 	return TRUE;
@@ -328,6 +328,38 @@ BOOL CDBManager::GetMountData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from activity where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBActivityData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_activitydata();
+		}
+
+		DBActivityItem* pItem = pData->add_activitylist();
+		INT32 nLen = QueryRes.getIntField("data_len", 0);
+		pItem->set_activityid(QueryRes.getIntField("id", 0));
+		pItem->set_activitytype(QueryRes.getIntField("type", 0));
+		pItem->set_roleid(QueryRes.getIntField("roleid", 0));
+		pItem->set_jointime(QueryRes.getIntField("join_time", 0));
+		pItem->set_datalen(nLen);
+
+
+		if (nLen > 0)
+		{
+			INT32 nLen2 = 0;
+			const unsigned char* pData = QueryRes.getBlobField("data", nLen2);
+			pItem->set_data(pData, nLen);
+		}
+
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 

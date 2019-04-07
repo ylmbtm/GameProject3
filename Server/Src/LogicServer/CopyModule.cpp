@@ -53,7 +53,7 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBCopyItem& CopyItem = CopyData.copylist(i);
 
-		CopyDataObject* pObject = g_pCopyDataObjectPool->NewObject(FALSE);
+		CopyDataObject* pObject = DataPool::CreateObject<CopyDataObject>(ESD_COPY, FALSE);
 		pObject->m_uRoleID = CopyItem.roleid();
 		pObject->m_dwCopyID = CopyItem.copyid();
 		pObject->m_dwBattleCnt = CopyItem.battlecnt();
@@ -67,7 +67,7 @@ BOOL CCopyModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for (int i = 0; i < CopyData.chapterlist_size(); i++)
 	{
 		const DBChapterItem& ChapterItem = CopyData.chapterlist(i);
-		ChapterDataObject* pObject = g_pChapterDataObjectPool->NewObject(FALSE);
+		ChapterDataObject* pObject = DataPool::CreateObject<ChapterDataObject>(ESD_CHAPTER, FALSE);
 		pObject->m_uRoleID = ChapterItem.roleid();
 		pObject->m_dwCopyType = ChapterItem.copytype();
 		pObject->m_dwChapter = ChapterItem.chapterid();

@@ -65,7 +65,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	for(int i = 0; i < BagData.itemlist_size(); i++)
 	{
 		const DBBagItem& ItemData = BagData.itemlist(i);
-		BagDataObject* pObject = g_pBagDataObjectPool->NewObject(FALSE);
+		BagDataObject* pObject = DataPool::CreateObject<BagDataObject>(ESD_BAG,FALSE);
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_bBind = ItemData.bind();
@@ -205,7 +205,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 		return 0;
 	}
 
-	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
+	BagDataObject* pObject = DataPool::CreateObject<BagDataObject>(ESD_BAG, TRUE);
 	ERROR_RETURN_FALSE(pObject != NULL);
 	pObject->Lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
@@ -225,7 +225,7 @@ BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount)
 	ERROR_RETURN_FALSE(dwItemID != 0);
 	ERROR_RETURN_FALSE(uItemGuid != 0);
 	ERROR_RETURN_FALSE(nCount != 0);
-	BagDataObject* pObject = g_pBagDataObjectPool->NewObject(TRUE);
+	BagDataObject* pObject = DataPool::CreateObject<BagDataObject>(ESD_BAG, TRUE);
 	ERROR_RETURN_FALSE(pObject != NULL);
 	pObject->Lock();
 	pObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();

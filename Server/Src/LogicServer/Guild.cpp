@@ -28,7 +28,7 @@ BOOL CGuild::LoadGuildMember(CppMySQLQuery& QueryResult)
 {
 	UINT64 uRoleID = QueryResult.getInt64Field("roleid");
 
-	MemberDataObject* pMemberObject = g_pMemberDataObjectPool->NewObject(FALSE);
+	MemberDataObject* pMemberObject = DataPool::CreateObject<MemberDataObject>(ESD_GUILD_MEMBER, FALSE);
 	pMemberObject->m_uRoleID = uRoleID;
 	pMemberObject->m_uGuildID = m_pGuildData->m_uGuid;
 	pMemberObject->m_Pos = QueryResult.getIntField("pose");
@@ -83,7 +83,7 @@ MemberDataObject* CGuild::GetLeader()
 
 MemberDataObject* CGuild::AddGuildMember(UINT64 uRoleID)
 {
-	MemberDataObject* pMemberObject = g_pMemberDataObjectPool->NewObject(TRUE);
+	MemberDataObject* pMemberObject = DataPool::CreateObject<MemberDataObject>(ESD_GUILD_MEMBER, TRUE);
 	pMemberObject->Lock();
 	pMemberObject->m_uRoleID = uRoleID;
 	pMemberObject->m_uGuildID = m_pGuildData->m_uGuid;

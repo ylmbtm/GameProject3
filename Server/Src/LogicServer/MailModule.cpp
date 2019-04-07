@@ -55,7 +55,7 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBMailData& MailData = Ack.maildata();
 	for(int i = 0; i < MailData.maillist_size(); i++)
 	{
-		MailDataObject* pObject = g_pMailDataObjectPool->NewObject(FALSE);
+		MailDataObject* pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, FALSE);
 
 
 		m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
@@ -107,7 +107,7 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 
 BOOL CMailModule::SendMail(std::string strSender, std::string strTitle, std::string strContent)
 {
-	MailDataObject* pMailObject = g_pMailDataObjectPool->NewObject(TRUE);
+	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();

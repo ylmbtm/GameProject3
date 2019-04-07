@@ -14,9 +14,10 @@
 #include "GroupMailMgr.h"
 #include "PayManager.h"
 #include "GuildManager.h"
-
+//#include "LuaManager.h"
 #include "ActivityManager.h"
 #include "GmCommand.h"
+//#include "Lua_Script.h"
 
 CGameService::CGameService(void)
 {
@@ -74,7 +75,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	if (!CreateDataPool())
+	if (!CDataPool::GetInstancePtr()->InitDataPool())
 	{
 		CLog::GetInstancePtr()->LogError("初始化共享内存池失败!");
 		return FALSE;
@@ -87,6 +88,20 @@ BOOL CGameService::Init()
 		CLog::GetInstancePtr()->LogError("加载静态配制数据失败!");
 		return FALSE;
 	}
+
+	//if (!CLuaManager::GetInstancePtr()->Init())
+	//{
+	//	CLog::GetInstancePtr()->LogError("初始化Lua环境失败!");
+	//	return FALSE;
+	//}
+
+	//if (!luaopen_LuaScript(CLuaManager::GetInstancePtr()->GetLuaState()))
+	//{
+	//	CLog::GetInstancePtr()->LogError("导出Lua数据失败!");
+	//	return FALSE;
+	//}
+
+	//CLuaManager::GetInstancePtr()->LoadAllLua(".\\Lua");
 
 	///////////////////////////////////
 	//服务器启动之前需要加载的数据
@@ -129,7 +144,7 @@ BOOL CGameService::Init()
 
 BOOL CGameService::Uninit()
 {
-	ReleaseDataPool();
+	CDataPool::GetInstancePtr()->ReleaseDataPool();
 	ServiceBase::GetInstancePtr()->StopNetwork();
 	google::protobuf::ShutdownProtobufLibrary();
 	return TRUE;

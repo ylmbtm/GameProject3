@@ -3,7 +3,7 @@
 
 CDBWriterManager::CDBWriterManager()
 {
-	m_Stop = FALSE;
+    m_Stop = FALSE;
 }
 
 CDBWriterManager::~CDBWriterManager()
@@ -13,104 +13,100 @@ CDBWriterManager::~CDBWriterManager()
 
 BOOL CDBWriterManager::Init()
 {
-	m_pRoleDataWriter		= new DataWriter<RoleDataObject>(ESD_ROLE, 1024);
-	m_pGlobalDataWriter		= new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
-	m_pBagDataWriter		= new DataWriter<BagDataObject>(ESD_BAG, 1024);
-	m_pCopyDataWriter		= new DataWriter<CopyDataObject>(ESD_COPY, 1024);
-	m_pChapterDataWriter = new DataWriter<ChapterDataObject>(ESD_CHAPTER, 1024);
-	m_pEquipDataWriter		= new DataWriter<EquipDataObject>(ESD_EQUIP, 1024);
-	m_pGemDataWriter		= new DataWriter<GemDataObject>(ESD_GEM, 1024);
-	m_pPetDataWriter		= new DataWriter<PetDataObject>(ESD_PET, 1024);
-	m_pPartnerDataWriter	= new DataWriter<PartnerDataObject>(ESD_PARTNER, 1024);
-	m_pGuildDataWriter		= new DataWriter<GuildDataObject>(ESD_GUILD, 1024);
-	m_pMemberDataWriter		= new DataWriter<MemberDataObject>(ESD_GUILD_MEMBER, 1024);
-	m_pTaskDataWriter		= new DataWriter<TaskDataObject>(ESD_TASK, 1024);
-	m_pMountDataWriter		= new DataWriter<MountDataObject>(ESD_MOUNT, 1024);
-	m_pMailDataWriter		= new DataWriter<MailDataObject>(ESD_MAIL, 1024);
-	m_pGroupMailDataWriter	= new DataWriter<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
-	m_pActivityDataWriter   = new DataWriter<ActivityDataObject>(ESD_ACTIVITY, 1024);
-	m_pCounterDataWriter    = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
-	m_pFriendDataWriter		= new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
-	m_pSkillDataWriter		= new DataWriter<SkillDataObject>(ESD_SKILL, 1024);
+    m_vtDataWriters.assign(ESD_END, NULL);
+    m_vtDataWriters[ESD_ROLE]           = new DataWriter<RoleDataObject>(ESD_ROLE, 1024);
+    m_vtDataWriters[ESD_GLOBAL]         = new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
+    m_vtDataWriters[ESD_BAG]            = new DataWriter<BagDataObject>(ESD_BAG, 1024);
+    m_vtDataWriters[ESD_COPY]           = new DataWriter<CopyDataObject>(ESD_COPY, 1024);
+    m_vtDataWriters[ESD_CHAPTER]        = new DataWriter<ChapterDataObject>(ESD_CHAPTER, 1024);
+    m_vtDataWriters[ESD_EQUIP]          = new DataWriter<EquipDataObject>(ESD_EQUIP, 1024);
+    m_vtDataWriters[ESD_GEM]            = new DataWriter<GemDataObject>(ESD_GEM, 1024);
+    m_vtDataWriters[ESD_PET]            = new DataWriter<PetDataObject>(ESD_PET, 1024);
+    m_vtDataWriters[ESD_PARTNER]        = new DataWriter<PartnerDataObject>(ESD_PARTNER, 1024);
+    m_vtDataWriters[ESD_GUILD]          = new DataWriter<GuildDataObject>(ESD_GUILD, 1024);
+    m_vtDataWriters[ESD_GUILD_MEMBER]   = new DataWriter<MemberDataObject>(ESD_GUILD_MEMBER, 1024);
+    m_vtDataWriters[ESD_TASK]           = new DataWriter<TaskDataObject>(ESD_TASK, 1024);
+    m_vtDataWriters[ESD_MOUNT]          = new DataWriter<MountDataObject>(ESD_MOUNT, 1024);
+    m_vtDataWriters[ESD_MAIL]           = new DataWriter<MailDataObject>(ESD_MAIL, 1024);
+    m_vtDataWriters[ESD_GROUP_MAIL]     = new DataWriter<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
+    m_vtDataWriters[ESD_ACTIVITY]       = new DataWriter<ActivityDataObject>(ESD_ACTIVITY, 1024);
+    m_vtDataWriters[ESD_COUNTER]        = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
+    m_vtDataWriters[ESD_FRIEND]         = new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
+    m_vtDataWriters[ESD_SKILL]          = new DataWriter<SkillDataObject>(ESD_SKILL, 1024);
 
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
 
-	m_DBConnection.SetConnectParam(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
+    for (int i = ESD_ROLE; i < ESD_END; i++)
+    {
+        ERROR_RETURN_FALSE(m_vtDataWriters[i] != NULL);
+    }
+    std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
+    UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+    std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
+    std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
+    std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
 
-	m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
+    m_DBConnection.SetConnectParam(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
 
-	return TRUE;
+    m_hWorkThread = CommonThreadFunc::CreateThread(_DBWriteThread, this);
+
+    return TRUE;
 }
 
 BOOL CDBWriterManager::Uninit()
 {
-	m_Stop = TRUE;
+    m_Stop = TRUE;
 
-	CommonThreadFunc::WaitThreadExit(m_hWorkThread);
+    CommonThreadFunc::WaitThreadExit(m_hWorkThread);
 
-	return TRUE;
+    return TRUE;
 }
 
-void CDBWriterManager::SaveDataToDB()
+BOOL CDBWriterManager::WriteDataToDB()
 {
-	m_pRoleDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pGlobalDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pBagDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pCopyDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pChapterDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pEquipDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pGemDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pPetDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pPartnerDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pGuildDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pMemberDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pTaskDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pMountDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pMailDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pGroupMailDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pActivityDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pCounterDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pFriendDataWriter->SaveModifyToDB(&m_DBConnection);
-	m_pSkillDataWriter->SaveModifyToDB(&m_DBConnection);
+    for (int i = ESD_ROLE; i < ESD_END; i++)
+    {
+        if (m_vtDataWriters[i] != NULL)
+        {
+            m_vtDataWriters[i]->SaveModifyToDB(&m_DBConnection);
+        }
+    }
+
+    return TRUE;
 }
 
 BOOL CDBWriterManager::IsStop()
 {
-	return m_Stop;
+    return m_Stop;
 }
 
 Th_RetName _DBWriteThread(void* pParam)
 {
-	CDBWriterManager* pDBWriterManager = (CDBWriterManager*)pParam;
+    CDBWriterManager* pDBWriterManager = (CDBWriterManager*)pParam;
 
-	if (!pDBWriterManager->m_DBConnection.Init())
-	{
-		return Th_RetValue;
-	}
+    if (!pDBWriterManager->m_DBConnection.Init())
+    {
+        return Th_RetValue;
+    }
 
-	if (!pDBWriterManager->m_DBConnection.Reconnect())
-	{
-		return Th_RetValue;
-	}
+    if (!pDBWriterManager->m_DBConnection.Reconnect())
+    {
+        return Th_RetValue;
+    }
 
-	while (!pDBWriterManager->IsStop())
-	{
-		if (!pDBWriterManager->m_DBConnection.Ping())
-		{
-			pDBWriterManager->m_DBConnection.Reconnect();
-		}
+    while (!pDBWriterManager->IsStop())
+    {
+        if (!pDBWriterManager->m_DBConnection.Ping())
+        {
+            pDBWriterManager->m_DBConnection.Reconnect();
+        }
 
-		pDBWriterManager->SaveDataToDB();
+        pDBWriterManager->WriteDataToDB();
 
-		CommonFunc::Sleep(1); //休息10秒
-	}
+        CommonFunc::Sleep(60000); //休息10秒
+    }
 
-	pDBWriterManager->Uninit();
-	CommonThreadFunc::ExitThread();
+    pDBWriterManager->Uninit();
+    CommonThreadFunc::ExitThread();
 
-	return Th_RetValue;
+    return Th_RetValue;
 }

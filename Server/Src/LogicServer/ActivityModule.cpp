@@ -29,7 +29,7 @@ BOOL CActivityModule::OnCreate(UINT64 u64RoleID)
 
 		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
-			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewObject(TRUE);
+			ActivityDataObject* pTempObject = DataPool::CreateObject<ActivityDataObject>(ESD_ACTIVITY);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
 			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
@@ -65,7 +65,7 @@ BOOL CActivityModule::OnLogin()
 
 		if(tempInfo.ActivityType == ACT_LOGINAWARD)
 		{
-			ActivityDataObject* pTempObject = g_pActivityDataObjectPool->NewObject(TRUE);
+			ActivityDataObject* pTempObject = DataPool::CreateObject<ActivityDataObject>(ESD_ACTIVITY);
 			pTempObject->m_dwActivityID = tempInfo.ActivityID;
 			pTempObject->m_dwActivityType = ACT_LOGINAWARD;
 		}
@@ -96,9 +96,13 @@ BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	for(int i = 0; i < ActivityData.activitylist_size(); i++)
 	{
 		const DBActivityItem& ActivityItem = ActivityData.activitylist(i);
-		ActivityDataObject* pObject = g_pActivityDataObjectPool->NewObject(FALSE);
+		ActivityDataObject* pObject = DataPool::CreateObject<ActivityDataObject>(ESD_ACTIVITY, FALSE);
 		pObject->m_dwActivityID = ActivityItem.activityid();
 		pObject->m_uRoleID = ActivityItem.roleid();
+		pObject->m_dwActivityType = ActivityItem.activitytype();
+		pObject->m_dwDataLen = ActivityItem.datalen();
+		pObject->m_uJoinTime = ActivityItem.jointime();
+		memcpy(pObject->m_Data.m_Bytes, (void*)ActivityItem.data().c_str(), pObject->m_dwDataLen);
 		m_mapActivityData.insert(std::make_pair(pObject->m_dwActivityID, pObject));
 	}
 	return TRUE;
@@ -118,7 +122,7 @@ BOOL CActivityModule::GetRedPoint()
 {
 	for (auto itor = m_mapActivityData.begin(); itor != m_mapActivityData.end(); itor++)
 	{
-		ActivityDataObject *pDataObject = itor->second;
+		ActivityDataObject* pDataObject = itor->second;
 
 	}
 
