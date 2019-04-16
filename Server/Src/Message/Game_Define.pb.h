@@ -302,16 +302,15 @@ inline bool EAttrID_Parse(
     EAttrID_descriptor(), name, value);
 }
 enum EShip {
-  TYPE_NONE = 0,
-  TYPE_ALLY = 1,
-  TYPE_ENEMY = 2,
-  TYPE_NEUTRAL = 3,
+  ES_NEUTRAL = 0,
+  ES_FRIEND = 1,
+  ES_ENEMY = 2,
   EShip_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EShip_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EShip_IsValid(int value);
-const EShip EShip_MIN = TYPE_NONE;
-const EShip EShip_MAX = TYPE_NEUTRAL;
+const EShip EShip_MIN = ES_NEUTRAL;
+const EShip EShip_MAX = ES_ENEMY;
 const int EShip_ARRAYSIZE = EShip_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EShip_descriptor();
@@ -323,6 +322,28 @@ inline bool EShip_Parse(
     const ::std::string& name, EShip* value) {
   return ::google::protobuf::internal::ParseNamedEnum<EShip>(
     EShip_descriptor(), name, value);
+}
+enum EHitShipType {
+  EHST_ALL = 0,
+  EHST_FRIEND = 1,
+  EHST_ENEMY = 2,
+  EHitShipType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EHitShipType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EHitShipType_IsValid(int value);
+const EHitShipType EHitShipType_MIN = EHST_ALL;
+const EHitShipType EHitShipType_MAX = EHST_ENEMY;
+const int EHitShipType_ARRAYSIZE = EHitShipType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EHitShipType_descriptor();
+inline const ::std::string& EHitShipType_Name(EHitShipType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EHitShipType_descriptor(), value);
+}
+inline bool EHitShipType_Parse(
+    const ::std::string& name, EHitShipType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EHitShipType>(
+    EHitShipType_descriptor(), name, value);
 }
 enum EBuffType {
   BFT_NONE = 0,
@@ -490,6 +511,11 @@ template <> struct is_proto_enum< ::EShip> : ::google::protobuf::internal::true_
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::EShip>() {
   return ::EShip_descriptor();
+}
+template <> struct is_proto_enum< ::EHitShipType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::EHitShipType>() {
+  return ::EHitShipType_descriptor();
 }
 template <> struct is_proto_enum< ::EBuffType> : ::google::protobuf::internal::true_type {};
 template <>

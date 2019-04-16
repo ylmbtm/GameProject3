@@ -270,16 +270,6 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 	return TRUE;
 }
 
-BOOL CScene::BroadNewBullet(CBulletObject* pBulletObject)
-{
-	BulletNewNtf Ntf;
-	pBulletObject->SaveNewData(Ntf);
-
-	BroadMessage(MSG_BULLET_NEW_NTF, Ntf);
-
-	return TRUE;
-}
-
 BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	char szBuff[10240] = { 0 };
@@ -882,79 +872,218 @@ UINT64 CScene::SelectController(UINT64 uFilterID)
 	return 0;
 }
 
-BOOL CScene::SelectTargetsInCircle(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float radius, float height)
+BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExcludeID, UINT32 dwCamp, EHitShipType hitType, Vector3D hitPos, FLOAT fHitDir, ERangeType rangeType, FLOAT RangeParams[5])
 {
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	switch (rangeType)
 	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInCircle(hitPoint, radius, height))
+		case ERT_OBJECTS:
 		{
-			vTargets.emplace_back(pObject);
+			//什么都不需要做，直接使用客户端传过来的目标列表
+		}
+		break;
+		case ERT_CIRCLE:
+		{
+			FLOAT radius  = RangeParams[0];
+			FLOAT hAngle  = RangeParams[1];
+			FLOAT height  = RangeParams[2];
+			FLOAT offsetX = RangeParams[3];
+			FLOAT offsetZ = RangeParams[4];
+
+			Vector3D hitPoint = hitPos;
+
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInCircle(hitPoint, radius, height))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInCircle(hitPoint, radius, height))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
+
+		}
+		break;
+		case ERT_CYLINDER:
+		{
+			FLOAT radius  = RangeParams[0];
+			FLOAT hAngle  = RangeParams[1];
+			FLOAT height  = RangeParams[2];
+			FLOAT offsetX = RangeParams[3];
+			FLOAT offsetZ = RangeParams[4];
+
+			Vector3D hitPoint = hitPos;
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInSector(hitPoint, fHitDir, radius, hAngle))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInSector(hitPoint, fHitDir, radius, hAngle))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
+		}
+		break;
+		case ERT_BOX:
+		{
+			FLOAT length  = RangeParams[0];
+			FLOAT width   = RangeParams[1];
+			FLOAT height  = RangeParams[2];
+			FLOAT offsetX = RangeParams[3];
+			FLOAT offsetZ = RangeParams[4];
+
+			Vector3D hitPoint = hitPos;
+			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInSquare(hitPoint, fHitDir, length, width))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
+
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			{
+				CSceneObject* pObject = itor->second;
+				ERROR_RETURN_FALSE(pObject != NULL);
+
+				if (uExcludeID == pObject->GetObjectGUID())
+				{
+					continue;
+				}
+
+				if (hitType == EHST_ENEMY && pObject->GetCamp() == dwCamp)
+				{
+					continue;
+				}
+
+				if (hitType == EHST_FRIEND && pObject->GetCamp() != dwCamp)
+				{
+					continue;
+				}
+
+				if (pObject->IsInSquare(hitPoint, fHitDir, length, width))
+				{
+					vTargets.emplace_back(pObject);
+				}
+			}
 		}
 	}
 
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	if (vTargets.size() > 0)
 	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInCircle(hitPoint, radius, height))
-		{
-			vTargets.emplace_back(pObject);
-		}
+		return TRUE;
 	}
-	return TRUE;
+
+	return FALSE;
 }
 
-BOOL CScene::SelectTargetsInSquare(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float length, float width)
-{
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInSquare(hitPoint, hitDir, length, width))
-		{
-			vTargets.emplace_back(pObject);
-		}
-	}
 
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
-	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInSquare(hitPoint, hitDir, length, width))
-		{
-			vTargets.emplace_back(pObject);
-		}
-	}
-
-	return TRUE;
-}
-
-BOOL CScene::SelectTargetsInSector(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle)
-{
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
-	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInSector(hitPoint, hitDir, radius, hAngle))
-		{
-			vTargets.emplace_back(pObject);
-		}
-	}
-
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
-	{
-		CSceneObject* pObject = itor->second;
-		ERROR_RETURN_FALSE(pObject != NULL);
-		if (pObject->IsInSector(hitPoint, hitDir, radius, hAngle))
-		{
-			vTargets.emplace_back(pObject);
-		}
-	}
-
-	return TRUE;
-}
 
 BOOL CScene::IsFinished()
 {
@@ -1247,13 +1376,11 @@ CSceneObject* CScene::CreateSummon(UINT32 dwActorID, UINT64 uSummonerID, UINT32 
 	return pObject;
 }
 
-CBulletObject* CScene::CreateBullet(StBulletInfo* pBulletInfo, FLOAT Angle)
+CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, StBulletInfo* pBulletInfo, CSkillObject* pSkillObject, Vector3D startPos)
 {
-	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), pBulletInfo, Angle);
+	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), pBulletInfo, pSkillObject, startPos);
 
 	m_BulletMap.insert(std::make_pair(pBullet->m_uGuid, pBullet));
-
-	BroadNewBullet(pBullet);
 
 	return pBullet;
 }

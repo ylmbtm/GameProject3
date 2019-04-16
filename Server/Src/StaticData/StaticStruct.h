@@ -48,12 +48,13 @@ struct StActorInfo
 		dwID	= 0;
 		fRadius = 0;
 		fDefSpeed = 0;
+		InitLevel = 0;
 	}
 	UINT32  dwID;
-	INT32   Propertys[PROPERTY_NUM];
 	FLOAT   fRadius;
 	FLOAT	fDefSpeed;
 	INT32   InitLevel; //初始等级
+	INT32   Propertys[PROPERTY_NUM];
 
 	std::string strName;
 };

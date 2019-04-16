@@ -1247,17 +1247,17 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int32 camp() const;
   void set_camp(::google::protobuf::int32 value);
 
-  // int32 ObjectState = 4;
-  void clear_objectstate();
-  static const int kObjectStateFieldNumber = 4;
-  ::google::protobuf::int32 objectstate() const;
-  void set_objectstate(::google::protobuf::int32 value);
+  // int32 ObjectStatus = 4;
+  void clear_objectstatus();
+  static const int kObjectStatusFieldNumber = 4;
+  ::google::protobuf::int32 objectstatus() const;
+  void set_objectstatus(::google::protobuf::int32 value);
 
-  // int32 BuffState = 5;
-  void clear_buffstate();
-  static const int kBuffStateFieldNumber = 5;
-  ::google::protobuf::int32 buffstate() const;
-  void set_buffstate(::google::protobuf::int32 value);
+  // int32 BuffStatus = 5;
+  void clear_buffstatus();
+  static const int kBuffStatusFieldNumber = 5;
+  ::google::protobuf::int32 buffstatus() const;
+  void set_buffstatus(::google::protobuf::int32 value);
 
   // float HostX = 6;
   void clear_hostx();
@@ -1346,8 +1346,8 @@ class ActionNtyItem : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 actionid_;
   ::google::protobuf::int32 camp_;
-  ::google::protobuf::int32 objectstate_;
-  ::google::protobuf::int32 buffstate_;
+  ::google::protobuf::int32 objectstatus_;
+  ::google::protobuf::int32 buffstatus_;
   float hostx_;
   float hosty_;
   float hostz_;
@@ -1499,17 +1499,17 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 objtype() const;
   void set_objtype(::google::protobuf::int32 value);
 
-  // int32 ObjectState = 3;
-  void clear_objectstate();
-  static const int kObjectStateFieldNumber = 3;
-  ::google::protobuf::int32 objectstate() const;
-  void set_objectstate(::google::protobuf::int32 value);
+  // int32 ObjectStatus = 3;
+  void clear_objectstatus();
+  static const int kObjectStatusFieldNumber = 3;
+  ::google::protobuf::int32 objectstatus() const;
+  void set_objectstatus(::google::protobuf::int32 value);
 
-  // int32 BuffState = 4;
-  void clear_buffstate();
-  static const int kBuffStateFieldNumber = 4;
-  ::google::protobuf::int32 buffstate() const;
-  void set_buffstate(::google::protobuf::int32 value);
+  // int32 BuffStatus = 4;
+  void clear_buffstatus();
+  static const int kBuffStatusFieldNumber = 4;
+  ::google::protobuf::int32 buffstatus() const;
+  void set_buffstatus(::google::protobuf::int32 value);
 
   // int32 ActorID = 5;
   void clear_actorid();
@@ -1617,8 +1617,8 @@ class NewItem : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::int32 objtype_;
-  ::google::protobuf::int32 objectstate_;
-  ::google::protobuf::int32 buffstate_;
+  ::google::protobuf::int32 objectstatus_;
+  ::google::protobuf::int32 buffstatus_;
   ::google::protobuf::int32 actorid_;
   ::google::protobuf::int32 mountid_;
   ::google::protobuf::int32 camp_;
@@ -1976,39 +1976,33 @@ class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float z() const;
   void set_z(float value);
 
-  // float VX = 8;
-  void clear_vx();
-  static const int kVXFieldNumber = 8;
-  float vx() const;
-  void set_vx(float value);
+  // float Angle = 8;
+  void clear_angle();
+  static const int kAngleFieldNumber = 8;
+  float angle() const;
+  void set_angle(float value);
 
-  // float VZ = 9;
-  void clear_vz();
-  static const int kVZFieldNumber = 9;
-  float vz() const;
-  void set_vz(float value);
-
-  // float Speed = 10;
+  // float Speed = 9;
   void clear_speed();
-  static const int kSpeedFieldNumber = 10;
+  static const int kSpeedFieldNumber = 9;
   float speed() const;
   void set_speed(float value);
 
-  // float AccSpeed = 11;
+  // float AccSpeed = 10;
   void clear_accspeed();
-  static const int kAccSpeedFieldNumber = 11;
+  static const int kAccSpeedFieldNumber = 10;
   float accspeed() const;
   void set_accspeed(float value);
 
-  // float LifeTime = 12;
+  // float LifeTime = 11;
   void clear_lifetime();
-  static const int kLifeTimeFieldNumber = 12;
+  static const int kLifeTimeFieldNumber = 11;
   float lifetime() const;
   void set_lifetime(float value);
 
-  // float LeftTime = 13;
+  // float LeftTime = 12;
   void clear_lefttime();
-  static const int kLeftTimeFieldNumber = 13;
+  static const int kLeftTimeFieldNumber = 12;
   float lefttime() const;
   void set_lefttime(float value);
 
@@ -2023,8 +2017,7 @@ class BulletItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
   float x_;
   float y_;
   float z_;
-  float vx_;
-  float vz_;
+  float angle_;
   float speed_;
   float accspeed_;
   float lifetime_;
@@ -3041,32 +3034,32 @@ inline void ActionNtyItem::set_camp(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:ActionNtyItem.Camp)
 }
 
-// int32 ObjectState = 4;
-inline void ActionNtyItem::clear_objectstate() {
-  objectstate_ = 0;
+// int32 ObjectStatus = 4;
+inline void ActionNtyItem::clear_objectstatus() {
+  objectstatus_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::objectstate() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjectState)
-  return objectstate_;
+inline ::google::protobuf::int32 ActionNtyItem::objectstatus() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.ObjectStatus)
+  return objectstatus_;
 }
-inline void ActionNtyItem::set_objectstate(::google::protobuf::int32 value) {
+inline void ActionNtyItem::set_objectstatus(::google::protobuf::int32 value) {
   
-  objectstate_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjectState)
+  objectstatus_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.ObjectStatus)
 }
 
-// int32 BuffState = 5;
-inline void ActionNtyItem::clear_buffstate() {
-  buffstate_ = 0;
+// int32 BuffStatus = 5;
+inline void ActionNtyItem::clear_buffstatus() {
+  buffstatus_ = 0;
 }
-inline ::google::protobuf::int32 ActionNtyItem::buffstate() const {
-  // @@protoc_insertion_point(field_get:ActionNtyItem.BuffState)
-  return buffstate_;
+inline ::google::protobuf::int32 ActionNtyItem::buffstatus() const {
+  // @@protoc_insertion_point(field_get:ActionNtyItem.BuffStatus)
+  return buffstatus_;
 }
-inline void ActionNtyItem::set_buffstate(::google::protobuf::int32 value) {
+inline void ActionNtyItem::set_buffstatus(::google::protobuf::int32 value) {
   
-  buffstate_ = value;
-  // @@protoc_insertion_point(field_set:ActionNtyItem.BuffState)
+  buffstatus_ = value;
+  // @@protoc_insertion_point(field_set:ActionNtyItem.BuffStatus)
 }
 
 // float HostX = 6;
@@ -3313,32 +3306,32 @@ inline void NewItem::set_objtype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:NewItem.ObjType)
 }
 
-// int32 ObjectState = 3;
-inline void NewItem::clear_objectstate() {
-  objectstate_ = 0;
+// int32 ObjectStatus = 3;
+inline void NewItem::clear_objectstatus() {
+  objectstatus_ = 0;
 }
-inline ::google::protobuf::int32 NewItem::objectstate() const {
-  // @@protoc_insertion_point(field_get:NewItem.ObjectState)
-  return objectstate_;
+inline ::google::protobuf::int32 NewItem::objectstatus() const {
+  // @@protoc_insertion_point(field_get:NewItem.ObjectStatus)
+  return objectstatus_;
 }
-inline void NewItem::set_objectstate(::google::protobuf::int32 value) {
+inline void NewItem::set_objectstatus(::google::protobuf::int32 value) {
   
-  objectstate_ = value;
-  // @@protoc_insertion_point(field_set:NewItem.ObjectState)
+  objectstatus_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.ObjectStatus)
 }
 
-// int32 BuffState = 4;
-inline void NewItem::clear_buffstate() {
-  buffstate_ = 0;
+// int32 BuffStatus = 4;
+inline void NewItem::clear_buffstatus() {
+  buffstatus_ = 0;
 }
-inline ::google::protobuf::int32 NewItem::buffstate() const {
-  // @@protoc_insertion_point(field_get:NewItem.BuffState)
-  return buffstate_;
+inline ::google::protobuf::int32 NewItem::buffstatus() const {
+  // @@protoc_insertion_point(field_get:NewItem.BuffStatus)
+  return buffstatus_;
 }
-inline void NewItem::set_buffstate(::google::protobuf::int32 value) {
+inline void NewItem::set_buffstatus(::google::protobuf::int32 value) {
   
-  buffstate_ = value;
-  // @@protoc_insertion_point(field_set:NewItem.BuffState)
+  buffstatus_ = value;
+  // @@protoc_insertion_point(field_set:NewItem.BuffStatus)
 }
 
 // int32 ActorID = 5;
@@ -3848,35 +3841,21 @@ inline void BulletItem::set_z(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.Z)
 }
 
-// float VX = 8;
-inline void BulletItem::clear_vx() {
-  vx_ = 0;
+// float Angle = 8;
+inline void BulletItem::clear_angle() {
+  angle_ = 0;
 }
-inline float BulletItem::vx() const {
-  // @@protoc_insertion_point(field_get:BulletItem.VX)
-  return vx_;
+inline float BulletItem::angle() const {
+  // @@protoc_insertion_point(field_get:BulletItem.Angle)
+  return angle_;
 }
-inline void BulletItem::set_vx(float value) {
+inline void BulletItem::set_angle(float value) {
   
-  vx_ = value;
-  // @@protoc_insertion_point(field_set:BulletItem.VX)
+  angle_ = value;
+  // @@protoc_insertion_point(field_set:BulletItem.Angle)
 }
 
-// float VZ = 9;
-inline void BulletItem::clear_vz() {
-  vz_ = 0;
-}
-inline float BulletItem::vz() const {
-  // @@protoc_insertion_point(field_get:BulletItem.VZ)
-  return vz_;
-}
-inline void BulletItem::set_vz(float value) {
-  
-  vz_ = value;
-  // @@protoc_insertion_point(field_set:BulletItem.VZ)
-}
-
-// float Speed = 10;
+// float Speed = 9;
 inline void BulletItem::clear_speed() {
   speed_ = 0;
 }
@@ -3890,7 +3869,7 @@ inline void BulletItem::set_speed(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.Speed)
 }
 
-// float AccSpeed = 11;
+// float AccSpeed = 10;
 inline void BulletItem::clear_accspeed() {
   accspeed_ = 0;
 }
@@ -3904,7 +3883,7 @@ inline void BulletItem::set_accspeed(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.AccSpeed)
 }
 
-// float LifeTime = 12;
+// float LifeTime = 11;
 inline void BulletItem::clear_lifetime() {
   lifetime_ = 0;
 }
@@ -3918,7 +3897,7 @@ inline void BulletItem::set_lifetime(float value) {
   // @@protoc_insertion_point(field_set:BulletItem.LifeTime)
 }
 
-// float LeftTime = 13;
+// float LeftTime = 12;
 inline void BulletItem::clear_lefttime() {
   lefttime_ = 0;
 }

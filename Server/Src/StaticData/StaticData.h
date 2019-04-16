@@ -35,7 +35,7 @@ public:
 	std::map<std::string, INT32>m_mapConstantValue;
 	BOOL ReadConstantData(CppSQLite3Query& QueryData);
 	INT32 GetConstantValue(std::string& strName);
-	INT32 GetConstantValue(char *pszName);
+	INT32 GetConstantValue(char* pszName);
 
 	//货币和体力
 	///////////////////////////////////////////////
@@ -162,6 +162,7 @@ public:
 	BOOL ReadSkillEvent();
 	StSkillEventInfo* GetSkillEventInfo(UINT32 dwSkillID);
 
+	//连击技能
 	std::map<UINT32, StComboSkillInfo> m_mapComboSkill;
 	BOOL ReadComboSkillInfo(CppSQLite3Query& QueryData);
 	StComboSkillInfo* GetComboSkillInfo(UINT32 dwSkillID);
@@ -170,6 +171,11 @@ public:
 	std::map<UINT32, StBuffInfo> m_mapBuffInfo;
 	BOOL ReadBuffInfo(CppSQLite3Query& QueryData);
 	StBuffInfo* GetBuffInfo(UINT32 dwBuffID);
+
+	//子弹信息
+	std::map<UINT32, StBulletInfo> m_mapBulletInfo;
+	BOOL ReadBulletInfo(CppSQLite3Query& QueryData);
+	StBulletInfo* GetBulletInfo(UINT32 dwBulletID);
 	//=================================================================
 public:
 

@@ -475,11 +475,25 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 /* 执行非返回结果查询 */
 int CppMySQL3DB::execSQL(const char* sql)
 {
-	if( !mysql_real_query( _db_ptr, sql, (unsigned long)strlen(sql) ) )
+	int nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+	if (nRet == 0)
 	{
 		//得到受影响的行数
 		return (int)mysql_affected_rows(_db_ptr) ;
 	}
+
+	int nError = mysql_errno(_db_ptr);
+	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+	{
+		reconnect();
+		nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+		if (0 == nRet)
+		{
+			//得到受影响的行数
+			return (int)mysql_affected_rows(_db_ptr);
+		}
+	}
+
 
 	return -1;
 }

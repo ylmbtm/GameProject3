@@ -3,6 +3,7 @@
 
 #include "../StaticData/SkillStruct.h"
 #include "XMath.h"
+#include "BulletObject.h"
 class CSceneObject;
 
 class CSkillObject
@@ -25,19 +26,25 @@ public:
 
 	BOOL SetCastObject(CSceneObject* pObject);
 
+	CSceneObject* GetCastObject();
+
 	BOOL AddTargetObject(CSceneObject* pObject);
 
-	BOOL SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget);
+	BOOL AttackTarget(CSceneObject* pTarget);
 
 	BOOL CalcTargetObjects(StSkillEvent& SkillEvent);
 
-	BOOL ProcessEvent(StSkillEvent& SkillEvent);
+	BOOL ProcessSkillEvent(StSkillEvent& SkillEvent);
 
 	ESkillStatus GetSkillStatus();
 
 	BOOL SetComboSkill(BOOL bCombo);
 
 	UINT32 GetSkillID();
+
+	VOID SetCalcTargets(BOOL bCalc);
+
+	CBulletObject* CreateBullet(StBulletObject& stBullet);
 
 public:
 	UINT64              m_dwStartTick; //开始时间
@@ -46,10 +53,9 @@ public:
 	StSkillInfo*        m_pSkillInfo;
 	StSkillEventInfo*   m_pSkillEventInfo;
 	CSceneObject*       m_pCastObject;
-	Vector3D            m_TargetPos;
 	BOOL                m_bComboSkill;  //连击开启
 	ESkillStatus        m_SkillStatus;
-
+	BOOL                m_bCalcTargets;
 	std::vector<CSceneObject*> m_vtTargets;
 };
 

@@ -71,8 +71,8 @@ message ActionNtyItem {
     uint64   ObjectGuid    = 1;
     int32    ActionID      = 2;        
     int32    Camp          = 3;        //阵营
-    int32    ObjectState   = 4;        //实例状态
-    int32    BuffState     = 5;        //特效状态
+    int32    ObjectStatus  = 4;        //实例状态
+    int32    BuffStatus    = 5;        //特效状态
     float    HostX         = 6;
     float    HostY         = 7;
     float    HostZ         = 8;
@@ -92,8 +92,8 @@ message ActionNtyItem {
 message NewItem {
     uint64    ObjectGuid    = 1;        //实例ID
     int32     ObjType       = 2;        //对象类别
-    int32     ObjectState   = 3;        //实例状态
-    int32     BuffState     = 4;        //特效状态
+    int32     ObjectStatus  = 3;        //实例状态
+    int32     BuffStatus    = 4;        //特效状态
     int32     ActorID       = 5;        //Actor ID
     int32     MountID       = 6;        //坐骑ID
     int32     Camp          = 7;        //阵营
@@ -133,12 +133,11 @@ message BulletItem
     float   X           = 5;    //坐标X
     float   Y           = 6;    //坐标Y
     float   Z           = 7;    //坐标X
-    float   VX          = 8;    //方向X
-    float   VZ          = 9;    //方向Y
-    float   Speed       = 10;    //速度
-    float   AccSpeed    = 11;   //加速度
-    float   LifeTime    = 12;   //总生命时间
-    float   LeftTime    = 13;   //剩余时间
+    float   Angle       = 8;    //角度
+    float   Speed       = 9;   //速度
+    float   AccSpeed    = 10;   //加速度
+    float   LifeTime    = 11;   //总生命时间
+    float   LeftTime    = 12;   //剩余时间
 }
 
 //技能释放结果

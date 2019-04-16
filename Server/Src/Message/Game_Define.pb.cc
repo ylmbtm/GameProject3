@@ -16,7 +16,7 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 namespace protobuf_Game_5fDefine_2eproto {
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[14];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[15];
 const ::google::protobuf::uint32 TableStruct::offsets[1] = {};
 static const ::google::protobuf::internal::MigrationSchema* schemas = NULL;
 static const ::google::protobuf::Message* const* file_default_instances = NULL;
@@ -76,21 +76,22 @@ void AddDescriptorsImpl() {
       "GIC_DEF\020\007\022\016\n\nPHYSIC_DEF\020\010\022\014\n\010HIT_RATE\020\t\022"
       "\t\n\005DODGE\020\n\022\r\n\tMORE_HURT\020\013\022\r\n\tLESS_HURT\020\014"
       "\022\014\n\010CRIT_HIT\020\r\022\014\n\010CRIT_DEF\020\016\022\r\n\tCRIT_HUR"
-      "T\020\017\022\014\n\010ATTR_NUM\020\020*G\n\005EShip\022\r\n\tTYPE_NONE\020"
-      "\000\022\r\n\tTYPE_ALLY\020\001\022\016\n\nTYPE_ENEMY\020\002\022\020\n\014TYPE"
-      "_NEUTRAL\020\003*\031\n\tEBuffType\022\014\n\010BFT_NONE\020\000*W\n"
-      "\014EChatChannel\022\014\n\010CHL_NONE\020\000\022\r\n\tCHL_WORLD"
-      "\020\001\022\017\n\013CHL_PRIVATE\020\002\022\r\n\tCHL_GUILD\020\003\022\n\n\006CH"
-      "L_GM\020\004*\230\001\n\tEEquipPos\022\014\n\010EEP_NONE\020\000\022\016\n\nEE"
-      "P_HELMET\020\001\022\020\n\014EEP_NECKLACE\020\002\022\r\n\tEEP_ARMO"
-      "R\020\003\022\r\n\tEEP_SHOES\020\004\022\r\n\tEEP_WRIST\020\005\022\014\n\010EEP"
-      "_RING\020\006\022\020\n\014EEP_TALISMAN\020\007\022\016\n\nEEP_WEAPON\020"
-      "\010*K\n\013ETaskStatus\022\014\n\010ETS_INIT\020\000\022\016\n\nETS_AC"
-      "CEPT\020\001\022\016\n\nETS_FINISH\020\002\022\016\n\nETS_COMMIT\020\003b\006"
-      "proto3"
+      "T\020\017\022\014\n\010ATTR_NUM\020\020*4\n\005EShip\022\016\n\nES_NEUTRAL"
+      "\020\000\022\r\n\tES_FRIEND\020\001\022\014\n\010ES_ENEMY\020\002*=\n\014EHitS"
+      "hipType\022\014\n\010EHST_ALL\020\000\022\017\n\013EHST_FRIEND\020\001\022\016"
+      "\n\nEHST_ENEMY\020\002*\031\n\tEBuffType\022\014\n\010BFT_NONE\020"
+      "\000*W\n\014EChatChannel\022\014\n\010CHL_NONE\020\000\022\r\n\tCHL_W"
+      "ORLD\020\001\022\017\n\013CHL_PRIVATE\020\002\022\r\n\tCHL_GUILD\020\003\022\n"
+      "\n\006CHL_GM\020\004*\230\001\n\tEEquipPos\022\014\n\010EEP_NONE\020\000\022\016"
+      "\n\nEEP_HELMET\020\001\022\020\n\014EEP_NECKLACE\020\002\022\r\n\tEEP_"
+      "ARMOR\020\003\022\r\n\tEEP_SHOES\020\004\022\r\n\tEEP_WRIST\020\005\022\014\n"
+      "\010EEP_RING\020\006\022\020\n\014EEP_TALISMAN\020\007\022\016\n\nEEP_WEA"
+      "PON\020\010*K\n\013ETaskStatus\022\014\n\010ETS_INIT\020\000\022\016\n\nET"
+      "S_ACCEPT\020\001\022\016\n\nETS_FINISH\020\002\022\016\n\nETS_COMMIT"
+      "\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1806);
+      descriptor, 1850);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Game_Define.proto", &protobuf_RegisterTypes);
 }
@@ -308,7 +309,21 @@ bool EShip_IsValid(int value) {
     case 0:
     case 1:
     case 2:
-    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* EHitShipType_descriptor() {
+  protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[10];
+}
+bool EHitShipType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -317,7 +332,7 @@ bool EShip_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EBuffType_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[10];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[11];
 }
 bool EBuffType_IsValid(int value) {
   switch (value) {
@@ -330,7 +345,7 @@ bool EBuffType_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EChatChannel_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[11];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[12];
 }
 bool EChatChannel_IsValid(int value) {
   switch (value) {
@@ -347,7 +362,7 @@ bool EChatChannel_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* EEquipPos_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[12];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[13];
 }
 bool EEquipPos_IsValid(int value) {
   switch (value) {
@@ -368,7 +383,7 @@ bool EEquipPos_IsValid(int value) {
 
 const ::google::protobuf::EnumDescriptor* ETaskStatus_descriptor() {
   protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[13];
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[14];
 }
 bool ETaskStatus_IsValid(int value) {
   switch (value) {

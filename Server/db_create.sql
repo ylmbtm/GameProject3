@@ -291,8 +291,8 @@ DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task`  (
   `id` bigint(20) NOT NULL,
   `roleid` bigint(20) NOT NULL,
-  `task_status` int(20) NOT NULL,
-  `finish_count` int(255) NOT NULL,
+  `task_status` int(11) NOT NULL,
+  `progress` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

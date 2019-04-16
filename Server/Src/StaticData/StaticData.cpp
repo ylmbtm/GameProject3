@@ -28,13 +28,15 @@ BOOL CStaticData::InitDataReader()
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Copy",        &CStaticData::ReadCopyInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Item",        &CStaticData::ReadItemData));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Action",      &CStaticData::ReadActionCfg));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor_Skill",	&CStaticData::ReadActorSkillInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",		&CStaticData::ReadEquipInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",			&CStaticData::ReadGemInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",		&CStaticData::ReadPartnerInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",		&CStaticData::ReadStoreInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Combo_Skill",	&CStaticData::ReadComboSkillInfo));
-	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",		&CStaticData::ReadSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Actor_Skill", &CStaticData::ReadActorSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CStaticData::ReadEquipInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",         &CStaticData::ReadGemInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CStaticData::ReadPartnerInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CStaticData::ReadStoreInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Combo_Skill", &CStaticData::ReadComboSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CStaticData::ReadSkillInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_FlyObject",   &CStaticData::ReadBulletInfo));
+
 
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CStaticData::ReadLanguage));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CStaticData::ReadAwardData));
@@ -262,10 +264,10 @@ BOOL CStaticData::ReadActor(CppSQLite3Query& QueryData)
 	while(!QueryData.eof())
 	{
 		StActorInfo stValue;
-		stValue.dwID		= QueryData.getIntField("Id");
-		stValue.InitLevel = QueryData.getIntField("Level");
-		stValue.fDefSpeed	= QueryData.getFloatField("DefSpeed");
-
+		stValue.dwID        = QueryData.getIntField("Id");
+		stValue.InitLevel   = QueryData.getIntField("Level");
+		stValue.fDefSpeed   = QueryData.getFloatField("DefSpeed");
+		stValue.fRadius     = QueryData.getFloatField("Radius");
 		int nIndex = QueryData.fieldIndex("P1");
 		for(int i = 0; i < PROPERTY_NUM; i++)
 		{
@@ -945,7 +947,8 @@ BOOL CStaticData::ReadSkillInfo(CppSQLite3Query& QueryData)
 		stValue.HurtFix = QueryData.getIntField("HurtFix");
 		stValue.HurtMuti = QueryData.getIntField("HurtMuti");
 		stValue.SkillType = QueryData.getIntField("SkillType");
-
+		stValue.HitShipType = (EHitShipType)QueryData.getIntField("HitShipType");
+		stValue.HitMyself = QueryData.getIntField("HitMyself");
 		UINT32 dwNewID = stValue.Level << 20 | stValue.SkillID;
 		m_mapSkillInfo.insert(std::make_pair(dwNewID, stValue));
 		QueryData.nextRow();
@@ -997,7 +1000,7 @@ BOOL CStaticData::ReadSkillEvent()
 		tSkillEventInfo.dwSkillID = CommonConvert::StringToInt(pAttr->value());
 
 		pAttr = pSkillNode->first_attribute("Duration", strlen("Duration"), false);
-		tSkillEventInfo.uDuration = CommonConvert::StringToFloat(pAttr->value()) * 1000;
+		tSkillEventInfo.uDuration = (UINT64)(CommonConvert::StringToFloat(pAttr->value()) * 1000);
 
 		pAttr = pSkillNode->first_attribute("CastType", strlen("CastType"), false);
 		tSkillEventInfo.dwCastType = CommonConvert::StringToInt(pAttr->value());
@@ -1032,9 +1035,25 @@ BOOL CStaticData::ReadSkillEvent()
 			//////////////////////////////////////////////////////////////////////////
 			//解析子弹
 
-			for (auto pBulletNode = pEventNode->first_node("ActFlyObject"); pBulletNode != NULL; pBulletNode = pBulletNode->next_sibling("ActScope"))
+			for (auto pBulletNode = pEventNode->first_node("ActFlyObject"); pBulletNode != NULL; pBulletNode = pBulletNode->next_sibling("ActFlyObject"))
 			{
+				StBulletObject bulletObject;
 
+				pAttr = pBulletNode->first_attribute("ID", strlen("ID"), false);
+				if (pAttr == NULL)
+				{
+					continue;
+				}
+				bulletObject.BulletID = CommonConvert::StringToInt(pAttr->value());
+
+				pAttr = pBulletNode->first_attribute("Angle", strlen("Angle"), false);
+				if (pAttr == NULL)
+				{
+					continue;
+				}
+				bulletObject.fAngle = CommonConvert::StringToFloat(pAttr->value());
+
+				tEvent.vtBullets.push_back(bulletObject);
 			}
 
 			tSkillEventInfo.vtEvents.push_back(tEvent);
@@ -1131,6 +1150,39 @@ StBuffInfo* CStaticData::GetBuffInfo(UINT32 dwBuffID)
 	ERROR_RETURN_NULL(dwBuffID != 0);
 	auto itor = m_mapBuffInfo.find(dwBuffID);
 	if(itor != m_mapBuffInfo.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
+}
+
+BOOL CStaticData::ReadBulletInfo(CppSQLite3Query& QueryData)
+{
+	m_mapBulletInfo.clear();
+
+	while (!QueryData.eof())
+	{
+		StBulletInfo stValue;
+		stValue.BulletID = QueryData.getIntField("Id");
+		stValue.BulletType = (EBulletType)QueryData.getIntField("Type");
+		stValue.InitSpeed = QueryData.getFloatField("InitSpeed");
+		stValue.AccSpeed = QueryData.getFloatField("AcceSpeed");
+		stValue.LifeTime = QueryData.getIntField("LifeTime");
+		stValue.RangeType = (ERangeType)QueryData.getIntField("RangeType");
+		CommonConvert::StringToVector(QueryData.getStringField("RangeParams"), stValue.RangeParams, 5, '~');
+		m_mapBulletInfo.insert(std::make_pair(stValue.BulletID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StBulletInfo* CStaticData::GetBulletInfo(UINT32 dwBulletID)
+{
+	ERROR_RETURN_NULL(dwBulletID != 0);
+	auto itor = m_mapBulletInfo.find(dwBulletID);
+	if (itor != m_mapBulletInfo.end())
 	{
 		return &itor->second;
 	}

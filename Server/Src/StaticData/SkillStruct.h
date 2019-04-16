@@ -1,6 +1,8 @@
 ﻿#ifndef __SKILL_STRUCT_H__
 #define __SKILL_STRUCT_H__
 
+#include "../Message/Game_Define.pb.h"
+
 enum ECenterType
 {
 	ECT_TARGET_POS      = 1,//以客户端选定的位置为中心
@@ -11,16 +13,16 @@ enum ECenterType
 
 enum ESkillCastType
 {
-	ESCT_TYPE_INSTANT = 0,      // 瞬发（无选择）
-	ESCT_TYPE_TARGET = 1,       // 对象选取辅助（目标）
-	ESCT_TYPE_DIRECTION = 2,    // 方向贴花辅助（朝向）
-	ESCT_TYPE_POS = 3,          // 地面贴花辅助（AOE区域）
-	ESCT_TYPE_DIRECTIONARC = 4, // 扇形方向贴花辅助（朝向）
-	ESCT_TYPE_EFFECT = 5,       // 模型特效辅助（召唤）
-	ESCT_TYPE_SIGHT = 6,        // 准星UI变化辅助（射击）
-	ESCT_TYPE_PARABOLA = 7,     // 抛物线辅助（投掷）
-	ESCT_TYPE_DRAGLINE = 8,     // 拉线辅助（墙类召唤)
-	ESCT_TYPE_GESTURE = 9,     // 鼠标手势辅助（多段线条传入点）
+	ESCT_TYPE_INSTANT       = 0,    // 瞬发（无选择）
+	ESCT_TYPE_TARGET        = 1,    // 对象选取辅助（目标）
+	ESCT_TYPE_DIRECTION     = 2,    // 方向贴花辅助（朝向）
+	ESCT_TYPE_POS           = 3,    // 地面贴花辅助（AOE区域）
+	ESCT_TYPE_DIRECTIONARC  = 4,    // 扇形方向贴花辅助（朝向）
+	ESCT_TYPE_EFFECT        = 5,    // 模型特效辅助（召唤）
+	ESCT_TYPE_SIGHT         = 6,    // 准星UI变化辅助（射击）
+	ESCT_TYPE_PARABOLA      = 7,    // 抛物线辅助（投掷）
+	ESCT_TYPE_DRAGLINE      = 8,    // 拉线辅助（墙类召唤)
+	ESCT_TYPE_GESTURE       = 9,    // 鼠标手势辅助（多段线条传入点）
 };
 
 enum ERangeType
@@ -29,7 +31,6 @@ enum ERangeType
 	ERT_CYLINDER    = 2,//扇形圆柱
 	ERT_CIRCLE      = 3,//圆形圆柱
 	ERT_BOX         = 4,//矩形区域
-	ERT_LINK        = 5,//链式目标
 };
 
 enum EBulletType
@@ -47,9 +48,9 @@ enum EBulletType
 
 enum ESkillStatus
 {
-	ESS_INIT = 0,       //初始状态
-	ESS_RUNNING = 1,    //正在运行
-	ESS_FINISHED = 2,   //己完成
+	ESS_INIT        = 0,    //初始状态
+	ESS_RUNNING     = 1,    //正在运行
+	ESS_FINISHED    = 2,    //己完成
 };
 
 enum EAffectShip
@@ -113,13 +114,19 @@ struct StBuffInfo
 
 struct StBulletInfo
 {
+	UINT32      BulletID    = 0;                //子弹ID
+	EBulletType BulletType  = EBT_FIXDIRECTION; //子弹类型
+	FLOAT       InitSpeed   = 0;                //初始速度
+	FLOAT       AccSpeed    = 0;                //加速度
+	ERangeType  RangeType   = ERT_CIRCLE;       //范围类型
+	FLOAT       RangeParams[5] = { 0 };         //范围参数
+	UINT32      LifeTime    = 0;                //生命期
+};
+
+struct StBulletObject
+{
 	UINT32 BulletID;    //子弹ID
-	UINT32 BulletType;  //子弹类型
-	FLOAT  Angle;       //角度
-	FLOAT  Speed;       //速度
-	FLOAT  AccSpd;      //加速度
-	FLOAT  Radius;      //半径
-	UINT32 LifeTime;    //生命期
+	FLOAT  fAngle;       //角度
 };
 
 
@@ -138,19 +145,21 @@ struct StSkillEvent
 	FLOAT  RangeParams[5] = {0};            //范围参数
 	ERangeType RangeType = ERT_OBJECTS;     //范围类型
 	UINT32 CenterType = 0;                  //中心点类型
-	std::vector<StBulletInfo> vtBullets;    //子弹列表
+	std::vector<StBulletObject> vtBullets;  //子弹列表
 	std::vector<StGoblinInfo> vtGoblins;    //召唤的妖精列表
 };
 
 struct StSkillInfo
 {
-	UINT32      SkillID;        //技能ID
-	UINT32      Level;          //技能等级
-	UINT32      SkillType;      //技能类型
-	UINT32      CD;	            //技能CD
-	UINT64      uDuration;      //技能持续总时间
-	INT32       HurtFix;        //固定伤害
-	INT32       HurtMuti;       //加成伤害
+	UINT32        SkillID;        //技能ID
+	UINT32        Level;          //技能等级
+	UINT32        SkillType;      //技能类型,1:物理伤害,2:法术伤害
+	EHitShipType  HitShipType;    //作用目标关系,
+	BOOL          HitMyself;      //目标是否包含自己
+	UINT32        CD;	            //技能CD
+	UINT64        uDuration;      //技能持续总时间
+	INT32         HurtFix;        //固定伤害
+	INT32         HurtMuti;       //加成伤害
 };
 
 

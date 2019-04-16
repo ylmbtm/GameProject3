@@ -21,20 +21,20 @@ public:
 
 	~CSceneObject();
 public:
-	BOOL			SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
-	BOOL			SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
-	BOOL			SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
-	BOOL			OnUpdate(UINT64 uTick);
+	BOOL            SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL            SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+	BOOL            SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
+	BOOL            OnUpdate(UINT64 uTick);
 	BOOL            SaveNewData(ObjectNewNty& Nty);
-	BOOL			SaveUpdateData(ObjectActionNty& Nty);
+	BOOL            SaveUpdateData(ObjectActionNty& Nty);
 
 	//以下为对象的操作方法
 public:
 	UINT32          GetHp();
 	UINT32          GetMp();
 	UINT64          GetObjectGUID();
-	UINT32			GetActorID();
-	UINT32			GetObjType();
+	UINT32          GetActorID();
+	UINT32          GetObjType();
 	UINT32          GetCamp();
 
 	VOID            AddHp(UINT32 dwValue);
@@ -42,7 +42,7 @@ public:
 	VOID            AddMp(UINT32 dwValue);
 	VOID            SubMp(UINT32 dwValue);
 
-	BOOL			IsChanged();
+	BOOL            IsChanged();
 
 	BOOL			IsConnected();
 	BOOL            IsEnterCopy();
@@ -90,11 +90,14 @@ public:
 	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 
+	INT32           GetShip(CSceneObject* pTarget);
+
+
 	//////////////////////////////////////////////////////////////////////////
 	//伤害效果
 	BOOL			NotifyHitEffect(CSceneObject* pTarget, BOOL  bCritHit, INT32 nHurtValue);
 
-	HitEffectNtf	m_EffectNtf;
+
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -127,7 +130,7 @@ public:
 	BOOL			m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
 
 
-
+	HitEffectNtf	m_EffectNtf;
 	//////////////////////////////////////////////////////////
 	//对象的一些标记
 	BOOL            m_bEnter;   //玩家是否己经进入副本

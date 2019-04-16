@@ -100,8 +100,9 @@ BOOL CSceneManager::OnUpdate( UINT64 uTick )
 	{
 		CScene* pScene = itor->second;
 
-		if((pScene->GetLastTick() > uTick) && (pScene->GetLastTick() - uTick < FPS_TIME_TICK))
+		if((pScene->GetLastTick() < uTick) && ( uTick - pScene->GetLastTick() < FPS_TIME_TICK))
 		{
+			itor++;
 			continue;
 		}
 
@@ -172,7 +173,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 	Ack.set_copyid(Req.copyid());
 	Ack.set_playernum(Req.playernum());
 	Ack.set_copytype(Req.copytype());
-	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum(),Req.createparam()))
+	if (!CreateScene(Req.copyid(), dwNewCopyGuid, Req.copytype(), Req.playernum(), Req.createparam()))
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
 	}

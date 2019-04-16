@@ -40,7 +40,7 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 	{
 		if (uElaspedTick >= m_pSkillEventInfo->vtEvents[m_dwEventIndex].TrigerTime)
 		{
-			ProcessEvent(m_pSkillEventInfo->vtEvents[m_dwEventIndex]);
+			ProcessSkillEvent(m_pSkillEventInfo->vtEvents[m_dwEventIndex]);
 
 			m_dwEventIndex += 1;
 		}
@@ -127,13 +127,14 @@ BOOL CSkillObject::StopSkill()
 
 BOOL CSkillObject::ResetSkill()
 {
-	m_dwStartTick = 0;
-	m_dwSkillID = 0;
-	m_pSkillInfo = NULL;
-	m_pSkillEventInfo = NULL;
+	m_dwStartTick       = 0;
+	m_dwSkillID         = 0;
+	m_pSkillInfo        = NULL;
+	m_pSkillEventInfo   = NULL;
+	m_dwEventIndex      = 0;
+	m_SkillStatus       = ESS_INIT;
+	m_bCalcTargets      = TRUE;
 	m_vtTargets.clear();
-	m_dwEventIndex = 0;
-	m_SkillStatus = ESS_INIT;
 	return TRUE;
 }
 
@@ -144,6 +145,11 @@ BOOL CSkillObject::SetCastObject(CSceneObject* pObject)
 	return TRUE;
 }
 
+CSceneObject* CSkillObject::GetCastObject()
+{
+	return m_pCastObject;
+}
+
 BOOL CSkillObject::AddTargetObject(CSceneObject* pObject)
 {
 	m_vtTargets.push_back(pObject);
@@ -151,7 +157,7 @@ BOOL CSkillObject::AddTargetObject(CSceneObject* pObject)
 	return TRUE;
 }
 
-BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
+BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 {
 	ERROR_RETURN_FALSE(m_pCastObject != NULL);
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
@@ -208,80 +214,24 @@ BOOL CSkillObject::SkillFight(StSkillEvent& SkillEvent, CSceneObject* pTarget)
 
 BOOL CSkillObject::CalcTargetObjects(StSkillEvent& SkillEvent)
 {
-	ERROR_RETURN_FALSE(m_pCastObject != NULL);
-
-	switch (SkillEvent.RangeType)
+	if (!m_bCalcTargets)
 	{
-		case ERT_OBJECTS:
-		{
-			//什么都不需要做，直接使用客户端传过来的目标列表
-		}
-		break;
-		case ERT_CIRCLE:
-		{
-			FLOAT radius	= SkillEvent.RangeParams[0];
-			FLOAT hAngle	= SkillEvent.RangeParams[1];
-			FLOAT height	= SkillEvent.RangeParams[2];
-			FLOAT offsetX	= SkillEvent.RangeParams[3];
-			FLOAT offsetZ	= SkillEvent.RangeParams[4];
-
-			Vector3D hitPoint = m_pCastObject->m_Pos;
-			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
-
-			CScene* pScene = m_pCastObject->GetScene();
-			ERROR_RETURN_FALSE(pScene != NULL);
-
-			pScene->SelectTargetsInCircle(m_vtTargets, hitPoint, radius, height);
-		}
-		break;
-		case ERT_CYLINDER:
-		{
-			FLOAT radius	= SkillEvent.RangeParams[0];
-			FLOAT hAngle	= SkillEvent.RangeParams[1];
-			FLOAT height	= SkillEvent.RangeParams[2];
-			FLOAT offsetX	= SkillEvent.RangeParams[3];
-			FLOAT offsetZ	= SkillEvent.RangeParams[4];
-
-			Vector3D hitPoint = m_pCastObject->m_Pos;
-			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
-
-			FLOAT hitDir = m_pCastObject->m_ft;
-
-			CScene* pScene = m_pCastObject->GetScene();
-			ERROR_RETURN_FALSE(pScene != NULL);
-
-			pScene->SelectTargetsInSector(m_vtTargets, hitPoint, hitDir, radius, hAngle);
-		}
-		break;
-		case ERT_BOX:
-		{
-			FLOAT length	= SkillEvent.RangeParams[0];
-			FLOAT width		= SkillEvent.RangeParams[1];
-			FLOAT height	= SkillEvent.RangeParams[2];
-			FLOAT offsetX	= SkillEvent.RangeParams[3];
-			FLOAT offsetZ	= SkillEvent.RangeParams[4];
-
-			Vector3D hitPoint = m_pCastObject->m_Pos;
-			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
-
-			FLOAT hitDir = m_pCastObject->m_ft;
-
-			CScene* pScene = m_pCastObject->GetScene();
-			ERROR_RETURN_FALSE(pScene != NULL);
-
-			pScene->SelectTargetsInSquare(m_vtTargets, hitPoint, hitDir, length, width);
-		}
-		case ERT_LINK:
-		{
-
-		}
-		break;
+		return TRUE;
 	}
 
-	return TRUE;
+	ERROR_RETURN_FALSE(m_pCastObject != NULL);
+	CScene* pScene = m_pCastObject->GetScene();
+	ERROR_RETURN_FALSE(pScene != NULL);
+	UINT64 uExcludeID = 0;
+	if (!m_pSkillInfo->HitMyself)
+	{
+		uExcludeID = m_pCastObject->GetObjectGUID();
+	}
+
+	return pScene->SelectTargets(m_vtTargets, uExcludeID, m_pCastObject->GetCamp(), m_pSkillInfo->HitShipType, m_pCastObject->GetPos(), m_pCastObject->GetFaceTo(), SkillEvent.RangeType, SkillEvent.RangeParams);
 }
 
-BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
+BOOL CSkillObject::ProcessSkillEvent(StSkillEvent& SkillEvent)
 {
 	CalcTargetObjects(SkillEvent);
 
@@ -304,19 +254,23 @@ BOOL CSkillObject::ProcessEvent(StSkillEvent& SkillEvent)
 			pTempObject->AddBuff(SkillEvent.TargetBuffID);
 		}
 
-		SkillFight(SkillEvent, pTempObject);
+		AttackTarget(pTempObject);
 	}
 
+	BulletNewNtf Ntf;
 	for (INT32 nIndex = 0; nIndex < SkillEvent.vtBullets.size(); nIndex++)
 	{
-		StBulletInfo& data = SkillEvent.vtBullets.at(nIndex);
+		StBulletObject& bulletObject = SkillEvent.vtBullets.at(nIndex);
 
-		CScene* pScene = m_pCastObject->GetScene();
+		CBulletObject* pBulletObject = CreateBullet(bulletObject);
+		ERROR_RETURN_FALSE(pBulletObject != NULL);
 
-		ERROR_RETURN_FALSE(pScene != NULL);
-
-		pScene->CreateBullet(&data, m_pCastObject->m_ft + data.Angle);
+		pBulletObject->SaveNewData(Ntf);
 	}
+
+	CScene* pScene = m_pCastObject->GetScene();
+	ERROR_RETURN_NULL(pScene != NULL);
+	pScene->BroadMessage(MSG_BULLET_NEW_NTF, Ntf);
 
 	return TRUE;
 }
@@ -336,5 +290,73 @@ BOOL CSkillObject::SetComboSkill(BOOL bCombo)
 UINT32 CSkillObject::GetSkillID()
 {
 	return m_dwSkillID;
+}
+
+VOID CSkillObject::SetCalcTargets(BOOL bCalc)
+{
+	m_bCalcTargets = bCalc;
+}
+
+CBulletObject* CSkillObject::CreateBullet(StBulletObject& stBullet)
+{
+	CScene* pScene = m_pCastObject->GetScene();
+	ERROR_RETURN_NULL(pScene != NULL);
+
+	StBulletInfo* pBulletInfo = CStaticData::GetInstancePtr()->GetBulletInfo(stBullet.BulletID);
+	ERROR_RETURN_NULL(pBulletInfo != NULL);
+
+	CBulletObject* pBulletObject = pScene->CreateBullet(stBullet.BulletID, pBulletInfo, this, m_pCastObject->GetPos());
+	ERROR_RETURN_NULL(pBulletObject != NULL);
+
+	//创建方向型的子弹
+	switch (pBulletInfo->BulletType)
+	{
+		case EBT_CHASE:         //追踪型飞弹:
+		{
+			pBulletObject->SetTargetObject(m_vtTargets.at(0));
+		}
+		break;
+
+		case EBT_FIXDIRECTION:  //固定方向型飞弹:
+		{
+			pBulletObject->SetAngle(m_pCastObject->m_ft + stBullet.fAngle);
+		}
+		break;
+		case EBT_FIXTARGETPOS:  //固定目标点飞弹
+		{
+			//pBulletObject->SetTargetPos();
+		}
+		break;
+		case EBT_POINT:         //固定点飞弹
+		{
+		}
+		break;
+		case EBT_LINK:          //连接飞弹
+		{
+		}
+		break;
+		case EBT_ANNULAR:       //环形飞弹
+		{
+		}
+		break;
+		case EBT_BACK:          //回旋飞弹
+		{
+		}
+		break;
+		case EBT_EXTRACT:       //抽取飞弹
+		{
+		}
+		break;
+		case EBT_BOUNDCE:       //弹跳飞弹
+		{
+		}
+		break;
+		default:
+		{
+
+		}
+	}
+
+	return pBulletObject;
 }
 

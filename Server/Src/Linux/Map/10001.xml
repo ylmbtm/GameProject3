@@ -11,13 +11,13 @@
     <MapActTriggerArea ID="3" AreaID="1" />
     <MapActSequence    ID="4" Actions="5,6" />
     <MapActWave        ID="5">
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-13.54,20.50,4.87)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-26.84,20.50,3.29)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-13.58,20.50,12.87)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-27.32,20.50,13.07)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-20.06,20.50,3.00)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-24.54,20.50,7.13)" Face="0.00" Camp="3"/>
-        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-16.44,20.50,6.87)" Face="0.00" Camp="3"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-13.54,20.50,4.87)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-26.84,20.50,3.29)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-13.58,20.50,12.87)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-27.32,20.50,13.07)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-20.06,20.50,3.00)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-24.54,20.50,7.13)" Face="0.00" Camp="2"/>
+        <MapCallMonster MonsterID="50003" MonsterAI="0" Pos="(-16.44,20.50,6.87)" Face="0.00" Camp="2"/>
    </MapActWave>
     <MapActExit        ID="6"/>
   </MapActions>

@@ -35,8 +35,6 @@ public:
 
 	BOOL            BroadNewObject(CSceneObject* pSceneObject);
 
-	BOOL            BroadNewBullet(CBulletObject* pBulletObject);
-
 	BOOL            BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 	BOOL            BroadRemoveObject(CSceneObject* pSceneObject);
@@ -62,9 +60,7 @@ public:
 	BOOL			UpdateAiController(UINT64 uFilterID);
 	UINT64			SelectController(UINT64 uFilterID);
 
-	BOOL			SelectTargetsInCircle(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float radius, float height);
-	BOOL			SelectTargetsInSquare(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float length, float width);
-	BOOL			SelectTargetsInSector(std::vector<CSceneObject*>& vTargets, Vector3D hitPoint, float hitDir, float radius, float hAngle);
+	BOOL			SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExcludeID, UINT32 dwCamp, EHitShipType hitType, Vector3D hitPos, FLOAT fHitDir, ERangeType rangeType, FLOAT RangeParams[5]);
 
 	//在单人PVE情况下，副本应该只有一个人
 	CSceneObject*   GetOwnPlayer();
@@ -82,7 +78,7 @@ public:
 	CSceneObject*	CreateSummon( UINT32 dwActorID, UINT64 uSummonerID, UINT32 dwCamp, FLOAT x, FLOAT y, FLOAT z, FLOAT ft);
 
 	//创建子弹对象
-	CBulletObject*	CreateBullet(StBulletInfo* pBulletInfo, FLOAT Angle);
+	CBulletObject*	CreateBullet(UINT32 dwBulletID, StBulletInfo* pBulletInfo, CSkillObject* pSkillObject, Vector3D startPos);
 
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.

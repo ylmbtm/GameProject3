@@ -7,6 +7,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../StaticData/StaticData.h"
+#include "../Message/Game_Define.pb.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 {
@@ -160,8 +161,8 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
-	pItem->set_buffstate(m_dwBuffStatus);
-	pItem->set_objectstate(m_dwObjectStatus);
+	pItem->set_buffstatus(m_dwBuffStatus);
+	pItem->set_objectstatus(m_dwObjectStatus);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
 	pItem->set_summonid(m_uSummonerID);
@@ -209,8 +210,8 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_objectguid(m_uGuid);
 	pItem->set_actorid(m_dwActorID);
 	pItem->set_actionid(m_dwActionID);
-	pItem->set_buffstate(m_dwBuffStatus);
-	pItem->set_objectstate(m_dwObjectStatus);
+	pItem->set_buffstatus(m_dwBuffStatus);
+	pItem->set_objectstatus(m_dwObjectStatus);
 	pItem->set_level(m_dwLevel);
 	pItem->set_controlerid(m_uControlerID);
 	pItem->set_hostx(m_Pos.m_x);
@@ -402,6 +403,21 @@ BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir, float radius, flo
 	//}
 
 	return TRUE;
+}
+
+INT32 CSceneObject::GetShip(CSceneObject* pTarget)
+{
+	if (pTarget->GetCamp() == 0)
+	{
+		return ES_NEUTRAL;
+	}
+
+	if (pTarget->GetCamp() != GetCamp())
+	{
+		return ES_ENEMY;
+	}
+
+	return ES_FRIEND;
 }
 
 BOOL CSceneObject::NotifyHitEffect(CSceneObject* pTarget, BOOL bCritHit, INT32 nHurtValue)
@@ -692,6 +708,7 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 		CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
 		ERROR_RETURN_CODE(pTempObject != NULL, MRC_INVALID_TARGET_ID);
 		m_SkillObject.AddTargetObject(pTempObject);
+		m_SkillObject.SetCalcTargets(FALSE);
 	}
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);

@@ -120,11 +120,18 @@ enum EAttrID{
 
 enum EShip
 {
-    TYPE_NONE    =  0;
-    TYPE_ALLY    =  1;
-    TYPE_ENEMY   =  2;
-    TYPE_NEUTRAL =  3;
+    ES_NEUTRAL =  0;
+    ES_FRIEND  =  1;
+    ES_ENEMY   =  2;
 }
+
+enum EHitShipType
+{
+    EHST_ALL        = 0;      // 全部目标
+    EHST_FRIEND     = 1;      // 需要目标是友方才能释放
+    EHST_ENEMY      = 2;      // 需要目标是敌方才能释放
+}
+
 
 
 enum EBuffType{
