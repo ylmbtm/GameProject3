@@ -55,6 +55,15 @@ BOOL CStaticData::LoadConfigData(std::string strDbFile)
 	try
 	{
 		m_DBConnection.open(strDbFile.c_str());
+		char szSql[SQL_BUFF_LEN] = { 0 };
+		for (std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
+		{
+			DataFuncNode dataNode = (*itor);
+			snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
+			CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
+			(this->*dataNode.m_pDataFunc)(Tabledatas);
+		}
+		m_DBConnection.close();
 	}
 	catch(CppSQLite3Exception& e)
 	{
@@ -62,16 +71,6 @@ BOOL CStaticData::LoadConfigData(std::string strDbFile)
 		return FALSE;
 	}
 
-	char szSql[SQL_BUFF_LEN]  = {0};
-	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
-	{
-		DataFuncNode dataNode = (*itor);
-		snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
-		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
-		(this->*dataNode.m_pDataFunc)(Tabledatas);
-	}
-
-	m_DBConnection.close();
 
 	ReadSkillEvent();
 

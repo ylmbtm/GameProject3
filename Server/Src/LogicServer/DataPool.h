@@ -19,20 +19,6 @@
 #include "../ServerData/GemData.h"
 #include "../ServerData/SkillData.h"
 
-namespace DataPool
-{
-	template <class T>
-	T* CreateObject(EShareData nIndex, BOOL bNewBlock = TRUE)
-	{
-		SharedMemoryBase *pShareBase = CDataPool::GetInstancePtr()->GetSharePool(nIndex);
-
-		T* pTmp = static_cast<T*>(pShareBase->NewObject(bNewBlock));
-
-		return pTmp;
-	}
-
-}
-
 class CDataPool
 {
 	CDataPool();
@@ -53,13 +39,18 @@ protected:
 	std::vector<SharedMemoryBase*>		m_vtDataObjectPools;
 };
 
+namespace DataPool
+{
+template <class T>
+T* CreateObject(EShareData nIndex, BOOL bNewBlock = TRUE)
+{
+	SharedMemoryBase* pShareBase = CDataPool::GetInstancePtr()->GetSharePool(nIndex);
 
+	T* pTmp = static_cast<T*>(pShareBase->NewObject(bNewBlock));
 
-
-
-
-
-
+	return pTmp;
+}
+}
 
 
 

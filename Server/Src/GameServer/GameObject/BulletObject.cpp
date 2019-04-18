@@ -69,6 +69,11 @@ BOOL CBulletObject::SaveNewData(BulletNewNtf& Ntf)
 	pItem->set_speed(m_pBulletInfo->InitSpeed);
 	pItem->set_accspeed(m_pBulletInfo->AccSpeed);
 	pItem->set_lefttime(m_pBulletInfo->LifeTime / 1000.0f);
+	pItem->set_casterguid(m_pCastObject->GetObjectGUID());
+	if (m_pTargetObject != NULL)
+	{
+		pItem->set_targetguid(m_pTargetObject->GetObjectGUID());
+	}
 
 	return TRUE;
 }
