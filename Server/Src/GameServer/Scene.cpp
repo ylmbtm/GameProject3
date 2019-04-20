@@ -505,11 +505,11 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	Ack.set_actorid(pSceneObj->m_dwActorID);
 	Ack.set_retcode(MRC_SUCCESSED);
 
-	Ack.set_hp(pSceneObj->m_Propertys[HP]);
-	Ack.set_mp(pSceneObj->m_Propertys[MP]);
-	Ack.set_hpmax(pSceneObj->m_Propertys[HP_MAX]);
-	Ack.set_mpmax(pSceneObj->m_Propertys[MP_MAX]);
-	Ack.set_speed(pSceneObj->m_Propertys[SPEED]);
+	Ack.set_hp(pSceneObj->m_Propertys[EA_HP]);
+	Ack.set_mp(pSceneObj->m_Propertys[EA_MP]);
+	Ack.set_hpmax(pSceneObj->m_Propertys[EA_HP_MAX]);
+	Ack.set_mpmax(pSceneObj->m_Propertys[EA_MP_MAX]);
+	Ack.set_speed(pSceneObj->m_Propertys[EA_SPEED]);
 
 	Ack.set_camp(pSceneObj->m_dwCamp);
 

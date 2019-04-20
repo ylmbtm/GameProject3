@@ -30,11 +30,11 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 
 	if (m_dwSkillID == 0 || m_pSkillInfo == NULL || m_pSkillEventInfo == NULL)
 	{
+		ASSERT_FAIELD;
 		return TRUE;
 	}
 
 	UINT64 uElaspedTick = uTick - m_dwStartTick;
-
 
 	if (m_dwEventIndex < m_pSkillEventInfo->vtEvents.size())
 	{
@@ -100,6 +100,10 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 	{
 		m_vtTargets.clear();
 	}
+	else if(m_vtTargets.size() > 0)
+	{
+		SetCalcTargets(FALSE);
+	}
 
 	m_SkillStatus = ESS_RUNNING;
 
@@ -122,6 +126,7 @@ BOOL CSkillObject::StartSkill(UINT32 dwSkillID, INT32 nLevel)
 BOOL CSkillObject::StopSkill()
 {
 	ResetSkill();
+
 	return TRUE;
 }
 
@@ -165,7 +170,7 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 
 	UINT32 dwRandValue = CommonFunc::GetRandNum(1);
 	//先判断是否命中
-	if (dwRandValue > (8000 + m_pCastObject->m_Propertys[HIT_RATE] - pTarget->m_Propertys[DODGE]) && dwRandValue > 5000)
+	if (dwRandValue > (8000 + m_pCastObject->m_Propertys[EA_HIT_RATE] - pTarget->m_Propertys[EA_DODGE]) && dwRandValue > 5000)
 	{
 		//未命中
 		m_pCastObject->NotifyHitEffect(pTarget, FALSE, 0);
@@ -175,13 +180,13 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 	//判断是否爆击
 	dwRandValue = CommonFunc::GetRandNum(1);
 	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (m_pCastObject->m_Propertys[CRIT_HIT] - m_pCastObject->m_Propertys[CRIT_DEF]) || dwRandValue < 100)
+	if (dwRandValue < (m_pCastObject->m_Propertys[EA_CRIT_HIT] - m_pCastObject->m_Propertys[EA_CRIT_DEF]) || dwRandValue < 100)
 	{
 		bCriticalHit = TRUE;
 	}
 
 	//最终伤害加成
-	INT32 nFinalAdd = m_pCastObject->m_Propertys[MORE_HURT] - pTarget->m_Propertys[LESS_HURT];
+	INT32 nFinalAdd = m_pCastObject->m_Propertys[EA_MORE_HURT] - pTarget->m_Propertys[EA_LESS_HURT];
 	if (nFinalAdd < 0)
 	{
 		nFinalAdd = 0;
@@ -190,9 +195,9 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 	//伤害随机
 	INT32 nFightRand = 9000 + CommonFunc::GetRandNum(1) % 2000;
 
-	INT32 nDefendValue = (m_pSkillInfo->SkillType == ESTMAGIC) ? pTarget->m_Propertys[MAGIC_DEF] : pTarget->m_Propertys[PHYSIC_DEF];
+	INT32 nDefendValue = (m_pSkillInfo->SkillType == ESTMAGIC) ? pTarget->m_Propertys[EA_MAGIC_DEF] : pTarget->m_Propertys[EA_PHYSIC_DEF];
 
-	INT32 nHurt = m_pCastObject->m_Propertys[ATTACK] - nDefendValue;
+	INT32 nHurt = m_pCastObject->m_Propertys[EA_ATTACK] - nDefendValue;
 	if (nHurt < 0)
 	{
 		nHurt = 1;
@@ -257,20 +262,23 @@ BOOL CSkillObject::ProcessSkillEvent(StSkillEvent& SkillEvent)
 		AttackTarget(pTempObject);
 	}
 
-	BulletNewNtf Ntf;
-	for (INT32 nIndex = 0; nIndex < SkillEvent.vtBullets.size(); nIndex++)
+	if (SkillEvent.vtBullets.size() > 0)
 	{
-		StBulletObject& bulletObject = SkillEvent.vtBullets.at(nIndex);
+		BulletNewNtf Ntf;
+		for (INT32 nIndex = 0; nIndex < SkillEvent.vtBullets.size(); nIndex++)
+		{
+			StBulletObject& bulletObject = SkillEvent.vtBullets.at(nIndex);
 
-		CBulletObject* pBulletObject = CreateBullet(bulletObject);
-		ERROR_RETURN_FALSE(pBulletObject != NULL);
+			CBulletObject* pBulletObject = CreateBullet(bulletObject);
+			ERROR_RETURN_FALSE(pBulletObject != NULL);
 
-		pBulletObject->SaveNewData(Ntf);
+			pBulletObject->SaveNewData(Ntf);
+		}
+
+		CScene* pScene = m_pCastObject->GetScene();
+		ERROR_RETURN_NULL(pScene != NULL);
+		pScene->BroadMessage(MSG_BULLET_NEW_NTF, Ntf);
 	}
-
-	CScene* pScene = m_pCastObject->GetScene();
-	ERROR_RETURN_NULL(pScene != NULL);
-	pScene->BroadMessage(MSG_BULLET_NEW_NTF, Ntf);
 
 	return TRUE;
 }

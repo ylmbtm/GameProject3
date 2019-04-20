@@ -91,28 +91,29 @@ message ActionNtyItem {
 
 message NewItem {
     uint64    ObjectGuid    = 1;        //实例ID
-    int32     ObjType       = 2;        //对象类别
-    int32     ObjectStatus  = 3;        //实例状态
-    int32     BuffStatus    = 4;        //特效状态
-    int32     ActorID       = 5;        //Actor ID
-    int32     MountID       = 6;        //坐骑ID
-    int32     Camp          = 7;        //阵营
-    string    Name          = 8;        //名字
-    int32     Level         = 9;        //等级
-    uint64    HostGuid      = 10;       //主人的GUID
-    uint64    ControlerID   = 11;       //AI控制人的GUID
-    uint64    SummonID      = 12;       //招唤者的GUID
-    float     X             = 13;        
-    float     Y             = 14;
-    float     Z             = 15;
-    float     Ft            = 16;
-    int32     Hp            = 17;
-    int32     Mp            = 18;
-    int32     HpMax         = 19;
-    int32     MpMax         = 20;
-    int32     Speed         = 21;
-    repeated int32 Equips   = 22;        //装备
-    repeated SkillItem Skills  = 23;     //普通技能
+    int32     ActionID      = 2;        
+    int32     ObjType       = 3;        //对象类别
+    int32     ObjectStatus  = 4;        //实例状态
+    int32     BuffStatus    = 5;        //特效状态
+    int32     ActorID       = 6;        //Actor ID
+    int32     MountID       = 7;        //坐骑ID
+    int32     Camp          = 8;        //阵营
+    string    Name          = 9;        //名字
+    int32     Level         = 10;        //等级
+    uint64    HostGuid      = 11;       //主人的GUID
+    uint64    ControlerID   = 12;       //AI控制人的GUID
+    uint64    SummonID      = 13;       //招唤者的GUID
+    float     X             = 14;        
+    float     Y             = 15;
+    float     Z             = 16;
+    float     Ft            = 17;
+    int32     Hp            = 18;
+    int32     Mp            = 19;
+    int32     HpMax         = 20;
+    int32     MpMax         = 21;
+    int32     Speed         = 22;
+    repeated int32 Equips   = 23;        //装备
+    repeated SkillItem Skills= 24;     //普通技能
 }
 
 message ObjectNewNty {

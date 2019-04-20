@@ -151,16 +151,12 @@ inline bool ECopyType_Parse(
 enum EObjectStatus {
   EOS_NONE = 0,
   EOS_DEAD = 1,
-  EOS_IDLE = 2,
-  EOS_WALK = 3,
-  EOS_RUN = 4,
-  EOS_FLY = 5,
-  EOS_NOT_MOVE = 6,
-  EOS_NOT_CAST = 7,
-  EOS_NOT_BEHURT = 8,
-  EOS_NOT_BECONTROL = 9,
-  EOS_STEALTH = 10,
-  EOS_BLIND = 11,
+  EOS_NOT_MOVE = 2,
+  EOS_NOT_CAST = 3,
+  EOS_NOT_BEHURT = 4,
+  EOS_NOT_BECONTROL = 5,
+  EOS_STEALTH = 6,
+  EOS_BLIND = 7,
   EObjectStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EObjectStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -266,29 +262,29 @@ inline bool EFunctionType_Parse(
     EFunctionType_descriptor(), name, value);
 }
 enum EAttrID {
-  HP = 0,
-  MP = 1,
-  HP_MAX = 2,
-  MP_MAX = 3,
-  SPEED = 4,
-  ATTACK = 5,
-  ELEMENT = 6,
-  MAGIC_DEF = 7,
-  PHYSIC_DEF = 8,
-  HIT_RATE = 9,
-  DODGE = 10,
-  MORE_HURT = 11,
-  LESS_HURT = 12,
-  CRIT_HIT = 13,
-  CRIT_DEF = 14,
-  CRIT_HURT = 15,
-  ATTR_NUM = 16,
+  EA_HP = 0,
+  EA_MP = 1,
+  EA_HP_MAX = 2,
+  EA_MP_MAX = 3,
+  EA_SPEED = 4,
+  EA_ATTACK = 5,
+  EA_ELEMENT = 6,
+  EA_MAGIC_DEF = 7,
+  EA_PHYSIC_DEF = 8,
+  EA_HIT_RATE = 9,
+  EA_DODGE = 10,
+  EA_MORE_HURT = 11,
+  EA_LESS_HURT = 12,
+  EA_CRIT_HIT = 13,
+  EA_CRIT_DEF = 14,
+  EA_CRIT_HURT = 15,
+  EA_ATTR_NUM = 16,
   EAttrID_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EAttrID_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EAttrID_IsValid(int value);
-const EAttrID EAttrID_MIN = HP;
-const EAttrID EAttrID_MAX = ATTR_NUM;
+const EAttrID EAttrID_MIN = EA_HP;
+const EAttrID EAttrID_MAX = EA_ATTR_NUM;
 const int EAttrID_ARRAYSIZE = EAttrID_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EAttrID_descriptor();

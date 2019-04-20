@@ -140,7 +140,7 @@ public:
 
 	float ToAngle()
 	{
-		return AngleBetween(Vector2D(0,0));
+		return AngleBetween(Vector2D(0, 0));
 	}
 
 	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
@@ -219,23 +219,21 @@ public:
 	}
 
 
-	Vector3D& operator+(const Vector3D& v)
+	Vector3D operator+(const Vector3D& v)
 	{
-		m_x += v.m_x;
-		m_y += v.m_y;
-		m_z += v.m_z;
-		return *this;
+		return Vector3D(m_x + v.m_x,
+		                m_y + v.m_y,
+		                m_z + v.m_z);
 	}
 
-	Vector3D& operator-(const Vector3D& v)
+	Vector3D operator-(const Vector3D& v)
 	{
-		m_x -= v.m_x;
-		m_y -= v.m_y;
-		m_z -= v.m_z;
-		return *this;
+		return Vector3D(m_x - v.m_x,
+		                m_y - v.m_y,
+		                m_z - v.m_z);
 	}
 
-	inline Vector3D operator * (const Vector3D& rhs) const
+	Vector3D operator * (const Vector3D& rhs) const
 	{
 		return Vector3D(
 		           m_x * rhs.m_x,
@@ -244,7 +242,7 @@ public:
 	}
 
 
-	inline Vector3D operator / (const Vector3D& rhs) const
+	Vector3D operator / (const Vector3D& rhs) const
 	{
 		return Vector3D(
 		           m_x / rhs.m_x,
@@ -252,7 +250,51 @@ public:
 		           m_z / rhs.m_z);
 	}
 
-	Vector3D& operator*(const Vector3D& v)
+	Vector3D operator*(const Vector3D& v)
+	{
+		return Vector3D(m_x * v.m_x,
+		                m_y * v.m_y,
+		                m_z * v.m_z);
+	}
+
+	Vector3D operator+(float f)
+	{
+		return Vector3D(m_x + f,
+		                m_y + f,
+		                m_z + f);
+	}
+
+	Vector3D operator-(float f)
+	{
+		return Vector3D(m_x - f,
+		                m_y - f,
+		                m_z - f);
+	}
+
+	Vector3D operator*(float f)
+	{
+		return Vector3D(m_x * f,
+		                m_y * f,
+		                m_z * f);
+	}
+
+	Vector3D& operator += (const Vector3D& v)
+	{
+		m_x += v.m_x;
+		m_y += v.m_y;
+		m_z += v.m_z;
+		return *this;
+	}
+
+	Vector3D& operator -= (const Vector3D& v)
+	{
+		m_x -= v.m_x;
+		m_y -= v.m_y;
+		m_z -= v.m_z;
+		return *this;
+	}
+
+	Vector3D& operator *= (const Vector3D& v)
 	{
 		m_x *= v.m_x;
 		m_y *= v.m_y;
@@ -260,7 +302,15 @@ public:
 		return *this;
 	}
 
-	Vector3D& operator+(float f)
+	Vector3D& operator /= (const Vector3D& rhs)
+	{
+		m_x /= rhs.m_x;
+		m_y /= rhs.m_y;
+		m_z /= rhs.m_z;
+		return *this;
+	}
+
+	Vector3D& operator += (float f)
 	{
 		m_x += f;
 		m_y += f;
@@ -268,7 +318,7 @@ public:
 		return *this;
 	}
 
-	Vector3D& operator-(float f)
+	Vector3D& operator -= (float f)
 	{
 		m_x -= f;
 		m_y -= f;
@@ -276,7 +326,7 @@ public:
 		return *this;
 	}
 
-	Vector3D& operator*(float f)
+	Vector3D& operator *= (float f)
 	{
 		m_x *= f;
 		m_y *= f;
@@ -388,8 +438,14 @@ public:
 		return CommonConvert::StringToPos((CHAR*)pStr, m_x, m_y, m_z);
 	}
 
-	static inline float DegreesToRadians(float degrees) { return degrees * DEG_TO_RAD; }
-	static inline float RadiansToDegrees(float radians) { return radians * RAD_TO_DEG; }
+	static inline float DegreesToRadians(float degrees)
+	{
+		return degrees * DEG_TO_RAD;
+	}
+	static inline float RadiansToDegrees(float radians)
+	{
+		return radians * RAD_TO_DEG;
+	}
 
 	float m_x, m_y, m_z;
 };
