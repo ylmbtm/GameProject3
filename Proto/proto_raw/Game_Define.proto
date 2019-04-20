@@ -35,7 +35,6 @@ enum ECopyType {
     CPT_CITY     = 3;        //主城
     CPT_MAIN     = 4;        //主线副本
     CPT_WORLD    = 5;        //大世界
-    
     CPT_END = 100;
 }
 
@@ -43,16 +42,12 @@ enum EObjectStatus
 {
     EOS_NONE            = 0;//无
     EOS_DEAD            = 1;//死亡
-    EOS_IDLE            = 2;//静止
-    EOS_WALK            = 3;//走
-    EOS_RUN             = 4;//跑
-    EOS_FLY             = 5;//飞
-    EOS_NOT_MOVE        = 6;//不能移动
-    EOS_NOT_CAST        = 7;//不能放技能
-    EOS_NOT_BEHURT      = 8;//不能被攻击
-    EOS_NOT_BECONTROL   = 9;//无法被控制
-    EOS_STEALTH         = 10;//隐身
-    EOS_BLIND           = 11;//瞎的
+    EOS_NOT_MOVE        = 2;//不能移动
+    EOS_NOT_CAST        = 3;//不能放技能
+    EOS_NOT_BEHURT      = 4;//不能被攻击
+    EOS_NOT_BECONTROL   = 5;//无法被控制
+    EOS_STEALTH         = 6;//隐身
+    EOS_BLIND           = 7;//瞎的
 };
 
 
@@ -99,23 +94,23 @@ enum EFunctionType{
 
 
 enum EAttrID{
-    HP            = 0;  //生命值
-    MP            = 1;  //魔法值
-    HP_MAX        = 2;  //最大生命值
-    MP_MAX        = 3;  //最大魔法值
-    SPEED         = 4;  //移动速度
-    ATTACK        = 5;  //攻击
-    ELEMENT       = 6;  //元素伤害
-    MAGIC_DEF     = 7;  //魔防
-    PHYSIC_DEF    = 8;  //物防
-    HIT_RATE      = 9; //命中
-    DODGE         = 10; //闪避
-    MORE_HURT     = 11; //伤害加深
-    LESS_HURT     = 12; //伤害减免
-    CRIT_HIT      = 13; //暴击
-    CRIT_DEF      = 14; //抗暴
-    CRIT_HURT     = 15; //暴伤
-    ATTR_NUM      = 16; //属性个数
+    EA_HP            = 0;  //生命值
+    EA_MP            = 1;  //魔法值
+    EA_HP_MAX        = 2;  //最大生命值
+    EA_MP_MAX        = 3;  //最大魔法值
+    EA_SPEED         = 4;  //移动速度
+    EA_ATTACK        = 5;  //攻击
+    EA_ELEMENT       = 6;  //元素伤害
+    EA_MAGIC_DEF     = 7;  //魔防
+    EA_PHYSIC_DEF    = 8;  //物防
+    EA_HIT_RATE      = 9; //命中
+    EA_DODGE         = 10; //闪避
+    EA_MORE_HURT     = 11; //伤害加深
+    EA_LESS_HURT     = 12; //伤害减免
+    EA_CRIT_HIT      = 13; //暴击
+    EA_CRIT_DEF      = 14; //抗暴
+    EA_CRIT_HURT     = 15; //暴伤
+    EA_ATTR_NUM      = 16; //属性个数
 }
 
 enum EShip

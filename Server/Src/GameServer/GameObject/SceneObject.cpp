@@ -23,6 +23,8 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 	m_dwCamp			= 0;
 	m_bDataChange		= FALSE;
 	m_uLastMoveTick		= 0;
+	m_dwActionID        = AT_IDLE;
+	m_pActorInfo        = NULL;
 	memset(m_Equips, 0, sizeof(m_Equips));
 	memset(m_Propertys, 0, sizeof(m_Propertys));
 	m_SkillObject.SetCastObject(this);
@@ -31,10 +33,11 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 CSceneObject::~CSceneObject()
 {
 	m_pScene = NULL;
-
+	m_pActorInfo = NULL;
 	ClearBuff();
 
 	m_vtNormals.clear();
+
 	m_vtSpecials.clear();
 }
 
@@ -62,6 +65,8 @@ BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLe
 
 BOOL CSceneObject::OnUpdate( UINT64 uTick )
 {
+	UpdatePosition(uTick);
+
 	UpdateBuff(uTick);
 
 	m_SkillObject.OnUpdate(uTick);
@@ -71,27 +76,27 @@ BOOL CSceneObject::OnUpdate( UINT64 uTick )
 
 UINT32 CSceneObject::GetHp()
 {
-	return m_Propertys[HP];
+	return m_Propertys[EA_HP];
 }
 
 UINT32 CSceneObject::GetMp()
 {
-	return m_Propertys[MP];
+	return m_Propertys[EA_MP];
 }
 
 VOID CSceneObject::AddHp( UINT32 dwValue )
 {
-	m_Propertys[HP] += dwValue;
+	m_Propertys[EA_HP] += dwValue;
 	m_bDataChange = TRUE;
 }
 
 VOID CSceneObject::SubHp( UINT32 dwValue )
 {
-	m_Propertys[HP] -= dwValue;
+	m_Propertys[EA_HP] -= dwValue;
 
-	if(m_Propertys[HP] < 0)
+	if(m_Propertys[EA_HP] < 0)
 	{
-		m_Propertys[HP] = 0;
+		m_Propertys[EA_HP] = 0;
 	}
 
 	m_bDataChange = TRUE;
@@ -99,17 +104,17 @@ VOID CSceneObject::SubHp( UINT32 dwValue )
 
 VOID CSceneObject::AddMp( UINT32 dwValue )
 {
-	m_Propertys[MP] += dwValue;
+	m_Propertys[EA_MP] += dwValue;
 	m_bDataChange = TRUE;
 }
 
 VOID CSceneObject::SubMp( UINT32 dwValue )
 {
-	m_Propertys[MP] -= dwValue;
+	m_Propertys[EA_MP] -= dwValue;
 
-	if(m_Propertys[MP] < 0)
+	if(m_Propertys[EA_MP] < 0)
 	{
-		m_Propertys[MP] = 0;
+		m_Propertys[EA_MP] = 0;
 	}
 
 	m_bDataChange = TRUE;
@@ -159,6 +164,7 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 {
 	NewItem* pItem = Nty.add_newlist();
 	pItem->set_objectguid(m_uGuid);
+	pItem->set_actionid(m_dwActionID);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
 	pItem->set_buffstatus(m_dwBuffStatus);
@@ -172,11 +178,11 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_y(m_Pos.m_y);
 	pItem->set_z(m_Pos.m_z);
 	pItem->set_ft(m_ft);
-	pItem->set_hp(m_Propertys[HP]);
-	pItem->set_mp(m_Propertys[MP]);
-	pItem->set_hpmax(m_Propertys[HP_MAX]);
-	pItem->set_mpmax(m_Propertys[MP_MAX]);
-	pItem->set_speed(m_Propertys[SPEED]);
+	pItem->set_hp(m_Propertys[EA_HP]);
+	pItem->set_mp(m_Propertys[EA_MP]);
+	pItem->set_hpmax(m_Propertys[EA_HP_MAX]);
+	pItem->set_mpmax(m_Propertys[EA_MP_MAX]);
+	pItem->set_speed(m_Propertys[EA_SPEED]);
 	pItem->set_camp(m_dwCamp);
 	for (int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
@@ -218,11 +224,11 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	pItem->set_hosty(m_Pos.m_y);
 	pItem->set_hostz(m_Pos.m_z);
 	pItem->set_hostft(m_ft);
-	pItem->set_hp(m_Propertys[HP]);
-	pItem->set_mp(m_Propertys[MP]);
-	pItem->set_hpmax(m_Propertys[HP_MAX]);
-	pItem->set_mpmax(m_Propertys[MP_MAX]);
-	pItem->set_speed(m_Propertys[SPEED]);
+	pItem->set_hp(m_Propertys[EA_HP]);
+	pItem->set_mp(m_Propertys[EA_MP]);
+	pItem->set_hpmax(m_Propertys[EA_HP_MAX]);
+	pItem->set_mpmax(m_Propertys[EA_MP_MAX]);
+	pItem->set_speed(m_Propertys[EA_SPEED]);
 	pItem->set_camp(m_dwCamp);
 	for (int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
@@ -298,7 +304,7 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 uTime)
 	{
 		if (m_vtNormals.at(i).dwSkillID == dwSkillID)
 		{
-			SkillData& tData = m_vtNormals.at(i);
+			St_SkillData& tData = m_vtNormals.at(i);
 			tData.uLastTime = uTime;
 			return TRUE;
 		}
@@ -308,7 +314,7 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 uTime)
 	{
 		if (m_vtSpecials.at(i).dwSkillID == dwSkillID)
 		{
-			SkillData& tData = m_vtSpecials.at(i);
+			St_SkillData& tData = m_vtSpecials.at(i);
 			tData.uLastTime = uTime;
 			return TRUE;
 		}
@@ -317,7 +323,7 @@ BOOL CSceneObject::SetLastSkillTick(UINT32 dwSkillID, UINT64 uTime)
 	return FALSE;
 }
 
-SkillData* CSceneObject::GetSkillData(UINT32 dwSkillID)
+St_SkillData* CSceneObject::GetSkillData(UINT32 dwSkillID)
 {
 	for (int i = 0; i < m_vtNormals.size(); i++)
 	{
@@ -405,6 +411,13 @@ BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir, float radius, flo
 	return TRUE;
 }
 
+BOOL CSceneObject::UpdatePosition(UINT64 uTick)
+{
+
+
+	return TRUE;
+}
+
 INT32 CSceneObject::GetShip(CSceneObject* pTarget)
 {
 	if (pTarget->GetCamp() == 0)
@@ -454,6 +467,16 @@ BOOL CSceneObject::ChangeEquip(INT32 nPos, UINT32 dwEquipID)
 	m_Equips[nPos - 1] = dwEquipID;
 	m_bDataChange = TRUE;
 	return TRUE;
+}
+
+FLOAT CSceneObject::GetCurSpeed()
+{
+	if (m_pActorInfo == NULL)
+	{
+		m_pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(m_dwActorID);
+	}
+
+	return m_pActorInfo == NULL ? 0.0f : m_pActorInfo->fDefSpeed * m_Propertys[EA_SPEED] / 10000.0f;
 }
 
 BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
@@ -510,7 +533,7 @@ BOOL CSceneObject::ClearBuff()
 
 INT32 CSceneObject::GetSkillLevel(UINT32 dwSkillID)
 {
-	SkillData* pData  = GetSkillData(dwSkillID);
+	St_SkillData* pData  = GetSkillData(dwSkillID);
 	if (pData != NULL)
 	{
 		return pData->nLevel;
@@ -529,7 +552,7 @@ BOOL CSceneObject::InitSkills(const google::protobuf::RepeatedPtrField< ::SkillI
 	{
 		const SkillItem& tItem = vtSkills.Get(i);
 
-		SkillData tData;
+		St_SkillData tData;
 		tData.nKeyPos = tItem.keypos();
 		tData.nLevel = tItem.level();
 		tData.uLastTime = 0;
@@ -559,7 +582,7 @@ BOOL CSceneObject::InitSkills(const google::protobuf::RepeatedPtrField< ::SkillI
 
 	for (int i = 0; i < pComboInfo->vtComboSkill.size(); i++)
 	{
-		SkillData tData;
+		St_SkillData tData;
 		tData.nKeyPos = m_vtNormals[0].nKeyPos;
 		tData.nLevel = m_vtNormals[0].nLevel;
 		tData.uLastTime = 0;
@@ -584,7 +607,7 @@ BOOL CSceneObject::InitSkills()
 	m_vtNormals.clear();
 	m_vtSpecials.clear();
 
-	SkillData tData;
+	St_SkillData tData;
 	tData.nKeyPos = 1;
 	tData.nLevel = 1;
 	tData.uLastTime = 0;
@@ -598,7 +621,7 @@ BOOL CSceneObject::InitSkills()
 			break;
 		}
 
-		SkillData tData;
+		St_SkillData tData;
 		tData.nKeyPos = i + 2;
 		tData.nLevel = 1;
 		tData.uLastTime = 0;
@@ -620,7 +643,7 @@ BOOL CSceneObject::InitSkills()
 
 	for (int i = 0; i < pComboInfo->vtComboSkill.size(); i++)
 	{
-		SkillData tData;
+		St_SkillData tData;
 		tData.nKeyPos = m_vtNormals[0].nKeyPos;
 		tData.nLevel = m_vtNormals[0].nLevel;
 		tData.uLastTime = 0;
@@ -708,7 +731,6 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 		CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
 		ERROR_RETURN_CODE(pTempObject != NULL, MRC_INVALID_TARGET_ID);
 		m_SkillObject.AddTargetObject(pTempObject);
-		m_SkillObject.SetCalcTargets(FALSE);
 	}
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);

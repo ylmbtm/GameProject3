@@ -71,6 +71,8 @@ public:
 
 	BOOL		OnObjectDie(CSceneObject* pObject);
 
+	BOOL        OnPlayerMove(FLOAT x, FLOAT z);
+
 	CScene*		m_pScene;
 
 	BOOL		m_bAllFinished;

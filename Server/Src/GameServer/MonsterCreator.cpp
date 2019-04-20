@@ -86,3 +86,13 @@ BOOL MonsterCreator::OnObjectDie(CSceneObject* pObject)
 	return TRUE;
 }
 
+BOOL MonsterCreator::OnPlayerMove(FLOAT x, FLOAT z)
+{
+	if (IsAllFinished())
+	{
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
