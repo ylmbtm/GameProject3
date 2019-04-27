@@ -5,6 +5,7 @@
 #include "ModuleBase.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../ServerData/ServerDefine.h"
+#include "../ServerData/serverStruct.h"
 
 class CPlayerObject
 {
@@ -52,7 +53,7 @@ public:
 	BOOL		SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwSvrID);
 	BOOL		SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID);
 	BOOL		SendRoleLoginAck();
-	BOOL		SendObjectChangeNtf(UINT32 dwChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue);
+	BOOL		SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue);
 
 	BOOL		SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 

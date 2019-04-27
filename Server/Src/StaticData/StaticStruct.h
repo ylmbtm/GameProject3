@@ -213,6 +213,12 @@ struct StPartnerInfo
 };
 
 
+struct StMountInfo
+{
+	UINT32  dwMountID;		//! ID
+	UINT32  dwActorID;
+};
+
 struct StTaskInfo
 {
 	UINT32 TaskID;		//! 任务ID

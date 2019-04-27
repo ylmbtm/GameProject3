@@ -17,7 +17,10 @@ CPetModule::~CPetModule()
 
 BOOL CPetModule::OnCreate(UINT64 u64RoleID)
 {
-
+    for (int i = 0; i < 13; i++)
+    {
+        AddPet(i + 1);
+    }
 	return TRUE;
 }
 

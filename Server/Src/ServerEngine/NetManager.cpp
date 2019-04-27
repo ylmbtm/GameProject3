@@ -54,7 +54,8 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			break;
+            CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+            return FALSE;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
 		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
@@ -76,7 +77,7 @@ BOOL CNetManager::WorkThread_Listen()
 		}
 		else
 		{
-			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+            CLog::GetInstancePtr()->LogError("接受新连接失败 原因:己达到最大连接数或者绑定失败!");
 		}
 	}
 

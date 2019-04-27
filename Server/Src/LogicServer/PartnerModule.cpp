@@ -26,7 +26,10 @@ CPartnerModule::~CPartnerModule()
 
 BOOL CPartnerModule::OnCreate(UINT64 u64RoleID)
 {
-
+	for (int i = 0; i < 20; i++)
+	{
+		AddPartner(i + 1);
+	}
 	return TRUE;
 }
 
@@ -93,6 +96,10 @@ BOOL CPartnerModule::SaveToClientLoginData(RoleLoginAck& Ack)
 		pItem->set_starexp(pObject->m_StarExp);
 		pItem->set_setpos(pObject->m_SetPos);
 	}
+
+	m_setChange.clear();
+	m_setRemove.clear();
+
 	return TRUE;
 }
 
@@ -106,8 +113,8 @@ BOOL CPartnerModule::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-		PROCESS_MESSAGE_ITEM(MSG_SETUP_PARTNER_REQ, OnMsgSetupPartnerReq);
-		PROCESS_MESSAGE_ITEM(MSG_UNSET_PARTNER_REQ, OnMsgUnsetPartnerReq);
+			PROCESS_MESSAGE_ITEM(MSG_SETUP_PARTNER_REQ, OnMsgSetupPartnerReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNSET_PARTNER_REQ, OnMsgUnsetPartnerReq);
 	}
 
 	return FALSE;
@@ -127,7 +134,7 @@ BOOL CPartnerModule::OnMsgSetupPartnerReq(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	PartnerDataObject *pPartnerObj = GetPartnerByGuid(Req.partnerguid());
+	PartnerDataObject* pPartnerObj = GetPartnerByGuid(Req.partnerguid());
 	if(pPartnerObj == NULL)
 	{
 		SetupPartnerAck Ack;
@@ -149,11 +156,11 @@ BOOL CPartnerModule::OnMsgSetupPartnerReq(NetPacket* pNetPacket)
 	pPartnerObj->m_SetPos = Req.targetpos();
 	pPartnerObj->Unlock();
 	m_setChange.insert(pPartnerObj->m_uGuid);
-	
+
 	SetupPartnerAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_PARTNER_ACK, Ack);
-	
+
 	return TRUE;
 }
 

@@ -616,10 +616,15 @@ CConnectionMgr::~CConnectionMgr()
 
 CConnection* CConnectionMgr::CreateConnection()
 {
-	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
-
 	CConnection* pTemp = NULL;
 	m_CritSecConnList.Lock();
+	if (m_pFreeConnRoot == NULL)
+	{
+		//表示己到达连接的上限，不能再创建新的连接了
+		m_CritSecConnList.Unlock();
+		return NULL;
+	}
+
 	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
 		pTemp = m_pFreeConnRoot;

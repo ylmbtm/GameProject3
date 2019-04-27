@@ -32,18 +32,18 @@ BOOL CStaticData::InitDataReader()
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Equip",       &CStaticData::ReadEquipInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Gem",         &CStaticData::ReadGemInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Partner",     &CStaticData::ReadPartnerInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Mount",       &CStaticData::ReadMountInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Store",       &CStaticData::ReadStoreInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Combo_Skill", &CStaticData::ReadComboSkillInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CStaticData::ReadSkillInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_FlyObject",   &CStaticData::ReadBulletInfo));
-
+    m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
 
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CStaticData::ReadLanguage));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CStaticData::ReadAwardData));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func",        &CStaticData::ReadFuncInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Vip",    &CStaticData::ReadFuncVipInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Func_Cost",   &CStaticData::ReadFuncCostInfo));
-// 	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Task",        &CStaticData::ReadTaskInfo));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Buff",        &CStaticData::ReadBuffInfo));
 
@@ -863,6 +863,7 @@ BOOL CStaticData::ReadPetInfo(CppSQLite3Query& QueryData)
 	{
 		StPetInfo stValue;
 		stValue.dwPetID = QueryData.getIntField("Id");
+		stValue.dwActorID = QueryData.getIntField("ActorId");
 		m_mapPetInfo.insert(std::make_pair(stValue.dwPetID, stValue));
 		QueryData.nextRow();
 	}
@@ -902,6 +903,33 @@ StPartnerInfo* CStaticData::GetPartnerInfo(UINT32 dwPartnerID)
 	ERROR_RETURN_NULL(dwPartnerID != 0);
 	auto itor = m_mapPartnerInfo.find(dwPartnerID);
 	if(itor != m_mapPartnerInfo.end())
+	{
+		return &itor->second;
+	}
+	return NULL;
+}
+
+BOOL CStaticData::ReadMountInfo(CppSQLite3Query& QueryData)
+{
+	m_mapMountInfo.clear();
+
+	while (!QueryData.eof())
+	{
+		StMountInfo stValue;
+		stValue.dwMountID = QueryData.getIntField("Id");
+		stValue.dwMountID = QueryData.getIntField("ActorId");
+		m_mapMountInfo.insert(std::make_pair(stValue.dwMountID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StMountInfo* CStaticData::GetMountInfo(UINT32 dwMountID)
+{
+	ERROR_RETURN_NULL(dwMountID != 0);
+	auto itor = m_mapMountInfo.find(dwMountID);
+	if (itor != m_mapMountInfo.end())
 	{
 		return &itor->second;
 	}

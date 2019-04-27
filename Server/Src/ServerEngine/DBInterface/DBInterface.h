@@ -1,5 +1,5 @@
-﻿#ifndef __SERVER_STRUCT_H__
-#define __SERVER_STRUCT_H__
+﻿#ifndef __DB_INTERFACE_H__
+#define __DB_INTERFACE_H__
 
 class CDBStoredProcedure;
 
@@ -56,4 +56,4 @@ while(pProcedure->m_DBRecordSet.MoveNext())
 }
 */
 
-#endif //__SERVER_STRUCT_H__
+#endif //__DB_INTERFACE_H__

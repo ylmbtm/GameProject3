@@ -136,6 +136,11 @@ public:
 	BOOL ReadPartnerInfo(CppSQLite3Query& QueryData);
 	StPartnerInfo* GetPartnerInfo(UINT32 dwPartnerID);
 
+	//坐骑
+	std::map<UINT32, StMountInfo> m_mapMountInfo;
+	BOOL ReadMountInfo(CppSQLite3Query& QueryData);
+	StMountInfo* GetMountInfo(UINT32 dwMountID);
+
 	//任务
 	std::map<UINT32, StTaskInfo> m_mapTaskInfo;
 	BOOL ReadTaskInfo(CppSQLite3Query& QueryData);

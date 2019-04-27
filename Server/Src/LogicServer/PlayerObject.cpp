@@ -355,11 +355,11 @@ BOOL CPlayerObject::SendRoleLoginAck()
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendObjectChangeNtf(UINT32 dwChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue)
+BOOL CPlayerObject::SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue)
 {
 	ObjectChangeNotify Ntf;
 	Ntf.set_roleid(GetObjectID());
-	Ntf.set_changetype(dwChangeType);
+	Ntf.set_changetype(eChangeType);
 	Ntf.set_intvalue1(uIntValue1);
 	Ntf.set_intvalue2(uIntValue2);
 	if (!strValue.empty() && strValue.size() > 0)
@@ -367,7 +367,7 @@ BOOL CPlayerObject::SendObjectChangeNtf(UINT32 dwChangeType, UINT64 uIntValue1, 
 		Ntf.set_strvalue(strValue);
 	}
 
-	SendMsgToScene(MSG_SCENEOBJ_CHAGE_NTF, Ntf);
+	SendMsgToScene(MSG_PLAYER_CHAGE_NTF, Ntf);
 
 	return TRUE;
 }
@@ -384,6 +384,15 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 	pRoleData->set_actorid(pModule->GetActorID());
 	pRoleData->set_level(pModule->m_pRoleDataObject->m_Level);
 	pRoleData->set_name(pModule->m_pRoleDataObject->m_szName);
+
+	CMountModule* pMountModule = (CMountModule*)GetModuleByType(MT_MOUNT);
+	ERROR_RETURN_FALSE(pMountModule != NULL);
+
+	MountDataObject* pMountData = pMountModule->GetCurrentMountData();
+	if (pMountData != NULL)
+	{
+		pRoleData->set_mountid(pMountData->m_MountID);
+	}
 
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{
