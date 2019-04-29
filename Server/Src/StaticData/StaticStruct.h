@@ -1,6 +1,6 @@
 ﻿#ifndef __STATIC_STRUCT_H__
 #define __STATIC_STRUCT_H__
-
+#include "../Message/Game_Define.pb.h"
 struct  StConstantValue
 {
 	StConstantValue() {}
@@ -158,7 +158,7 @@ struct StAwardItem
 struct StItemInfo
 {
 	UINT32 dwItemID;	//物品ID
-	UINT32 dwItemType;	//物品类型
+	EItemType eItemType;//物品类型
 	UINT32 dwBagType;	//物品背包类型
 	UINT32 Quality;		//物品的品质
 	UINT32 SellID;		//出售货币ID

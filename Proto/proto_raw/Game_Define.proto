@@ -1,12 +1,13 @@
 ﻿syntax = "proto3";
 enum EObjectType {
-    OT_NONE   = 0;  //无类别
-    OT_PLAYER = 1;  //玩家
-    OT_ROBOT  = 2;  //机器人
-    OT_MONSTER= 3;  //怪
-    OT_PET    = 4;  //宠物
-    OT_PARTNER= 5;  //伙伴
-    OT_SUMMON = 6;  //招唤物
+    OT_PLAYER = 0;  //玩家
+    OT_NPC    = 1;  //NPC
+    OT_MONSTER= 2;  //怪
+    OT_PET    = 3;  //宠物
+    OT_MOUNT  = 4;  //宠物
+    OT_MACHINE= 5;  //机关
+    OT_PARTNER= 6;  //伙伴
+    OT_SUMMON = 7;  //招唤物
 }
 
 enum EActionType {

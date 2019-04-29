@@ -217,7 +217,7 @@ BOOL ServiceBase::Update()
 	{
 		m_pPacketDispatcher->OnSecondTimer();
 
-		CLog::GetInstancePtr()->SetTitle("[FPS:%d]-[RecvNum:%d]--[SendNum:%d]", m_dwFps, m_dwRecvNum, m_dwSendNum);
+		CLog::GetInstancePtr()->SetTitle("[FPS:%d]-[RecvPack:%d]--[SendPack:%d]", m_dwFps, m_dwRecvNum, m_dwSendNum);
 		m_dwFps = 0;
 		m_dwRecvNum = 0;
 		m_dwSendNum = 0;

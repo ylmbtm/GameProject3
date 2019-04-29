@@ -37,7 +37,7 @@ BOOL CStaticData::InitDataReader()
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Combo_Skill", &CStaticData::ReadComboSkillInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_Skill",       &CStaticData::ReadSkillInfo));
 	m_vtDataFuncList.push_back(DataFuncNode("Data_FlyObject",   &CStaticData::ReadBulletInfo));
-    m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
+	m_vtDataFuncList.push_back(DataFuncNode("Data_Pet",         &CStaticData::ReadPetInfo));
 
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Language",    &CStaticData::ReadLanguage));
 // 	m_vtDataFuncList.push_back(DataFuncNode("Data_Award",       &CStaticData::ReadAwardData));
@@ -666,12 +666,13 @@ BOOL CStaticData::ReadItemData(CppSQLite3Query& QueryData)
 	{
 		StItemInfo stValue;
 		stValue.dwItemID = QueryData.getIntField("Id");
-		stValue.dwItemType = QueryData.getIntField("ItemType");
+		stValue.eItemType = (EItemType)QueryData.getIntField("ItemType");
+		stValue.dwBagType = QueryData.getIntField("BagType");
 		stValue.SellID = QueryData.getIntField("SellMoneyId");
 		stValue.SellPrice = QueryData.getIntField("SellMoneyNum");
 		stValue.Quality = QueryData.getIntField("Quality");
 		stValue.StackMax = QueryData.getIntField("StackMax");
-		//stValue.UseType = QueryData.getIntField("usetype");
+		stValue.CarrerID = QueryData.getIntField("Carrer");
 		stValue.Data1 = QueryData.getIntField("Data1");
 		stValue.Data2 = QueryData.getIntField("Data2");
 		m_mapItem.insert(std::make_pair(stValue.dwItemID, stValue));

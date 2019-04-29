@@ -113,34 +113,39 @@ enum MessageID {
     MSG_UNSET_EQUIP_ACK              = 2000038;//卸装备
     MSG_SETUP_PET_REQ                = 2000039;
     MSG_SETUP_PET_ACK                = 2000040;
-    MSG_SETUP_PARTNER_REQ            = 2000041;
-    MSG_SETUP_PARTNER_ACK            = 2000042;
-    MSG_UNSET_PARTNER_REQ            = 2000043;
-    MSG_UNSET_PARTNER_ACK            = 2000044;
-    MSG_SETUP_MOUNT_REQ              = 2000045;
-    MSG_SETUP_MOUNT_ACK              = 2000046;
-    MSG_UNSET_MOUNT_REQ              = 2000047;
-    MSG_UNSET_MOUNT_ACK              = 2000048;
-    MSG_USE_ITEM_REQ                 = 2000049;
-    MSG_USE_ITEM_ACK                 = 2000050;
-    MSG_SETUP_GEM_REQ                = 2000051;
-    MSG_SETUP_GEM_ACK                = 2000052;
-    MSG_UNSET_GEM_REQ                = 2000053;
-    MSG_UNSET_GEM_ACK                = 2000054;
+    MSG_UNSET_PET_REQ                = 2000041;
+    MSG_UNSET_PET_ACK                = 2000042;
+    MSG_SETUP_PARTNER_REQ            = 2000043;
+    MSG_SETUP_PARTNER_ACK            = 2000044;
+    MSG_UNSET_PARTNER_REQ            = 2000045;
+    MSG_UNSET_PARTNER_ACK            = 2000046;
+    MSG_SETUP_MOUNT_REQ              = 2000047;
+    MSG_SETUP_MOUNT_ACK              = 2000048;
+    MSG_UNSET_MOUNT_REQ              = 2000049;
+    MSG_UNSET_MOUNT_ACK              = 2000050;
+    MSG_USE_ITEM_REQ                 = 2000051;
+    MSG_USE_ITEM_ACK                 = 2000052;
+    MSG_SETUP_GEM_REQ                = 2000053;
+    MSG_SETUP_GEM_ACK                = 2000054;
+    MSG_UNSET_GEM_REQ                = 2000055;
+    MSG_UNSET_GEM_ACK                = 2000056;
 
-    MSG_ROLE_RECONNECT_REQ           = 2000055;   
-    MSG_ROLE_RECONNECT_ACK           = 2000056;   
-    MSG_MAIL_CHANGE_NTY              = 2000057;
-    MSG_TASK_CHANGE_NTY              = 2000058;
+    MSG_ROLE_RECONNECT_REQ           = 2000057;   
+    MSG_ROLE_RECONNECT_ACK           = 2000058;   
+    MSG_MAIL_CHANGE_NTY              = 2000059;
+    MSG_TASK_CHANGE_NTY              = 2000060;
     
-    MSG_BROAD_MESSAGE_NOTIFY         = 2000060;
-    MSG_GASVR_REGTO_PROXY_REQ        = 2000061;
-    MSG_GASVR_REGTO_PROXY_ACK        = 2000062;
+    MSG_BROAD_MESSAGE_NOTIFY         = 2000061;
+    MSG_GASVR_REGTO_PROXY_REQ        = 2000062;
+    MSG_GASVR_REGTO_PROXY_ACK        = 2000063;
 
-    MSG_STORE_BUY_REQ                = 2000063;
-    MSG_STORE_BUY_ACK                = 2000064;
+    MSG_STORE_BUY_REQ                = 2000064;
+    MSG_STORE_BUY_ACK                = 2000065;
     
-    MSG_GEM_CHANGE_NTY               = 2000065;
+    MSG_GEM_CHANGE_NTY               = 2000066;
+    
+    MSG_RANDOM_NAME_REQ              = 2000067;
+    MSG_RANDOM_NAME_ACK              = 2000068;
     
 
     
@@ -197,8 +202,11 @@ enum MessageID {
     MSG_SWITCH_MOUNT_REQ             = 3000034;
     MSG_SWITCH_MOUNT_ACK             = 3000035;
     
-    MSG_SCENEOBJ_CHAGE_NTF           = 3000036;
+    MSG_PLAYER_CHAGE_NTF             = 3000036;
     MSG_ACTOR_HITEFFECT_NTF          = 3000037;
+    
+    MSG_MOUNT_RIDING_REQ             = 3000038;
+    MSG_MOUNT_RIDING_ACK             = 3000039;
 
     MSG_SCENESVR_MSGID_END           = 3999999;
     ////////////////////////////////////////////////////////////////////
@@ -209,16 +217,11 @@ enum MessageID {
     MSG_ACK_ADVANCE_EQUIP       = 1118;//进阶装备
     MSG_REQ_UPSTAR_EQUIP        = 1119;//升星装备
     MSG_ACK_UPSTAR_EQUIP        = 1120;//升星装备
-    MSG_REQ_STRENGTHEN_GEM      = 1121;//强化宝石
-    MSG_ACK_STRENGTHEN_GEM      = 1122;//强化宝石
 
     MSG_REQ_ONEKEYTODRESSGEM    = 1151;//镶嵌宝石
     MSG_ACK_ONEKEYTODRESSGEM    = 1152;//镶嵌宝石
     MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//镶嵌宝石
     MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//镶嵌宝石
-
-    MSG_REQ_SETMOUNT            = 1301;//坐骑上阵
-    MSG_ACK_SETMOUNT            = 1302;//坐骑上阵
 
     MSG_REQ_CHARGE_RELICS       = 1401;//神器充能
     MSG_ACK_CHARGE_RELICS       = 1402;//神器充能
@@ -229,14 +232,8 @@ enum MessageID {
     MSG_REQ_UNLOAD_RELICS       = 1407;//神器卸下
     MSG_ACK_UNLOAD_RELICS       = 1408;//神器卸下
 
-    MSG_REQ_BUY_STORE           = 1501;//购买商店物品
-    MSG_ACK_BUY_STORE           = 1502;//购买商店物品
-
     MSG_REQ_UPGRADE_PET         = 1601;//更换宠物
     MSG_ACK_UPGRADE_PET         = 1602;//更换宠物
-
-    MSG_REQ_BATTLE_PET          = 1603;//进阶宠物
-    MSG_ACK_BATTLE_PET          = 1604;//进阶宠物
 
     MSG_REQ_UNLOAD_PET          = 1605;//升级宠物
     MSG_ACK_UNLOAD_PET          = 1606;//升级宠物
@@ -249,8 +246,5 @@ enum MessageID {
 
     MSG_REQ_UPGRADE_PARTNER     = 1611;//收回伙伴
     MSG_ACK_UPGRADE_PARTNER     = 1612;//收回伙伴
-
-    MSG_REQ_SUBMIT_TASK         = 1613;//提交日常任务
-    MSG_ACK_SUBMIT_TASK         = 1614;//提交日常任务
 }
 

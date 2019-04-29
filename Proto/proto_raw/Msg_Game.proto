@@ -213,8 +213,9 @@ message EnterSceneAck {
     int32    HpMax          = 15;
     int32    MpMax          = 16;
     int32    Speed          = 17;
-    repeated int32 Equips   = 18; //武器
-    repeated SkillItem Skills  = 19;//技能
+    int32    MountID        = 18;
+    repeated int32 Equips   = 19; //武器
+    repeated SkillItem Skills  = 20;//技能
 }
 
 message AbortCopyReq {
@@ -246,34 +247,36 @@ message LeaveSceneAck {
 }
 
 message TransRoleData {
-    uint64   RoleID        = 1;
-    string   Name          = 2;
-    int32    CarrerID      = 3;
-    int32    ActorID       = 4;
-    int32    Level         = 5;
-    repeated int32 Equips  = 6;
-    repeated int32 Propertys= 7;
-    repeated SkillItem Skills = 8;
+    uint64   RoleID         = 1;
+    string   Name           = 2;
+    int32    CarrerID       = 3;
+    int32    ActorID        = 4;
+    int32    Level          = 5;
+    int32    MountID        = 6;
+    int32    Robot          = 7; //是否是机器人
+    repeated int32 Equips   = 8;
+    repeated int32 Propertys= 9;
+    repeated SkillItem Skills = 10;
 }
 
 message TransPetData {
-    uint64   PetGuid      = 1;
-    int32    PetID        = 2;
-    int32    ActorID      = 3;
-    string   Name         = 4;
-    int32    Level        = 5;
-    repeated int32 Propertys= 6;
-    repeated SkillItem  Skills = 7;
+    uint64   PetGuid            = 1;
+    int32    PetID              = 2;
+    int32    ActorID            = 3;
+    string   Name               = 4;
+    int32    Level              = 5;
+    repeated int32 Propertys    = 6;
+    repeated SkillItem  Skills  = 7;
 }
 
 
 message TransPartnerData {
-    uint64   PartnerGuid    = 1;
-    int32    ParterID       = 2;
-    int32    ActorID        = 3;
-    string   Name           = 4;
-    int32    Level          = 5;
-    repeated int32 Propertys= 6;
+    uint64   PartnerGuid        = 1;
+    int32    PartnerID          = 2;
+    int32    ActorID            = 3;
+    string   Name               = 4;
+    int32    Level              = 5;
+    repeated int32 Propertys    = 6;
     repeated SkillItem  Skills  = 7;
 }
 
@@ -478,6 +481,23 @@ message UnsetMountAck {
     uint32    RetCode    = 1;
 }
 
+
+message SetupPetReq {
+    uint64    PetGuid    = 1;
+}
+
+message SetupPetAck {
+    uint32    RetCode    = 1;
+}
+
+message UnsetPetReq {
+    uint64    PetGuid = 1;
+}
+
+message UnsetPetAck {
+    uint32    RetCode    = 1;
+}
+
 message StoreBuyReq {
     int32    StoreType = 1;
     int32    StoreID = 2;
@@ -515,6 +535,12 @@ message UseItemReq {
 message UseItemAck {
 }
 
+message MsgGetRandomNameReq {
+    int32 Sex = 1;
+}
 
+message MsgGetRandomNameAck {
+    string Name = 1;
+}
 
 

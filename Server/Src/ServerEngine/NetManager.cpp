@@ -54,8 +54,8 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-            CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
-            return FALSE;
+			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+			return FALSE;
 		}
 		CommonSocket::SetSocketUnblock(hClientSocket);
 		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
@@ -77,7 +77,7 @@ BOOL CNetManager::WorkThread_Listen()
 		}
 		else
 		{
-            CLog::GetInstancePtr()->LogError("接受新连接失败 原因:己达到最大连接数或者绑定失败!");
+			CLog::GetInstancePtr()->LogError("接受新连接失败 原因:己达到最大连接数或者绑定失败!");
 		}
 	}
 
@@ -89,7 +89,7 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 	sockaddr_in SvrAddr;
 	SvrAddr.sin_family		= AF_INET;
 	SvrAddr.sin_port		= htons(nPortNum);
-	
+
 	SvrAddr.sin_addr.s_addr = htonl(INADDR_ANY);		//支持多IP地址监听
 
 	m_hListenSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
@@ -297,6 +297,7 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NULL(pConnection != NULL);
 	pConnection->SetSocket(hSocket);
+	CommonSocket::SetSocketNoDelay(hSocket);
 	pConnection->SetDataHandler(m_pBufferHandler);
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
@@ -653,7 +654,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 		CommonSocket::CloseSocket(hSocket);
 		return NULL;
 	}
-		
+
 	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
 	if (pConnection == NULL)
 	{
@@ -662,7 +663,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 #endif
-	
+
 	return pConnection;
 }
 
@@ -672,7 +673,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u
 	{
 		return FALSE;
 	}
-	
+
 	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
 	if(pConn == NULL)
 	{

@@ -112,8 +112,8 @@ message NewItem {
     int32     HpMax         = 20;
     int32     MpMax         = 21;
     int32     Speed         = 22;
-    repeated int32 Equips   = 23;        //装备
-    repeated SkillItem Skills= 24;     //普通技能
+    repeated int32 Equips   = 23;       //装备
+    repeated SkillItem Skills= 24;      //普通技能
 }
 
 message ObjectNewNty {
@@ -158,4 +158,13 @@ message HeartBeatAck {
 
 message ObjectDieNotify {
   uint64  ObjectGuid = 1;
+}
+
+
+message Msg_RidingMountReq {
+   uint64   ObjectGuid    = 1;
+}
+
+message Msg_RidingMountAck {
+  uint32    RetCode = 1;  //是否释放成功, 失败原因。
 }
