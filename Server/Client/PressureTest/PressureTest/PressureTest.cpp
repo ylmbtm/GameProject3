@@ -65,7 +65,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		sprintf(szBuff, "zhang%d", i);
 		pClientSpaceObject->m_strRoleName = szBuff;
 
-		pClientSpaceObject->m_dwCarrerID = rand() % 4 + 1;;
+		pClientSpaceObject->m_dwCarrerID = rand() % 4 + 1;
 
 		g_vtClientList.push_back(pClientSpaceObject);
 	}

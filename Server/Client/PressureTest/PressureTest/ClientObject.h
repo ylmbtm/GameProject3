@@ -90,6 +90,8 @@ public:
 	std::string			m_strRoleName;
 	UINT32				m_dwCarrerID;
 
+	UINT32              m_SkillID;
+
 	FLOAT               m_x;
 	FLOAT				m_y;
 	FLOAT				m_z;
