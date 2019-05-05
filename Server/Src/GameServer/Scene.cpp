@@ -18,6 +18,7 @@
 #include "../StaticData/StaticData.h"
 #include "GameObject/SkillObject.h"
 #include "GameObject/BulletObject.h"
+#include "../ServerData/serverStruct.h"
 
 
 CScene::CScene()
@@ -102,7 +103,9 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_USE_HP_BOOTTLE_REQ,	OnMsgUseHpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_USE_MP_BOOTTLE_REQ,	OnMsgUseMpBottleReq);
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
-			PROCESS_MESSAGE_ITEM(MSG_SCENEOBJ_CHAGE_NTF,	OnMsgObjectChangeNtf);
+			PROCESS_MESSAGE_ITEM(MSG_PLAYER_CHAGE_NTF,	    OnMsgObjectChangeNtf);
+			PROCESS_MESSAGE_ITEM(MSG_MOUNT_RIDING_REQ,      OnMsgMountRidingReq);
+
 
 	}
 
@@ -161,10 +164,35 @@ BOOL CScene::OnMsgObjectChangeNtf(NetPacket* pNetPacket)
 	CSceneObject* pPlayer = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	if (Req.changetype() == 1)
+	if (Req.changetype() == ECT_EQUIP)
 	{
 		pPlayer->ChangeEquip((INT32)Req.intvalue1(), (UINT32)Req.intvalue2());
 	}
+	else if (Req.changetype() == ECT_MOUNT)
+	{
+		pPlayer->ChangeMount((UINT32)Req.intvalue2());
+	}
+
+	return TRUE;
+}
+
+BOOL CScene::OnMsgMountRidingReq(NetPacket* pNetPacket)
+{
+	Msg_RidingMountReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject* pSceneObj = GetSceneObject(Req.objectguid());
+
+	ERROR_RETURN_TRUE(pSceneObj != NULL);
+
+	pSceneObj->SetRiding(!pSceneObj->m_bRiding);
+
+	Msg_RidingMountAck Ack;
+
+	Ack.set_retcode(MRC_SUCCESSED);
+
+	pSceneObj->SendMsgProtoBuf(MSG_MOUNT_RIDING_ACK, Ack);
 
 	return TRUE;
 }
@@ -513,6 +541,16 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	Ack.set_camp(pSceneObj->m_dwCamp);
 
+	if (pSceneObj->m_bRiding)
+	{
+		Ack.set_mountid(pSceneObj->m_dwMountID);
+	}
+	else
+	{
+		Ack.set_mountid(0 - pSceneObj->m_dwMountID);
+	}
+
+
 	Ack.set_x(pSceneObj->m_Pos.m_x);
 	Ack.set_y(pSceneObj->m_Pos.m_y);
 	Ack.set_z(pSceneObj->m_Pos.m_z);
@@ -576,9 +614,9 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 			continue;
 		}
 
-		if(pOther->GetObjType() == OT_ROBOT)
+		if (pOther->IsRobot())
 		{
-			if(pOther->m_uControlerID == 0)
+			if (pOther->m_uControlerID == 0)
 			{
 				pOther->m_uControlerID = pSceneObject->GetObjectGUID();
 			}
@@ -822,7 +860,7 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 			continue;
 		}
 
-		if(pOther->GetObjType() == OT_ROBOT)
+		if(pOther->IsRobot())
 		{
 			if(pOther->m_uControlerID == uFilterID)
 			{
@@ -856,7 +894,7 @@ UINT64 CScene::SelectController(UINT64 uFilterID)
 			continue;
 		}
 
-		if(pOther->GetObjType() == OT_ROBOT)
+		if(pOther->IsRobot())
 		{
 			continue;
 		}
@@ -1259,6 +1297,8 @@ CSceneObject* CScene::CreatePlayer(const TransRoleData& roleData, UINT64 uHostID
 	pObject->m_dwActorID = roleData.actorid();
 	pObject->m_strName = roleData.name();
 	pObject->m_dwLevel = roleData.level();
+	pObject->m_dwMountID = roleData.mountid();
+	pObject->m_bRobot = roleData.robot();
 
 	for (int i = 0; i < roleData.equips_size(); i++)
 	{
@@ -1293,6 +1333,7 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	pObject->m_dwActorID = petData.actorid();
 	pObject->m_strName = pActorInfo->strName;
 	pObject->m_dwLevel = petData.level();
+	pObject->m_uControlerID = uHostID;
 	for (int i = 0; i < petData.propertys_size(); i++)
 	{
 		pObject->m_Propertys[i] = petData.propertys(i);
@@ -1302,6 +1343,10 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	pObject->InitSkills(petData.skills());
 
 	//指定坐标 在主人附近
+	CSceneObject* pHostObject = GetPlayer(uHostID);
+	ERROR_RETURN_NULL(pHostObject != NULL);
+
+	pObject->SetPos(pHostObject->m_Pos.m_x + 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z - 1);
 	m_pSceneLogic->OnObjectCreate(pObject);
 
 	AddMonster(pObject);
@@ -1325,6 +1370,7 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	pObject->m_dwActorID = partnerData.actorid();
 	pObject->m_strName = pActorInfo->strName;
 	pObject->m_dwLevel = partnerData.level();
+	pObject->m_uControlerID = uHostID;
 	for (int i = 0; i < partnerData.propertys_size(); i++)
 	{
 		pObject->m_Propertys[i] = partnerData.propertys(i);
@@ -1334,6 +1380,10 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	pObject->InitSkills(partnerData.skills());
 
 	//指定坐标 在主人附近
+	CSceneObject* pHostObject = GetPlayer(uHostID);
+	ERROR_RETURN_NULL(pHostObject != NULL);
+
+	pObject->SetPos(pHostObject->m_Pos.m_x - 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z + 1);
 
 	m_pSceneLogic->OnObjectCreate(pObject);
 

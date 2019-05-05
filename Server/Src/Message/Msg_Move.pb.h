@@ -37,7 +37,7 @@ namespace protobuf_Msg_5fMove_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[17];
+  static const ::google::protobuf::internal::ParseTable schema[19];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -77,6 +77,10 @@ void InitDefaultsHeartBeatAckImpl();
 void InitDefaultsHeartBeatAck();
 void InitDefaultsObjectDieNotifyImpl();
 void InitDefaultsObjectDieNotify();
+void InitDefaultsMsg_RidingMountReqImpl();
+void InitDefaultsMsg_RidingMountReq();
+void InitDefaultsMsg_RidingMountAckImpl();
+void InitDefaultsMsg_RidingMountAck();
 inline void InitDefaults() {
   InitDefaultsSkillCastReq();
   InitDefaultsSkillCastAck();
@@ -95,6 +99,8 @@ inline void InitDefaults() {
   InitDefaultsHeartBeatReq();
   InitDefaultsHeartBeatAck();
   InitDefaultsObjectDieNotify();
+  InitDefaultsMsg_RidingMountReq();
+  InitDefaultsMsg_RidingMountAck();
 }
 }  // namespace protobuf_Msg_5fMove_2eproto
 class ActionNtyItem;
@@ -115,6 +121,12 @@ extern HeartBeatAckDefaultTypeInternal _HeartBeatAck_default_instance_;
 class HeartBeatReq;
 class HeartBeatReqDefaultTypeInternal;
 extern HeartBeatReqDefaultTypeInternal _HeartBeatReq_default_instance_;
+class Msg_RidingMountAck;
+class Msg_RidingMountAckDefaultTypeInternal;
+extern Msg_RidingMountAckDefaultTypeInternal _Msg_RidingMountAck_default_instance_;
+class Msg_RidingMountReq;
+class Msg_RidingMountReqDefaultTypeInternal;
+extern Msg_RidingMountReqDefaultTypeInternal _Msg_RidingMountReq_default_instance_;
 class NewItem;
 class NewItemDefaultTypeInternal;
 extern NewItemDefaultTypeInternal _NewItem_default_instance_;
@@ -2442,6 +2454,204 @@ class ObjectDieNotify : public ::google::protobuf::Message /* @@protoc_insertion
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsObjectDieNotifyImpl();
 };
+// -------------------------------------------------------------------
+
+class Msg_RidingMountReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Msg_RidingMountReq) */ {
+ public:
+  Msg_RidingMountReq();
+  virtual ~Msg_RidingMountReq();
+
+  Msg_RidingMountReq(const Msg_RidingMountReq& from);
+
+  inline Msg_RidingMountReq& operator=(const Msg_RidingMountReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Msg_RidingMountReq(Msg_RidingMountReq&& from) noexcept
+    : Msg_RidingMountReq() {
+    *this = ::std::move(from);
+  }
+
+  inline Msg_RidingMountReq& operator=(Msg_RidingMountReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Msg_RidingMountReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Msg_RidingMountReq* internal_default_instance() {
+    return reinterpret_cast<const Msg_RidingMountReq*>(
+               &_Msg_RidingMountReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    17;
+
+  void Swap(Msg_RidingMountReq* other);
+  friend void swap(Msg_RidingMountReq& a, Msg_RidingMountReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Msg_RidingMountReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Msg_RidingMountReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Msg_RidingMountReq& from);
+  void MergeFrom(const Msg_RidingMountReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Msg_RidingMountReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:Msg_RidingMountReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsMsg_RidingMountReqImpl();
+};
+// -------------------------------------------------------------------
+
+class Msg_RidingMountAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Msg_RidingMountAck) */ {
+ public:
+  Msg_RidingMountAck();
+  virtual ~Msg_RidingMountAck();
+
+  Msg_RidingMountAck(const Msg_RidingMountAck& from);
+
+  inline Msg_RidingMountAck& operator=(const Msg_RidingMountAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Msg_RidingMountAck(Msg_RidingMountAck&& from) noexcept
+    : Msg_RidingMountAck() {
+    *this = ::std::move(from);
+  }
+
+  inline Msg_RidingMountAck& operator=(Msg_RidingMountAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Msg_RidingMountAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Msg_RidingMountAck* internal_default_instance() {
+    return reinterpret_cast<const Msg_RidingMountAck*>(
+               &_Msg_RidingMountAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    18;
+
+  void Swap(Msg_RidingMountAck* other);
+  friend void swap(Msg_RidingMountAck& a, Msg_RidingMountAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Msg_RidingMountAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Msg_RidingMountAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Msg_RidingMountAck& from);
+  void MergeFrom(const Msg_RidingMountAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Msg_RidingMountAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Msg_RidingMountAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsMsg_RidingMountAckImpl();
+};
 // ===================================================================
 
 
@@ -4034,9 +4244,49 @@ inline void ObjectDieNotify::set_objectguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:ObjectDieNotify.ObjectGuid)
 }
 
+// -------------------------------------------------------------------
+
+// Msg_RidingMountReq
+
+// uint64 ObjectGuid = 1;
+inline void Msg_RidingMountReq::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 Msg_RidingMountReq::objectguid() const {
+  // @@protoc_insertion_point(field_get:Msg_RidingMountReq.ObjectGuid)
+  return objectguid_;
+}
+inline void Msg_RidingMountReq::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:Msg_RidingMountReq.ObjectGuid)
+}
+
+// -------------------------------------------------------------------
+
+// Msg_RidingMountAck
+
+// uint32 RetCode = 1;
+inline void Msg_RidingMountAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 Msg_RidingMountAck::retcode() const {
+  // @@protoc_insertion_point(field_get:Msg_RidingMountAck.RetCode)
+  return retcode_;
+}
+inline void Msg_RidingMountAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:Msg_RidingMountAck.RetCode)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

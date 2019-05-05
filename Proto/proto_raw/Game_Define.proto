@@ -11,15 +11,29 @@ enum EObjectType {
 }
 
 enum EActionType {
-    AT_NONE      = 0;  //无
-    AT_IDLE      = 1;  //静
-    AT_WALK      = 2;  //走
-    AT_RUN       = 3;  //跑
-    AT_FLY       = 4;  //飞
-    AT_DANCE1    = 5;  //跳舞动作1;
-    AT_DANCE2    = 6;  //跳舞动作2;
-    AT_DANCE3    = 7;  //跳舞动作3;
-    AT_DANCE4    = 8;  //跳舞动作4;
+    AT_NONE         = 0;    //无
+    AT_IDLE         = 1;    //待机
+    AT_FIXBODY      = 2;    //定身
+    AT_WALK         = 3;    //行走
+    AT_RUN          = 4;    //跑动
+    AT_FLY          = 5;    //飞行
+    
+    
+    AT_SKILL        = 6;    //技能
+    AT_MINE         = 7;   //采集
+    AT_ROLL         = 8;   //翻滚
+    AT_JUMP         = 9;   //跳跃
+    AT_BORN         = 10;   //出生
+    AT_DANCE        = 11;   //跳舞
+    
+    AT_DEAD         = 12;    //死亡
+    AT_WOUND        = 13;    //受击
+    AT_BEATBACK     = 14;    //击退
+    AT_BEATDOWN     = 15;   //击倒
+    AT_BEATFLY      = 16;   //击飞
+    AT_FLOATING     = 17;   //浮空
+    
+
 }
 
 enum EActionStatue {

@@ -4,6 +4,8 @@
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
+#include "PacketHeader.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 CMountModule::CMountModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -17,7 +19,10 @@ CMountModule::~CMountModule()
 
 BOOL CMountModule::OnCreate(UINT64 u64RoleID)
 {
-
+	for (int i = 0; i < 11; i++)
+	{
+		AddMount(i + 1);
+	}
 	return TRUE;
 }
 
@@ -84,6 +89,9 @@ BOOL CMountModule::SaveToClientLoginData(RoleLoginAck& Ack)
 		pItem->set_isusing(pObject->m_IsUsing);
 	}
 
+	m_setChange.clear();
+	m_setRemove.clear();
+
 	return TRUE;
 }
 
@@ -94,6 +102,12 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 
 BOOL CMountModule::DispatchPacket(NetPacket* pNetPacket)
 {
+	switch (pNetPacket->m_dwMsgID)
+	{
+			PROCESS_MESSAGE_ITEM(MSG_SETUP_MOUNT_REQ, OnMsgSetupMountReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNSET_MOUNT_REQ, OnMsgUnsetMountReq);
+	}
+
 	return FALSE;
 }
 
@@ -111,6 +125,7 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 	pObject->m_IsUsing = FALSE;
 	pObject->Unlock();
 	m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	m_setChange.insert(pObject->m_uGuid);
 	return pObject->m_uGuid;
 }
 
@@ -160,4 +175,74 @@ MountDataObject* CMountModule::GetMountByGuid(UINT64 uGuid)
 	}
 
 	return NULL;
+}
+
+MountDataObject* CMountModule::GetCurrentMountData()
+{
+	for (auto itor = m_mapMountData.begin(); itor != m_mapMountData.end(); itor++)
+	{
+		MountDataObject* pObject = itor->second;
+		if (pObject->m_IsUsing)
+		{
+			return pObject;
+		}
+	}
+
+	return NULL;
+}
+
+BOOL CMountModule::OnMsgSetupMountReq(NetPacket* pNetPacket)
+{
+	SetupMountReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	MountDataObject* pCurObject = GetCurrentMountData();
+	if (pCurObject != NULL)
+	{
+		pCurObject->Lock();
+		pCurObject->m_IsUsing = false;
+		pCurObject->Unlock();
+		m_setChange.insert(pCurObject->m_uGuid);
+	}
+
+	MountDataObject* pTargetObject = GetMountByGuid(Req.mountguid());
+	if(pTargetObject != NULL)
+	{
+		pTargetObject->Lock();
+		pTargetObject->m_IsUsing = TRUE;
+		pTargetObject->Unlock();
+		m_setChange.insert(pTargetObject->m_uGuid);
+		m_pOwnPlayer->SendPlayerChange(ECT_MOUNT, 0, pTargetObject->m_MountID, "");
+	}
+
+
+
+	SetupMountAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_MOUNT_ACK, Ack);
+
+	return TRUE;
+}
+
+BOOL CMountModule::OnMsgUnsetMountReq(NetPacket* pNetPacket)
+{
+	UnsetMountReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	MountDataObject* pCurObject = GetCurrentMountData();
+	if (pCurObject != NULL)
+	{
+		pCurObject->Lock();
+		pCurObject->m_IsUsing = false;
+		pCurObject->Unlock();
+		m_setChange.insert(pCurObject->m_uGuid);
+	}
+
+	UnsetMountAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_UNSET_MOUNT_ACK, Ack);
+
+	return TRUE;
 }

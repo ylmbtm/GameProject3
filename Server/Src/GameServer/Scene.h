@@ -135,6 +135,7 @@ public:
 	BOOL OnMsgObjectActionReq(NetPacket* pNetPacket);
 	BOOL OnMsgSkillCastReq(NetPacket* pNetPacket);
 	BOOL OnMsgObjectChangeNtf(NetPacket* pNetPacket);
+	BOOL OnMsgMountRidingReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

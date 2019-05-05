@@ -30,10 +30,11 @@ BOOL CBulletObject::Reset()
 	m_vz = 0.0f;
 	m_accx = 0.0f;
 	m_accz = 0.0f;
-	m_fAngle = 0.0f;
+	m_fAngle = -1.0f;
 	m_uGuid = 0;
 	m_pBulletInfo = NULL;
 	m_pSkillObject = NULL;
+	m_uLastTick = 0;
 	return TRUE;
 }
 
@@ -52,6 +53,8 @@ BOOL CBulletObject::OnUpdate(UINT64 uTick)
 	}
 
 	CheckLifeOver(uTick);
+
+	m_uLastTick = uTick;
 
 	return TRUE;
 }
@@ -193,15 +196,73 @@ BOOL CBulletObject::UpdateBulletPos(UINT64 uTick)
 {
 	FLOAT fAccX = 0.0f;
 	FLOAT fAccZ = 0.0f;
+
 	if (m_pBulletInfo->AccSpeed > 0.01)
 	{
 		fAccX = m_accx * (uTick - m_uStartTick) * (uTick - m_uStartTick) / 2000000;
 		fAccZ = m_accz * (uTick - m_uStartTick) * (uTick - m_uStartTick) / 2000000;
 	}
 
-	//更新当前的位置
-	m_Pos.m_x = m_InitPos.m_x + m_vx * (uTick - m_uStartTick) / 1000 + fAccX;
-	m_Pos.m_z = m_InitPos.m_z + m_vz * (uTick - m_uStartTick) / 1000 + fAccZ;
+	switch (m_pBulletInfo->BulletType)
+	{
+		case EBT_CHASE:         //追踪型飞弹:
+		{
+			m_fAngle = 0.0;
+
+			SetAngle(m_fAngle);
+
+			m_Pos.m_x = m_Pos.m_x + m_vx * (uTick - m_uLastTick) / 1000 + fAccX;
+
+			m_Pos.m_z = m_Pos.m_z + m_vz * (uTick - m_uLastTick) / 1000 + fAccZ;
+		}
+		break;
+
+		case EBT_FIXTARGETPOS:  //固定目标点飞弹
+		case EBT_FIXDIRECTION:  //固定方向型飞弹:
+		{
+			if (m_fAngle < 0)
+			{
+				m_fAngle = 0;
+
+				SetAngle(m_fAngle);
+			}
+
+			m_Pos.m_x = m_InitPos.m_x + m_vx * (uTick - m_uStartTick) / 1000 + fAccX;
+
+			m_Pos.m_z = m_InitPos.m_z + m_vz * (uTick - m_uStartTick) / 1000 + fAccZ;
+		}
+		break;
+		case EBT_POINT:         //固定点飞弹
+		{
+		}
+		break;
+		case EBT_LINK:          //连接飞弹
+		{
+		}
+		break;
+		case EBT_ANNULAR:       //环形飞弹
+		{
+		}
+		break;
+		case EBT_BACK:          //回旋飞弹
+		{
+		}
+		break;
+		case EBT_EXTRACT:       //抽取飞弹
+		{
+		}
+		break;
+		case EBT_BOUNDCE:       //弹跳飞弹
+		{
+		}
+		break;
+		default:
+		{
+
+		}
+	}
+
+
 
 	return TRUE;
 }

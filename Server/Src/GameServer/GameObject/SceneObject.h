@@ -38,10 +38,8 @@ public:
 	UINT32          GetObjType();
 	UINT32          GetCamp();
 
-	VOID            AddHp(UINT32 dwValue);
-	VOID            SubHp(UINT32 dwValue);
-	VOID            AddMp(UINT32 dwValue);
-	VOID            SubMp(UINT32 dwValue);
+	VOID            ChangeHp(INT32 nValue);
+	VOID            ChangeMp(INT32 nValue);
 
 	BOOL            IsChanged();
 
@@ -60,8 +58,10 @@ public:
 	BOOL			SaveBattleResult(ResultPlayer* pResult);
 
 	BOOL			ChangeEquip(INT32 nPos, UINT32 dwEquipID);
-
+	BOOL            ChangeMount(UINT32 dwMountID);
+	BOOL            SetRiding(BOOL bRiding);
 	FLOAT           GetCurSpeed();
+	BOOL            IsRobot();
 public:
 	//////////////////////////////////////////////////////////////////////////
 	//buff的处理
@@ -114,7 +114,7 @@ public:
 	UINT32          m_dwActorID;					//对象ID
 	UINT32          m_dwObjType;					//对象类型 玩家，宠物， NPC之类的
 	INT32           m_dwCamp;						//阵营
-	UINT32          m_dwActionID;					//当前动作ID
+	UINT32          m_dwActionID;					//当前动作状态
 	Vector3D        m_Pos;							//位置
 	FLOAT           m_ft;							//对象坐标, 朝向
 	FLOAT           m_fSpeed;						//对象的当前速度
@@ -123,8 +123,10 @@ public:
 	INT32           m_dwLevel;						//等级
 	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
 	UINT32          m_Equips[EQUIP_MAX_NUM];		//角色装备
-
-	BOOL            m_bDataChange;					//数据发生改变
+	UINT32          m_dwMountID;                    //坐骑ID
+	BOOL            m_bRiding;                      //是否正在骑乘
+	BOOL            m_bRobot;                       //机器人
+	St_ChangeStatus m_ChangeFlag;					//数据改变标记
 
 	UINT64          m_uHostGuid;					//主人的GUID
 	UINT64          m_uControlerID;					//AI控制人的GUID

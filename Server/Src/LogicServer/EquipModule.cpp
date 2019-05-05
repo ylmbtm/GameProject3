@@ -102,6 +102,8 @@ BOOL CEquipModule::SaveToClientLoginData(RoleLoginAck& Ack)
 		pItem->set_starexp(pObject->m_StarExp);
 		pItem->set_isusing(pObject->m_IsUsing);
 	}
+	m_setChange.clear();
+	m_setRemove.clear();
 
 	return TRUE;
 }
@@ -213,7 +215,7 @@ UINT32 CEquipModule::UnDressEquip(UINT64 uGuid)
 
 	pBagModule->AddItem(pObject->m_uGuid, pObject->m_EquipID, 1);
 
-	m_pOwnPlayer->SendObjectChangeNtf(1, pInfo->dwPos, 0, "");
+	m_pOwnPlayer->SendPlayerChange(ECT_EQUIP, pInfo->dwPos, 0, "");
 
 	return MRC_SUCCESSED;
 }
@@ -262,7 +264,7 @@ UINT32 CEquipModule::DressEquip(UINT64 uGuid, UINT64 uBagGuid)
 	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
 	m_setChange.insert(pObject->m_uGuid);
 
-	m_pOwnPlayer->SendObjectChangeNtf(1, pInfo->dwPos, pObject->m_EquipID, "");
+	m_pOwnPlayer->SendPlayerChange(ECT_EQUIP, pInfo->dwPos, pObject->m_EquipID, "");
 
 	return MRC_SUCCESSED;
 }

@@ -4,7 +4,6 @@
 #include "../StaticData/StaticStruct.h"
 #include "GlobalDataMgr.h"
 #include "../StaticData/StaticData.h"
-#include "../Message/Game_Define.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "EquipModule.h"
 #include "PlayerObject.h"
@@ -27,6 +26,23 @@ CBagModule::~CBagModule()
 
 BOOL CBagModule::OnCreate(UINT64 u64RoleID)
 {
+	for (auto itor = CStaticData::GetInstancePtr()->m_mapItem.begin(); itor != CStaticData::GetInstancePtr()->m_mapItem.end(); ++itor)
+	{
+		StItemInfo& itemInfo = itor->second;
+
+		if ((itemInfo.eItemType != EIT_EQUIP) && (itemInfo.eItemType != EIT_GEM))
+		{
+			continue;
+		}
+
+		if (itemInfo.CarrerID != m_pOwnPlayer->GetCarrerID() && itemInfo.CarrerID != 0)
+		{
+			continue;
+		}
+
+		AddItem(itemInfo.dwItemID, 1);
+	}
+
 
 	return TRUE;
 }
@@ -65,7 +81,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	for(int i = 0; i < BagData.itemlist_size(); i++)
 	{
 		const DBBagItem& ItemData = BagData.itemlist(i);
-		BagDataObject* pObject = DataPool::CreateObject<BagDataObject>(ESD_BAG,FALSE);
+		BagDataObject* pObject = DataPool::CreateObject<BagDataObject>(ESD_BAG, FALSE);
 		pObject->m_uGuid = ItemData.guid();
 		pObject->m_uRoleID = ItemData.roleid();
 		pObject->m_bBind = ItemData.bind();
@@ -119,7 +135,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 
 	UINT64 uItemGuid = 0;
 	INT64  nTempCount = nCount;
-	switch(pItemInfo->dwItemType)
+	switch(pItemInfo->eItemType)
 	{
 		case EIT_EQUIP:
 		{

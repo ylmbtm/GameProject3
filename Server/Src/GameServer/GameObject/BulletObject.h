@@ -44,6 +44,7 @@ public:
 public:
 	UINT64          m_uGuid;            //子弹GUID
 	UINT64          m_uStartTick;       //开始时间
+	UINT64          m_uLastTick;        //上次更新时间
 	Vector3D        m_Pos;              //当前位置
 	Vector3D        m_InitPos;          //初始位置
 	BOOL            m_bFinished;        //是否完成

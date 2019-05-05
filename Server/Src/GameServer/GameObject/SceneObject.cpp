@@ -21,10 +21,12 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 	m_dwActorID			= 0;
 	m_dwObjType			= 0;
 	m_dwCamp			= 0;
-	m_bDataChange		= FALSE;
+	m_ChangeFlag.dwValue = 0;
 	m_uLastMoveTick		= 0;
 	m_dwActionID        = AT_IDLE;
 	m_pActorInfo        = NULL;
+	m_bRiding           = FALSE;
+	m_bRobot            = FALSE;
 	memset(m_Equips, 0, sizeof(m_Equips));
 	memset(m_Propertys, 0, sizeof(m_Propertys));
 	m_SkillObject.SetCastObject(this);
@@ -84,45 +86,32 @@ UINT32 CSceneObject::GetMp()
 	return m_Propertys[EA_MP];
 }
 
-VOID CSceneObject::AddHp( UINT32 dwValue )
+VOID CSceneObject::ChangeHp( INT32 nValue )
 {
-	m_Propertys[EA_HP] += dwValue;
-	m_bDataChange = TRUE;
-}
-
-VOID CSceneObject::SubHp( UINT32 dwValue )
-{
-	m_Propertys[EA_HP] -= dwValue;
-
-	if(m_Propertys[EA_HP] < 0)
+	m_Propertys[EA_HP] += nValue;
+	if (m_Propertys[EA_HP] < 0)
 	{
 		m_Propertys[EA_HP] = 0;
 	}
-
-	m_bDataChange = TRUE;
+	m_ChangeFlag.bBase = 1;
 }
 
-VOID CSceneObject::AddMp( UINT32 dwValue )
-{
-	m_Propertys[EA_MP] += dwValue;
-	m_bDataChange = TRUE;
-}
 
-VOID CSceneObject::SubMp( UINT32 dwValue )
+VOID CSceneObject::ChangeMp( INT32 nValue )
 {
-	m_Propertys[EA_MP] -= dwValue;
-
-	if(m_Propertys[EA_MP] < 0)
+	m_Propertys[EA_MP] += nValue;
+	if (m_Propertys[EA_MP] < 0)
 	{
 		m_Propertys[EA_MP] = 0;
 	}
-
-	m_bDataChange = TRUE;
+	m_ChangeFlag.bBase = 1;
 }
+
+
 
 BOOL CSceneObject::IsChanged()
 {
-	return m_bDataChange;
+	return m_ChangeFlag.dwValue != 0;
 }
 
 UINT64 CSceneObject::GetObjectGUID()
@@ -184,6 +173,15 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_mpmax(m_Propertys[EA_MP_MAX]);
 	pItem->set_speed(m_Propertys[EA_SPEED]);
 	pItem->set_camp(m_dwCamp);
+	if (m_bRiding)
+	{
+		pItem->set_mountid(m_dwMountID);
+	}
+	else
+	{
+		pItem->set_mountid(0 - m_dwMountID);
+	}
+
 	for (int i = 0; i < EQUIP_MAX_NUM; i++)
 	{
 		pItem->add_equips(m_Equips[i]);
@@ -205,7 +203,7 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 		pSkillitem->set_skillid(m_vtSpecials.at(i).dwSkillID);
 	}
 
-	m_bDataChange = FALSE;
+	m_ChangeFlag.dwValue = 0;
 
 	return TRUE;
 }
@@ -214,28 +212,74 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 {
 	ActionNtyItem* pItem = Nty.add_actionlist();
 	pItem->set_objectguid(m_uGuid);
-	pItem->set_actorid(m_dwActorID);
-	pItem->set_actionid(m_dwActionID);
-	pItem->set_buffstatus(m_dwBuffStatus);
-	pItem->set_objectstatus(m_dwObjectStatus);
-	pItem->set_level(m_dwLevel);
-	pItem->set_controlerid(m_uControlerID);
-	pItem->set_hostx(m_Pos.m_x);
-	pItem->set_hosty(m_Pos.m_y);
-	pItem->set_hostz(m_Pos.m_z);
-	pItem->set_hostft(m_ft);
 	pItem->set_hp(m_Propertys[EA_HP]);
 	pItem->set_mp(m_Propertys[EA_MP]);
-	pItem->set_hpmax(m_Propertys[EA_HP_MAX]);
-	pItem->set_mpmax(m_Propertys[EA_MP_MAX]);
-	pItem->set_speed(m_Propertys[EA_SPEED]);
-	pItem->set_camp(m_dwCamp);
-	for (int i = 0; i < EQUIP_MAX_NUM; i++)
+	if (m_ChangeFlag.bBase)
 	{
-		pItem->add_equips(m_Equips[i]);
+		pItem->set_hpmax(m_Propertys[EA_HP_MAX]);
+		pItem->set_mpmax(m_Propertys[EA_MP_MAX]);
+		pItem->set_speed(m_Propertys[EA_SPEED]);
+		pItem->set_hostx(m_Pos.m_x);
+		pItem->set_hosty(m_Pos.m_y);
+		pItem->set_hostz(m_Pos.m_z);
+		pItem->set_hostft(m_ft);
+		pItem->set_objectstatus(m_dwObjectStatus);
 	}
 
-	m_bDataChange = FALSE;
+	if (m_ChangeFlag.bEquip)
+	{
+		for (int i = 0; i < EQUIP_MAX_NUM; i++)
+		{
+			pItem->add_equips(m_Equips[i]);
+		}
+	}
+
+	if (m_ChangeFlag.bActor)
+	{
+		pItem->set_actorid(m_dwActorID);
+	}
+
+	if (m_ChangeFlag.bBuff)
+	{
+		pItem->set_buffstatus(m_dwBuffStatus);
+	}
+
+	if (m_ChangeFlag.bAction)
+	{
+		pItem->set_actionid(m_dwActionID);
+	}
+
+	if (m_ChangeFlag.bLevel)
+	{
+		pItem->set_level(m_dwLevel);
+	}
+
+
+	if (m_ChangeFlag.bControl)
+	{
+		pItem->set_controlerid(m_uControlerID);
+	}
+
+	if (m_ChangeFlag.bCamp)
+	{
+		pItem->set_camp(m_dwCamp);
+	}
+
+	if (m_ChangeFlag.bMount)
+	{
+		if (m_bRiding)
+		{
+			pItem->set_mountid(m_dwMountID);
+		}
+		else
+		{
+			pItem->set_mountid(0 - m_dwMountID);
+		}
+
+	}
+
+	m_ChangeFlag.dwValue = 0;
+
 	return TRUE;
 }
 
@@ -465,7 +509,30 @@ BOOL CSceneObject::ChangeEquip(INT32 nPos, UINT32 dwEquipID)
 {
 	ERROR_RETURN_FALSE(nPos > 0);
 	m_Equips[nPos - 1] = dwEquipID;
-	m_bDataChange = TRUE;
+	m_ChangeFlag.bEquip = 1;
+	return TRUE;
+}
+
+BOOL CSceneObject::ChangeMount(UINT32 dwMountID)
+{
+	m_dwMountID = dwMountID;
+	m_ChangeFlag.bMount = 1;
+	return TRUE;
+}
+
+BOOL CSceneObject::SetRiding(BOOL bRiding)
+{
+	if (m_dwMountID <= 0)
+	{
+		m_bRiding = FALSE;
+	}
+	else
+	{
+		m_bRiding = bRiding;
+	}
+
+	m_ChangeFlag.bMount = 1;
+
 	return TRUE;
 }
 
@@ -477,6 +544,11 @@ FLOAT CSceneObject::GetCurSpeed()
 	}
 
 	return m_pActorInfo == NULL ? 0.0f : m_pActorInfo->fDefSpeed * m_Propertys[EA_SPEED] / 10000.0f;
+}
+
+BOOL CSceneObject::IsRobot()
+{
+	return m_bRobot;
 }
 
 BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
@@ -740,10 +812,11 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 		return MRC_UNKNOW_ERROR;
 	}
 
-	m_Pos.m_x		= Req.hostx();
-	m_Pos.m_y		= Req.hosty();
-	m_Pos.m_z		= Req.hostz();
-	m_ft			= Req.hostft();
+	m_Pos.m_x       = Req.hostx();
+	m_Pos.m_y       = Req.hosty();
+	m_Pos.m_z       = Req.hostz();
+	m_ft            = Req.hostft();
+	m_dwActionID    = AT_SKILL;
 
 	return MRC_SUCCESSED;
 }
@@ -756,8 +829,14 @@ UINT32 CSceneObject::ProcessAction(const ActionReqItem& Item)
 	m_Pos.m_y		= Item.hosty();
 	m_Pos.m_z		= Item.hostz();
 	m_ft			= Item.hostft();
-	m_dwActionID	= Item.actionid();
-	m_bDataChange	= TRUE;
+
+	m_ChangeFlag.bBase = 1;
+
+	if (Item.actionid() != m_dwActionID)
+	{
+		m_dwActionID = Item.actionid();
+		m_ChangeFlag.bAction = 1;
+	}
 
 	return MRC_SUCCESSED;
 }

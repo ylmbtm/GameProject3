@@ -427,6 +427,14 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 	}
 
 	CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
+	ERROR_RETURN_FALSE(pPetModule != NULL);
+	pPetModule->ToTransferData(Req);
+
+	CPartnerModule* pPartnerModule = (CPartnerModule*)GetModuleByType(MT_PARTNER);
+	ERROR_RETURN_FALSE(pPartnerModule != NULL);
+	pPartnerModule->ToTransferData(Req);
+
+
 
 
 	return TRUE;

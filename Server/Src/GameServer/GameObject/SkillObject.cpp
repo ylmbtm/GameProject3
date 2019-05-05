@@ -210,7 +210,7 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 		nHurt = nHurt * 3 / 2;
 	}
 
-	pTarget->SubHp(nHurt);
+	pTarget->ChangeHp(-nHurt);
 
 	m_pCastObject->NotifyHitEffect(pTarget, bCriticalHit, -nHurt);
 

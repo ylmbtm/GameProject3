@@ -46,18 +46,19 @@ inline void InitDefaults() {
 }  // namespace protobuf_Game_5fDefine_2eproto
 
 enum EObjectType {
-  OT_NONE = 0,
-  OT_PLAYER = 1,
-  OT_ROBOT = 2,
-  OT_MONSTER = 3,
-  OT_PET = 4,
-  OT_PARTNER = 5,
-  OT_SUMMON = 6,
+  OT_PLAYER = 0,
+  OT_NPC = 1,
+  OT_MONSTER = 2,
+  OT_PET = 3,
+  OT_MOUNT = 4,
+  OT_MACHINE = 5,
+  OT_PARTNER = 6,
+  OT_SUMMON = 7,
   EObjectType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EObjectType_IsValid(int value);
-const EObjectType EObjectType_MIN = OT_NONE;
+const EObjectType EObjectType_MIN = OT_PLAYER;
 const EObjectType EObjectType_MAX = OT_SUMMON;
 const int EObjectType_ARRAYSIZE = EObjectType_MAX + 1;
 
@@ -74,19 +75,28 @@ inline bool EObjectType_Parse(
 enum EActionType {
   AT_NONE = 0,
   AT_IDLE = 1,
-  AT_WALK = 2,
-  AT_RUN = 3,
-  AT_FLY = 4,
-  AT_DANCE1 = 5,
-  AT_DANCE2 = 6,
-  AT_DANCE3 = 7,
-  AT_DANCE4 = 8,
+  AT_FIXBODY = 2,
+  AT_WALK = 3,
+  AT_RUN = 4,
+  AT_FLY = 5,
+  AT_SKILL = 6,
+  AT_MINE = 7,
+  AT_ROLL = 8,
+  AT_JUMP = 9,
+  AT_BORN = 10,
+  AT_DANCE = 11,
+  AT_DEAD = 12,
+  AT_WOUND = 13,
+  AT_BEATBACK = 14,
+  AT_BEATDOWN = 15,
+  AT_BEATFLY = 16,
+  AT_FLOATING = 17,
   EActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EActionType_IsValid(int value);
 const EActionType EActionType_MIN = AT_NONE;
-const EActionType EActionType_MAX = AT_DANCE4;
+const EActionType EActionType_MAX = AT_FLOATING;
 const int EActionType_ARRAYSIZE = EActionType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EActionType_descriptor();

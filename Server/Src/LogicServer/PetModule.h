@@ -29,6 +29,16 @@ public:
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
+
+	BOOL ToTransferData(TransferDataReq& Req);
+
+	PetDataObject* GetCurrentPetData();
+
+	//*********************消息处理定义开始******************************
+	BOOL OnMsgSetupPetReq(NetPacket* pNetPacket);  //出战宠物
+	BOOL OnMsgUnsetPetReq(NetPacket* pNetPacket);  //收回宠物
+	//*********************消息处理定义结束******************************
+
 public:
 	UINT64 AddPet(UINT32 dwPetID);
 

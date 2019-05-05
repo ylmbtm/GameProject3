@@ -4,6 +4,9 @@
 #include "GlobalDataMgr.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
+#include "../StaticData/StaticData.h"
+#include "PacketHeader.h"
+#include "../Message/Msg_RetCode.pb.h"
 
 CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -17,10 +20,10 @@ CPetModule::~CPetModule()
 
 BOOL CPetModule::OnCreate(UINT64 u64RoleID)
 {
-    for (int i = 0; i < 13; i++)
-    {
-        AddPet(i + 1);
-    }
+	for (int i = 0; i < 13; i++)
+	{
+		AddPet(i + 1);
+	}
 	return TRUE;
 }
 
@@ -86,6 +89,10 @@ BOOL CPetModule::SaveToClientLoginData(RoleLoginAck& Ack)
 		pItem->set_starexp(pObject->m_StarExp);
 		pItem->set_isusing(pObject->m_IsUsing);
 	}
+
+	m_setChange.clear();
+	m_setRemove.clear();
+
 	return TRUE;
 }
 
@@ -96,7 +103,111 @@ BOOL CPetModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 
 BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
 {
+	switch (pNetPacket->m_dwMsgID)
+	{
+			PROCESS_MESSAGE_ITEM(MSG_SETUP_PET_REQ, OnMsgSetupPetReq);
+			PROCESS_MESSAGE_ITEM(MSG_UNSET_PET_REQ, OnMsgUnsetPetReq);
+	}
 	return FALSE;
+}
+
+BOOL CPetModule::ToTransferData(TransferDataReq& Req)
+{
+	PetDataObject* pObject = GetCurrentPetData();
+	if(pObject == NULL)
+	{
+		return TRUE;
+	}
+
+	StPetInfo* pPetInfo = CStaticData::GetInstancePtr()->GetPetInfo(pObject->m_PetID);
+	ERROR_RETURN_FALSE(pPetInfo != NULL);
+
+	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(pPetInfo->dwActorID);
+	ERROR_RETURN_FALSE(pActorInfo != NULL);
+
+	TransPetData* pPetData = Req.mutable_petdata();
+	ERROR_RETURN_FALSE(pPetData != NULL);
+
+	pPetData->set_actorid(pPetInfo->dwActorID);
+	pPetData->set_level(pObject->m_StrengthLvl);
+	pPetData->set_petguid(pObject->m_uGuid);
+	pPetData->set_petid(pObject->m_PetID);
+
+	for (int i = 0; i < PROPERTY_NUM; i++)
+	{
+		pPetData->add_propertys(pActorInfo->Propertys[i]);
+	}
+
+	return TRUE;
+}
+
+PetDataObject* CPetModule::GetCurrentPetData()
+{
+	for (auto itor = m_mapPetData.begin(); itor != m_mapPetData.end(); itor++)
+	{
+		PetDataObject* pObject = itor->second;
+		if (pObject->m_IsUsing)
+		{
+			return pObject;
+		}
+	}
+
+	return NULL;
+}
+
+BOOL CPetModule::OnMsgSetupPetReq(NetPacket* pNetPacket)
+{
+	SetupPetReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	PetDataObject* pCurObject = GetCurrentPetData();
+	if (pCurObject != NULL)
+	{
+		pCurObject->Lock();
+		pCurObject->m_IsUsing = false;
+		pCurObject->Unlock();
+		m_setChange.insert(pCurObject->m_uGuid);
+	}
+
+	PetDataObject* pTargetObject = GetPetByGuid(Req.petguid());
+	if (pTargetObject != NULL)
+	{
+		pTargetObject->Lock();
+		pTargetObject->m_IsUsing = TRUE;
+		pTargetObject->Unlock();
+		m_setChange.insert(pTargetObject->m_uGuid);
+		m_pOwnPlayer->SendPlayerChange(ECT_PET, 0, pTargetObject->m_PetID, "");
+	}
+
+
+
+	SetupPetAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_PET_ACK, Ack);
+	return TRUE;
+}
+
+BOOL CPetModule::OnMsgUnsetPetReq(NetPacket* pNetPacket)
+{
+	UnsetPetReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	PetDataObject* pCurObject = GetCurrentPetData();
+	if (pCurObject != NULL)
+	{
+		pCurObject->Lock();
+		pCurObject->m_IsUsing = false;
+		pCurObject->Unlock();
+		m_setChange.insert(pCurObject->m_uGuid);
+	}
+
+	UnsetPetAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	m_pOwnPlayer->SendMsgProtoBuf(MSG_UNSET_PET_ACK, Ack);
+
+	return TRUE;
 }
 
 UINT64 CPetModule::AddPet(UINT32 dwPetID)
@@ -113,6 +224,7 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 	pObject->m_RefineLevel = 1;
 	pObject->Unlock();
 	m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
+	m_setChange.insert(pObject->m_uGuid);
 	return pObject->m_uGuid;
 }
 

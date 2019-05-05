@@ -76,6 +76,16 @@ BOOL CPartnerModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_RefineLevel = PartnerItem.refinelevel();
 		pObject->m_StarLevel = PartnerItem.starlevel();
 		pObject->m_SetPos = PartnerItem.setpos();
+
+		if (pObject->m_SetPos == 1)
+		{
+			m_vtSetupPartner[0] = pObject;
+		}
+		if (pObject->m_SetPos == 2)
+		{
+			m_vtSetupPartner[1] = pObject;
+		}
+
 		m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 	return TRUE;
@@ -118,6 +128,46 @@ BOOL CPartnerModule::DispatchPacket(NetPacket* pNetPacket)
 	}
 
 	return FALSE;
+}
+
+BOOL CPartnerModule::ToTransferData(TransferDataReq& Req)
+{
+	for (int i = 0; i < PARTNER_MAX_NUM; i++)
+	{
+		if (m_vtSetupPartner[i] == NULL)
+		{
+			continue;
+		}
+
+		PartnerDataObject* pObject = m_vtSetupPartner[i];
+		if (pObject == NULL)
+		{
+			return TRUE;
+		}
+
+		StPartnerInfo* pPartnerInfo = CStaticData::GetInstancePtr()->GetPartnerInfo(pObject->m_PartnerID);
+		ERROR_RETURN_FALSE(pPartnerInfo != NULL);
+
+		StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(pPartnerInfo->dwActorID);
+		ERROR_RETURN_FALSE(pActorInfo != NULL);
+
+		TransPartnerData* pPartnerData = Req.mutable_partnerdata();
+		ERROR_RETURN_FALSE(pPartnerData != NULL);
+
+		pPartnerData->set_actorid(pPartnerInfo->dwActorID);
+		pPartnerData->set_level(pObject->m_StrengthLvl);
+		pPartnerData->set_partnerguid(pObject->m_uGuid);
+		pPartnerData->set_partnerid(pObject->m_PartnerID);
+
+		for (int i = 0; i < PROPERTY_NUM; i++)
+		{
+			pPartnerData->add_propertys(pActorInfo->Propertys[i]);
+		}
+
+		return TRUE;
+	}
+
+	return TRUE;
 }
 
 BOOL CPartnerModule::OnMsgSetupPartnerReq(NetPacket* pNetPacket)
