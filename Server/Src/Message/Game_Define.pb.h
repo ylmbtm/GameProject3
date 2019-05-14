@@ -46,19 +46,20 @@ inline void InitDefaults() {
 }  // namespace protobuf_Game_5fDefine_2eproto
 
 enum EObjectType {
-  OT_PLAYER = 0,
-  OT_NPC = 1,
-  OT_MONSTER = 2,
-  OT_PET = 3,
-  OT_MOUNT = 4,
-  OT_MACHINE = 5,
-  OT_PARTNER = 6,
-  OT_SUMMON = 7,
+  OT_NONE = 0,
+  OT_PLAYER = 1,
+  OT_NPC = 2,
+  OT_MONSTER = 3,
+  OT_PET = 4,
+  OT_MOUNT = 5,
+  OT_MACHINE = 6,
+  OT_PARTNER = 7,
+  OT_SUMMON = 8,
   EObjectType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EObjectType_IsValid(int value);
-const EObjectType EObjectType_MIN = OT_PLAYER;
+const EObjectType EObjectType_MIN = OT_NONE;
 const EObjectType EObjectType_MAX = OT_SUMMON;
 const int EObjectType_ARRAYSIZE = EObjectType_MAX + 1;
 
@@ -187,29 +188,27 @@ inline bool EObjectStatus_Parse(
 }
 enum EItemType {
   EIT_NONE = 0,
-  EIT_EQUIP = 1,
-  EIT_ACTIONDRUG = 2,
-  EIT_MAT = 3,
-  EIT_BOX = 4,
-  EIT_KEY = 5,
-  EIT_CHIP = 6,
-  EIT_GEM = 7,
-  EIT_FASHION = 8,
-  EIT_MONEY = 9,
-  EIT_ACTION = 10,
-  EIT_EXP = 11,
-  EIT_RUNE = 12,
-  EIT_PETSOUL = 13,
-  EIT_TASK = 14,
+  EIT_MONEY = 1,
+  EIT_ACTION = 2,
+  EIT_ITEM = 3,
+  EIT_EQUIP = 4,
+  EIT_GEM = 5,
+  EIT_RELICS = 6,
+  EIT_MOUNT = 7,
+  EIT_PET = 8,
+  EIT_PARTNER = 9,
+  EIT_FASHION = 10,
+  EIT_BOX = 11,
+  EIT_ACTBOX = 12,
+  EIT_CHIP = 13,
+  EIT_RUNE = 14,
   EIT_DRUG = 15,
-  EIT_PET = 16,
-  EIT_PARTNER = 17,
   EItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EItemType_IsValid(int value);
 const EItemType EItemType_MIN = EIT_NONE;
-const EItemType EItemType_MAX = EIT_PARTNER;
+const EItemType EItemType_MAX = EIT_DRUG;
 const int EItemType_ARRAYSIZE = EItemType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EItemType_descriptor();

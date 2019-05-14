@@ -12,6 +12,7 @@
 #include "PartnerModule.h"
 #include "RoleModule.h"
 #include "GemModule.h"
+#include "MountModule.h"
 
 
 CBagModule::CBagModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -156,6 +157,16 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 			CPetModule* pPetModule = (CPetModule*)m_pOwnPlayer->GetModuleByType(MT_PET);
 			ERROR_RETURN_FALSE(pPetModule != NULL);
 			uItemGuid = pPetModule->AddPet(dwItemID);
+
+			//在这里要直接返回，因为宠物不进背包
+			return TRUE;
+		}
+		break;
+		case EIT_MOUNT:
+		{
+			CMountModule* pMountModule = (CMountModule*)m_pOwnPlayer->GetModuleByType(MT_MOUNT);
+			ERROR_RETURN_FALSE(pMountModule != NULL);
+			uItemGuid = pMountModule->AddMount(dwItemID);
 
 			//在这里要直接返回，因为宠物不进背包
 			return TRUE;

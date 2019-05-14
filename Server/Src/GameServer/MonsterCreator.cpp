@@ -58,8 +58,6 @@ BOOL MonsterCreator::GenMonsterWave(INT32 dwWaveIndex)
 
 	MonsterWave& Wave = m_MonsterVaveList.at(dwWaveIndex);
 
-	std::vector<MonsterData>  m_vtMonsterList;
-
 	for( std::vector<MonsterData>::iterator itor = Wave.m_vtMonsterList.begin(); itor != Wave.m_vtMonsterList.end(); itor++)
 	{
 		MonsterData* pData = &(*itor);

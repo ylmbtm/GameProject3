@@ -1,13 +1,14 @@
 ﻿syntax = "proto3";
 enum EObjectType {
-    OT_PLAYER = 0;  //玩家
-    OT_NPC    = 1;  //NPC
-    OT_MONSTER= 2;  //怪
-    OT_PET    = 3;  //宠物
-    OT_MOUNT  = 4;  //宠物
-    OT_MACHINE= 5;  //机关
-    OT_PARTNER= 6;  //伙伴
-    OT_SUMMON = 7;  //招唤物
+    OT_NONE   = 0;
+    OT_PLAYER = 1;  //玩家
+    OT_NPC    = 2;  //NPC
+    OT_MONSTER= 3;  //怪
+    OT_PET    = 4;  //宠物
+    OT_MOUNT  = 5;  //宠物
+    OT_MACHINE= 6;  //机关
+    OT_PARTNER= 7;  //伙伴
+    OT_SUMMON = 8;  //招唤物
 }
 
 enum EActionType {
@@ -20,15 +21,15 @@ enum EActionType {
     
     
     AT_SKILL        = 6;    //技能
-    AT_MINE         = 7;   //采集
-    AT_ROLL         = 8;   //翻滚
-    AT_JUMP         = 9;   //跳跃
+    AT_MINE         = 7;    //采集
+    AT_ROLL         = 8;    //翻滚
+    AT_JUMP         = 9;    //跳跃
     AT_BORN         = 10;   //出生
     AT_DANCE        = 11;   //跳舞
     
-    AT_DEAD         = 12;    //死亡
-    AT_WOUND        = 13;    //受击
-    AT_BEATBACK     = 14;    //击退
+    AT_DEAD         = 12;   //死亡
+    AT_WOUND        = 13;   //受击
+    AT_BEATBACK     = 14;   //击退
     AT_BEATDOWN     = 15;   //击倒
     AT_BEATFLY      = 16;   //击飞
     AT_FLOATING     = 17;   //浮空
@@ -69,23 +70,21 @@ enum EObjectStatus
 enum EItemType
 {
     EIT_NONE         = 0;
-    EIT_EQUIP        = 1;
-    EIT_ACTIONDRUG   = 2;
-    EIT_MAT          = 3;
-    EIT_BOX          = 4;
-    EIT_KEY          = 5;
-    EIT_CHIP         = 6;
-    EIT_GEM          = 7;
-    EIT_FASHION      = 8;
-    EIT_MONEY        = 9;
-    EIT_ACTION       = 10;
-    EIT_EXP          = 11;
-    EIT_RUNE         = 12;
-    EIT_PETSOUL      = 13; 
-    EIT_TASK         = 14;
+    EIT_MONEY        = 1;
+    EIT_ACTION       = 2;
+    EIT_ITEM         = 3;
+    EIT_EQUIP        = 4;
+    EIT_GEM          = 5;
+    EIT_RELICS       = 6;
+    EIT_MOUNT        = 7;
+    EIT_PET          = 8;
+    EIT_PARTNER      = 9;
+    EIT_FASHION      = 10;
+    EIT_BOX          = 11;
+    EIT_ACTBOX       = 12;
+    EIT_CHIP         = 13; 
+    EIT_RUNE         = 14;
     EIT_DRUG         = 15;
-    EIT_PET          = 16;
-    EIT_PARTNER      = 17;
 }
 
 enum EBagType

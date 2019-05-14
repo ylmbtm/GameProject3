@@ -2732,6 +2732,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::HitEffectItem, guid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::HitEffectItem, targetguid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::HitEffectItem, hurtvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::HitEffectItem, crit_),
@@ -2852,11 +2853,11 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 657, -1, sizeof(::StoreBuyAck)},
   { 663, -1, sizeof(::ObjectChangeNotify)},
   { 673, -1, sizeof(::HitEffectItem)},
-  { 681, -1, sizeof(::HitEffectNtf)},
-  { 687, -1, sizeof(::UseItemReq)},
-  { 692, -1, sizeof(::UseItemAck)},
-  { 697, -1, sizeof(::MsgGetRandomNameReq)},
-  { 703, -1, sizeof(::MsgGetRandomNameAck)},
+  { 682, -1, sizeof(::HitEffectNtf)},
+  { 688, -1, sizeof(::UseItemReq)},
+  { 693, -1, sizeof(::UseItemAck)},
+  { 698, -1, sizeof(::MsgGetRandomNameReq)},
+  { 704, -1, sizeof(::MsgGetRandomNameAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -3123,15 +3124,16 @@ void AddDescriptorsImpl() {
       "RetCode\030\001 \001(\r\"p\n\022ObjectChangeNotify\022\016\n\006R"
       "oleID\030\001 \001(\003\022\022\n\nChangeType\030\002 \001(\005\022\021\n\tIntVa"
       "lue1\030\003 \001(\003\022\021\n\tIntValue2\030\004 \001(\003\022\020\n\010StrValu"
-      "e\030\005 \001(\t\"D\n\rHitEffectItem\022\022\n\nTargetGUID\030\001"
-      " \001(\004\022\021\n\tHurtValue\030\002 \001(\005\022\014\n\004Crit\030\003 \001(\010\"0\n"
-      "\014HitEffectNtf\022 \n\010ItemList\030\001 \003(\0132\016.HitEff"
-      "ectItem\"\014\n\nUseItemReq\"\014\n\nUseItemAck\"\"\n\023M"
-      "sgGetRandomNameReq\022\013\n\003Sex\030\001 \001(\005\"#\n\023MsgGe"
-      "tRandomNameAck\022\014\n\004Name\030\001 \001(\tb\006proto3"
+      "e\030\005 \001(\t\"R\n\rHitEffectItem\022\014\n\004Guid\030\001 \001(\004\022\022"
+      "\n\nTargetGUID\030\002 \001(\004\022\021\n\tHurtValue\030\003 \001(\005\022\014\n"
+      "\004Crit\030\004 \001(\010\"0\n\014HitEffectNtf\022 \n\010ItemList\030"
+      "\001 \003(\0132\016.HitEffectItem\"\014\n\nUseItemReq\"\014\n\nU"
+      "seItemAck\"\"\n\023MsgGetRandomNameReq\022\013\n\003Sex\030"
+      "\001 \001(\005\"#\n\023MsgGetRandomNameAck\022\014\n\004Name\030\001 \001"
+      "(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6116);
+      descriptor, 6130);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Game.proto", &protobuf_RegisterTypes);
 }
@@ -30471,6 +30473,7 @@ void ObjectChangeNotify::InternalSwap(ObjectChangeNotify* other) {
 void HitEffectItem::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int HitEffectItem::kGuidFieldNumber;
 const int HitEffectItem::kTargetGUIDFieldNumber;
 const int HitEffectItem::kHurtValueFieldNumber;
 const int HitEffectItem::kCritFieldNumber;
@@ -30489,16 +30492,16 @@ HitEffectItem::HitEffectItem(const HitEffectItem& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&targetguid_, &from.targetguid_,
+  ::memcpy(&guid_, &from.guid_,
     static_cast<size_t>(reinterpret_cast<char*>(&crit_) -
-    reinterpret_cast<char*>(&targetguid_)) + sizeof(crit_));
+    reinterpret_cast<char*>(&guid_)) + sizeof(crit_));
   // @@protoc_insertion_point(copy_constructor:HitEffectItem)
 }
 
 void HitEffectItem::SharedCtor() {
-  ::memset(&targetguid_, 0, static_cast<size_t>(
+  ::memset(&guid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&crit_) -
-      reinterpret_cast<char*>(&targetguid_)) + sizeof(crit_));
+      reinterpret_cast<char*>(&guid_)) + sizeof(crit_));
   _cached_size_ = 0;
 }
 
@@ -30539,9 +30542,9 @@ void HitEffectItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&targetguid_, 0, static_cast<size_t>(
+  ::memset(&guid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&crit_) -
-      reinterpret_cast<char*>(&targetguid_)) + sizeof(crit_));
+      reinterpret_cast<char*>(&guid_)) + sizeof(crit_));
   _internal_metadata_.Clear();
 }
 
@@ -30555,10 +30558,24 @@ bool HitEffectItem::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 TargetGUID = 1;
+      // uint64 Guid = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &guid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint64 TargetGUID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -30569,10 +30586,10 @@ bool HitEffectItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 HurtValue = 2;
-      case 2: {
+      // int32 HurtValue = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -30583,10 +30600,10 @@ bool HitEffectItem::MergePartialFromCodedStream(
         break;
       }
 
-      // bool Crit = 3;
-      case 3: {
+      // bool Crit = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -30623,19 +30640,24 @@ void HitEffectItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 TargetGUID = 1;
+  // uint64 Guid = 1;
+  if (this->guid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->guid(), output);
+  }
+
+  // uint64 TargetGUID = 2;
   if (this->targetguid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->targetguid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->targetguid(), output);
   }
 
-  // int32 HurtValue = 2;
+  // int32 HurtValue = 3;
   if (this->hurtvalue() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->hurtvalue(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->hurtvalue(), output);
   }
 
-  // bool Crit = 3;
+  // bool Crit = 4;
   if (this->crit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->crit(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->crit(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -30652,19 +30674,24 @@ void HitEffectItem::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 TargetGUID = 1;
+  // uint64 Guid = 1;
+  if (this->guid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->guid(), target);
+  }
+
+  // uint64 TargetGUID = 2;
   if (this->targetguid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->targetguid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->targetguid(), target);
   }
 
-  // int32 HurtValue = 2;
+  // int32 HurtValue = 3;
   if (this->hurtvalue() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->hurtvalue(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->hurtvalue(), target);
   }
 
-  // bool Crit = 3;
+  // bool Crit = 4;
   if (this->crit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->crit(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->crit(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -30684,21 +30711,28 @@ size_t HitEffectItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint64 TargetGUID = 1;
+  // uint64 Guid = 1;
+  if (this->guid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->guid());
+  }
+
+  // uint64 TargetGUID = 2;
   if (this->targetguid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->targetguid());
   }
 
-  // int32 HurtValue = 2;
+  // int32 HurtValue = 3;
   if (this->hurtvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->hurtvalue());
   }
 
-  // bool Crit = 3;
+  // bool Crit = 4;
   if (this->crit() != 0) {
     total_size += 1 + 1;
   }
@@ -30732,6 +30766,9 @@ void HitEffectItem::MergeFrom(const HitEffectItem& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.guid() != 0) {
+    set_guid(from.guid());
+  }
   if (from.targetguid() != 0) {
     set_targetguid(from.targetguid());
   }
@@ -30767,6 +30804,7 @@ void HitEffectItem::Swap(HitEffectItem* other) {
 }
 void HitEffectItem::InternalSwap(HitEffectItem* other) {
   using std::swap;
+  swap(guid_, other->guid_);
   swap(targetguid_, other->targetguid_);
   swap(hurtvalue_, other->hurtvalue_);
   swap(crit_, other->crit_);

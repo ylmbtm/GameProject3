@@ -519,9 +519,10 @@ message ObjectChangeNotify {
 
 message HitEffectItem
 {
-    uint64            TargetGUID  = 1; //目标的ID
-    int32             HurtValue   = 2; //伤害值
-    bool              Crit        = 3; //是否暴击
+    uint64            Guid        = 1;
+    uint64            TargetGUID  = 2; //目标的ID
+    int32             HurtValue   = 3; //伤害值
+    bool              Crit        = 4; //是否暴击
 }
 
 message HitEffectNtf

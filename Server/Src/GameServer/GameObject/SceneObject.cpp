@@ -477,23 +477,7 @@ INT32 CSceneObject::GetShip(CSceneObject* pTarget)
 	return ES_FRIEND;
 }
 
-BOOL CSceneObject::NotifyHitEffect(CSceneObject* pTarget, BOOL bCritHit, INT32 nHurtValue)
-{
-	HitEffectItem* pItem = m_EffectNtf.add_itemlist();
-	pItem->set_targetguid(pTarget->GetObjectGUID());
-	pItem->set_crit(bCritHit);
-	pItem->set_hurtvalue(nHurtValue);
 
-	SendMsgProtoBuf(MSG_ACTOR_HITEFFECT_NTF, m_EffectNtf);
-	m_EffectNtf.Clear();
-
-	if (pTarget->GetObjType() == OT_PLAYER && pTarget->GetObjectGUID() != GetObjectGUID())
-	{
-		pTarget->NotifyHitEffect(pTarget, bCritHit, nHurtValue);
-	}
-
-	return TRUE;
-}
 
 BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
 {

@@ -149,17 +149,6 @@ INT32 CStaticData::GetConstantValue(char* pszName)
 	return 0;
 }
 
-INT64 CStaticData::GetMoneyMaxValue(UINT32 dwMoneyID)
-{
-	if((dwMoneyID == 0) || (dwMoneyID >= m_vtMoneyList.size()))
-	{
-		ASSERT_FAIELD;
-		return 1;
-	}
-
-	return m_vtActionList.at(dwMoneyID - 1).dwMax;
-}
-
 INT64 CStaticData::GetActoinMaxValue(UINT32 dwActionID)
 {
 	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
@@ -208,10 +197,6 @@ StCarrerInfo* CStaticData::GetCarrerInfo(UINT32 dwCarrerID)
 	return &itor->second;
 }
 
-BOOL CStaticData::ReadMoneyCfg(CppSQLite3Query& QueryData)
-{
-	return TRUE;
-}
 
 BOOL CStaticData::ReadActionCfg(CppSQLite3Query& QueryData)
 {
@@ -267,7 +252,9 @@ BOOL CStaticData::ReadActor(CppSQLite3Query& QueryData)
 		stValue.InitLevel   = QueryData.getIntField("Level");
 		stValue.fDefSpeed   = QueryData.getFloatField("DefSpeed");
 		stValue.fRadius     = QueryData.getFloatField("Radius");
-		int nIndex = QueryData.fieldIndex("P1");
+		stValue.dwType      = QueryData.getIntField("Type");
+		stValue.AiID        = QueryData.getIntField("AiId");
+		int nIndex          = QueryData.fieldIndex("P1");
 		for(int i = 0; i < PROPERTY_NUM; i++)
 		{
 			stValue.Propertys[i] = QueryData.getIntField(i + nIndex, 0);

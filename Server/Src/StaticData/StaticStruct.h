@@ -45,15 +45,19 @@ struct StActorInfo
 {
 	StActorInfo()
 	{
-		dwID	= 0;
-		fRadius = 0;
-		fDefSpeed = 0;
-		InitLevel = 0;
+		dwID        = 0;
+		fRadius     = 0;
+		fDefSpeed   = 0;
+		InitLevel   = 0;
+		dwType      = 0;
+		AiID        = 0;
 	}
 	UINT32  dwID;
 	FLOAT   fRadius;
 	FLOAT	fDefSpeed;
+	INT32   dwType;
 	INT32   InitLevel; //初始等级
+	INT32   AiID;
 	INT32   Propertys[PROPERTY_NUM];
 
 	std::string strName;
@@ -114,18 +118,6 @@ struct StActionInfo
 	UINT32 dwActionID;	// 行动力ID
 	INT32 UnitTime;		//恢复1个单位需要的时间(秒)
 	UINT32 dwMax;		//最大值
-};
-
-struct StMoneyInfo
-{
-	StMoneyInfo()
-	{
-		dwMoneyID = 0;	//货币ID
-		dwMax = 0;		//上限
-	}
-
-	UINT32 dwMoneyID;	//货币ID
-	UINT32 dwMax;		//上限
 };
 
 
@@ -203,7 +195,7 @@ struct StGemInfo
 struct StPetInfo
 {
 	UINT32 dwPetID;		//! ID
-	UINT32  dwActorID;
+	UINT32 dwActorID;
 };
 
 struct StPartnerInfo

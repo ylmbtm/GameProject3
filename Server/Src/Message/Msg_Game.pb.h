@@ -10660,21 +10660,27 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // uint64 TargetGUID = 1;
+  // uint64 Guid = 1;
+  void clear_guid();
+  static const int kGuidFieldNumber = 1;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // uint64 TargetGUID = 2;
   void clear_targetguid();
-  static const int kTargetGUIDFieldNumber = 1;
+  static const int kTargetGUIDFieldNumber = 2;
   ::google::protobuf::uint64 targetguid() const;
   void set_targetguid(::google::protobuf::uint64 value);
 
-  // int32 HurtValue = 2;
+  // int32 HurtValue = 3;
   void clear_hurtvalue();
-  static const int kHurtValueFieldNumber = 2;
+  static const int kHurtValueFieldNumber = 3;
   ::google::protobuf::int32 hurtvalue() const;
   void set_hurtvalue(::google::protobuf::int32 value);
 
-  // bool Crit = 3;
+  // bool Crit = 4;
   void clear_crit();
-  static const int kCritFieldNumber = 3;
+  static const int kCritFieldNumber = 4;
   bool crit() const;
   void set_crit(bool value);
 
@@ -10682,6 +10688,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 guid_;
   ::google::protobuf::uint64 targetguid_;
   ::google::protobuf::int32 hurtvalue_;
   bool crit_;
@@ -16553,7 +16560,21 @@ inline void ObjectChangeNotify::set_allocated_strvalue(::std::string* strvalue) 
 
 // HitEffectItem
 
-// uint64 TargetGUID = 1;
+// uint64 Guid = 1;
+inline void HitEffectItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 HitEffectItem::guid() const {
+  // @@protoc_insertion_point(field_get:HitEffectItem.Guid)
+  return guid_;
+}
+inline void HitEffectItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:HitEffectItem.Guid)
+}
+
+// uint64 TargetGUID = 2;
 inline void HitEffectItem::clear_targetguid() {
   targetguid_ = GOOGLE_ULONGLONG(0);
 }
@@ -16567,7 +16588,7 @@ inline void HitEffectItem::set_targetguid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:HitEffectItem.TargetGUID)
 }
 
-// int32 HurtValue = 2;
+// int32 HurtValue = 3;
 inline void HitEffectItem::clear_hurtvalue() {
   hurtvalue_ = 0;
 }
@@ -16581,7 +16602,7 @@ inline void HitEffectItem::set_hurtvalue(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:HitEffectItem.HurtValue)
 }
 
-// bool Crit = 3;
+// bool Crit = 4;
 inline void HitEffectItem::clear_crit() {
   crit_ = false;
 }

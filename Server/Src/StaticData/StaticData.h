@@ -37,13 +37,10 @@ public:
 	INT32 GetConstantValue(std::string& strName);
 	INT32 GetConstantValue(char* pszName);
 
-	//货币和体力
+	//体力
 	///////////////////////////////////////////////
-	std::vector<StMoneyInfo> m_vtMoneyList;
 	std::vector<StActionInfo> m_vtActionList;
-	BOOL ReadMoneyCfg(CppSQLite3Query& QueryData);
 	BOOL ReadActionCfg(CppSQLite3Query& QueryData);
-	INT64 GetMoneyMaxValue(UINT32 dwMoneyID);
 	INT64 GetActoinMaxValue(UINT32 dwActionID);
 	UINT32 GetActoinUnitTime(UINT32 dwActionID);
 

@@ -116,6 +116,13 @@ public:
 	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
 	std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
 	std::map<UINT64, CBulletObject*> m_BulletMap;		//子弹管理器
+
+	//////////////////////////////////////////////////////////////////////////
+	//伤害效果
+	HitEffectNtf    m_HitEffectNtf;
+	BOOL            AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit);
+	BOOL            BroadHitEffect();
+
 	//////////////////////////////////////////////////////////////////////////
 	//攻击伤害计算
 

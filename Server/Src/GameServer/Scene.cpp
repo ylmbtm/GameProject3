@@ -105,16 +105,44 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
 			PROCESS_MESSAGE_ITEM(MSG_PLAYER_CHAGE_NTF,	    OnMsgObjectChangeNtf);
 			PROCESS_MESSAGE_ITEM(MSG_MOUNT_RIDING_REQ,      OnMsgMountRidingReq);
-
-
 	}
 
 	return FALSE;
 }
 
+BOOL CScene::AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit)
+{
+	HitEffectItem* pItem = m_HitEffectNtf.add_itemlist();
+	pItem->set_guid(uAttackerID);
+	pItem->set_targetguid(uTargetID);
+	pItem->set_crit(bCritHit);
+	pItem->set_hurtvalue(nHurtValue);
+
+	return TRUE;
+}
+
+BOOL CScene::BroadHitEffect()
+{
+	if (m_HitEffectNtf.itemlist_size() <= 0)
+	{
+		return TRUE;
+	}
+
+	for (auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
+	{
+		CSceneObject* pSceneObject = itor->second;
+		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		pSceneObject->SendMsgProtoBuf(MSG_ACTOR_HITEFFECT_NTF, m_HitEffectNtf);
+	}
+
+	m_HitEffectNtf.Clear();
+
+	return TRUE;
+}
+
 BOOL CScene::ProcessActionItem(const  ActionReqItem& Item)
 {
-	CSceneObject* pSceneObj = GetPlayer(Item.objectguid());
+	CSceneObject* pSceneObj = GetSceneObject(Item.objectguid());
 	ERROR_RETURN_TRUE(pSceneObj != NULL);
 	pSceneObj->ProcessAction(Item);
 	return TRUE;
@@ -351,6 +379,8 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 		//己经结束不再处理
 		return TRUE;
 	}
+
+	BroadHitEffect();
 
 	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
 	{

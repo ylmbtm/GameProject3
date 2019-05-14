@@ -98,9 +98,6 @@ public:
 	BOOL            UpdatePosition(UINT64 uTick);
 
 
-	//////////////////////////////////////////////////////////////////////////
-	//伤害效果
-	BOOL			NotifyHitEffect(CSceneObject* pTarget, BOOL  bCritHit, INT32 nHurtValue);
 
 
 
