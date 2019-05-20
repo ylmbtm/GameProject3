@@ -132,6 +132,7 @@ BOOL CScene::BroadHitEffect()
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
+		ERROR_CONTINUE_EX(pSceneObject->IsRobot() == FALSE);
 		pSceneObject->SendMsgProtoBuf(MSG_ACTOR_HITEFFECT_NTF, m_HitEffectNtf);
 	}
 
