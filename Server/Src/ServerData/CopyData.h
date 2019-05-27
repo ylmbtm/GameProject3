@@ -54,9 +54,10 @@ struct CopyDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-// 		static CDBStoredProcedure csp("delete from equip where guid = ?");
-// 		csp.set_uint64(0, m_uGuid);
-// 		pDB->Execute(&csp);
+		static CDBStoredProcedure csp("delete from copy where copyid = ? and roleid = ?");
+		csp.set_uint32(0, m_dwCopyID);
+		csp.set_uint64(1, m_uRoleID);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 };
@@ -107,9 +108,10 @@ struct ChapterDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		// 		static CDBStoredProcedure csp("delete from equip where guid = ?");
-		// 		csp.set_uint64(0, m_uGuid);
-		// 		pDB->Execute(&csp);
+		static CDBStoredProcedure csp("delete from chapter where chapterid = ? and roleid = ?");
+		csp.set_uint32(0, m_dwChapter);
+		csp.set_uint64(1, m_uRoleID);
+		pDB->Execute(&csp);
 		return TRUE;
 	}
 };

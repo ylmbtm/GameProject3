@@ -114,7 +114,7 @@ BOOL CGameService::Init()
 	CppMySQL3DB tDBConnection;
 	if(!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		CLog::GetInstancePtr()->LogError("连接数据库服务器GameSvrDB失败!");
+		CLog::GetInstancePtr()->LogError("Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
 		return FALSE;
 	}
 

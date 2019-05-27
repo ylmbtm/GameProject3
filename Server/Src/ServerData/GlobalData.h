@@ -39,9 +39,9 @@ struct GlobalDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("delete from globaldata where serverid = ?;");
-		csp.set_uint32(0, m_dwServerID);
-		pDB->Execute(&csp);
+		//static CDBStoredProcedure csp("delete from globaldata where serverid = ?;");
+		//csp.set_uint32(0, m_dwServerID);
+		//pDB->Execute(&csp);
 
 		return TRUE;
 	}

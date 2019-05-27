@@ -27,9 +27,15 @@ public:
 
 	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL	NotifyChange();
+	BOOL NotifyChange();
 
-	CounterDataObject* GetCounterData(UINT64 uID, UINT32 dwIndex, BOOL bCreate = FALSE);
+	CounterDataObject* GetCounterData(UINT32 uID, UINT32 dwIndex);
+
+	UINT64 GetCounterValue(UINT32 uID, UINT32 dwIndex = 0);
+
+	BOOL   SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex = 0);
+
+	BOOL   AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex = 0);
 
 public:
 	//*********************消息处理定义开始******************************
@@ -37,7 +43,7 @@ public:
 	//*********************消息处理定义结束******************************
 
 public:
-	std::map<UINT64, std::vector<CounterDataObject*>> m_mapCounterData;
+	std::map<UINT64, CounterDataObject*> m_mapCounterData;
 
 };
 

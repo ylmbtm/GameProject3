@@ -368,12 +368,12 @@ bool CppMySQLQuery::eof()
 
 CppMySQL3DB::CppMySQL3DB()
 {
-	_db_ptr = NULL;
+	m_pMySqlDB = NULL;
 }
 
 CppMySQL3DB::~CppMySQL3DB()
 {
-	if ( _db_ptr != NULL )
+	if ( m_pMySqlDB != NULL )
 	{
 		close();
 	}
@@ -383,20 +383,24 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
                        unsigned int port, const char* charSetName, unsigned long client_flag /*= 0*/)
 {
 	bool ret = false;
-	_db_ptr = mysql_init(NULL);
-	if( NULL == _db_ptr )
+	m_pMySqlDB = mysql_init(NULL);
+	if( NULL == m_pMySqlDB )
 	{
 		goto EXT;
 	}
 
-	if (0 != mysql_options(_db_ptr, MYSQL_SET_CHARSET_NAME, charSetName))
+	if (0 != mysql_options(m_pMySqlDB, MYSQL_SET_CHARSET_NAME, charSetName))
 	{
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
 		goto EXT;
 	}
 
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
-	if ( NULL == mysql_real_connect( _db_ptr, host, user, passwd, db, port, NULL, client_flag) )
+	if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, client_flag) )
 	{
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
 		goto EXT;
 	}
 
@@ -409,19 +413,21 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 
 	//选择制定的数据库失败
 	//0表示成功，非0值表示出现错误。
-	if ( mysql_select_db( _db_ptr, db ) != 0 )
+	if ( mysql_select_db( m_pMySqlDB, db ) != 0 )
 	{
-		mysql_close(_db_ptr);
-		_db_ptr = NULL;
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
+		mysql_close(m_pMySqlDB);
+		m_pMySqlDB = NULL;
 		goto EXT;
 	}
 	ret = true;
 EXT:
 	//初始化mysql结构失败
-	if ( ret == false && _db_ptr != NULL )
+	if ( ret == false && m_pMySqlDB != NULL )
 	{
-		mysql_close( _db_ptr );
-		_db_ptr = NULL;
+		mysql_close( m_pMySqlDB );
+		m_pMySqlDB = NULL;
 	}
 	return ret;
 }
@@ -439,58 +445,58 @@ bool CppMySQL3DB::setOpenParam(const char* host, const char* user, const char* p
 
 void CppMySQL3DB::close()
 {
-	if ( _db_ptr != NULL )
+	if ( m_pMySqlDB != NULL )
 	{
-		mysql_close( _db_ptr );
-		_db_ptr = NULL;
+		mysql_close( m_pMySqlDB );
+		m_pMySqlDB = NULL;
 	}
 }
 
 MYSQL* CppMySQL3DB::getMysql()
 {
-	return _db_ptr;
+	return m_pMySqlDB;
 }
 
 /* 处理返回多行的查询，返回影响的行数 */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
-	int nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet != 0)
 	{
-		int nError = mysql_errno(_db_ptr);
+		int nError = mysql_errno(m_pMySqlDB);
 		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
 		{
 			reconnect();
-			nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+			nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 		}
 	}
 
 	if (0 == nRet)
 	{
-		_db_query.m_MysqlRes = mysql_store_result(_db_ptr);
+		m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
 	}
-	return _db_query;
+	return m_dbQuery;
 }
 
 /* 执行非返回结果查询 */
 int CppMySQL3DB::execSQL(const char* sql)
 {
-	int nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet == 0)
 	{
 		//得到受影响的行数
-		return (int)mysql_affected_rows(_db_ptr) ;
+		return (int)mysql_affected_rows(m_pMySqlDB) ;
 	}
 
-	int nError = mysql_errno(_db_ptr);
+	int nError = mysql_errno(m_pMySqlDB);
 	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
 	{
 		reconnect();
-		nRet = mysql_real_query(_db_ptr, sql, (unsigned long)strlen(sql));
+		nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 		if (0 == nRet)
 		{
 			//得到受影响的行数
-			return (int)mysql_affected_rows(_db_ptr);
+			return (int)mysql_affected_rows(m_pMySqlDB);
 		}
 	}
 
@@ -501,7 +507,7 @@ int CppMySQL3DB::execSQL(const char* sql)
 /* 测试mysql服务器是否存活 */
 bool CppMySQL3DB::ping()
 {
-	if( mysql_ping(_db_ptr) == 0 )
+	if( mysql_ping(m_pMySqlDB) == 0 )
 	{
 		return true;
 	}
@@ -512,7 +518,7 @@ bool CppMySQL3DB::ping()
 /* 关闭mysql 服务器 */
 bool CppMySQL3DB::shutDown()
 {
-	if( mysql_shutdown(_db_ptr, SHUTDOWN_DEFAULT) == 0 )
+	if( mysql_shutdown(m_pMySqlDB, SHUTDOWN_DEFAULT) == 0 )
 	{
 		return true;
 	}
@@ -523,7 +529,7 @@ bool CppMySQL3DB::shutDown()
 /* 主要功能:重新启动mysql 服务器 */
 bool CppMySQL3DB::reboot()
 {
-	if(!mysql_reload(_db_ptr))
+	if(!mysql_reload(m_pMySqlDB))
 	{
 		return true;
 	}
@@ -533,44 +539,44 @@ bool CppMySQL3DB::reboot()
 
 bool CppMySQL3DB::reconnect()
 {
-	if (_db_ptr != NULL && ping())
+	if (m_pMySqlDB != NULL && ping())
 	{
 		return true;
 	}
 
 	close();
 	bool ret = false;
-	_db_ptr = mysql_init(NULL);
-	if (NULL == _db_ptr)
+	m_pMySqlDB = mysql_init(NULL);
+	if (NULL == m_pMySqlDB)
 	{
 		goto EXT;
 	}
 
-	if (0 != mysql_options(_db_ptr, MYSQL_SET_CHARSET_NAME, m_strCharSet.c_str()))
+	if (0 != mysql_options(m_pMySqlDB, MYSQL_SET_CHARSET_NAME, m_strCharSet.c_str()))
 	{
 		goto EXT;
 	}
 
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
-	if (NULL == mysql_real_connect(_db_ptr, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0))
+	if (NULL == mysql_real_connect(m_pMySqlDB, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0))
 	{
 		goto EXT;
 	}
 	//选择制定的数据库失败
 	//0表示成功，非0值表示出现错误。
-	if (mysql_select_db(_db_ptr, m_strDB.c_str()) != 0)
+	if (mysql_select_db(m_pMySqlDB, m_strDB.c_str()) != 0)
 	{
-		mysql_close(_db_ptr);
-		_db_ptr = NULL;
+		mysql_close(m_pMySqlDB);
+		m_pMySqlDB = NULL;
 		goto EXT;
 	}
 	ret = true;
 EXT:
 	//初始化mysql结构失败
-	if (ret == false && _db_ptr != NULL)
+	if (ret == false && m_pMySqlDB != NULL)
 	{
-		mysql_close(_db_ptr);
-		_db_ptr = NULL;
+		mysql_close(m_pMySqlDB);
+		m_pMySqlDB = NULL;
 	}
 	return ret;
 }
@@ -581,7 +587,7 @@ EXT:
 /* 主要功能:开始事务 */
 bool CppMySQL3DB::startTransaction()
 {
-	if(!mysql_real_query(_db_ptr, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION") ))
+	if(!mysql_real_query(m_pMySqlDB, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION") ))
 	{
 		return true;
 	}
@@ -592,7 +598,7 @@ bool CppMySQL3DB::startTransaction()
 /* 主要功能:提交事务 */
 bool CppMySQL3DB::commit()
 {
-	if(!mysql_real_query( _db_ptr, "COMMIT", (unsigned long)strlen("COMMIT") ) )
+	if(!mysql_real_query( m_pMySqlDB, "COMMIT", (unsigned long)strlen("COMMIT") ) )
 	{
 		return true;
 	}
@@ -603,7 +609,7 @@ bool CppMySQL3DB::commit()
 /* 主要功能:回滚事务 */
 bool CppMySQL3DB::rollback()
 {
-	if(!mysql_real_query(_db_ptr, "ROLLBACK", (unsigned long)strlen("ROLLBACK") ) )
+	if(!mysql_real_query(m_pMySqlDB, "ROLLBACK", (unsigned long)strlen("ROLLBACK") ) )
 	{
 		return true;
 	}
@@ -626,35 +632,30 @@ const unsigned long  CppMySQL3DB::getClientVersion()
 /* 主要功能:得到主机信息 */
 const char* CppMySQL3DB::getHostInfo()
 {
-	return mysql_get_host_info(_db_ptr);
+	return mysql_get_host_info(m_pMySqlDB);
 }
 
 /* 主要功能:得到服务器信息 */
-const char* CppMySQL3DB::getServerInfo()
+const char* CppMySQL3DB::GetServerInfo()
 {
-	return mysql_get_server_info( _db_ptr );
+	return mysql_get_server_info( m_pMySqlDB );
 }
 
 const char* CppMySQL3DB::GetErrorMsg()
 {
-	if (_db_ptr == NULL)
-	{
-		return NULL;
-	}
-
-	return mysql_error(_db_ptr);
+	return m_strError.c_str();
 }
 
 /*主要功能:得到服务器版本信息*/
-const unsigned long  CppMySQL3DB::getServerVersion()
+const unsigned long  CppMySQL3DB::GetDBVersion()
 {
-	return mysql_get_server_version(_db_ptr);
+	return mysql_get_server_version(m_pMySqlDB);
 }
 
 /*主要功能:得到 当前连接的默认字符集*/
 const char*   CppMySQL3DB::getCharacterSetName()
 {
-	return mysql_character_set_name(_db_ptr);
+	return mysql_character_set_name(m_pMySqlDB);
 }
 
 /* 建立新数据库 */
@@ -662,7 +663,7 @@ int CppMySQL3DB::createDB(const char* name)
 {
 	char temp[1024];
 	snprintf(temp, 1024, "CREATE DATABASE %s", name);
-	if(!mysql_real_query( _db_ptr, temp, (unsigned long)strlen(temp)) )
+	if(!mysql_real_query( m_pMySqlDB, temp, (unsigned long)strlen(temp)) )
 	{
 		return 0;
 	}
@@ -676,7 +677,7 @@ int CppMySQL3DB::dropDB(const char*  name)
 	char temp[1024];
 
 	snprintf(temp, 1024, "DROP DATABASE %s", name);
-	if(!mysql_real_query( _db_ptr, temp, (unsigned long)strlen(temp)) )
+	if(!mysql_real_query( m_pMySqlDB, temp, (unsigned long)strlen(temp)) )
 	{
 		return 0;
 	}
@@ -686,12 +687,12 @@ int CppMySQL3DB::dropDB(const char*  name)
 
 bool CppMySQL3DB::changeCurDB(const char* name)
 {
-	if (_db_ptr == NULL)
+	if (m_pMySqlDB == NULL)
 	{
 		return false;
 	}
 
-	if (0 == mysql_select_db(_db_ptr, name))
+	if (0 == mysql_select_db(m_pMySqlDB, name))
 	{
 		return true;
 	}
@@ -712,20 +713,20 @@ INT64 CppMySQL3DB::getAutoIncrementID(const char* szTableName, const char* szDBN
 
 	CppMySQLQuery tQuery;
 
-	int nRet = mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql));
+	int nRet = mysql_real_query(m_pMySqlDB, strSql, (unsigned long)strlen(strSql));
 	if (nRet != 0)
 	{
-		int nError = mysql_errno(_db_ptr);
+		int nError = mysql_errno(m_pMySqlDB);
 		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
 		{
 			reconnect();
-			nRet = mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql));
+			nRet = mysql_real_query(m_pMySqlDB, strSql, (unsigned long)strlen(strSql));
 		}
 	}
 
 	if (0 == nRet)
 	{
-		tQuery.m_MysqlRes = mysql_store_result(_db_ptr);
+		tQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
 	}
 
 	INT64 tId = tQuery.getInt64Field(0);
@@ -743,7 +744,7 @@ bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const c
 	char strSql[1024];
 	snprintf(strSql, 1024, "alter table %s.%s AUTO_INCREMENT=%lld;", szDBName, szTableName, nId);
 
-	if (!mysql_real_query(_db_ptr, strSql, (unsigned long)strlen(strSql)))
+	if (!mysql_real_query(m_pMySqlDB, strSql, (unsigned long)strlen(strSql)))
 	{
 		return true;
 	}

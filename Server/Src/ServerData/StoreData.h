@@ -1,6 +1,8 @@
 ﻿#ifndef __STORE_DATA_OBJECT_H__
 #define __STORE_DATA_OBJECT_H__
+
 #include "DBInterface/DBInterface.h"
+#include "DBInterface/DBStoredProc.h"
 
 struct StoreDataObject : public ShareObject
 {

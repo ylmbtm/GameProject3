@@ -24,7 +24,7 @@ BOOL LogicSvrManager::Init()
 
 	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		CLog::GetInstancePtr()->LogError("ReloadServerList Error: Can not open database!!!");
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", m_DBConnection.GetErrorMsg());
 		return FALSE;
 	}
 
