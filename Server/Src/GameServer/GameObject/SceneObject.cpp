@@ -401,16 +401,16 @@ BOOL CSceneObject::IsInCircle(Vector3D hitPoint, float radius, float height)
 	return TRUE;
 }
 
-BOOL CSceneObject::IsInSquare(Vector3D hitPoint, FLOAT hitDir, float length, float width)
+BOOL CSceneObject::IsInSquare(Vector3D hitPoint, FLOAT hitDegree, float length, float width)
 {
 	float radius = 1.0f; //玩家自身的半径
 
 	CPoint2D A(-width / 2, -length / 2), B(-width / 2, length / 2), C(width / 2, length / 2), D(width / 2, -length / 2);
 
-	A.Rotate(hitDir * DEG_TO_RAD);
-	B.Rotate(hitDir * DEG_TO_RAD);
-	C.Rotate(hitDir * DEG_TO_RAD);
-	D.Rotate(hitDir * DEG_TO_RAD);
+	A.Rotate(hitDegree * DEG_TO_RAD);
+	B.Rotate(hitDegree * DEG_TO_RAD);
+	C.Rotate(hitDegree * DEG_TO_RAD);
+	D.Rotate(hitDegree * DEG_TO_RAD);
 
 	CPoint2D rolept(m_Pos.m_x, m_Pos.m_z);
 
@@ -437,7 +437,7 @@ BOOL CSceneObject::IsInSquare(Vector3D hitPoint, FLOAT hitDir, float length, flo
 	return FALSE;
 }
 
-BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle)
+BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDegree, float radius, float hAngle)
 {
 	float maxDis = radius;// +target.Radius;
 	if (m_Pos.Distance2D(hitPoint) > maxDis)
@@ -446,11 +446,12 @@ BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDir, float radius, flo
 	}
 
 	Vector3D vtDir = m_Pos - hitPoint;
-
-	//if (vtDir.AngleBetween2D(hitDir) > hAngle / 2)
-	//{
-	//	return FALSE;
-	//}
+	float fAttack = vtDir.ToDegreesAngle();
+	float fDiff = fAttack - hitDegree;
+	if (fDiff > hAngle / 2)
+	{
+		return FALSE;
+	}
 
 	return TRUE;
 }

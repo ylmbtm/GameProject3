@@ -133,14 +133,35 @@ public:
 		return sqrtf((m_x - px) * (m_x - px) + (py - pt1.m_y) * (py - pt1.m_y));
 	}
 
-	float AngleBetween(const Vector2D& dest)
+	//范围: 0~~π (0~~180)
+	float AngleBetween(const Vector2D dest)
 	{
 		return acos((m_x * dest.m_x + m_y * dest.m_y) / Length() / dest.Length());
 	}
 
-	float ToAngle()
+	//范围: 0~~2π (0~~360)
+	float ToRadiansAngle()
 	{
-		return AngleBetween(Vector2D(0, 0));
+		float fAngle = acos(m_x / Length());
+
+		if (m_y < 0.0f)
+		{
+			if (m_x < 0.0f)
+			{
+				fAngle += PI / 2;
+			}
+			else
+			{
+				fAngle += PI;
+			}
+		}
+		return fAngle;
+	}
+
+	//范围: 0~~360
+	float ToDegreesAngle()
+	{
+		return ToRadiansAngle() * RAD_TO_DEG;
 	}
 
 	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
@@ -218,7 +239,6 @@ public:
 		return *this;
 	}
 
-
 	Vector3D operator+(const Vector3D& v)
 	{
 		return Vector3D(m_x + v.m_x,
@@ -240,7 +260,6 @@ public:
 		           m_y * rhs.m_y,
 		           m_z * rhs.m_z);
 	}
-
 
 	Vector3D operator / (const Vector3D& rhs) const
 	{
@@ -357,7 +376,6 @@ public:
 		return sqrtf(m_x * m_x + m_y * m_y + m_z * m_z);
 	}
 
-
 	void Reset()
 	{
 		m_x = 0.0f;
@@ -391,8 +409,7 @@ public:
 		                m_x * v.m_y - m_y * v.m_x);
 	}
 
-
-	float AngleBetween(Vector3D& dest)
+	float AngleBetween(Vector3D dest)
 	{
 		float lenProduct = Length();
 		lenProduct *= dest.Length();
@@ -415,7 +432,6 @@ public:
 		return acosf(f);
 	}
 
-
 	float Distance2D(Vector3D pos)
 	{
 		float dx = m_x - pos.m_x;
@@ -423,6 +439,7 @@ public:
 		return sqrtf(dx * dx + dz * dz);
 	}
 
+	//范围: 0~~π (0~~180)
 	float AngleBetween2D(Vector3D& dest)
 	{
 		return acosf((m_x * dest.m_x + m_z * dest.m_z) / sqrtf(m_x * m_x + m_z * m_z) / sqrtf(dest.m_x * dest.m_x + dest.m_z * dest.m_z));
@@ -431,6 +448,31 @@ public:
 	Vector2D Rotate(Vector2D A, FLOAT radianAngle)
 	{
 		return Vector2D(A.m_x * cos(radianAngle) - A.m_y * sin(radianAngle), A.m_x * sin(radianAngle) + A.m_y * cos(radianAngle));
+	}
+
+	//范围: 0~~2π
+	float ToRadiansAngle()
+	{
+		float fAngle = acos(m_x / Length());
+
+		if (m_z < 0.0f)
+		{
+			if (m_x < 0.0f)
+			{
+				fAngle += PI / 2;
+			}
+			else
+			{
+				fAngle += PI;
+			}
+		}
+		return fAngle;
+	}
+
+	//范围: 0~~360
+	float ToDegreesAngle()
+	{
+		return Vector3D::RadiansToDegrees(ToRadiansAngle());
 	}
 
 	BOOL FromString(const char* pStr)
@@ -451,20 +493,5 @@ public:
 };
 
 typedef Vector3D CPoint3D;
-
-// BOOL IsPointInCircularSector(FLOAT cx, FLOAT cy, FLOAT ft, FLOAT r, FLOAT theta, FLOAT tx, FLOAT ty)
-// {
-// 	FLOAT dx = tx - cx;
-// 	FLOAT dy = ty - cy;
-//
-// 	if(r * r < (dx * dx + dy * dy))
-// 	{
-// 		return FALSE;
-// 	}
-//
-//
-//
-// }
-
 
 #endif //_MAP_H_

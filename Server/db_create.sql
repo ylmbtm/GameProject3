@@ -92,6 +92,19 @@ CREATE TABLE `copy`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for counter
+-- ----------------------------
+DROP TABLE IF EXISTS `counter`;
+CREATE TABLE `counter`  (
+  `id` int(11) NOT NULL,
+  `roleid` bigint(20) NOT NULL,
+  `index` int(11) NOT NULL,
+  `time` bigint(20) NULL DEFAULT NULL,
+  `value` bigint(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`, `roleid`, `index`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for equip
 -- ----------------------------
 DROP TABLE IF EXISTS `equip`;

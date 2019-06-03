@@ -90,8 +90,8 @@ public:
 	INT32           GetShip(CSceneObject* pTarget);
 
 	BOOL			IsInCircle(Vector3D hitPoint, float radius, float height);
-	BOOL			IsInSquare(Vector3D hitPoint, float hitDir, float length, float width);
-	BOOL			IsInSector(Vector3D hitPoint, float hitDir, float radius, float hAngle);
+	BOOL			IsInSquare(Vector3D hitPoint, float hitDegree, float length, float width);
+	BOOL			IsInSector(Vector3D hitPoint, float hitDegree, float radius, float hAngle);
 	//////////////////////////////////////////////////////////////////////////
 
 	//更新角色坐标
