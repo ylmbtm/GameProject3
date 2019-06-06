@@ -5,12 +5,18 @@
 
 class CRankManager
 {
-private:
-	CRankManager();
-	~CRankManager();
 public:
 	static CRankManager* GetInstancePtr();
 
-	TRanker m_LevelRanker;
+private:
+	CRankManager();
+	~CRankManager();
+
+public:
+	BOOL    InitRank();
+
+	TRanker m_LevelRanker;  //等级排行榜
+
+	TRanker m_FightRanker;  //战力排行榜
 };
 #endif
