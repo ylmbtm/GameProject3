@@ -40,7 +40,7 @@ public:
 	//向玩家所在的场景服发消息
 	BOOL		SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
-	BOOL		ToTransferData(TransferDataReq& Req);
+	BOOL		ToTransferData(TransferDataItem *pTransItem);
 
 	BOOL		NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dwParm2);
 

@@ -130,7 +130,7 @@ BOOL CPartnerModule::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
-BOOL CPartnerModule::ToTransferData(TransferDataReq& Req)
+BOOL CPartnerModule::ToTransferData(TransferDataItem *pTransItem)
 {
 	for (int i = 0; i < PARTNER_MAX_NUM; i++)
 	{
@@ -151,7 +151,7 @@ BOOL CPartnerModule::ToTransferData(TransferDataReq& Req)
 		StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(pPartnerInfo->dwActorID);
 		ERROR_RETURN_FALSE(pActorInfo != NULL);
 
-		TransPartnerData* pPartnerData = Req.mutable_partnerdata();
+		TransPartnerData* pPartnerData = pTransItem->mutable_partnerdata();
 		ERROR_RETURN_FALSE(pPartnerData != NULL);
 
 		pPartnerData->set_actorid(pPartnerInfo->dwActorID);

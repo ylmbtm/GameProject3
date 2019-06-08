@@ -372,11 +372,11 @@ BOOL CPlayerObject::SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1,
 	return TRUE;
 }
 
-BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
+BOOL CPlayerObject::ToTransferData(TransferDataItem *pTransItem)
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 
-	TransRoleData* pRoleData = Req.mutable_roledata();
+	TransRoleData* pRoleData = pTransItem->mutable_roledata();
 	ERROR_RETURN_FALSE(pRoleData != NULL);
 
 	pRoleData->set_roleid(m_u64ID);
@@ -428,11 +428,11 @@ BOOL CPlayerObject::ToTransferData( TransferDataReq& Req )
 
 	CPetModule* pPetModule = (CPetModule*)GetModuleByType(MT_PET);
 	ERROR_RETURN_FALSE(pPetModule != NULL);
-	pPetModule->ToTransferData(Req);
+	pPetModule->ToTransferData(pTransItem);
 
 	CPartnerModule* pPartnerModule = (CPartnerModule*)GetModuleByType(MT_PARTNER);
 	ERROR_RETURN_FALSE(pPartnerModule != NULL);
-	pPartnerModule->ToTransferData(Req);
+	pPartnerModule->ToTransferData(pTransItem);
 
 
 

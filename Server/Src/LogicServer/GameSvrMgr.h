@@ -3,6 +3,7 @@
 
 #include "../Message/Msg_Copy.pb.h"
 #include "../Message/Msg_Game.pb.h"
+#include "AVLTree.h"
 struct GameSvrInfo
 {
 	GameSvrInfo(UINT32 svrID, UINT32 conID)
@@ -32,6 +33,32 @@ struct CityInfo
 	UINT32 m_dwCopyGuid;
 };
 
+struct CWaitItem
+{
+    CWaitItem()
+    {
+        memset(uID, 0, sizeof(uID));
+        memset(dwCamp, 0, sizeof(dwCamp));
+    }
+    ~CWaitItem()
+    {
+        memset(uID, 0, sizeof(uID));
+        memset(dwCamp, 0, sizeof(dwCamp));
+    }
+
+    UINT64 uID[10] = {0};
+    UINT32 dwCamp[10] = {0};
+};
+
+class CWaitCopyList : public AVLTree<UINT64, CWaitItem>
+{
+public:
+    CWaitCopyList();
+    ~CWaitCopyList();
+public:
+    CWaitItem*		GetWaitItem(UINT64 uParam);
+};
+
 class CGameSvrMgr
 {
 private:
@@ -39,32 +66,32 @@ private:
 	~CGameSvrMgr(void);
 public:
 	static CGameSvrMgr* GetInstancePtr();
+
 public:
+    BOOL        TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType);
+
+    BOOL        TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum, UINT32 dwCopyID, UINT32 dwCopyType);
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	UINT32		GetServerIDByCopyID(UINT32 dwCopyGuid);
+    BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType);
+
+    UINT32		GetConnIDBySvrID(UINT32 dwServerID);
+
+    BOOL		SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID);
+private:
+	UINT32		GetServerIDByCopyGuid(UINT32 dwCopyGuid);
 
 	UINT32		GetBestGameServerID();
 
 	BOOL		SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 
-	UINT32		GetConnIDBySvrID(UINT32 dwServerID);
-
-	BOOL		SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID);
-
 	BOOL		SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp);
 
 	BOOL		GetMainCityInfo(UINT32 dwCopyID, UINT32& dwServerID, UINT32& dwConnID, UINT32& dwCopyGuid);
 
-	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType );
-
+    BOOL        AddWaitItem(UINT64 u64ID, UINT32 dwCamp);
 public:
-	//响应副本创建返回
-	//////////////////////////////////////////////////////////////////////////
-	BOOL		OnCreateMainCopy(CreateNewSceneAck& Ack);
-
-
 
 	//响应副本结果返回
 	//////////////////////////////////////////////////////////////////////////
@@ -85,7 +112,9 @@ public:
 
 	std::map<UINT32, CityInfo> m_mapCity;
 
+    std::map<UINT32, UINT32> m_GuidToSvrID;    //副本guid->副本服务器ID
 
+    CWaitCopyList               m_WaitCopyList;
 };
 
 #endif

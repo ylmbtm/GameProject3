@@ -30,7 +30,7 @@ public:
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL ToTransferData(TransferDataReq& Req);
+	BOOL ToTransferData(TransferDataItem *pTransItem);
 
 	PetDataObject* GetCurrentPetData();
 

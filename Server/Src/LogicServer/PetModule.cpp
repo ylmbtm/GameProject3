@@ -111,7 +111,7 @@ BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
-BOOL CPetModule::ToTransferData(TransferDataReq& Req)
+BOOL CPetModule::ToTransferData(TransferDataItem *pTransItem)
 {
 	PetDataObject* pObject = GetCurrentPetData();
 	if(pObject == NULL)
@@ -125,7 +125,7 @@ BOOL CPetModule::ToTransferData(TransferDataReq& Req)
 	StActorInfo* pActorInfo = CStaticData::GetInstancePtr()->GetActorInfo(pPetInfo->dwActorID);
 	ERROR_RETURN_FALSE(pActorInfo != NULL);
 
-	TransPetData* pPetData = Req.mutable_petdata();
+	TransPetData* pPetData = pTransItem->mutable_petdata();
 	ERROR_RETURN_FALSE(pPetData != NULL);
 
 	pPetData->set_actorid(pPetInfo->dwActorID);

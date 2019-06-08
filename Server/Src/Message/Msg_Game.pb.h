@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[92];
+  static const ::google::protobuf::internal::ParseTable schema[93];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -124,6 +124,8 @@ void InitDefaultsTransPetDataImpl();
 void InitDefaultsTransPetData();
 void InitDefaultsTransPartnerDataImpl();
 void InitDefaultsTransPartnerData();
+void InitDefaultsTransferDataItemImpl();
+void InitDefaultsTransferDataItem();
 void InitDefaultsTransferDataReqImpl();
 void InitDefaultsTransferDataReq();
 void InitDefaultsTransferDataAckImpl();
@@ -268,6 +270,7 @@ inline void InitDefaults() {
   InitDefaultsTransRoleData();
   InitDefaultsTransPetData();
   InitDefaultsTransPartnerData();
+  InitDefaultsTransferDataItem();
   InitDefaultsTransferDataReq();
   InitDefaultsTransferDataAck();
   InitDefaultsNotifyIntoScene();
@@ -540,6 +543,9 @@ extern TransRoleDataDefaultTypeInternal _TransRoleData_default_instance_;
 class TransferDataAck;
 class TransferDataAckDefaultTypeInternal;
 extern TransferDataAckDefaultTypeInternal _TransferDataAck_default_instance_;
+class TransferDataItem;
+class TransferDataItemDefaultTypeInternal;
+extern TransferDataItemDefaultTypeInternal _TransferDataItem_default_instance_;
 class TransferDataReq;
 class TransferDataReqDefaultTypeInternal;
 extern TransferDataReqDefaultTypeInternal _TransferDataReq_default_instance_;
@@ -5634,24 +5640,24 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TransferDataReq) */ {
+class TransferDataItem : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TransferDataItem) */ {
  public:
-  TransferDataReq();
-  virtual ~TransferDataReq();
+  TransferDataItem();
+  virtual ~TransferDataItem();
 
-  TransferDataReq(const TransferDataReq& from);
+  TransferDataItem(const TransferDataItem& from);
 
-  inline TransferDataReq& operator=(const TransferDataReq& from) {
+  inline TransferDataItem& operator=(const TransferDataItem& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  TransferDataReq(TransferDataReq&& from) noexcept
-    : TransferDataReq() {
+  TransferDataItem(TransferDataItem&& from) noexcept
+    : TransferDataItem() {
     *this = ::std::move(from);
   }
 
-  inline TransferDataReq& operator=(TransferDataReq&& from) noexcept {
+  inline TransferDataItem& operator=(TransferDataItem&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -5661,30 +5667,30 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const TransferDataReq& default_instance();
+  static const TransferDataItem& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TransferDataReq* internal_default_instance() {
-    return reinterpret_cast<const TransferDataReq*>(
-               &_TransferDataReq_default_instance_);
+  static inline const TransferDataItem* internal_default_instance() {
+    return reinterpret_cast<const TransferDataItem*>(
+               &_TransferDataItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     41;
 
-  void Swap(TransferDataReq* other);
-  friend void swap(TransferDataReq& a, TransferDataReq& b) {
+  void Swap(TransferDataItem* other);
+  friend void swap(TransferDataItem& a, TransferDataItem& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TransferDataReq* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline TransferDataItem* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  TransferDataReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  TransferDataItem* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const TransferDataReq& from);
-  void MergeFrom(const TransferDataReq& from);
+  void CopyFrom(const TransferDataItem& from);
+  void MergeFrom(const TransferDataItem& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -5700,7 +5706,7 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(TransferDataReq* other);
+  void InternalSwap(TransferDataItem* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -5749,7 +5755,7 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 camp() const;
   void set_camp(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:TransferDataReq)
+  // @@protoc_insertion_point(class_scope:TransferDataItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -5757,6 +5763,111 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
   ::TransPetData* petdata_;
   ::TransPartnerData* partnerdata_;
   ::google::protobuf::int32 camp_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsTransferDataItemImpl();
+};
+// -------------------------------------------------------------------
+
+class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TransferDataReq) */ {
+ public:
+  TransferDataReq();
+  virtual ~TransferDataReq();
+
+  TransferDataReq(const TransferDataReq& from);
+
+  inline TransferDataReq& operator=(const TransferDataReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  TransferDataReq(TransferDataReq&& from) noexcept
+    : TransferDataReq() {
+    *this = ::std::move(from);
+  }
+
+  inline TransferDataReq& operator=(TransferDataReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TransferDataReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TransferDataReq* internal_default_instance() {
+    return reinterpret_cast<const TransferDataReq*>(
+               &_TransferDataReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    42;
+
+  void Swap(TransferDataReq* other);
+  friend void swap(TransferDataReq& a, TransferDataReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TransferDataReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  TransferDataReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const TransferDataReq& from);
+  void MergeFrom(const TransferDataReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(TransferDataReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .TransferDataItem TransDatas = 1;
+  int transdatas_size() const;
+  void clear_transdatas();
+  static const int kTransDatasFieldNumber = 1;
+  const ::TransferDataItem& transdatas(int index) const;
+  ::TransferDataItem* mutable_transdatas(int index);
+  ::TransferDataItem* add_transdatas();
+  ::google::protobuf::RepeatedPtrField< ::TransferDataItem >*
+      mutable_transdatas();
+  const ::google::protobuf::RepeatedPtrField< ::TransferDataItem >&
+      transdatas() const;
+
+  // @@protoc_insertion_point(class_scope:TransferDataReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::TransferDataItem > transdatas_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsTransferDataReqImpl();
@@ -5798,7 +5909,7 @@ class TransferDataAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_TransferDataAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    42;
+    43;
 
   void Swap(TransferDataAck* other);
   friend void swap(TransferDataAck& a, TransferDataAck& b) {
@@ -5925,7 +6036,7 @@ class NotifyIntoScene : public ::google::protobuf::Message /* @@protoc_insertion
                &_NotifyIntoScene_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    43;
+    44;
 
   void Swap(NotifyIntoScene* other);
   friend void swap(NotifyIntoScene& a, NotifyIntoScene& b) {
@@ -6045,7 +6156,7 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_NearByRoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    44;
+    45;
 
   void Swap(NearByRoleItem* other);
   friend void swap(NearByRoleItem& a, NearByRoleItem& b) {
@@ -6173,7 +6284,7 @@ class CopyInsItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_CopyInsItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    45;
+    46;
 
   void Swap(CopyInsItem* other);
   friend void swap(CopyInsItem& a, CopyInsItem& b) {
@@ -6293,7 +6404,7 @@ class CopyReportReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_CopyReportReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    46;
+    47;
 
   void Swap(CopyReportReq* other);
   friend void swap(CopyReportReq& a, CopyReportReq& b) {
@@ -6405,7 +6516,7 @@ class UseHpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    47;
+    48;
 
   void Swap(UseHpBottleReq* other);
   friend void swap(UseHpBottleReq& a, UseHpBottleReq& b) {
@@ -6497,7 +6608,7 @@ class UseHpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    48;
+    49;
 
   void Swap(UseHpBottleAck* other);
   friend void swap(UseHpBottleAck& a, UseHpBottleAck& b) {
@@ -6603,7 +6714,7 @@ class UseMpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    49;
+    50;
 
   void Swap(UseMpBottleReq* other);
   friend void swap(UseMpBottleReq& a, UseMpBottleReq& b) {
@@ -6695,7 +6806,7 @@ class UseMpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    50;
+    51;
 
   void Swap(UseMpBottleAck* other);
   friend void swap(UseMpBottleAck& a, UseMpBottleAck& b) {
@@ -6801,7 +6912,7 @@ class ChatMessageReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    51;
+    52;
 
   void Swap(ChatMessageReq* other);
   friend void swap(ChatMessageReq& a, ChatMessageReq& b) {
@@ -6944,7 +7055,7 @@ class ChatMessageAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    52;
+    53;
 
   void Swap(ChatMessageAck* other);
   friend void swap(ChatMessageAck& a, ChatMessageAck& b) {
@@ -7043,7 +7154,7 @@ class ChatMessageNty : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    53;
+    54;
 
   void Swap(ChatMessageNty* other);
   friend void swap(ChatMessageNty& a, ChatMessageNty& b) {
@@ -7186,7 +7297,7 @@ class SealAccountReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    54;
+    55;
 
   void Swap(SealAccountReq* other);
   friend void swap(SealAccountReq& a, SealAccountReq& b) {
@@ -7321,7 +7432,7 @@ class SealAccountAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    55;
+    56;
 
   void Swap(SealAccountAck* other);
   friend void swap(SealAccountAck& a, SealAccountAck& b) {
@@ -7442,7 +7553,7 @@ class CommonReq : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    56;
+    57;
 
   void Swap(CommonReq* other);
   friend void swap(CommonReq& a, CommonReq& b) {
@@ -7541,7 +7652,7 @@ class CommonAck : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    57;
+    58;
 
   void Swap(CommonAck* other);
   friend void swap(CommonAck& a, CommonAck& b) {
@@ -7640,7 +7751,7 @@ class BroadMessageNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_BroadMessageNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    58;
+    59;
 
   void Swap(BroadMessageNotify* other);
   friend void swap(BroadMessageNotify& a, BroadMessageNotify& b) {
@@ -7768,7 +7879,7 @@ class LogicRegToLoginReq : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    59;
+    60;
 
   void Swap(LogicRegToLoginReq* other);
   friend void swap(LogicRegToLoginReq& a, LogicRegToLoginReq& b) {
@@ -7918,7 +8029,7 @@ class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    60;
+    61;
 
   void Swap(LogicRegToLoginAck* other);
   friend void swap(LogicRegToLoginAck& a, LogicRegToLoginAck& b) {
@@ -8032,7 +8143,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    61;
+    62;
 
   void Swap(WatchHeartBeatReq* other);
   friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
@@ -8138,7 +8249,7 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    62;
+    63;
 
   void Swap(WatchHeartBeatAck* other);
   friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
@@ -8251,7 +8362,7 @@ class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    63;
+    64;
 
   void Swap(SetupEquipReq* other);
   friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
@@ -8357,7 +8468,7 @@ class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    64;
+    65;
 
   void Swap(SetupEquipAck* other);
   friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
@@ -8456,7 +8567,7 @@ class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    65;
+    66;
 
   void Swap(UnsetEquipReq* other);
   friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
@@ -8555,7 +8666,7 @@ class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    66;
+    67;
 
   void Swap(UnsetEquipAck* other);
   friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
@@ -8654,7 +8765,7 @@ class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    67;
+    68;
 
   void Swap(SetupGemReq* other);
   friend void swap(SetupGemReq& a, SetupGemReq& b) {
@@ -8767,7 +8878,7 @@ class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    68;
+    69;
 
   void Swap(SetupGemAck* other);
   friend void swap(SetupGemAck& a, SetupGemAck& b) {
@@ -8866,7 +8977,7 @@ class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    69;
+    70;
 
   void Swap(UnsetGemReq* other);
   friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
@@ -8965,7 +9076,7 @@ class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    71;
 
   void Swap(UnsetGemAck* other);
   friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
@@ -9064,7 +9175,7 @@ class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    72;
 
   void Swap(SetupPartnerReq* other);
   friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
@@ -9170,7 +9281,7 @@ class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    73;
 
   void Swap(SetupPartnerAck* other);
   friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
@@ -9269,7 +9380,7 @@ class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    73;
+    74;
 
   void Swap(UnsetPartnerReq* other);
   friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
@@ -9368,7 +9479,7 @@ class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    74;
+    75;
 
   void Swap(UnsetPartnerAck* other);
   friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
@@ -9467,7 +9578,7 @@ class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    75;
+    76;
 
   void Swap(SetupMountReq* other);
   friend void swap(SetupMountReq& a, SetupMountReq& b) {
@@ -9573,7 +9684,7 @@ class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    76;
+    77;
 
   void Swap(SetupMountAck* other);
   friend void swap(SetupMountAck& a, SetupMountAck& b) {
@@ -9672,7 +9783,7 @@ class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    77;
+    78;
 
   void Swap(UnsetMountReq* other);
   friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
@@ -9771,7 +9882,7 @@ class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    78;
+    79;
 
   void Swap(UnsetMountAck* other);
   friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
@@ -9870,7 +9981,7 @@ class SetupPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    79;
+    80;
 
   void Swap(SetupPetReq* other);
   friend void swap(SetupPetReq& a, SetupPetReq& b) {
@@ -9969,7 +10080,7 @@ class SetupPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    80;
+    81;
 
   void Swap(SetupPetAck* other);
   friend void swap(SetupPetAck& a, SetupPetAck& b) {
@@ -10068,7 +10179,7 @@ class UnsetPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    81;
+    82;
 
   void Swap(UnsetPetReq* other);
   friend void swap(UnsetPetReq& a, UnsetPetReq& b) {
@@ -10167,7 +10278,7 @@ class UnsetPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    82;
+    83;
 
   void Swap(UnsetPetAck* other);
   friend void swap(UnsetPetAck& a, UnsetPetAck& b) {
@@ -10266,7 +10377,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    83;
+    84;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -10379,7 +10490,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    84;
+    85;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -10478,7 +10589,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    85;
+    86;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -10613,7 +10724,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_HitEffectItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    86;
+    87;
 
   void Swap(HitEffectItem* other);
   friend void swap(HitEffectItem& a, HitEffectItem& b) {
@@ -10733,7 +10844,7 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HitEffectNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    87;
+    88;
 
   void Swap(HitEffectNtf* other);
   friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
@@ -10838,7 +10949,7 @@ class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    88;
+    89;
 
   void Swap(UseItemReq* other);
   friend void swap(UseItemReq& a, UseItemReq& b) {
@@ -10930,7 +11041,7 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    89;
+    90;
 
   void Swap(UseItemAck* other);
   friend void swap(UseItemAck& a, UseItemAck& b) {
@@ -11022,7 +11133,7 @@ class MsgGetRandomNameReq : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    90;
+    91;
 
   void Swap(MsgGetRandomNameReq* other);
   friend void swap(MsgGetRandomNameReq& a, MsgGetRandomNameReq& b) {
@@ -11121,7 +11232,7 @@ class MsgGetRandomNameAck : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    91;
+    92;
 
   void Swap(MsgGetRandomNameAck* other);
   friend void swap(MsgGetRandomNameAck& a, MsgGetRandomNameAck& b) {
@@ -14428,52 +14539,52 @@ TransPartnerData::skills() const {
 
 // -------------------------------------------------------------------
 
-// TransferDataReq
+// TransferDataItem
 
 // int32 Camp = 1;
-inline void TransferDataReq::clear_camp() {
+inline void TransferDataItem::clear_camp() {
   camp_ = 0;
 }
-inline ::google::protobuf::int32 TransferDataReq::camp() const {
-  // @@protoc_insertion_point(field_get:TransferDataReq.Camp)
+inline ::google::protobuf::int32 TransferDataItem::camp() const {
+  // @@protoc_insertion_point(field_get:TransferDataItem.Camp)
   return camp_;
 }
-inline void TransferDataReq::set_camp(::google::protobuf::int32 value) {
+inline void TransferDataItem::set_camp(::google::protobuf::int32 value) {
   
   camp_ = value;
-  // @@protoc_insertion_point(field_set:TransferDataReq.Camp)
+  // @@protoc_insertion_point(field_set:TransferDataItem.Camp)
 }
 
 // .TransRoleData RoleData = 2;
-inline bool TransferDataReq::has_roledata() const {
+inline bool TransferDataItem::has_roledata() const {
   return this != internal_default_instance() && roledata_ != NULL;
 }
-inline void TransferDataReq::clear_roledata() {
+inline void TransferDataItem::clear_roledata() {
   if (GetArenaNoVirtual() == NULL && roledata_ != NULL) delete roledata_;
   roledata_ = NULL;
 }
-inline const ::TransRoleData& TransferDataReq::roledata() const {
+inline const ::TransRoleData& TransferDataItem::roledata() const {
   const ::TransRoleData* p = roledata_;
-  // @@protoc_insertion_point(field_get:TransferDataReq.RoleData)
+  // @@protoc_insertion_point(field_get:TransferDataItem.RoleData)
   return p != NULL ? *p : *reinterpret_cast<const ::TransRoleData*>(
       &::_TransRoleData_default_instance_);
 }
-inline ::TransRoleData* TransferDataReq::mutable_roledata() {
+inline ::TransRoleData* TransferDataItem::mutable_roledata() {
   
   if (roledata_ == NULL) {
     roledata_ = new ::TransRoleData;
   }
-  // @@protoc_insertion_point(field_mutable:TransferDataReq.RoleData)
+  // @@protoc_insertion_point(field_mutable:TransferDataItem.RoleData)
   return roledata_;
 }
-inline ::TransRoleData* TransferDataReq::release_roledata() {
-  // @@protoc_insertion_point(field_release:TransferDataReq.RoleData)
+inline ::TransRoleData* TransferDataItem::release_roledata() {
+  // @@protoc_insertion_point(field_release:TransferDataItem.RoleData)
   
   ::TransRoleData* temp = roledata_;
   roledata_ = NULL;
   return temp;
 }
-inline void TransferDataReq::set_allocated_roledata(::TransRoleData* roledata) {
+inline void TransferDataItem::set_allocated_roledata(::TransRoleData* roledata) {
   delete roledata_;
   roledata_ = roledata;
   if (roledata) {
@@ -14481,39 +14592,39 @@ inline void TransferDataReq::set_allocated_roledata(::TransRoleData* roledata) {
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:TransferDataReq.RoleData)
+  // @@protoc_insertion_point(field_set_allocated:TransferDataItem.RoleData)
 }
 
 // .TransPetData PetData = 3;
-inline bool TransferDataReq::has_petdata() const {
+inline bool TransferDataItem::has_petdata() const {
   return this != internal_default_instance() && petdata_ != NULL;
 }
-inline void TransferDataReq::clear_petdata() {
+inline void TransferDataItem::clear_petdata() {
   if (GetArenaNoVirtual() == NULL && petdata_ != NULL) delete petdata_;
   petdata_ = NULL;
 }
-inline const ::TransPetData& TransferDataReq::petdata() const {
+inline const ::TransPetData& TransferDataItem::petdata() const {
   const ::TransPetData* p = petdata_;
-  // @@protoc_insertion_point(field_get:TransferDataReq.PetData)
+  // @@protoc_insertion_point(field_get:TransferDataItem.PetData)
   return p != NULL ? *p : *reinterpret_cast<const ::TransPetData*>(
       &::_TransPetData_default_instance_);
 }
-inline ::TransPetData* TransferDataReq::mutable_petdata() {
+inline ::TransPetData* TransferDataItem::mutable_petdata() {
   
   if (petdata_ == NULL) {
     petdata_ = new ::TransPetData;
   }
-  // @@protoc_insertion_point(field_mutable:TransferDataReq.PetData)
+  // @@protoc_insertion_point(field_mutable:TransferDataItem.PetData)
   return petdata_;
 }
-inline ::TransPetData* TransferDataReq::release_petdata() {
-  // @@protoc_insertion_point(field_release:TransferDataReq.PetData)
+inline ::TransPetData* TransferDataItem::release_petdata() {
+  // @@protoc_insertion_point(field_release:TransferDataItem.PetData)
   
   ::TransPetData* temp = petdata_;
   petdata_ = NULL;
   return temp;
 }
-inline void TransferDataReq::set_allocated_petdata(::TransPetData* petdata) {
+inline void TransferDataItem::set_allocated_petdata(::TransPetData* petdata) {
   delete petdata_;
   petdata_ = petdata;
   if (petdata) {
@@ -14521,39 +14632,39 @@ inline void TransferDataReq::set_allocated_petdata(::TransPetData* petdata) {
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:TransferDataReq.PetData)
+  // @@protoc_insertion_point(field_set_allocated:TransferDataItem.PetData)
 }
 
 // .TransPartnerData PartnerData = 4;
-inline bool TransferDataReq::has_partnerdata() const {
+inline bool TransferDataItem::has_partnerdata() const {
   return this != internal_default_instance() && partnerdata_ != NULL;
 }
-inline void TransferDataReq::clear_partnerdata() {
+inline void TransferDataItem::clear_partnerdata() {
   if (GetArenaNoVirtual() == NULL && partnerdata_ != NULL) delete partnerdata_;
   partnerdata_ = NULL;
 }
-inline const ::TransPartnerData& TransferDataReq::partnerdata() const {
+inline const ::TransPartnerData& TransferDataItem::partnerdata() const {
   const ::TransPartnerData* p = partnerdata_;
-  // @@protoc_insertion_point(field_get:TransferDataReq.PartnerData)
+  // @@protoc_insertion_point(field_get:TransferDataItem.PartnerData)
   return p != NULL ? *p : *reinterpret_cast<const ::TransPartnerData*>(
       &::_TransPartnerData_default_instance_);
 }
-inline ::TransPartnerData* TransferDataReq::mutable_partnerdata() {
+inline ::TransPartnerData* TransferDataItem::mutable_partnerdata() {
   
   if (partnerdata_ == NULL) {
     partnerdata_ = new ::TransPartnerData;
   }
-  // @@protoc_insertion_point(field_mutable:TransferDataReq.PartnerData)
+  // @@protoc_insertion_point(field_mutable:TransferDataItem.PartnerData)
   return partnerdata_;
 }
-inline ::TransPartnerData* TransferDataReq::release_partnerdata() {
-  // @@protoc_insertion_point(field_release:TransferDataReq.PartnerData)
+inline ::TransPartnerData* TransferDataItem::release_partnerdata() {
+  // @@protoc_insertion_point(field_release:TransferDataItem.PartnerData)
   
   ::TransPartnerData* temp = partnerdata_;
   partnerdata_ = NULL;
   return temp;
 }
-inline void TransferDataReq::set_allocated_partnerdata(::TransPartnerData* partnerdata) {
+inline void TransferDataItem::set_allocated_partnerdata(::TransPartnerData* partnerdata) {
   delete partnerdata_;
   partnerdata_ = partnerdata;
   if (partnerdata) {
@@ -14561,7 +14672,41 @@ inline void TransferDataReq::set_allocated_partnerdata(::TransPartnerData* partn
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:TransferDataReq.PartnerData)
+  // @@protoc_insertion_point(field_set_allocated:TransferDataItem.PartnerData)
+}
+
+// -------------------------------------------------------------------
+
+// TransferDataReq
+
+// repeated .TransferDataItem TransDatas = 1;
+inline int TransferDataReq::transdatas_size() const {
+  return transdatas_.size();
+}
+inline void TransferDataReq::clear_transdatas() {
+  transdatas_.Clear();
+}
+inline const ::TransferDataItem& TransferDataReq::transdatas(int index) const {
+  // @@protoc_insertion_point(field_get:TransferDataReq.TransDatas)
+  return transdatas_.Get(index);
+}
+inline ::TransferDataItem* TransferDataReq::mutable_transdatas(int index) {
+  // @@protoc_insertion_point(field_mutable:TransferDataReq.TransDatas)
+  return transdatas_.Mutable(index);
+}
+inline ::TransferDataItem* TransferDataReq::add_transdatas() {
+  // @@protoc_insertion_point(field_add:TransferDataReq.TransDatas)
+  return transdatas_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::TransferDataItem >*
+TransferDataReq::mutable_transdatas() {
+  // @@protoc_insertion_point(field_mutable_list:TransferDataReq.TransDatas)
+  return &transdatas_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::TransferDataItem >&
+TransferDataReq::transdatas() const {
+  // @@protoc_insertion_point(field_list:TransferDataReq.TransDatas)
+  return transdatas_;
 }
 
 // -------------------------------------------------------------------
@@ -16736,6 +16881,8 @@ inline void MsgGetRandomNameAck::set_allocated_name(::std::string* name) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

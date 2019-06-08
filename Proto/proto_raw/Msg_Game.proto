@@ -280,11 +280,15 @@ message TransPartnerData {
     repeated SkillItem  Skills  = 7;
 }
 
-message TransferDataReq {
+message TransferDataItem {
     int32               Camp        = 1;            //战场中的阵营
     TransRoleData       RoleData    = 2;
     TransPetData        PetData     = 3;
     TransPartnerData    PartnerData = 4;
+}
+
+message TransferDataReq {
+   repeated TransferDataItem TransDatas = 1;
 }
 
 message TransferDataAck {

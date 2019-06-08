@@ -394,7 +394,8 @@ BOOL CLogicMsgHandler::OnMsgMainCopyReq(NetPacket* pNetPacket)
 		pPlayer->SendMsgProtoBuf(MSG_MAIN_COPY_ACK, Ack);
 	}
 
-	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(Req.copyid(), pHeader->u64TargetID, 1, pCopyInfo->dwCopyType));
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->TakeCopyRequest( pHeader->u64TargetID, 1, Req.copyid(), pCopyInfo->dwCopyType));
+
 	return TRUE;
 }
 

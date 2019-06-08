@@ -510,21 +510,24 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-	ERROR_RETURN_TRUE(pHeader->u64TargetID == Req.roledata().roleid());
 
-	CreatePlayer(Req.roledata(), pHeader->u64TargetID, Req.camp());
+    for (int i = 0; i < Req.transdatas_size(); i++)
+    {
+        const TransferDataItem &Item = Req.transdatas(i);
+        CreatePlayer(Item.roledata(), pHeader->u64TargetID, Item.camp());
 
-	//是否有宠物
-	if(Req.has_petdata())
-	{
-		CreatePet(Req.petdata(), pHeader->u64TargetID, Req.camp());
-	}
+        //是否有宠物
+	    if(Item.has_petdata())
+	    {
+		    CreatePet(Item.petdata(), pHeader->u64TargetID, Item.camp());
+	    }
 
-	//是否有伙伴
-	if(Req.has_partnerdata())
-	{
-		CreatePartner(Req.partnerdata(), pHeader->u64TargetID, Req.camp());
-	}
+        //是否有伙伴
+        if (Item.has_partnerdata())
+        {
+            CreatePartner(Item.partnerdata(), pHeader->u64TargetID, Item.camp());
+        }
+    }
 
 	//检查人齐没齐，如果齐了，就全部发准备好了的消息
 	//有的副本不需要等人齐，有人就可以进
@@ -1166,7 +1169,7 @@ VOID CScene::SetFinished()
 
 BOOL CScene::IsAllDataReady()
 {
-	if(m_PlayerMap.size() == m_dwPlayerNum)
+	if(m_PlayerMap.size() >= m_dwPlayerNum)
 	{
 		return TRUE;
 	}

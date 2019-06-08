@@ -31,7 +31,7 @@ public:
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL ToTransferData(TransferDataReq& Req);
+	BOOL ToTransferData(TransferDataItem *pTransItem);
 
 public:
 	UINT64 AddPartner(UINT32 dwPartnerID);
