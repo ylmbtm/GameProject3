@@ -1536,7 +1536,7 @@ BOOL CScene::ReadSceneXml()
 	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
 	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pBornNode));
 
-	auto pCreatorNode = pXmlRoot->first_node("MapActions");
+	auto pCreatorNode = pXmlRoot->first_node("MapWaves");
 	ERROR_RETURN_FALSE(pCreatorNode != NULL);
 	ERROR_RETURN_FALSE(m_pMonsterCreator != NULL);
 	ERROR_RETURN_FALSE(m_pMonsterCreator->ReadFromXml(pCreatorNode));

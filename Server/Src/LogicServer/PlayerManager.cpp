@@ -3,10 +3,11 @@
 #include "RoleModule.h"
 #include "../ServerData/RoleData.h"
 #include "../Message/Msg_ID.pb.h"
+#include "TimerManager.h"
 
 CPlayerManager::CPlayerManager()
 {
-
+	TimerManager::GetInstancePtr()->AddFixTimer(0, 1, &CPlayerManager::ZeroTimer, this);
 }
 
 CPlayerManager::~CPlayerManager()
@@ -124,6 +125,28 @@ BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::M
 
 	//因为所有玩家是一个ProxyID
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwProxyID, MSG_BROAD_MESSAGE_NOTIFY, 0, 0, Nty);
+
+	return TRUE;
+}
+
+BOOL CPlayerManager::ZeroTimer(UINT32 nParam)
+{
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		ERROR_RETURN_FALSE(pTempObj != NULL);
+
+		if (!pTempObj->IsOnline())
+		{
+			continue;
+		}
+
+		pTempObj->OnNewDay();
+	}
 
 	return TRUE;
 }

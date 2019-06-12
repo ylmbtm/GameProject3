@@ -4,9 +4,9 @@
 
 TimerManager::TimerManager()
 {
-	m_pHead = NULL;
+	m_pUsedHead = NULL;
 
-	m_pFree = NULL;
+	m_pFreeHead = NULL;
 
 	m_dwInitTime = CommonFunc::GetCurrTime();
 }
@@ -25,12 +25,12 @@ TimerManager* TimerManager::GetInstancePtr()
 
 BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 {
-	if(m_pHead == NULL)
+	if(m_pUsedHead == NULL)
 	{
 		return TRUE;
 	}
 
-	TimeEvent* pDelEvent = m_pHead;
+	TimeEvent* pDelEvent = m_pUsedHead;
 	while(pDelEvent != NULL)
 	{
 		if((pDelEvent->m_dwSec == dwSec) && (pDelEvent->m_dwData == dwData))
@@ -42,12 +42,12 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 	}
 
 
-	if(pDelEvent == m_pHead)
+	if(pDelEvent == m_pUsedHead)
 	{
-		m_pHead = m_pHead->m_pNext;
-		if(m_pHead != NULL)
+		m_pUsedHead = m_pUsedHead->m_pNext;
+		if(m_pUsedHead != NULL)
 		{
-			m_pHead->m_pPrev = NULL;
+			m_pUsedHead->m_pPrev = NULL;
 		}
 	}
 	else
@@ -59,15 +59,15 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 		}
 	}
 
-	pDelEvent->m_pNext = m_pFree;
+	pDelEvent->m_pNext = m_pFreeHead;
 	pDelEvent->m_pPrev = NULL;
 
-	if(m_pFree != NULL)
+	if(m_pFreeHead != NULL)
 	{
-		m_pFree->m_pPrev = pDelEvent;
+		m_pFreeHead->m_pPrev = pDelEvent;
 	}
 
-	m_pFree = pDelEvent;
+	m_pFreeHead = pDelEvent;
 
 	pDelEvent->Reset();
 
@@ -77,7 +77,7 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 VOID TimerManager::UpdateTimer()
 {
 	m_dwCurTime = CommonFunc::GetCurrTime();
-	TimeEvent* pCurEvent = m_pHead;
+	TimeEvent* pCurEvent = m_pUsedHead;
 	while(pCurEvent != NULL)
 	{
 		if(m_dwCurTime >= pCurEvent->m_dwFireTime)
@@ -102,11 +102,43 @@ VOID TimerManager::UpdateTimer()
 
 		if(pCurEvent->m_dwRepeateTimes <= 0)
 		{
+			//首先从己用中删除
+			if (pCurEvent == m_pUsedHead)
+			{
+				//自己是首结点
+				m_pUsedHead = pCurEvent->m_pNext;
+				if (m_pUsedHead != NULL)
+				{
+					m_pUsedHead->m_pPrev = NULL;
+				}
+			}
+			else
+			{
+				ASSERT(pCurEvent->m_pPrev != NULL);
+				pCurEvent->m_pPrev->m_pNext = pCurEvent->m_pNext;
+				if (pCurEvent->m_pNext != NULL)
+				{
+					pCurEvent->m_pNext->m_pPrev = pCurEvent->m_pPrev;
+				}
+			}
 
+			TimeEvent* pDelEvent = pCurEvent;
+
+			pCurEvent = pCurEvent->m_pNext;
+
+			if (m_pFreeHead != NULL)
+			{
+				m_pFreeHead->m_pPrev = pDelEvent;
+			}
+
+			m_pFreeHead = pDelEvent;
+
+			pDelEvent->Reset();
 		}
-
-
-		pCurEvent = pCurEvent->m_pNext;
+		else
+		{
+			pCurEvent = pCurEvent->m_pNext;
+		}
 	}
 }
 
@@ -130,10 +162,10 @@ BOOL TimerManager::InitTimer()
 
 BOOL TimerManager::Clear()
 {
-	while(m_pHead != NULL)
+	while(m_pUsedHead != NULL)
 	{
-		TimeEvent* pCurEvent = m_pHead;
-		m_pHead = pCurEvent->m_pNext;
+		TimeEvent* pCurEvent = m_pUsedHead;
+		m_pUsedHead = pCurEvent->m_pNext;
 		delete pCurEvent;
 	}
 

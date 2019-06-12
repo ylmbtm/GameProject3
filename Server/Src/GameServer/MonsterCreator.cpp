@@ -18,11 +18,11 @@ MonsterCreator::~MonsterCreator()
 
 BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
-	for(auto pWaveNode = pNode->first_node("MapActWave"); pWaveNode != NULL; pWaveNode = pWaveNode->next_sibling("MapActWave"))
+	for(auto pWaveNode = pNode->first_node("DTWave"); pWaveNode != NULL; pWaveNode = pWaveNode->next_sibling("DTWave"))
 	{
 		MonsterWave Wave;
 		//Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
-		for(auto pObjectNode = pWaveNode->first_node("MapCallMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("MapCallMonster"))
+		for(auto pObjectNode = pWaveNode->first_node("DTMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("DTMonster"))
 		{
 			MonsterData Monster;
 			Monster.m_dwActorID = CommonConvert::StringToInt(pObjectNode->first_attribute("MonsterID")->value());

@@ -5,8 +5,14 @@ class CTimerSlotBase
 {
 public:
 	virtual ~CTimerSlotBase() {}
-	virtual BOOL operator()(UINT32 pData) { return TRUE; }
-	virtual VOID* GetThisAddr() { return 0; }
+	virtual BOOL operator()(UINT32 pData)
+	{
+		return TRUE;
+	}
+	virtual VOID* GetThisAddr()
+	{
+		return 0;
+	}
 };
 
 
@@ -31,7 +37,9 @@ public:
 			return true;
 		}
 		else
-		{ return false; }
+		{
+			return false;
+		}
 	}
 
 	virtual VOID* GetThisAddr()
@@ -101,15 +109,15 @@ public:
 	BOOL AddFixTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32), T* pObj)
 	{
 		TimeEvent* pNewEvent = NULL;
-		if(m_pFree == NULL)
+		if(m_pFreeHead == NULL)
 		{
 			pNewEvent = new TimeEvent;
 		}
 		else
 		{
-			pNewEvent = m_pFree;
-			m_pFree = m_pFree->m_pNext;
-			m_pFree->m_pPrev = NULL;
+			pNewEvent = m_pFreeHead;
+			m_pFreeHead = m_pFreeHead->m_pNext;
+			m_pFreeHead->m_pPrev = NULL;
 		}
 
 		pNewEvent->m_pNext = NULL;
@@ -122,16 +130,16 @@ public:
 		pNewEvent->m_dwType = 1;
 		pNewEvent->m_pTimerFuncSlot = new CTimerSlot<T>(FuncPtr, pObj);
 
-		if(m_pHead == NULL)
+		if(m_pUsedHead == NULL)
 		{
-			m_pHead = pNewEvent;
+			m_pUsedHead = pNewEvent;
 		}
 		else
 		{
-			pNewEvent->m_pNext = m_pHead;
-			m_pHead->m_pPrev = pNewEvent;
-			m_pHead = pNewEvent;
-			m_pHead->m_pPrev = NULL;
+			pNewEvent->m_pNext = m_pUsedHead;
+			m_pUsedHead->m_pPrev = pNewEvent;
+			m_pUsedHead = pNewEvent;
+			m_pUsedHead->m_pPrev = NULL;
 		}
 
 		//TimeEvent *pInserPos = m_pHead;
@@ -152,15 +160,15 @@ public:
 	BOOL AddDiffTimer(UINT32 dwSec, UINT32 dwData, BOOL (T::*FuncPtr)(UINT32), T* pObj)
 	{
 		TimeEvent* pNewEvent = NULL;
-		if(m_pFree == NULL)
+		if(m_pFreeHead == NULL)
 		{
 			pNewEvent = new TimeEvent;
 		}
 		else
 		{
-			pNewEvent = m_pFree;
-			m_pFree = m_pFree->m_pNext;
-			m_pFree->m_pPrev = NULL;
+			pNewEvent = m_pFreeHead;
+			m_pFreeHead = m_pFreeHead->m_pNext;
+			m_pFreeHead->m_pPrev = NULL;
 		}
 
 		pNewEvent->m_pNext = NULL;
@@ -173,16 +181,16 @@ public:
 		pNewEvent->m_dwType = 2;
 
 		pNewEvent->m_pTimerFuncSlot = new CTimerSlot<T>(FuncPtr, pObj);
-		if(m_pHead == NULL)
+		if(m_pUsedHead == NULL)
 		{
-			m_pHead = pNewEvent;
+			m_pUsedHead = pNewEvent;
 		}
 		else
 		{
-			pNewEvent->m_pNext = m_pHead;
-			m_pHead->m_pPrev = pNewEvent;
-			m_pHead = pNewEvent;
-			m_pHead->m_pPrev = NULL;
+			pNewEvent->m_pNext = m_pUsedHead;
+			m_pUsedHead->m_pPrev = pNewEvent;
+			m_pUsedHead = pNewEvent;
+			m_pUsedHead->m_pPrev = NULL;
 		}
 
 		return TRUE;
@@ -198,9 +206,9 @@ public:
 
 	BOOL Clear();
 
-	TimeEvent* m_pHead;
+	TimeEvent* m_pUsedHead;
 
-	TimeEvent* m_pFree;
+	TimeEvent* m_pFreeHead;
 
 	UINT64     m_dwCurTime;
 

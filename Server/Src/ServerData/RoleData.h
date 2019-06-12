@@ -6,20 +6,20 @@ struct RoleDataObject : public ShareObject
 {
 	RoleDataObject()
 	{
-		m_uRoleID		= 0;			//角色ID
-		m_uAccountID	= 0;			//账号ID
-		m_Level			= 0;				//等级
-		m_Exp			= 0;			//经验
-		m_nLangID		= 0;			//语言ID
-		m_u64Fight		= 0;			//战力
-		m_VipLvl		= 0;			//VIP等级
-		m_VipExp		= 0;			//VIP经验
-		m_CityCopyID	= 0;			//主城副本类型
+		m_uRoleID		= 0;            //角色ID
+		m_uAccountID	= 0;            //账号ID
+		m_Level			= 0;            //等级
+		m_Exp			= 0;            //经验
+		m_nLangID		= 0;            //语言ID
+		m_u64Fight		= 0;            //战力
+		m_VipLvl		= 0;            //VIP等级
+		m_VipExp		= 0;            //VIP经验
+		m_CityCopyID	= 0;            //主城副本类型
 		m_bDelete       = FALSE;        //是否删除
-		m_CarrerID      = 0;
-		m_uCreateTime	= 0;
-		m_uLogonTime	= 0;	  //本次登录时间
-		m_uLogoffTime	= 0;	  //离线时间
+		m_CarrerID      = 0;            //职业
+		m_uCreateTime	= 0;            //角色创建时间
+		m_uLogonTime	= 0;            //最近一次登录时间
+		m_uLogoffTime	= 0;            //最近一次离线时间
 		memset(m_szName, 0, ROLE_NAME_LEN);
 	}
 

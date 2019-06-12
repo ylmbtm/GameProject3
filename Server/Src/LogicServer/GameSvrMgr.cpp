@@ -29,36 +29,36 @@ CGameSvrMgr* CGameSvrMgr::GetInstancePtr()
 
 BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType)
 {
-    ERROR_RETURN_FALSE(uID > 0);
+	ERROR_RETURN_FALSE(uID > 0);
 
-   CWaitItem *pItem = m_WaitCopyList.InsertAlloc(uID);
-   ERROR_RETURN_FALSE(pItem != NULL);
+	CWaitItem* pItem = m_WaitCopyList.InsertAlloc(uID);
+	ERROR_RETURN_FALSE(pItem != NULL);
 
-   pItem->uID[0] = uID;
-   pItem->dwCamp[0] = dwCamp;
+	pItem->uID[0] = uID;
+	pItem->dwCamp[0] = dwCamp;
 
-   ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(dwCopyID, uID, 1, dwCopyType));
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(dwCopyID, uID, 1, dwCopyType));
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum,  UINT32 dwCopyID, UINT32 dwCopyType)
 {
-    ERROR_RETURN_FALSE(nNum > 0);
-    ERROR_RETURN_FALSE(nNum < 11);
-    ERROR_RETURN_FALSE(uID[0] > 0);
-    CWaitItem *pItem = m_WaitCopyList.InsertAlloc(uID[0]);
-    ERROR_RETURN_FALSE(pItem != NULL);
+	ERROR_RETURN_FALSE(nNum > 0);
+	ERROR_RETURN_FALSE(nNum < 11);
+	ERROR_RETURN_FALSE(uID[0] > 0);
+	CWaitItem* pItem = m_WaitCopyList.InsertAlloc(uID[0]);
+	ERROR_RETURN_FALSE(pItem != NULL);
 
-    for (int i = 0; i < nNum; i++)
-    {
-        pItem->uID[i] = uID[i];
-        pItem->dwCamp[i] = dwCamp[i];
-    }
+	for (int i = 0; i < nNum; i++)
+	{
+		pItem->uID[i] = uID[i];
+		pItem->dwCamp[i] = dwCamp[i];
+	}
 
-    ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(dwCopyID, uID[0], nNum, dwCopyType));
+	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(dwCopyID, uID[0], nNum, dwCopyType));
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CGameSvrMgr::DispatchPacket(NetPacket* pNetPacket)
@@ -78,11 +78,11 @@ BOOL CGameSvrMgr::DispatchPacket(NetPacket* pNetPacket)
 
 UINT32 CGameSvrMgr::GetServerIDByCopyGuid(UINT32 dwCopyGuid)
 {
-    auto itor = m_GuidToSvrID.find(dwCopyGuid);
-    if (itor != m_GuidToSvrID.end())
-    {
-        return itor->second;
-    }
+	auto itor = m_GuidToSvrID.find(dwCopyGuid);
+	if (itor != m_GuidToSvrID.end())
+	{
+		return itor->second;
+	}
 	return 1;
 }
 
@@ -143,7 +143,7 @@ BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID)
 	ERROR_RETURN_FALSE(dwCopyGuid != 0);
 	ERROR_RETURN_FALSE(dwSvrID != 0);
 	ERROR_RETURN_FALSE(dwCopyID != 0);
-    SendPlayerToCopy(u64ID, dwSvrID, dwCopyID, dwCopyGuid, 1);
+	SendPlayerToCopy(u64ID, dwSvrID, dwCopyID, dwCopyGuid, 1);
 	return TRUE;
 }
 
@@ -155,13 +155,13 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
 
 	TransferDataReq Req;
-    TransferDataItem *pItem = Req.add_transdatas();
-    pItem->set_camp(1);
-    ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
+	TransferDataItem* pItem = Req.add_transdatas();
+	pItem->set_camp(1);
+	ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwServerID);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
-    AddWaitItem(u64ID, dwCamp);
+	AddWaitItem(u64ID, dwCamp);
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, u64ID, dwCopyGuid, Req);
 	pPlayer->m_dwToCopyID = dwCopyID;
@@ -191,14 +191,14 @@ BOOL CGameSvrMgr::GetMainCityInfo(UINT32 dwCopyID, UINT32& dwServerID, UINT32& d
 
 BOOL CGameSvrMgr::AddWaitItem(UINT64 u64ID, UINT32 dwCamp)
 {
-    ERROR_RETURN_FALSE(u64ID > 0);
+	ERROR_RETURN_FALSE(u64ID > 0);
 
-    CWaitItem *pItem = m_WaitCopyList.InsertAlloc(u64ID);
-    ERROR_RETURN_FALSE(pItem != NULL);
-    pItem->uID[0] = u64ID;
-    pItem->dwCamp[0] = dwCamp;
+	CWaitItem* pItem = m_WaitCopyList.InsertAlloc(u64ID);
+	ERROR_RETURN_FALSE(pItem != NULL);
+	pItem->uID[0] = u64ID;
+	pItem->dwCamp[0] = dwCamp;
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket* pNetPacket)
@@ -231,7 +231,10 @@ BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket* pNetPacket)
 	{
 		const CopyInsItem& item = Req.copylist(i);
 		m_mapCity.insert(std::make_pair(item.copyid(), CityInfo(item.copyid(), item.serverid(), pNetPacket->m_dwConnID, item.copyguid())));
+
+		m_GuidToSvrID.insert(std::make_pair(item.copyguid(), item.serverid()));
 	}
+
 
 	return TRUE;
 }
@@ -247,40 +250,40 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(Ack.playernum() != 0);
 	ERROR_RETURN_TRUE(Ack.copytype() != 0);
 
-    m_GuidToSvrID.insert(std::make_pair(Ack.copyguid(), Ack.serverid()));
+	m_GuidToSvrID.insert(std::make_pair(Ack.copyguid(), Ack.serverid()));
 
-    if (Ack.playernum() == 0)
-    {
-        //表示这是一个任意人数,任意进出的副本,人员信息将在后面放进去
-        return TRUE;
-    }
-	
-    CWaitItem *pWaitItem = m_WaitCopyList.GetWaitItem(Ack.createparam());
-    ERROR_RETURN_FALSE(pWaitItem != NULL);
+	if (Ack.playernum() == 0)
+	{
+		//表示这是一个任意人数,任意进出的副本,人员信息将在后面放进去
+		return TRUE;
+	}
 
-    TransferDataReq Req;
-    for (int i = 0; i < 10; i++)
-    {
-        if (pWaitItem->uID[i] <= 0)
-        {
-            break;
-        }
+	CWaitItem* pWaitItem = m_WaitCopyList.GetWaitItem(Ack.createparam());
+	ERROR_RETURN_FALSE(pWaitItem != NULL);
 
-        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
-        ERROR_RETURN_FALSE(pPlayer != NULL);
-        ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != Ack.copyid());
-        ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != Ack.copyguid());
-        TransferDataItem *pItem = Req.add_transdatas();
-        pItem->set_camp(pWaitItem->dwCamp[i]);
-        ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
-        pPlayer->m_dwToCopyID = Ack.copyid();
-        pPlayer->m_dwToCopyGuid = Ack.copyguid();
-        pPlayer->m_dwToCopySvrID = Ack.serverid();
-    }
+	TransferDataReq Req;
+	for (int i = 0; i < 10; i++)
+	{
+		if (pWaitItem->uID[i] <= 0)
+		{
+			break;
+		}
 
-    UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
-    ERROR_RETURN_FALSE(dwConnID != 0);
-    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, Ack.createparam(), Ack.copyguid(), Req);
+		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
+		ERROR_RETURN_FALSE(pPlayer != NULL);
+		ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != Ack.copyid());
+		ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != Ack.copyguid());
+		TransferDataItem* pItem = Req.add_transdatas();
+		pItem->set_camp(pWaitItem->dwCamp[i]);
+		ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
+		pPlayer->m_dwToCopyID = Ack.copyid();
+		pPlayer->m_dwToCopyGuid = Ack.copyguid();
+		pPlayer->m_dwToCopySvrID = Ack.serverid();
+	}
+
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
+	ERROR_RETURN_FALSE(dwConnID != 0);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, Ack.createparam(), Ack.copyguid(), Req);
 
 	return TRUE;
 }
@@ -292,28 +295,28 @@ BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
-    CWaitItem *pWaitItem = m_WaitCopyList.GetWaitItem(pHeader->u64TargetID);
-    ERROR_RETURN_TRUE(pWaitItem != NULL);
+	CWaitItem* pWaitItem = m_WaitCopyList.GetWaitItem(pHeader->u64TargetID);
+	ERROR_RETURN_TRUE(pWaitItem != NULL);
 
-    for (int i = 0; i < 10; i++)
-    {
-        if (pWaitItem->uID[i] <= 0)
-        {
-            break;
-        }
+	for (int i = 0; i < 10; i++)
+	{
+		if (pWaitItem->uID[i] <= 0)
+		{
+			break;
+		}
 
-        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pWaitItem->uID[i]);
-        ERROR_RETURN_TRUE(pPlayer != NULL);
-        ERROR_RETURN_TRUE(Ack.copyid() != 0);
-        ERROR_RETURN_TRUE(Ack.copyguid() != 0);
-        ERROR_RETURN_TRUE(Ack.serverid() != 0);
-        pPlayer->SendIntoSceneNotify(Ack.copyguid(), Ack.copyid(), Ack.serverid());
-        pPlayer->m_dwToCopyID = Ack.copyid();
-        pPlayer->m_dwToCopyGuid = Ack.copyguid();
-        pPlayer->m_dwToCopySvrID = Ack.serverid();
-    }
+		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pWaitItem->uID[i]);
+		ERROR_RETURN_TRUE(pPlayer != NULL);
+		ERROR_RETURN_TRUE(Ack.copyid() != 0);
+		ERROR_RETURN_TRUE(Ack.copyguid() != 0);
+		ERROR_RETURN_TRUE(Ack.serverid() != 0);
+		pPlayer->SendIntoSceneNotify(Ack.copyguid(), Ack.copyid(), Ack.serverid());
+		pPlayer->m_dwToCopyID = Ack.copyid();
+		pPlayer->m_dwToCopyGuid = Ack.copyguid();
+		pPlayer->m_dwToCopySvrID = Ack.serverid();
+	}
 
-    m_WaitCopyList.Delete(pHeader->u64TargetID);
+	m_WaitCopyList.Delete(pHeader->u64TargetID);
 
 	return TRUE;
 }
@@ -438,5 +441,5 @@ CWaitCopyList::~CWaitCopyList()
 
 CWaitItem* CWaitCopyList::GetWaitItem(UINT64 uParam)
 {
-    return GetByKey(uParam);
+	return GetByKey(uParam);
 }

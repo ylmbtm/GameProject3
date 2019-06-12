@@ -24,6 +24,8 @@ public:
 
 	BOOL				BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
+	BOOL                ZeroTimer(UINT32 nParam);
+
 public:
 
 };

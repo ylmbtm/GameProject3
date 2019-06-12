@@ -17,7 +17,7 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
 	UINT32 dwCamp = 0;
 	CPoint3D pt;
-	for(auto pBornNode = pNode->first_node("MapBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("MapBorn"))
+	for(auto pBornNode = pNode->first_node("DTBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("DTBorn"))
 	{
 		for(auto pAttr = pBornNode->first_attribute(); pAttr != NULL; pAttr = pAttr->next_attribute())
 		{

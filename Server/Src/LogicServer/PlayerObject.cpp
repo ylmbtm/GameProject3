@@ -97,6 +97,19 @@ BOOL CPlayerObject::OnLogin()
 
 	m_IsOnline = TRUE;
 
+	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
+
+	if (!CommonFunc::IsSameDay(pRoleModule->GetLastLogoffTime()))
+	{
+		for (int i = MT_ROLE; i < MT_END; i++)
+		{
+			CModuleBase* pBase = m_MoudleList.at(i);
+			ERROR_RETURN_FALSE(pBase != NULL);
+			pBase->OnNewDay();
+		}
+	}
+
 	return TRUE;
 }
 
@@ -372,7 +385,7 @@ BOOL CPlayerObject::SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1,
 	return TRUE;
 }
 
-BOOL CPlayerObject::ToTransferData(TransferDataItem *pTransItem)
+BOOL CPlayerObject::ToTransferData(TransferDataItem* pTransItem)
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 

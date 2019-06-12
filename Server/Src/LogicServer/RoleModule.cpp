@@ -353,3 +353,10 @@ UINT64 CRoleModule::AddExp( INT32 nExp )
 	return m_pRoleDataObject->m_Exp;
 }
 
+UINT64 CRoleModule::GetLastLogoffTime()
+{
+	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
+
+	return m_pRoleDataObject->m_uLogoffTime;
+}
+
