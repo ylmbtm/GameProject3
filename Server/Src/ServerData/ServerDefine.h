@@ -19,6 +19,7 @@
 //公会名长度
 #define GUILD_NAME_LEN		255
 #define GUILD_NOTICE_LEN	1024
+#define GUILD_MAX_APPLY_NUM 50
 
 //语言数
 #define MAX_LANGUAGE_NUM	15

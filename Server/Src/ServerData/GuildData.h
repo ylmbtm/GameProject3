@@ -13,10 +13,11 @@ struct GuildDataObject : public ShareObject
 		memset(m_szNotice, 0, GUILD_NOTICE_LEN);
 	}
 
-	UINT64 m_uGuid;			//格子的guid
-	CHAR m_szName[GUILD_NAME_LEN];
-	CHAR m_szNotice[GUILD_NOTICE_LEN];
-	INT32  m_Level;
+	INT32   m_Level;                            //等级
+	UINT64  m_uGuid;			                //guid
+	CHAR    m_szName[GUILD_NAME_LEN];           //名字
+	CHAR    m_szNotice[GUILD_NOTICE_LEN];       //公告
+	UINT64  m_ApplyRoles[GUILD_MAX_APPLY_NUM];  //申请id
 
 	BOOL Create(IDBInterface* pDB)
 	{

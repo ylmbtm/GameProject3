@@ -15,7 +15,6 @@ public:
 
 	CGuild* GetGuildByID(UINT64 u64ID);
 
-
 	CGuild* CreateGuild(UINT64 uRoleID, std::string& strName, INT32 nIcon);
 
 	BOOL	RemoveGuild(UINT64 uGuildID);

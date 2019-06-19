@@ -40,7 +40,7 @@ public:
 	//向玩家所在的场景服发消息
 	BOOL		SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
-	BOOL		ToTransferData(TransferDataItem *pTransItem);
+	BOOL		ToTransferData(TransferDataItem* pTransItem);
 
 	BOOL		NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dwParm2);
 
@@ -94,6 +94,8 @@ public:
 	UINT32			m_dwClientConnID;
 	BOOL			m_IsOnline;
 	std::vector<CModuleBase*> m_MoudleList;
+
+
 
 public:
 	UINT32      m_dwCopyGuid;		//当前的副本ID

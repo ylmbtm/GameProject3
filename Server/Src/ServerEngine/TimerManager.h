@@ -142,17 +142,6 @@ public:
 			m_pUsedHead->m_pPrev = NULL;
 		}
 
-		//TimeEvent *pInserPos = m_pHead;
-		//while(pInserPos != NULL)
-		//{
-		//	if(pNewEvent->dwFireTime < pInserPos->dwFireTime)
-		//	{
-		//
-		//
-		//		return TRUE;
-		//	}
-		//}
-
 		return TRUE;
 	}
 

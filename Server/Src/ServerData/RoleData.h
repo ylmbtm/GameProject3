@@ -23,29 +23,29 @@ struct RoleDataObject : public ShareObject
 		memset(m_szName, 0, ROLE_NAME_LEN);
 	}
 
-	UINT64		m_uRoleID;			//角色ID
-	UINT64		m_uAccountID;	//账号ID
-	CHAR		m_szName[ROLE_NAME_LEN];	//角色名
-	INT32		m_CarrerID;      //职业ID
-	INT32		m_Level;			//等级
-	INT64		m_Action[ACTION_NUM];		//所有的体力
-	INT64		m_Actime[ACTION_NUM];		//体力恢复时间
-	INT64		m_Exp;			//经验
-	INT32		m_nLangID;		//语言ID
-	INT64		m_u64Fight;		//战力
-	INT32		m_VipLvl;			//VIP等级
-	INT32		m_VipExp;			//VIP经验
-	INT32		m_CityCopyID;		//主城副本类型
-	BOOL		m_bDelete;        //是否删除
-	INT64       m_uQQ;            //QQ号
-	UINT64      m_uCreateTime;	  //角色创建时间
-	UINT64      m_uLogonTime;	  //本次登录时间
-	UINT64      m_uLogoffTime;	  //离线时间
+	UINT64		m_uRoleID;              //角色ID
+	UINT64		m_uAccountID;           //账号ID
+	CHAR		m_szName[ROLE_NAME_LEN];//角色名
+	INT32		m_CarrerID;             //职业ID
+	INT32		m_Level;                //等级
+	INT64		m_Action[ACTION_NUM];   //所有的体力
+	INT64		m_Actime[ACTION_NUM];   //体力恢复时间
+	INT64		m_Exp;                  //经验
+	INT32		m_nLangID;              //语言ID
+	INT64		m_u64Fight;             //战力
+	INT32		m_VipLvl;               //VIP等级
+	INT32		m_VipExp;               //VIP经验
+	INT32		m_CityCopyID;           //主城副本类型
+	BOOL		m_bDelete;              //是否删除
+	INT64       m_uQQ;                  //QQ号
+	UINT64      m_uCreateTime;          //角色创建时间
+	UINT64      m_uLogonTime;           //本次登录时间
+	UINT64      m_uLogoffTime;          //离线时间
 
 	//签到数据
-	INT32		m_nSignNum;        //签到天数
-	UINT32		m_nSignDay;        //最新的签到时间
-	UINT32		m_RecvAction;	   //领取体力标记
+	INT32		m_nSignNum;             //签到天数
+	UINT32		m_nSignDay;             //最新的签到时间
+	UINT32		m_RecvAction;           //领取体力标记
 
 	BOOL Create(IDBInterface* pDB)
 	{

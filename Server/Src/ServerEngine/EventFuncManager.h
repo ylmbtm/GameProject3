@@ -5,10 +5,15 @@ class CFunctionSlotBase
 {
 public:
 	virtual ~CFunctionSlotBase() {}
-	virtual BOOL operator()(void* pdata) { return TRUE; }
-	virtual UINT32 GetParam() { return 0; }
-	virtual VOID* GetThisAddr() { return 0; }
-	virtual VOID EmptyThisAddr() {}
+	virtual BOOL operator()(void* pdata)
+	{
+		return TRUE;
+	}
+	virtual UINT32 GetParam() = 0;
+
+	virtual VOID* GetThisAddr() = 0;
+
+	virtual VOID EmptyThisAddr() = 0;
 };
 
 
@@ -33,12 +38,12 @@ public:
 			return true;
 		}
 		else
-		{ 
-			return false; 
+		{
+			return false;
 		}
 	}
 
-	virtual UINT32 getParma()
+	virtual UINT32 GetParma()
 	{
 		return m_dwParam;
 	}
@@ -59,6 +64,8 @@ private:
 	T*		m_pThis;
 	UINT32	m_dwParam;
 };
+
+typedef std::map< int, std::vector<CFunctionSlotBase* >* > FUNC_MAP_TYPE;
 
 class CEventFuncManager
 {
@@ -105,7 +112,7 @@ public:
 	}
 
 	template<typename T>
-	bool UnregisterMessageHandle(int nMsgID, T* pObj)
+	bool UnregisterMessageHandle(int nMsgID, T* pObj, int nParam = 0)
 	{
 		std::vector<CFunctionSlotBase* >* vec = NULL;
 		FUNC_MAP_TYPE::iterator it = m_FuncMap.find(nMsgID);
@@ -120,12 +127,18 @@ public:
 
 		for (std::vector<CFunctionSlotBase* >::iterator itor = vec->begin(); itor != vec->end(); ++itor)
 		{
-			if ((*itor)->GetThisAddr() == reinterpret_cast<void*>(pObj))
+			if ((*itor)->GetThisAddr() != reinterpret_cast<void*>(pObj))
 			{
-				//反注册并不真实删除，只是将this指针置空
-				(*itor)->EmptyThisAddr();
+				continue;
 			}
 
+			if ((*itor)->GetParam() != nParam)
+			{
+				continue;
+			}
+
+			//反注册并不真实删除，只是将this指针置空
+			(*itor)->EmptyThisAddr();
 		}
 		return true;
 	}
@@ -149,8 +162,7 @@ public:
 	}
 
 protected:
-	std::map<int, std::vector<CFunctionSlotBase*>* > m_FuncMap;
-	typedef std::map< int, std::vector<CFunctionSlotBase* >* > FUNC_MAP_TYPE;
+	FUNC_MAP_TYPE m_FuncMap;
 };
 
 #endif // _EVENT_MANAGER_H__

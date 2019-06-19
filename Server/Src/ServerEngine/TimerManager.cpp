@@ -41,7 +41,6 @@ BOOL TimerManager::DelTimer(UINT32 dwSec, UINT32 dwData)
 		pDelEvent = pDelEvent->m_pNext;
 	}
 
-
 	if(pDelEvent == m_pUsedHead)
 	{
 		m_pUsedHead = m_pUsedHead->m_pNext;
