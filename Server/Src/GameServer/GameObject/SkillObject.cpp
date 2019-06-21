@@ -162,6 +162,11 @@ BOOL CSkillObject::AddTargetObject(CSceneObject* pObject)
 	return TRUE;
 }
 
+INT32 CSkillObject::GetTargetNum()
+{
+	return m_vtTargets.size();
+}
+
 BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 {
 	ERROR_RETURN_FALSE(m_pCastObject != NULL);

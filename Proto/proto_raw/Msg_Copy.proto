@@ -23,11 +23,11 @@ message ResultPlayer {
 }
 
 message BattleResultNty {
-    int32 ServerID = 1;
-    uint32 CopyGuid = 2;
-    int32 CopyID = 3;
-    int32 CopyType = 4;
-    int32  LeftTime = 5;
+    int32   ServerID    = 1;
+    uint32  CopyGuid    = 2;
+    int32   CopyID      = 3;
+    int32   CopyType    = 4;
+    int32   LastTime    = 5;
     repeated ResultPlayer PlayerList = 6;
     repeated ResultObject ObjectList = 7;
 }

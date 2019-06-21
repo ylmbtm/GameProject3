@@ -50,10 +50,10 @@
 //副本战斗结果
 enum ECopyResult
 {
-	CR_NONE = 0,	//未结算
-	CR_WIN,         //胜利
-	CR_LOST,		//失败
-	CR_DRAW			//平局
+	ECR_NONE = 0,    //未结算
+	ECR_WIN,         //胜利
+	ECR_LOST,        //失败
+	ECR_DRAW         //平局
 };
 
 enum EMouduleType
@@ -114,8 +114,6 @@ enum EActivtyType
 	ACT_OPEN_FUND	= 4,
 	ACT_DISCOUNT_SALE = 5,
 };
-
-
 
 enum EGuildPos
 {

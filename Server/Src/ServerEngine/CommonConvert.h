@@ -29,6 +29,8 @@ std::string IntToString(INT64 nValue);
 
 BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
 
+BOOL  StringToBox(char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom);
+
 //浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
 std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
 

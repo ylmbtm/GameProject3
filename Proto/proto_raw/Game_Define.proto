@@ -141,8 +141,6 @@ enum EHitShipType
     EHST_ENEMY      = 2;      // 需要目标是敌方才能释放
 }
 
-
-
 enum EBuffType{
     BFT_NONE        = 0; 
 }
@@ -154,7 +152,6 @@ enum EChatChannel{
     CHL_GUILD       = 3;//公会
     CHL_GM          = 4;//GM命令
 }
-
 
 enum EEquipPos{
     EEP_NONE        = 0; 

@@ -170,6 +170,8 @@ enum MessageID {
     MSG_ENTER_SCENE_ACK              = 3000012; //发送自己的数据
     MSG_LEAVE_SCENE_REQ              = 3000013;
     MSG_LEAVE_SCENE_ACK              = 3000014;
+    MSG_ABORT_SCENE_REQ              = 3000040;
+    MSG_ABORT_SCENE_ACK              = 3000041;
     
     MSG_SKILL_CAST_REQ               = 3000015;
     MSG_SKILL_CAST_ACK               = 3000016;
@@ -209,42 +211,5 @@ enum MessageID {
     MSG_MOUNT_RIDING_ACK             = 3000039;
 
     MSG_SCENESVR_MSGID_END           = 3999999;
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    MSG_REQ_STRENGTHEN_EQUIP    = 1115;//强化装备
-    MSG_ACK_STRENGTHEN_EQUIP    = 1116;//强化装备
-    MSG_REQ_ADVANCE_EQUIP       = 1117;//进阶装备
-    MSG_ACK_ADVANCE_EQUIP       = 1118;//进阶装备
-    MSG_REQ_UPSTAR_EQUIP        = 1119;//升星装备
-    MSG_ACK_UPSTAR_EQUIP        = 1120;//升星装备
-
-    MSG_REQ_ONEKEYTODRESSGEM    = 1151;//镶嵌宝石
-    MSG_ACK_ONEKEYTODRESSGEM    = 1152;//镶嵌宝石
-    MSG_REQ_ONEKEYTOUNLOADGEM   = 1153;//镶嵌宝石
-    MSG_ACK_ONEKEYTOUNLOADGEM   = 1154;//镶嵌宝石
-
-    MSG_REQ_CHARGE_RELICS       = 1401;//神器充能
-    MSG_ACK_CHARGE_RELICS       = 1402;//神器充能
-    MSG_REQ_UPGRADE_RELICS      = 1403;//神器升级
-    MSG_ACK_UPGRADE_RELICS      = 1404;//神器升级
-    MSG_REQ_BATTLE_RELICS       = 1405;//神器上阵
-    MSG_ACK_BATTLE_RELICS       = 1406;//神器上阵
-    MSG_REQ_UNLOAD_RELICS       = 1407;//神器卸下
-    MSG_ACK_UNLOAD_RELICS       = 1408;//神器卸下
-
-    MSG_REQ_UPGRADE_PET         = 1601;//更换宠物
-    MSG_ACK_UPGRADE_PET         = 1602;//更换宠物
-
-    MSG_REQ_UNLOAD_PET          = 1605;//升级宠物
-    MSG_ACK_UNLOAD_PET          = 1606;//升级宠物
-
-    MSG_REQ_CHANGE_PARTNER      = 1607;//升级伙伴 
-    MSG_ACK_CHANGE_PARTNER      = 1608;//升级伙伴 
-
-    MSG_REQ_ADVANVE_PARTNER     = 1609;//上阵伙伴
-    MSG_ACK_ADVANVE_PARTNER     = 1610;//上阵伙伴
-
-    MSG_REQ_UPGRADE_PARTNER     = 1611;//收回伙伴
-    MSG_ACK_UPGRADE_PARTNER     = 1612;//收回伙伴
 }
 

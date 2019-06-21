@@ -64,7 +64,18 @@ void UnSetCrashReport()
 #include <string.h>
 #include <time.h>
 
-std::string g_AppName; 
+std::string g_AppName;
+
+void exceptionalStack(int signal)
+{
+	time_t nowtime;
+	time(&nowtime);
+	pid_t pid = getpid();
+	char cmd[256];
+	sprintf(cmd, "gstack %d > core_%s_log_%d.core", pid, g_AppName.c_str(), nowtime);
+	system(cmd);
+	exit(-1);
+}
 
 void  SetCrashReport(std::string strAppName)
 {
@@ -87,17 +98,6 @@ void  SetCrashReport(std::string strAppName)
 	return ;
 }
 
-void exceptionalStack(int signal)
-{
-	time_t nowtime;
-	time(&nowtime);
-	pid_t pid = getpid();
-	char cmd[256];
-	sprintf(cmd, "gstack %d > core_%s_log_%d.core", pid, g_AppName.c_str(),nowtime);
-	system(cmd);
-	exit(-1);
-	
-}
 void UnSetCrashReport()
 {
 	return;

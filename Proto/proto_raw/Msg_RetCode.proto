@@ -30,7 +30,7 @@ enum MessageRetCode {
    
    //技能
    MRC_SKILL_CD_ERROR      = 300;    //技能未冷却    
- 
+   MRC_SKILL_DEAD_OBJ      = 301;    //对象己经死亡
     
 }
 

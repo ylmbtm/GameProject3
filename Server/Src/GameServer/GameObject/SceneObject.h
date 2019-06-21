@@ -43,9 +43,12 @@ public:
 
 	BOOL            IsChanged();
 
-	BOOL			IsConnected();
+	BOOL            IsConnected();
 	BOOL            IsEnterCopy();
-	VOID			SetEnterCopy();
+	VOID            SetEnterCopy();
+
+	VOID            SetActionID(UINT32 dwActionID);
+	UINT32          GetActionID();
 
 	BOOL            IsDead();
 	BOOL			SetDead(BOOL bDead);
@@ -55,7 +58,7 @@ public:
 
 	FLOAT           GetFaceTo();
 
-	BOOL			SaveBattleResult(ResultPlayer* pResult);
+	BOOL			SaveBattleRecord(ResultPlayer* pResult);
 
 	BOOL			ChangeEquip(INT32 nPos, UINT32 dwEquipID);
 	BOOL            ChangeMount(UINT32 dwMountID);
@@ -92,15 +95,12 @@ public:
 	BOOL			IsInCircle(Vector3D hitPoint, float radius, float height);
 	BOOL			IsInSquare(Vector3D hitPoint, float hitDegree, float length, float width);
 	BOOL			IsInSector(Vector3D hitPoint, float hitDegree, float radius, float hAngle);
-	//////////////////////////////////////////////////////////////////////////
+	VOID            SetBattleResult(ECopyResult nBattleResult);
+	ECopyResult     GetBattleResult();
 
+	//////////////////////////////////////////////////////////////////////////
 	//更新角色坐标
 	BOOL            UpdatePosition(UINT64 uTick);
-
-
-
-
-
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -133,6 +133,7 @@ public:
 	BOOL            m_bIsCampCheck;					//是否影响阵营结算
 	BOOL            m_bIsMonsCheck;					//是否影响刷怪(玩家阵营的都不影响, 宠物，招唤物, 配制的特定物)
 	StActorInfo*    m_pActorInfo;                   //对象的基本信息
+	ECopyResult     m_nBattleResult;                //副本战斗结果
 
 	HitEffectNtf    m_EffectNtf;
 	//////////////////////////////////////////////////////////

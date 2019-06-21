@@ -44,28 +44,46 @@ BOOL CScene::Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 
 	m_uCreateTime		= CommonFunc::GetCurrTime();
 	m_pMonsterCreator	= new MonsterCreator(this);
 
+	//表示这是一个自由进出的副本, 所以创建即开始
+	if (dwPlayerNum == 0)
+	{
+		m_uStartTime = CommonFunc::GetCurrTime();
+	}
+
 	ERROR_RETURN_FALSE(CreateSceneLogic(dwCopyType));
+
 	ERROR_RETURN_FALSE(ReadSceneXml());
 	return TRUE;
 }
 
 BOOL CScene::Uninit()
 {
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		delete pObj;
 	}
 
-	m_PlayerMap.clear();
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	m_mapPlayer.clear();
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		delete pObj;
 	}
-	m_MonsterMap.clear();
+	m_mapMonster.clear();
+
+	for (std::map<UINT64, CBulletObject*>::iterator itor = m_mapBullet.begin(); itor != m_mapBullet.end(); itor++)
+	{
+		CBulletObject* pObj = itor->second;
+		delete pObj;
+	}
+	m_mapBullet.clear();
+
+	m_HitEffectNtf.Clear();
 
 	delete m_pMonsterCreator;
+
+	m_pMonsterCreator = NULL;
 
 	ERROR_RETURN_FALSE(DestroySceneLogic(m_dwCopyType));
 
@@ -96,6 +114,7 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_TRANSFER_DATA_REQ,     OnMsgTransRoleDataReq);
 			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		OnMsgEnterSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_LEAVE_SCENE_REQ,		OnMsgLeaveSceneReq);
+			PROCESS_MESSAGE_ITEM(MSG_ABORT_SCENE_REQ,       OnMsgAbortSceneReq);
 			PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
 			PROCESS_MESSAGE_ITEMEX(MSG_SKILL_CAST_REQ,		OnMsgSkillCastReq);
 			PROCESS_MESSAGE_ITEMEX(MSG_OBJECT_ACTION_REQ,	OnMsgObjectActionReq);
@@ -128,7 +147,7 @@ BOOL CScene::BroadHitEffect()
 		return TRUE;
 	}
 
-	for (auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
+	for (auto itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
@@ -141,11 +160,21 @@ BOOL CScene::BroadHitEffect()
 	return TRUE;
 }
 
-BOOL CScene::ProcessActionItem(const  ActionReqItem& Item)
+BOOL CScene::SetBattleResult(UINT32 dwCamp, ECopyResult nBattleResult)
 {
-	CSceneObject* pSceneObj = GetSceneObject(Item.objectguid());
-	ERROR_RETURN_TRUE(pSceneObj != NULL);
-	pSceneObj->ProcessAction(Item);
+	for (auto itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); ++itor)
+	{
+		CSceneObject* pObj = itor->second;
+		ERROR_CONTINUE_EX(pObj != NULL);
+
+		if (pObj->GetCamp() != dwCamp && dwCamp != 0)
+		{
+			continue;
+		}
+
+		pObj->SetBattleResult(nBattleResult);
+	}
+
 	return TRUE;
 }
 
@@ -158,7 +187,12 @@ BOOL CScene::OnMsgObjectActionReq( NetPacket* pNetPacket )
 	for(int i = 0; i < Req.actionlist_size(); i++)
 	{
 		const ActionReqItem& Item = Req.actionlist(i);
-		ProcessActionItem(Item);
+		CSceneObject* pSceneObj = GetSceneObject(Item.objectguid());
+		if (pSceneObj == NULL || pSceneObj->IsDead())
+		{
+			continue;
+		}
+		pSceneObj->ProcessAction(Item);
 	}
 
 	return TRUE;
@@ -306,7 +340,7 @@ BOOL CScene::BroadNewObject(CSceneObject* pSceneObject)
 	ERROR_RETURN_FALSE(Nty.ByteSize() < 10240);
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -337,7 +371,7 @@ BOOL CScene::BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata
 	Nty.set_msgdata(szBuff, pdata.ByteSize());
 	Nty.set_msgid(dwMsgID);
 
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		ERROR_RETURN_FALSE(pObj != NULL);
@@ -364,12 +398,17 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 
 	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
-	//只有主城和不结算的pvp副本需要允许删除玩家信息
-	if(m_pSceneLogic->OnPlayerLeave(pSceneObject))
-	{
-		BroadRemoveObject(pSceneObject);
-		DeletePlayer(Req.roleid());
-	}
+
+	return m_pSceneLogic->OnPlayerLeave(pSceneObject);
+}
+
+BOOL CScene::OnMsgAbortSceneReq(NetPacket* pNetPacket)
+{
+	//如果是组队，就退出, 不删除
+	//如果是单人，就直接结算
+	//如果是pvp 2人，就直接结算．
+	//如果是多人pvp，就退出自己, 并且删掉
+
 	return TRUE;
 }
 
@@ -383,71 +422,60 @@ BOOL CScene::OnUpdate( UINT64 uTick )
 
 	BroadHitEffect();
 
-	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
+	for(auto itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		pSceneObject->OnUpdate(uTick);
 	}
 
-	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); ++itor)
+	for (auto itor = m_mapMonster.begin(); itor != m_mapMonster.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		pSceneObject->OnUpdate(uTick);
 	}
 
-	for (auto itor = m_BulletMap.begin(); itor != m_BulletMap.end();)
-	{
-		CBulletObject* pBulletObject = itor->second;
-		ERROR_CONTINUE_EX(pBulletObject != NULL);
-		pBulletObject->OnUpdate(uTick);
-
-		if (pBulletObject->IsFinished())
-		{
-			itor = m_BulletMap.erase(itor);
-		}
-		else
-		{
-			++itor;
-		}
-	}
+	//更新场景里所有子弹的状态
+	UpdateBulletStatus(uTick);
 
 	//同步所有对象的状态
-	SyncObjectState();
+	SyncObjectStatus();
 
 	//把玩家死亡都同步一下
-	for(auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); ++itor)
+	for(auto itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
 			pSceneObject->SetDead(TRUE);
+			pSceneObject->SetActionID(AT_DEAD);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
 		}
 	}
 
 	//把怪物死亡同步一下
-	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); ++itor)
+	for (auto itor = m_mapMonster.begin(); itor != m_mapMonster.end(); ++itor)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if(pSceneObject->GetHp() <= 0 && !pSceneObject->IsDead())
 		{
 			pSceneObject->SetDead(TRUE);
+			pSceneObject->SetActionID(AT_DEAD);
 			m_pMonsterCreator->OnObjectDie(pSceneObject);
 			m_pSceneLogic->OnObjectDie(pSceneObject);
 			BroadDieNotify(pSceneObject->GetObjectGUID());
 		}
 	}
 
-	RemoveDeadObject();
-
 	m_pMonsterCreator->OnUpdate(uTick);
 
 	m_pSceneLogic->Update(uTick);
+
+	RemoveDeadObject();
 
 	return TRUE;
 }
@@ -511,23 +539,23 @@ BOOL CScene::OnMsgTransRoleDataReq(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
-    for (int i = 0; i < Req.transdatas_size(); i++)
-    {
-        const TransferDataItem &Item = Req.transdatas(i);
-        CreatePlayer(Item.roledata(), pHeader->u64TargetID, Item.camp());
+	for (int i = 0; i < Req.transdatas_size(); i++)
+	{
+		const TransferDataItem& Item = Req.transdatas(i);
+		CreatePlayer(Item.roledata(), pHeader->u64TargetID, Item.camp());
 
-        //是否有宠物
-	    if(Item.has_petdata())
-	    {
-		    CreatePet(Item.petdata(), pHeader->u64TargetID, Item.camp());
-	    }
+		//是否有宠物
+		if(Item.has_petdata())
+		{
+			CreatePet(Item.petdata(), pHeader->u64TargetID, Item.camp());
+		}
 
-        //是否有伙伴
-        if (Item.has_partnerdata())
-        {
-            CreatePartner(Item.partnerdata(), pHeader->u64TargetID, Item.camp());
-        }
-    }
+		//是否有伙伴
+		if (Item.has_partnerdata())
+		{
+			CreatePartner(Item.partnerdata(), pHeader->u64TargetID, Item.camp());
+		}
+	}
 
 	//检查人齐没齐，如果齐了，就全部发准备好了的消息
 	//有的副本不需要等人齐，有人就可以进
@@ -558,6 +586,12 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	m_dwLoginNum ++;
 
+	if (m_uStartTime <= 0)
+	{
+		//对于普通的副本，有入进入就表示开始
+		m_uStartTime = CommonFunc::GetCurrTime();
+	}
+
 	//发比较全的自己的信息
 	EnterSceneAck Ack;
 	Ack.set_copyguid(m_dwCopyGuid);
@@ -583,7 +617,6 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	{
 		Ack.set_mountid(0 - pSceneObj->m_dwMountID);
 	}
-
 
 	Ack.set_x(pSceneObj->m_Pos.m_x);
 	Ack.set_y(pSceneObj->m_Pos.m_y);
@@ -614,7 +647,7 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
 	SendAllNewObjectToPlayer(pSceneObj);
-	m_uStartTime = CommonFunc::GetCurrTime();
+
 	return TRUE;
 }
 
@@ -638,7 +671,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 	//先把玩家的完整包组装好
 	ObjectNewNty Nty;
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -660,7 +693,7 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 		pOther->SaveNewData(Nty);
 	}
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -692,7 +725,7 @@ BOOL CScene::BroadDieNotify(UINT64 uObjectID)
 {
 	ObjectDieNotify Nty;
 	Nty.set_objectguid(uObjectID);
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_RETURN_FALSE(pSceneObject != NULL);
@@ -706,15 +739,36 @@ BOOL CScene::BroadDieNotify(UINT64 uObjectID)
 	return TRUE;
 }
 
+BOOL CScene::UpdateBulletStatus(UINT64 uTick)
+{
+	for (auto itor = m_mapBullet.begin(); itor != m_mapBullet.end();)
+	{
+		CBulletObject* pBulletObject = itor->second;
+		ERROR_CONTINUE_EX(pBulletObject != NULL);
+		pBulletObject->OnUpdate(uTick);
+
+		if (pBulletObject->IsFinished())
+		{
+			itor = m_mapBullet.erase(itor);
+		}
+		else
+		{
+			++itor;
+		}
+	}
+
+	return TRUE;
+}
+
 INT32 CScene::GetPlayerCount()
 {
-	return (INT32)m_PlayerMap.size();
+	return (INT32)m_mapPlayer.size();
 }
 
 INT32 CScene::GetConnectCount()
 {
 	INT32 nCount = 0;
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -737,7 +791,7 @@ BOOL CScene::BroadRemoveObject( CSceneObject* pSceneObject )
 	ERROR_RETURN_FALSE(Nty.ByteSize() < 10240);
 	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -760,8 +814,8 @@ BOOL CScene::BroadRemoveObject( CSceneObject* pSceneObject )
 
 CSceneObject* CScene::GetPlayer( UINT64 uID )
 {
-	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
-	if(itor != m_PlayerMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.find(uID);
+	if(itor != m_mapPlayer.end())
 	{
 		return itor->second;
 	}
@@ -775,19 +829,19 @@ BOOL CScene::AddPlayer( CSceneObject* pSceneObject )
 
 	ERROR_RETURN_FALSE(pSceneObject->GetObjectGUID() != 0);
 
-	m_PlayerMap.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
+	m_mapPlayer.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
 
 	return TRUE;
 }
 
 VOID CScene::DeletePlayer(UINT64 uID)
 {
-	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
-	if(itor != m_PlayerMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.find(uID);
+	if(itor != m_mapPlayer.end())
 	{
 		CSceneObject* pObject = itor->second;
 		delete pObject;
-		m_PlayerMap.erase(itor);
+		m_mapPlayer.erase(itor);
 	}
 	else
 	{
@@ -803,7 +857,7 @@ BOOL CScene::AddMonster(CSceneObject* pSceneObject)
 
 	ERROR_RETURN_FALSE(pSceneObject->GetObjectGUID() != 0);
 
-	m_MonsterMap.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
+	m_mapMonster.insert(std::make_pair(pSceneObject->GetObjectGUID(), pSceneObject));
 
 	return TRUE;
 
@@ -811,12 +865,12 @@ BOOL CScene::AddMonster(CSceneObject* pSceneObject)
 
 VOID CScene::DeleteMonster(UINT64 uID)
 {
-	std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.find(uID);
-	if(itor != m_MonsterMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.find(uID);
+	if(itor != m_mapMonster.end())
 	{
 		CSceneObject* pObject = itor->second;
 		delete pObject;
-		m_MonsterMap.erase(itor);
+		m_mapMonster.erase(itor);
 	}
 	else
 	{
@@ -826,14 +880,14 @@ VOID CScene::DeleteMonster(UINT64 uID)
 
 CSceneObject* CScene::GetSceneObject(UINT64 uID)
 {
-	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.find(uID);
-	if(itor != m_PlayerMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.find(uID);
+	if(itor != m_mapPlayer.end())
 	{
 		return itor->second;
 	}
 
-	itor = m_MonsterMap.find(uID);
-	if(itor != m_MonsterMap.end())
+	itor = m_mapMonster.find(uID);
+	if(itor != m_mapMonster.end())
 	{
 		return itor->second;
 	}
@@ -843,29 +897,34 @@ CSceneObject* CScene::GetSceneObject(UINT64 uID)
 
 BOOL CScene::RemoveDeadObject()
 {
-	for (auto itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); )
+	//为了方便结算时，生成汇报的结果，有些角色一般不删除
+	//如玩家角色, 伙伴，宠物之类的，
+	//由于目前不考虑战斗数据统计，就只保留角色
+	/*
+	for (auto itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if (pSceneObject->IsDead())
 		{
 			delete pSceneObject;
-			itor = m_PlayerMap.erase(itor);
+			itor = m_mapPlayer.erase(itor);
 		}
 		else
 		{
 			itor++;
 		}
 	}
+	*/
 
-	for (auto itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); )
+	for (auto itor = m_mapMonster.begin(); itor != m_mapMonster.end(); )
 	{
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		if (pSceneObject->IsDead())
 		{
 			delete pSceneObject;
-			itor = m_MonsterMap.erase(itor);
+			itor = m_mapMonster.erase(itor);
 		}
 		else
 		{
@@ -884,7 +943,7 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 		return FALSE;
 	}
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -903,7 +962,7 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 		}
 	}
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -919,7 +978,7 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 
 UINT64 CScene::SelectController(UINT64 uFilterID)
 {
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
@@ -965,7 +1024,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 
 			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -991,7 +1050,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 				}
 			}
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -1030,7 +1089,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 			Vector3D hitPoint = hitPos;
 			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -1055,7 +1114,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 				}
 			}
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -1093,7 +1152,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 			Vector3D hitPoint = hitPos;
 			hitPoint = hitPoint + Vector3D(offsetX, 0, offsetZ);
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -1119,7 +1178,7 @@ BOOL CScene::SelectTargets(std::vector<CSceneObject*>& vTargets, UINT64 uExclude
 				}
 			}
 
-			for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+			for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 			{
 				CSceneObject* pObject = itor->second;
 				ERROR_RETURN_FALSE(pObject != NULL);
@@ -1169,7 +1228,7 @@ VOID CScene::SetFinished()
 
 BOOL CScene::IsAllDataReady()
 {
-	if(m_PlayerMap.size() >= m_dwPlayerNum)
+	if(m_mapPlayer.size() >= m_dwPlayerNum)
 	{
 		return TRUE;
 	}
@@ -1184,7 +1243,7 @@ BOOL CScene::IsAllLoginReady()
 		return FALSE;
 	}
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		if(!pObj->IsEnterCopy())
@@ -1229,10 +1288,10 @@ UINT64 CScene::GenNewGuid()
 }
 
 
-BOOL CScene::SyncObjectState()
+BOOL CScene::SyncObjectStatus()
 {
 	ObjectActionNty ActionNty;
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		ERROR_RETURN_FALSE(pObj != NULL);
@@ -1246,7 +1305,7 @@ BOOL CScene::SyncObjectState()
 	}
 
 
-	for (std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		ERROR_RETURN_FALSE(pObj != NULL);
@@ -1273,7 +1332,7 @@ BOOL CScene::SyncObjectState()
 	Nty.set_msgid(MSG_OBJECT_CHANGE_NTF);
 	ActionNty.Clear();
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		ERROR_RETURN_FALSE(pObj != NULL);
@@ -1464,14 +1523,14 @@ CBulletObject* CScene::CreateBullet(UINT32 dwBulletID, StBulletInfo* pBulletInfo
 {
 	CBulletObject* pBullet = new CBulletObject(GenNewGuid(), pBulletInfo, pSkillObject, startPos);
 
-	m_BulletMap.insert(std::make_pair(pBullet->m_uGuid, pBullet));
+	m_mapBullet.insert(std::make_pair(pBullet->m_uGuid, pBullet));
 
 	return pBullet;
 }
 
 BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 {
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
@@ -1483,7 +1542,7 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 		}
 	}
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		if((pObj != NULL) && (pObj->GetCamp() == dwCamp))
@@ -1500,19 +1559,36 @@ BOOL CScene::IsCampAllDie(UINT32 dwCamp)
 
 BOOL CScene::IsMonsterAllDie()
 {
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_MonsterMap.begin(); itor != m_MonsterMap.end(); itor++)
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapMonster.begin(); itor != m_mapMonster.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
-		if((pObj != NULL) && (pObj->GetObjType() == OT_MONSTER))
+		if (pObj == NULL)
 		{
-			if(!pObj->IsDead() && pObj->m_bIsMonsCheck)
-			{
-				return FALSE;
-			}
+			continue;
+		}
+
+		if (pObj->GetObjType() != OT_MONSTER)
+		{
+			continue;
+		}
+
+		if (!pObj->m_bIsMonsCheck)
+		{
+			continue;
+		}
+
+		if(!pObj->IsDead())
+		{
+			return FALSE;
 		}
 	}
 
 	return TRUE;
+}
+
+BOOL CScene::IsMonsterAllGen()
+{
+	return m_pMonsterCreator->IsAllFinished();
 }
 
 BOOL CScene::ReadSceneXml()
@@ -1526,15 +1602,7 @@ BOOL CScene::ReadSceneXml()
 	rapidxml::xml_node<char>* pXmlRoot = pXmlDoc->first_node("Root");
 	ERROR_RETURN_FALSE(pXmlRoot != NULL);
 
-	//auto pLogicNode = pXmlRoot->first_node("MapLogic");
-	//ERROR_RETURN_FALSE(pLogicNode != NULL);
-	//ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
-	//ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pLogicNode));
-
-	auto pBornNode = pXmlRoot->first_node("MapBorns");
-	ERROR_RETURN_FALSE(pBornNode != NULL);
-	ERROR_RETURN_FALSE(m_pSceneLogic != NULL);
-	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pBornNode));
+	ERROR_RETURN_FALSE(m_pSceneLogic->ReadFromXml(pXmlRoot));
 
 	auto pCreatorNode = pXmlRoot->first_node("MapWaves");
 	ERROR_RETURN_FALSE(pCreatorNode != NULL);
@@ -1546,13 +1614,13 @@ BOOL CScene::ReadSceneXml()
 
 CSceneObject* CScene::GetOwnPlayer()
 {
-	if((m_PlayerMap.size() < 1) || (m_PlayerMap.size() > 1))
+	if((m_mapPlayer.size() < 1) || (m_mapPlayer.size() > 1))
 	{
 		ASSERT_FAIELD;
 	}
 
-	std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin();
-	if(itor == m_PlayerMap.end())
+	std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin();
+	if(itor == m_mapPlayer.end())
 	{
 		return NULL;
 	}
@@ -1564,12 +1632,18 @@ BOOL CScene::SendBattleResult()
 {
 	BattleResultNty Nty;
 
-	for(std::map<UINT64, CSceneObject*>::iterator itor = m_PlayerMap.begin(); itor != m_PlayerMap.end(); itor++)
+	Nty.set_copyguid(m_dwCopyGuid);
+	Nty.set_copyid(m_dwCopyID);
+	Nty.set_copytype(m_dwCopyType);
+	Nty.set_lasttime(CommonFunc::GetCurrTime() - m_uStartTime);
+	Nty.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+
+	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pObj = itor->second;
 		ERROR_RETURN_FALSE(pObj != NULL);
-		ResultPlayer* pPlayer = Nty.add_playerlist();
-		pObj->SaveBattleResult(pPlayer);
+		ResultPlayer* pResultItem = Nty.add_playerlist();
+		pObj->SaveBattleRecord(pResultItem);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_BATTLE_RESULT_NTY, 0, 0, Nty);

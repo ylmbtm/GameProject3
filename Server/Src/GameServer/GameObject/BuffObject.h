@@ -17,6 +17,7 @@ public:
 	BOOL OnEffect(BOOL bFirst = FALSE);
 	BOOL OnUpdate(UINT64 uTick);
 	BOOL IsOver();
+	VOID SetOver();
 
 public:
 	UINT32  m_dwBuffID;    //buffID

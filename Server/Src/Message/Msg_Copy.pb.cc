@@ -211,7 +211,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, copyguid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, copyid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, copytype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, lefttime_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, lasttime_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, playerlist_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BattleResultNty, objectlist_),
   ~0u,  // no _has_bits_
@@ -293,7 +293,7 @@ void AddDescriptorsImpl() {
       "\022\014\n\004Heal\030\007 \001(\005\022\016\n\006Damage\030\010 \001(\005\"\257\001\n\017Battl"
       "eResultNty\022\020\n\010ServerID\030\001 \001(\005\022\020\n\010CopyGuid"
       "\030\002 \001(\r\022\016\n\006CopyID\030\003 \001(\005\022\020\n\010CopyType\030\004 \001(\005"
-      "\022\020\n\010LeftTime\030\005 \001(\005\022!\n\nPlayerList\030\006 \003(\0132\r"
+      "\022\020\n\010LastTime\030\005 \001(\005\022!\n\nPlayerList\030\006 \003(\0132\r"
       ".ResultPlayer\022!\n\nObjectList\030\007 \003(\0132\r.Resu"
       "ltObject\"\035\n\013MainCopyReq\022\016\n\006CopyID\030\001 \001(\005\""
       "\036\n\013MainCopyAck\022\017\n\007RetCode\030\001 \001(\r\"+\n\010ItemD"
@@ -1320,7 +1320,7 @@ const int BattleResultNty::kServerIDFieldNumber;
 const int BattleResultNty::kCopyGuidFieldNumber;
 const int BattleResultNty::kCopyIDFieldNumber;
 const int BattleResultNty::kCopyTypeFieldNumber;
-const int BattleResultNty::kLeftTimeFieldNumber;
+const int BattleResultNty::kLastTimeFieldNumber;
 const int BattleResultNty::kPlayerListFieldNumber;
 const int BattleResultNty::kObjectListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -1341,15 +1341,15 @@ BattleResultNty::BattleResultNty(const BattleResultNty& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&serverid_, &from.serverid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&lefttime_) -
-    reinterpret_cast<char*>(&serverid_)) + sizeof(lefttime_));
+    static_cast<size_t>(reinterpret_cast<char*>(&lasttime_) -
+    reinterpret_cast<char*>(&serverid_)) + sizeof(lasttime_));
   // @@protoc_insertion_point(copy_constructor:BattleResultNty)
 }
 
 void BattleResultNty::SharedCtor() {
   ::memset(&serverid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&lefttime_) -
-      reinterpret_cast<char*>(&serverid_)) + sizeof(lefttime_));
+      reinterpret_cast<char*>(&lasttime_) -
+      reinterpret_cast<char*>(&serverid_)) + sizeof(lasttime_));
   _cached_size_ = 0;
 }
 
@@ -1393,8 +1393,8 @@ void BattleResultNty::Clear() {
   playerlist_.Clear();
   objectlist_.Clear();
   ::memset(&serverid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&lefttime_) -
-      reinterpret_cast<char*>(&serverid_)) + sizeof(lefttime_));
+      reinterpret_cast<char*>(&lasttime_) -
+      reinterpret_cast<char*>(&serverid_)) + sizeof(lasttime_));
   _internal_metadata_.Clear();
 }
 
@@ -1464,14 +1464,14 @@ bool BattleResultNty::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 LeftTime = 5;
+      // int32 LastTime = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &lefttime_)));
+                 input, &lasttime_)));
         } else {
           goto handle_unusual;
         }
@@ -1548,9 +1548,9 @@ void BattleResultNty::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->copytype(), output);
   }
 
-  // int32 LeftTime = 5;
-  if (this->lefttime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->lefttime(), output);
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->lasttime(), output);
   }
 
   // repeated .ResultPlayer PlayerList = 6;
@@ -1601,9 +1601,9 @@ void BattleResultNty::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->copytype(), target);
   }
 
-  // int32 LeftTime = 5;
-  if (this->lefttime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->lefttime(), target);
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->lasttime(), target);
   }
 
   // repeated .ResultPlayer PlayerList = 6;
@@ -1689,11 +1689,11 @@ size_t BattleResultNty::ByteSizeLong() const {
         this->copytype());
   }
 
-  // int32 LeftTime = 5;
-  if (this->lefttime() != 0) {
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->lefttime());
+        this->lasttime());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1739,8 +1739,8 @@ void BattleResultNty::MergeFrom(const BattleResultNty& from) {
   if (from.copytype() != 0) {
     set_copytype(from.copytype());
   }
-  if (from.lefttime() != 0) {
-    set_lefttime(from.lefttime());
+  if (from.lasttime() != 0) {
+    set_lasttime(from.lasttime());
   }
 }
 
@@ -1774,7 +1774,7 @@ void BattleResultNty::InternalSwap(BattleResultNty* other) {
   swap(copyguid_, other->copyguid_);
   swap(copyid_, other->copyid_);
   swap(copytype_, other->copytype_);
-  swap(lefttime_, other->lefttime_);
+  swap(lasttime_, other->lasttime_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

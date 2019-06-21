@@ -6,8 +6,6 @@ MonsterCreator::MonsterCreator(CScene* pScene)
 {
 	m_pScene = pScene;
 
-	m_bAllFinished = FALSE;
-
 	m_dwCurWave = -1;
 }
 
@@ -64,12 +62,22 @@ BOOL MonsterCreator::GenMonsterWave(INT32 dwWaveIndex)
 		m_pScene->CreateMonster(pData->m_dwActorID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
 	}
 
+	Wave.m_bDone = TRUE;
+
 	return TRUE;
 }
 
 BOOL MonsterCreator::IsAllFinished()
 {
-	return m_bAllFinished;
+	for (int i = 0; i < m_MonsterVaveList.size(); i++)
+	{
+		if (!m_MonsterVaveList.at(i).m_bDone)
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 
 BOOL MonsterCreator::OnObjectDie(CSceneObject* pObject)

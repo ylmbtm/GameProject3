@@ -161,6 +161,54 @@ BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
 	return TRUE;
 }
 
+BOOL CommonConvert::StringToBox(char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom)
+{
+	if (pStr == NULL)
+	{
+		return FALSE;
+	}
+
+	char szTempBuf[256] = { 0 };
+	strncpy(szTempBuf, pStr, strlen(pStr));
+
+	char* pPos = strchr(szTempBuf, ',');
+	if (pPos == NULL)
+	{
+		return FALSE;
+	}
+	*pPos = 0;
+	left = CommonConvert::StringToFloat(szTempBuf + 1);
+
+	char* pOldPos = pPos + 1;
+	pPos = strchr(pPos + 1, ',');
+	if (pPos == NULL)
+	{
+		return FALSE;
+	}
+	*pPos = 0;
+	top = CommonConvert::StringToFloat(pOldPos);
+
+	pOldPos = pPos + 1;
+	pPos = strchr(pPos + 1, ',');
+	if (pPos == NULL)
+	{
+		return FALSE;
+	}
+	*pPos = 0;
+	right = CommonConvert::StringToFloat(pOldPos);
+
+	pOldPos = pPos + 1;
+	pPos = strchr(pPos + 1, ')');
+	if (pPos == NULL)
+	{
+		return FALSE;
+	}
+	*pPos = 0;
+	bottom = CommonConvert::StringToFloat(pOldPos);
+
+	return TRUE;
+}
+
 std::string CommonConvert::FloatToString(FLOAT fValue, INT32 nPrecision, BOOL bRound)
 {
 	CHAR szValue[64] = {0};

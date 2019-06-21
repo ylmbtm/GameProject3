@@ -17,6 +17,7 @@
 //#include "LuaManager.h"
 #include "ActivityManager.h"
 #include "GmCommand.h"
+#include "RankMananger.h"
 //#include "Lua_Script.h"
 
 CGameService::CGameService(void)
@@ -127,6 +128,8 @@ BOOL CGameService::Init()
 	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
 
 	CActivityManager::GetInstancePtr()->LoadActivityData(tDBConnection);
+
+	CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
 	///////////////////////////////////////////////
 
 	if (!CPayManager::GetInstancePtr()->InitPayManager())
@@ -378,7 +381,7 @@ BOOL CGameService::ReportServerStatus()
 {
 	CGlobalDataManager::GetInstancePtr()->GetMaxOnline(); //最大在线人数
 	CSimpleManager::GetInstancePtr()->GetTotalCount();//总人数
-	CSimpleManager::GetInstancePtr()->GetCurrOnline();
+	CSimpleManager::GetInstancePtr()->GetOnline();
 	// 	LogicRegToLoginReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");

@@ -170,7 +170,7 @@ BOOL CSimpleManager::SetGuildID( UINT64 u64ID, UINT64 guildid )
 
 BOOL CSimpleManager::CheckNameExist(std::string strName)
 {
-	std::map<std::string, UINT64>::iterator itor = m_mapName2ID.find(strName);
+	auto itor = m_mapName2ID.find(strName);
 	if(itor != m_mapName2ID.end())
 	{
 		return TRUE;
@@ -191,12 +191,12 @@ UINT32 CSimpleManager::GetTotalCount()
 	return (UINT32)m_mapID2Simple.size();
 }
 
-UINT32 CSimpleManager::GetCurrOnline()
+UINT32 CSimpleManager::GetOnline()
 {
 	return 0;
 }
 
-BOOL CSimpleManager::SetIsOnline(UINT64 u64ID, BOOL bOnline)
+BOOL CSimpleManager::SetOnline(UINT64 u64ID, BOOL bOnline)
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
 	ERROR_RETURN_FALSE(pInfo != NULL);
@@ -204,10 +204,9 @@ BOOL CSimpleManager::SetIsOnline(UINT64 u64ID, BOOL bOnline)
 	return TRUE;
 }
 
-BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64> &vtRoleIDs)
+BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64>& vtRoleIDs)
 {
-	std::map<UINT64, CSimpleInfo*>::iterator itor = m_mapID2Simple.begin();
-	for (;itor != m_mapID2Simple.end(); ++itor)
+	for (auto itor = m_mapID2Simple.begin();itor != m_mapID2Simple.end(); ++itor)
 	{
 		CSimpleInfo *pInfo = itor->second;
 		ERROR_RETURN_FALSE(pInfo != NULL);

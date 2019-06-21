@@ -149,6 +149,22 @@ VOID CSceneObject::SetEnterCopy()
 	m_bEnter = TRUE;
 }
 
+VOID CSceneObject::SetActionID(UINT32 dwActionID)
+{
+	if (dwActionID != m_dwActionID)
+	{
+		m_dwActionID = dwActionID;
+		m_ChangeFlag.bAction = 1;
+	}
+
+	return;
+}
+
+UINT32 CSceneObject::GetActionID()
+{
+	return m_dwActionID;
+}
+
 BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 {
 	NewItem* pItem = Nty.add_newlist();
@@ -456,6 +472,16 @@ BOOL CSceneObject::IsInSector(Vector3D hitPoint, float hitDegree, float radius, 
 	return TRUE;
 }
 
+VOID CSceneObject::SetBattleResult(ECopyResult nBattleResult)
+{
+	m_nBattleResult = nBattleResult;
+}
+
+ECopyResult CSceneObject::GetBattleResult()
+{
+	return m_nBattleResult;
+}
+
 BOOL CSceneObject::UpdatePosition(UINT64 uTick)
 {
 
@@ -480,13 +506,11 @@ INT32 CSceneObject::GetShip(CSceneObject* pTarget)
 
 
 
-BOOL CSceneObject::SaveBattleResult(ResultPlayer* pResult)
+BOOL CSceneObject::SaveBattleRecord(ResultPlayer* pResult)
 {
 	pResult->set_objectid(m_uGuid);
 	pResult->set_actorid(m_dwActorID);
-// 	pResult->set_result(m_dwResult);
-// 	pResult->set_damage(m_dwDamage);
-
+	pResult->set_result(m_nBattleResult);
 	return TRUE;
 }
 
@@ -545,6 +569,21 @@ BOOL CSceneObject::AddBuff(UINT32 dwBuffID)
 	pBuffObject->OnAddBuff();
 
 	m_mapBuff.insert(std::make_pair(dwBuffID, pBuffObject));
+
+	return TRUE;
+}
+
+BOOL CSceneObject::RemoveBuff(UINT32 dwBuffID)
+{
+	std::map<UINT32, CBuffObject*>::iterator itor = m_mapBuff.find(dwBuffID);
+	ERROR_RETURN_FALSE(itor != m_mapBuff.end());
+
+	CBuffObject* pBuffObject = itor->second;
+	ERROR_RETURN_FALSE(pBuffObject != NULL);
+
+	pBuffObject->OnRemoveBuff();
+
+	pBuffObject->SetOver();
 
 	return TRUE;
 }
@@ -783,11 +822,22 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 	m_SkillObject.StopSkill(); //停止当前的技能
 
 	//技能是否可以打中指定的目标.(带有目标的技能要检查目标是否合法)
-	for (int i = 0; i < Req.targetobjects_size(); i++)
+	if (Req.targetobjects_size() > 0)
 	{
-		CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
-		ERROR_RETURN_CODE(pTempObject != NULL, MRC_INVALID_TARGET_ID);
-		m_SkillObject.AddTargetObject(pTempObject);
+		for (int i = 0; i < Req.targetobjects_size(); i++)
+		{
+			CSceneObject* pTempObject = m_pScene->GetSceneObject(Req.targetobjects(i));
+			if (pTempObject == NULL || pTempObject->IsDead())
+			{
+				continue;
+			}
+			m_SkillObject.AddTargetObject(pTempObject);
+		}
+
+		if (m_SkillObject.GetTargetNum() <= 0)
+		{
+			return MRC_INVALID_TARGET_ID;
+		}
 	}
 
 	m_pScene->BroadMessage(MSG_SKILL_CAST_NTF, Req);
@@ -808,6 +858,7 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 UINT32 CSceneObject::ProcessAction(const ActionReqItem& Item)
 {
+	ERROR_RETURN_CODE(m_dwActionID != AT_DEAD, MRC_SKILL_DEAD_OBJ);
 	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
 
 	m_Pos.m_x		= Item.hostx();

@@ -42,7 +42,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021Msg_RetCode.proto*\330\004\n\016MessageRetCode\022\021"
+      "\n\021Msg_RetCode.proto*\361\004\n\016MessageRetCode\022\021"
       "\n\rMRC_SUCCESSED\020\000\022\024\n\020MRC_UNKNOW_ERROR\020\001\022"
       "\022\n\016MRC_DISCONNECT\020\002\022\025\n\021MRC_ACCOUNT_EXIST"
       "\020\003\022\022\n\016MRC_NAME_EXIST\020\004\022\026\n\022MRC_ACCOUNT_SE"
@@ -57,10 +57,11 @@ void AddDescriptorsImpl() {
       "RGET_ID\020p\022\032\n\025MRC_NOT_ENOUGH_ACTOIN\020\310\001\022\031\n"
       "\024MRC_NOT_ENOUGH_MONEY\020\311\001\022\030\n\023MRC_NOT_ENOU"
       "GH_ITEM\020\312\001\022\031\n\024MRC_NOT_ENOUGH_TIMES\020\313\001\022\027\n"
-      "\022MRC_SKILL_CD_ERROR\020\254\002b\006proto3"
+      "\022MRC_SKILL_CD_ERROR\020\254\002\022\027\n\022MRC_SKILL_DEAD"
+      "_OBJ\020\255\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 630);
+      descriptor, 655);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_RetCode.proto", &protobuf_RegisterTypes);
 }
@@ -106,6 +107,7 @@ bool MessageRetCode_IsValid(int value) {
     case 202:
     case 203:
     case 300:
+    case 301:
       return true;
     default:
       return false;

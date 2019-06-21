@@ -4,6 +4,7 @@
 #include "SceneLogic/SceneLogic_Base.h"
 #include "../Message/Msg_Game.pb.h"
 #include "GameObject/BulletObject.h"
+#include "../ServerData/serverStruct.h"
 class MonsterCreator;
 
 class CScene
@@ -13,25 +14,25 @@ public:
 
 	~CScene();
 
-	BOOL	        DispatchPacket(NetPacket* pNetPack);
+	BOOL            DispatchPacket(NetPacket* pNetPack);
 
-	BOOL			Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey);
+	BOOL            Init(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey);
 
-	BOOL	        Uninit();
+	BOOL            Uninit();
 
-	BOOL			Reset();
+	BOOL            Reset();
 
 	UINT32	        GetCopyGuid();
 
 	UINT32          GetCopyID();
 
-	UINT32			GetCopyType();
+	UINT32          GetCopyType();
 
 	BOOL            OnUpdate( UINT64 uTick );
 
-	BOOL			CreateSceneLogic(UINT32 dwCopyType);
+	BOOL            CreateSceneLogic(UINT32 dwCopyType);
 
-	BOOL			DestroySceneLogic(UINT32 dwCopyType);
+	BOOL            DestroySceneLogic(UINT32 dwCopyType);
 
 	BOOL            BroadNewObject(CSceneObject* pSceneObject);
 
@@ -39,11 +40,14 @@ public:
 
 	BOOL            BroadRemoveObject(CSceneObject* pSceneObject);
 
-	BOOL	        SendAllNewObjectToPlayer(CSceneObject* pSceneObject);
+	BOOL            SendAllNewObjectToPlayer(CSceneObject* pSceneObject);
 
-	BOOL			BroadDieNotify(UINT64 uObjectID);
+	BOOL            BroadDieNotify(UINT64 uObjectID);
 
-	BOOL            SyncObjectState();
+	BOOL            UpdateBulletStatus(UINT64 uTick);
+
+	BOOL            SyncObjectStatus();
+
 	INT32	        GetPlayerCount();
 	INT32			GetConnectCount();
 
@@ -82,6 +86,7 @@ public:
 
 	BOOL			IsCampAllDie(UINT32 dwCamp);  //用于结算，判断阵营是否全部死亡.
 	BOOL			IsMonsterAllDie();            //用于判断下一波怪是否需要刷出.
+	BOOL            IsMonsterAllGen();            //是否所有怪物己经出尽
 
 	//解析场景配制文件
 	BOOL			ReadSceneXml();
@@ -113,9 +118,9 @@ public:
 	SceneLogicBase*	m_pSceneLogic;
 	MonsterCreator*	m_pMonsterCreator;
 
-	std::map<UINT64, CSceneObject*>	 m_PlayerMap;		//玩家管理器
-	std::map<UINT64, CSceneObject*>  m_MonsterMap;      //怪物管理器
-	std::map<UINT64, CBulletObject*> m_BulletMap;		//子弹管理器
+	std::map<UINT64, CSceneObject*>	 m_mapPlayer;		//玩家管理器
+	std::map<UINT64, CSceneObject*>  m_mapMonster;      //怪物管理器
+	std::map<UINT64, CBulletObject*> m_mapBullet;		//子弹管理器
 
 	//////////////////////////////////////////////////////////////////////////
 	//伤害效果
@@ -124,16 +129,14 @@ public:
 	BOOL            BroadHitEffect();
 
 	//////////////////////////////////////////////////////////////////////////
-	//攻击伤害计算
-
-	BOOL ProcessActionItem(const ActionReqItem& Item);
-
+	BOOL SetBattleResult(UINT32 dwCamp, ECopyResult nBattleResult);
 	BOOL SendBattleResult();
 	//*********************消息处理定义开始******************************
 public:
 	BOOL OnMsgTransRoleDataReq(NetPacket* pNetPacket);
 	BOOL OnMsgEnterSceneReq(NetPacket* pNetPacket);
 	BOOL OnMsgLeaveSceneReq(NetPacket* pNetPacket);
+	BOOL OnMsgAbortSceneReq(NetPacket* pNetPacket);
 	BOOL OnMsgRoleDisconnect(NetPacket* pNetPacket);
 	BOOL OnMsgHeartBeatReq(NetPacket* pNetPacket);
 	BOOL OnMsgUseHpBottleReq(NetPacket* pNetPacket);

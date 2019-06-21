@@ -30,6 +30,8 @@ public:
 
 	BOOL AddTargetObject(CSceneObject* pObject);
 
+	INT32 GetTargetNum();
+
 	BOOL AttackTarget(CSceneObject* pTarget);
 
 	BOOL CalcTargetObjects(StSkillEvent& SkillEvent);

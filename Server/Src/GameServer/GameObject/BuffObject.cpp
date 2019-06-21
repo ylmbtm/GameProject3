@@ -116,4 +116,8 @@ BOOL CBuffObject::IsOver()
 	return m_bOver;
 }
 
+VOID CBuffObject::SetOver()
+{
+	m_bOver = TRUE;
+}
 

@@ -516,11 +516,11 @@ class BattleResultNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 copytype() const;
   void set_copytype(::google::protobuf::int32 value);
 
-  // int32 LeftTime = 5;
-  void clear_lefttime();
-  static const int kLeftTimeFieldNumber = 5;
-  ::google::protobuf::int32 lefttime() const;
-  void set_lefttime(::google::protobuf::int32 value);
+  // int32 LastTime = 5;
+  void clear_lasttime();
+  static const int kLastTimeFieldNumber = 5;
+  ::google::protobuf::int32 lasttime() const;
+  void set_lasttime(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:BattleResultNty)
  private:
@@ -532,7 +532,7 @@ class BattleResultNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 copyguid_;
   ::google::protobuf::int32 copyid_;
   ::google::protobuf::int32 copytype_;
-  ::google::protobuf::int32 lefttime_;
+  ::google::protobuf::int32 lasttime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fCopy_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fCopy_2eproto::InitDefaultsBattleResultNtyImpl();
@@ -1252,18 +1252,18 @@ inline void BattleResultNty::set_copytype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BattleResultNty.CopyType)
 }
 
-// int32 LeftTime = 5;
-inline void BattleResultNty::clear_lefttime() {
-  lefttime_ = 0;
+// int32 LastTime = 5;
+inline void BattleResultNty::clear_lasttime() {
+  lasttime_ = 0;
 }
-inline ::google::protobuf::int32 BattleResultNty::lefttime() const {
-  // @@protoc_insertion_point(field_get:BattleResultNty.LeftTime)
-  return lefttime_;
+inline ::google::protobuf::int32 BattleResultNty::lasttime() const {
+  // @@protoc_insertion_point(field_get:BattleResultNty.LastTime)
+  return lasttime_;
 }
-inline void BattleResultNty::set_lefttime(::google::protobuf::int32 value) {
+inline void BattleResultNty::set_lasttime(::google::protobuf::int32 value) {
   
-  lefttime_ = value;
-  // @@protoc_insertion_point(field_set:BattleResultNty.LeftTime)
+  lasttime_ = value;
+  // @@protoc_insertion_point(field_set:BattleResultNty.LastTime)
 }
 
 // repeated .ResultPlayer PlayerList = 6;
