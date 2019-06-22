@@ -239,6 +239,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, roleid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, copyid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, copyresult_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, starnum_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, lasttime_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MainCopyResultNty, itemlist_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -297,12 +301,14 @@ void AddDescriptorsImpl() {
       ".ResultPlayer\022!\n\nObjectList\030\007 \003(\0132\r.Resu"
       "ltObject\"\035\n\013MainCopyReq\022\016\n\006CopyID\030\001 \001(\005\""
       "\036\n\013MainCopyAck\022\017\n\007RetCode\030\001 \001(\r\"+\n\010ItemD"
-      "ata\022\016\n\006ItemID\030\001 \001(\005\022\017\n\007ItemNum\030\002 \001(\005\"@\n\021"
-      "MainCopyResultNty\022\016\n\006RoleID\030\001 \001(\004\022\033\n\010Ite"
-      "mList\030\002 \003(\0132\t.ItemDatab\006proto3"
+      "ata\022\016\n\006ItemID\030\001 \001(\005\022\017\n\007ItemNum\030\002 \001(\005\"\207\001\n"
+      "\021MainCopyResultNty\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006Co"
+      "pyID\030\002 \001(\005\022\022\n\nCopyResult\030\003 \001(\005\022\017\n\007StarNu"
+      "m\030\004 \001(\005\022\020\n\010LastTime\030\005 \001(\005\022\033\n\010ItemList\030\006 "
+      "\003(\0132\t.ItemDatab\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 670);
+      descriptor, 742);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Copy.proto", &protobuf_RegisterTypes);
 }
@@ -2547,6 +2553,10 @@ void MainCopyResultNty::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int MainCopyResultNty::kRoleIDFieldNumber;
+const int MainCopyResultNty::kCopyIDFieldNumber;
+const int MainCopyResultNty::kCopyResultFieldNumber;
+const int MainCopyResultNty::kStarNumFieldNumber;
+const int MainCopyResultNty::kLastTimeFieldNumber;
 const int MainCopyResultNty::kItemListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -2564,12 +2574,16 @@ MainCopyResultNty::MainCopyResultNty(const MainCopyResultNty& from)
       itemlist_(from.itemlist_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  roleid_ = from.roleid_;
+  ::memcpy(&roleid_, &from.roleid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&lasttime_) -
+    reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
   // @@protoc_insertion_point(copy_constructor:MainCopyResultNty)
 }
 
 void MainCopyResultNty::SharedCtor() {
-  roleid_ = GOOGLE_ULONGLONG(0);
+  ::memset(&roleid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&lasttime_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
   _cached_size_ = 0;
 }
 
@@ -2611,7 +2625,9 @@ void MainCopyResultNty::Clear() {
   (void) cached_has_bits;
 
   itemlist_.Clear();
-  roleid_ = GOOGLE_ULONGLONG(0);
+  ::memset(&roleid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&lasttime_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
   _internal_metadata_.Clear();
 }
 
@@ -2639,10 +2655,66 @@ bool MainCopyResultNty::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .ItemData ItemList = 2;
+      // int32 CopyID = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &copyid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 CopyResult = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &copyresult_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 StarNum = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &starnum_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 LastTime = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &lasttime_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .ItemData ItemList = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_itemlist()));
         } else {
@@ -2682,11 +2754,31 @@ void MainCopyResultNty::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roleid(), output);
   }
 
-  // repeated .ItemData ItemList = 2;
+  // int32 CopyID = 2;
+  if (this->copyid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->copyid(), output);
+  }
+
+  // int32 CopyResult = 3;
+  if (this->copyresult() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->copyresult(), output);
+  }
+
+  // int32 StarNum = 4;
+  if (this->starnum() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->starnum(), output);
+  }
+
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->lasttime(), output);
+  }
+
+  // repeated .ItemData ItemList = 6;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->itemlist_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->itemlist(static_cast<int>(i)), output);
+      6, this->itemlist(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2708,12 +2800,32 @@ void MainCopyResultNty::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roleid(), target);
   }
 
-  // repeated .ItemData ItemList = 2;
+  // int32 CopyID = 2;
+  if (this->copyid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->copyid(), target);
+  }
+
+  // int32 CopyResult = 3;
+  if (this->copyresult() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->copyresult(), target);
+  }
+
+  // int32 StarNum = 4;
+  if (this->starnum() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->starnum(), target);
+  }
+
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->lasttime(), target);
+  }
+
+  // repeated .ItemData ItemList = 6;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->itemlist_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        2, this->itemlist(static_cast<int>(i)), deterministic, target);
+        6, this->itemlist(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2733,7 +2845,7 @@ size_t MainCopyResultNty::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .ItemData ItemList = 2;
+  // repeated .ItemData ItemList = 6;
   {
     unsigned int count = static_cast<unsigned int>(this->itemlist_size());
     total_size += 1UL * count;
@@ -2749,6 +2861,34 @@ size_t MainCopyResultNty::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->roleid());
+  }
+
+  // int32 CopyID = 2;
+  if (this->copyid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->copyid());
+  }
+
+  // int32 CopyResult = 3;
+  if (this->copyresult() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->copyresult());
+  }
+
+  // int32 StarNum = 4;
+  if (this->starnum() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->starnum());
+  }
+
+  // int32 LastTime = 5;
+  if (this->lasttime() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->lasttime());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -2784,6 +2924,18 @@ void MainCopyResultNty::MergeFrom(const MainCopyResultNty& from) {
   if (from.roleid() != 0) {
     set_roleid(from.roleid());
   }
+  if (from.copyid() != 0) {
+    set_copyid(from.copyid());
+  }
+  if (from.copyresult() != 0) {
+    set_copyresult(from.copyresult());
+  }
+  if (from.starnum() != 0) {
+    set_starnum(from.starnum());
+  }
+  if (from.lasttime() != 0) {
+    set_lasttime(from.lasttime());
+  }
 }
 
 void MainCopyResultNty::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2812,6 +2964,10 @@ void MainCopyResultNty::InternalSwap(MainCopyResultNty* other) {
   using std::swap;
   itemlist_.InternalSwap(&other->itemlist_);
   swap(roleid_, other->roleid_);
+  swap(copyid_, other->copyid_);
+  swap(copyresult_, other->copyresult_);
+  swap(starnum_, other->starnum_);
+  swap(lasttime_, other->lasttime_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

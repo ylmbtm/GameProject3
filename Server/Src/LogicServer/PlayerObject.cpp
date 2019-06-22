@@ -42,9 +42,6 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_dwCopyGuid        = 0;      //当前的副本ID
 	m_dwCopyID			= 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
-	m_dwToCopyGuid      = 0;        //正在前往的副本ID
-	m_dwToCopyID        = 0;         //正在前往的副本ID
-	m_dwToCopySvrID     = 0;
 	m_IsOnline			= FALSE;
 
 	ERROR_RETURN_FALSE(CreateAllModule());
@@ -61,8 +58,6 @@ BOOL CPlayerObject::Uninit()
 	m_dwCopyGuid        = 0;        //当前的副本ID
 	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
-	m_dwToCopyGuid      = 0;        //正在前往的副本ID
-	m_dwToCopyID        = 0;        //正在前往的副本类型
 	m_IsOnline			= FALSE;
 	return TRUE;
 }
@@ -230,8 +225,6 @@ BOOL CPlayerObject::OnAllModuleOK()
 	CalcFightDataInfo();
 	SendRoleLoginAck();
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
-	m_dwCopyID = 0;
-	m_dwCopyGuid = 0;
 	return TRUE;
 }
 
@@ -268,9 +261,6 @@ BOOL CPlayerObject::SendIntoSceneNotify(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT
 	ERROR_RETURN_FALSE(dwCopyID != 0);
 	ERROR_RETURN_FALSE(dwCopyGuid != 0);
 	ERROR_RETURN_FALSE(dwSvrID != 0);
-
-	ERROR_RETURN_FALSE(m_dwCopyGuid != dwCopyGuid);
-	ERROR_RETURN_FALSE(m_dwCopyID != dwCopyID);
 
 	NotifyIntoScene Nty;
 	Nty.set_copyid(dwCopyID);
@@ -509,18 +499,24 @@ BOOL CPlayerObject::CalcFightDataInfo()
 	return TRUE;
 }
 
-BOOL CPlayerObject::ClearCopyState()
+BOOL CPlayerObject::ClearCopyStatus()
 {
 	m_dwCopyGuid = 0;			//当前的副本ID
 	m_dwCopyID = 0;				//当前的副本类型
 	m_dwCopySvrID = 0;			//副本服务器的ID
-	m_dwToCopyGuid = 0;			//正在前往的副本ID
-	m_dwToCopyID = 0;			//正在前往的副本类型
-	m_dwToCopySvrID = 0;		//正在前往的副本服ID
-
+	m_bMainCity = FALSE;
 	return TRUE;
 }
 
+BOOL CPlayerObject::SetCopyStatus(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwCopySvrID, BOOL bMainCity)
+{
+	m_dwCopyID = dwCopyID;
+	m_dwCopyGuid = dwCopyGuid;
+	m_dwCopySvrID = dwCopySvrID;
+	m_bMainCity = bMainCity;
+
+	return TRUE;
+}
 
 
 

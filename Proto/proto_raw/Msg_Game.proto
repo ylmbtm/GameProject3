@@ -218,15 +218,7 @@ message EnterSceneAck {
     repeated SkillItem Skills  = 20;//技能
 }
 
-message AbortCopyReq {
-    int32    CopyID      = 1;  //副本类型
-    int32    CopyGuid    = 2;
-    int32    ServerID    = 3;
-}
 
-message AbortCopyAck {
-    uint32    RetCode = 1;
-}
 
 
 message BackToCityReq {
@@ -244,6 +236,24 @@ message LeaveSceneReq {
 
 message LeaveSceneAck {
     uint32    RetCode = 1;
+}
+
+message AbortSceneReq {
+    uint64   RoleID = 1;
+    int32    Reason = 2;
+}
+
+message AbortSceneAck {
+    uint32    RetCode = 1;
+}
+
+message AbortSceneNty {
+    uint64   RoleID      = 1;
+    int32    CopyID      = 2;  //副本类型
+    int32    CopyGuid    = 3;
+    int32    CopyType    = 4;
+    int32    ServerID    = 5;
+    int32    Param       = 6;
 }
 
 message TransRoleData {

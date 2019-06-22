@@ -925,10 +925,10 @@ class MainCopyResultNty : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated .ItemData ItemList = 2;
+  // repeated .ItemData ItemList = 6;
   int itemlist_size() const;
   void clear_itemlist();
-  static const int kItemListFieldNumber = 2;
+  static const int kItemListFieldNumber = 6;
   const ::ItemData& itemlist(int index) const;
   ::ItemData* mutable_itemlist(int index);
   ::ItemData* add_itemlist();
@@ -943,12 +943,40 @@ class MainCopyResultNty : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
+  // int32 CopyID = 2;
+  void clear_copyid();
+  static const int kCopyIDFieldNumber = 2;
+  ::google::protobuf::int32 copyid() const;
+  void set_copyid(::google::protobuf::int32 value);
+
+  // int32 CopyResult = 3;
+  void clear_copyresult();
+  static const int kCopyResultFieldNumber = 3;
+  ::google::protobuf::int32 copyresult() const;
+  void set_copyresult(::google::protobuf::int32 value);
+
+  // int32 StarNum = 4;
+  void clear_starnum();
+  static const int kStarNumFieldNumber = 4;
+  ::google::protobuf::int32 starnum() const;
+  void set_starnum(::google::protobuf::int32 value);
+
+  // int32 LastTime = 5;
+  void clear_lasttime();
+  static const int kLastTimeFieldNumber = 5;
+  ::google::protobuf::int32 lasttime() const;
+  void set_lasttime(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:MainCopyResultNty)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::ItemData > itemlist_;
   ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::int32 copyid_;
+  ::google::protobuf::int32 copyresult_;
+  ::google::protobuf::int32 starnum_;
+  ::google::protobuf::int32 lasttime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fCopy_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fCopy_2eproto::InitDefaultsMainCopyResultNtyImpl();
@@ -1412,7 +1440,63 @@ inline void MainCopyResultNty::set_roleid(::google::protobuf::uint64 value) {
   // @@protoc_insertion_point(field_set:MainCopyResultNty.RoleID)
 }
 
-// repeated .ItemData ItemList = 2;
+// int32 CopyID = 2;
+inline void MainCopyResultNty::clear_copyid() {
+  copyid_ = 0;
+}
+inline ::google::protobuf::int32 MainCopyResultNty::copyid() const {
+  // @@protoc_insertion_point(field_get:MainCopyResultNty.CopyID)
+  return copyid_;
+}
+inline void MainCopyResultNty::set_copyid(::google::protobuf::int32 value) {
+  
+  copyid_ = value;
+  // @@protoc_insertion_point(field_set:MainCopyResultNty.CopyID)
+}
+
+// int32 CopyResult = 3;
+inline void MainCopyResultNty::clear_copyresult() {
+  copyresult_ = 0;
+}
+inline ::google::protobuf::int32 MainCopyResultNty::copyresult() const {
+  // @@protoc_insertion_point(field_get:MainCopyResultNty.CopyResult)
+  return copyresult_;
+}
+inline void MainCopyResultNty::set_copyresult(::google::protobuf::int32 value) {
+  
+  copyresult_ = value;
+  // @@protoc_insertion_point(field_set:MainCopyResultNty.CopyResult)
+}
+
+// int32 StarNum = 4;
+inline void MainCopyResultNty::clear_starnum() {
+  starnum_ = 0;
+}
+inline ::google::protobuf::int32 MainCopyResultNty::starnum() const {
+  // @@protoc_insertion_point(field_get:MainCopyResultNty.StarNum)
+  return starnum_;
+}
+inline void MainCopyResultNty::set_starnum(::google::protobuf::int32 value) {
+  
+  starnum_ = value;
+  // @@protoc_insertion_point(field_set:MainCopyResultNty.StarNum)
+}
+
+// int32 LastTime = 5;
+inline void MainCopyResultNty::clear_lasttime() {
+  lasttime_ = 0;
+}
+inline ::google::protobuf::int32 MainCopyResultNty::lasttime() const {
+  // @@protoc_insertion_point(field_get:MainCopyResultNty.LastTime)
+  return lasttime_;
+}
+inline void MainCopyResultNty::set_lasttime(::google::protobuf::int32 value) {
+  
+  lasttime_ = value;
+  // @@protoc_insertion_point(field_set:MainCopyResultNty.LastTime)
+}
+
+// repeated .ItemData ItemList = 6;
 inline int MainCopyResultNty::itemlist_size() const {
   return itemlist_.size();
 }

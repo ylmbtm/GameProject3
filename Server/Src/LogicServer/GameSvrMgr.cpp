@@ -154,19 +154,25 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 	ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != dwCopyID);
 	ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != dwCopyGuid);
 
-	TransferDataReq Req;
-	TransferDataItem* pItem = Req.add_transdatas();
-	pItem->set_camp(1);
-	ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(dwServerID);
 	ERROR_RETURN_FALSE(dwConnID != 0);
 
+	TransferDataReq Req;
+	TransferDataItem* pItem = Req.add_transdatas();
+	pItem->set_camp(dwCamp);
+	ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
+
 	AddWaitItem(u64ID, dwCamp);
 
+	if (pPlayer->m_bMainCity)
+	{
+		pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+	}
+
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, u64ID, dwCopyGuid, Req);
-	pPlayer->m_dwToCopyID = dwCopyID;
-	pPlayer->m_dwToCopyGuid = dwCopyGuid;
-	pPlayer->m_dwToCopySvrID = dwServerID;
+
+	pPlayer->SetCopyStatus(dwCopyGuid, dwCopyID, dwServerID, FALSE);
+
 	return TRUE;
 }
 
@@ -258,6 +264,9 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
+	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
+	ERROR_RETURN_FALSE(dwConnID != 0);
+
 	CWaitItem* pWaitItem = m_WaitCopyList.GetWaitItem(Ack.createparam());
 	ERROR_RETURN_FALSE(pWaitItem != NULL);
 
@@ -269,20 +278,22 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket* pNetPacket)
 			break;
 		}
 
-		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Ack.createparam());
+		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pWaitItem->uID[i]);
 		ERROR_RETURN_FALSE(pPlayer != NULL);
 		ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != Ack.copyid());
 		ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != Ack.copyguid());
 		TransferDataItem* pItem = Req.add_transdatas();
 		pItem->set_camp(pWaitItem->dwCamp[i]);
 		ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
-		pPlayer->m_dwToCopyID = Ack.copyid();
-		pPlayer->m_dwToCopyGuid = Ack.copyguid();
-		pPlayer->m_dwToCopySvrID = Ack.serverid();
+
+		if (pPlayer->m_bMainCity)
+		{
+			pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
+		}
+
+		pPlayer->SetCopyStatus(Ack.copyguid(), Ack.copyid(), Ack.serverid(), FALSE);
 	}
 
-	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(Ack.serverid());
-	ERROR_RETURN_FALSE(dwConnID != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, Ack.createparam(), Ack.copyguid(), Req);
 
 	return TRUE;
@@ -311,9 +322,6 @@ BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket* pNetPacket)
 		ERROR_RETURN_TRUE(Ack.copyguid() != 0);
 		ERROR_RETURN_TRUE(Ack.serverid() != 0);
 		pPlayer->SendIntoSceneNotify(Ack.copyguid(), Ack.copyid(), Ack.serverid());
-		pPlayer->m_dwToCopyID = Ack.copyid();
-		pPlayer->m_dwToCopyGuid = Ack.copyguid();
-		pPlayer->m_dwToCopySvrID = Ack.serverid();
 	}
 
 	m_WaitCopyList.Delete(pHeader->u64TargetID);
@@ -323,6 +331,7 @@ BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket* pNetPacket)
 
 BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 {
+	/*
 	EnterSceneReq Req;
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
@@ -332,21 +341,13 @@ BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(Req.serverid() != 0);
 
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyGuid == Req.copyguid());
-	ERROR_RETURN_TRUE(pPlayer->m_dwToCopyID == Req.copyid());
 
 	//如果原来在主城副本，需要通知离开
 	if(pPlayer->m_dwCopyID == 6)
 	{
 		pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 	}
-
-	pPlayer->m_dwCopyGuid = Req.copyguid();
-	pPlayer->m_dwCopyID = Req.copyid();
-	pPlayer->m_dwCopySvrID = Req.serverid();
-	pPlayer->m_dwToCopyID = 0;
-	pPlayer->m_dwToCopyGuid = 0;
-	pPlayer->m_dwToCopySvrID = 0;
+	*/
 	return TRUE;
 }
 

@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[93];
+  static const ::google::protobuf::internal::ParseTable schema[94];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -106,10 +106,6 @@ void InitDefaultsEnterSceneReqImpl();
 void InitDefaultsEnterSceneReq();
 void InitDefaultsEnterSceneAckImpl();
 void InitDefaultsEnterSceneAck();
-void InitDefaultsAbortCopyReqImpl();
-void InitDefaultsAbortCopyReq();
-void InitDefaultsAbortCopyAckImpl();
-void InitDefaultsAbortCopyAck();
 void InitDefaultsBackToCityReqImpl();
 void InitDefaultsBackToCityReq();
 void InitDefaultsBackToCityAckImpl();
@@ -118,6 +114,12 @@ void InitDefaultsLeaveSceneReqImpl();
 void InitDefaultsLeaveSceneReq();
 void InitDefaultsLeaveSceneAckImpl();
 void InitDefaultsLeaveSceneAck();
+void InitDefaultsAbortSceneReqImpl();
+void InitDefaultsAbortSceneReq();
+void InitDefaultsAbortSceneAckImpl();
+void InitDefaultsAbortSceneAck();
+void InitDefaultsAbortSceneNtyImpl();
+void InitDefaultsAbortSceneNty();
 void InitDefaultsTransRoleDataImpl();
 void InitDefaultsTransRoleData();
 void InitDefaultsTransPetDataImpl();
@@ -261,12 +263,13 @@ inline void InitDefaults() {
   InitDefaultsCreateNewSceneAck();
   InitDefaultsEnterSceneReq();
   InitDefaultsEnterSceneAck();
-  InitDefaultsAbortCopyReq();
-  InitDefaultsAbortCopyAck();
   InitDefaultsBackToCityReq();
   InitDefaultsBackToCityAck();
   InitDefaultsLeaveSceneReq();
   InitDefaultsLeaveSceneAck();
+  InitDefaultsAbortSceneReq();
+  InitDefaultsAbortSceneAck();
+  InitDefaultsAbortSceneNty();
   InitDefaultsTransRoleData();
   InitDefaultsTransPetData();
   InitDefaultsTransPartnerData();
@@ -324,12 +327,15 @@ inline void InitDefaults() {
   InitDefaultsMsgGetRandomNameAck();
 }
 }  // namespace protobuf_Msg_5fGame_2eproto
-class AbortCopyAck;
-class AbortCopyAckDefaultTypeInternal;
-extern AbortCopyAckDefaultTypeInternal _AbortCopyAck_default_instance_;
-class AbortCopyReq;
-class AbortCopyReqDefaultTypeInternal;
-extern AbortCopyReqDefaultTypeInternal _AbortCopyReq_default_instance_;
+class AbortSceneAck;
+class AbortSceneAckDefaultTypeInternal;
+extern AbortSceneAckDefaultTypeInternal _AbortSceneAck_default_instance_;
+class AbortSceneNty;
+class AbortSceneNtyDefaultTypeInternal;
+extern AbortSceneNtyDefaultTypeInternal _AbortSceneNty_default_instance_;
+class AbortSceneReq;
+class AbortSceneReqDefaultTypeInternal;
+extern AbortSceneReqDefaultTypeInternal _AbortSceneReq_default_instance_;
 class AccountLoginAck;
 class AccountLoginAckDefaultTypeInternal;
 extern AccountLoginAckDefaultTypeInternal _AccountLoginAck_default_instance_;
@@ -4511,218 +4517,6 @@ class EnterSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
-class AbortCopyReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:AbortCopyReq) */ {
- public:
-  AbortCopyReq();
-  virtual ~AbortCopyReq();
-
-  AbortCopyReq(const AbortCopyReq& from);
-
-  inline AbortCopyReq& operator=(const AbortCopyReq& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  AbortCopyReq(AbortCopyReq&& from) noexcept
-    : AbortCopyReq() {
-    *this = ::std::move(from);
-  }
-
-  inline AbortCopyReq& operator=(AbortCopyReq&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const AbortCopyReq& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const AbortCopyReq* internal_default_instance() {
-    return reinterpret_cast<const AbortCopyReq*>(
-               &_AbortCopyReq_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    32;
-
-  void Swap(AbortCopyReq* other);
-  friend void swap(AbortCopyReq& a, AbortCopyReq& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline AbortCopyReq* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  AbortCopyReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const AbortCopyReq& from);
-  void MergeFrom(const AbortCopyReq& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(AbortCopyReq* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int32 CopyID = 1;
-  void clear_copyid();
-  static const int kCopyIDFieldNumber = 1;
-  ::google::protobuf::int32 copyid() const;
-  void set_copyid(::google::protobuf::int32 value);
-
-  // int32 CopyGuid = 2;
-  void clear_copyguid();
-  static const int kCopyGuidFieldNumber = 2;
-  ::google::protobuf::int32 copyguid() const;
-  void set_copyguid(::google::protobuf::int32 value);
-
-  // int32 ServerID = 3;
-  void clear_serverid();
-  static const int kServerIDFieldNumber = 3;
-  ::google::protobuf::int32 serverid() const;
-  void set_serverid(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:AbortCopyReq)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 copyid_;
-  ::google::protobuf::int32 copyguid_;
-  ::google::protobuf::int32 serverid_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAbortCopyReqImpl();
-};
-// -------------------------------------------------------------------
-
-class AbortCopyAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:AbortCopyAck) */ {
- public:
-  AbortCopyAck();
-  virtual ~AbortCopyAck();
-
-  AbortCopyAck(const AbortCopyAck& from);
-
-  inline AbortCopyAck& operator=(const AbortCopyAck& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  AbortCopyAck(AbortCopyAck&& from) noexcept
-    : AbortCopyAck() {
-    *this = ::std::move(from);
-  }
-
-  inline AbortCopyAck& operator=(AbortCopyAck&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const AbortCopyAck& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const AbortCopyAck* internal_default_instance() {
-    return reinterpret_cast<const AbortCopyAck*>(
-               &_AbortCopyAck_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    33;
-
-  void Swap(AbortCopyAck* other);
-  friend void swap(AbortCopyAck& a, AbortCopyAck& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline AbortCopyAck* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  AbortCopyAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const AbortCopyAck& from);
-  void MergeFrom(const AbortCopyAck& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(AbortCopyAck* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint32 RetCode = 1;
-  void clear_retcode();
-  static const int kRetCodeFieldNumber = 1;
-  ::google::protobuf::uint32 retcode() const;
-  void set_retcode(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:AbortCopyAck)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 retcode_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
-  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAbortCopyAckImpl();
-};
-// -------------------------------------------------------------------
-
 class BackToCityReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BackToCityReq) */ {
  public:
   BackToCityReq();
@@ -4758,7 +4552,7 @@ class BackToCityReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_BackToCityReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    34;
+    32;
 
   void Swap(BackToCityReq* other);
   friend void swap(BackToCityReq& a, BackToCityReq& b) {
@@ -4857,7 +4651,7 @@ class BackToCityAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_BackToCityAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    35;
+    33;
 
   void Swap(BackToCityAck* other);
   friend void swap(BackToCityAck& a, BackToCityAck& b) {
@@ -4956,7 +4750,7 @@ class LeaveSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    36;
+    34;
 
   void Swap(LeaveSceneReq* other);
   friend void swap(LeaveSceneReq& a, LeaveSceneReq& b) {
@@ -5062,7 +4856,7 @@ class LeaveSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LeaveSceneAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    37;
+    35;
 
   void Swap(LeaveSceneAck* other);
   friend void swap(LeaveSceneAck& a, LeaveSceneAck& b) {
@@ -5126,6 +4920,345 @@ class LeaveSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
+class AbortSceneReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:AbortSceneReq) */ {
+ public:
+  AbortSceneReq();
+  virtual ~AbortSceneReq();
+
+  AbortSceneReq(const AbortSceneReq& from);
+
+  inline AbortSceneReq& operator=(const AbortSceneReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  AbortSceneReq(AbortSceneReq&& from) noexcept
+    : AbortSceneReq() {
+    *this = ::std::move(from);
+  }
+
+  inline AbortSceneReq& operator=(AbortSceneReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AbortSceneReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AbortSceneReq* internal_default_instance() {
+    return reinterpret_cast<const AbortSceneReq*>(
+               &_AbortSceneReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    36;
+
+  void Swap(AbortSceneReq* other);
+  friend void swap(AbortSceneReq& a, AbortSceneReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AbortSceneReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  AbortSceneReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const AbortSceneReq& from);
+  void MergeFrom(const AbortSceneReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(AbortSceneReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // int32 Reason = 2;
+  void clear_reason();
+  static const int kReasonFieldNumber = 2;
+  ::google::protobuf::int32 reason() const;
+  void set_reason(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:AbortSceneReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::int32 reason_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAbortSceneReqImpl();
+};
+// -------------------------------------------------------------------
+
+class AbortSceneAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:AbortSceneAck) */ {
+ public:
+  AbortSceneAck();
+  virtual ~AbortSceneAck();
+
+  AbortSceneAck(const AbortSceneAck& from);
+
+  inline AbortSceneAck& operator=(const AbortSceneAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  AbortSceneAck(AbortSceneAck&& from) noexcept
+    : AbortSceneAck() {
+    *this = ::std::move(from);
+  }
+
+  inline AbortSceneAck& operator=(AbortSceneAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AbortSceneAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AbortSceneAck* internal_default_instance() {
+    return reinterpret_cast<const AbortSceneAck*>(
+               &_AbortSceneAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    37;
+
+  void Swap(AbortSceneAck* other);
+  friend void swap(AbortSceneAck& a, AbortSceneAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AbortSceneAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  AbortSceneAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const AbortSceneAck& from);
+  void MergeFrom(const AbortSceneAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(AbortSceneAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:AbortSceneAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAbortSceneAckImpl();
+};
+// -------------------------------------------------------------------
+
+class AbortSceneNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:AbortSceneNty) */ {
+ public:
+  AbortSceneNty();
+  virtual ~AbortSceneNty();
+
+  AbortSceneNty(const AbortSceneNty& from);
+
+  inline AbortSceneNty& operator=(const AbortSceneNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  AbortSceneNty(AbortSceneNty&& from) noexcept
+    : AbortSceneNty() {
+    *this = ::std::move(from);
+  }
+
+  inline AbortSceneNty& operator=(AbortSceneNty&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AbortSceneNty& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AbortSceneNty* internal_default_instance() {
+    return reinterpret_cast<const AbortSceneNty*>(
+               &_AbortSceneNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    38;
+
+  void Swap(AbortSceneNty* other);
+  friend void swap(AbortSceneNty& a, AbortSceneNty& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AbortSceneNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  AbortSceneNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const AbortSceneNty& from);
+  void MergeFrom(const AbortSceneNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(AbortSceneNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 RoleID = 1;
+  void clear_roleid();
+  static const int kRoleIDFieldNumber = 1;
+  ::google::protobuf::uint64 roleid() const;
+  void set_roleid(::google::protobuf::uint64 value);
+
+  // int32 CopyID = 2;
+  void clear_copyid();
+  static const int kCopyIDFieldNumber = 2;
+  ::google::protobuf::int32 copyid() const;
+  void set_copyid(::google::protobuf::int32 value);
+
+  // int32 CopyGuid = 3;
+  void clear_copyguid();
+  static const int kCopyGuidFieldNumber = 3;
+  ::google::protobuf::int32 copyguid() const;
+  void set_copyguid(::google::protobuf::int32 value);
+
+  // int32 CopyType = 4;
+  void clear_copytype();
+  static const int kCopyTypeFieldNumber = 4;
+  ::google::protobuf::int32 copytype() const;
+  void set_copytype(::google::protobuf::int32 value);
+
+  // int32 ServerID = 5;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 5;
+  ::google::protobuf::int32 serverid() const;
+  void set_serverid(::google::protobuf::int32 value);
+
+  // int32 Param = 6;
+  void clear_param();
+  static const int kParamFieldNumber = 6;
+  ::google::protobuf::int32 param() const;
+  void set_param(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:AbortSceneNty)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::int32 copyid_;
+  ::google::protobuf::int32 copyguid_;
+  ::google::protobuf::int32 copytype_;
+  ::google::protobuf::int32 serverid_;
+  ::google::protobuf::int32 param_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsAbortSceneNtyImpl();
+};
+// -------------------------------------------------------------------
+
 class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TransRoleData) */ {
  public:
   TransRoleData();
@@ -5161,7 +5294,7 @@ class TransRoleData : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_TransRoleData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    38;
+    39;
 
   void Swap(TransRoleData* other);
   friend void swap(TransRoleData& a, TransRoleData& b) {
@@ -5351,7 +5484,7 @@ class TransPetData : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_TransPetData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    39;
+    40;
 
   void Swap(TransPetData* other);
   friend void swap(TransPetData& a, TransPetData& b) {
@@ -5513,7 +5646,7 @@ class TransPartnerData : public ::google::protobuf::Message /* @@protoc_insertio
                &_TransPartnerData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    40;
+    41;
 
   void Swap(TransPartnerData* other);
   friend void swap(TransPartnerData& a, TransPartnerData& b) {
@@ -5675,7 +5808,7 @@ class TransferDataItem : public ::google::protobuf::Message /* @@protoc_insertio
                &_TransferDataItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    41;
+    42;
 
   void Swap(TransferDataItem* other);
   friend void swap(TransferDataItem& a, TransferDataItem& b) {
@@ -5804,7 +5937,7 @@ class TransferDataReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_TransferDataReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    42;
+    43;
 
   void Swap(TransferDataReq* other);
   friend void swap(TransferDataReq& a, TransferDataReq& b) {
@@ -5909,7 +6042,7 @@ class TransferDataAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_TransferDataAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    43;
+    44;
 
   void Swap(TransferDataAck* other);
   friend void swap(TransferDataAck& a, TransferDataAck& b) {
@@ -6036,7 +6169,7 @@ class NotifyIntoScene : public ::google::protobuf::Message /* @@protoc_insertion
                &_NotifyIntoScene_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    44;
+    45;
 
   void Swap(NotifyIntoScene* other);
   friend void swap(NotifyIntoScene& a, NotifyIntoScene& b) {
@@ -6156,7 +6289,7 @@ class NearByRoleItem : public ::google::protobuf::Message /* @@protoc_insertion_
                &_NearByRoleItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    45;
+    46;
 
   void Swap(NearByRoleItem* other);
   friend void swap(NearByRoleItem& a, NearByRoleItem& b) {
@@ -6284,7 +6417,7 @@ class CopyInsItem : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_CopyInsItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    46;
+    47;
 
   void Swap(CopyInsItem* other);
   friend void swap(CopyInsItem& a, CopyInsItem& b) {
@@ -6404,7 +6537,7 @@ class CopyReportReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_CopyReportReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    47;
+    48;
 
   void Swap(CopyReportReq* other);
   friend void swap(CopyReportReq& a, CopyReportReq& b) {
@@ -6516,7 +6649,7 @@ class UseHpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    48;
+    49;
 
   void Swap(UseHpBottleReq* other);
   friend void swap(UseHpBottleReq& a, UseHpBottleReq& b) {
@@ -6608,7 +6741,7 @@ class UseHpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseHpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    49;
+    50;
 
   void Swap(UseHpBottleAck* other);
   friend void swap(UseHpBottleAck& a, UseHpBottleAck& b) {
@@ -6714,7 +6847,7 @@ class UseMpBottleReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    50;
+    51;
 
   void Swap(UseMpBottleReq* other);
   friend void swap(UseMpBottleReq& a, UseMpBottleReq& b) {
@@ -6806,7 +6939,7 @@ class UseMpBottleAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_UseMpBottleAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    51;
+    52;
 
   void Swap(UseMpBottleAck* other);
   friend void swap(UseMpBottleAck& a, UseMpBottleAck& b) {
@@ -6912,7 +7045,7 @@ class ChatMessageReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    52;
+    53;
 
   void Swap(ChatMessageReq* other);
   friend void swap(ChatMessageReq& a, ChatMessageReq& b) {
@@ -7055,7 +7188,7 @@ class ChatMessageAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    53;
+    54;
 
   void Swap(ChatMessageAck* other);
   friend void swap(ChatMessageAck& a, ChatMessageAck& b) {
@@ -7154,7 +7287,7 @@ class ChatMessageNty : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ChatMessageNty_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    54;
+    55;
 
   void Swap(ChatMessageNty* other);
   friend void swap(ChatMessageNty& a, ChatMessageNty& b) {
@@ -7297,7 +7430,7 @@ class SealAccountReq : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    55;
+    56;
 
   void Swap(SealAccountReq* other);
   friend void swap(SealAccountReq& a, SealAccountReq& b) {
@@ -7432,7 +7565,7 @@ class SealAccountAck : public ::google::protobuf::Message /* @@protoc_insertion_
                &_SealAccountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    56;
+    57;
 
   void Swap(SealAccountAck* other);
   friend void swap(SealAccountAck& a, SealAccountAck& b) {
@@ -7553,7 +7686,7 @@ class CommonReq : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    57;
+    58;
 
   void Swap(CommonReq* other);
   friend void swap(CommonReq& a, CommonReq& b) {
@@ -7652,7 +7785,7 @@ class CommonAck : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    58;
+    59;
 
   void Swap(CommonAck* other);
   friend void swap(CommonAck& a, CommonAck& b) {
@@ -7751,7 +7884,7 @@ class BroadMessageNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_BroadMessageNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    59;
+    60;
 
   void Swap(BroadMessageNotify* other);
   friend void swap(BroadMessageNotify& a, BroadMessageNotify& b) {
@@ -7879,7 +8012,7 @@ class LogicRegToLoginReq : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    60;
+    61;
 
   void Swap(LogicRegToLoginReq* other);
   friend void swap(LogicRegToLoginReq& a, LogicRegToLoginReq& b) {
@@ -8029,7 +8162,7 @@ class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    61;
+    62;
 
   void Swap(LogicRegToLoginAck* other);
   friend void swap(LogicRegToLoginAck& a, LogicRegToLoginAck& b) {
@@ -8143,7 +8276,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    62;
+    63;
 
   void Swap(WatchHeartBeatReq* other);
   friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
@@ -8249,7 +8382,7 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    63;
+    64;
 
   void Swap(WatchHeartBeatAck* other);
   friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
@@ -8362,7 +8495,7 @@ class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    64;
+    65;
 
   void Swap(SetupEquipReq* other);
   friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
@@ -8468,7 +8601,7 @@ class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    65;
+    66;
 
   void Swap(SetupEquipAck* other);
   friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
@@ -8567,7 +8700,7 @@ class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    66;
+    67;
 
   void Swap(UnsetEquipReq* other);
   friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
@@ -8666,7 +8799,7 @@ class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    67;
+    68;
 
   void Swap(UnsetEquipAck* other);
   friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
@@ -8765,7 +8898,7 @@ class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    68;
+    69;
 
   void Swap(SetupGemReq* other);
   friend void swap(SetupGemReq& a, SetupGemReq& b) {
@@ -8878,7 +9011,7 @@ class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    69;
+    70;
 
   void Swap(SetupGemAck* other);
   friend void swap(SetupGemAck& a, SetupGemAck& b) {
@@ -8977,7 +9110,7 @@ class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    71;
 
   void Swap(UnsetGemReq* other);
   friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
@@ -9076,7 +9209,7 @@ class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    72;
 
   void Swap(UnsetGemAck* other);
   friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
@@ -9175,7 +9308,7 @@ class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    73;
 
   void Swap(SetupPartnerReq* other);
   friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
@@ -9281,7 +9414,7 @@ class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    73;
+    74;
 
   void Swap(SetupPartnerAck* other);
   friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
@@ -9380,7 +9513,7 @@ class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    74;
+    75;
 
   void Swap(UnsetPartnerReq* other);
   friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
@@ -9479,7 +9612,7 @@ class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    75;
+    76;
 
   void Swap(UnsetPartnerAck* other);
   friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
@@ -9578,7 +9711,7 @@ class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    76;
+    77;
 
   void Swap(SetupMountReq* other);
   friend void swap(SetupMountReq& a, SetupMountReq& b) {
@@ -9684,7 +9817,7 @@ class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    77;
+    78;
 
   void Swap(SetupMountAck* other);
   friend void swap(SetupMountAck& a, SetupMountAck& b) {
@@ -9783,7 +9916,7 @@ class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    78;
+    79;
 
   void Swap(UnsetMountReq* other);
   friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
@@ -9882,7 +10015,7 @@ class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    79;
+    80;
 
   void Swap(UnsetMountAck* other);
   friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
@@ -9981,7 +10114,7 @@ class SetupPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    80;
+    81;
 
   void Swap(SetupPetReq* other);
   friend void swap(SetupPetReq& a, SetupPetReq& b) {
@@ -10080,7 +10213,7 @@ class SetupPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    81;
+    82;
 
   void Swap(SetupPetAck* other);
   friend void swap(SetupPetAck& a, SetupPetAck& b) {
@@ -10179,7 +10312,7 @@ class UnsetPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    82;
+    83;
 
   void Swap(UnsetPetReq* other);
   friend void swap(UnsetPetReq& a, UnsetPetReq& b) {
@@ -10278,7 +10411,7 @@ class UnsetPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    83;
+    84;
 
   void Swap(UnsetPetAck* other);
   friend void swap(UnsetPetAck& a, UnsetPetAck& b) {
@@ -10377,7 +10510,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    84;
+    85;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -10490,7 +10623,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    85;
+    86;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -10589,7 +10722,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    86;
+    87;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -10724,7 +10857,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_HitEffectItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    87;
+    88;
 
   void Swap(HitEffectItem* other);
   friend void swap(HitEffectItem& a, HitEffectItem& b) {
@@ -10844,7 +10977,7 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HitEffectNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    88;
+    89;
 
   void Swap(HitEffectNtf* other);
   friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
@@ -10949,7 +11082,7 @@ class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    89;
+    90;
 
   void Swap(UseItemReq* other);
   friend void swap(UseItemReq& a, UseItemReq& b) {
@@ -11041,7 +11174,7 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    90;
+    91;
 
   void Swap(UseItemAck* other);
   friend void swap(UseItemAck& a, UseItemAck& b) {
@@ -11133,7 +11266,7 @@ class MsgGetRandomNameReq : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    91;
+    92;
 
   void Swap(MsgGetRandomNameReq* other);
   friend void swap(MsgGetRandomNameReq& a, MsgGetRandomNameReq& b) {
@@ -11232,7 +11365,7 @@ class MsgGetRandomNameAck : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    92;
+    93;
 
   void Swap(MsgGetRandomNameAck* other);
   friend void swap(MsgGetRandomNameAck& a, MsgGetRandomNameAck& b) {
@@ -13812,70 +13945,6 @@ EnterSceneAck::skills() const {
 
 // -------------------------------------------------------------------
 
-// AbortCopyReq
-
-// int32 CopyID = 1;
-inline void AbortCopyReq::clear_copyid() {
-  copyid_ = 0;
-}
-inline ::google::protobuf::int32 AbortCopyReq::copyid() const {
-  // @@protoc_insertion_point(field_get:AbortCopyReq.CopyID)
-  return copyid_;
-}
-inline void AbortCopyReq::set_copyid(::google::protobuf::int32 value) {
-  
-  copyid_ = value;
-  // @@protoc_insertion_point(field_set:AbortCopyReq.CopyID)
-}
-
-// int32 CopyGuid = 2;
-inline void AbortCopyReq::clear_copyguid() {
-  copyguid_ = 0;
-}
-inline ::google::protobuf::int32 AbortCopyReq::copyguid() const {
-  // @@protoc_insertion_point(field_get:AbortCopyReq.CopyGuid)
-  return copyguid_;
-}
-inline void AbortCopyReq::set_copyguid(::google::protobuf::int32 value) {
-  
-  copyguid_ = value;
-  // @@protoc_insertion_point(field_set:AbortCopyReq.CopyGuid)
-}
-
-// int32 ServerID = 3;
-inline void AbortCopyReq::clear_serverid() {
-  serverid_ = 0;
-}
-inline ::google::protobuf::int32 AbortCopyReq::serverid() const {
-  // @@protoc_insertion_point(field_get:AbortCopyReq.ServerID)
-  return serverid_;
-}
-inline void AbortCopyReq::set_serverid(::google::protobuf::int32 value) {
-  
-  serverid_ = value;
-  // @@protoc_insertion_point(field_set:AbortCopyReq.ServerID)
-}
-
-// -------------------------------------------------------------------
-
-// AbortCopyAck
-
-// uint32 RetCode = 1;
-inline void AbortCopyAck::clear_retcode() {
-  retcode_ = 0u;
-}
-inline ::google::protobuf::uint32 AbortCopyAck::retcode() const {
-  // @@protoc_insertion_point(field_get:AbortCopyAck.RetCode)
-  return retcode_;
-}
-inline void AbortCopyAck::set_retcode(::google::protobuf::uint32 value) {
-  
-  retcode_ = value;
-  // @@protoc_insertion_point(field_set:AbortCopyAck.RetCode)
-}
-
-// -------------------------------------------------------------------
-
 // BackToCityReq
 
 // uint32 Param = 1;
@@ -13958,6 +14027,144 @@ inline void LeaveSceneAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
   // @@protoc_insertion_point(field_set:LeaveSceneAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// AbortSceneReq
+
+// uint64 RoleID = 1;
+inline void AbortSceneReq::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 AbortSceneReq::roleid() const {
+  // @@protoc_insertion_point(field_get:AbortSceneReq.RoleID)
+  return roleid_;
+}
+inline void AbortSceneReq::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneReq.RoleID)
+}
+
+// int32 Reason = 2;
+inline void AbortSceneReq::clear_reason() {
+  reason_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneReq::reason() const {
+  // @@protoc_insertion_point(field_get:AbortSceneReq.Reason)
+  return reason_;
+}
+inline void AbortSceneReq::set_reason(::google::protobuf::int32 value) {
+  
+  reason_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneReq.Reason)
+}
+
+// -------------------------------------------------------------------
+
+// AbortSceneAck
+
+// uint32 RetCode = 1;
+inline void AbortSceneAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 AbortSceneAck::retcode() const {
+  // @@protoc_insertion_point(field_get:AbortSceneAck.RetCode)
+  return retcode_;
+}
+inline void AbortSceneAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
+// AbortSceneNty
+
+// uint64 RoleID = 1;
+inline void AbortSceneNty::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 AbortSceneNty::roleid() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.RoleID)
+  return roleid_;
+}
+inline void AbortSceneNty::set_roleid(::google::protobuf::uint64 value) {
+  
+  roleid_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.RoleID)
+}
+
+// int32 CopyID = 2;
+inline void AbortSceneNty::clear_copyid() {
+  copyid_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneNty::copyid() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.CopyID)
+  return copyid_;
+}
+inline void AbortSceneNty::set_copyid(::google::protobuf::int32 value) {
+  
+  copyid_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.CopyID)
+}
+
+// int32 CopyGuid = 3;
+inline void AbortSceneNty::clear_copyguid() {
+  copyguid_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneNty::copyguid() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.CopyGuid)
+  return copyguid_;
+}
+inline void AbortSceneNty::set_copyguid(::google::protobuf::int32 value) {
+  
+  copyguid_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.CopyGuid)
+}
+
+// int32 CopyType = 4;
+inline void AbortSceneNty::clear_copytype() {
+  copytype_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneNty::copytype() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.CopyType)
+  return copytype_;
+}
+inline void AbortSceneNty::set_copytype(::google::protobuf::int32 value) {
+  
+  copytype_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.CopyType)
+}
+
+// int32 ServerID = 5;
+inline void AbortSceneNty::clear_serverid() {
+  serverid_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneNty::serverid() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.ServerID)
+  return serverid_;
+}
+inline void AbortSceneNty::set_serverid(::google::protobuf::int32 value) {
+  
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.ServerID)
+}
+
+// int32 Param = 6;
+inline void AbortSceneNty::clear_param() {
+  param_ = 0;
+}
+inline ::google::protobuf::int32 AbortSceneNty::param() const {
+  // @@protoc_insertion_point(field_get:AbortSceneNty.Param)
+  return param_;
+}
+inline void AbortSceneNty::set_param(::google::protobuf::int32 value) {
+  
+  param_ = value;
+  // @@protoc_insertion_point(field_set:AbortSceneNty.Param)
 }
 
 // -------------------------------------------------------------------
@@ -16881,6 +17088,8 @@ inline void MsgGetRandomNameAck::set_allocated_name(::std::string* name) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

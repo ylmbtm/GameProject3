@@ -57,7 +57,8 @@ public:
 
 	BOOL		SetConnectID(UINT32 dwProxyID, UINT32 dwClientID);
 
-	BOOL		ClearCopyState();
+	BOOL		ClearCopyStatus();
+	BOOL        SetCopyStatus(UINT32 dwCopyGuid, UINT32 dwCopyID, UINT32 dwCopySvrID, BOOL bMainCity);
 
 	//模块函数
 	BOOL			CreateAllModule();
@@ -95,16 +96,11 @@ public:
 	BOOL			m_IsOnline;
 	std::vector<CModuleBase*> m_MoudleList;
 
-
-
 public:
-	UINT32      m_dwCopyGuid;		//当前的副本ID
-	UINT32      m_dwCopyID;			//当前的副本类型
-	UINT32      m_dwCopySvrID;		//副本服务器的ID
-	UINT32      m_dwToCopyGuid;		//正在前往的副本ID
-	UINT32      m_dwToCopyID;		//正在前往的副本ID
-	UINT32      m_dwToCopySvrID;	//正在前往的副本服务器的ID
-
+	UINT32      m_dwCopyGuid;	//当前的副本实例ID
+	UINT32      m_dwCopyID;		//当前的副本类型
+	UINT32      m_dwCopySvrID;	//副本服务器的ID
+	BOOL        m_bMainCity;    //是否在主城中
 
 public:
 	//*********************消息处理定义开始******************************

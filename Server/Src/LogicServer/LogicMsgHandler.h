@@ -38,7 +38,7 @@ public:
 	BOOL OnMsgRoleLogoutReq(NetPacket* pNetPacket);
 	BOOL OnMsgRoleDisconnect(NetPacket* pNetPacket);
 	BOOL OnMsgMainCopyReq(NetPacket* pNetPacket);
-	BOOL OnMsgAbortCopyReq(NetPacket* pNetPacket);
+	BOOL OnMsgAbortSceneNtf(NetPacket* pNetPacket);
 	BOOL OnMsgBackToCityReq(NetPacket* pNetPacket);
 	BOOL OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
