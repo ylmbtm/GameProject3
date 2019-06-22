@@ -4,7 +4,7 @@
 #include "RapidXml.h"
 #include "../Message/Game_Define.pb.h"
 #include "XMath.h"
-#include "BattleResult.h"
+#include "WinCondition.h"
 
 class CScene;
 class CSceneObject;
@@ -28,16 +28,18 @@ public:
 
 	virtual BOOL Update(UINT64 uTick);
 
-	virtual BOOL OnTimeUP();
-
-	//TRUE:表示己经决出胜负, FALSE没有决出胜负
-	virtual BOOL BattleResultCheck();
+	virtual BOOL OnTimeUP() = 0;
 
 	CScene*  GetScene();
-public:
+
+protected:
+	BOOL ReadBornFromXml(rapidxml::xml_node<char>* pNode);
+
+	BOOL ReadConditionFromXml(rapidxml::xml_node<char>* pNode);
+
 	CScene* m_pScene;
-	
-	BattleResult m_BattleResult;
+
+	CWinCondition m_BattleCondition;
 
 	std::vector<CPoint3D> m_vtBornPos;
 };

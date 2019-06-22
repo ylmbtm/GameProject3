@@ -20,12 +20,11 @@ public:
 
 	BOOL			    ReleasePlayer(UINT64 u64RoleID);
 
-	BOOL				TryCleanPlayer();
-
 	BOOL				BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 	BOOL                ZeroTimer(UINT32 nParam);
 
+	BOOL                OnUpdate(UINT64 uTick);
 public:
 
 };

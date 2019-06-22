@@ -57,9 +57,6 @@
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp">
       <Filter>Scenelogic</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLogic\BattleResult.cpp">
-      <Filter>Scenelogic</Filter>
-    </ClCompile>
     <ClCompile Include="SceneXmlMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     <ClCompile Include="..\Message\Msg_LoginCltData.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogic\WinCondition.cpp">
+      <Filter>Scenelogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -132,9 +132,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_City.h">
-      <Filter>Scenelogic</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneLogic\BattleResult.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="SceneXmlMgr.h">
@@ -193,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_LoginCltData.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\WinCondition.h">
+      <Filter>Scenelogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

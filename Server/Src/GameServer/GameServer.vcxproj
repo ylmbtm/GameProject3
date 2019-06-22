@@ -129,7 +129,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MonsterCreator.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneLogic\BattleResult.cpp" />
+    <ClCompile Include="SceneLogic\WinCondition.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Arena.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Base.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp" />
@@ -164,7 +164,7 @@
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneLogic\BattleResult.h" />
+    <ClInclude Include="SceneLogic\WinCondition.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Arena.h" />
     <ClInclude Include="SceneLogic\SceneLogic_City.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />

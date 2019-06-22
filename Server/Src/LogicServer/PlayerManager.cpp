@@ -49,47 +49,6 @@ BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 	return Delete(u64RoleID);
 }
 
-BOOL CPlayerManager::TryCleanPlayer()
-{
-	if (GetCount() >= 3000)
-	{
-		//开始要清理人员了, 找一个离线时间最长的角色清理出内存
-		UINT64 uMinLeaveTime = 0x0fffffffff;
-		UINT64 uReleaseRoleID = 0;
-
-		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
-		ERROR_RETURN_FALSE(pNode != NULL);
-
-		CPlayerObject* pTempObj = NULL;
-		for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
-		{
-			pTempObj = pNode->GetValue();
-			ERROR_RETURN_FALSE(pTempObj != NULL);
-
-			if (pTempObj->IsOnline())
-			{
-				continue;
-			}
-
-			CRoleModule* pRoleModule = (CRoleModule*)pTempObj->GetModuleByType(MT_ROLE);
-			ERROR_RETURN_FALSE(pRoleModule != NULL);
-
-			if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
-			{
-				uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
-				uReleaseRoleID = pTempObj->GetObjectID();
-			}
-		}
-
-		if (uReleaseRoleID != 0)
-		{
-			ReleasePlayer(uReleaseRoleID);
-		}
-	}
-
-	return TRUE;
-}
-
 BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	char szBuff[10240] = { 0 };
@@ -146,6 +105,51 @@ BOOL CPlayerManager::ZeroTimer(UINT32 nParam)
 		}
 
 		pTempObj->OnNewDay();
+	}
+
+	return TRUE;
+}
+
+BOOL CPlayerManager::OnUpdate(UINT64 uTick)
+{
+	if (GetCount() <= 0)
+	{
+		return TRUE;
+	}
+
+	UINT64 uMinLeaveTime = 0x0fffffffff;
+	UINT64 uReleaseRoleID = 0;
+
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		ERROR_RETURN_FALSE(pTempObj != NULL);
+
+		if (pTempObj->IsOnline())
+		{
+			pTempObj->NotifyChange();
+		}
+		else
+		{
+			CRoleModule* pRoleModule = (CRoleModule*)pTempObj->GetModuleByType(MT_ROLE);
+			ERROR_RETURN_FALSE(pRoleModule != NULL);
+
+			if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
+			{
+				uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
+				uReleaseRoleID = pTempObj->GetObjectID();
+			}
+		}
+	}
+
+	if (uReleaseRoleID != 0 && GetCount() > 3000)
+	{
+		//当内存中的人数超过3000人，就清理一个离线时间最长的玩家
+		ReleasePlayer(uReleaseRoleID);
 	}
 
 	return TRUE;

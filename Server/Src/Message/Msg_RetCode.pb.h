@@ -30,49 +30,56 @@
 #include <google/protobuf/generated_enum_reflection.h>
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_Msg_5fRetCode_2eproto {
+namespace protobuf_Msg_5fRetCode_2eproto
+{
 // Internal implementation detail -- do not use these members.
-struct TableStruct {
-  static const ::google::protobuf::internal::ParseTableField entries[];
-  static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[1];
-  static const ::google::protobuf::internal::FieldMetadata field_metadata[];
-  static const ::google::protobuf::internal::SerializationTable serialization_table[];
-  static const ::google::protobuf::uint32 offsets[];
+struct TableStruct
+{
+	static const ::google::protobuf::internal::ParseTableField entries[];
+	static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
+	static const ::google::protobuf::internal::ParseTable schema[1];
+	static const ::google::protobuf::internal::FieldMetadata field_metadata[];
+	static const ::google::protobuf::internal::SerializationTable serialization_table[];
+	static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
-inline void InitDefaults() {
+inline void InitDefaults()
+{
 }
 }  // namespace protobuf_Msg_5fRetCode_2eproto
 
-enum MessageRetCode {
-  MRC_SUCCESSED = 0,
-  MRC_UNKNOW_ERROR = 1,
-  MRC_DISCONNECT = 2,
-  MRC_ACCOUNT_EXIST = 3,
-  MRC_NAME_EXIST = 4,
-  MRC_ACCOUNT_SEALED = 5,
-  MRC_INVALID_ACCNAME = 100,
-  MRC_INVALID_ACCID = 101,
-  MRC_INVALID_PASSWORD = 102,
-  MRC_INVALID_NAME = 103,
-  MRC_INVALID_ROLEID = 104,
-  MRC_INVALID_ITEMID = 105,
-  MRC_INVALID_COPYID = 106,
-  MRC_INVALID_PETID = 107,
-  MRC_INVALID_PARTNERID = 108,
-  MRC_INVALID_EQUIP_ID = 109,
-  MRC_INVALID_CARRERID = 110,
-  MRC_INVALID_SKILL_ID = 111,
-  MRC_INVALID_TARGET_ID = 112,
-  MRC_NOT_ENOUGH_ACTOIN = 200,
-  MRC_NOT_ENOUGH_MONEY = 201,
-  MRC_NOT_ENOUGH_ITEM = 202,
-  MRC_NOT_ENOUGH_TIMES = 203,
-  MRC_SKILL_CD_ERROR = 300,
-  MRC_SKILL_DEAD_OBJ = 301,
-  MessageRetCode_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  MessageRetCode_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum MessageRetCode
+{
+	MRC_SUCCESSED = 0,
+	MRC_UNKNOW_ERROR = 1,
+	MRC_DISCONNECT = 2,
+	MRC_ACCOUNT_EXIST = 3,
+	MRC_NAME_EXIST = 4,
+	MRC_ACCOUNT_SEALED = 5,
+	MRC_INVALID_ACCNAME = 100,
+	MRC_INVALID_ACCID = 101,
+	MRC_INVALID_PASSWORD = 102,
+	MRC_INVALID_NAME = 103,
+	MRC_INVALID_ROLEID = 104,
+	MRC_INVALID_ITEMID = 105,
+	MRC_INVALID_COPYID = 106,
+	MRC_INVALID_PETID = 107,
+	MRC_INVALID_PARTNERID = 108,
+	MRC_INVALID_EQUIP_ID = 109,
+	MRC_INVALID_CARRERID = 110,
+	MRC_INVALID_SKILL_ID = 111,
+	MRC_INVALID_TARGET_ID = 112,
+	MRC_NOT_ENOUGH_ACTOIN = 200,
+	MRC_NOT_ENOUGH_MONEY = 201,
+	MRC_NOT_ENOUGH_ITEM = 202,
+	MRC_NOT_ENOUGH_TIMES = 203,
+	MRC_SKILL_CD_ERROR = 300,
+	MRC_SKILL_DEAD_OBJ = 301,
+
+
+
+	MessageRetCode_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+	MessageRetCode_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MessageRetCode_IsValid(int value);
 const MessageRetCode MessageRetCode_MIN = MRC_SUCCESSED;
@@ -80,14 +87,16 @@ const MessageRetCode MessageRetCode_MAX = MRC_SKILL_DEAD_OBJ;
 const int MessageRetCode_ARRAYSIZE = MessageRetCode_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageRetCode_descriptor();
-inline const ::std::string& MessageRetCode_Name(MessageRetCode value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    MessageRetCode_descriptor(), value);
+inline const ::std::string& MessageRetCode_Name(MessageRetCode value)
+{
+	return ::google::protobuf::internal::NameOfEnum(
+	           MessageRetCode_descriptor(), value);
 }
 inline bool MessageRetCode_Parse(
-    const ::std::string& name, MessageRetCode* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<MessageRetCode>(
-    MessageRetCode_descriptor(), name, value);
+    const ::std::string& name, MessageRetCode* value)
+{
+	return ::google::protobuf::internal::ParseNamedEnum<MessageRetCode>(
+	           MessageRetCode_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -98,23 +107,26 @@ inline bool MessageRetCode_Parse(
 // ===================================================================
 
 #ifdef __GNUC__
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 #ifdef __GNUC__
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
 
 
-namespace google {
-namespace protobuf {
+namespace google
+{
+namespace protobuf
+{
 
 template <> struct is_proto_enum< ::MessageRetCode> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::MessageRetCode>() {
-  return ::MessageRetCode_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::MessageRetCode>()
+{
+	return ::MessageRetCode_descriptor();
 }
 
 }  // namespace protobuf

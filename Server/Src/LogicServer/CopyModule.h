@@ -4,6 +4,8 @@
 
 struct CopyDataObject;
 struct ChapterDataObject;
+
+class BattleResultNty;
 class CCopyModule : public CModuleBase
 {
 public:
@@ -31,6 +33,8 @@ public:
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
+
+	BOOL OnMainCopyResult(BattleResultNty* pNty, INT32 nIndex);
 public:
 
 	CopyDataObject* GetCopyData(UINT32 dwCopyID);

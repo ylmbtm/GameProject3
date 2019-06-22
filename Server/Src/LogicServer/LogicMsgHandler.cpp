@@ -39,25 +39,7 @@ BOOL CLogicMsgHandler::Uninit()
 
 BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 {
-	if (CPlayerManager::GetInstancePtr()->GetCount() > 0)
-	{
-		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
-		ERROR_RETURN_FALSE(pNode != NULL);
-
-		CPlayerObject* pTempObj = NULL;
-		for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
-		{
-			pTempObj = pNode->GetValue();
-			ERROR_RETURN_FALSE(pTempObj != NULL);
-
-			if (pTempObj->IsOnline())
-			{
-				pTempObj->NotifyChange();
-			}
-		}
-	}
-
-	CPlayerManager::GetInstancePtr()->TryCleanPlayer();
+	CPlayerManager::GetInstancePtr()->OnUpdate(uTick);
 
 	return TRUE;
 }

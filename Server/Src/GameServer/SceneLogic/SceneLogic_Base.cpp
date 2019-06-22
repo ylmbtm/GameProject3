@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SceneLogic_Base.h"
 #include "../Scene.h"
-#include "BattleResult.h"
+#include "WinCondition.h"
 
 SceneLogicBase::SceneLogicBase(CScene* pScene)
 {
@@ -15,62 +15,9 @@ SceneLogicBase::~SceneLogicBase()
 
 BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 {
-	UINT32 dwCamp = 0;
-	CPoint3D pt;
-	for(auto pBornNode = pNode->first_node("DTBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("DTBorn"))
-	{
-		for(auto pAttr = pBornNode->first_attribute(); pAttr != NULL; pAttr = pAttr->next_attribute())
-		{
-			if(strcmp(pAttr->name(), "ID") == 0)
-			{
-				dwCamp = CommonConvert::StringToInt(pAttr->value());
-			}
-			else if(strcmp(pAttr->name(), "Pos") == 0)
-			{
-				pt.FromString(pAttr->value());
-			}
-		}
+	ReadBornFromXml(pNode);
 
-		if (dwCamp >= m_vtBornPos.size())
-		{
-			m_vtBornPos.resize(dwCamp + 1, pt);
-		}
-	}
-
-	return TRUE;
-
-	auto pResultNode = pNode->first_node("BattleResult");
-	ERROR_RETURN_TRUE(pResultNode != NULL);
-
-	auto pAttr = pResultNode->first_attribute("type");
-	ERROR_RETURN_TRUE(pAttr != NULL);
-
-	UINT32 dwType = CommonConvert::StringToInt(pAttr->value());
-	ERROR_RETURN_TRUE(dwType != 0);
-
-	m_BattleResult.SetResultType(BRT_KILL_ALL);
-	switch(dwType)
-	{
-		case BRT_DESTINATION:
-		{
-			m_BattleResult.SetDestination(0, 0, 0, 0);
-		}
-		break;
-		case BRT_NPC_ALIVE:
-		{
-			m_BattleResult.SetNpcID(0);
-		}
-		break;
-		case BRT_KILL_NUM:
-		{
-			m_BattleResult.SetKillMonster(0, 0);
-		}
-		break;
-		default:
-		{
-			return FALSE;
-		}
-	}
+	ReadConditionFromXml(pNode);
 
 	return TRUE;
 }
@@ -93,7 +40,6 @@ BOOL SceneLogicBase::OnPlayerLeave(CSceneObject* pPlayer)
 	return FALSE;
 }
 
-
 BOOL SceneLogicBase::OnObjectDie(CSceneObject* pObject)
 {
 	return TRUE;
@@ -101,67 +47,120 @@ BOOL SceneLogicBase::OnObjectDie(CSceneObject* pObject)
 
 BOOL SceneLogicBase::Update(UINT64 uTick)
 {
-	if(CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_pScene->GetTotalTime())
+	if (m_pScene->GetStartTime() <= 0)
 	{
-		OnTimeUP();
-	}
-
-	return TRUE;
-}
-
-BOOL SceneLogicBase::OnTimeUP()
-{
-	//默认处理逻辑，时间到了副本至成完成
-	m_pScene->SetFinished();
-	return TRUE;
-}
-
-
-BOOL SceneLogicBase::BattleResultCheck()
-{
-	return TRUE;
-
-	switch(m_BattleResult.GetResultType())
-	{
-		case BRT_KILL_ALL:
+		//如果创建完成60秒副本还没有开始，就要超时结束
+		if (CommonFunc::GetCurrTime() - m_pScene->GetCreateTime() > 60)
 		{
-			//if(m_pScene->IsAllMonDie())
-		}
-		break;
-		case BRT_DESTINATION:
-		{
-			//if(PlayerManager->initFengCeGift())
-		}
-		break;
-		case BRT_PLAYER_ALIVE:
-		{
-			//if(is->isaaa)
-			//{
-
-			//}
-		}
-		break;
-		case BRT_NPC_ALIVE:
-		{
-
-		}
-		break;
-		case BRT_KILL_NUM:
-		{
-
-		}
-		break;
-		default:
-		{
-
+			OnTimeUP();
+			m_pScene->SetFinished();
 		}
 	}
-
-	return FALSE;
+	else
+	{
+		if (CommonFunc::GetCurrTime() - m_pScene->GetStartTime() > m_pScene->GetTotalTime())
+		{
+			OnTimeUP();
+			m_pScene->SetFinished();
+		}
+	}
+	return TRUE;
 }
 
 CScene* SceneLogicBase::GetScene()
 {
 	return m_pScene;
+}
+
+BOOL SceneLogicBase::ReadBornFromXml(rapidxml::xml_node<char>* pNode)
+{
+	auto pBornListNode = pNode->first_node("MapBorns");
+	ERROR_RETURN_FALSE(pBornListNode != NULL);
+
+	UINT32 dwCamp = 0;
+	CPoint3D pt;
+	for (auto pBornNode = pBornListNode->first_node("DTBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("DTBorn"))
+	{
+		for (auto pAttr = pBornNode->first_attribute(); pAttr != NULL; pAttr = pAttr->next_attribute())
+		{
+			if (strcmp(pAttr->name(), "ID") == 0)
+			{
+				dwCamp = CommonConvert::StringToInt(pAttr->value());
+			}
+			else if (strcmp(pAttr->name(), "Pos") == 0)
+			{
+				pt.FromString(pAttr->value());
+			}
+		}
+
+		if (dwCamp >= m_vtBornPos.size())
+		{
+			m_vtBornPos.resize(dwCamp + 1, pt);
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL SceneLogicBase::ReadConditionFromXml(rapidxml::xml_node<char>* pNode)
+{
+	auto pConditionList = pNode->first_node("MapConditions");
+	if (pConditionList == NULL)
+	{
+		return TRUE;
+	}
+
+	auto pCondtionNode = pConditionList->first_node("DTCondition");
+	ERROR_RETURN_FALSE(pCondtionNode != NULL);
+
+	auto pAttr = pCondtionNode->first_attribute("WinType");
+	ERROR_RETURN_FALSE(pAttr != NULL);
+
+	EWinCondition eType = (EWinCondition)CommonConvert::StringToInt(pAttr->value());
+	ERROR_RETURN_FALSE(eType != 0);
+
+	m_BattleCondition.SetConditionType(eType);
+
+	switch (eType)
+	{
+		case EWC_DESTINATION:
+		{
+			Rect2D tRc;
+			CommonConvert::StringToBox(pCondtionNode->first_attribute("DestBox")->value(), tRc.m_Left, tRc.m_Top, tRc.m_Right, tRc.m_Bottom);
+			m_BattleCondition.SetDestination(tRc.m_Left, tRc.m_Top, tRc.m_Right, tRc.m_Bottom);
+		}
+		break;
+		case EWC_NPC_ALIVE:
+		{
+			auto pAttrNpc = pCondtionNode->first_attribute("NpcID");
+			ERROR_RETURN_FALSE(pAttrNpc != NULL);
+			m_BattleCondition.SetNpcID(CommonConvert::StringToInt(pAttrNpc->value()));
+		}
+		break;
+		case EWC_KILL_NUM:
+		{
+			auto pAttrID = pCondtionNode->first_attribute("KillMonsterID");
+			ERROR_RETURN_FALSE(pAttrID != NULL);
+
+			auto pAttrNum = pCondtionNode->first_attribute("KillMonsterNum");
+			ERROR_RETURN_FALSE(pAttrNum != NULL);
+			m_BattleCondition.SetKillMonster(CommonConvert::StringToInt(pAttrID->value()), CommonConvert::StringToInt(pAttrNum->value()));
+		}
+		break;
+		case EWC_PLAYER_ALIVE:
+		{
+		}
+		break;
+		case EWC_KILL_ALL:
+		{
+		}
+		break;
+		default:
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 

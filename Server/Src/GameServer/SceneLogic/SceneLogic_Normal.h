@@ -21,8 +21,9 @@ public:
 
 	virtual BOOL OnTimeUP();
 
+	BOOL BattleResultCheck();
 };
 
-#endif //_SCENELOGIC_BASE_H_
+#endif //_SCENELOGIC_NORMAL_H_
 
 

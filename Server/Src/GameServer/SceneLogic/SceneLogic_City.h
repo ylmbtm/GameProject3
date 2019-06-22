@@ -19,7 +19,7 @@ public:
 
 	virtual BOOL Update(UINT64 uTick);
 
-	virtual BOOL TimeUP();
+	virtual BOOL OnTimeUP();
 
 };
 

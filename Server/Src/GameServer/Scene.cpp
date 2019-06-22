@@ -276,6 +276,8 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 
 	UpdateAiController(pPlayer->GetObjectGUID());
 
+	m_pSceneLogic->OnPlayerLeave(pPlayer);
+
 	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, pHeader->u64TargetID, 0, Req);
 
 	return TRUE;
@@ -399,7 +401,11 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
 
-	return m_pSceneLogic->OnPlayerLeave(pSceneObject);
+	BroadRemoveObject(pSceneObject);
+
+	DeletePlayer(pSceneObject->GetObjectGUID());
+
+	return TRUE;
 }
 
 BOOL CScene::OnMsgAbortSceneReq(NetPacket* pNetPacket)
@@ -408,6 +414,14 @@ BOOL CScene::OnMsgAbortSceneReq(NetPacket* pNetPacket)
 	//如果是单人，就直接结算
 	//如果是pvp 2人，就直接结算．
 	//如果是多人pvp，就退出自己, 并且删掉
+	AbortSceneReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pSceneObject != NULL);
+
+	m_pSceneLogic->OnPlayerLeave(pSceneObject);
 
 	return TRUE;
 }
@@ -756,6 +770,20 @@ BOOL CScene::UpdateBulletStatus(UINT64 uTick)
 			++itor;
 		}
 	}
+
+	return TRUE;
+}
+
+BOOL CScene::BackToMainCity(UINT64 uRoleID)
+{
+	AbortSceneNty Nty;
+	Nty.set_serverid(0);
+	Nty.set_roleid(uRoleID);
+	Nty.set_copyguid(m_dwCopyGuid);
+	Nty.set_copyid(m_dwCopyID);
+	Nty.set_copytype(m_dwCopyType);
+	Nty.set_param(0);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_ABORT_SCENE_NTF, 0, 0, Nty);
 
 	return TRUE;
 }

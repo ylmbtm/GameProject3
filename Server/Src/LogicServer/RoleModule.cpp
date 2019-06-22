@@ -348,7 +348,27 @@ UINT64 CRoleModule::AddExp( INT32 nExp )
 		return m_pRoleDataObject->m_Exp;
 	}
 
+	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_Exp += nExp;
+	m_pRoleDataObject->Unlock();
+
+	while (m_pRoleDataObject->m_Level < MAX_ROLE_LEVEL)
+	{
+		StLevelInfo* pLevelInfo = CStaticData::GetInstancePtr()->GetCarrerLevelInfo(m_pRoleDataObject->m_CarrerID, m_pRoleDataObject->m_Level + 1);
+		ERROR_RETURN_FALSE(pLevelInfo != NULL);
+
+		if (m_pRoleDataObject->m_Exp >= pLevelInfo->dwNeedExp)
+		{
+			m_pRoleDataObject->Lock();
+			m_pRoleDataObject->m_Exp = m_pRoleDataObject->m_Exp - pLevelInfo->dwNeedExp;
+			m_pRoleDataObject->m_Level += 1;
+			m_pRoleDataObject->Unlock();
+		}
+		else
+		{
+			break;
+		}
+	}
 
 	return m_pRoleDataObject->m_Exp;
 }

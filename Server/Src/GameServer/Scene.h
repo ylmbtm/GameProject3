@@ -46,6 +46,8 @@ public:
 
 	BOOL            UpdateBulletStatus(UINT64 uTick);
 
+	BOOL            BackToMainCity(UINT64 uRoleID);
+
 	BOOL            SyncObjectStatus();
 
 	INT32	        GetPlayerCount();

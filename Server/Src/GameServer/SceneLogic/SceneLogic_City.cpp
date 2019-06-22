@@ -46,10 +46,11 @@ BOOL SceneLogic_City::OnPlayerLeave(CSceneObject* pPlayer)
 
 BOOL SceneLogic_City::Update(UINT64 uTick)
 {
+
 	return TRUE;
 }
 
-BOOL SceneLogic_City::TimeUP()
+BOOL SceneLogic_City::OnTimeUP()
 {
 	return TRUE;
 }
