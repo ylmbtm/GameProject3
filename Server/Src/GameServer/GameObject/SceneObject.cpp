@@ -27,6 +27,7 @@ CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 	m_pActorInfo        = NULL;
 	m_bRiding           = FALSE;
 	m_bRobot            = FALSE;
+	m_dwMountID         = 0;
 	memset(m_Equips, 0, sizeof(m_Equips));
 	memset(m_Propertys, 0, sizeof(m_Propertys));
 	m_SkillObject.SetCastObject(this);
@@ -172,7 +173,6 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_actionid(m_dwActionID);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
-	pItem->set_buffstatus(m_dwBuffStatus);
 	pItem->set_objectstatus(m_dwObjectStatus);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
@@ -257,7 +257,6 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 
 	if (m_ChangeFlag.bBuff)
 	{
-		pItem->set_buffstatus(m_dwBuffStatus);
 	}
 
 	if (m_ChangeFlag.bAction)

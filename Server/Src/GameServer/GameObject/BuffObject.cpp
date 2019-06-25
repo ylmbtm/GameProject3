@@ -33,8 +33,6 @@ BOOL CBuffObject::OnAddBuff()
 
 	m_pSceneObject->m_dwObjectStatus |= m_pBuffInfo->ChangeStatus;
 
-	m_pSceneObject->m_dwBuffStatus |= m_pBuffInfo->BuffEffect;
-
 	OnEffect(TRUE);
 
 	if (!m_pBuffInfo->LuaAdd.empty() && (m_pBuffInfo->LuaAdd.size() > 1))
@@ -50,8 +48,6 @@ BOOL CBuffObject::OnRemoveBuff()
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
 
 	m_pSceneObject->m_dwObjectStatus &= ~m_pBuffInfo->ChangeStatus;
-
-	m_pSceneObject->m_dwBuffStatus &= ~m_pBuffInfo->BuffEffect;
 
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{

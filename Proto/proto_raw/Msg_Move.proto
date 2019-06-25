@@ -72,7 +72,7 @@ message ActionNtyItem {
     int32    ActionID      = 2;        
     int32    Camp          = 3;        //阵营
     int32    ObjectStatus  = 4;        //实例状态
-    int32    BuffStatus    = 5;        //特效状态
+    int32     Speed        = 5;
     float    HostX         = 6;
     float    HostY         = 7;
     float    HostZ         = 8;
@@ -85,8 +85,7 @@ message ActionNtyItem {
     int32    Mp            = 15;
     int32    HpMax         = 16;
     int32    MpMax         = 17;
-    int32    Speed         = 18;
-    repeated int32 Equips  = 19;         //装备
+    repeated int32 Equips  = 18;         //装备
 }
 
 message NewItem {
@@ -94,12 +93,12 @@ message NewItem {
     int32     ActionID      = 2;        
     int32     ObjType       = 3;        //对象类别
     int32     ObjectStatus  = 4;        //实例状态
-    int32     BuffStatus    = 5;        //特效状态
-    int32     ActorID       = 6;        //Actor ID
-    int32     MountID       = 7;        //坐骑ID
-    int32     Camp          = 8;        //阵营
-    string    Name          = 9;        //名字
-    int32     Level         = 10;        //等级
+    int32     ActorID       = 5;        //Actor ID
+    int32     MountID       = 6;        //坐骑ID
+    int32     Camp          = 7;        //阵营
+    string    Name          = 8;        //名字
+    int32     Level         = 9;        //等级
+    int32     Speed         = 10;
     uint64    HostGuid      = 11;       //主人的GUID
     uint64    ControlerID   = 12;       //AI控制人的GUID
     uint64    SummonID      = 13;       //招唤者的GUID
@@ -111,9 +110,8 @@ message NewItem {
     int32     Mp            = 19;
     int32     HpMax         = 20;
     int32     MpMax         = 21;
-    int32     Speed         = 22;
-    repeated int32 Equips   = 23;       //装备
-    repeated SkillItem Skills= 24;      //普通技能
+    repeated int32 Equips   = 22;       //装备
+    repeated SkillItem Skills= 23;      //普通技能
 }
 
 message ObjectNewNty {

@@ -135,6 +135,7 @@
     <ClCompile Include="SceneLogic\SceneLogic_City.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_None.cpp" />
     <ClCompile Include="SceneLogic\SceneLogic_Normal.cpp" />
+    <ClCompile Include="SceneLogic\SceneLogic_Team.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneXmlMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -169,6 +170,7 @@
     <ClInclude Include="SceneLogic\SceneLogic_City.h" />
     <ClInclude Include="SceneLogic\SceneLogic_None.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Normal.h" />
+    <ClInclude Include="SceneLogic\SceneLogic_Team.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneXmlMgr.h" />
     <ClInclude Include="stdafx.h" />

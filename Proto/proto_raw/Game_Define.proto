@@ -62,8 +62,8 @@ enum EObjectStatus
     EOS_NOT_CAST        = 3;//不能放技能
     EOS_NOT_BEHURT      = 4;//不能被攻击
     EOS_NOT_BECONTROL   = 5;//无法被控制
-    EOS_STEALTH         = 6;//隐身
-    EOS_BLIND           = 7;//瞎的
+    EOS_STEALTH         = 6;//不能被看见
+    EOS_BLIND           = 7;//不能看见他人
 };
 
 

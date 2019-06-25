@@ -74,7 +74,12 @@ BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
 	}
 
 	CScene* pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
-	ERROR_RETURN_FALSE(pScene != NULL);
+	if (pScene == NULL)
+	{
+		CLog::GetInstancePtr()->LogError("Error : Invalid CopyGuid:%d, MessageID:%d", pPacketHeader->dwUserData, pNetPacket->m_dwMsgID);
+		return TRUE;
+	}
+
 	if (pScene->DispatchPacket(pNetPacket))
 	{
 		return TRUE;

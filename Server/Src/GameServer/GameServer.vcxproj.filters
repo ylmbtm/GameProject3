@@ -102,6 +102,9 @@
     <ClCompile Include="..\Message\Msg_LoginCltData.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogic\SceneLogic_Team.cpp">
+      <Filter>Scenelogic</Filter>
+    </ClCompile>
     <ClCompile Include="SceneLogic\WinCondition.cpp">
       <Filter>Scenelogic</Filter>
     </ClCompile>
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_LoginCltData.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Team.h">
+      <Filter>Scenelogic</Filter>
     </ClInclude>
     <ClInclude Include="SceneLogic\WinCondition.h">
       <Filter>Scenelogic</Filter>

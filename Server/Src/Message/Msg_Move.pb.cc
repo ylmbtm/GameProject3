@@ -524,7 +524,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, actionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, camp_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, objectstatus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, buffstatus_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, hostx_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, hosty_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, hostz_),
@@ -537,7 +537,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, mp_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, hpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, mpmax_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ActionNtyItem, equips_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, _internal_metadata_),
@@ -548,12 +547,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, actionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, objtype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, objectstatus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, buffstatus_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, actorid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, mountid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, camp_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, level_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, hostguid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, controlerid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, summonid_),
@@ -565,7 +564,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, mp_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, hpmax_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, mpmax_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, speed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, equips_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NewItem, skills_),
   ~0u,  // no _has_bits_
@@ -645,16 +643,16 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 54, -1, sizeof(::ActionReqItem)},
   { 65, -1, sizeof(::ObjectActionAck)},
   { 71, -1, sizeof(::ActionNtyItem)},
-  { 95, -1, sizeof(::NewItem)},
-  { 124, -1, sizeof(::ObjectNewNty)},
-  { 130, -1, sizeof(::ObjectRemoveNty)},
-  { 136, -1, sizeof(::BulletItem)},
-  { 153, -1, sizeof(::BulletNewNtf)},
-  { 159, -1, sizeof(::HeartBeatReq)},
-  { 165, -1, sizeof(::HeartBeatAck)},
-  { 172, -1, sizeof(::ObjectDieNotify)},
-  { 178, -1, sizeof(::Msg_RidingMountReq)},
-  { 184, -1, sizeof(::Msg_RidingMountAck)},
+  { 94, -1, sizeof(::NewItem)},
+  { 122, -1, sizeof(::ObjectNewNty)},
+  { 128, -1, sizeof(::ObjectRemoveNty)},
+  { 134, -1, sizeof(::BulletItem)},
+  { 151, -1, sizeof(::BulletNewNtf)},
+  { 157, -1, sizeof(::HeartBeatReq)},
+  { 163, -1, sizeof(::HeartBeatAck)},
+  { 170, -1, sizeof(::ObjectDieNotify)},
+  { 176, -1, sizeof(::Msg_RidingMountReq)},
+  { 182, -1, sizeof(::Msg_RidingMountAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -720,25 +718,24 @@ void AddDescriptorsImpl() {
       "\n\010ActionID\030\002 \001(\005\022\r\n\005HostX\030\003 \001(\002\022\r\n\005HostY"
       "\030\004 \001(\002\022\r\n\005HostZ\030\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\"5\n"
       "\017ObjectActionAck\022\"\n\nActionList\030\001 \003(\0132\016.A"
-      "ctionReqItem\"\305\002\n\rActionNtyItem\022\022\n\nObject"
+      "ctionReqItem\"\261\002\n\rActionNtyItem\022\022\n\nObject"
       "Guid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\014\n\004Camp\030\003 \001"
-      "(\005\022\024\n\014ObjectStatus\030\004 \001(\005\022\022\n\nBuffStatus\030\005"
-      " \001(\005\022\r\n\005HostX\030\006 \001(\002\022\r\n\005HostY\030\007 \001(\002\022\r\n\005Ho"
-      "stZ\030\010 \001(\002\022\016\n\006HostFt\030\t \001(\002\022\017\n\007ActorID\030\n \001"
-      "(\005\022\017\n\007MountID\030\013 \001(\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013Co"
-      "ntrolerID\030\r \001(\004\022\n\n\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022"
-      "\r\n\005HpMax\030\020 \001(\005\022\r\n\005MpMax\030\021 \001(\005\022\r\n\005Speed\030\022"
-      " \001(\005\022\016\n\006Equips\030\023 \003(\005\"\216\003\n\007NewItem\022\022\n\nObje"
-      "ctGuid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\017\n\007ObjTyp"
-      "e\030\003 \001(\005\022\024\n\014ObjectStatus\030\004 \001(\005\022\022\n\nBuffSta"
-      "tus\030\005 \001(\005\022\017\n\007ActorID\030\006 \001(\005\022\017\n\007MountID\030\007 "
-      "\001(\005\022\014\n\004Camp\030\010 \001(\005\022\014\n\004Name\030\t \001(\t\022\r\n\005Level"
-      "\030\n \001(\005\022\020\n\010HostGuid\030\013 \001(\004\022\023\n\013ControlerID\030"
-      "\014 \001(\004\022\020\n\010SummonID\030\r \001(\004\022\t\n\001X\030\016 \001(\002\022\t\n\001Y\030"
-      "\017 \001(\002\022\t\n\001Z\030\020 \001(\002\022\n\n\002Ft\030\021 \001(\002\022\n\n\002Hp\030\022 \001(\005"
-      "\022\n\n\002Mp\030\023 \001(\005\022\r\n\005HpMax\030\024 \001(\005\022\r\n\005MpMax\030\025 \001"
-      "(\005\022\r\n\005Speed\030\026 \001(\005\022\016\n\006Equips\030\027 \003(\005\022\032\n\006Ski"
-      "lls\030\030 \003(\0132\n.SkillItem\")\n\014ObjectNewNty\022\031\n"
+      "(\005\022\024\n\014ObjectStatus\030\004 \001(\005\022\r\n\005Speed\030\005 \001(\005\022"
+      "\r\n\005HostX\030\006 \001(\002\022\r\n\005HostY\030\007 \001(\002\022\r\n\005HostZ\030\010"
+      " \001(\002\022\016\n\006HostFt\030\t \001(\002\022\017\n\007ActorID\030\n \001(\005\022\017\n"
+      "\007MountID\030\013 \001(\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013Control"
+      "erID\030\r \001(\004\022\n\n\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n\005Hp"
+      "Max\030\020 \001(\005\022\r\n\005MpMax\030\021 \001(\005\022\016\n\006Equips\030\022 \003(\005"
+      "\"\372\002\n\007NewItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020\n\010Acti"
+      "onID\030\002 \001(\005\022\017\n\007ObjType\030\003 \001(\005\022\024\n\014ObjectSta"
+      "tus\030\004 \001(\005\022\017\n\007ActorID\030\005 \001(\005\022\017\n\007MountID\030\006 "
+      "\001(\005\022\014\n\004Camp\030\007 \001(\005\022\014\n\004Name\030\010 \001(\t\022\r\n\005Level"
+      "\030\t \001(\005\022\r\n\005Speed\030\n \001(\005\022\020\n\010HostGuid\030\013 \001(\004\022"
+      "\023\n\013ControlerID\030\014 \001(\004\022\020\n\010SummonID\030\r \001(\004\022\t"
+      "\n\001X\030\016 \001(\002\022\t\n\001Y\030\017 \001(\002\022\t\n\001Z\030\020 \001(\002\022\n\n\002Ft\030\021 "
+      "\001(\002\022\n\n\002Hp\030\022 \001(\005\022\n\n\002Mp\030\023 \001(\005\022\r\n\005HpMax\030\024 \001"
+      "(\005\022\r\n\005MpMax\030\025 \001(\005\022\016\n\006Equips\030\026 \003(\005\022\032\n\006Ski"
+      "lls\030\027 \003(\0132\n.SkillItem\")\n\014ObjectNewNty\022\031\n"
       "\007NewList\030\001 \003(\0132\010.NewItem\"%\n\017ObjectRemove"
       "Nty\022\022\n\nRemoveList\030\001 \003(\004\"\317\001\n\nBulletItem\022\022"
       "\n\nObjectGuid\030\001 \001(\004\022\022\n\nTargetGuid\030\002 \001(\004\022\022"
@@ -755,7 +752,7 @@ void AddDescriptorsImpl() {
       "Code\030\001 \001(\rb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2058);
+      descriptor, 2018);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Move.proto", &protobuf_RegisterTypes);
   ::protobuf_Msg_5fGame_2eproto::AddDescriptors();
@@ -3542,7 +3539,7 @@ const int ActionNtyItem::kObjectGuidFieldNumber;
 const int ActionNtyItem::kActionIDFieldNumber;
 const int ActionNtyItem::kCampFieldNumber;
 const int ActionNtyItem::kObjectStatusFieldNumber;
-const int ActionNtyItem::kBuffStatusFieldNumber;
+const int ActionNtyItem::kSpeedFieldNumber;
 const int ActionNtyItem::kHostXFieldNumber;
 const int ActionNtyItem::kHostYFieldNumber;
 const int ActionNtyItem::kHostZFieldNumber;
@@ -3555,7 +3552,6 @@ const int ActionNtyItem::kHpFieldNumber;
 const int ActionNtyItem::kMpFieldNumber;
 const int ActionNtyItem::kHpMaxFieldNumber;
 const int ActionNtyItem::kMpMaxFieldNumber;
-const int ActionNtyItem::kSpeedFieldNumber;
 const int ActionNtyItem::kEquipsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -3574,15 +3570,15 @@ ActionNtyItem::ActionNtyItem(const ActionNtyItem& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&objectguid_, &from.objectguid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&speed_) -
-    reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+    static_cast<size_t>(reinterpret_cast<char*>(&mpmax_) -
+    reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   // @@protoc_insertion_point(copy_constructor:ActionNtyItem)
 }
 
 void ActionNtyItem::SharedCtor() {
   ::memset(&objectguid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&speed_) -
-      reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+      reinterpret_cast<char*>(&mpmax_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   _cached_size_ = 0;
 }
 
@@ -3625,8 +3621,8 @@ void ActionNtyItem::Clear() {
 
   equips_.Clear();
   ::memset(&objectguid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&speed_) -
-      reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+      reinterpret_cast<char*>(&mpmax_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   _internal_metadata_.Clear();
 }
 
@@ -3696,14 +3692,14 @@ bool ActionNtyItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 BuffStatus = 5;
+      // int32 Speed = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &buffstatus_)));
+                 input, &speed_)));
         } else {
           goto handle_unusual;
         }
@@ -3878,33 +3874,19 @@ bool ActionNtyItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 Speed = 18;
+      // repeated int32 Equips = 18;
       case 18: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(144u /* 144 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &speed_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated int32 Equips = 19;
-      case 19: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(154u /* 154 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(146u /* 146 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_equips())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(152u /* 152 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(144u /* 144 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 154u, input, this->mutable_equips())));
+                 2, 146u, input, this->mutable_equips())));
         } else {
           goto handle_unusual;
         }
@@ -3957,9 +3939,9 @@ void ActionNtyItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->objectstatus(), output);
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->buffstatus(), output);
+  // int32 Speed = 5;
+  if (this->speed() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->speed(), output);
   }
 
   // float HostX = 6;
@@ -4022,14 +4004,9 @@ void ActionNtyItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->mpmax(), output);
   }
 
-  // int32 Speed = 18;
-  if (this->speed() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(18, this->speed(), output);
-  }
-
-  // repeated int32 Equips = 19;
+  // repeated int32 Equips = 18;
   if (this->equips_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(19, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(18, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
         _equips_cached_byte_size_));
   }
@@ -4072,9 +4049,9 @@ void ActionNtyItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->objectstatus(), target);
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->buffstatus(), target);
+  // int32 Speed = 5;
+  if (this->speed() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->speed(), target);
   }
 
   // float HostX = 6;
@@ -4137,15 +4114,10 @@ void ActionNtyItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(17, this->mpmax(), target);
   }
 
-  // int32 Speed = 18;
-  if (this->speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(18, this->speed(), target);
-  }
-
-  // repeated int32 Equips = 19;
+  // repeated int32 Equips = 18;
   if (this->equips_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      19,
+      18,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
@@ -4172,7 +4144,7 @@ size_t ActionNtyItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated int32 Equips = 19;
+  // repeated int32 Equips = 18;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       Int32Size(this->equips_);
@@ -4216,11 +4188,11 @@ size_t ActionNtyItem::ByteSizeLong() const {
         this->objectstatus());
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
+  // int32 Speed = 5;
+  if (this->speed() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->buffstatus());
+        this->speed());
   }
 
   // float HostX = 6;
@@ -4299,13 +4271,6 @@ size_t ActionNtyItem::ByteSizeLong() const {
         this->mpmax());
   }
 
-  // int32 Speed = 18;
-  if (this->speed() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->speed());
-  }
-
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -4348,8 +4313,8 @@ void ActionNtyItem::MergeFrom(const ActionNtyItem& from) {
   if (from.objectstatus() != 0) {
     set_objectstatus(from.objectstatus());
   }
-  if (from.buffstatus() != 0) {
-    set_buffstatus(from.buffstatus());
+  if (from.speed() != 0) {
+    set_speed(from.speed());
   }
   if (from.hostx() != 0) {
     set_hostx(from.hostx());
@@ -4387,9 +4352,6 @@ void ActionNtyItem::MergeFrom(const ActionNtyItem& from) {
   if (from.mpmax() != 0) {
     set_mpmax(from.mpmax());
   }
-  if (from.speed() != 0) {
-    set_speed(from.speed());
-  }
 }
 
 void ActionNtyItem::CopyFrom(const ::google::protobuf::Message& from) {
@@ -4421,7 +4383,7 @@ void ActionNtyItem::InternalSwap(ActionNtyItem* other) {
   swap(actionid_, other->actionid_);
   swap(camp_, other->camp_);
   swap(objectstatus_, other->objectstatus_);
-  swap(buffstatus_, other->buffstatus_);
+  swap(speed_, other->speed_);
   swap(hostx_, other->hostx_);
   swap(hosty_, other->hosty_);
   swap(hostz_, other->hostz_);
@@ -4434,7 +4396,6 @@ void ActionNtyItem::InternalSwap(ActionNtyItem* other) {
   swap(mp_, other->mp_);
   swap(hpmax_, other->hpmax_);
   swap(mpmax_, other->mpmax_);
-  swap(speed_, other->speed_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -4454,12 +4415,12 @@ const int NewItem::kObjectGuidFieldNumber;
 const int NewItem::kActionIDFieldNumber;
 const int NewItem::kObjTypeFieldNumber;
 const int NewItem::kObjectStatusFieldNumber;
-const int NewItem::kBuffStatusFieldNumber;
 const int NewItem::kActorIDFieldNumber;
 const int NewItem::kMountIDFieldNumber;
 const int NewItem::kCampFieldNumber;
 const int NewItem::kNameFieldNumber;
 const int NewItem::kLevelFieldNumber;
+const int NewItem::kSpeedFieldNumber;
 const int NewItem::kHostGuidFieldNumber;
 const int NewItem::kControlerIDFieldNumber;
 const int NewItem::kSummonIDFieldNumber;
@@ -4471,7 +4432,6 @@ const int NewItem::kHpFieldNumber;
 const int NewItem::kMpFieldNumber;
 const int NewItem::kHpMaxFieldNumber;
 const int NewItem::kMpMaxFieldNumber;
-const int NewItem::kSpeedFieldNumber;
 const int NewItem::kEquipsFieldNumber;
 const int NewItem::kSkillsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -4496,16 +4456,16 @@ NewItem::NewItem(const NewItem& from)
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   ::memcpy(&objectguid_, &from.objectguid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&speed_) -
-    reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+    static_cast<size_t>(reinterpret_cast<char*>(&mpmax_) -
+    reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   // @@protoc_insertion_point(copy_constructor:NewItem)
 }
 
 void NewItem::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&objectguid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&speed_) -
-      reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+      reinterpret_cast<char*>(&mpmax_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   _cached_size_ = 0;
 }
 
@@ -4551,8 +4511,8 @@ void NewItem::Clear() {
   skills_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&objectguid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&speed_) -
-      reinterpret_cast<char*>(&objectguid_)) + sizeof(speed_));
+      reinterpret_cast<char*>(&mpmax_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(mpmax_));
   _internal_metadata_.Clear();
 }
 
@@ -4622,24 +4582,10 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 BuffStatus = 5;
+      // int32 ActorID = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &buffstatus_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // int32 ActorID = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -4650,10 +4596,10 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 MountID = 7;
-      case 7: {
+      // int32 MountID = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -4664,10 +4610,10 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 Camp = 8;
-      case 8: {
+      // int32 Camp = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -4678,10 +4624,10 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // string Name = 9;
-      case 9: {
+      // string Name = 8;
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -4694,14 +4640,28 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 Level = 10;
+      // int32 Level = 9;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &level_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 Speed = 10;
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &level_)));
+                 input, &speed_)));
         } else {
           goto handle_unusual;
         }
@@ -4862,43 +4822,29 @@ bool NewItem::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 Speed = 22;
+      // repeated int32 Equips = 22;
       case 22: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(176u /* 176 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &speed_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated int32 Equips = 23;
-      case 23: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(186u /* 186 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(178u /* 178 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_equips())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(184u /* 184 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(176u /* 176 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 186u, input, this->mutable_equips())));
+                 2, 178u, input, this->mutable_equips())));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .SkillItem Skills = 24;
-      case 24: {
+      // repeated .SkillItem Skills = 23;
+      case 23: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(194u /* 194 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(186u /* 186 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_skills()));
         } else {
@@ -4953,39 +4899,39 @@ void NewItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->objectstatus(), output);
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->buffstatus(), output);
-  }
-
-  // int32 ActorID = 6;
+  // int32 ActorID = 5;
   if (this->actorid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->actorid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->actorid(), output);
   }
 
-  // int32 MountID = 7;
+  // int32 MountID = 6;
   if (this->mountid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->mountid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->mountid(), output);
   }
 
-  // int32 Camp = 8;
+  // int32 Camp = 7;
   if (this->camp() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(8, this->camp(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->camp(), output);
   }
 
-  // string Name = 9;
+  // string Name = 8;
   if (this->name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), static_cast<int>(this->name().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "NewItem.Name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      9, this->name(), output);
+      8, this->name(), output);
   }
 
-  // int32 Level = 10;
+  // int32 Level = 9;
   if (this->level() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->level(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(9, this->level(), output);
+  }
+
+  // int32 Speed = 10;
+  if (this->speed() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->speed(), output);
   }
 
   // uint64 HostGuid = 11;
@@ -5043,14 +4989,9 @@ void NewItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(21, this->mpmax(), output);
   }
 
-  // int32 Speed = 22;
-  if (this->speed() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(22, this->speed(), output);
-  }
-
-  // repeated int32 Equips = 23;
+  // repeated int32 Equips = 22;
   if (this->equips_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(23, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(22, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
         _equips_cached_byte_size_));
   }
@@ -5059,11 +5000,11 @@ void NewItem::SerializeWithCachedSizes(
       this->equips(i), output);
   }
 
-  // repeated .SkillItem Skills = 24;
+  // repeated .SkillItem Skills = 23;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->skills_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      24, this->skills(static_cast<int>(i)), output);
+      23, this->skills(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5100,27 +5041,22 @@ void NewItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->objectstatus(), target);
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->buffstatus(), target);
-  }
-
-  // int32 ActorID = 6;
+  // int32 ActorID = 5;
   if (this->actorid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->actorid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->actorid(), target);
   }
 
-  // int32 MountID = 7;
+  // int32 MountID = 6;
   if (this->mountid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->mountid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->mountid(), target);
   }
 
-  // int32 Camp = 8;
+  // int32 Camp = 7;
   if (this->camp() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(8, this->camp(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->camp(), target);
   }
 
-  // string Name = 9;
+  // string Name = 8;
   if (this->name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), static_cast<int>(this->name().length()),
@@ -5128,12 +5064,17 @@ void NewItem::SerializeWithCachedSizes(
       "NewItem.Name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        9, this->name(), target);
+        8, this->name(), target);
   }
 
-  // int32 Level = 10;
+  // int32 Level = 9;
   if (this->level() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->level(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(9, this->level(), target);
+  }
+
+  // int32 Speed = 10;
+  if (this->speed() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->speed(), target);
   }
 
   // uint64 HostGuid = 11;
@@ -5191,15 +5132,10 @@ void NewItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(21, this->mpmax(), target);
   }
 
-  // int32 Speed = 22;
-  if (this->speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(22, this->speed(), target);
-  }
-
-  // repeated int32 Equips = 23;
+  // repeated int32 Equips = 22;
   if (this->equips_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      23,
+      22,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
@@ -5209,12 +5145,12 @@ void NewItem::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->equips_, target);
   }
 
-  // repeated .SkillItem Skills = 24;
+  // repeated .SkillItem Skills = 23;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->skills_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        24, this->skills(static_cast<int>(i)), deterministic, target);
+        23, this->skills(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5234,7 +5170,7 @@ size_t NewItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated int32 Equips = 23;
+  // repeated int32 Equips = 22;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       Int32Size(this->equips_);
@@ -5250,7 +5186,7 @@ size_t NewItem::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated .SkillItem Skills = 24;
+  // repeated .SkillItem Skills = 23;
   {
     unsigned int count = static_cast<unsigned int>(this->skills_size());
     total_size += 2UL * count;
@@ -5261,7 +5197,7 @@ size_t NewItem::ByteSizeLong() const {
     }
   }
 
-  // string Name = 9;
+  // string Name = 8;
   if (this->name().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -5296,39 +5232,39 @@ size_t NewItem::ByteSizeLong() const {
         this->objectstatus());
   }
 
-  // int32 BuffStatus = 5;
-  if (this->buffstatus() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->buffstatus());
-  }
-
-  // int32 ActorID = 6;
+  // int32 ActorID = 5;
   if (this->actorid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->actorid());
   }
 
-  // int32 MountID = 7;
+  // int32 MountID = 6;
   if (this->mountid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->mountid());
   }
 
-  // int32 Camp = 8;
+  // int32 Camp = 7;
   if (this->camp() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->camp());
   }
 
-  // int32 Level = 10;
+  // int32 Level = 9;
   if (this->level() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->level());
+  }
+
+  // int32 Speed = 10;
+  if (this->speed() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->speed());
   }
 
   // uint64 HostGuid = 11;
@@ -5400,13 +5336,6 @@ size_t NewItem::ByteSizeLong() const {
         this->mpmax());
   }
 
-  // int32 Speed = 22;
-  if (this->speed() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->speed());
-  }
-
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -5454,9 +5383,6 @@ void NewItem::MergeFrom(const NewItem& from) {
   if (from.objectstatus() != 0) {
     set_objectstatus(from.objectstatus());
   }
-  if (from.buffstatus() != 0) {
-    set_buffstatus(from.buffstatus());
-  }
   if (from.actorid() != 0) {
     set_actorid(from.actorid());
   }
@@ -5468,6 +5394,9 @@ void NewItem::MergeFrom(const NewItem& from) {
   }
   if (from.level() != 0) {
     set_level(from.level());
+  }
+  if (from.speed() != 0) {
+    set_speed(from.speed());
   }
   if (from.hostguid() != 0) {
     set_hostguid(from.hostguid());
@@ -5502,9 +5431,6 @@ void NewItem::MergeFrom(const NewItem& from) {
   if (from.mpmax() != 0) {
     set_mpmax(from.mpmax());
   }
-  if (from.speed() != 0) {
-    set_speed(from.speed());
-  }
 }
 
 void NewItem::CopyFrom(const ::google::protobuf::Message& from) {
@@ -5538,11 +5464,11 @@ void NewItem::InternalSwap(NewItem* other) {
   swap(actionid_, other->actionid_);
   swap(objtype_, other->objtype_);
   swap(objectstatus_, other->objectstatus_);
-  swap(buffstatus_, other->buffstatus_);
   swap(actorid_, other->actorid_);
   swap(mountid_, other->mountid_);
   swap(camp_, other->camp_);
   swap(level_, other->level_);
+  swap(speed_, other->speed_);
   swap(hostguid_, other->hostguid_);
   swap(controlerid_, other->controlerid_);
   swap(summonid_, other->summonid_);
@@ -5554,7 +5480,6 @@ void NewItem::InternalSwap(NewItem* other) {
   swap(mp_, other->mp_);
   swap(hpmax_, other->hpmax_);
   swap(mpmax_, other->mpmax_);
-  swap(speed_, other->speed_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

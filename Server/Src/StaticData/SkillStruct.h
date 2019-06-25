@@ -100,7 +100,7 @@ enum ESkillType
 struct StBuffInfo
 {
 	UINT32 BuffID;                      //BuffID
-	UINT32 BuffEffect;                  //Buff目标需要加的特效
+	UINT32 EffectID;                  //Buff目标需要加的特效
 	INT32  PtyValue[PROPERTY_NUM];      //加属性值
 	INT32  PtyPercent[PROPERTY_NUM];    //加属性百分比
 	INT32  TotalTime;                   //总时长(ms)
