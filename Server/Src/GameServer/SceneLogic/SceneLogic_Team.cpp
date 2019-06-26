@@ -45,14 +45,17 @@ BOOL SceneLogic_Team::OnPlayerEnter(CSceneObject* pPlayer)
 	return TRUE;
 }
 
-BOOL SceneLogic_Team::OnPlayerLeave(CSceneObject* pPlayer)
+BOOL SceneLogic_Team::OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect)
 {
 	//玩家离开副本了
 	m_pScene->BroadRemoveObject(pPlayer);
 
-	m_pScene->BackToMainCity(pPlayer->GetObjectGUID());
-
 	m_pScene->DeletePlayer(pPlayer->GetObjectGUID());
+
+	if (!bDisConnect)
+	{
+		m_pScene->BackToMainCity(pPlayer->GetObjectGUID());
+	}
 
 	return FALSE;
 }

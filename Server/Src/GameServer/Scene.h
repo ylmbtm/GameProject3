@@ -148,6 +148,7 @@ public:
 	BOOL OnMsgSkillCastReq(NetPacket* pNetPacket);
 	BOOL OnMsgObjectChangeNtf(NetPacket* pNetPacket);
 	BOOL OnMsgMountRidingReq(NetPacket* pNetPacket);
+	BOOL OnMsgRoleRebornReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

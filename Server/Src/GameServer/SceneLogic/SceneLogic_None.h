@@ -15,7 +15,7 @@ public:
 
 	virtual BOOL OnPlayerEnter(CSceneObject* pPlayer);
 
-	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer);
+	virtual BOOL OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect);
 
 	virtual BOOL Update(UINT64 uTick);
 

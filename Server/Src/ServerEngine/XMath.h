@@ -459,11 +459,11 @@ public:
 		{
 			if (m_x < 0.0f)
 			{
-				fAngle += PI / 2;
+				fAngle += PI;
 			}
 			else
 			{
-				fAngle += PI;
+				fAngle += PI / 2 ;
 			}
 		}
 		return fAngle;

@@ -39,8 +39,12 @@ BOOL SceneLogic_City::OnPlayerEnter(CSceneObject* pPlayer)
 	return TRUE;
 }
 
-BOOL SceneLogic_City::OnPlayerLeave(CSceneObject* pPlayer)
+BOOL SceneLogic_City::OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect)
 {
+	m_pScene->BroadRemoveObject(pPlayer);
+
+	m_pScene->DeletePlayer(pPlayer->GetObjectGUID());
+
 	return TRUE;
 }
 

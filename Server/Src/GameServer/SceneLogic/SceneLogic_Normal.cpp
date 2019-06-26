@@ -46,7 +46,7 @@ BOOL SceneLogic_Normal::OnPlayerEnter(CSceneObject* pPlayer)
 	return TRUE;
 }
 
-BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject* pPlayer)
+BOOL SceneLogic_Normal::OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect)
 {
 	//玩家离开副本了
 	m_pScene->SetBattleResult(0, ECR_LOST);

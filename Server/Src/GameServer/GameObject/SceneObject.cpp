@@ -269,7 +269,6 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 		pItem->set_level(m_dwLevel);
 	}
 
-
 	if (m_ChangeFlag.bControl)
 	{
 		pItem->set_controlerid(m_uControlerID);

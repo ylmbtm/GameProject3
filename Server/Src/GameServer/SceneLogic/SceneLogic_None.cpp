@@ -30,7 +30,7 @@ BOOL SceneLogic_None::OnPlayerEnter(CSceneObject* pPlayer)
 	return TRUE;
 }
 
-BOOL SceneLogic_None::OnPlayerLeave(CSceneObject* pPlayer)
+BOOL SceneLogic_None::OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect)
 {
 	return FALSE;
 }

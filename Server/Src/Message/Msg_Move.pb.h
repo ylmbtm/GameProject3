@@ -37,7 +37,7 @@ namespace protobuf_Msg_5fMove_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[19];
+  static const ::google::protobuf::internal::ParseTable schema[21];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -81,6 +81,10 @@ void InitDefaultsMsg_RidingMountReqImpl();
 void InitDefaultsMsg_RidingMountReq();
 void InitDefaultsMsg_RidingMountAckImpl();
 void InitDefaultsMsg_RidingMountAck();
+void InitDefaultsMsg_RoleRebornReqImpl();
+void InitDefaultsMsg_RoleRebornReq();
+void InitDefaultsMsg_RoleRebornAckImpl();
+void InitDefaultsMsg_RoleRebornAck();
 inline void InitDefaults() {
   InitDefaultsSkillCastReq();
   InitDefaultsSkillCastAck();
@@ -101,6 +105,8 @@ inline void InitDefaults() {
   InitDefaultsObjectDieNotify();
   InitDefaultsMsg_RidingMountReq();
   InitDefaultsMsg_RidingMountAck();
+  InitDefaultsMsg_RoleRebornReq();
+  InitDefaultsMsg_RoleRebornAck();
 }
 }  // namespace protobuf_Msg_5fMove_2eproto
 class ActionNtyItem;
@@ -127,6 +133,12 @@ extern Msg_RidingMountAckDefaultTypeInternal _Msg_RidingMountAck_default_instanc
 class Msg_RidingMountReq;
 class Msg_RidingMountReqDefaultTypeInternal;
 extern Msg_RidingMountReqDefaultTypeInternal _Msg_RidingMountReq_default_instance_;
+class Msg_RoleRebornAck;
+class Msg_RoleRebornAckDefaultTypeInternal;
+extern Msg_RoleRebornAckDefaultTypeInternal _Msg_RoleRebornAck_default_instance_;
+class Msg_RoleRebornReq;
+class Msg_RoleRebornReqDefaultTypeInternal;
+extern Msg_RoleRebornReqDefaultTypeInternal _Msg_RoleRebornReq_default_instance_;
 class NewItem;
 class NewItemDefaultTypeInternal;
 extern NewItemDefaultTypeInternal _NewItem_default_instance_;
@@ -2638,6 +2650,211 @@ class Msg_RidingMountAck : public ::google::protobuf::Message /* @@protoc_insert
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsMsg_RidingMountAckImpl();
 };
+// -------------------------------------------------------------------
+
+class Msg_RoleRebornReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Msg_RoleRebornReq) */ {
+ public:
+  Msg_RoleRebornReq();
+  virtual ~Msg_RoleRebornReq();
+
+  Msg_RoleRebornReq(const Msg_RoleRebornReq& from);
+
+  inline Msg_RoleRebornReq& operator=(const Msg_RoleRebornReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Msg_RoleRebornReq(Msg_RoleRebornReq&& from) noexcept
+    : Msg_RoleRebornReq() {
+    *this = ::std::move(from);
+  }
+
+  inline Msg_RoleRebornReq& operator=(Msg_RoleRebornReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Msg_RoleRebornReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Msg_RoleRebornReq* internal_default_instance() {
+    return reinterpret_cast<const Msg_RoleRebornReq*>(
+               &_Msg_RoleRebornReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    19;
+
+  void Swap(Msg_RoleRebornReq* other);
+  friend void swap(Msg_RoleRebornReq& a, Msg_RoleRebornReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Msg_RoleRebornReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Msg_RoleRebornReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Msg_RoleRebornReq& from);
+  void MergeFrom(const Msg_RoleRebornReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Msg_RoleRebornReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 ObjectGuid = 1;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 1;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
+  // int32 RebornType = 2;
+  void clear_reborntype();
+  static const int kRebornTypeFieldNumber = 2;
+  ::google::protobuf::int32 reborntype() const;
+  void set_reborntype(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:Msg_RoleRebornReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
+  ::google::protobuf::int32 reborntype_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsMsg_RoleRebornReqImpl();
+};
+// -------------------------------------------------------------------
+
+class Msg_RoleRebornAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Msg_RoleRebornAck) */ {
+ public:
+  Msg_RoleRebornAck();
+  virtual ~Msg_RoleRebornAck();
+
+  Msg_RoleRebornAck(const Msg_RoleRebornAck& from);
+
+  inline Msg_RoleRebornAck& operator=(const Msg_RoleRebornAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Msg_RoleRebornAck(Msg_RoleRebornAck&& from) noexcept
+    : Msg_RoleRebornAck() {
+    *this = ::std::move(from);
+  }
+
+  inline Msg_RoleRebornAck& operator=(Msg_RoleRebornAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Msg_RoleRebornAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Msg_RoleRebornAck* internal_default_instance() {
+    return reinterpret_cast<const Msg_RoleRebornAck*>(
+               &_Msg_RoleRebornAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    20;
+
+  void Swap(Msg_RoleRebornAck* other);
+  friend void swap(Msg_RoleRebornAck& a, Msg_RoleRebornAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Msg_RoleRebornAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Msg_RoleRebornAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Msg_RoleRebornAck& from);
+  void MergeFrom(const Msg_RoleRebornAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Msg_RoleRebornAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Msg_RoleRebornAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fMove_2eproto::InitDefaultsMsg_RoleRebornAckImpl();
+};
 // ===================================================================
 
 
@@ -4238,9 +4455,63 @@ inline void Msg_RidingMountAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Msg_RidingMountAck.RetCode)
 }
 
+// -------------------------------------------------------------------
+
+// Msg_RoleRebornReq
+
+// uint64 ObjectGuid = 1;
+inline void Msg_RoleRebornReq::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 Msg_RoleRebornReq::objectguid() const {
+  // @@protoc_insertion_point(field_get:Msg_RoleRebornReq.ObjectGuid)
+  return objectguid_;
+}
+inline void Msg_RoleRebornReq::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:Msg_RoleRebornReq.ObjectGuid)
+}
+
+// int32 RebornType = 2;
+inline void Msg_RoleRebornReq::clear_reborntype() {
+  reborntype_ = 0;
+}
+inline ::google::protobuf::int32 Msg_RoleRebornReq::reborntype() const {
+  // @@protoc_insertion_point(field_get:Msg_RoleRebornReq.RebornType)
+  return reborntype_;
+}
+inline void Msg_RoleRebornReq::set_reborntype(::google::protobuf::int32 value) {
+  
+  reborntype_ = value;
+  // @@protoc_insertion_point(field_set:Msg_RoleRebornReq.RebornType)
+}
+
+// -------------------------------------------------------------------
+
+// Msg_RoleRebornAck
+
+// uint32 RetCode = 1;
+inline void Msg_RoleRebornAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 Msg_RoleRebornAck::retcode() const {
+  // @@protoc_insertion_point(field_get:Msg_RoleRebornAck.RetCode)
+  return retcode_;
+}
+inline void Msg_RoleRebornAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:Msg_RoleRebornAck.RetCode)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

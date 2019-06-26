@@ -158,11 +158,20 @@ message ObjectDieNotify {
   uint64  ObjectGuid = 1;
 }
 
-
 message Msg_RidingMountReq {
    uint64   ObjectGuid    = 1;
 }
 
 message Msg_RidingMountAck {
-  uint32    RetCode = 1;  //是否释放成功, 失败原因。
+  uint32    RetCode = 1;  //是否成功, 失败原因。
+}
+
+
+message Msg_RoleRebornReq {
+   uint64   ObjectGuid    = 1;
+   int32    RebornType    = 2;
+}
+
+message Msg_RoleRebornAck {
+  uint32    RetCode = 1;  //是否成功, 失败原因。
 }

@@ -124,6 +124,8 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_BATTLE_CHAT_REQ,	    OnMsgBattleChatReq);
 			PROCESS_MESSAGE_ITEM(MSG_PLAYER_CHAGE_NTF,	    OnMsgObjectChangeNtf);
 			PROCESS_MESSAGE_ITEM(MSG_MOUNT_RIDING_REQ,      OnMsgMountRidingReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_REBORN_REQ,       OnMsgRoleRebornReq);
+
 	}
 
 	return FALSE;
@@ -152,6 +154,11 @@ BOOL CScene::BroadHitEffect()
 		CSceneObject* pSceneObject = itor->second;
 		ERROR_CONTINUE_EX(pSceneObject != NULL);
 		ERROR_CONTINUE_EX(pSceneObject->IsRobot() == FALSE);
+		if (!pSceneObject->IsEnterCopy())
+		{
+			continue;
+		}
+
 		pSceneObject->SendMsgProtoBuf(MSG_ACTOR_HITEFFECT_NTF, m_HitEffectNtf);
 	}
 
@@ -212,6 +219,18 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 	{
 		SkillCastAck Ack;
 		Ack.set_retcode(dwRetCode);
+
+		if (pSceneObj->IsRobot())
+		{
+			return TRUE;
+		}
+
+		//未登录的肯定不是玩家，不是玩家就不需要反馈
+		if (!pSceneObj->IsEnterCopy())
+		{
+			return TRUE;
+		}
+
 		pSceneObj->SendMsgProtoBuf(MSG_SKILL_CAST_ACK, Ack);
 	}
 
@@ -260,6 +279,25 @@ BOOL CScene::OnMsgMountRidingReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
+BOOL CScene::OnMsgRoleRebornReq(NetPacket* pNetPacket)
+{
+	Msg_RoleRebornReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CSceneObject* pPlayer = GetPlayer(Req.objectguid());
+	if (pPlayer == NULL)
+	{
+		return TRUE;
+	}
+
+	Msg_RoleRebornAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+
+	pPlayer->SendMsgProtoBuf(MSG_MOUNT_RIDING_ACK, Ack);
+	return TRUE;
+}
+
 BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 {
 	RoleDisconnectReq Req;
@@ -276,7 +314,7 @@ BOOL CScene::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 
 	UpdateAiController(pPlayer->GetObjectGUID());
 
-	m_pSceneLogic->OnPlayerLeave(pPlayer);
+	m_pSceneLogic->OnPlayerLeave(pPlayer, TRUE);
 
 	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DISCONNECT_NTY, pHeader->u64TargetID, 0, Req);
 
@@ -421,7 +459,7 @@ BOOL CScene::OnMsgAbortSceneReq(NetPacket* pNetPacket)
 	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
 	ERROR_RETURN_TRUE(pSceneObject != NULL);
 
-	m_pSceneLogic->OnPlayerLeave(pSceneObject);
+	m_pSceneLogic->OnPlayerLeave(pSceneObject, FALSE);
 
 	return TRUE;
 }
