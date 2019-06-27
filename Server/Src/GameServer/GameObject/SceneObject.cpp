@@ -12,31 +12,16 @@
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
 {
 	m_uGuid = uGuid;
+
 	m_pScene = pScene;
 
-	m_dwProxyConnID		= 0;
-	m_dwClientConnID	= 0;
-	m_dwObjectStatus	= 0;
-	m_bEnter			= FALSE;
-	m_dwActorID			= 0;
-	m_dwObjType			= 0;
-	m_dwCamp			= 0;
-	m_ChangeFlag.dwValue = 0;
-	m_uLastMoveTick		= 0;
-	m_dwActionID        = AT_IDLE;
-	m_pActorInfo        = NULL;
-	m_bRiding           = FALSE;
-	m_bRobot            = FALSE;
-	m_dwMountID         = 0;
-	memset(m_Equips, 0, sizeof(m_Equips));
-	memset(m_Propertys, 0, sizeof(m_Propertys));
-	m_SkillObject.SetCastObject(this);
+	Reset();
 }
 
 CSceneObject::~CSceneObject()
 {
-	m_pScene = NULL;
-	m_pActorInfo = NULL;
+	Reset();
+
 	ClearBuff();
 
 	m_vtNormals.clear();
@@ -54,14 +39,22 @@ BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 
 BOOL CSceneObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+	if (m_dwProxyConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf MessageID:%d", dwMsgID);
+		return FALSE;
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata);
 }
 
 BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
 {
-	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+	if (m_dwProxyConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d", dwMsgID);
+		return FALSE;
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
@@ -173,7 +166,7 @@ BOOL CSceneObject::SaveNewData( ObjectNewNty& Nty )
 	pItem->set_actionid(m_dwActionID);
 	pItem->set_objtype(m_dwObjType);
 	pItem->set_actorid(m_dwActorID);
-	pItem->set_objectstatus(m_dwObjectStatus);
+	pItem->set_objectstatus(m_dwStatus);
 	pItem->set_name(m_strName);
 	pItem->set_level(m_dwLevel);
 	pItem->set_summonid(m_uSummonerID);
@@ -239,7 +232,7 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 		pItem->set_hosty(m_Pos.m_y);
 		pItem->set_hostz(m_Pos.m_z);
 		pItem->set_hostft(m_ft);
-		pItem->set_objectstatus(m_dwObjectStatus);
+		pItem->set_objectstatus(m_dwStatus);
 	}
 
 	if (m_ChangeFlag.bEquip)
@@ -297,20 +290,53 @@ BOOL CSceneObject::SaveUpdateData(ObjectActionNty& Nty)
 	return TRUE;
 }
 
+BOOL CSceneObject::Reset()
+{
+	m_dwProxyConnID     = 0;
+	m_dwClientConnID    = 0;
+	m_dwStatus          = 0;
+	m_bEnter            = FALSE;
+	m_dwActorID         = 0;
+	m_dwObjType         = OT_NONE;
+	m_dwCamp            = 0;
+	m_ChangeFlag.dwValue = 0;
+	m_uLastMoveTick     = 0;
+	m_dwActionID        = AT_IDLE;
+	m_pActorInfo        = NULL;
+	m_bRiding           = FALSE;
+	m_bRobot            = FALSE;
+	m_dwMountID         = 0;
+	m_nBattleResult     = ECR_NONE;
+	m_bIsMonsCheck      = FALSE;
+	m_bIsCampCheck      = TRUE;
+	m_dwActorID         = 0;
+	m_uHostGuid         = 0;
+	m_uControlerID      = 0;
+	m_uSummonerID       = 0;
+
+	memset(m_Equips, 0, sizeof(m_Equips));
+
+	memset(m_Propertys, 0, sizeof(m_Propertys));
+
+	m_SkillObject.SetCastObject(this);
+
+	return TRUE;
+}
+
 BOOL CSceneObject::IsDead()
 {
-	return (m_dwObjectStatus & EOS_DEAD) > 0;
+	return (m_dwStatus & EOS_DEAD) > 0;
 }
 
 BOOL CSceneObject::SetDead(BOOL bDead)
 {
 	if (bDead)
 	{
-		m_dwObjectStatus |= EOS_DEAD;
+		m_dwStatus |= EOS_DEAD;
 	}
 	else
 	{
-		m_dwObjectStatus &= ~EOS_DEAD;
+		m_dwStatus &= ~EOS_DEAD;
 	}
 
 	return TRUE;
@@ -483,6 +509,19 @@ ECopyResult CSceneObject::GetBattleResult()
 BOOL CSceneObject::UpdatePosition(UINT64 uTick)
 {
 
+
+	return TRUE;
+}
+
+BOOL CSceneObject::Revive()
+{
+	SetDead(FALSE);
+
+	SetActionID(AT_IDLE);
+
+	m_Propertys[EA_HP] = m_Propertys[EA_HP_MAX];
+
+	m_Propertys[EA_MP] = m_Propertys[EA_MP_MAX];
 
 	return TRUE;
 }

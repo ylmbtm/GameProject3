@@ -36,12 +36,13 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_REQ,			OnMsgGameSvrRegister);
-			PROCESS_MESSAGE_ITEM(MSG_BROAD_MESSAGE_NOTIFY,			OnMsgBroadMessageNty);
-			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,				OnMsgEnterSceneReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,				OnMsgRoleLoginAck);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,				OnMsgRoleLogoutReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_OTHER_LOGIN_NTY,			OnMsgKickoutNty);
+			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_REQ,         OnMsgGameSvrRegister);
+			PROCESS_MESSAGE_ITEM(MSG_BROAD_MESSAGE_NOTIFY,          OnMsgBroadMessageNty);
+			PROCESS_MESSAGE_ITEM(MSG_NOTIFY_INTO_SCENE,             OnMsgNotifyIntoSceneNtf);
+			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,               OnMsgEnterSceneReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,                OnMsgRoleLoginAck);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,               OnMsgRoleLogoutReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_OTHER_LOGIN_NTY,          OnMsgKickoutNty);
 
 		case MSG_ROLE_LIST_REQ:
 		case MSG_ROLE_CREATE_REQ:
@@ -191,6 +192,23 @@ BOOL CProxyMsgHandler::OnMsgGameSvrRegister(NetPacket* pPacket)
 	return TRUE;
 }
 
+BOOL CProxyMsgHandler::OnMsgNotifyIntoSceneNtf(NetPacket* pPacket)
+{
+	NotifyIntoScene Nty;
+	Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pPacketHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(pPacketHeader->u64TargetID != 0);
+
+	RelayToConnect(pPacketHeader->dwUserData, pPacket->m_pDataBuffer);
+
+	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Nty.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
+
+	pPlayer->SetGameSvrInfo(Nty.serverid(), Nty.copyguid());
+
+	return TRUE;
+}
+
 BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 {
 	EnterSceneReq Req;
@@ -200,8 +218,6 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(Req.roleid());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
-
-	pPlayer->SetGameSvrInfo(Req.serverid(), Req.copyguid());
 
 	UINT32 dwConnID = GetGameSvrConnID(Req.serverid());
 	ERROR_RETURN_TRUE(dwConnID != 0)

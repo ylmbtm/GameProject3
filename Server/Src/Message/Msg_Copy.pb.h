@@ -516,11 +516,11 @@ class BattleResultNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 copytype() const;
   void set_copytype(::google::protobuf::int32 value);
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   void clear_lasttime();
   static const int kLastTimeFieldNumber = 5;
-  ::google::protobuf::int32 lasttime() const;
-  void set_lasttime(::google::protobuf::int32 value);
+  ::google::protobuf::uint64 lasttime() const;
+  void set_lasttime(::google::protobuf::uint64 value);
 
   // @@protoc_insertion_point(class_scope:BattleResultNty)
  private:
@@ -532,7 +532,7 @@ class BattleResultNty : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 copyguid_;
   ::google::protobuf::int32 copyid_;
   ::google::protobuf::int32 copytype_;
-  ::google::protobuf::int32 lasttime_;
+  ::google::protobuf::uint64 lasttime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fCopy_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fCopy_2eproto::InitDefaultsBattleResultNtyImpl();
@@ -955,17 +955,17 @@ class MainCopyResultNty : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::int32 copyresult() const;
   void set_copyresult(::google::protobuf::int32 value);
 
+  // uint64 LastTime = 5;
+  void clear_lasttime();
+  static const int kLastTimeFieldNumber = 5;
+  ::google::protobuf::uint64 lasttime() const;
+  void set_lasttime(::google::protobuf::uint64 value);
+
   // int32 StarNum = 4;
   void clear_starnum();
   static const int kStarNumFieldNumber = 4;
   ::google::protobuf::int32 starnum() const;
   void set_starnum(::google::protobuf::int32 value);
-
-  // int32 LastTime = 5;
-  void clear_lasttime();
-  static const int kLastTimeFieldNumber = 5;
-  ::google::protobuf::int32 lasttime() const;
-  void set_lasttime(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:MainCopyResultNty)
  private:
@@ -975,8 +975,8 @@ class MainCopyResultNty : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint64 roleid_;
   ::google::protobuf::int32 copyid_;
   ::google::protobuf::int32 copyresult_;
+  ::google::protobuf::uint64 lasttime_;
   ::google::protobuf::int32 starnum_;
-  ::google::protobuf::int32 lasttime_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fCopy_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fCopy_2eproto::InitDefaultsMainCopyResultNtyImpl();
@@ -1280,15 +1280,15 @@ inline void BattleResultNty::set_copytype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:BattleResultNty.CopyType)
 }
 
-// int32 LastTime = 5;
+// uint64 LastTime = 5;
 inline void BattleResultNty::clear_lasttime() {
-  lasttime_ = 0;
+  lasttime_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::int32 BattleResultNty::lasttime() const {
+inline ::google::protobuf::uint64 BattleResultNty::lasttime() const {
   // @@protoc_insertion_point(field_get:BattleResultNty.LastTime)
   return lasttime_;
 }
-inline void BattleResultNty::set_lasttime(::google::protobuf::int32 value) {
+inline void BattleResultNty::set_lasttime(::google::protobuf::uint64 value) {
   
   lasttime_ = value;
   // @@protoc_insertion_point(field_set:BattleResultNty.LastTime)
@@ -1482,15 +1482,15 @@ inline void MainCopyResultNty::set_starnum(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:MainCopyResultNty.StarNum)
 }
 
-// int32 LastTime = 5;
+// uint64 LastTime = 5;
 inline void MainCopyResultNty::clear_lasttime() {
-  lasttime_ = 0;
+  lasttime_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::int32 MainCopyResultNty::lasttime() const {
+inline ::google::protobuf::uint64 MainCopyResultNty::lasttime() const {
   // @@protoc_insertion_point(field_get:MainCopyResultNty.LastTime)
   return lasttime_;
 }
-inline void MainCopyResultNty::set_lasttime(::google::protobuf::int32 value) {
+inline void MainCopyResultNty::set_lasttime(::google::protobuf::uint64 value) {
   
   lasttime_ = value;
   // @@protoc_insertion_point(field_set:MainCopyResultNty.LastTime)

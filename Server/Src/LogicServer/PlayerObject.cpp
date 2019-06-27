@@ -198,14 +198,22 @@ BOOL CPlayerObject::DestroyAllModule()
 
 BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
-	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+	if (m_dwProxyConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		return FALSE;
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
 }
 
 BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
 {
-	ERROR_RETURN_FALSE(m_dwProxyConnID != 0);
+	if (m_dwProxyConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		return FALSE;
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
 }
@@ -214,7 +222,11 @@ BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Messa
 {
 	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID);
 
-	ERROR_RETURN_FALSE(dwConnID != 0);
+	if (dwConnID == 0)
+	{
+		CLog::GetInstancePtr()->LogError("Error SendMsgToScene MessageID:%d, CopySvrID:%ld", dwMsgID, m_dwCopySvrID);
+		return FALSE;
+	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
 }

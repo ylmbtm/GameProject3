@@ -164,7 +164,7 @@ BOOL CSkillObject::AddTargetObject(CSceneObject* pObject)
 
 INT32 CSkillObject::GetTargetNum()
 {
-	return m_vtTargets.size();
+	return (INT32)m_vtTargets.size();
 }
 
 BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)

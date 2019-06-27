@@ -291,10 +291,47 @@ BOOL CScene::OnMsgRoleRebornReq(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
+	if (!pPlayer->IsDead())
+	{
+		return TRUE;
+	}
+
+	//复活
+	pPlayer->Revive();
+
 	Msg_RoleRebornAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
+	pPlayer->SendMsgProtoBuf(MSG_ROLE_REBORN_ACK, Ack);
 
-	pPlayer->SendMsgProtoBuf(MSG_MOUNT_RIDING_ACK, Ack);
+	/*
+	//先把玩家的完整包组装好
+	ObjectNewNty Nty;
+	pPlayer->SaveNewData(Nty);
+
+	char szBuff[10240] = { 0 };
+	ERROR_RETURN_FALSE(Nty.ByteSize() < 10240);
+	Nty.SerializePartialToArray(szBuff, Nty.ByteSize());
+
+	for (std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
+	{
+		CSceneObject* pOther = itor->second;
+		ERROR_RETURN_FALSE(pOther != NULL);
+
+		if (!pOther->IsConnected())
+		{
+			continue;
+		}
+
+		if (pOther->GetObjectGUID() == pSceneObject->GetObjectGUID())
+		{
+			continue;
+		}
+
+		pOther->SendMsgRawData(MSG_OBJECT_NEW_NTF, szBuff, Nty.ByteSize());
+	}
+
+	*/
+
 	return TRUE;
 }
 
@@ -1638,7 +1675,7 @@ BOOL CScene::IsMonsterAllDie()
 			continue;
 		}
 
-		if (!pObj->m_bIsMonsCheck)
+		if (!pObj->m_bIsCampCheck)
 		{
 			continue;
 		}

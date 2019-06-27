@@ -28,6 +28,7 @@ public:
 	BOOL            OnUpdate(UINT64 uTick);
 	BOOL            SaveNewData(ObjectNewNty& Nty);
 	BOOL            SaveUpdateData(ObjectActionNty& Nty);
+	BOOL            Reset();
 
 	//以下为对象的操作方法
 public:
@@ -101,6 +102,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//更新角色坐标
 	BOOL            UpdatePosition(UINT64 uTick);
+	//复活
+	BOOL            Revive();
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -115,8 +118,7 @@ public:
 	Vector3D        m_Pos;							//位置
 	FLOAT           m_ft;							//对象坐标, 朝向
 	FLOAT           m_fSpeed;						//对象的当前速度
-	UINT32          m_dwObjectStatus;				//对象当前的状态
-	UINT32          m_dwBuffStatus;					//对象的Buff状态
+	UINT32          m_dwStatus;				        //对象当前的状态
 	INT32           m_dwLevel;						//等级
 	INT32           m_Propertys[PROPERTY_NUM];		//15个属性的数值
 	UINT32          m_Equips[EQUIP_MAX_NUM];		//角色装备

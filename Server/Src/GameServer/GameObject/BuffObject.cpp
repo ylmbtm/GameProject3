@@ -31,7 +31,7 @@ BOOL CBuffObject::OnAddBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
 
-	m_pSceneObject->m_dwObjectStatus |= m_pBuffInfo->ChangeStatus;
+	m_pSceneObject->m_dwStatus |= m_pBuffInfo->ChangeStatus;
 
 	OnEffect(TRUE);
 
@@ -47,7 +47,7 @@ BOOL CBuffObject::OnRemoveBuff()
 {
 	ERROR_RETURN_FALSE(m_pBuffInfo != NULL);
 
-	m_pSceneObject->m_dwObjectStatus &= ~m_pBuffInfo->ChangeStatus;
+	m_pSceneObject->m_dwStatus &= ~m_pBuffInfo->ChangeStatus;
 
 	for(int i = 0; i < PROPERTY_NUM; i++)
 	{

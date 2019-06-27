@@ -200,6 +200,9 @@
     <ClInclude Include="SceneLogic\WinCondition.h">
       <Filter>Scenelogic</Filter>
     </ClInclude>
+    <ClInclude Include="SceneLogic\SceneLogic_Base.h">
+      <Filter>Scenelogic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

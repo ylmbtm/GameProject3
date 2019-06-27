@@ -445,6 +445,29 @@ inline bool ETaskStatus_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ETaskStatus>(
     ETaskStatus_descriptor(), name, value);
 }
+enum ECopyResult {
+  ECR_NONE = 0,
+  ECR_WIN = 1,
+  ECR_LOST = 2,
+  ECR_DRAW = 3,
+  ECopyResult_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ECopyResult_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ECopyResult_IsValid(int value);
+const ECopyResult ECopyResult_MIN = ECR_NONE;
+const ECopyResult ECopyResult_MAX = ECR_DRAW;
+const int ECopyResult_ARRAYSIZE = ECopyResult_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ECopyResult_descriptor();
+inline const ::std::string& ECopyResult_Name(ECopyResult value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ECopyResult_descriptor(), value);
+}
+inline bool ECopyResult_Parse(
+    const ::std::string& name, ECopyResult* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ECopyResult>(
+    ECopyResult_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -541,6 +564,11 @@ template <> struct is_proto_enum< ::ETaskStatus> : ::google::protobuf::internal:
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ETaskStatus>() {
   return ::ETaskStatus_descriptor();
+}
+template <> struct is_proto_enum< ::ECopyResult> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ECopyResult>() {
+  return ::ECopyResult_descriptor();
 }
 
 }  // namespace protobuf

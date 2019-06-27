@@ -63,8 +63,6 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
-	UINT64 u64ID = 0;
-	UINT32 dwChannel = 0;
 	std::string strPwd;
 	pAccount = m_AccountManager.CreateAccountObject(Req.accountname(), Req.password(), Req.channel());
 	if(pAccount == NULL)

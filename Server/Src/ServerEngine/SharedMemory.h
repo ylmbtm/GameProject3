@@ -220,7 +220,7 @@ public:
 
 	virtual ~DataWriterBase() {};
 
-	virtual BOOL SaveModifyToDB(IDBInterface* pdb) { return TRUE; };
+	virtual BOOL SaveModifyToDB(IDBInterface* pdb) = 0;
 };
 
 template <typename T> class DataWriter : public DataWriterBase

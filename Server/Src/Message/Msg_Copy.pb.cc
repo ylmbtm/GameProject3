@@ -297,14 +297,14 @@ void AddDescriptorsImpl() {
       "\022\014\n\004Heal\030\007 \001(\005\022\016\n\006Damage\030\010 \001(\005\"\257\001\n\017Battl"
       "eResultNty\022\020\n\010ServerID\030\001 \001(\005\022\020\n\010CopyGuid"
       "\030\002 \001(\r\022\016\n\006CopyID\030\003 \001(\005\022\020\n\010CopyType\030\004 \001(\005"
-      "\022\020\n\010LastTime\030\005 \001(\005\022!\n\nPlayerList\030\006 \003(\0132\r"
+      "\022\020\n\010LastTime\030\005 \001(\004\022!\n\nPlayerList\030\006 \003(\0132\r"
       ".ResultPlayer\022!\n\nObjectList\030\007 \003(\0132\r.Resu"
       "ltObject\"\035\n\013MainCopyReq\022\016\n\006CopyID\030\001 \001(\005\""
       "\036\n\013MainCopyAck\022\017\n\007RetCode\030\001 \001(\r\"+\n\010ItemD"
       "ata\022\016\n\006ItemID\030\001 \001(\005\022\017\n\007ItemNum\030\002 \001(\005\"\207\001\n"
       "\021MainCopyResultNty\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006Co"
       "pyID\030\002 \001(\005\022\022\n\nCopyResult\030\003 \001(\005\022\017\n\007StarNu"
-      "m\030\004 \001(\005\022\020\n\010LastTime\030\005 \001(\005\022\033\n\010ItemList\030\006 "
+      "m\030\004 \001(\005\022\020\n\010LastTime\030\005 \001(\004\022\033\n\010ItemList\030\006 "
       "\003(\0132\t.ItemDatab\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
@@ -1470,13 +1470,13 @@ bool BattleResultNty::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 LastTime = 5;
+      // uint64 LastTime = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
                  input, &lasttime_)));
         } else {
           goto handle_unusual;
@@ -1554,9 +1554,9 @@ void BattleResultNty::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->copytype(), output);
   }
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   if (this->lasttime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->lasttime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(5, this->lasttime(), output);
   }
 
   // repeated .ResultPlayer PlayerList = 6;
@@ -1607,9 +1607,9 @@ void BattleResultNty::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->copytype(), target);
   }
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   if (this->lasttime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->lasttime(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(5, this->lasttime(), target);
   }
 
   // repeated .ResultPlayer PlayerList = 6;
@@ -1695,10 +1695,10 @@ size_t BattleResultNty::ByteSizeLong() const {
         this->copytype());
   }
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   if (this->lasttime() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->lasttime());
   }
 
@@ -2575,15 +2575,15 @@ MainCopyResultNty::MainCopyResultNty(const MainCopyResultNty& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&roleid_, &from.roleid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&lasttime_) -
-    reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
+    static_cast<size_t>(reinterpret_cast<char*>(&starnum_) -
+    reinterpret_cast<char*>(&roleid_)) + sizeof(starnum_));
   // @@protoc_insertion_point(copy_constructor:MainCopyResultNty)
 }
 
 void MainCopyResultNty::SharedCtor() {
   ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&lasttime_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
+      reinterpret_cast<char*>(&starnum_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(starnum_));
   _cached_size_ = 0;
 }
 
@@ -2626,8 +2626,8 @@ void MainCopyResultNty::Clear() {
 
   itemlist_.Clear();
   ::memset(&roleid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&lasttime_) -
-      reinterpret_cast<char*>(&roleid_)) + sizeof(lasttime_));
+      reinterpret_cast<char*>(&starnum_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(starnum_));
   _internal_metadata_.Clear();
 }
 
@@ -2697,13 +2697,13 @@ bool MainCopyResultNty::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 LastTime = 5;
+      // uint64 LastTime = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
                  input, &lasttime_)));
         } else {
           goto handle_unusual;
@@ -2769,9 +2769,9 @@ void MainCopyResultNty::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->starnum(), output);
   }
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   if (this->lasttime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->lasttime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(5, this->lasttime(), output);
   }
 
   // repeated .ItemData ItemList = 6;
@@ -2815,9 +2815,9 @@ void MainCopyResultNty::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->starnum(), target);
   }
 
-  // int32 LastTime = 5;
+  // uint64 LastTime = 5;
   if (this->lasttime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->lasttime(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(5, this->lasttime(), target);
   }
 
   // repeated .ItemData ItemList = 6;
@@ -2877,18 +2877,18 @@ size_t MainCopyResultNty::ByteSizeLong() const {
         this->copyresult());
   }
 
+  // uint64 LastTime = 5;
+  if (this->lasttime() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->lasttime());
+  }
+
   // int32 StarNum = 4;
   if (this->starnum() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->starnum());
-  }
-
-  // int32 LastTime = 5;
-  if (this->lasttime() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->lasttime());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -2930,11 +2930,11 @@ void MainCopyResultNty::MergeFrom(const MainCopyResultNty& from) {
   if (from.copyresult() != 0) {
     set_copyresult(from.copyresult());
   }
-  if (from.starnum() != 0) {
-    set_starnum(from.starnum());
-  }
   if (from.lasttime() != 0) {
     set_lasttime(from.lasttime());
+  }
+  if (from.starnum() != 0) {
+    set_starnum(from.starnum());
   }
 }
 
@@ -2966,8 +2966,8 @@ void MainCopyResultNty::InternalSwap(MainCopyResultNty* other) {
   swap(roleid_, other->roleid_);
   swap(copyid_, other->copyid_);
   swap(copyresult_, other->copyresult_);
-  swap(starnum_, other->starnum_);
   swap(lasttime_, other->lasttime_);
+  swap(starnum_, other->starnum_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

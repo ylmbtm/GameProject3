@@ -35,6 +35,15 @@ public:
 		m_vtRankList.clear();
 	}
 
+	TRanker<TID, TValue>& operator = (const TRanker<TID, TValue>& tRanker)
+	{
+		m_vtRankList.clear();
+
+		m_vtRankList = tRanker.m_vtRankList;
+
+		return *this;
+	}
+
 	BOOL InitRanker(INT32 dwShow, INT32 dwTotal)
 	{
 		m_dwShowNum = dwShow;

@@ -45,17 +45,6 @@
 #define SPEED_RUN			(4.0f)
 #define SPEED_FLY			(6.5f)
 
-
-
-//副本战斗结果
-enum ECopyResult
-{
-	ECR_NONE = 0,    //未结算
-	ECR_WIN,         //胜利
-	ECR_LOST,        //失败
-	ECR_DRAW         //平局
-};
-
 enum EMouduleType
 {
 	MT_ROLE,

@@ -18,9 +18,7 @@ BOOL SceneLogic_City::OnObjectCreate(CSceneObject* pObject)
 {
 	if(pObject->GetObjType() == OT_PLAYER)
 	{
-		ERROR_RETURN_TRUE(pObject->m_dwCamp < m_vtBornPos.size());
-		ERROR_RETURN_TRUE(pObject->m_dwCamp > 0);
-		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, m_vtBornPos[pObject->m_dwCamp].m_y, m_vtBornPos[pObject->m_dwCamp].m_z);
+		SceneLogicBase::OnObjectCreate(pObject);
 	}
 	return TRUE;
 }

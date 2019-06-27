@@ -6,6 +6,7 @@
 SceneLogicBase::SceneLogicBase(CScene* pScene)
 {
 	m_pScene = pScene;
+	m_vtBornPos.reserve(10);
 }
 
 SceneLogicBase::~SceneLogicBase()
@@ -24,9 +25,14 @@ BOOL SceneLogicBase::ReadFromXml(rapidxml::xml_node<char>* pNode)
 
 BOOL SceneLogicBase::OnObjectCreate(CSceneObject* pObject)
 {
-	//ERROR_RETURN_TRUE(pObject->m_dwCamp > CT_NONE);
-	//ERROR_RETURN_TRUE(pObject->m_dwCamp < CT_CMAP_END);
-	//pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, 0, m_vtBornPos[pObject->m_dwCamp].m_z);
+	if (pObject->m_dwCamp >= m_vtBornPos.size() || pObject->m_dwCamp <= 0)
+	{
+		pObject->SetPos(m_vtBornPos[0].m_x, m_vtBornPos[0].m_y, m_vtBornPos[0].m_z);
+	}
+	else
+	{
+		pObject->SetPos(m_vtBornPos[pObject->m_dwCamp].m_x, m_vtBornPos[pObject->m_dwCamp].m_y, m_vtBornPos[pObject->m_dwCamp].m_z);
+	}
 	return TRUE;
 }
 
@@ -96,6 +102,10 @@ BOOL SceneLogicBase::ReadBornFromXml(rapidxml::xml_node<char>* pNode)
 		if (dwCamp >= m_vtBornPos.size())
 		{
 			m_vtBornPos.resize(dwCamp + 1, pt);
+		}
+		else
+		{
+			m_vtBornPos[dwCamp] = pt;
 		}
 	}
 

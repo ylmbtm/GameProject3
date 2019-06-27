@@ -172,3 +172,12 @@ enum ETaskStatus{
     ETS_COMMIT      = 3;
 }
 
+//副本战斗结果
+enum ECopyResult
+{
+	ECR_NONE    = 0;    //未结算
+	ECR_WIN     = 1;    //胜利
+	ECR_LOST    = 2;    //失败
+	ECR_DRAW    = 3;    //平局
+};
+

@@ -165,6 +165,7 @@
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="MonsterCreator.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneLogic\SceneLogic_Base.h" />
     <ClInclude Include="SceneLogic\WinCondition.h" />
     <ClInclude Include="SceneLogic\SceneLogic_Arena.h" />
     <ClInclude Include="SceneLogic\SceneLogic_City.h" />

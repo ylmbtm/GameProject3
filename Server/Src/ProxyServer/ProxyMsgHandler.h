@@ -32,6 +32,7 @@ public:
 	//*********************消息处理定义开始******************************
 public:
 	BOOL		OnMsgGameSvrRegister(NetPacket* pPacket);
+	BOOL		OnMsgNotifyIntoSceneNtf(NetPacket* pPacket);
 	BOOL		OnMsgEnterSceneReq(NetPacket* pPacket);
 	BOOL		OnMsgBroadMessageNty(NetPacket* pPacket);
 	BOOL		OnMsgRoleLoginAck(NetPacket* pPacket);

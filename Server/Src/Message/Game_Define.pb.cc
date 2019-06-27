@@ -16,7 +16,7 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 namespace protobuf_Game_5fDefine_2eproto {
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[15];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[16];
 const ::google::protobuf::uint32 TableStruct::offsets[1] = {};
 static const ::google::protobuf::internal::MigrationSchema* schemas = NULL;
 static const ::google::protobuf::Message* const* file_default_instances = NULL;
@@ -91,10 +91,12 @@ void AddDescriptorsImpl() {
       "ST\020\005\022\014\n\010EEP_RING\020\006\022\020\n\014EEP_TALISMAN\020\007\022\016\n\n"
       "EEP_WEAPON\020\010*K\n\013ETaskStatus\022\014\n\010ETS_INIT\020"
       "\000\022\016\n\nETS_ACCEPT\020\001\022\016\n\nETS_FINISH\020\002\022\016\n\nETS"
-      "_COMMIT\020\003b\006proto3"
+      "_COMMIT\020\003*D\n\013ECopyResult\022\014\n\010ECR_NONE\020\000\022\013"
+      "\n\007ECR_WIN\020\001\022\014\n\010ECR_LOST\020\002\022\014\n\010ECR_DRAW\020\003b"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1977);
+      descriptor, 2047);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Game_Define.proto", &protobuf_RegisterTypes);
 }
@@ -394,6 +396,22 @@ const ::google::protobuf::EnumDescriptor* ETaskStatus_descriptor() {
   return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[14];
 }
 bool ETaskStatus_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* ECopyResult_descriptor() {
+  protobuf_Game_5fDefine_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Game_5fDefine_2eproto::file_level_enum_descriptors[15];
+}
+bool ECopyResult_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

@@ -104,7 +104,7 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 uCreateParam, UINT32 dwPla
 
 BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopyType)
 {
-	return CreateScene(dwCopyID, CreateParam, 0, CreateParam);
+	return CreateScene(dwCopyID, CreateParam, 0, dwCopyType);
 }
 
 BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )

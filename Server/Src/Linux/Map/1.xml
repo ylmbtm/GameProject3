@@ -18,7 +18,6 @@
         <MapCallMonster MonsterID="50061" MonsterAI="0" Pos="(8.06,-2.466748,12.00)" Face="0.00" Camp="2"/>
         <MapCallMonster MonsterID="50064" MonsterAI="0" Pos="(10.54,-2.466748,14.13)" Face="0.00" Camp="2"/>
         <MapCallMonster MonsterID="60006" MonsterAI="0" Pos="(12.44,-2.466748,16.87)" Face="0.00" Camp="2"/>
-		
 		<MapCallMonster MonsterID="80002" MonsterAI="0" Pos="(14.44,-2.466748,16.87)" Face="0.00" Camp="2"/>
 		<MapCallMonster MonsterID="100002" MonsterAI="0" Pos="(14.44,-2.466748,18.87)" Face="0.00" Camp="2"/>
 		<MapCallMonster MonsterID="50068" MonsterAI="0" Pos="(14.44,-2.466748,20.87)" Face="0.00" Camp="2"/>
