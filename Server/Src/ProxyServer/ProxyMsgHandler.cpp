@@ -116,6 +116,12 @@ BOOL CProxyMsgHandler::OnCloseConnect(CConnection* pConn)
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
+	//表示还没有收到通知进场景的消息(相当于没有进副本)
+	if (pPlayer->GetGameSvrID() == 0)
+	{
+		return TRUE;
+	}
+
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
 	ERROR_RETURN_TRUE(dwConnID != 0);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyGuid(),  Req);

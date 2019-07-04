@@ -645,9 +645,14 @@ CConnection* CConnectionMgr::CreateConnection()
 
 CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 {
+	ERROR_RETURN_NULL(dwConnID != 0);
+
 	UINT32 dwIndex = dwConnID % m_vtConnList.size();
 
-	ERROR_RETURN_NULL(dwIndex < m_vtConnList.size())
+	if (dwIndex == 0)
+	{
+		dwIndex = m_vtConnList.size();
+	}
 
 	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
 	if(pConnect->GetConnectionID() != dwConnID)

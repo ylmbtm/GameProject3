@@ -374,11 +374,10 @@ VOID CClientObject::TestCopy()
 
 VOID CClientObject::TestExitCopy()
 {
-	AbortCopyReq Req;
-	Req.set_copyid(m_dwCopyID);
-	Req.set_copyguid(m_dwCopyGuid);
-	Req.set_serverid(m_dwCopySvrID);
-	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
+	AbortSceneReq Req;
+	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_reason(0);
+	m_ClientConnector.SendData(MSG_ABORT_SCENE_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 	m_dwHostState = ST_EnterCopy;
 }
 
@@ -430,7 +429,7 @@ VOID CClientObject::TestMove()
 
 		fTime = fTime / 1000.0f;
 
-		printf("Distance:%f", fSpeed * fTime);
+		printf("Distance:%f\n", fSpeed * fTime);
 
 		MoveForward(fSpeed * fTime);
 
@@ -539,10 +538,10 @@ BOOL CClientObject::SendMainCopyReq()
 
 BOOL CClientObject::SendAbortCopyReq()
 {
-	AbortCopyReq Req;
-	Req.set_copyid(m_dwCopyGuid);
-	m_ClientConnector.SendData(MSG_COPY_ABORT_REQ, Req, m_RoleIDList[0], 0);
-
+	AbortSceneReq Req;
+	Req.set_roleid(m_RoleIDList[0]);
+	Req.set_reason(0);
+	m_ClientConnector.SendData(MSG_ABORT_SCENE_REQ, Req, m_RoleIDList[0], m_dwCopyGuid);
 	m_dwHostState = ST_AbortCopy;
 	return TRUE;
 }
