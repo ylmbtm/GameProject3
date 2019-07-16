@@ -342,6 +342,13 @@ StCopyInfo* CStaticData::GetCopyInfo(UINT32 dwCopyID)
 	return NULL;
 }
 
+UINT32 CStaticData::GetCopyType(UINT32 dwCopyID)
+{
+	StCopyInfo* pCopyInfo = GetCopyInfo(dwCopyID);
+	ERROR_RETURN_VALUE(pCopyInfo != NULL, 0);
+	return pCopyInfo->dwCopyType;
+}
+
 BOOL CStaticData::ReadLanguage(CppSQLite3Query& QueryData)
 {
 	m_mapLanguage.clear();

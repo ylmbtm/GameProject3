@@ -4,13 +4,14 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
-#include "BagModule.h"
-#include "RoleModule.h"
 #include "../ServerData/ServerDefine.h"
 #include "../StaticData/StaticStruct.h"
 #include "../StaticData/StaticData.h"
 #include "../ServerData/RoleData.h"
+
 #include "CopyModule.h"
+#include "BagModule.h"
+#include "RoleModule.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {

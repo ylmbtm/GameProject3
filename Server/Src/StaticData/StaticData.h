@@ -73,7 +73,7 @@ public:
 	std::map<UINT32, StCopyInfo> m_mapCopyInfo;
 	BOOL ReadCopyInfo(CppSQLite3Query& QueryData);
 	StCopyInfo* GetCopyInfo(UINT32 dwCopyID);
-
+	UINT32 GetCopyType(UINT32 dwCopyID);
 	//语言配制表
 	///////////////////////////////////////////////
 	std::map<UINT32, StLocalString> m_mapLanguage;

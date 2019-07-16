@@ -43,51 +43,8 @@ public:
 	BOOL Release()
 	{
 		ASSERT(m_pManager != NULL);
-		m_pManager->m_CritSec.Lock();
 
-		m_dwRefCount--;
-		if(m_dwRefCount < 0)
-		{
-			ASSERT_FAIELD;
-		}
-
-		if(m_dwRefCount == 0)
-		{
-			m_nDataLen = 0;
-			//首先从己用中删除
-			if(m_pManager->m_pUsedList == this)
-			{
-				//自己是首结点
-				m_pManager->m_pUsedList = m_pNext;
-				if(m_pManager->m_pUsedList != NULL)
-				{
-					m_pManager->m_pUsedList->m_pPrev = NULL;
-				}
-			}
-			else
-			{
-				ASSERT(m_pPrev != NULL);
-				m_pPrev->m_pNext = m_pNext;
-				if(m_pNext != NULL)
-				{
-					m_pNext->m_pPrev = m_pPrev;
-				}
-			}
-
-			//再把自己加到己用中
-			m_pNext = m_pManager->m_pFreeList;
-			m_pPrev = NULL;
-			m_pManager->m_pFreeList = this;
-
-			if(m_pNext != NULL)
-			{
-				m_pNext->m_pPrev = this;
-			}
-
-			m_pManager->m_dwBufferCount--;
-		}
-
-		m_pManager->m_CritSec.Unlock();
+		m_pManager->ReleaseDataBuff(this);
 
 		return TRUE;
 	}
@@ -173,7 +130,7 @@ public:
 
 	~CBufferManager()
 	{
-		ReleaseMemory();
+		ReleaseAll();
 	}
 
 	IDataBuffer* AllocDataBuff()
@@ -224,7 +181,62 @@ public:
 		return pDataBuffer;
 	}
 
-	void ReleaseMemory()
+	BOOL ReleaseDataBuff(CDataBuffer<SIZE>* pBuff)
+	{
+		if (pBuff == NULL)
+		{
+			return FALSE;
+		}
+
+		m_CritSec.Lock();
+		pBuff->m_dwRefCount--;
+		if (pBuff->m_dwRefCount < 0)
+		{
+			ASSERT_FAIELD;
+		}
+
+		if (pBuff->m_dwRefCount == 0)
+		{
+			pBuff->m_nDataLen = 0;
+			//首先从己用中删除
+			if (m_pUsedList == pBuff)
+			{
+				//自己是首结点
+				m_pUsedList = pBuff->m_pNext;
+				if (m_pUsedList != NULL)
+				{
+					m_pUsedList->m_pPrev = NULL;
+				}
+			}
+			else
+			{
+				ASSERT(pBuff->m_pPrev != NULL);
+				pBuff->m_pPrev->m_pNext = pBuff->m_pNext;
+				if (pBuff->m_pNext != NULL)
+				{
+					pBuff->m_pNext->m_pPrev = pBuff->m_pPrev;
+				}
+			}
+
+			//再把自己加到己用中
+			pBuff->m_pNext = m_pFreeList;
+			pBuff->m_pPrev = NULL;
+			m_pFreeList = pBuff;
+
+			if (pBuff->m_pNext != NULL)
+			{
+				pBuff->m_pNext->m_pPrev = pBuff;
+			}
+
+			m_dwBufferCount--;
+		}
+
+		m_CritSec.Unlock();
+
+		return TRUE;
+	}
+
+	void ReleaseAll()
 	{
 		CDataBuffer<SIZE>* pBufferNode = m_pFreeList;
 		while (pBufferNode)
@@ -302,17 +314,17 @@ public:
 public:
 	IDataBuffer* AllocDataBuff(int nSize);
 
-	CBufferManager<64>     g_BufferManager64B;		//管理64B的内存池，
-	CBufferManager<128>    g_BufferManager128B;		//管理128B的内存池，
-	CBufferManager<256>    g_BufferManager256B;		//管理256B的内存池，
-	CBufferManager<512>    g_BufferManager512B;		//管理512B的内存池，
-	CBufferManager<1024>   g_BufferManager1K;		//管理1k的内存池，
-	CBufferManager<2048>   g_BufferManager2K;		//管理2k的内存池，
-	CBufferManager<4096>   g_BufferManager4K;		//管理4k的内存池，
-	CBufferManager<8192>   g_BufferManager8K;		//管理8k的内存池，
-	CBufferManager<16384>  g_BufferManager16K;		//管理16k的内存池，
-	CBufferManager<32768>  g_BufferManager32K;		//管理32k的内存池，
-	CBufferManager<65536>  g_BufferManager64K;		//管理64k的内存池，
+	CBufferManager<64>     m_BufferManager64B;		//管理64B的内存池，
+	CBufferManager<128>    m_BufferManager128B;		//管理128B的内存池，
+	CBufferManager<256>    m_BufferManager256B;		//管理256B的内存池，
+	CBufferManager<512>    m_BufferManager512B;		//管理512B的内存池，
+	CBufferManager<1024>   m_BufferManager1K;		//管理1k的内存池，
+	CBufferManager<2048>   m_BufferManager2K;		//管理2k的内存池，
+	CBufferManager<4096>   m_BufferManager4K;		//管理4k的内存池，
+	CBufferManager<8192>   m_BufferManager8K;		//管理8k的内存池，
+	CBufferManager<16384>  m_BufferManager16K;		//管理16k的内存池，
+	CBufferManager<32768>  m_BufferManager32K;		//管理32k的内存池，
+	CBufferManager<65536>  m_BufferManager64K;		//管理64k的内存池，
 };
 
 #endif
