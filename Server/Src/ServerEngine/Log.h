@@ -66,7 +66,7 @@ protected:
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
         ASSERT_FAIELD; \
-        return TRUE;	\
+        return FALSE;	\
     }
 
 #define ERROR_RETURN_NULL(P) \

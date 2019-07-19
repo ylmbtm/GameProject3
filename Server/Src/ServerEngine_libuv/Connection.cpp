@@ -251,6 +251,7 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
+	m_ShutdownReq.data = (void*)this;
 	uv_read_stop((uv_stream_t*)&m_hSocket);
 	uv_shutdown(&m_ShutdownReq, (uv_stream_t*)&m_hSocket, On_Shutdown);
 	uv_close((uv_handle_t*)&m_hSocket, On_Close);

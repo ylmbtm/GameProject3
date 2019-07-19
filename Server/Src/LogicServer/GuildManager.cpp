@@ -83,7 +83,7 @@ CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 n
 	MemberDataObject* pMemberObj = DataPool::CreateObject<MemberDataObject>(ESD_GUILD_MEMBER, TRUE);
 	pMemberObj->Lock();
 	pMemberObj->m_uRoleID = uRoleID;
-	pMemberObj->m_dwJoinTime = CommonFunc::GetCurrTime();
+	pMemberObj->m_uJoinTime = CommonFunc::GetCurrTime();
 	pMemberObj->m_uGuildID = pGuild->m_pGuildData->m_uGuid;
 	pMemberObj->m_Pos = EGP_LEADER;
 	pMemberObj->Unlock();

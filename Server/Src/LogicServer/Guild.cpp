@@ -32,7 +32,7 @@ BOOL CGuild::LoadGuildMember(CppMySQLQuery& QueryResult)
 	pMemberObject->m_uRoleID = uRoleID;
 	pMemberObject->m_uGuildID = m_pGuildData->m_uGuid;
 	pMemberObject->m_Pos = QueryResult.getIntField("pose");
-	pMemberObject->m_dwJoinTime = QueryResult.getInt64Field("join_time");
+	pMemberObject->m_uJoinTime = QueryResult.getInt64Field("join_time");
 
 	m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObject));
 
@@ -88,7 +88,7 @@ MemberDataObject* CGuild::AddGuildMember(UINT64 uRoleID)
 	pMemberObject->m_uRoleID = uRoleID;
 	pMemberObject->m_uGuildID = m_pGuildData->m_uGuid;
 	pMemberObject->m_Pos = EGP_MEMBER;
-	pMemberObject->m_dwJoinTime = CommonFunc::GetCurrTime();
+	pMemberObject->m_uJoinTime = CommonFunc::GetCurrTime();
 	pMemberObject->Unlock();
 
 	m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObject));

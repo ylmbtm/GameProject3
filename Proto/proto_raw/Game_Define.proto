@@ -5,7 +5,7 @@ enum EObjectType {
     OT_NPC    = 2;  //NPC
     OT_MONSTER= 3;  //怪
     OT_PET    = 4;  //宠物
-    OT_MOUNT  = 5;  //宠物
+    OT_MOUNT  = 5;  //坐骑
     OT_MACHINE= 6;  //机关
     OT_PARTNER= 7;  //伙伴
     OT_SUMMON = 8;  //招唤物
