@@ -239,6 +239,10 @@ BOOL CClientConnector::ReceiveData()
 			printf("接收数据发生错误:%s!\n", CommonSocket::GetLastErrorStr(nError).c_str());
 		}
 
+		SetConnectState(ECS_NO_CONNECT);
+
+		CommonSocket::CloseSocket(m_hSocket);
+
 		return FALSE;
 	}
 	else if(nReadLen == 0)
