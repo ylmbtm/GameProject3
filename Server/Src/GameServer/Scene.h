@@ -4,7 +4,7 @@
 #include "SceneLogic/SceneLogic_Base.h"
 #include "../Message/Msg_Game.pb.h"
 #include "GameObject/BulletObject.h"
-#include "../ServerData/serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 class MonsterCreator;
 
 class CScene

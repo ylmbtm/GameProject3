@@ -18,7 +18,7 @@
 #include "../StaticData/StaticData.h"
 #include "GameObject/SkillObject.h"
 #include "GameObject/BulletObject.h"
-#include "../ServerData/serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 
 
 CScene::CScene()

@@ -168,7 +168,7 @@ struct StFuncInfo
 	UINT32 dwFuncID;	//! 功能ID
 	INT32 OpenLevel;	//! 开放等级
 	INT32 VipLevel;		//! VIP提前开放等级
-	INT32 Logic;		//! 逻辑关系 1->优先VIP 2->同时满足
+	INT32 Logic;		//! 逻辑关系 1:两者取其一; 2:两者都必须; 3: 满足VIP条件; 4:满足等级条件
 };
 
 

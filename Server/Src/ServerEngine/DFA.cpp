@@ -212,7 +212,7 @@ BOOL DFANode::FilterKeyWords(std::string& word, const std::string& dest /*= "***
 
 
 	int start = 0, strlen = 0;
-	int lastPos = -1;	
+	int lastPos = -1;
 	BOOL keyflag = FALSE;
 
 	while (HasKeyWord(wpData.c_str(), (int)wpData.size()))

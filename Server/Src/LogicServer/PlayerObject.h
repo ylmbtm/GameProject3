@@ -5,7 +5,7 @@
 #include "ModuleBase.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../ServerData/ServerDefine.h"
-#include "../ServerData/serverStruct.h"
+#include "../ServerData/ServerStruct.h"
 
 class CPlayerObject
 {
@@ -107,5 +107,12 @@ public:
 	//*********************消息处理定义结束******************************
 };
 
+template <class T>
+T* GetModuleByType(CPlayerObject* pPlayer, EMouduleType mType)
+{
+	T* pModule = (T*)pPlayer->GetModuleByType(mType);
+
+	return pModule;
+}
 
 #endif //__WS_PLAYER_OBJECT_H__

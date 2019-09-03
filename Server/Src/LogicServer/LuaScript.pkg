@@ -7,6 +7,7 @@ typedef unsigned int		UINT32;
 typedef long long			INT64;
 typedef unsigned long long	UINT64;
 typedef bool				BOOL;
+typedef float				FLOAT;
 
 $pfile "Lua_Pkg/Lua_Player.pkg"
 

@@ -93,8 +93,6 @@ protected:
 	return R;	\
 }
 
-
-
 #define ERROR_RETURN_CODE(P, Code) \
 	if(P == FALSE)\
 {\
@@ -102,7 +100,6 @@ protected:
 	ASSERT_FAIELD; \
 	return Code;	\
 }
-
 
 #define ERROR_CONTINUE_EX(P) \
     if(P == FALSE)\
