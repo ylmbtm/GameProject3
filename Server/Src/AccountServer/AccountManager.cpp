@@ -1,25 +1,10 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
 
-
-Th_RetName _SaveAccountThread( void* pParam )
-{
-	CAccountObjectMgr* pAccountManager = (CAccountObjectMgr*)pParam;
-	if(pAccountManager != NULL)
-	{
-		pAccountManager->SaveAccountChange();
-	}
-
-	CommonThreadFunc::ExitThread();
-
-	return Th_RetValue;
-
-}
-
 CAccountObjectMgr::CAccountObjectMgr()
 {
 	m_IsRun			= FALSE;
-	m_hThread		= NULL;
+	m_pThread		= NULL;
 	m_bCrossChannel = FALSE;
 	m_u64MaxID		= 0;
 }
@@ -27,7 +12,7 @@ CAccountObjectMgr::CAccountObjectMgr()
 CAccountObjectMgr::~CAccountObjectMgr()
 {
 	m_IsRun			= FALSE;
-	m_hThread		= NULL;
+	m_pThread		= NULL;
 	m_bCrossChannel = FALSE;
 }
 
@@ -67,10 +52,6 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 
 		QueryResult.nextRow();
 	}
-
-	m_IsRun = TRUE;
-	m_hThread = CommonThreadFunc::CreateThread(_SaveAccountThread, this);
-	ERROR_RETURN_FALSE(m_hThread != NULL);
 
 	return TRUE;
 }
@@ -213,6 +194,12 @@ BOOL CAccountObjectMgr::Init()
 {
 	ERROR_RETURN_FALSE(LoadCacheAccount());
 
+	m_IsRun = TRUE;
+
+	m_pThread = new std::thread(&CAccountObjectMgr::SaveAccountChange, this);
+
+	ERROR_RETURN_FALSE(m_pThread != NULL);
+
 	return TRUE;
 }
 
@@ -220,7 +207,9 @@ BOOL CAccountObjectMgr::Uninit()
 {
 	m_IsRun = FALSE;
 
-	CommonThreadFunc::WaitThreadExit(m_hThread);
+	m_pThread->join();
+
+	delete m_pThread;
 
 	m_mapNameObj.clear();
 

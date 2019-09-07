@@ -18,6 +18,11 @@ CCommonWorkThread::~CCommonWorkThread()
 
 void CCommonWorkThread::Run()
 {
+	if (!OnThreadBegin())
+	{
+		return ;
+	}
+
 	while (m_bRun)
 	{
 		//这就把所有的消息都处理完了
@@ -34,15 +39,17 @@ void CCommonWorkThread::Run()
 
 		CommonFunc::Sleep(1);
 	}
+
+	OnThreadEnd();
 }
 
 BOOL CCommonWorkThread::Start()
 {
 	m_bRun = TRUE;
 
-	m_hThread = CommonThreadFunc::CreateThread(_CommonWorkThread, this);
+	m_pThread = new std::thread(&CCommonWorkThread::Run, this);
 
-	if(m_hThread != NULL)
+	if(m_pThread != NULL)
 	{
 		return TRUE;
 	}
@@ -54,7 +61,9 @@ BOOL CCommonWorkThread::Stop()
 {
 	m_bRun = FALSE;
 
-	CommonThreadFunc::WaitThreadExit(m_hThread);
+	m_pThread->join();
+
+	delete m_pThread;
 
 	return TRUE;
 }
@@ -97,21 +106,3 @@ BOOL CCommonWorkThread::OnThreadEnd()
 	return TRUE;
 }
 
-
-Th_RetName _CommonWorkThread( void* pParam )
-{
-	CCommonWorkThread* pThread = (CCommonWorkThread*)pParam;
-
-	if(!pThread->OnThreadBegin())
-	{
-		ASSERT_FAIELD;
-
-		return Th_RetValue;
-	}
-
-	pThread->Run();
-
-	pThread->OnThreadEnd();
-
-	return Th_RetValue;
-}

@@ -42,9 +42,6 @@
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\ServerEngine\CommonThreadFunc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\ServerEngine\CommonWorkThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\CommonSocket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonThreadFunc.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\CommonWorkThread.h">

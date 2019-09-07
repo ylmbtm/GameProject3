@@ -1,12 +1,7 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-#include "CommonThreadFunc.h"
 #include "CommonMsgQueue.h"
-
-Th_RetName _NetEventThread( void* pParam );
-
-Th_RetName _NetListenThread( void* pParam );
 
 struct EventNode
 {
@@ -77,8 +72,8 @@ public:
 	BOOL				m_bCloseEvent;		//是否关闭事件处理线程
 
 	IDataHandler*		m_pBufferHandler;
-	THANDLE				 m_hListenThread;
-	std::vector<THANDLE> m_vtEventThread;
+	std::thread*	    m_pListenThread;
+	std::vector<std::thread*> m_vtEventThread;
 
 #ifndef WIN32
 

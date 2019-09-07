@@ -1,11 +1,8 @@
 ﻿#ifndef _COMMON_WORK_THREAD_H_
 #define _COMMON_WORK_THREAD_H_
-#include "CommonThreadFunc.h"
 #include "CommonMsgQueue.h"
 #include "IBufferHandler.h"
 #include "LockFreeQueue.h"
-
-Th_RetName _CommonWorkThread( void* pParam );
 
 class CCommonWorkThread
 {
@@ -29,7 +26,7 @@ public:
 	BOOL			OnThreadEnd();
 
 protected:
-	THANDLE					m_hThread;
+	std::thread*		    m_pThread;
 
 	BOOL					m_bRun;
 

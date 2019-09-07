@@ -8,7 +8,7 @@
 
 CNetManager::CNetManager(void)
 {
-	m_hListenThread		= (THANDLE)NULL;
+	m_pListenThread		= NULL;
 	m_hListenSocket		= NULL;
 	m_hCompletePort		= NULL;
 	m_bCloseEvent		= TRUE;
@@ -37,8 +37,8 @@ BOOL CNetManager::CreateEventThread(UINT32 nNum )
 
 	for(UINT32 i = 0; i < nNum; ++i)
 	{
-		THANDLE hThread = CommonThreadFunc::CreateThread(_NetEventThread, (void*)NULL);
-		m_vtEventThread.push_back(hThread);
+		std::thread* pThread = new std::thread(&CNetManager::WorkThread_ProcessEvent, this, nNum);
+		m_vtEventThread.push_back(pThread);
 	}
 
 	return TRUE;
@@ -113,7 +113,8 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 		return FALSE;
 	}
 
-	if((m_hListenThread = CommonThreadFunc::CreateThread(_NetListenThread,  (void*)NULL)) == NULL)
+	m_pListenThread = new std::thread(&CNetManager::WorkThread_Listen, this);
+	if (m_pListenThread == NULL)
 	{
 		CLog::GetInstancePtr()->LogError("创建监听线程失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
@@ -561,7 +562,9 @@ BOOL CNetManager::StopListen()
 {
 	CommonSocket::CloseSocket(m_hListenSocket);
 
-	CommonThreadFunc::WaitThreadExit(m_hListenThread);
+	m_pListenThread->join();
+
+	delete m_pListenThread;
 
 	return TRUE;
 }
@@ -740,36 +743,17 @@ BOOL CNetManager::CloseEventThread()
 {
 	m_bCloseEvent = TRUE;
 
-	for(std::vector<THANDLE>::iterator itor = m_vtEventThread.begin(); itor != m_vtEventThread.end(); ++itor)
+	for(std::vector<std::thread*>::iterator itor = m_vtEventThread.begin(); itor != m_vtEventThread.end(); ++itor)
 	{
-		CommonThreadFunc::WaitThreadExit(*itor);
+		(*itor)->join();
+
+		delete (*itor);
 	}
+
+	m_vtEventThread.clear();
 
 	return TRUE;
 }
-
-Th_RetName _NetEventThread( void* pParam )
-{
-	CNetManager* pNetManager = CNetManager::GetInstancePtr();
-
-	pNetManager->WorkThread_ProcessEvent(0);
-
-	CommonThreadFunc::ExitThread();
-
-	return Th_RetValue;
-}
-
-Th_RetName _NetListenThread( void* pParam )
-{
-	CNetManager* pNetManager = CNetManager::GetInstancePtr();
-
-	pNetManager->WorkThread_Listen();
-
-	CommonThreadFunc::ExitThread();
-
-	return Th_RetValue;
-}
-
 
 BOOL CNetManager::PostSendOperation(CConnection* pConnection, BOOL bCheck)
 {

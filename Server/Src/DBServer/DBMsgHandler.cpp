@@ -6,17 +6,6 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 
-
-Th_RetName _DBWorkThread(void* pParam)
-{
-	CDBMsgHandler* pHandler = (CDBMsgHandler*)pParam;
-
-	pHandler->Run();
-
-	return Th_RetValue;
-}
-
-
 CDBMsgHandler::CDBMsgHandler()
 {
 
@@ -33,13 +22,12 @@ BOOL CDBMsgHandler::Init(UINT32 dwReserved)
 
 	//m_bRun = TRUE;
 
-	//m_hThread = CommonThreadFunc::CreateThread(_DBWorkThread, this);
+	//m_pThread = new std::thread(&CDBMsgHandler::Run, this);
 
-	//if (m_hThread != NULL)
+	//if (m_pThread != NULL)
 	//{
 	//	return TRUE;
 	//}
-
 	return TRUE;
 }
 
@@ -72,13 +60,11 @@ BOOL CDBMsgHandler::Uninit()
 	return TRUE;
 }
 
-
 BOOL CDBMsgHandler::AddPacket(NetPacket* pNetPacket)
 {
 	m_PacketQueue.push(pNetPacket);
 	return TRUE;
 }
-
 
 BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {

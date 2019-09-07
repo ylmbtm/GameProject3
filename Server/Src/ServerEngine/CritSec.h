@@ -35,7 +35,6 @@ public:
 	{
 		LeaveCriticalSection(&m_CritSec);
 	};
-
 };
 
 #else //LINUX
@@ -100,12 +99,9 @@ public:
 // when the lock goes out of scope
 class CAutoLock
 {
-
 	// make copy constructor and assignment operator inaccessible
-
 	CAutoLock(const CAutoLock& refAutoLock);
 	CAutoLock& operator=(const CAutoLock& refAutoLock);
-
 protected:
 	CCritSec* m_pLock;
 public:
@@ -117,7 +113,9 @@ public:
 	~CAutoLock()
 	{
 		if(m_pLock)
-		{ m_pLock->Unlock(); }
+		{
+			m_pLock->Unlock();
+		}
 	};
 };
 

@@ -2,7 +2,6 @@
 #define _DB_MSG_HANDLER_H_
 #include "DBManager.h"
 #include "LockFreeQueue.h"
-Th_RetName _DBWorkThread(void* pParam);
 
 class CDBMsgHandler
 {
@@ -35,7 +34,7 @@ public:
 
 	ArrayLockFreeQueue<NetPacket*>		m_PacketQueue;
 
-	THANDLE								m_hThread;
+	std::thread*					   	m_pThread;
 
 	BOOL								m_bRun;
 };

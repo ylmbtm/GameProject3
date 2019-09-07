@@ -19,8 +19,6 @@
 #include "../ServerData/SkillData.h"
 #include "DBInterface/DBConnection.h"
 
-Th_RetName _DBWriteThread(void* pParam);
-
 class CDBWriterManager
 {
 
@@ -36,11 +34,13 @@ public:
 	BOOL WriteDataToDB();
 
 	BOOL IsStop();
+
+	void DBWriteThread();
 public:
 	std::vector<DataWriterBase*> m_vtDataWriters;
 
 	BOOL			m_Stop;
-	THANDLE			m_hWorkThread;
+	std::thread*	m_pWorkThread;
 	CDBConnection   m_DBConnection;
 };
 

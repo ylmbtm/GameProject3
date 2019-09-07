@@ -45,9 +45,6 @@
     <ClCompile Include="CommonSocket.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CommonThreadFunc.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="AstarFinder.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="CommonSocket.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonThreadFunc.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="AstarFinder.h">

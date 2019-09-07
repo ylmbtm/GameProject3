@@ -96,7 +96,6 @@
     <ClCompile Include="CommonConvert.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonSocket.cpp" />
-    <ClCompile Include="CommonThreadFunc.cpp" />
     <ClCompile Include="CommonWorkThread.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonMsgQueue.h" />
     <ClInclude Include="CommonSocket.h" />
-    <ClInclude Include="CommonThreadFunc.h" />
     <ClInclude Include="CommonWorkThread.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Connection.h" />

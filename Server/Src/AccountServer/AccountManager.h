@@ -4,8 +4,6 @@
 #include "DBInterface/CppMysql.h"
 #include "LockFreeQueue.h"
 
-Th_RetName _SaveAccountThread( void* pParam );
-
 struct CAccountObject
 {
 	UINT64		m_ID;
@@ -57,7 +55,7 @@ public:
 
 	BOOL				m_IsRun;
 
-	HANDLE				m_hThread;
+	std::thread*  		m_pThread;
 
 	UINT64				m_u64MaxID;
 

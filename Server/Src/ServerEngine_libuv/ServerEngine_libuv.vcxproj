@@ -92,7 +92,6 @@
     <ClCompile Include="..\ServerEngine\CommonConvert.cpp" />
     <ClCompile Include="..\ServerEngine\CommonFunc.cpp" />
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp" />
-    <ClCompile Include="..\ServerEngine\CommonThreadFunc.cpp" />
     <ClCompile Include="..\ServerEngine\CommonWorkThread.cpp" />
     <ClCompile Include="..\ServerEngine\ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
@@ -121,7 +120,6 @@
     <ClInclude Include="..\ServerEngine\CommonFunc.h" />
     <ClInclude Include="..\ServerEngine\CommonMsgQueue.h" />
     <ClInclude Include="..\ServerEngine\CommonSocket.h" />
-    <ClInclude Include="..\ServerEngine\CommonThreadFunc.h" />
     <ClInclude Include="..\ServerEngine\CommonWorkThread.h" />
     <ClInclude Include="..\ServerEngine\ConfigFile.h" />
     <ClInclude Include="Connection.h" />
