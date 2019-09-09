@@ -6,7 +6,6 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/bind.hpp>
 #include "../ServerEngine/LockFreeQueue.h"
-#include "../ServerEngine/CritSec.h"
 
 #define RECV_BUF_SIZE               8192
 
@@ -82,7 +81,7 @@ public:
 	UINT64						m_LastRecvTick;
 
 	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
-	
+
 	IDataBuffer*				m_pSendingBuffer;
 };
 
@@ -118,7 +117,7 @@ public:
 	CConnection*				m_pFreeConnRoot;
 	CConnection*				m_pFreeConnTail;
 	std::vector<CConnection*>	m_vtConnList;            //连接列表
-	CCritSec					m_CritSecConnList;
+	std::mutex					m_ConnListMutex;
 };
 
 #endif

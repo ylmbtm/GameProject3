@@ -63,6 +63,7 @@ BOOL CDBMsgHandler::Uninit()
 BOOL CDBMsgHandler::AddPacket(NetPacket* pNetPacket)
 {
 	m_PacketQueue.push(pNetPacket);
+
 	return TRUE;
 }
 
@@ -74,7 +75,6 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
 			PROCESS_MESSAGE_ITEM(MSG_DB_EXE_SQL_REQ,		OnMsgExeSqlReq);
 	}
-
 
 	return FALSE;
 }

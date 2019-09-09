@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <deque>
 #include <thread>
+#include <mutex>
 
 #include "CheckMacroDefine.h"
 #include "Platform.h"

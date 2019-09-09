@@ -4,7 +4,7 @@
 
 CBufferAllocator::CBufferAllocator()
 {
-
+	m_BufferManagerAny.SetEnablePool(FALSE);
 }
 
 CBufferAllocator::~CBufferAllocator()
@@ -64,6 +64,10 @@ IDataBuffer* CBufferAllocator::AllocDataBuff( int nSize )
 	else if(nSize < 65536)
 	{
 		return m_BufferManager64K.AllocDataBuff();
+	}
+	else
+	{
+		return m_BufferManagerAny.AllocDataBuff();
 	}
 
 	return NULL;

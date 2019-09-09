@@ -1,6 +1,5 @@
 ﻿#ifndef _DATA_BUFFER_H_
 #define _DATA_BUFFER_H_
-#include "CritSec.h"
 #include "IBufferHandler.h"
 
 template <int SIZE>
@@ -34,9 +33,9 @@ public:
 
 	BOOL AddRef()
 	{
-		m_pManager->m_CritSec.Lock();
+		m_pManager->m_BuffMutex.lock();
 		m_dwRefCount++;
-		m_pManager->m_CritSec.Unlock();
+		m_pManager->m_BuffMutex.unlock();
 		return TRUE;
 	}
 
@@ -126,6 +125,7 @@ public:
 		m_pUsedList = NULL;
 		m_pFreeList = NULL;
 		m_dwBufferCount = 0;
+		m_EnablePool = TRUE;
 	}
 
 	~CBufferManager()
@@ -135,7 +135,7 @@ public:
 
 	IDataBuffer* AllocDataBuff()
 	{
-		m_CritSec.Lock();
+		m_BuffMutex.lock();
 		CDataBuffer<SIZE>* pDataBuffer = NULL;
 		if(m_pFreeList == NULL)
 		{
@@ -177,7 +177,7 @@ public:
 		}
 
 		m_dwBufferCount += 1;
-		m_CritSec.Unlock();
+		m_BuffMutex.unlock();
 		return pDataBuffer;
 	}
 
@@ -188,7 +188,7 @@ public:
 			return FALSE;
 		}
 
-		m_CritSec.Lock();
+		m_BuffMutex.lock();
 		pBuff->m_dwRefCount--;
 		if (pBuff->m_dwRefCount < 0)
 		{
@@ -218,20 +218,26 @@ public:
 				}
 			}
 
-			//再把自己加到己用中
-			pBuff->m_pNext = m_pFreeList;
-			pBuff->m_pPrev = NULL;
-			m_pFreeList = pBuff;
-
-			if (pBuff->m_pNext != NULL)
+			if (m_EnablePool)
 			{
-				pBuff->m_pNext->m_pPrev = pBuff;
-			}
+				//再把自己加到己用中
+				pBuff->m_pNext = m_pFreeList;
+				pBuff->m_pPrev = NULL;
+				m_pFreeList = pBuff;
 
+				if (pBuff->m_pNext != NULL)
+				{
+					pBuff->m_pNext->m_pPrev = pBuff;
+				}
+			}
+			else
+			{
+				delete pBuff;
+			}
 			m_dwBufferCount--;
 		}
 
-		m_CritSec.Unlock();
+		m_BuffMutex.unlock();
 
 		return TRUE;
 	}
@@ -255,6 +261,11 @@ public:
 		}
 
 		return;
+	}
+
+	VOID SetEnablePool(BOOL bEnablePool)
+	{
+		m_EnablePool = bEnablePool;
 	}
 
 	void PrintOutList(CDataBuffer<SIZE>* pList)
@@ -298,9 +309,11 @@ public:
 
 	CDataBuffer<SIZE>* m_pUsedList;
 
-	CCritSec	m_CritSec;
+	std::mutex	m_BuffMutex;
 
 	UINT32		m_dwBufferCount;
+
+	BOOL        m_EnablePool;
 private:
 };
 
@@ -325,6 +338,8 @@ public:
 	CBufferManager<16384>  m_BufferManager16K;		//管理16k的内存池，
 	CBufferManager<32768>  m_BufferManager32K;		//管理32k的内存池，
 	CBufferManager<65536>  m_BufferManager64K;		//管理64k的内存池，
+
+	CBufferManager<10 * 1024 * 1014> m_BufferManagerAny;		//管理10M的内存, 并不用池管理, 直接申请, 直接释放.
 };
 
 #endif

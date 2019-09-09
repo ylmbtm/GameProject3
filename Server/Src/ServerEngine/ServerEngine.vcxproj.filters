@@ -51,9 +51,6 @@
     <ClCompile Include="SharedMemory.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CommonWorkThread.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="ConfigFile.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -122,9 +119,6 @@
     <ClInclude Include="AstarFinder.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CommonWorkThread.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="ConfigFile.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -158,9 +152,6 @@
     <ClInclude Include="LockFreeQueueImpl.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="CommonMsgQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="DBInterface\DBInterface.h">
       <Filter>DBInterface</Filter>
     </ClInclude>
@@ -183,12 +174,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Rank.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CritSec.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CritSecNotify.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="SpinLock.h">

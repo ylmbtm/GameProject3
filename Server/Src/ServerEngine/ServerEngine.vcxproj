@@ -96,7 +96,6 @@
     <ClCompile Include="CommonConvert.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonSocket.cpp" />
-    <ClCompile Include="CommonWorkThread.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="CrashReport.cpp" />
@@ -126,14 +125,10 @@
     <ClInclude Include="CommandLine.h" />
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
-    <ClInclude Include="CommonMsgQueue.h" />
     <ClInclude Include="CommonSocket.h" />
-    <ClInclude Include="CommonWorkThread.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="CrashReport.h" />
-    <ClInclude Include="CritSec.h" />
-    <ClInclude Include="CritSecNotify.h" />
     <ClInclude Include="DataBuffer.h" />
     <ClInclude Include="DBInterface\CppMysql.h" />
     <ClInclude Include="DBInterface\DBConnection.h" />

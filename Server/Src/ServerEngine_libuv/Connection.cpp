@@ -4,9 +4,9 @@
 #include "CommandDef.h"
 #include "PacketHeader.h"
 
-void On_AllocBuff(uv_handle_t* handle,size_t suggested_size,uv_buf_t* buf)
+void On_AllocBuff(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
 {
-	CConnection *pConnection = (CConnection *)handle->data;
+	CConnection* pConnection = (CConnection*)handle->data;
 
 	buf->base = pConnection->m_pRecvBuf + pConnection->m_dwDataLen;
 
@@ -15,9 +15,9 @@ void On_AllocBuff(uv_handle_t* handle,size_t suggested_size,uv_buf_t* buf)
 	return;
 }
 
-void On_ReadData(uv_stream_t* stream,ssize_t nread,const uv_buf_t* buf)
+void On_ReadData(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 {
-	CConnection *pConnection = (CConnection *)stream->data;
+	CConnection* pConnection = (CConnection*)stream->data;
 	if (nread >= 0)
 	{
 		pConnection->HandReaddata(nread);
@@ -26,7 +26,7 @@ void On_ReadData(uv_stream_t* stream,ssize_t nread,const uv_buf_t* buf)
 	}
 
 	//uv_last_error(uv_default_loop());
-		
+
 
 
 	pConnection->Close();
@@ -36,7 +36,7 @@ void On_ReadData(uv_stream_t* stream,ssize_t nread,const uv_buf_t* buf)
 
 void On_WriteData(uv_write_t* req, int status)
 {
-	CConnection *pConnection = (CConnection *)req->data;
+	CConnection* pConnection = (CConnection*)req->data;
 
 	ERROR_RETURN_NONE(pConnection != NULL);
 
@@ -56,7 +56,7 @@ void On_WriteData(uv_write_t* req, int status)
 
 void On_Shutdown(uv_shutdown_t* req, int status)
 {
-	CConnection *pConnection = (CConnection *)req->data;
+	CConnection* pConnection = (CConnection*)req->data;
 
 	ERROR_RETURN_NONE(pConnection != NULL);
 
@@ -74,7 +74,7 @@ void On_Shutdown(uv_shutdown_t* req, int status)
 
 void On_Close(uv_handle_t* handle)
 {
-	CConnection *pConnection = (CConnection *)handle->data;
+	CConnection* pConnection = (CConnection*)handle->data;
 
 	ERROR_RETURN_NONE(pConnection != NULL);
 
@@ -100,7 +100,7 @@ CConnection::CConnection()
 	m_nCheckNo          = 0;
 
 	m_IsSending			= FALSE;
-	
+
 	m_pSendingBuffer	= NULL;
 
 	m_hSocket.data		= (void*)this;
@@ -300,7 +300,7 @@ uv_tcp_t* CConnection::GetSocket()
 
 BOOL CConnection::IsConnectionOK()
 {
-	return m_bConnected && !uv_is_closing((uv_handle_t *)&m_hSocket);
+	return m_bConnected && !uv_is_closing((uv_handle_t*)&m_hSocket);
 }
 
 BOOL CConnection::SetConnectionOK( BOOL bOk )
@@ -457,7 +457,7 @@ BOOL CConnection::DoSend()
 
 	m_WriteReq.data = (void*)this;
 	uv_buf_t buf = uv_buf_init(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize());
-	uv_write(&m_WriteReq, (uv_stream_t *)&m_hSocket, &buf, 1, On_WriteData);
+	uv_write(&m_WriteReq, (uv_stream_t*)&m_hSocket, &buf, 1, On_WriteData);
 
 	return TRUE;
 }
@@ -494,7 +494,7 @@ CConnection* CConnectionMgr::CreateConnection()
 	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
 
 	CConnection* pTemp = NULL;
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
 		pTemp = m_pFreeConnRoot;
@@ -506,9 +506,9 @@ CConnection* CConnectionMgr::CreateConnection()
 		m_pFreeConnRoot = pTemp->m_pNext;
 		pTemp->m_pNext = NULL;
 	}
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
-	ERROR_RETURN_NULL(uv_is_closing((uv_handle_t *)pTemp->GetSocket()));
+	ERROR_RETURN_NULL(uv_is_closing((uv_handle_t*)pTemp->GetSocket()));
 	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
 	return pTemp;
 }
@@ -541,7 +541,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 {
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 
 	if(m_pFreeConnTail == NULL)
 	{
@@ -562,7 +562,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	}
 
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 

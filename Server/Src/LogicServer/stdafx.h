@@ -11,7 +11,6 @@
 
 #define HAVE_RINT 1
 
-#include "CheckMacroDefine.h"
 #include "ServerEngine.h"
 #include "../ServerData/ServerDefine.h"
 #endif

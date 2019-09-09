@@ -617,11 +617,11 @@ CConnectionMgr::~CConnectionMgr()
 CConnection* CConnectionMgr::CreateConnection()
 {
 	CConnection* pTemp = NULL;
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 	if (m_pFreeConnRoot == NULL)
 	{
 		//表示己到达连接的上限，不能再创建新的连接了
-		m_CritSecConnList.Unlock();
+		m_ConnListMutex.unlock();
 		return NULL;
 	}
 
@@ -636,7 +636,7 @@ CConnection* CConnectionMgr::CreateConnection()
 		m_pFreeConnRoot = pTemp->m_pNext;
 		pTemp->m_pNext = NULL;
 	}
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
 	ERROR_RETURN_NULL(pTemp->GetSocket() == INVALID_SOCKET);
 	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
@@ -651,7 +651,7 @@ CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 
 	if (dwIndex == 0)
 	{
-		dwIndex = m_vtConnList.size();
+		dwIndex = (UINT32)m_vtConnList.size();
 	}
 
 	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
@@ -676,7 +676,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 {
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 
 	if(m_pFreeConnTail == NULL)
 	{
@@ -697,7 +697,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	}
 
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 

@@ -116,13 +116,7 @@
     <ClInclude Include="..\ServerEngine\CommonFunc.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonMsgQueue.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerEngine\CommonSocket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonWorkThread.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\ConfigFile.h">

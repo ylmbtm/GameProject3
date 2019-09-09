@@ -27,7 +27,7 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 	m_nCheckNo          = 0;
 
 	m_IsSending			= FALSE;
-	
+
 	m_pSendingBuffer	= NULL;
 }
 
@@ -434,7 +434,7 @@ CConnection* CConnectionMgr::CreateConnection()
 	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
 
 	CConnection* pTemp = NULL;
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
 		pTemp = m_pFreeConnRoot;
@@ -446,7 +446,7 @@ CConnection* CConnectionMgr::CreateConnection()
 		m_pFreeConnRoot = pTemp->m_pNext;
 		pTemp->m_pNext = NULL;
 	}
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 	ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
 	ERROR_RETURN_NULL(pTemp->m_hSocket.is_open() == FALSE);
 	ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
@@ -481,7 +481,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 {
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
-	m_CritSecConnList.Lock();
+	m_ConnListMutex.lock();
 
 	if(m_pFreeConnTail == NULL)
 	{
@@ -502,7 +502,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	}
 
-	m_CritSecConnList.Unlock();
+	m_ConnListMutex.unlock();
 
 	UINT32 dwConnID = pConnection->GetConnectionID();
 

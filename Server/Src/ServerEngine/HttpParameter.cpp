@@ -6,7 +6,6 @@ HttpParameter::HttpParameter()
 
 }
 
-
 HttpParameter::~HttpParameter(void)
 {
 	m_ParameterMap.clear();

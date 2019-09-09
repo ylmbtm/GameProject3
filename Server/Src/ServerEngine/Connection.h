@@ -2,7 +2,6 @@
 #define _CONNECTION_H_
 
 #include "IBufferHandler.h"
-#include "CritSec.h"
 #include "LockFreeQueue.h"
 
 #define  NET_MSG_RECV				1
@@ -143,7 +142,7 @@ public:
 	CConnection*				m_pFreeConnRoot;
 	CConnection*				m_pFreeConnTail;
 	std::vector<CConnection*>	m_vtConnList;            //连接列表
-	CCritSec					m_CritSecConnList;
+	std::mutex					m_ConnListMutex;
 };
 
 #endif

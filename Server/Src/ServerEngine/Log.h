@@ -1,8 +1,6 @@
 ﻿#ifndef _GLOBAL_LOG_H_
 #define _GLOBAL_LOG_H_
 
-#include "CritSec.h"
-
 enum LogLevel
 {
 	Log_All,
@@ -39,7 +37,7 @@ public:
 	void Flush();
 
 protected:
-	CCritSec			m_CritSec;
+	std::mutex			m_WriteMutex;
 
 	INT32				m_LogCount;
 

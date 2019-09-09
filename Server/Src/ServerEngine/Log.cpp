@@ -88,11 +88,11 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 	strncat(szLog, "\n", 10);
 
-	m_CritSec.Lock();
+	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
 	m_LogCount++;
 	printf(szLog);
-	m_CritSec.Unlock();
+	m_WriteMutex.unlock();
 
 	return ;
 }
@@ -120,11 +120,11 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	strncat(szLog, "\n", 10);
 
-	m_CritSec.Lock();
+	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
 	m_LogCount++;
 	printf(szLog);
-	m_CritSec.Unlock();
+	m_WriteMutex.unlock();
 
 	return ;
 }
@@ -153,12 +153,11 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	strncat(szLog, "\n", 10);
 
-	m_CritSec.Lock();
+	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
 	m_LogCount++;
 	printf(szLog);
-	m_CritSec.Unlock();
-
+	m_WriteMutex.unlock();
 
 	return ;
 }
