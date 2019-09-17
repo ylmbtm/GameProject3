@@ -65,7 +65,7 @@ public:
 	UINT32			m_dwWatchIndex;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
+
 	//*********************消息处理定义结束******************************
 };
 

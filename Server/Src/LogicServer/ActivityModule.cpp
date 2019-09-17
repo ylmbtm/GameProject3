@@ -8,7 +8,7 @@
 
 CActivityModule::CActivityModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CActivityModule::~CActivityModule()
@@ -85,9 +85,8 @@ BOOL CActivityModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CActivityModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CActivityModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CActivityModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

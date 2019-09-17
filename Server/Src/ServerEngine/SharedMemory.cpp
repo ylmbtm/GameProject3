@@ -13,7 +13,7 @@ void ShareObject::Lock()
 	m_Status = SMS_LOCK;
 }
 
-BOOL ShareObject::islock() const
+BOOL ShareObject::IsLock() const
 {
 	return m_Status == SMS_LOCK;
 }
@@ -24,7 +24,7 @@ void ShareObject::Unlock()
 	m_Status = SMS_USE;
 }
 
-void ShareObject::useit()
+void ShareObject::UseIt()
 {
 	m_Status = SMS_USE;
 }
@@ -39,12 +39,12 @@ void ShareObject::Destroy()
 	m_Status = SMS_DELETE;
 }
 
-BOOL ShareObject::isDestroy() const
+BOOL ShareObject::IsDestroy() const
 {
 	return (m_Status == SMS_DELETE);
 }
 
-BOOL ShareObject::isRelease() const
+BOOL ShareObject::IsRelease() const
 {
 	return (m_Status == SMS_RELEASE);
 }
@@ -64,12 +64,12 @@ UINT32 ShareObject::GetCheckCode()
 	return m_CheckCode;
 }
 
-BOOL ShareObject::isUse() const
+BOOL ShareObject::IsUse() const
 {
 	return m_Status != SMS_NONE;
 }
 
-void ShareObject::reset()
+void ShareObject::Reset()
 {
 	m_Status = SMS_NONE;
 	m_UpdateTime = time(NULL);
@@ -234,7 +234,7 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize,
 	else
 	{
 		if (!noCreate)
-		{ 
+		{
 			shareMemoryPage firstpage;
 
 			firstpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, 0, size);
@@ -331,9 +331,9 @@ void SharedMemoryBase::ProcessCleanDirtyData()
 	{
 		_SMBlock* pBlock = it->second;
 		ShareObject* pobject = static_cast<ShareObject*>(it->first);
-		if (!pobject->isUse())
+		if (!pobject->IsUse())
 		{
-			pobject->reset();
+			pobject->Reset();
 			_SMBlock* pblock = it->second;
 			pblock->m_bUse = FALSE;
 			m_mapFreeSMBlock.insert(std::make_pair(pblock->m_dwIndex, pblock));
@@ -376,14 +376,14 @@ ShareObject* SharedMemoryBase::NewObject(BOOL isNewBlock/*=false*/)
 			continue;
 		}
 		///判断是否是删除状态
-		if (!pobject->isDestroy())
+		if (!pobject->IsDestroy())
 		{
 			m_mapUsedSMBlock.insert(std::make_pair(pobject, pBlock));
 			m_mapFreeSMBlock.erase(it);
 			pBlock->m_bUse = TRUE;
 			pBlock->m_bNewBlock = isNewBlock;
 
-			pobject->useit();
+			pobject->UseIt();
 
 			return pobject;
 		}
@@ -407,7 +407,7 @@ BOOL SharedMemoryBase::DestoryObject(ShareObject* pobject)
 	{
 		return FALSE;
 	}
-	pobject->reset();
+	pobject->Reset();
 	mapUsedSMBlock::iterator it = m_mapUsedSMBlock.find(pobject);
 	if (it == m_mapUsedSMBlock.end())
 	{

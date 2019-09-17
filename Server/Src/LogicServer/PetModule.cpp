@@ -10,7 +10,7 @@
 
 CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CPetModule::~CPetModule()
@@ -101,17 +101,13 @@ BOOL CPetModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 	return TRUE;
 }
 
-BOOL CPetModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CPetModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SETUP_PET_REQ, OnMsgSetupPetReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNSET_PET_REQ, OnMsgUnsetPetReq);
-	}
-	return FALSE;
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_PET_REQ, &CPetModule::OnMsgSetupPetReq, this);
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_PET_REQ, &CPetModule::OnMsgUnsetPetReq, this);
 }
 
-BOOL CPetModule::ToTransferData(TransferDataItem *pTransItem)
+BOOL CPetModule::ToTransferData(TransferDataItem* pTransItem)
 {
 	PetDataObject* pObject = GetCurrentPetData();
 	if(pObject == NULL)

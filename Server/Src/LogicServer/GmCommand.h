@@ -8,14 +8,11 @@ class CGmCommand
 	~CGmCommand();
 public:
 	static CGmCommand* GetInstancePtr();
+
+	VOID        RegisterMessageHanler();
+
 public:
-	BOOL DispatchPacket(NetPacket* pNetPacket);
 	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
-public:
-
-
-
-
 
 };
 #endif

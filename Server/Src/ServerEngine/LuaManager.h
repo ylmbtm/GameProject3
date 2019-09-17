@@ -31,7 +31,7 @@ public:
 
 	BOOL	GetStackParams(char* pStrParamSig, ...);
 
-	BOOL    RegisterFunction(const char* libname, const luaL_Reg* l);
+	BOOL    RegisterFunction(const char* pszLibName, const luaL_Reg* l);
 
 	BOOL	RegisterFunction(const char* name, lua_CFunction fn);
 

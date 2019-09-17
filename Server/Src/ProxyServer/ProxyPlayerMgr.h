@@ -46,8 +46,6 @@ public:
 	CProxyPlayer*	CreateProxyPlayer(UINT64 u64RoleID);
 
 	BOOL			RemoveByCharID(UINT64 u64RoleID);
-
-	BOOL			GetPlayerOnline(UINT64 u64RoleID);
 };
 
 #endif /*__PROXY_PLAYER_MGR_H__*/

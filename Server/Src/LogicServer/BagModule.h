@@ -29,7 +29,7 @@ public:
 
 	BOOL	ReadFromShareMemory(BagDataObject* pObject);
 
-	BOOL	DispatchPacket(NetPacket* pNetPacket);
+	VOID	RegisterMessageHanler();
 public:
 	BOOL	AddItem(UINT32 dwItemID, INT64 nCount);
 	BOOL	RemoveItem(UINT32 dwItemID, INT64 nCount);

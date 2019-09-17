@@ -14,6 +14,7 @@ CPartnerModule::CPartnerModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 	{
 		m_vtSetupPartner[i] = NULL;
 	}
+	RegisterMessageHanler();
 }
 
 CPartnerModule::~CPartnerModule()
@@ -119,18 +120,13 @@ BOOL CPartnerModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[P
 	return TRUE;
 }
 
-BOOL CPartnerModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CPartnerModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SETUP_PARTNER_REQ, OnMsgSetupPartnerReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNSET_PARTNER_REQ, OnMsgUnsetPartnerReq);
-	}
-
-	return FALSE;
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_PARTNER_REQ, &CPartnerModule::OnMsgSetupPartnerReq, this);
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_PARTNER_REQ, &CPartnerModule::OnMsgUnsetPartnerReq, this);
 }
 
-BOOL CPartnerModule::ToTransferData(TransferDataItem *pTransItem)
+BOOL CPartnerModule::ToTransferData(TransferDataItem* pTransItem)
 {
 	for (int i = 0; i < PARTNER_MAX_NUM; i++)
 	{

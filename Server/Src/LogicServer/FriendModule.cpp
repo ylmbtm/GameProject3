@@ -5,7 +5,7 @@
 
 CFriendModule::CFriendModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CFriendModule::~CFriendModule()
@@ -47,9 +47,8 @@ BOOL CFriendModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CFriendModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CFriendModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CFriendModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
@@ -80,4 +79,9 @@ FriendDataObject* CFriendModule::GetFriendData(UINT64 uRoleID)
 	}
 
 	return itor->second;
+}
+
+BOOL CFriendModule::NotifyChange()
+{
+	return TRUE;
 }

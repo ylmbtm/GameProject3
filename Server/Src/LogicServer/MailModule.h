@@ -29,12 +29,13 @@ public:
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
+	VOID RegisterMessageHanler();
 public:
 	BOOL AddMail(MailDataObject* pMail);
 
 	BOOL DeleteMail(UINT64 uGuid);
 
-	BOOL SendMail(std::string strSender, std::string strTitle, std::string strContent);
+	BOOL AddMail(std::string strSender, std::string strTitle, std::string strContent);
 
 	MailDataObject* GetMailByGuid(UINT64 uGuid);
 

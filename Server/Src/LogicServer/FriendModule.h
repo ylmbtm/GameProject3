@@ -21,7 +21,7 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL DispatchPacket(NetPacket* pNetPack);
+	VOID RegisterMessageHanler();
 
 	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
@@ -29,6 +29,7 @@ public:
 
 	FriendDataObject* GetFriendData(UINT64 uRoleID);
 
+	BOOL NotifyChange();
 public:
 	//*********************消息处理定义开始******************************
 

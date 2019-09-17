@@ -17,7 +17,7 @@
 
 CBagModule::CBagModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CBagModule::~CBagModule()
@@ -122,9 +122,8 @@ BOOL CBagModule::ReadFromShareMemory(BagDataObject* pObject)
 	return TRUE;
 }
 
-BOOL CBagModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CBagModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)

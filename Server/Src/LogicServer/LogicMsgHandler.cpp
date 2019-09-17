@@ -14,6 +14,7 @@
 #include "BagModule.h"
 #include "../ServerData/RoleData.h"
 #include "PartnerModule.h"
+#include "MsgHandlerManager.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -27,7 +28,7 @@ CLogicMsgHandler::~CLogicMsgHandler()
 
 BOOL CLogicMsgHandler::Init(UINT32 dwReserved)
 {
-
+	RegisterMessageHanler();
 
 	return TRUE;
 }
@@ -49,42 +50,27 @@ BOOL CLogicMsgHandler::OnSecondTimer()
 	return TRUE;
 }
 
-BOOL CLogicMsgHandler::DispatchPacket(NetPacket* pNetPacket)
+VOID CLogicMsgHandler::RegisterMessageHanler()
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_REQ,		OnMsgSelectServerReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_ACK,			OnMsgRoleListAck);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_CREATE_REQ,		OnMsgRoleCreateReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_DELETE_REQ,		OnMsgRoleDeleteReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,		OnMsgRoleLoginAck);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,		OnMsgRoleLogoutReq);
-			PROCESS_MESSAGE_ITEM(MSG_DISCONNECT_NTY,		OnMsgRoleDisconnect);
-			PROCESS_MESSAGE_ITEM(MSG_ABORT_SCENE_NTF,		OnMsgAbortSceneNtf);
-			PROCESS_MESSAGE_ITEM(MSG_MAIN_COPY_REQ,			OnMsgMainCopyReq);
-			PROCESS_MESSAGE_ITEM(MSG_BACK_TO_CITY_REQ,		OnMsgBackToCityReq);
-			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_ACK,	OnMsgRegToLoginAck);
-			PROCESS_MESSAGE_ITEM(MSG_CHAT_MESSAGE_REQ,		OnMsgChatMessageReq);
-			PROCESS_MESSAGE_ITEM(MSG_ROLE_RECONNECT_REQ,	OnMsgReconnectReq);
-			PROCESS_MESSAGE_ITEM(MSG_TEST_ADD_ITEM,			OnMsgTestAddItemReq);
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgWebCommandReq);
-	}
-
-
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
-	ERROR_RETURN_FALSE(pPlayer != NULL);
-	if (pPlayer->DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
-
-	return FALSE;
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SELECT_SERVER_REQ, &CLogicMsgHandler::OnMsgSelectServerReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_REQ, &CLogicMsgHandler::OnMsgRoleListReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_ACK, &CLogicMsgHandler::OnMsgRoleListAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_CREATE_REQ, &CLogicMsgHandler::OnMsgRoleCreateReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_DELETE_REQ, &CLogicMsgHandler::OnMsgRoleDeleteReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_REQ, &CLogicMsgHandler::OnMsgRoleLoginReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_ACK, &CLogicMsgHandler::OnMsgRoleLoginAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGOUT_REQ, &CLogicMsgHandler::OnMsgRoleLogoutReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DISCONNECT_NTY, &CLogicMsgHandler::OnMsgRoleDisconnect, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ABORT_SCENE_NTF, &CLogicMsgHandler::OnMsgAbortSceneNtf, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_MAIN_COPY_REQ, &CLogicMsgHandler::OnMsgMainCopyReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BACK_TO_CITY_REQ, &CLogicMsgHandler::OnMsgBackToCityReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CLogicMsgHandler::OnMsgRegToLoginAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_TEST_ADD_ITEM, &CLogicMsgHandler::OnMsgTestAddItemReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_PHP_GM_COMMAND_REQ, &CLogicMsgHandler::OnMsgWebCommandReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_WATCH_HEART_BEAT_ACK, &CLogicMsgHandler::OnMsgWatchHeartBeatAck, this);
 }
-
-
 
 BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 {
@@ -527,6 +513,14 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetObjectID(), pPlayer->GetCityCopyID());
 
 
+
+	return TRUE;
+}
+
+BOOL CLogicMsgHandler::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
+{
+	WatchHeartBeatAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
 	return TRUE;
 }

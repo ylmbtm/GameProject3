@@ -14,7 +14,7 @@
     <ProjectGuid>{1EB19A2A-049A-45AD-A592-E94703018D85}</ProjectGuid>
     <RootNamespace>WorldServer</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -144,7 +144,7 @@
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GemModule.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
-    <ClCompile Include="GroupMailMgr.cpp" />
+    <ClCompile Include="MailManager.cpp" />
     <ClCompile Include="Guild.cpp" />
     <ClCompile Include="GuildManager.cpp" />
     <ClCompile Include="LogManager.cpp" />
@@ -168,6 +168,7 @@
     <ClCompile Include="StoreModule.cpp" />
     <ClCompile Include="TaskModule.cpp" />
     <ClCompile Include="LogicMsgHandler.cpp" />
+    <ClCompile Include="TeamCopyMgr.cpp" />
     <ClCompile Include="WebCommandHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -214,7 +215,7 @@
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GemModule.h" />
     <ClInclude Include="GlobalDataMgr.h" />
-    <ClInclude Include="GroupMailMgr.h" />
+    <ClInclude Include="MailManager.h" />
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />
     <ClInclude Include="LogManager.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />
     <ClInclude Include="MountModule.h" />
+    <ClInclude Include="MsgHandlerManager.h" />
     <ClInclude Include="PartnerModule.h" />
     <ClInclude Include="PayManager.h" />
     <ClInclude Include="PetModule.h" />
@@ -235,6 +237,7 @@
     <ClInclude Include="StoreModule.h" />
     <ClInclude Include="TaskModule.h" />
     <ClInclude Include="LogicMsgHandler.h" />
+    <ClInclude Include="TeamCopyMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

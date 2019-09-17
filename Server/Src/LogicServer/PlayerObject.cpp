@@ -16,6 +16,8 @@
 #include "StoreModule.h"
 #include "GemModule.h"
 #include "SkillModule.h"
+#include "MailModule.h"
+#include "FriendModule.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ServerData/RoleData.h"
 #include "../StaticData/StaticData.h"
@@ -23,6 +25,9 @@
 #include "../GameServer/GameService.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "MailManager.h"
+
+
 
 CPlayerObject::CPlayerObject()
 {
@@ -59,6 +64,8 @@ BOOL CPlayerObject::Uninit()
 	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_IsOnline			= FALSE;
+
+	m_NetMessagePump.ClearAll();
 	return TRUE;
 }
 
@@ -145,22 +152,6 @@ BOOL CPlayerObject::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	return TRUE;
 }
 
-BOOL CPlayerObject::DispatchPacket(NetPacket* pNetPacket)
-{
-	for (int i = MT_ROLE; i < MT_END; i++)
-	{
-		CModuleBase* pBase = m_MoudleList.at(i);
-		ERROR_RETURN_FALSE(pBase != NULL);
-
-		if (pBase->DispatchPacket(pNetPacket))
-		{
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
 BOOL CPlayerObject::CreateAllModule()
 {
 	m_MoudleList.assign(MT_END, NULL);
@@ -177,7 +168,8 @@ BOOL CPlayerObject::CreateAllModule()
 	m_MoudleList[MT_COUNTER]		= new CCounterModule(this);
 	m_MoudleList[MT_STORE]			= new CStoreModule(this);
 	m_MoudleList[MT_SKILL]			= new CSkillModule(this);
-
+	m_MoudleList[MT_MAIL]           = new CMailModule(this);
+	m_MoudleList[MT_FRIEND]         = new CFriendModule(this);
 	return TRUE;
 }
 
@@ -234,8 +226,13 @@ BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Messa
 BOOL CPlayerObject::OnAllModuleOK()
 {
 	ERROR_RETURN_FALSE(m_u64ID != 0);
+
+	CMailManager::GetInstancePtr()->ProcessRoleLogin(this);
+
 	CalcFightDataInfo();
+
 	SendRoleLoginAck();
+
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
 	return TRUE;
 }

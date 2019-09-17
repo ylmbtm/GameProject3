@@ -33,25 +33,24 @@ public:
 	//标记为删除
 	void Destroy();
 
-	///判断是否被占有用
-	BOOL islock()const;
+	void UseIt();
 
-	inline void useit();
+	void Reset();
 
-	inline BOOL isDestroy() const;
+	BOOL IsLock()const;
 
-	BOOL isRelease() const;
+	BOOL IsDestroy() const;
+
+	BOOL IsRelease() const;
+
+	BOOL IsUse() const;
 
 	time_t getLastMotifyTime();
 
-	inline SharedMemoryStatus GetStatus();
+	SharedMemoryStatus GetStatus();
 
 	UINT32 GetCheckCode();
 
-	///是否在使用
-	inline BOOL isUse() const;
-
-	inline void reset();
 private:
 	UINT32					   m_CheckCode;
 	SharedMemoryStatus         m_Status;
@@ -283,17 +282,17 @@ public:
 			{
 				continue;
 			}
-			if (!pdata->isUse())
+			if (!pdata->IsUse())
 			{
 				continue;
 			}
 
-			if (pdata->islock())
+			if (pdata->IsLock())
 			{
 				continue;
 			}
 
-			if (pdata->isDestroy())
+			if (pdata->IsDestroy())
 			{
 				pdata->Delete(pdb);
 				m_MemoryPool->DestoryObject(pdata);
@@ -318,20 +317,20 @@ public:
 			lastMotifyTime = pdata->getLastMotifyTime();
 			beforeTime = pBlock->m_beforeTime;
 			afterTime = pBlock->m_afterTime;
-			BOOL needsave = false;
+			BOOL bNeedSave = false;
 			if (afterTime >= beforeTime)
 			{
 				if (lastMotifyTime > beforeTime)
 				{
-					needsave = true;
+					bNeedSave = true;
 				}
 			}
 			else
 			{
-				needsave = true;
+				bNeedSave = true;
 			}
 
-			if (needsave)
+			if (bNeedSave)
 			{
 				pBlock->m_beforeTime = time(NULL);
 				pdata->Update(pdb);
@@ -342,7 +341,7 @@ public:
 			}
 
 
-			if (pdata->isRelease())
+			if (pdata->IsRelease())
 			{
 				///释放的时候执行一次保存...如果上次没有保存成功或者，释放前修改了就再保存一次
 				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime))

@@ -12,7 +12,7 @@
 
 CStoreModule::CStoreModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CStoreModule::~CStoreModule()
@@ -47,13 +47,9 @@ BOOL CStoreModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CStoreModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CStoreModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_STORE_BUY_REQ, OnMsgStoreBuyReq);
-	}
-	return FALSE;
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_STORE_BUY_REQ, &CStoreModule::OnMsgStoreBuyReq, this);
 }
 
 BOOL CStoreModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

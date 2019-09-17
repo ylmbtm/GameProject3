@@ -451,7 +451,7 @@ BOOL CLuaHelper::GetStackParams( char* pStrParamSig, ... )
 	return bRet;
 }
 
-BOOL CLuaHelper::RegisterFunction( const char* libname, const luaL_Reg* l )
+BOOL CLuaHelper::RegisterFunction( const char* pszLibName, const luaL_Reg* l )
 {
 	//luaL_register(m_pLuaState, libname, l);
 

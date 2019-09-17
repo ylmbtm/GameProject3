@@ -28,7 +28,7 @@ public:
 
 	BOOL	CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL	DispatchPacket(NetPacket* pNetPacket);
+	VOID	RegisterMessageHanler();
 
 	UINT64	AddMount(UINT32 dwMountID);
 

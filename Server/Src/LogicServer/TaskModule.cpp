@@ -8,7 +8,7 @@
 #include "../Message/Game_Define.pb.h"
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CTaskModule::~CTaskModule()
@@ -87,9 +87,8 @@ BOOL CTaskModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
-BOOL CTaskModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CTaskModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2)

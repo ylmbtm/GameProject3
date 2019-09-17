@@ -8,7 +8,7 @@
 
 CMailModule::CMailModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CMailModule::~CMailModule()
@@ -77,6 +77,10 @@ BOOL CMailModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
+VOID CMailModule::RegisterMessageHanler()
+{
+}
+
 BOOL CMailModule::AddMail(MailDataObject* pMail)
 {
 	m_mapMailData.insert(std::make_pair(pMail->m_uGuid, pMail));
@@ -105,7 +109,7 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 	return TRUE;
 }
 
-BOOL CMailModule::SendMail(std::string strSender, std::string strTitle, std::string strContent)
+BOOL CMailModule::AddMail(std::string strSender, std::string strTitle, std::string strContent)
 {
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();

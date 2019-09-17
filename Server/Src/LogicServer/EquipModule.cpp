@@ -15,6 +15,7 @@ CEquipModule::CEquipModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 	{
 		m_vtDressEquip[i] = NULL;
 	}
+	RegisterMessageHanler();
 }
 
 CEquipModule::~CEquipModule()
@@ -296,15 +297,10 @@ BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 	return TRUE;
 }
 
-BOOL CEquipModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CEquipModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SETUP_EQUIP_REQ, OnMsgSetupEquipReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNSET_EQUIP_REQ, OnMsgUnsetEquipReq);
-	}
-
-	return FALSE;
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_EQUIP_REQ, &CEquipModule::OnMsgSetupEquipReq, this);
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_EQUIP_REQ, &CEquipModule::OnMsgUnsetEquipReq, this);
 }
 
 

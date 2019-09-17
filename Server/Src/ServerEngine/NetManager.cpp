@@ -124,8 +124,32 @@ BOOL CNetManager::StartListen(UINT16 nPortNum)
 }
 
 
+BOOL CNetManager::CreateCompletePort()
+{
 #ifdef WIN32
+	m_hCompletePort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, -1);
+	ERROR_RETURN_FALSE(m_hCompletePort != NULL);
+#else
+	m_hCompletePort = epoll_create(10000);
+	ERROR_RETURN_FALSE(m_hCompletePort != -1);
+#endif
 
+	return TRUE;
+}
+
+BOOL CNetManager::DestroyCompletePort()
+{
+#ifdef WIN32
+	CloseHandle(m_hCompletePort);
+#else
+	close(m_hCompletePort);
+#endif
+
+	return TRUE;
+}
+
+
+#ifdef WIN32
 BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 {
 	ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
@@ -284,15 +308,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 	return TRUE;
 }
 
-
-BOOL CNetManager::CreateCompletePort()
-{
-	m_hCompletePort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, -1);
-	ERROR_RETURN_FALSE(m_hCompletePort != NULL);
-
-	return TRUE;
-}
-
 CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
@@ -308,29 +323,12 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	return pConnection;
 }
 
-BOOL CNetManager::DestroyCompletePort()
-{
-	CloseHandle(m_hCompletePort);
-
-	return TRUE;
-}
-
-
 BOOL CNetManager::EventDelete(CConnection* pConnection)
 {
 	return TRUE;
 }
 
 #else
-
-BOOL CNetManager::CreateCompletePort()
-{
-	m_hCompletePort = epoll_create(10000);
-
-	ERROR_RETURN_FALSE(m_hCompletePort != -1);
-
-	return TRUE;
-}
 
 CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 {
@@ -368,13 +366,6 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	return pConnection;
 }
 
-BOOL CNetManager::DestroyCompletePort()
-{
-	close(m_hCompletePort);
-
-	return TRUE;
-}
-
 BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 {
 	struct epoll_event EpollEvent[20];
@@ -392,7 +383,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 			CConnection* pConnection = (CConnection*)EpollEvent[i].data.ptr;
 			if (pConnection == NULL)
 			{
-				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!", nFd);
+				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!");
 				continue;
 			}
 

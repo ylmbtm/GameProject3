@@ -6,6 +6,7 @@
 #include "../Message/Msg_Game.pb.h"
 #include "../ServerData/ServerDefine.h"
 #include "../ServerData/ServerStruct.h"
+#include "MsgHandlerManager.h"
 
 class CPlayerObject
 {
@@ -30,8 +31,6 @@ public:
 	BOOL		OnNewDay();
 
 	BOOL		ReadFromDBLoginData(DBRoleLoginAck& Ack);
-
-	BOOL		DispatchPacket(NetPacket* pNetPack);
 
 	BOOL		SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
@@ -89,6 +88,10 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//背包方法
 	//////////////////////////////////////////////////////////////////////////
+public:
+	//网络消息泵
+	CHandlerManager m_NetMessagePump;
+
 public:
 	UINT64			m_u64ID;
 	UINT32			m_dwProxyConnID;

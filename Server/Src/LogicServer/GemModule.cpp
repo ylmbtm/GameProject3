@@ -16,6 +16,7 @@ CGemModule::CGemModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 	{
 		m_vtDressGem[i] = NULL;
 	}
+	RegisterMessageHanler();
 }
 
 CGemModule::~CGemModule()
@@ -326,13 +327,8 @@ BOOL CGemModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 	return TRUE;
 }
 
-BOOL CGemModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CGemModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SETUP_GEM_REQ,		OnMsgSetupGemReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNSET_GEM_REQ,		OnMsgUnsetGemReq);
-	}
-
-	return FALSE;
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_GEM_REQ, &CGemModule::OnMsgSetupGemReq, this);
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_GEM_REQ, &CGemModule::OnMsgUnsetGemReq, this);
 }

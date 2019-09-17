@@ -12,9 +12,11 @@
 #include "CopyModule.h"
 #include "BagModule.h"
 #include "RoleModule.h"
+#include "MsgHandlerManager.h"
 
 CGameSvrMgr::CGameSvrMgr(void)
 {
+	RegisterMessageHanler();
 }
 
 CGameSvrMgr::~CGameSvrMgr(void)
@@ -28,6 +30,16 @@ CGameSvrMgr* CGameSvrMgr::GetInstancePtr()
 	return &_PlayerManager;
 }
 
+
+BOOL CGameSvrMgr::Init()
+{
+	return TRUE;
+}
+
+BOOL CGameSvrMgr::Uninit()
+{
+	return TRUE;
+}
 
 BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType)
 {
@@ -51,21 +63,6 @@ BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum,  UI
 	ERROR_RETURN_TRUE(CGameSvrMgr::GetInstancePtr()->CreateScene(dwCopyID, uID[0], nNum, dwCopyType));
 
 	return TRUE;
-}
-
-BOOL CGameSvrMgr::DispatchPacket(NetPacket* pNetPacket)
-{
-	switch(pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_GAME_REGTO_LOGIC_REQ,		OnMsgGameSvrRegister);
-			PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_ACK,			OnMsgCreateSceneAck);
-			PROCESS_MESSAGE_ITEM(MSG_TRANSFER_DATA_ACK,	        OnMsgTransRoleDataAck);
-			PROCESS_MESSAGE_ITEM(MSG_ENTER_SCENE_REQ,		    OnMsgEnterSceneReq);
-			PROCESS_MESSAGE_ITEM(MSG_COPYINFO_REPORT_REQ,		OnMsgCopyReportReq);
-			PROCESS_MESSAGE_ITEM(MSG_BATTLE_RESULT_NTY,		    OnMsgBattleResultNty);
-	}
-
-	return FALSE;
 }
 
 UINT32 CGameSvrMgr::GetServerIDByCopyGuid(UINT32 dwCopyGuid)
@@ -106,6 +103,16 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 uCreateParam, UINT32 dwPla
 BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopyType)
 {
 	return CreateScene(dwCopyID, CreateParam, 0, dwCopyType);
+}
+
+VOID CGameSvrMgr::RegisterMessageHanler()
+{
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_GAME_REGTO_LOGIC_REQ, &CGameSvrMgr::OnMsgGameSvrRegister, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CREATE_SCENE_ACK, &CGameSvrMgr::OnMsgCreateSceneAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_TRANSFER_DATA_ACK, &CGameSvrMgr::OnMsgTransRoleDataAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ENTER_SCENE_REQ, &CGameSvrMgr::OnMsgEnterSceneReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_COPYINFO_REPORT_REQ, &CGameSvrMgr::OnMsgCopyReportReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BATTLE_RESULT_NTY, &CGameSvrMgr::OnMsgBattleResultNty, this);
 }
 
 BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum )

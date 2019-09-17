@@ -12,11 +12,6 @@ CModuleBase::~CModuleBase()
 
 }
 
-BOOL CModuleBase::DispatchPacket(NetPacket* pNetPacket)
-{
-	return FALSE;
-}
-
 BOOL CModuleBase::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
 	return TRUE;

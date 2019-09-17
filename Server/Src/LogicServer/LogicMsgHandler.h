@@ -12,8 +12,6 @@ public:
 
 	~CLogicMsgHandler();
 
-	BOOL DispatchPacket(NetPacket* pNetPacket);
-
 	BOOL Init(UINT32 dwReserved);
 
 	BOOL Uninit();
@@ -22,6 +20,7 @@ public:
 
 	BOOL OnSecondTimer();
 
+	VOID RegisterMessageHanler();
 public:
 	BOOL ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& vtParam);
 
@@ -45,6 +44,7 @@ public:
 	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
 	BOOL OnMsgTestAddItemReq(NetPacket* pNetPacket);
 	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
+	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

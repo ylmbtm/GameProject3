@@ -68,17 +68,21 @@ public:
 	static CGameSvrMgr* GetInstancePtr();
 
 public:
+	BOOL		Init();
+
+	BOOL		Uninit();
+
 	BOOL        TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType);
 
 	BOOL        TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum, UINT32 dwCopyID, UINT32 dwCopyType);
-
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
 	UINT32		GetConnIDBySvrID(UINT32 dwServerID);
 
 	BOOL		SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID);
 
 	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopyType);
+
+	VOID        RegisterMessageHanler();
 private:
 	UINT32		GetServerIDByCopyGuid(UINT32 dwCopyGuid);
 

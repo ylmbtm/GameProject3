@@ -29,7 +29,7 @@ public:
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL DispatchPacket(NetPacket* pNetPacket);
+	VOID RegisterMessageHanler();
 public:
 	BOOL OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2);
 

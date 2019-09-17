@@ -9,7 +9,7 @@
 
 CMountModule::CMountModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CMountModule::~CMountModule()
@@ -100,15 +100,11 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 	return TRUE;
 }
 
-BOOL CMountModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CMountModule::RegisterMessageHanler()
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_SETUP_MOUNT_REQ, OnMsgSetupMountReq);
-			PROCESS_MESSAGE_ITEM(MSG_UNSET_MOUNT_REQ, OnMsgUnsetMountReq);
-	}
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_MOUNT_REQ, &CMountModule::OnMsgSetupMountReq, this);
+	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_MOUNT_REQ, &CMountModule::OnMsgUnsetMountReq, this);
 
-	return FALSE;
 }
 
 UINT64 CMountModule::AddMount(UINT32 dwMountID)

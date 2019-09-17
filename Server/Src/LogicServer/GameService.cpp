@@ -11,13 +11,16 @@
 #include "TimerManager.h"
 #include "SimpleManager.h"
 #include "GlobalDataMgr.h"
-#include "GroupMailMgr.h"
+#include "MailManager.h"
 #include "PayManager.h"
 #include "GuildManager.h"
-//#include "LuaManager.h"
 #include "ActivityManager.h"
 #include "GmCommand.h"
 #include "RankMananger.h"
+#include "MsgHandlerManager.h"
+#include "PacketHeader.h"
+
+//#include "LuaManager.h"
 //#include "Lua_Script.h"
 
 CGameService::CGameService(void)
@@ -119,24 +122,41 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CGlobalDataManager::GetInstancePtr()->LoadGlobalData(tDBConnection);
+	BOOL bRet = FALSE;
 
-	CSimpleManager::GetInstancePtr()->LoadSimpleData(tDBConnection);
+	bRet = CGlobalDataManager::GetInstancePtr()->LoadGlobalData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet);
 
-	CGroupMailMgr::GetInstancePtr()->LoadGroupMailData(tDBConnection);
+	bRet = CSimpleManager::GetInstancePtr()->LoadSimpleData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
 
-	CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
+	bRet = CMailManager::GetInstancePtr()->LoadGroupMailData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
 
-	CActivityManager::GetInstancePtr()->LoadActivityData(tDBConnection);
+	bRet = CMailManager::GetInstancePtr()->LoadOffMailData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
 
-	CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
+	bRet = CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
+
+	bRet = CActivityManager::GetInstancePtr()->LoadActivityData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
+
+	bRet = CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
 	///////////////////////////////////////////////
+
+	bRet = CGameSvrMgr::GetInstancePtr()->Init();
+	ERROR_RETURN_FALSE(bRet)
 
 	if (!CPayManager::GetInstancePtr()->InitPayManager())
 	{
 		CLog::GetInstancePtr()->LogError("初始化支付管理器失败!");
 		return FALSE;
 	}
+
+	bRet = CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet)
 
 	m_LogicMsgHandler.Init(0);
 
@@ -333,27 +353,26 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK, OnMsgWatchHeartBeatAck)
-	}
-
-	if(CGameSvrMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
+	if (CMsgHandlerManager::GetInstancePtr()->FireMessage(pNetPacket->m_dwMsgID, pNetPacket))
 	{
 		return TRUE;
 	}
 
-	if (CGmCommand::GetInstancePtr()->DispatchPacket(pNetPacket))
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
+	if (pPlayer == NULL)
+	{
+		CLog::GetInstancePtr()->LogError("CGameService::DispatchPacket Error Invalid u64TargetID:%d, MessageID:%d", pHeader->u64TargetID, pNetPacket->m_dwMsgID);
+		return TRUE;
+	}
+
+	if (pPlayer->m_NetMessagePump.FireMessage(pNetPacket->m_dwMsgID, pNetPacket))
 	{
 		return TRUE;
 	}
 
-	if(m_LogicMsgHandler.DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
-
-	return FALSE;
+	return TRUE;
 }
 
 
@@ -416,13 +435,7 @@ BOOL CGameService::SendWatchHeartBeat()
 	return TRUE;
 }
 
-BOOL CGameService::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
-{
-	WatchHeartBeatAck Ack;
-	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
-	return TRUE;
-}
 
 BOOL CGameService::ConnectToWatchServer()
 {

@@ -60,6 +60,8 @@ enum EMouduleType
 	MT_COUNTER,
 	MT_STORE,
 	MT_SKILL,
+	MT_MAIL,    //邮件
+	MT_FRIEND,
 	MT_END
 };
 
@@ -79,6 +81,7 @@ enum EShareData
 	ESD_TASK,
 	ESD_MOUNT,
 	ESD_MAIL,
+	ESD_OFFMAIL,   //离线邮件
 	ESD_GROUP_MAIL,
 	ESD_ACTIVITY,
 	ESD_COUNTER,

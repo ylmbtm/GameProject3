@@ -29,9 +29,9 @@ public:
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL DispatchPacket(NetPacket* pNetPacket);
+	VOID RegisterMessageHanler();
 
-	BOOL ToTransferData(TransferDataItem *pTransItem);
+	BOOL ToTransferData(TransferDataItem* pTransItem);
 
 public:
 	UINT64 AddPartner(UINT32 dwPartnerID);

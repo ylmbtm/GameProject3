@@ -31,7 +31,7 @@
     <Filter Include="Guild">
       <UniqueIdentifier>{df9ab23f-74c9-46ce-ad48-ee55463d68f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GroupMail">
+    <Filter Include="Mail">
       <UniqueIdentifier>{72c7eabe-884d-4263-b7c1-d37a4d12b450}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -156,9 +156,6 @@
     <ClCompile Include="TaskModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="GroupMailMgr.cpp">
-      <Filter>GroupMail</Filter>
-    </ClCompile>
     <ClCompile Include="Guild.cpp">
       <Filter>Guild</Filter>
     </ClCompile>
@@ -170,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="TeamCopyMgr.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MailManager.cpp">
+      <Filter>Mail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -353,9 +353,6 @@
     <ClInclude Include="TaskModule.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="GroupMailMgr.h">
-      <Filter>GroupMail</Filter>
-    </ClInclude>
     <ClInclude Include="Guild.h">
       <Filter>Guild</Filter>
     </ClInclude>
@@ -366,6 +363,12 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="TeamCopyMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MailManager.h">
+      <Filter>Mail</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgHandlerManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

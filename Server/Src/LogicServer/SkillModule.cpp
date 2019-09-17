@@ -8,7 +8,7 @@
 
 CSkillModule::CSkillModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CSkillModule::~CSkillModule()
@@ -20,8 +20,8 @@ BOOL CSkillModule::OnCreate(UINT64 u64RoleID)
 {
 	UINT32 dwActorID = m_pOwnPlayer->GetActorID();
 	ERROR_RETURN_FALSE(dwActorID != 0);
-	
-	StActorSkillInfo *pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(dwActorID);
+
+	StActorSkillInfo* pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(dwActorID);
 	ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
 
 	SkillDataObject* pObject = DataPool::CreateObject<SkillDataObject>(ESD_SKILL, TRUE);
@@ -42,7 +42,7 @@ BOOL CSkillModule::OnCreate(UINT64 u64RoleID)
 
 		pObject = DataPool::CreateObject<SkillDataObject>(ESD_SKILL, TRUE);
 		pObject->Lock();
-		pObject->m_nKeyPos = i+2;
+		pObject->m_nKeyPos = i + 2;
 		pObject->m_nLevel = 1;
 		pObject->m_uRoleID = u64RoleID;
 		pObject->m_dwSkillID = pActorSkillInfo->Specials[i];
@@ -81,10 +81,8 @@ BOOL CSkillModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CSkillModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CSkillModule::RegisterMessageHanler()
 {
-	//默认必须返回FALSE, 表示消息未处理,后面继续处理
-	return FALSE;
 }
 
 BOOL CSkillModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

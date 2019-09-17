@@ -6,7 +6,7 @@
 
 CRoleModule::CRoleModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CRoleModule::~CRoleModule()
@@ -173,9 +173,8 @@ BOOL CRoleModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 }
 
 
-BOOL CRoleModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CRoleModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)

@@ -6,7 +6,7 @@
 
 CCounterModule::CCounterModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CCounterModule::~CCounterModule()
@@ -50,9 +50,8 @@ BOOL CCounterModule::OnNewDay()
 	return TRUE;
 }
 
-BOOL CCounterModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CCounterModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CCounterModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

@@ -12,7 +12,7 @@
 
 CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-
+	RegisterMessageHanler();
 }
 
 CCopyModule::~CCopyModule()
@@ -124,9 +124,8 @@ BOOL CCopyModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
-BOOL CCopyModule::DispatchPacket(NetPacket* pNetPacket)
+VOID CCopyModule::RegisterMessageHanler()
 {
-	return FALSE;
 }
 
 BOOL CCopyModule::OnMainCopyResult(BattleResultNty* pNty, INT32 nIndex)

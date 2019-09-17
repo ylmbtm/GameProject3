@@ -32,7 +32,7 @@ public:
 
 	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL DispatchPacket(NetPacket* pNetPacket);
+	VOID RegisterMessageHanler();
 
 	BOOL OnMainCopyResult(BattleResultNty* pNty, INT32 nIndex);
 public:

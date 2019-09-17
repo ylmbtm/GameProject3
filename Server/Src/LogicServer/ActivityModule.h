@@ -20,7 +20,7 @@ public:
 
 	BOOL OnNewDay();
 
-	BOOL DispatchPacket(NetPacket* pNetPack);
+	VOID RegisterMessageHanler();
 
 	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 

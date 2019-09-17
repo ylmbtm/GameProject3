@@ -8,25 +8,16 @@
 #include "PacketHeader.h"
 #include "../GameServer/GameObject/SceneObject.h"
 #include "PlayerManager.h"
+#include "MsgHandlerManager.h"
 
 CGmCommand::CGmCommand()
 {
-
+	RegisterMessageHanler();
 }
 
 CGmCommand::~CGmCommand()
 {
 
-}
-
-BOOL CGmCommand::DispatchPacket(NetPacket* pNetPacket)
-{
-	switch (pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ, OnMsgGmCommandReq)
-	}
-
-	return FALSE;
 }
 
 BOOL CGmCommand::OnMsgGmCommandReq(NetPacket* pNetPacket)
@@ -45,5 +36,10 @@ CGmCommand* CGmCommand::GetInstancePtr()
 	static CGmCommand _StaticMgr;
 
 	return &_StaticMgr;
+}
+
+VOID CGmCommand::RegisterMessageHanler()
+{
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_PHP_GM_COMMAND_REQ, &CGmCommand::OnMsgGmCommandReq, this);
 }
 

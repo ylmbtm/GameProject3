@@ -31,7 +31,7 @@ public:
 
 	BOOL	CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	BOOL	DispatchPacket(NetPacket* pNetPacket);
+	VOID	RegisterMessageHanler();
 
 public:
 	//扣除行动力， 如果返回成功，就是扣除成功， 如果返回失败，就是行动力不足
