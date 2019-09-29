@@ -37,6 +37,7 @@ BOOL CAccountMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,	    OnMsgAccountRegReq);
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,		OnMsgAccontLoginReq);
 			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,		OnMsgSealAccountReq);
+			PROCESS_MESSAGE_ITEM(MSG_SET_LAST_SERVER_NTY,   OnMsgSetLastServerNty);
 	}
 
 	return FALSE;
@@ -162,6 +163,17 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);
+
+	return TRUE;
+}
+
+BOOL CAccountMsgHandler::OnMsgSetLastServerNty(NetPacket* pPacket)
+{
+	SetLastServerNty Nty;
+	Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	m_AccountManager.SetLastServer(Nty.accountid(), Nty.serverid());
 
 	return TRUE;
 }

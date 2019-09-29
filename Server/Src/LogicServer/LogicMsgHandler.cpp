@@ -82,6 +82,7 @@ BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_logincode(12345678);
 	Ack.set_retcode(MRC_SUCCESSED);
+	Ack.set_accountid(Req.accountid());
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
 }
 

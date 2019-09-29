@@ -31,7 +31,9 @@ public:
 
 	BOOL				ReleaseAccountObject(UINT64 m_u64AccountID);
 
-	BOOL				SealAccount(UINT64 m_uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime);
+	BOOL				SealAccount(UINT64 uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime);
+
+	BOOL				SetLastServer(UINT64 uAccountID, INT32 ServerID);
 
 	CAccountObject*		AddAccountObject(UINT64 u64ID, const CHAR* pStrName, UINT32 dwChannel);
 

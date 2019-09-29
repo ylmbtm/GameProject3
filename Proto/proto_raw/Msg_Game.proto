@@ -79,15 +79,17 @@ message SvrRegToSvrAck {
 }
 
 message SelectServerReq {
-    int32    ServerID    = 1;
+    uint64    AccountID   = 1;
+    int32     ServerID    = 2;
 }
 
 message SelectServerAck {
     uint32   RetCode     = 1;
-    int32    ServerID    = 2;
-    string   ServerAddr  = 3;
-    int32    ServerPort  = 4;
-    int32    LoginCode   = 5;
+    uint64   AccountID   = 2;
+    int32    ServerID    = 3;
+    string   ServerAddr  = 4;
+    int32    ServerPort  = 5;
+    int32    LoginCode   = 6;
 }
 
 message RoleItem {
@@ -385,6 +387,11 @@ message SealAccountAck {
     uint32    RetCode        = 1;
     string    AccountName    = 2;
     uint64    AccountID      = 3; //账号ID
+}
+
+message SetLastServerNty {
+    uint64    AccountID    = 1;
+    int32     ServerID      = 2;
 }
 
 message CommonReq {

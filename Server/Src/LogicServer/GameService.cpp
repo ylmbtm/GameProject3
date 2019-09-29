@@ -19,6 +19,7 @@
 #include "RankMananger.h"
 #include "MsgHandlerManager.h"
 #include "PacketHeader.h"
+#include "TeamCopyMgr.h"
 
 //#include "LuaManager.h"
 //#include "Lua_Script.h"
@@ -147,7 +148,9 @@ BOOL CGameService::Init()
 	///////////////////////////////////////////////
 
 	bRet = CGameSvrMgr::GetInstancePtr()->Init();
-	ERROR_RETURN_FALSE(bRet)
+	ERROR_RETURN_FALSE(bRet);
+
+	CTeamCopyMgr::GetInstancePtr()->Init();
 
 	if (!CPayManager::GetInstancePtr()->InitPayManager())
 	{

@@ -44,7 +44,7 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 		pTempObject->m_strPassword	= QueryResult.getStringField("password");
 		pTempObject->m_uCreateTime	= QueryResult.getInt64Field("create_time");
 		pTempObject->m_uSealTime = QueryResult.getInt64Field("seal_end_time");
-
+		pTempObject->m_dwLastSvrID = QueryResult.getIntField("lastsvrid");
 		if(m_u64MaxID < (UINT64)QueryResult.getInt64Field("id"))
 		{
 			m_u64MaxID = (UINT64)QueryResult.getInt64Field("id");
@@ -93,16 +93,16 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
 	return Delete(AccountID);
 }
 
-BOOL CAccountObjectMgr::SealAccount(UINT64 m_uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime)
+BOOL CAccountObjectMgr::SealAccount(UINT64 uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime)
 {
 	CAccountObject* pAccObj = NULL;
-	if (m_uAccountID == 0)
+	if (uAccountID == 0)
 	{
 		pAccObj = GetAccountObject(strName, dwChannel);
 	}
 	else
 	{
-		pAccObj = GetAccountObjectByID(m_uAccountID);
+		pAccObj = GetAccountObjectByID(uAccountID);
 	}
 
 	if (pAccObj == NULL)
@@ -118,6 +118,20 @@ BOOL CAccountObjectMgr::SealAccount(UINT64 m_uAccountID, const std::string& strN
 	{
 		pAccObj->m_uSealTime = 0;
 	}
+
+	m_ArrChangedAccount.push(pAccObj);
+
+	return TRUE;
+}
+
+BOOL CAccountObjectMgr::SetLastServer(UINT64 uAccountID, INT32 ServerID)
+{
+	ERROR_RETURN_FALSE(uAccountID != 0);
+
+	CAccountObject* pAccObj = GetAccountObjectByID(uAccountID);
+	ERROR_RETURN_FALSE(pAccObj != NULL);
+
+	pAccObj->m_dwLastSvrID = ServerID;
 
 	m_ArrChangedAccount.push(pAccObj);
 

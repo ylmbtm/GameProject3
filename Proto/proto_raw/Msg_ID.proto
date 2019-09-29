@@ -6,213 +6,232 @@ enum MessageID {
     //============================================================================================
     //                 一般消息定义
     //============================================================================================
-    MSG_NORMAL_MSGID_BEGIN           = 1000000;
+    MSG_NORMAL_MSGID_BEGIN           = 100000;
 
-    MSG_CHECK_VERSION_REQ            = 1000001;    //版本验证
-    MSG_CHECK_VERSION_ACK            = 1000002;    //版本验证返回
+    MSG_CHECK_VERSION_REQ            = 100001;    //版本验证
+    MSG_CHECK_VERSION_ACK            = 100002;    //版本验证返回
 
-    MSG_ACCOUNT_REG_REQ              = 1000003;    //注册账号
-    MSG_ACCOUNT_REG_ACK              = 1000004;    //注册账号返回
+    MSG_ACCOUNT_REG_REQ              = 100003;    //注册账号
+    MSG_ACCOUNT_REG_ACK              = 100004;    //注册账号返回
 
-    MSG_ACCOUNT_LOGIN_REQ            = 1000005;    //账号登录
-    MSG_ACCOUNT_LOGIN_ACK            = 1000006;    //账号登录返回
+    MSG_ACCOUNT_LOGIN_REQ            = 100005;    //账号登录
+    MSG_ACCOUNT_LOGIN_ACK            = 100006;    //账号登录返回
     
-    MSG_DB_EXE_SQL_REQ               = 1000007;    //执行Sql语句请求
-    MSG_DB_EXE_SQL_ACK               = 1000008;    //执行Sql语句请求返回
+    MSG_DB_EXE_SQL_REQ               = 100007;    //执行Sql语句请求
+    MSG_DB_EXE_SQL_ACK               = 100008;    //执行Sql语句请求返回
     
-    MSG_SERVER_LIST_REQ              = 1000009;     //服务器列表请求
-    MSG_SERVER_LIST_ACK              = 1000010;   //服务器列表的返回
+    MSG_SERVER_LIST_REQ              = 100009;     //服务器列表请求
+    MSG_SERVER_LIST_ACK              = 100010;   //服务器列表的返回
     
-    MSG_SELECT_SERVER_REQ            = 1000011;    //选择服务器请求
-    MSG_SELECT_SERVER_ACK            = 1000012;    //选择服务器请求返回
+    MSG_SELECT_SERVER_REQ            = 100011;    //选择服务器请求
+    MSG_SELECT_SERVER_ACK            = 100012;    //选择服务器请求返回
     
-    MSG_LOGIC_REGTO_LOGIN_REQ        = 1000013;    //注册服务器请求
-    MSG_LOGIC_REGTO_LOGIN_ACK        = 1000014;    //注册服务器请求返回
+    MSG_LOGIC_REGTO_LOGIN_REQ        = 100013;    //注册服务器请求
+    MSG_LOGIC_REGTO_LOGIN_ACK        = 100014;    //注册服务器请求返回
 
-    MSG_SEAL_ACCOUNT_REQ             = 1000015;   //封号请求
-    MSG_SEAL_ACCOUNT_ACK             = 1000016;   //封号请求返回
+    MSG_SEAL_ACCOUNT_REQ             = 100015;   //封号请求
+    MSG_SEAL_ACCOUNT_ACK             = 100016;   //封号请求返回
     
-    MSG_GAME_REGTO_LOGIC_REQ         = 1000017;
-    MSG_GAME_REGTO_LOGIC_ACK         = 1000018;
+    MSG_GAME_REGTO_LOGIC_REQ         = 100017;
+    MSG_GAME_REGTO_LOGIC_ACK         = 100018;
 
-    MSG_LOGIC_REGTO_CENTER_REQ       = 1000019;
-    MSG_LOGIC_REGTO_CENTER_ACK       = 1000020;
+    MSG_LOGIC_REGTO_CENTER_REQ       = 100019;
+    MSG_LOGIC_REGTO_CENTER_ACK       = 100020;
 
-    MSG_LOG_DATA_NTF                 = 1000021;
+    MSG_LOG_DATA_NTF                 = 100021;
 
-    MSG_PHP_GM_COMMAND_REQ           = 1000022;
-    MSG_PHP_GM_COMMAND_ACK           = 1000023;
+    MSG_PHP_GM_COMMAND_REQ           = 100022;
+    MSG_PHP_GM_COMMAND_ACK           = 100023;
 
-    MSG_WATCH_HEART_BEAT_REQ         = 1000024;
-    MSG_WATCH_HEART_BEAT_ACK         = 1000025;
+    MSG_WATCH_HEART_BEAT_REQ         = 100024;
+    MSG_WATCH_HEART_BEAT_ACK         = 100025;
 
-    MSG_WATCH_UPDATE_SVR_REQ         = 1000026;
-    MSG_WATCH_UPDATE_SVR_ACK         = 1000027;
+    MSG_WATCH_UPDATE_SVR_REQ         = 100026;
+    MSG_WATCH_UPDATE_SVR_ACK         = 100027;
 
-    MSG_WATCH_START_SVR_REQ          = 1000028;
-    MSG_WATCH_START_SVR_ACK          = 1000029;
+    MSG_WATCH_START_SVR_REQ          = 100028;
+    MSG_WATCH_START_SVR_ACK          = 100029;
 
-    MSG_WATCH_STOP_SVR_REQ           = 1000030;
-    MSG_WATCH_STOP_SVR_ACK           = 1000031;
+    MSG_WATCH_STOP_SVR_REQ           = 100030;
+    MSG_WATCH_STOP_SVR_ACK           = 100031;
 
-    MSG_DISCONNECT_NTY               = 1000032;    //断开连接
+    MSG_DISCONNECT_NTY               = 100032;    //断开连接
 
-    MSG_ROLE_DATA_CHANGE_NTY         = 1000033;
+    MSG_ROLE_DATA_CHANGE_NTY         = 100033;
+    
+    MSG_SET_LAST_SERVER_NTY          = 100034;
 
-    MSG_NORMAL_MSGID_END             = 1999999;
+    MSG_NORMAL_MSGID_END             = 199999;
     
     //============================================================================================
     //                 Cient <==> LogicSVR
     //============================================================================================
-    MSG_LOGICSVR_MSGID_BEGIN         = 2000000;
-    MSG_ROLE_LIST_REQ                = 2000001;
-    MSG_ROLE_LIST_ACK                = 2000002;
+    MSG_LOGICSVR_MSGID_BEGIN         = 200000;
+    MSG_ROLE_LIST_REQ                = 200001;
+    MSG_ROLE_LIST_ACK                = 200002;
 
-    MSG_ROLE_CREATE_REQ              = 2000003;   //登录请法度
-    MSG_ROLE_CREATE_ACK              = 2000004;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_CREATE_REQ              = 200003;   //登录请法度
+    MSG_ROLE_CREATE_ACK              = 200004;   //登录成功  返回基本模块的数据, 包括基本类的数据
     
-    MSG_ROLE_DELETE_REQ              = 2000005;   //登录请法度
-    MSG_ROLE_DELETE_ACK              = 2000006;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_DELETE_REQ              = 200005;   //登录请法度
+    MSG_ROLE_DELETE_ACK              = 200006;   //登录成功  返回基本模块的数据, 包括基本类的数据
     
-    MSG_ROLE_LOGIN_REQ               = 2000007;   //登录请法度
-    MSG_ROLE_LOGIN_ACK               = 2000008;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_LOGIN_REQ               = 200007;   //登录请法度
+    MSG_ROLE_LOGIN_ACK               = 200008;   //登录成功  返回基本模块的数据, 包括基本类的数据
     
-    MSG_ROLE_LOGOUT_REQ              = 2000009;   //登录请法度
-    MSG_ROLE_LOGOUT_ACK              = 2000010;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_LOGOUT_REQ              = 200009;   //登录请法度
+    MSG_ROLE_LOGOUT_ACK              = 200010;   //登录成功  返回基本模块的数据, 包括基本类的数据
     
-    MSG_DATA_UPDATE                  = 2000011;
+    MSG_DATA_UPDATE                  = 200011;
     
-    MSG_NOTIFY_INTO_SCENE            = 2000014;
+    MSG_NOTIFY_INTO_SCENE            = 200014;
 
-    MSG_COPYINFO_REPORT_REQ          = 2000016;
-    MSG_MAIN_COPY_REQ                = 2000017;
-    MSG_MAIN_COPY_ACK                = 2000018;
-    MSG_ABORT_SCENE_NTF              = 2000019;//离开副本通知
-    MSG_XXX_XXXX_XXXX_1              = 2000020;
+    MSG_COPYINFO_REPORT_REQ          = 200016;
+    MSG_MAIN_COPY_REQ                = 200017;
+    MSG_MAIN_COPY_ACK                = 200018;
+    MSG_ABORT_SCENE_NTF              = 200019;//离开副本通知
+    MSG_XXX_XXXX_XXXX_1              = 200020;
 
-    MSG_BACK_TO_CITY_REQ             = 2000021;
-    MSG_BACK_TO_CITY_ACK             = 2000022;
+    MSG_BACK_TO_CITY_REQ             = 200021;
+    MSG_BACK_TO_CITY_ACK             = 200022;
 
-    MSG_BATTLE_RESULT_NTY            = 2000023;//副本服发给逻辑服的通知
+    MSG_BATTLE_RESULT_NTY            = 200023;//副本服发给逻辑服的通知
 
-    MSG_MAINCOPY_RESULT_NTY          = 2000024;//主线副本的结果（发给客户端)
+    MSG_MAINCOPY_RESULT_NTY          = 200024;//主线副本的结果（发给客户端)
 
-    MSG_ROLE_CHANG_NTY               = 2000025;
-    MSG_BAG_CHANGE_NTY               = 2000026;
-    MSG_PET_CHANGE_NTY               = 2000027;
-    MSG_EQUIP_CHANGE_NTY             = 2000028;
-    MSG_PARTNER_CHANGE_NTY           = 2000029;
-    MSG_MOUNT_CHANGE_NTY             = 2000030;
-    MSG_ROLE_OTHER_LOGIN_NTY         = 2000031;
-    MSG_CHAT_MESSAGE_REQ             = 2000032;
-    MSG_CHAT_MESSAGE_ACK             = 2000033;
-    MSG_CHAT_MESSAGE_NTY             = 2000034;
-    MSG_SETUP_EQUIP_REQ              = 2000035;//穿装备
-    MSG_SETUP_EQUIP_ACK              = 2000036;//穿装备
-    MSG_UNSET_EQUIP_REQ              = 2000037;//卸装备
-    MSG_UNSET_EQUIP_ACK              = 2000038;//卸装备
-    MSG_SETUP_PET_REQ                = 2000039;
-    MSG_SETUP_PET_ACK                = 2000040;
-    MSG_UNSET_PET_REQ                = 2000041;
-    MSG_UNSET_PET_ACK                = 2000042;
-    MSG_SETUP_PARTNER_REQ            = 2000043;
-    MSG_SETUP_PARTNER_ACK            = 2000044;
-    MSG_UNSET_PARTNER_REQ            = 2000045;
-    MSG_UNSET_PARTNER_ACK            = 2000046;
-    MSG_SETUP_MOUNT_REQ              = 2000047;
-    MSG_SETUP_MOUNT_ACK              = 2000048;
-    MSG_UNSET_MOUNT_REQ              = 2000049;
-    MSG_UNSET_MOUNT_ACK              = 2000050;
-    MSG_USE_ITEM_REQ                 = 2000051;
-    MSG_USE_ITEM_ACK                 = 2000052;
-    MSG_SETUP_GEM_REQ                = 2000053;
-    MSG_SETUP_GEM_ACK                = 2000054;
-    MSG_UNSET_GEM_REQ                = 2000055;
-    MSG_UNSET_GEM_ACK                = 2000056;
+    MSG_ROLE_CHANG_NTY               = 200025;
+    MSG_BAG_CHANGE_NTY               = 200026;
+    MSG_PET_CHANGE_NTY               = 200027;
+    MSG_EQUIP_CHANGE_NTY             = 200028;
+    MSG_PARTNER_CHANGE_NTY           = 200029;
+    MSG_MOUNT_CHANGE_NTY             = 200030;
+    MSG_ROLE_OTHER_LOGIN_NTY         = 200031;
+    MSG_CHAT_MESSAGE_REQ             = 200032;
+    MSG_CHAT_MESSAGE_ACK             = 200033;
+    MSG_CHAT_MESSAGE_NTY             = 200034;
+    MSG_SETUP_EQUIP_REQ              = 200035;//穿装备
+    MSG_SETUP_EQUIP_ACK              = 200036;//穿装备
+    MSG_UNSET_EQUIP_REQ              = 200037;//卸装备
+    MSG_UNSET_EQUIP_ACK              = 200038;//卸装备
+    MSG_SETUP_PET_REQ                = 200039;
+    MSG_SETUP_PET_ACK                = 200040;
+    MSG_UNSET_PET_REQ                = 200041;
+    MSG_UNSET_PET_ACK                = 200042;
+    MSG_SETUP_PARTNER_REQ            = 200043;
+    MSG_SETUP_PARTNER_ACK            = 200044;
+    MSG_UNSET_PARTNER_REQ            = 200045;
+    MSG_UNSET_PARTNER_ACK            = 200046;
+    MSG_SETUP_MOUNT_REQ              = 200047;
+    MSG_SETUP_MOUNT_ACK              = 200048;
+    MSG_UNSET_MOUNT_REQ              = 200049;
+    MSG_UNSET_MOUNT_ACK              = 200050;
+    MSG_USE_ITEM_REQ                 = 200051;
+    MSG_USE_ITEM_ACK                 = 200052;
+    MSG_SETUP_GEM_REQ                = 200053;
+    MSG_SETUP_GEM_ACK                = 200054;
+    MSG_UNSET_GEM_REQ                = 200055;
+    MSG_UNSET_GEM_ACK                = 200056;
 
-    MSG_ROLE_RECONNECT_REQ           = 2000057;   
-    MSG_ROLE_RECONNECT_ACK           = 2000058;   
-    MSG_MAIL_CHANGE_NTY              = 2000059;
-    MSG_TASK_CHANGE_NTY              = 2000060;
+    MSG_ROLE_RECONNECT_REQ           = 200057;   
+    MSG_ROLE_RECONNECT_ACK           = 200058;   
+    MSG_MAIL_CHANGE_NTY              = 200059;
+    MSG_TASK_CHANGE_NTY              = 200060;
     
-    MSG_BROAD_MESSAGE_NOTIFY         = 2000061;
-    MSG_GASVR_REGTO_PROXY_REQ        = 2000062;
-    MSG_GASVR_REGTO_PROXY_ACK        = 2000063;
+    MSG_BROAD_MESSAGE_NOTIFY         = 200061;
+    MSG_GASVR_REGTO_PROXY_REQ        = 200062;
+    MSG_GASVR_REGTO_PROXY_ACK        = 200063;
 
-    MSG_STORE_BUY_REQ                = 2000064;
-    MSG_STORE_BUY_ACK                = 2000065;
+    MSG_STORE_BUY_REQ                = 200064;
+    MSG_STORE_BUY_ACK                = 200065;
     
-    MSG_GEM_CHANGE_NTY               = 2000066;
+    MSG_GEM_CHANGE_NTY               = 200066;
     
-    MSG_RANDOM_NAME_REQ              = 2000067;
-    MSG_RANDOM_NAME_ACK              = 2000068;
+    MSG_RANDOM_NAME_REQ              = 200067;
+    MSG_RANDOM_NAME_ACK              = 200068;
     
-    MSG_ROLE_REBORN_REQ              = 2000069;
-    MSG_ROLE_REBORN_ACK              = 2000070;
+    MSG_ROLE_REBORN_REQ              = 200069;
+    MSG_ROLE_REBORN_ACK              = 200070;
     
+    
+    //多人组队副本
+    MSG_CREATE_ROOM_REQ              = 200071;
+    MSG_CREATE_ROOM_ACK              = 200072;
 
+    MSG_JOIN_ROOM_REQ                = 200073;
+    MSG_JOIN_ROOM_ACK                = 200074;
     
-    MSG_TEST_ADD_ITEM                = 2999998;
-    MSG_LOGICSVR_MSGID_END           = 2999999;
+    MSG_KICK_ROOM_REQ                = 200075;
+    MSG_KICK_ROOM_ACK                = 200076;
+    
+    MSG_LEAVE_ROOM_REQ               = 200077;
+    MSG_LEAVE_ROOM_ACK               = 200078;
+    
+    MSG_START_ROOM_REQ               = 200079;
+    MSG_START_ROOM_ACK               = 200080;
+    
+    MSG_BROAD_ROOM_NOTIFY            = 200081;
+    
+    MSG_TEST_ADD_ITEM                = 299998;
+    MSG_LOGICSVR_MSGID_END           = 299999;
     
     //============================================================================================
     //                 Cient <==> SceneSVR
     //============================================================================================
-    MSG_SCENESVR_MSGID_BEGIN         = 3000000;
-    MSG_CREATE_SCENE_REQ             = 3000001;
-    MSG_CREATE_SCENE_ACK             = 3000002;
-    MSG_DELETE_SCENE_REQ             = 3000003;
-    MSG_DELETE_SCENE_ACK             = 3000004;
-    MSG_SCENE_DESTROY_REQ            = 3000005;
-    MSG_SCENE_DESTROY_ACK            = 3000006;
-    MSG_TRANSFER_DATA_REQ            = 3000007;
-    MSG_TRANSFER_DATA_ACK            = 3000008;
-    MSG_NOTIFY_ROLE_ENTER_REQ        = 3000009;
-    MSG_NOTIFY_ROLE_ENTER_ACK        = 3000010;
-    MSG_ENTER_SCENE_REQ              = 3000011;
-    MSG_ENTER_SCENE_ACK              = 3000012; //发送自己的数据
-    MSG_LEAVE_SCENE_REQ              = 3000013;
-    MSG_LEAVE_SCENE_ACK              = 3000014;
-    MSG_ABORT_SCENE_REQ              = 3000015;
-    MSG_ABORT_SCENE_ACK              = 3000016;
+    MSG_SCENESVR_MSGID_BEGIN         = 300000;
+    MSG_CREATE_SCENE_REQ             = 300001;
+    MSG_CREATE_SCENE_ACK             = 300002;
+    MSG_DELETE_SCENE_REQ             = 300003;
+    MSG_DELETE_SCENE_ACK             = 300004;
+    MSG_SCENE_DESTROY_REQ            = 300005;
+    MSG_SCENE_DESTROY_ACK            = 300006;
+    MSG_TRANSFER_DATA_REQ            = 300007;
+    MSG_TRANSFER_DATA_ACK            = 300008;
+    MSG_NOTIFY_ROLE_ENTER_REQ        = 300009;
+    MSG_NOTIFY_ROLE_ENTER_ACK        = 300010;
+    MSG_ENTER_SCENE_REQ              = 300011;
+    MSG_ENTER_SCENE_ACK              = 300012; //发送自己的数据
+    MSG_LEAVE_SCENE_REQ              = 300013;
+    MSG_LEAVE_SCENE_ACK              = 300014;
+    MSG_ABORT_SCENE_REQ              = 300015;
+    MSG_ABORT_SCENE_ACK              = 300016;
     
-    MSG_SKILL_CAST_REQ               = 3000017;
-    MSG_SKILL_CAST_ACK               = 3000018;
-    MSG_SKILL_CAST_NTF               = 3000019;
-    MSG_SKILL_RESULT_NTF             = 3000020;
+    MSG_SKILL_CAST_REQ               = 300017;
+    MSG_SKILL_CAST_ACK               = 300018;
+    MSG_SKILL_CAST_NTF               = 300019;
+    MSG_SKILL_RESULT_NTF             = 300020;
 
-    MSG_OBJECT_NEW_NTF               = 3000021;
-    MSG_OBJECT_CHANGE_NTF            = 3000022;
-    MSG_OBJECT_REMOVE_NTF            = 3000023;
+    MSG_OBJECT_NEW_NTF               = 300021;
+    MSG_OBJECT_CHANGE_NTF            = 300022;
+    MSG_OBJECT_REMOVE_NTF            = 300023;
 
-    MSG_OBJECT_ACTION_REQ            = 3000024;
-    MSG_OBJECT_ACTION_ACK            = 3000025;
+    MSG_OBJECT_ACTION_REQ            = 300024;
+    MSG_OBJECT_ACTION_ACK            = 300025;
 
-    MSG_HEART_BEAT_REQ               = 3000026;
-    MSG_HEART_BEAT_ACK               = 3000027;
+    MSG_HEART_BEAT_REQ               = 300026;
+    MSG_HEART_BEAT_ACK               = 300027;
 
-    MSG_USE_HP_BOOTTLE_REQ           = 3000028;
-    MSG_USE_HP_BOOTTLE_ACK           = 3000029;
+    MSG_USE_HP_BOOTTLE_REQ           = 300028;
+    MSG_USE_HP_BOOTTLE_ACK           = 300029;
 
-    MSG_USE_MP_BOOTTLE_REQ           = 3000030;
-    MSG_USE_MP_BOOTTLE_ACK           = 3000031;
+    MSG_USE_MP_BOOTTLE_REQ           = 300030;
+    MSG_USE_MP_BOOTTLE_ACK           = 300031;
 
-    MSG_OBJECT_DIE_NOTIFY            = 3000032;
+    MSG_OBJECT_DIE_NOTIFY            = 300032;
 
-    MSG_BATTLE_CHAT_REQ              = 3000033;
-    MSG_BATTLE_CHAT_ACK              = 3000034;
+    MSG_BATTLE_CHAT_REQ              = 300033;
+    MSG_BATTLE_CHAT_ACK              = 300034;
 
-    MSG_BULLET_NEW_NTF               = 3000035;
+    MSG_BULLET_NEW_NTF               = 300035;
 
-    MSG_SWITCH_MOUNT_REQ             = 3000036;
-    MSG_SWITCH_MOUNT_ACK             = 3000037;
+    MSG_SWITCH_MOUNT_REQ             = 300036;
+    MSG_SWITCH_MOUNT_ACK             = 300037;
     
-    MSG_PLAYER_CHAGE_NTF             = 3000038;
-    MSG_ACTOR_HITEFFECT_NTF          = 3000039;
+    MSG_PLAYER_CHAGE_NTF             = 300038;
+    MSG_ACTOR_HITEFFECT_NTF          = 300039;
     
-    MSG_MOUNT_RIDING_REQ             = 3000040;
-    MSG_MOUNT_RIDING_ACK             = 3000041;
+    MSG_MOUNT_RIDING_REQ             = 300040;
+    MSG_MOUNT_RIDING_ACK             = 300041;
 
-    MSG_SCENESVR_MSGID_END           = 3999999;
+    MSG_SCENESVR_MSGID_END           = 399999;
 }
 

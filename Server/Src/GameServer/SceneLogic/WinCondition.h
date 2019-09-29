@@ -2,25 +2,7 @@
 #define __BATTLE_RESULT_H__
 
 #include "XMath.h"
-
-enum EWinCondition
-{
-	EWC_NONE,
-	EWC_KILL_ALL,       //击杀全部怪物
-	EWC_KILL_NUM,       //击杀指定数量怪物
-	EWC_DESTINATION,    //达到目的地
-	EWC_PLAYER_ALIVE,   //存活下来
-	EWC_NPC_ALIVE,      //护送npc
-	EWC_END
-};
-
-enum EBattleCamp
-{
-	EBC_NONE,     //中立阵营
-	EBC_PLAYER,   //玩家阵营
-	EBC_MONSTER,  //怪物阵营
-};
-
+#include "../../ServerData/ServerStruct.h"
 
 class CWinCondition
 {

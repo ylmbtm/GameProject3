@@ -20,6 +20,7 @@ public:
 	BOOL OnMsgAccountRegReq(NetPacket* pPacket);
 	BOOL OnMsgAccontLoginReq(NetPacket* pPacket);
 	BOOL OnMsgSealAccountReq(NetPacket* pPacket);
+	BOOL OnMsgSetLastServerNty(NetPacket* pPacket);
 	//*********************消息处理定义结束******************************
 
 public:

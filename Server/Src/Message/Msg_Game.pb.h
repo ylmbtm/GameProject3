@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[94];
+  static const ::google::protobuf::internal::ParseTable schema[95];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -158,6 +158,8 @@ void InitDefaultsSealAccountReqImpl();
 void InitDefaultsSealAccountReq();
 void InitDefaultsSealAccountAckImpl();
 void InitDefaultsSealAccountAck();
+void InitDefaultsSetLastServerNtyImpl();
+void InitDefaultsSetLastServerNty();
 void InitDefaultsCommonReqImpl();
 void InitDefaultsCommonReq();
 void InitDefaultsCommonAckImpl();
@@ -289,6 +291,7 @@ inline void InitDefaults() {
   InitDefaultsChatMessageNty();
   InitDefaultsSealAccountReq();
   InitDefaultsSealAccountAck();
+  InitDefaultsSetLastServerNty();
   InitDefaultsCommonReq();
   InitDefaultsCommonAck();
   InitDefaultsBroadMessageNotify();
@@ -492,6 +495,9 @@ extern SelectServerAckDefaultTypeInternal _SelectServerAck_default_instance_;
 class SelectServerReq;
 class SelectServerReqDefaultTypeInternal;
 extern SelectServerReqDefaultTypeInternal _SelectServerReq_default_instance_;
+class SetLastServerNty;
+class SetLastServerNtyDefaultTypeInternal;
+extern SetLastServerNtyDefaultTypeInternal _SetLastServerNty_default_instance_;
 class SetupEquipAck;
 class SetupEquipAckDefaultTypeInternal;
 extern SetupEquipAckDefaultTypeInternal _SetupEquipAck_default_instance_;
@@ -2189,9 +2195,15 @@ class SelectServerReq : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // int32 ServerID = 1;
+  // uint64 AccountID = 1;
+  void clear_accountid();
+  static const int kAccountIDFieldNumber = 1;
+  ::google::protobuf::uint64 accountid() const;
+  void set_accountid(::google::protobuf::uint64 value);
+
+  // int32 ServerID = 2;
   void clear_serverid();
-  static const int kServerIDFieldNumber = 1;
+  static const int kServerIDFieldNumber = 2;
   ::google::protobuf::int32 serverid() const;
   void set_serverid(::google::protobuf::int32 value);
 
@@ -2199,6 +2211,7 @@ class SelectServerReq : public ::google::protobuf::Message /* @@protoc_insertion
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 accountid_;
   ::google::protobuf::int32 serverid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -2288,9 +2301,9 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // string ServerAddr = 3;
+  // string ServerAddr = 4;
   void clear_serveraddr();
-  static const int kServerAddrFieldNumber = 3;
+  static const int kServerAddrFieldNumber = 4;
   const ::std::string& serveraddr() const;
   void set_serveraddr(const ::std::string& value);
   #if LANG_CXX11
@@ -2302,27 +2315,33 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_serveraddr();
   void set_allocated_serveraddr(::std::string* serveraddr);
 
+  // uint64 AccountID = 2;
+  void clear_accountid();
+  static const int kAccountIDFieldNumber = 2;
+  ::google::protobuf::uint64 accountid() const;
+  void set_accountid(::google::protobuf::uint64 value);
+
   // uint32 RetCode = 1;
   void clear_retcode();
   static const int kRetCodeFieldNumber = 1;
   ::google::protobuf::uint32 retcode() const;
   void set_retcode(::google::protobuf::uint32 value);
 
-  // int32 ServerID = 2;
+  // int32 ServerID = 3;
   void clear_serverid();
-  static const int kServerIDFieldNumber = 2;
+  static const int kServerIDFieldNumber = 3;
   ::google::protobuf::int32 serverid() const;
   void set_serverid(::google::protobuf::int32 value);
 
-  // int32 ServerPort = 4;
+  // int32 ServerPort = 5;
   void clear_serverport();
-  static const int kServerPortFieldNumber = 4;
+  static const int kServerPortFieldNumber = 5;
   ::google::protobuf::int32 serverport() const;
   void set_serverport(::google::protobuf::int32 value);
 
-  // int32 LoginCode = 5;
+  // int32 LoginCode = 6;
   void clear_logincode();
-  static const int kLoginCodeFieldNumber = 5;
+  static const int kLoginCodeFieldNumber = 6;
   ::google::protobuf::int32 logincode() const;
   void set_logincode(::google::protobuf::int32 value);
 
@@ -2331,6 +2350,7 @@ class SelectServerAck : public ::google::protobuf::Message /* @@protoc_insertion
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr serveraddr_;
+  ::google::protobuf::uint64 accountid_;
   ::google::protobuf::uint32 retcode_;
   ::google::protobuf::int32 serverid_;
   ::google::protobuf::int32 serverport_;
@@ -7651,6 +7671,112 @@ class SealAccountAck : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
+class SetLastServerNty : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:SetLastServerNty) */ {
+ public:
+  SetLastServerNty();
+  virtual ~SetLastServerNty();
+
+  SetLastServerNty(const SetLastServerNty& from);
+
+  inline SetLastServerNty& operator=(const SetLastServerNty& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetLastServerNty(SetLastServerNty&& from) noexcept
+    : SetLastServerNty() {
+    *this = ::std::move(from);
+  }
+
+  inline SetLastServerNty& operator=(SetLastServerNty&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetLastServerNty& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetLastServerNty* internal_default_instance() {
+    return reinterpret_cast<const SetLastServerNty*>(
+               &_SetLastServerNty_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    58;
+
+  void Swap(SetLastServerNty* other);
+  friend void swap(SetLastServerNty& a, SetLastServerNty& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetLastServerNty* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  SetLastServerNty* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const SetLastServerNty& from);
+  void MergeFrom(const SetLastServerNty& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(SetLastServerNty* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint64 AccountID = 1;
+  void clear_accountid();
+  static const int kAccountIDFieldNumber = 1;
+  ::google::protobuf::uint64 accountid() const;
+  void set_accountid(::google::protobuf::uint64 value);
+
+  // int32 ServerID = 2;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 2;
+  ::google::protobuf::int32 serverid() const;
+  void set_serverid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:SetLastServerNty)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 accountid_;
+  ::google::protobuf::int32 serverid_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetLastServerNtyImpl();
+};
+// -------------------------------------------------------------------
+
 class CommonReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:CommonReq) */ {
  public:
   CommonReq();
@@ -7686,7 +7812,7 @@ class CommonReq : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    58;
+    59;
 
   void Swap(CommonReq* other);
   friend void swap(CommonReq& a, CommonReq& b) {
@@ -7785,7 +7911,7 @@ class CommonAck : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_CommonAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    59;
+    60;
 
   void Swap(CommonAck* other);
   friend void swap(CommonAck& a, CommonAck& b) {
@@ -7884,7 +8010,7 @@ class BroadMessageNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_BroadMessageNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    60;
+    61;
 
   void Swap(BroadMessageNotify* other);
   friend void swap(BroadMessageNotify& a, BroadMessageNotify& b) {
@@ -8012,7 +8138,7 @@ class LogicRegToLoginReq : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    61;
+    62;
 
   void Swap(LogicRegToLoginReq* other);
   friend void swap(LogicRegToLoginReq& a, LogicRegToLoginReq& b) {
@@ -8162,7 +8288,7 @@ class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insert
                &_LogicRegToLoginAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    62;
+    63;
 
   void Swap(LogicRegToLoginAck* other);
   friend void swap(LogicRegToLoginAck& a, LogicRegToLoginAck& b) {
@@ -8276,7 +8402,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    63;
+    64;
 
   void Swap(WatchHeartBeatReq* other);
   friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
@@ -8382,7 +8508,7 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    64;
+    65;
 
   void Swap(WatchHeartBeatAck* other);
   friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
@@ -8495,7 +8621,7 @@ class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    65;
+    66;
 
   void Swap(SetupEquipReq* other);
   friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
@@ -8601,7 +8727,7 @@ class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    66;
+    67;
 
   void Swap(SetupEquipAck* other);
   friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
@@ -8700,7 +8826,7 @@ class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    67;
+    68;
 
   void Swap(UnsetEquipReq* other);
   friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
@@ -8799,7 +8925,7 @@ class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    68;
+    69;
 
   void Swap(UnsetEquipAck* other);
   friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
@@ -8898,7 +9024,7 @@ class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    69;
+    70;
 
   void Swap(SetupGemReq* other);
   friend void swap(SetupGemReq& a, SetupGemReq& b) {
@@ -9011,7 +9137,7 @@ class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    71;
 
   void Swap(SetupGemAck* other);
   friend void swap(SetupGemAck& a, SetupGemAck& b) {
@@ -9110,7 +9236,7 @@ class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    72;
 
   void Swap(UnsetGemReq* other);
   friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
@@ -9209,7 +9335,7 @@ class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    73;
 
   void Swap(UnsetGemAck* other);
   friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
@@ -9308,7 +9434,7 @@ class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    73;
+    74;
 
   void Swap(SetupPartnerReq* other);
   friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
@@ -9414,7 +9540,7 @@ class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    74;
+    75;
 
   void Swap(SetupPartnerAck* other);
   friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
@@ -9513,7 +9639,7 @@ class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    75;
+    76;
 
   void Swap(UnsetPartnerReq* other);
   friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
@@ -9612,7 +9738,7 @@ class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    76;
+    77;
 
   void Swap(UnsetPartnerAck* other);
   friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
@@ -9711,7 +9837,7 @@ class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    77;
+    78;
 
   void Swap(SetupMountReq* other);
   friend void swap(SetupMountReq& a, SetupMountReq& b) {
@@ -9817,7 +9943,7 @@ class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    78;
+    79;
 
   void Swap(SetupMountAck* other);
   friend void swap(SetupMountAck& a, SetupMountAck& b) {
@@ -9916,7 +10042,7 @@ class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    79;
+    80;
 
   void Swap(UnsetMountReq* other);
   friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
@@ -10015,7 +10141,7 @@ class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    80;
+    81;
 
   void Swap(UnsetMountAck* other);
   friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
@@ -10114,7 +10240,7 @@ class SetupPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    81;
+    82;
 
   void Swap(SetupPetReq* other);
   friend void swap(SetupPetReq& a, SetupPetReq& b) {
@@ -10213,7 +10339,7 @@ class SetupPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    82;
+    83;
 
   void Swap(SetupPetAck* other);
   friend void swap(SetupPetAck& a, SetupPetAck& b) {
@@ -10312,7 +10438,7 @@ class UnsetPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    83;
+    84;
 
   void Swap(UnsetPetReq* other);
   friend void swap(UnsetPetReq& a, UnsetPetReq& b) {
@@ -10411,7 +10537,7 @@ class UnsetPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    84;
+    85;
 
   void Swap(UnsetPetAck* other);
   friend void swap(UnsetPetAck& a, UnsetPetAck& b) {
@@ -10510,7 +10636,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    85;
+    86;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -10623,7 +10749,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    86;
+    87;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -10722,7 +10848,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    87;
+    88;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -10857,7 +10983,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_HitEffectItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    88;
+    89;
 
   void Swap(HitEffectItem* other);
   friend void swap(HitEffectItem& a, HitEffectItem& b) {
@@ -10977,7 +11103,7 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HitEffectNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    89;
+    90;
 
   void Swap(HitEffectNtf* other);
   friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
@@ -11082,7 +11208,7 @@ class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    90;
+    91;
 
   void Swap(UseItemReq* other);
   friend void swap(UseItemReq& a, UseItemReq& b) {
@@ -11174,7 +11300,7 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    91;
+    92;
 
   void Swap(UseItemAck* other);
   friend void swap(UseItemAck& a, UseItemAck& b) {
@@ -11266,7 +11392,7 @@ class MsgGetRandomNameReq : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    92;
+    93;
 
   void Swap(MsgGetRandomNameReq* other);
   friend void swap(MsgGetRandomNameReq& a, MsgGetRandomNameReq& b) {
@@ -11365,7 +11491,7 @@ class MsgGetRandomNameAck : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    93;
+    94;
 
   void Swap(MsgGetRandomNameAck* other);
   friend void swap(MsgGetRandomNameAck& a, MsgGetRandomNameAck& b) {
@@ -12602,7 +12728,21 @@ inline void SvrRegToSvrAck::set_allocated_newsvrname(::std::string* newsvrname) 
 
 // SelectServerReq
 
-// int32 ServerID = 1;
+// uint64 AccountID = 1;
+inline void SelectServerReq::clear_accountid() {
+  accountid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SelectServerReq::accountid() const {
+  // @@protoc_insertion_point(field_get:SelectServerReq.AccountID)
+  return accountid_;
+}
+inline void SelectServerReq::set_accountid(::google::protobuf::uint64 value) {
+  
+  accountid_ = value;
+  // @@protoc_insertion_point(field_set:SelectServerReq.AccountID)
+}
+
+// int32 ServerID = 2;
 inline void SelectServerReq::clear_serverid() {
   serverid_ = 0;
 }
@@ -12634,7 +12774,21 @@ inline void SelectServerAck::set_retcode(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:SelectServerAck.RetCode)
 }
 
-// int32 ServerID = 2;
+// uint64 AccountID = 2;
+inline void SelectServerAck::clear_accountid() {
+  accountid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SelectServerAck::accountid() const {
+  // @@protoc_insertion_point(field_get:SelectServerAck.AccountID)
+  return accountid_;
+}
+inline void SelectServerAck::set_accountid(::google::protobuf::uint64 value) {
+  
+  accountid_ = value;
+  // @@protoc_insertion_point(field_set:SelectServerAck.AccountID)
+}
+
+// int32 ServerID = 3;
 inline void SelectServerAck::clear_serverid() {
   serverid_ = 0;
 }
@@ -12648,7 +12802,7 @@ inline void SelectServerAck::set_serverid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:SelectServerAck.ServerID)
 }
 
-// string ServerAddr = 3;
+// string ServerAddr = 4;
 inline void SelectServerAck::clear_serveraddr() {
   serveraddr_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -12701,7 +12855,7 @@ inline void SelectServerAck::set_allocated_serveraddr(::std::string* serveraddr)
   // @@protoc_insertion_point(field_set_allocated:SelectServerAck.ServerAddr)
 }
 
-// int32 ServerPort = 4;
+// int32 ServerPort = 5;
 inline void SelectServerAck::clear_serverport() {
   serverport_ = 0;
 }
@@ -12715,7 +12869,7 @@ inline void SelectServerAck::set_serverport(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:SelectServerAck.ServerPort)
 }
 
-// int32 LoginCode = 5;
+// int32 LoginCode = 6;
 inline void SelectServerAck::clear_logincode() {
   logincode_ = 0;
 }
@@ -15851,6 +16005,38 @@ inline void SealAccountAck::set_accountid(::google::protobuf::uint64 value) {
 
 // -------------------------------------------------------------------
 
+// SetLastServerNty
+
+// uint64 AccountID = 1;
+inline void SetLastServerNty::clear_accountid() {
+  accountid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SetLastServerNty::accountid() const {
+  // @@protoc_insertion_point(field_get:SetLastServerNty.AccountID)
+  return accountid_;
+}
+inline void SetLastServerNty::set_accountid(::google::protobuf::uint64 value) {
+  
+  accountid_ = value;
+  // @@protoc_insertion_point(field_set:SetLastServerNty.AccountID)
+}
+
+// int32 ServerID = 2;
+inline void SetLastServerNty::clear_serverid() {
+  serverid_ = 0;
+}
+inline ::google::protobuf::int32 SetLastServerNty::serverid() const {
+  // @@protoc_insertion_point(field_get:SetLastServerNty.ServerID)
+  return serverid_;
+}
+inline void SetLastServerNty::set_serverid(::google::protobuf::int32 value) {
+  
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:SetLastServerNty.ServerID)
+}
+
+// -------------------------------------------------------------------
+
 // CommonReq
 
 // uint32 Param1 = 1;
@@ -17088,6 +17274,8 @@ inline void MsgGetRandomNameAck::set_allocated_name(::std::string* name) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

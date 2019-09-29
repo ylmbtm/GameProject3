@@ -247,6 +247,12 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket* pPacket)
 	Ack.set_serverport(pNode->m_dwPort);
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
+
+	SetLastServerNty Nty;
+	Nty.set_accountid(Ack.accountid());
+	Nty.set_serverid(Ack.serverid());
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_SET_LAST_SERVER_NTY, 0, 1, Nty);
+
 	return TRUE;
 }
 
