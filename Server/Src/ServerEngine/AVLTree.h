@@ -177,6 +177,8 @@ TreeNode<TKey, TValue>* AVLTree<TKey, TValue>::AllocNode()
 
 	m_pFreeHead = m_pFreeHead->m_pRight;
 
+	pValidNode = new(pValidNode)TNodeType();
+
 	m_pFreeHead->m_pLeft = NULL;
 
 	pValidNode->m_nHeight = 0;

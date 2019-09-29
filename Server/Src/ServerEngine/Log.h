@@ -4,9 +4,9 @@
 enum LogLevel
 {
 	Log_All,
-	Log_Info,
-	Log_Warnning,
 	Log_Error,
+	Log_Warnning,
+	Log_Info,
 	Log_None
 };
 

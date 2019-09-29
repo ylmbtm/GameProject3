@@ -45,10 +45,10 @@ BOOL CPlayerObject::Init(UINT64 u64ID)
 	m_dwProxyConnID     = 0;
 	m_dwClientConnID    = 0;
 	m_dwCopyGuid        = 0;      //当前的副本ID
-	m_dwCopyID			= 0;        //当前的副本类型
+	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
-	m_IsOnline			= FALSE;
-
+	m_IsOnline          = FALSE;
+	m_uRoomID           = 0;
 	ERROR_RETURN_FALSE(CreateAllModule());
 
 	return TRUE;
@@ -64,7 +64,7 @@ BOOL CPlayerObject::Uninit()
 	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_IsOnline			= FALSE;
-
+	m_uRoomID           = 0;
 	m_NetMessagePump.ClearAll();
 	return TRUE;
 }
@@ -347,6 +347,16 @@ UINT32 CPlayerObject::GetCarrerID()
 	ERROR_RETURN_CODE(pModule != NULL, 0);
 
 	return pModule->GetCarrerID();
+}
+
+UINT64 CPlayerObject::GetRoomID()
+{
+	return m_uRoomID;
+}
+
+VOID CPlayerObject::SetRoomID(UINT64 uRoomID)
+{
+	m_uRoomID = uRoomID;
 }
 
 BOOL CPlayerObject::SendRoleLoginAck()

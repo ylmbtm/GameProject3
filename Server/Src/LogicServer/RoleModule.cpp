@@ -330,6 +330,11 @@ UINT32 CRoleModule::GetActorID()
 	return m_dwActorID;
 }
 
+INT32 CRoleModule::GetLevel()
+{
+	return m_pRoleDataObject->m_Level;
+}
+
 CHAR* CRoleModule::GetName()
 {
 	return m_pRoleDataObject->m_szName;

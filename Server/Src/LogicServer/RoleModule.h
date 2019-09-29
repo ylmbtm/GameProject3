@@ -53,7 +53,7 @@ public:
 
 public:
 	UINT32  GetActorID();
-
+	INT32   GetLevel();
 	CHAR*	GetName();
 
 	UINT32	GetCarrerID();
