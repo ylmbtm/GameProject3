@@ -170,8 +170,8 @@ BOOL CClientObject::OnUpdate( UINT32 dwTick )
 	{
 		if(m_ClientConnector.GetConnectState() == ECS_NO_CONNECT)
 		{
-			m_ClientConnector.ConnectTo("127.0.0.1", 9001);
-			//m_ClientConnector.ConnectTo("47.93.31.69", 9001);
+			//m_ClientConnector.ConnectTo("127.0.0.1", 9001);
+			m_ClientConnector.ConnectTo("47.93.31.69", 9001);
 			//m_ClientConnector.ConnectTo("47.105.89.43", 9001);
 		}
 		else if (m_ClientConnector.GetConnectState() == ECS_CONNECTED)

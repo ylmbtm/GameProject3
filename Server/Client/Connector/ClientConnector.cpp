@@ -136,15 +136,15 @@ BOOL CClientConnector::DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 Buf
 	//{
 	//	default:
 	//	{
-			for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
-			{
-				IMessageHandler* pHandler = *itor;
+	for(std::vector<IMessageHandler*>::iterator itor = m_vtMsgHandler.begin(); itor != m_vtMsgHandler.end(); itor++)
+	{
+		IMessageHandler* pHandler = *itor;
 
-				if(pHandler->DispatchPacket(dwMsgID, PacketBuf, BufLen))
-				{
-					break;
-				}
-			}
+		if(pHandler->DispatchPacket(dwMsgID, PacketBuf, BufLen))
+		{
+			break;
+		}
+	}
 	//	}
 	//	break;
 	//}
@@ -237,11 +237,11 @@ BOOL CClientConnector::ReceiveData()
 		if(nError != WSAEWOULDBLOCK)
 		{
 			printf("接收数据发生错误:%s!\n", CommonSocket::GetLastErrorStr(nError).c_str());
+
+			SetConnectState(ECS_NO_CONNECT);
+
+			CommonSocket::CloseSocket(m_hSocket);
 		}
-
-		SetConnectState(ECS_NO_CONNECT);
-
-		CommonSocket::CloseSocket(m_hSocket);
 
 		return FALSE;
 	}

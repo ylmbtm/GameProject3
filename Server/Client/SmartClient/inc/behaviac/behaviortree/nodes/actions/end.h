@@ -11,8 +11,8 @@
 // See the License for the specific language governing permissions and limitations under the License.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _BEHAVIAC_BEHAVIORTREE_WAIT_H_
-#define _BEHAVIAC_BEHAVIORTREE_WAIT_H_
+#ifndef _BEHAVIAC_BEHAVIORTREE_END_H_
+#define _BEHAVIAC_BEHAVIORTREE_END_H_
 
 #include "behaviac/common/base.h"
 #include "behaviac/common/member.h"
@@ -23,60 +23,48 @@
 namespace behaviac {
     /*! \addtogroup treeNodes Behavior Tree
     * @{
-    * \addtogroup Wait
+    * \addtogroup End
     * @{ */
 
     /**
-    Wait for the specified milliseconds. always return Running until time over.
+    The behavior tree return success or failure.
     */
-    class BEHAVIAC_API Wait : public BehaviorNode {
+    class BEHAVIAC_API End : public BehaviorNode {
     public:
-        BEHAVIAC_DECLARE_DYNAMIC_TYPE(Wait, BehaviorNode);
+		BEHAVIAC_DECLARE_DYNAMIC_TYPE(End, BehaviorNode);
 
-        Wait();
-        virtual ~Wait();
+		End();
+		virtual ~End();
         virtual void load(int version, const char* agentType, const properties_t& properties);
-
-        virtual double GetTime(Agent* pAgent) const;
-        virtual int GetIntTime(Agent* pAgent) const;
 
     private:
         virtual BehaviorTask* createTask() const;
 
-    protected:
-        IInstanceMember* m_time;
+		virtual EBTStatus GetStatus(Agent* pAgent) const;
+		bool GetEndOutside() const;
 
-        friend class WaitTask;
+    protected:
+		IInstanceMember* m_endStatus;
+		bool             m_endOutside;
+
+		friend class EndTask;
     };
 
-    class BEHAVIAC_API WaitTask : public LeafTask {
+	class BEHAVIAC_API EndTask : public LeafTask {
     public:
-        BEHAVIAC_DECLARE_DYNAMIC_TYPE(WaitTask, LeafTask);
-
-        WaitTask();
+		BEHAVIAC_DECLARE_DYNAMIC_TYPE(EndTask, LeafTask);
 
     protected:
-        virtual ~WaitTask();
-
-        virtual void copyto(BehaviorTask* target) const;
-        virtual void save(IIONode* node) const;
-        virtual void load(IIONode* node);
-
         virtual bool onenter(Agent* pAgent);
         virtual void onexit(Agent* pAgent, EBTStatus s);
         virtual EBTStatus update(Agent* pAgent, EBTStatus childStatus);
 
-        double		GetTime(Agent* pAgent) const;
-        int			GetIntTime(Agent* pAgent) const;
-
-        double		m_start;
-        double		m_time;
-        long long	m_intStart;
-        int			m_intTime;
-    };
+		EBTStatus GetStatus(Agent* pAgent) const;
+		bool      GetEndOutside() const;
+	};
 
     /*! @} */
     /*! @} */
 }
 
-#endif//_BEHAVIAC_BEHAVIORTREE_WAIT_H_
+#endif//_BEHAVIAC_BEHAVIORTREE_END_H_

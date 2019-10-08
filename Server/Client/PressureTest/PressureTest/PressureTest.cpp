@@ -3,42 +3,12 @@
 
 #include "stdafx.h"
 #include "ClientObject.h"
-#include "..\Src\ServerEngine\CommonThreadFunc.h"
 #include "..\Src\ServerEngine\CommonFunc.h"
 #include "..\Src\ServerEngine\CommonSocket.h"
 
 #define RUN_TIME 50
 
 std::vector<CClientObject*> g_vtClientList;
-
-//BOOL g_Run = FALSE;
-//
-//Th_RetName _NetEventThread( void* pParam )
-//{
-//	std::vector<CClientObject*>* pClientList = (std::vector<CClientObject*>*)pParam;
-//
-//	while(g_Run)
-//	{
-//		for(int i = 0; i < pClientList->size(); i++)
-//		{
-//			CClientObject* pObject = pClientList->at(i);
-//			pObject->OnUpdate(0);
-//		}
-//
-//		Sleep(10);
-//	}
-//
-//	CommonThreadFunc::ExitThread();
-//
-//	return Th_RetValue;
-//}
-//
-//
-//for(int i = 0; i < 4; ++i)
-//{
-//	CommonThreadFunc::CreateThread(_NetEventThread, (void*)this);
-//	m_vtWorkThread.push_back(hThread);
-//}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -70,18 +40,21 @@ int _tmain(int argc, _TCHAR* argv[])
 		g_vtClientList.push_back(pClientSpaceObject);
 	}
 
-DrivenRobot:
-	DWORD dwTickLast = GetTickCount();
-	for(std::vector<CClientObject*>::iterator itor = g_vtClientList.begin(); itor != g_vtClientList.end(); itor++)
+
+	//十个以下机器人，不需要开线程　
+
+	while (true)
 	{
-		CClientObject* pClient = *itor;
+		DWORD dwTickLast = GetTickCount();
+		for (std::vector<CClientObject*>::iterator itor = g_vtClientList.begin(); itor != g_vtClientList.end(); itor++)
+		{
+			CClientObject* pClient = *itor;
 
-		pClient->OnUpdate(0);
+			pClient->OnUpdate(0);
+		}
+
+		CommonFunc::Sleep(RUN_TIME);
 	}
-
-	Sleep(1);
-
-	goto DrivenRobot;
 
 	return 0;
 }

@@ -15,10 +15,6 @@ namespace behaviac
 	// ---------------------------------------------------------------------
 
 	inline void FunctionPointer_behaviac_Agent_LogMessage(char* param0) { behaviac::Agent::LogMessage(param0); }
-
-	inline void Set_CClientObject_ClientStatue(Agent* self, unsigned int value) { ((CClientObject*)self)->ClientStatue = value; };
-	inline const void* Get_CClientObject_ClientStatue(Agent* self) { return &((CClientObject*)self)->ClientStatue; };
-
 	inline void FunctionPointer_CClientObject_LogMessage(char* param0) { CClientObject::LogMessage(param0); }
 	inline void FunctionPointer_CClientObject_SayHello(Agent* self, behaviac::string strContent) { ((CClientObject*)self)->SayHello(strContent); }
 }

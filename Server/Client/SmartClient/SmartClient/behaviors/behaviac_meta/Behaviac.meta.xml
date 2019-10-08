@@ -26,7 +26,6 @@
       </Method>
     </agent>
     <agent classfullname="CClientObject" base="behaviac::Agent" DisplayName="CClientObject" Desc="CClientObject" IsRefType="true" IsCustomized="true" IsImplemented="true" ExportLocation=".">
-      <Member Name="ClientStatue" DisplayName="ClientStatue" Desc="ClientStatue" Class="CClientObject" Type="uint" TypeFullName="System.UInt32" defaultvalue="0" Static="false" Public="true" Readonly="false" />
       <Method Name="SayHello" DisplayName="SayHello" Desc="SayHello" Class="CClientObject" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false">
         <Param Name="strContent" Type="string" TypeFullName="System.String" DisplayName="strContent" Desc="strContent" />
       </Method>

@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\Connector\ClientConnector.cpp">
       <Filter>Connector</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\ServerEngine\CommonThreadFunc.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Connector\ClientConnector.h">
       <Filter>Connector</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Src\ServerEngine\CommonThreadFunc.h">
-      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
