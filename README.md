@@ -11,11 +11,7 @@ email : ylmbtm@163.com   QQ群 : 45139128
 
 **在群文件中有Demo客户端代码和资源**.
 
-1.服务器基本结构
-===============
-![结构](https://wx2.sinaimg.cn/mw690/79045675gy1fvbd68kd1uj20vv0rlmz8.jpg)
-
-2.服务器功能说明
+1.服务器功能说明
 ===============
 ### 1.登录服务器(LoginServer)
 	说明: 接受玩家的登录连接， 处理登录请求消息
@@ -44,7 +40,7 @@ email : ylmbtm@163.com   QQ群 : 45139128
 ### 9.监视服务器(WatchServer)
 	说明: 主要负责接受WEB后台的控制命令， 启动服务器， 关闭服务器，监视服务器状态,  更新服务器程序和配制。
 
-3.体验客户端效果(加群可以获取全部客户端代码及资源)
+2.体验客户端效果(加群可以获取全部客户端代码及资源)
 ===============
 ![login1](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uoqa8j20pg0etabd.jpg)
 ![login2](https://wx2.sinaimg.cn/mw690/79045675gy1fvdn1uqpclj20wg0fxgn8.jpg)
