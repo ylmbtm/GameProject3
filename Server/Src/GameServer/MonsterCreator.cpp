@@ -5,8 +5,6 @@
 MonsterCreator::MonsterCreator(CScene* pScene)
 {
 	m_pScene = pScene;
-
-	m_dwCurWave = -1;
 }
 
 MonsterCreator::~MonsterCreator()
@@ -19,7 +17,15 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 	for(auto pWaveNode = pNode->first_node("DTWave"); pWaveNode != NULL; pWaveNode = pWaveNode->next_sibling("DTWave"))
 	{
 		MonsterWave Wave;
-		//Wave.m_dwGenType = CommonConvert::StringToInt(pWaveNode->first_attribute("gentype")->value());
+
+		char* pValue = pWaveNode->first_attribute("TriggerType")->value();
+		ERROR_CONTINUE_EX(pValue  != NULL);
+
+		Wave.m_dwTriggerType = CommonConvert::StringToInt(pValue);
+
+		pValue = pWaveNode->first_attribute("TriggerBox")->value();
+		ERROR_CONTINUE_EX(pValue != NULL);
+		CommonConvert::StringToBox(pValue, Wave.m_TriggerBox.m_Left, Wave.m_TriggerBox.m_Top, Wave.m_TriggerBox.m_Right, Wave.m_TriggerBox.m_Bottom);
 		for(auto pObjectNode = pWaveNode->first_node("DTMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("DTMonster"))
 		{
 			MonsterData Monster;
@@ -39,11 +45,22 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 
 BOOL MonsterCreator::OnUpdate(UINT64 uTick)
 {
-	if(m_dwCurWave == -1)
+	for (int i = 0; i < m_MonsterVaveList.size(); i++)
 	{
-		m_dwCurWave = 0;
-		GenMonsterWave(0);
+		MonsterWave& Wave = m_MonsterVaveList.at(i);
+		if (Wave.m_bTriggerDone == TRUE)
+		{
+			continue;
+		}
+
+		if (Wave.m_dwTriggerType == 0)
+		{
+			GenMonsterWave(i);
+
+			return TRUE;
+		}
 	}
+
 	return TRUE;
 }
 
@@ -59,10 +76,13 @@ BOOL MonsterCreator::GenMonsterWave(INT32 dwWaveIndex)
 	for( std::vector<MonsterData>::iterator itor = Wave.m_vtMonsterList.begin(); itor != Wave.m_vtMonsterList.end(); itor++)
 	{
 		MonsterData* pData = &(*itor);
-		m_pScene->CreateMonster(pData->m_dwActorID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
+		CSceneObject* pSceneObject = m_pScene->CreateMonster(pData->m_dwActorID, pData->m_dwCamp, pData->m_x, pData->m_y, pData->m_z, pData->m_ft);
+		ERROR_RETURN_FALSE(pSceneObject != NULL);
+		pData->m_uObjectGuid = pSceneObject->GetObjectGUID();
+		pData->m_bDead = FALSE;
 	}
 
-	Wave.m_bDone = TRUE;
+	Wave.m_bTriggerDone = TRUE;
 
 	return TRUE;
 }
@@ -71,7 +91,7 @@ BOOL MonsterCreator::IsAllFinished()
 {
 	for (int i = 0; i < m_MonsterVaveList.size(); i++)
 	{
-		if (!m_MonsterVaveList.at(i).m_bDone)
+		if (!m_MonsterVaveList.at(i).m_bTriggerDone)
 		{
 			return FALSE;
 		}
@@ -82,13 +102,6 @@ BOOL MonsterCreator::IsAllFinished()
 
 BOOL MonsterCreator::OnObjectDie(CSceneObject* pObject)
 {
-	if(m_pScene->IsMonsterAllDie())
-	{
-		return FALSE;
-	}
-
-	GenMonsterWave(m_dwCurWave + 1);
-
 	return TRUE;
 }
 
@@ -97,6 +110,25 @@ BOOL MonsterCreator::OnPlayerMove(FLOAT x, FLOAT z)
 	if (IsAllFinished())
 	{
 		return TRUE;
+	}
+
+	for (int i = 0; i < m_MonsterVaveList.size(); i++)
+	{
+		MonsterWave& Wave = m_MonsterVaveList.at(i);
+		if (Wave.m_bTriggerDone == TRUE)
+		{
+			continue;
+		}
+
+		if (Wave.m_dwTriggerType != 1)
+		{
+			continue;
+		}
+
+		if (Wave.m_TriggerBox.PtInRect(CPoint2D(x, z)))
+		{
+			GenMonsterWave(i);
+		}
 	}
 
 	return TRUE;

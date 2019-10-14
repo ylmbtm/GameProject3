@@ -286,6 +286,17 @@ CREATE TABLE `player`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for relationship
+-- ----------------------------
+DROP TABLE IF EXISTS `relationship`;
+CREATE TABLE `relationship`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `other_id` char(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `ship_type` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for skill
 -- ----------------------------
 DROP TABLE IF EXISTS `skill`;

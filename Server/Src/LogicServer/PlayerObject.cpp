@@ -63,7 +63,7 @@ BOOL CPlayerObject::Uninit()
 	m_dwCopyGuid        = 0;        //当前的副本ID
 	m_dwCopyID          = 0;        //当前的副本类型
 	m_dwCopySvrID       = 0;        //副本服务器的ID
-	m_IsOnline			= FALSE;
+	m_IsOnline			= FALSE;    //是否在线
 	m_uRoomID           = 0;
 	m_NetMessagePump.ClearAll();
 	return TRUE;
@@ -112,6 +112,8 @@ BOOL CPlayerObject::OnLogin()
 		}
 	}
 
+	m_uRoomID = 0;
+
 	return TRUE;
 }
 
@@ -125,6 +127,8 @@ BOOL CPlayerObject::OnLogout()
 	}
 
 	m_IsOnline = FALSE;
+
+	m_uRoomID = 0;
 
 	return TRUE;
 }

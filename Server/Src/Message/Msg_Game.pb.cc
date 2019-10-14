@@ -305,6 +305,11 @@ class SealAccountAckDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<SealAccountAck>
       _instance;
 } _SealAccountAck_default_instance_;
+class SetLastServerNtyDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SetLastServerNty>
+      _instance;
+} _SetLastServerNty_default_instance_;
 class CommonReqDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<CommonReq>
@@ -1483,6 +1488,23 @@ void InitDefaultsSealAccountAck() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsSealAccountAckImpl);
 }
 
+void InitDefaultsSetLastServerNtyImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  ::google::protobuf::internal::InitProtobufDefaults();
+  {
+    void* ptr = &::_SetLastServerNty_default_instance_;
+    new (ptr) ::SetLastServerNty();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::SetLastServerNty::InitAsDefaultInstance();
+}
+
+void InitDefaultsSetLastServerNty() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsSetLastServerNtyImpl);
+}
+
 void InitDefaultsCommonReqImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -2096,7 +2118,7 @@ void InitDefaultsMsgGetRandomNameAck() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsMsgGetRandomNameAckImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[94];
+::google::protobuf::Metadata file_level_metadata[95];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -2203,6 +2225,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerReq, accountid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerReq, serverid_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, _internal_metadata_),
@@ -2210,6 +2233,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, retcode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, accountid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, serverid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, serveraddr_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SelectServerAck, serverport_),
@@ -2587,6 +2611,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SealAccountAck, accountname_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SealAccountAck, accountid_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SetLastServerNty, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SetLastServerNty, accountid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SetLastServerNty, serverid_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::CommonReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2840,87 +2871,88 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 82, -1, sizeof(::SvrRegToSvrReq)},
   { 92, -1, sizeof(::SvrRegToSvrAck)},
   { 99, -1, sizeof(::SelectServerReq)},
-  { 105, -1, sizeof(::SelectServerAck)},
-  { 115, -1, sizeof(::RoleItem)},
-  { 124, -1, sizeof(::RoleListReq)},
-  { 131, -1, sizeof(::RoleListAck)},
-  { 139, -1, sizeof(::RoleCreateReq)},
-  { 148, -1, sizeof(::RoleCreateAck)},
-  { 158, -1, sizeof(::RoleDeleteReq)},
-  { 165, -1, sizeof(::RoleDeleteAck)},
-  { 171, -1, sizeof(::RoleLoginReq)},
-  { 179, -1, sizeof(::RoleLogoutReq)},
-  { 185, -1, sizeof(::RoleLogoutAck)},
-  { 191, -1, sizeof(::RoleDisconnectReq)},
-  { 199, -1, sizeof(::RoleDisconnectAck)},
-  { 205, -1, sizeof(::RoleReconnectReq)},
-  { 211, -1, sizeof(::RoleReconnectAck)},
-  { 217, -1, sizeof(::CreateNewSceneReq)},
-  { 226, -1, sizeof(::CreateNewSceneAck)},
-  { 238, -1, sizeof(::EnterSceneReq)},
-  { 247, -1, sizeof(::EnterSceneAck)},
-  { 272, -1, sizeof(::BackToCityReq)},
-  { 278, -1, sizeof(::BackToCityAck)},
-  { 284, -1, sizeof(::LeaveSceneReq)},
-  { 291, -1, sizeof(::LeaveSceneAck)},
-  { 297, -1, sizeof(::AbortSceneReq)},
-  { 304, -1, sizeof(::AbortSceneAck)},
-  { 310, -1, sizeof(::AbortSceneNty)},
-  { 321, -1, sizeof(::TransRoleData)},
-  { 336, -1, sizeof(::TransPetData)},
-  { 348, -1, sizeof(::TransPartnerData)},
-  { 360, -1, sizeof(::TransferDataItem)},
-  { 369, -1, sizeof(::TransferDataReq)},
-  { 375, -1, sizeof(::TransferDataAck)},
-  { 385, -1, sizeof(::NotifyIntoScene)},
-  { 394, -1, sizeof(::NearByRoleItem)},
-  { 403, -1, sizeof(::CopyInsItem)},
-  { 412, -1, sizeof(::CopyReportReq)},
-  { 419, -1, sizeof(::UseHpBottleReq)},
-  { 424, -1, sizeof(::UseHpBottleAck)},
-  { 431, -1, sizeof(::UseMpBottleReq)},
-  { 436, -1, sizeof(::UseMpBottleAck)},
-  { 443, -1, sizeof(::ChatMessageReq)},
-  { 453, -1, sizeof(::ChatMessageAck)},
-  { 459, -1, sizeof(::ChatMessageNty)},
-  { 469, -1, sizeof(::SealAccountReq)},
-  { 479, -1, sizeof(::SealAccountAck)},
-  { 487, -1, sizeof(::CommonReq)},
-  { 493, -1, sizeof(::CommonAck)},
-  { 499, -1, sizeof(::BroadMessageNotify)},
-  { 507, -1, sizeof(::LogicRegToLoginReq)},
-  { 518, -1, sizeof(::LogicRegToLoginAck)},
-  { 525, -1, sizeof(::WatchHeartBeatReq)},
-  { 532, -1, sizeof(::WatchHeartBeatAck)},
-  { 540, -1, sizeof(::SetupEquipReq)},
-  { 547, -1, sizeof(::SetupEquipAck)},
-  { 553, -1, sizeof(::UnsetEquipReq)},
-  { 559, -1, sizeof(::UnsetEquipAck)},
-  { 565, -1, sizeof(::SetupGemReq)},
-  { 573, -1, sizeof(::SetupGemAck)},
-  { 579, -1, sizeof(::UnsetGemReq)},
-  { 585, -1, sizeof(::UnsetGemAck)},
-  { 591, -1, sizeof(::SetupPartnerReq)},
-  { 598, -1, sizeof(::SetupPartnerAck)},
-  { 604, -1, sizeof(::UnsetPartnerReq)},
-  { 610, -1, sizeof(::UnsetPartnerAck)},
-  { 616, -1, sizeof(::SetupMountReq)},
-  { 623, -1, sizeof(::SetupMountAck)},
-  { 629, -1, sizeof(::UnsetMountReq)},
-  { 635, -1, sizeof(::UnsetMountAck)},
-  { 641, -1, sizeof(::SetupPetReq)},
-  { 647, -1, sizeof(::SetupPetAck)},
-  { 653, -1, sizeof(::UnsetPetReq)},
-  { 659, -1, sizeof(::UnsetPetAck)},
-  { 665, -1, sizeof(::StoreBuyReq)},
-  { 673, -1, sizeof(::StoreBuyAck)},
-  { 679, -1, sizeof(::ObjectChangeNotify)},
-  { 689, -1, sizeof(::HitEffectItem)},
-  { 698, -1, sizeof(::HitEffectNtf)},
-  { 704, -1, sizeof(::UseItemReq)},
-  { 709, -1, sizeof(::UseItemAck)},
-  { 714, -1, sizeof(::MsgGetRandomNameReq)},
-  { 720, -1, sizeof(::MsgGetRandomNameAck)},
+  { 106, -1, sizeof(::SelectServerAck)},
+  { 117, -1, sizeof(::RoleItem)},
+  { 126, -1, sizeof(::RoleListReq)},
+  { 133, -1, sizeof(::RoleListAck)},
+  { 141, -1, sizeof(::RoleCreateReq)},
+  { 150, -1, sizeof(::RoleCreateAck)},
+  { 160, -1, sizeof(::RoleDeleteReq)},
+  { 167, -1, sizeof(::RoleDeleteAck)},
+  { 173, -1, sizeof(::RoleLoginReq)},
+  { 181, -1, sizeof(::RoleLogoutReq)},
+  { 187, -1, sizeof(::RoleLogoutAck)},
+  { 193, -1, sizeof(::RoleDisconnectReq)},
+  { 201, -1, sizeof(::RoleDisconnectAck)},
+  { 207, -1, sizeof(::RoleReconnectReq)},
+  { 213, -1, sizeof(::RoleReconnectAck)},
+  { 219, -1, sizeof(::CreateNewSceneReq)},
+  { 228, -1, sizeof(::CreateNewSceneAck)},
+  { 240, -1, sizeof(::EnterSceneReq)},
+  { 249, -1, sizeof(::EnterSceneAck)},
+  { 274, -1, sizeof(::BackToCityReq)},
+  { 280, -1, sizeof(::BackToCityAck)},
+  { 286, -1, sizeof(::LeaveSceneReq)},
+  { 293, -1, sizeof(::LeaveSceneAck)},
+  { 299, -1, sizeof(::AbortSceneReq)},
+  { 306, -1, sizeof(::AbortSceneAck)},
+  { 312, -1, sizeof(::AbortSceneNty)},
+  { 323, -1, sizeof(::TransRoleData)},
+  { 338, -1, sizeof(::TransPetData)},
+  { 350, -1, sizeof(::TransPartnerData)},
+  { 362, -1, sizeof(::TransferDataItem)},
+  { 371, -1, sizeof(::TransferDataReq)},
+  { 377, -1, sizeof(::TransferDataAck)},
+  { 387, -1, sizeof(::NotifyIntoScene)},
+  { 396, -1, sizeof(::NearByRoleItem)},
+  { 405, -1, sizeof(::CopyInsItem)},
+  { 414, -1, sizeof(::CopyReportReq)},
+  { 421, -1, sizeof(::UseHpBottleReq)},
+  { 426, -1, sizeof(::UseHpBottleAck)},
+  { 433, -1, sizeof(::UseMpBottleReq)},
+  { 438, -1, sizeof(::UseMpBottleAck)},
+  { 445, -1, sizeof(::ChatMessageReq)},
+  { 455, -1, sizeof(::ChatMessageAck)},
+  { 461, -1, sizeof(::ChatMessageNty)},
+  { 471, -1, sizeof(::SealAccountReq)},
+  { 481, -1, sizeof(::SealAccountAck)},
+  { 489, -1, sizeof(::SetLastServerNty)},
+  { 496, -1, sizeof(::CommonReq)},
+  { 502, -1, sizeof(::CommonAck)},
+  { 508, -1, sizeof(::BroadMessageNotify)},
+  { 516, -1, sizeof(::LogicRegToLoginReq)},
+  { 527, -1, sizeof(::LogicRegToLoginAck)},
+  { 534, -1, sizeof(::WatchHeartBeatReq)},
+  { 541, -1, sizeof(::WatchHeartBeatAck)},
+  { 549, -1, sizeof(::SetupEquipReq)},
+  { 556, -1, sizeof(::SetupEquipAck)},
+  { 562, -1, sizeof(::UnsetEquipReq)},
+  { 568, -1, sizeof(::UnsetEquipAck)},
+  { 574, -1, sizeof(::SetupGemReq)},
+  { 582, -1, sizeof(::SetupGemAck)},
+  { 588, -1, sizeof(::UnsetGemReq)},
+  { 594, -1, sizeof(::UnsetGemAck)},
+  { 600, -1, sizeof(::SetupPartnerReq)},
+  { 607, -1, sizeof(::SetupPartnerAck)},
+  { 613, -1, sizeof(::UnsetPartnerReq)},
+  { 619, -1, sizeof(::UnsetPartnerAck)},
+  { 625, -1, sizeof(::SetupMountReq)},
+  { 632, -1, sizeof(::SetupMountAck)},
+  { 638, -1, sizeof(::UnsetMountReq)},
+  { 644, -1, sizeof(::UnsetMountAck)},
+  { 650, -1, sizeof(::SetupPetReq)},
+  { 656, -1, sizeof(::SetupPetAck)},
+  { 662, -1, sizeof(::UnsetPetReq)},
+  { 668, -1, sizeof(::UnsetPetAck)},
+  { 674, -1, sizeof(::StoreBuyReq)},
+  { 682, -1, sizeof(::StoreBuyAck)},
+  { 688, -1, sizeof(::ObjectChangeNotify)},
+  { 698, -1, sizeof(::HitEffectItem)},
+  { 707, -1, sizeof(::HitEffectNtf)},
+  { 713, -1, sizeof(::UseItemReq)},
+  { 718, -1, sizeof(::UseItemAck)},
+  { 723, -1, sizeof(::MsgGetRandomNameReq)},
+  { 729, -1, sizeof(::MsgGetRandomNameAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -2982,6 +3014,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::_ChatMessageNty_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_SealAccountReq_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_SealAccountAck_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_SetLastServerNty_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_CommonReq_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_CommonAck_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_BroadMessageNotify_default_instance_),
@@ -3036,7 +3069,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 94);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 95);
 }
 
 void AddDescriptorsImpl() {
@@ -3066,143 +3099,145 @@ void AddDescriptorsImpl() {
       "\n\010ServerID\030\001 \001(\005\022\022\n\nServerName\030\002 \001(\t\022\020\n\010"
       "ServerIp\030\003 \001(\t\022\022\n\nServerPort\030\004 \001(\005\022\020\n\010Ht"
       "tpPort\030\005 \001(\005\"5\n\016SvrRegToSvrAck\022\017\n\007RetCod"
-      "e\030\001 \001(\r\022\022\n\nNewSvrName\030\002 \001(\t\"#\n\017SelectSer"
-      "verReq\022\020\n\010ServerID\030\001 \001(\005\"o\n\017SelectServer"
-      "Ack\022\017\n\007RetCode\030\001 \001(\r\022\020\n\010ServerID\030\002 \001(\005\022\022"
-      "\n\nServerAddr\030\003 \001(\t\022\022\n\nServerPort\030\004 \001(\005\022\021"
-      "\n\tLoginCode\030\005 \001(\005\"G\n\010RoleItem\022\016\n\006RoleID\030"
-      "\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\016\n\006Carrer\030\003 \001(\005\022\r\n\005L"
-      "evel\030\004 \001(\005\"3\n\013RoleListReq\022\021\n\tAccountID\030\001"
-      " \001(\004\022\021\n\tLoginCode\030\002 \001(\005\"N\n\013RoleListAck\022\017"
-      "\n\007RetCode\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022\033\n\010Ro"
-      "leList\030\003 \003(\0132\t.RoleItem\"Q\n\rRoleCreateReq"
-      "\022\021\n\tAccountID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\016\n\006Car"
-      "rer\030\003 \001(\005\022\017\n\007Channel\030\004 \001(\005\"a\n\rRoleCreate"
-      "Ack\022\017\n\007RetCode\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022"
-      "\016\n\006RoleID\030\003 \001(\004\022\014\n\004Name\030\004 \001(\t\022\016\n\006Carrer\030"
-      "\005 \001(\005\"2\n\rRoleDeleteReq\022\021\n\tAccountID\030\001 \001("
-      "\004\022\016\n\006RoleID\030\002 \001(\004\" \n\rRoleDeleteAck\022\017\n\007Re"
-      "tCode\030\001 \001(\r\"D\n\014RoleLoginReq\022\021\n\tAccountID"
-      "\030\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\022\021\n\tLoginCode\030\003 \001("
-      "\005\"\"\n\rRoleLogoutReq\022\021\n\tAccountID\030\001 \001(\004\" \n"
-      "\rRoleLogoutAck\022\017\n\007RetCode\030\001 \001(\r\"I\n\021RoleD"
-      "isconnectReq\022\021\n\tAccountID\030\001 \001(\004\022\016\n\006RoleI"
-      "D\030\002 \001(\004\022\021\n\tLoginCode\030\003 \001(\005\"$\n\021RoleDiscon"
-      "nectAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\020RoleReconnec"
-      "tReq\022\016\n\006RoleID\030\001 \001(\004\"#\n\020RoleReconnectAck"
-      "\022\017\n\007RetCode\030\001 \001(\r\"]\n\021CreateNewSceneReq\022\016"
-      "\n\006CopyID\030\001 \001(\005\022\020\n\010CopyType\030\002 \001(\005\022\021\n\tPlay"
-      "erNum\030\003 \001(\005\022\023\n\013CreateParam\030\004 \001(\004\"\222\001\n\021Cre"
-      "ateNewSceneAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006CopyI"
-      "D\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001(\005\022\023\n\013CreateParam"
-      "\030\004 \001(\004\022\020\n\010ServerID\030\005 \001(\005\022\020\n\010CopyType\030\006 \001"
-      "(\005\022\021\n\tPlayerNum\030\007 \001(\005\"S\n\rEnterSceneReq\022\016"
-      "\n\006RoleID\030\001 \001(\004\022\020\n\010ServerID\030\002 \001(\005\022\020\n\010Copy"
-      "Guid\030\003 \001(\005\022\016\n\006CopyID\030\004 \001(\005\"\302\002\n\rEnterScen"
-      "eAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006CopyID\030\002 \001(\005\022\020\n"
-      "\010CopyGuid\030\003 \001(\005\022\016\n\006RoleID\030\004 \001(\004\022\016\n\006Carre"
-      "r\030\005 \001(\005\022\017\n\007ActorID\030\006 \001(\005\022\020\n\010RoleName\030\007 \001"
-      "(\t\022\014\n\004Camp\030\010 \001(\005\022\t\n\001X\030\t \001(\002\022\t\n\001Y\030\n \001(\002\022\t"
-      "\n\001Z\030\013 \001(\002\022\n\n\002Ft\030\014 \001(\002\022\n\n\002Hp\030\r \001(\005\022\n\n\002Mp\030"
-      "\016 \001(\005\022\r\n\005HpMax\030\017 \001(\005\022\r\n\005MpMax\030\020 \001(\005\022\r\n\005S"
-      "peed\030\021 \001(\005\022\017\n\007MountID\030\022 \001(\005\022\016\n\006Equips\030\023 "
-      "\003(\005\022\032\n\006Skills\030\024 \003(\0132\n.SkillItem\"\036\n\rBackT"
-      "oCityReq\022\r\n\005Param\030\001 \001(\r\" \n\rBackToCityAck"
-      "\022\017\n\007RetCode\030\001 \001(\r\"/\n\rLeaveSceneReq\022\016\n\006Ro"
-      "leID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rLeaveScene"
-      "Ack\022\017\n\007RetCode\030\001 \001(\r\"/\n\rAbortSceneReq\022\016\n"
-      "\006RoleID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rAbortSc"
-      "eneAck\022\017\n\007RetCode\030\001 \001(\r\"t\n\rAbortSceneNty"
-      "\022\016\n\006RoleID\030\001 \001(\004\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010Copy"
-      "Guid\030\003 \001(\005\022\020\n\010CopyType\030\004 \001(\005\022\020\n\010ServerID"
-      "\030\005 \001(\005\022\r\n\005Param\030\006 \001(\005\"\276\001\n\rTransRoleData\022"
-      "\016\n\006RoleID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\020\n\010CarrerI"
-      "D\030\003 \001(\005\022\017\n\007ActorID\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022"
-      "\017\n\007MountID\030\006 \001(\005\022\r\n\005Robot\030\007 \001(\005\022\016\n\006Equip"
-      "s\030\010 \003(\005\022\021\n\tPropertys\030\t \003(\005\022\032\n\006Skills\030\n \003"
-      "(\0132\n.SkillItem\"\213\001\n\014TransPetData\022\017\n\007PetGu"
-      "id\030\001 \001(\004\022\r\n\005PetID\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005"
-      "\022\014\n\004Name\030\004 \001(\t\022\r\n\005Level\030\005 \001(\005\022\021\n\tPropert"
-      "ys\030\006 \003(\005\022\032\n\006Skills\030\007 \003(\0132\n.SkillItem\"\227\001\n"
-      "\020TransPartnerData\022\023\n\013PartnerGuid\030\001 \001(\004\022\021"
-      "\n\tPartnerID\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005\022\014\n\004Na"
-      "me\030\004 \001(\t\022\r\n\005Level\030\005 \001(\005\022\021\n\tPropertys\030\006 \003"
-      "(\005\022\032\n\006Skills\030\007 \003(\0132\n.SkillItem\"\212\001\n\020Trans"
-      "ferDataItem\022\014\n\004Camp\030\001 \001(\005\022 \n\010RoleData\030\002 "
-      "\001(\0132\016.TransRoleData\022\036\n\007PetData\030\003 \001(\0132\r.T"
-      "ransPetData\022&\n\013PartnerData\030\004 \001(\0132\021.Trans"
-      "PartnerData\"8\n\017TransferDataReq\022%\n\nTransD"
-      "atas\030\001 \003(\0132\021.TransferDataItem\"f\n\017Transfe"
-      "rDataAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006RoleID\030\002 \001("
-      "\004\022\016\n\006CopyID\030\003 \001(\005\022\020\n\010CopyGuid\030\004 \001(\005\022\020\n\010S"
-      "erverID\030\005 \001(\005\"U\n\017NotifyIntoScene\022\016\n\006Role"
-      "ID\030\001 \001(\004\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001"
-      "(\005\022\020\n\010ServerID\030\004 \001(\005\"N\n\016NearByRoleItem\022\016"
-      "\n\006RoleID\030\001 \001(\004\022\017\n\007ActorID\030\002 \001(\005\022\r\n\005Level"
-      "\030\003 \001(\005\022\014\n\004Name\030\004 \001(\t\"S\n\013CopyInsItem\022\020\n\010C"
-      "opyGuid\030\001 \001(\r\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyTyp"
-      "e\030\003 \001(\005\022\020\n\010ServerID\030\004 \001(\005\"A\n\rCopyReportR"
-      "eq\022\020\n\010ServerID\030\001 \001(\005\022\036\n\010CopyList\030\002 \003(\0132\014"
-      ".CopyInsItem\"\020\n\016UseHpBottleReq\"0\n\016UseHpB"
-      "ottleAck\022\017\n\007RetCode\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005"
-      "\"\020\n\016UseMpBottleReq\"0\n\016UseMpBottleAck\022\017\n\007"
-      "RetCode\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005\"c\n\016ChatMess"
-      "ageReq\022\017\n\007SrcName\030\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004\022\017"
-      "\n\007Channel\030\003 \001(\005\022\017\n\007GuildID\030\004 \001(\004\022\017\n\007Cont"
-      "ent\030\005 \001(\t\"!\n\016ChatMessageAck\022\017\n\007RetCode\030\001"
-      " \001(\r\"c\n\016ChatMessageNty\022\017\n\007SrcName\030\001 \001(\t\022"
-      "\r\n\005SrcID\030\002 \001(\004\022\017\n\007Channel\030\003 \001(\005\022\017\n\007Guild"
-      "ID\030\004 \001(\004\022\017\n\007Content\030\005 \001(\t\"i\n\016SealAccount"
-      "Req\022\023\n\013AccountName\030\001 \001(\t\022\021\n\tAccountID\030\002 "
-      "\001(\004\022\017\n\007Channel\030\003 \001(\005\022\020\n\010SealTime\030\004 \001(\005\022\014"
-      "\n\004Seal\030\005 \001(\010\"I\n\016SealAccountAck\022\017\n\007RetCod"
-      "e\030\001 \001(\r\022\023\n\013AccountName\030\002 \001(\t\022\021\n\tAccountI"
-      "D\030\003 \001(\004\"\033\n\tCommonReq\022\016\n\006Param1\030\001 \001(\r\"\034\n\t"
-      "CommonAck\022\017\n\007RetCode\030\001 \001(\r\"D\n\022BroadMessa"
-      "geNotify\022\r\n\005MsgID\030\001 \001(\r\022\016\n\006ConnID\030\002 \003(\r\022"
-      "\017\n\007MsgData\030\003 \001(\014\"\205\001\n\022LogicRegToLoginReq\022"
-      "\020\n\010ServerID\030\001 \001(\005\022\022\n\nServerName\030\002 \001(\t\022\020\n"
-      "\010ServerIp\030\003 \001(\t\022\022\n\nServerPort\030\004 \001(\005\022\020\n\010H"
-      "ttpPort\030\005 \001(\005\022\021\n\tWatchPort\030\006 \001(\005\"9\n\022Logi"
-      "cRegToLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\022\n\nNewSv"
-      "rName\030\002 \001(\t\"4\n\021WatchHeartBeatReq\022\014\n\004Data"
-      "\030\001 \001(\r\022\021\n\tProcessID\030\002 \001(\004\"E\n\021WatchHeartB"
-      "eatAck\022\017\n\007RetCode\030\001 \001(\r\022\014\n\004Data\030\002 \001(\r\022\021\n"
-      "\tProcessID\030\003 \001(\004\"3\n\rSetupEquipReq\022\021\n\tEqu"
-      "ipGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\" \n\rSetupEq"
-      "uipAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetEquipReq"
-      "\022\021\n\tEquipGuid\030\001 \001(\004\" \n\rUnsetEquipAck\022\017\n\007"
-      "RetCode\030\001 \001(\r\"B\n\013SetupGemReq\022\017\n\007GemGuid\030"
-      "\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\022\021\n\tTargetPos\030\003 \001("
-      "\005\"\036\n\013SetupGemAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013Uns"
-      "etGemReq\022\017\n\007GemGuid\030\001 \001(\004\"\036\n\013UnsetGemAck"
-      "\022\017\n\007RetCode\030\001 \001(\r\"9\n\017SetupPartnerReq\022\023\n\013"
-      "PartnerGuid\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001(\005\"\"\n\017"
-      "SetupPartnerAck\022\017\n\007RetCode\030\001 \001(\r\"$\n\017Unse"
-      "tPartnerReq\022\021\n\tTargetPos\030\001 \001(\005\"\"\n\017UnsetP"
-      "artnerAck\022\017\n\007RetCode\030\001 \001(\r\"5\n\rSetupMount"
-      "Req\022\021\n\tMountGuid\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001("
-      "\005\" \n\rSetupMountAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rU"
-      "nsetMountReq\022\021\n\tMountGuid\030\001 \001(\004\" \n\rUnset"
-      "MountAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013SetupPetReq"
-      "\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013SetupPetAck\022\017\n\007RetC"
-      "ode\030\001 \001(\r\"\036\n\013UnsetPetReq\022\017\n\007PetGuid\030\001 \001("
-      "\004\"\036\n\013UnsetPetAck\022\017\n\007RetCode\030\001 \001(\r\"A\n\013Sto"
-      "reBuyReq\022\021\n\tStoreType\030\001 \001(\005\022\017\n\007StoreID\030\002"
-      " \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n\013StoreBuyAck\022\017\n\007R"
-      "etCode\030\001 \001(\r\"p\n\022ObjectChangeNotify\022\016\n\006Ro"
-      "leID\030\001 \001(\003\022\022\n\nChangeType\030\002 \001(\005\022\021\n\tIntVal"
-      "ue1\030\003 \001(\003\022\021\n\tIntValue2\030\004 \001(\003\022\020\n\010StrValue"
-      "\030\005 \001(\t\"R\n\rHitEffectItem\022\014\n\004Guid\030\001 \001(\004\022\022\n"
-      "\nTargetGUID\030\002 \001(\004\022\021\n\tHurtValue\030\003 \001(\005\022\014\n\004"
-      "Crit\030\004 \001(\010\"0\n\014HitEffectNtf\022 \n\010ItemList\030\001"
-      " \003(\0132\016.HitEffectItem\"\014\n\nUseItemReq\"\014\n\nUs"
-      "eItemAck\"\"\n\023MsgGetRandomNameReq\022\013\n\003Sex\030\001"
-      " \001(\005\"#\n\023MsgGetRandomNameAck\022\014\n\004Name\030\001 \001("
-      "\tb\006proto3"
+      "e\030\001 \001(\r\022\022\n\nNewSvrName\030\002 \001(\t\"6\n\017SelectSer"
+      "verReq\022\021\n\tAccountID\030\001 \001(\004\022\020\n\010ServerID\030\002 "
+      "\001(\005\"\202\001\n\017SelectServerAck\022\017\n\007RetCode\030\001 \001(\r"
+      "\022\021\n\tAccountID\030\002 \001(\004\022\020\n\010ServerID\030\003 \001(\005\022\022\n"
+      "\nServerAddr\030\004 \001(\t\022\022\n\nServerPort\030\005 \001(\005\022\021\n"
+      "\tLoginCode\030\006 \001(\005\"G\n\010RoleItem\022\016\n\006RoleID\030\001"
+      " \001(\004\022\014\n\004Name\030\002 \001(\t\022\016\n\006Carrer\030\003 \001(\005\022\r\n\005Le"
+      "vel\030\004 \001(\005\"3\n\013RoleListReq\022\021\n\tAccountID\030\001 "
+      "\001(\004\022\021\n\tLoginCode\030\002 \001(\005\"N\n\013RoleListAck\022\017\n"
+      "\007RetCode\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022\033\n\010Rol"
+      "eList\030\003 \003(\0132\t.RoleItem\"Q\n\rRoleCreateReq\022"
+      "\021\n\tAccountID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\016\n\006Carr"
+      "er\030\003 \001(\005\022\017\n\007Channel\030\004 \001(\005\"a\n\rRoleCreateA"
+      "ck\022\017\n\007RetCode\030\001 \001(\r\022\021\n\tAccountID\030\002 \001(\004\022\016"
+      "\n\006RoleID\030\003 \001(\004\022\014\n\004Name\030\004 \001(\t\022\016\n\006Carrer\030\005"
+      " \001(\005\"2\n\rRoleDeleteReq\022\021\n\tAccountID\030\001 \001(\004"
+      "\022\016\n\006RoleID\030\002 \001(\004\" \n\rRoleDeleteAck\022\017\n\007Ret"
+      "Code\030\001 \001(\r\"D\n\014RoleLoginReq\022\021\n\tAccountID\030"
+      "\001 \001(\004\022\016\n\006RoleID\030\002 \001(\004\022\021\n\tLoginCode\030\003 \001(\005"
+      "\"\"\n\rRoleLogoutReq\022\021\n\tAccountID\030\001 \001(\004\" \n\r"
+      "RoleLogoutAck\022\017\n\007RetCode\030\001 \001(\r\"I\n\021RoleDi"
+      "sconnectReq\022\021\n\tAccountID\030\001 \001(\004\022\016\n\006RoleID"
+      "\030\002 \001(\004\022\021\n\tLoginCode\030\003 \001(\005\"$\n\021RoleDisconn"
+      "ectAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\020RoleReconnect"
+      "Req\022\016\n\006RoleID\030\001 \001(\004\"#\n\020RoleReconnectAck\022"
+      "\017\n\007RetCode\030\001 \001(\r\"]\n\021CreateNewSceneReq\022\016\n"
+      "\006CopyID\030\001 \001(\005\022\020\n\010CopyType\030\002 \001(\005\022\021\n\tPlaye"
+      "rNum\030\003 \001(\005\022\023\n\013CreateParam\030\004 \001(\004\"\222\001\n\021Crea"
+      "teNewSceneAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006CopyID"
+      "\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001(\005\022\023\n\013CreateParam\030"
+      "\004 \001(\004\022\020\n\010ServerID\030\005 \001(\005\022\020\n\010CopyType\030\006 \001("
+      "\005\022\021\n\tPlayerNum\030\007 \001(\005\"S\n\rEnterSceneReq\022\016\n"
+      "\006RoleID\030\001 \001(\004\022\020\n\010ServerID\030\002 \001(\005\022\020\n\010CopyG"
+      "uid\030\003 \001(\005\022\016\n\006CopyID\030\004 \001(\005\"\302\002\n\rEnterScene"
+      "Ack\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010"
+      "CopyGuid\030\003 \001(\005\022\016\n\006RoleID\030\004 \001(\004\022\016\n\006Carrer"
+      "\030\005 \001(\005\022\017\n\007ActorID\030\006 \001(\005\022\020\n\010RoleName\030\007 \001("
+      "\t\022\014\n\004Camp\030\010 \001(\005\022\t\n\001X\030\t \001(\002\022\t\n\001Y\030\n \001(\002\022\t\n"
+      "\001Z\030\013 \001(\002\022\n\n\002Ft\030\014 \001(\002\022\n\n\002Hp\030\r \001(\005\022\n\n\002Mp\030\016"
+      " \001(\005\022\r\n\005HpMax\030\017 \001(\005\022\r\n\005MpMax\030\020 \001(\005\022\r\n\005Sp"
+      "eed\030\021 \001(\005\022\017\n\007MountID\030\022 \001(\005\022\016\n\006Equips\030\023 \003"
+      "(\005\022\032\n\006Skills\030\024 \003(\0132\n.SkillItem\"\036\n\rBackTo"
+      "CityReq\022\r\n\005Param\030\001 \001(\r\" \n\rBackToCityAck\022"
+      "\017\n\007RetCode\030\001 \001(\r\"/\n\rLeaveSceneReq\022\016\n\006Rol"
+      "eID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rLeaveSceneA"
+      "ck\022\017\n\007RetCode\030\001 \001(\r\"/\n\rAbortSceneReq\022\016\n\006"
+      "RoleID\030\001 \001(\004\022\016\n\006Reason\030\002 \001(\005\" \n\rAbortSce"
+      "neAck\022\017\n\007RetCode\030\001 \001(\r\"t\n\rAbortSceneNty\022"
+      "\016\n\006RoleID\030\001 \001(\004\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyG"
+      "uid\030\003 \001(\005\022\020\n\010CopyType\030\004 \001(\005\022\020\n\010ServerID\030"
+      "\005 \001(\005\022\r\n\005Param\030\006 \001(\005\"\276\001\n\rTransRoleData\022\016"
+      "\n\006RoleID\030\001 \001(\004\022\014\n\004Name\030\002 \001(\t\022\020\n\010CarrerID"
+      "\030\003 \001(\005\022\017\n\007ActorID\030\004 \001(\005\022\r\n\005Level\030\005 \001(\005\022\017"
+      "\n\007MountID\030\006 \001(\005\022\r\n\005Robot\030\007 \001(\005\022\016\n\006Equips"
+      "\030\010 \003(\005\022\021\n\tPropertys\030\t \003(\005\022\032\n\006Skills\030\n \003("
+      "\0132\n.SkillItem\"\213\001\n\014TransPetData\022\017\n\007PetGui"
+      "d\030\001 \001(\004\022\r\n\005PetID\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005\022"
+      "\014\n\004Name\030\004 \001(\t\022\r\n\005Level\030\005 \001(\005\022\021\n\tProperty"
+      "s\030\006 \003(\005\022\032\n\006Skills\030\007 \003(\0132\n.SkillItem\"\227\001\n\020"
+      "TransPartnerData\022\023\n\013PartnerGuid\030\001 \001(\004\022\021\n"
+      "\tPartnerID\030\002 \001(\005\022\017\n\007ActorID\030\003 \001(\005\022\014\n\004Nam"
+      "e\030\004 \001(\t\022\r\n\005Level\030\005 \001(\005\022\021\n\tPropertys\030\006 \003("
+      "\005\022\032\n\006Skills\030\007 \003(\0132\n.SkillItem\"\212\001\n\020Transf"
+      "erDataItem\022\014\n\004Camp\030\001 \001(\005\022 \n\010RoleData\030\002 \001"
+      "(\0132\016.TransRoleData\022\036\n\007PetData\030\003 \001(\0132\r.Tr"
+      "ansPetData\022&\n\013PartnerData\030\004 \001(\0132\021.TransP"
+      "artnerData\"8\n\017TransferDataReq\022%\n\nTransDa"
+      "tas\030\001 \003(\0132\021.TransferDataItem\"f\n\017Transfer"
+      "DataAck\022\017\n\007RetCode\030\001 \001(\r\022\016\n\006RoleID\030\002 \001(\004"
+      "\022\016\n\006CopyID\030\003 \001(\005\022\020\n\010CopyGuid\030\004 \001(\005\022\020\n\010Se"
+      "rverID\030\005 \001(\005\"U\n\017NotifyIntoScene\022\016\n\006RoleI"
+      "D\030\001 \001(\004\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyGuid\030\003 \001("
+      "\005\022\020\n\010ServerID\030\004 \001(\005\"N\n\016NearByRoleItem\022\016\n"
+      "\006RoleID\030\001 \001(\004\022\017\n\007ActorID\030\002 \001(\005\022\r\n\005Level\030"
+      "\003 \001(\005\022\014\n\004Name\030\004 \001(\t\"S\n\013CopyInsItem\022\020\n\010Co"
+      "pyGuid\030\001 \001(\r\022\016\n\006CopyID\030\002 \001(\005\022\020\n\010CopyType"
+      "\030\003 \001(\005\022\020\n\010ServerID\030\004 \001(\005\"A\n\rCopyReportRe"
+      "q\022\020\n\010ServerID\030\001 \001(\005\022\036\n\010CopyList\030\002 \003(\0132\014."
+      "CopyInsItem\"\020\n\016UseHpBottleReq\"0\n\016UseHpBo"
+      "ttleAck\022\017\n\007RetCode\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005\""
+      "\020\n\016UseMpBottleReq\"0\n\016UseMpBottleAck\022\017\n\007R"
+      "etCode\030\001 \001(\r\022\r\n\005Count\030\002 \001(\005\"c\n\016ChatMessa"
+      "geReq\022\017\n\007SrcName\030\001 \001(\t\022\r\n\005SrcID\030\002 \001(\004\022\017\n"
+      "\007Channel\030\003 \001(\005\022\017\n\007GuildID\030\004 \001(\004\022\017\n\007Conte"
+      "nt\030\005 \001(\t\"!\n\016ChatMessageAck\022\017\n\007RetCode\030\001 "
+      "\001(\r\"c\n\016ChatMessageNty\022\017\n\007SrcName\030\001 \001(\t\022\r"
+      "\n\005SrcID\030\002 \001(\004\022\017\n\007Channel\030\003 \001(\005\022\017\n\007GuildI"
+      "D\030\004 \001(\004\022\017\n\007Content\030\005 \001(\t\"i\n\016SealAccountR"
+      "eq\022\023\n\013AccountName\030\001 \001(\t\022\021\n\tAccountID\030\002 \001"
+      "(\004\022\017\n\007Channel\030\003 \001(\005\022\020\n\010SealTime\030\004 \001(\005\022\014\n"
+      "\004Seal\030\005 \001(\010\"I\n\016SealAccountAck\022\017\n\007RetCode"
+      "\030\001 \001(\r\022\023\n\013AccountName\030\002 \001(\t\022\021\n\tAccountID"
+      "\030\003 \001(\004\"7\n\020SetLastServerNty\022\021\n\tAccountID\030"
+      "\001 \001(\004\022\020\n\010ServerID\030\002 \001(\005\"\033\n\tCommonReq\022\016\n\006"
+      "Param1\030\001 \001(\r\"\034\n\tCommonAck\022\017\n\007RetCode\030\001 \001"
+      "(\r\"D\n\022BroadMessageNotify\022\r\n\005MsgID\030\001 \001(\r\022"
+      "\016\n\006ConnID\030\002 \003(\r\022\017\n\007MsgData\030\003 \001(\014\"\205\001\n\022Log"
+      "icRegToLoginReq\022\020\n\010ServerID\030\001 \001(\005\022\022\n\nSer"
+      "verName\030\002 \001(\t\022\020\n\010ServerIp\030\003 \001(\t\022\022\n\nServe"
+      "rPort\030\004 \001(\005\022\020\n\010HttpPort\030\005 \001(\005\022\021\n\tWatchPo"
+      "rt\030\006 \001(\005\"9\n\022LogicRegToLoginAck\022\017\n\007RetCod"
+      "e\030\001 \001(\r\022\022\n\nNewSvrName\030\002 \001(\t\"4\n\021WatchHear"
+      "tBeatReq\022\014\n\004Data\030\001 \001(\r\022\021\n\tProcessID\030\002 \001("
+      "\004\"E\n\021WatchHeartBeatAck\022\017\n\007RetCode\030\001 \001(\r\022"
+      "\014\n\004Data\030\002 \001(\r\022\021\n\tProcessID\030\003 \001(\004\"3\n\rSetu"
+      "pEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\022\017\n\007BagGuid\030"
+      "\002 \001(\004\" \n\rSetupEquipAck\022\017\n\007RetCode\030\001 \001(\r\""
+      "\"\n\rUnsetEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\" \n\rU"
+      "nsetEquipAck\022\017\n\007RetCode\030\001 \001(\r\"B\n\013SetupGe"
+      "mReq\022\017\n\007GemGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\022\021"
+      "\n\tTargetPos\030\003 \001(\005\"\036\n\013SetupGemAck\022\017\n\007RetC"
+      "ode\030\001 \001(\r\"\036\n\013UnsetGemReq\022\017\n\007GemGuid\030\001 \001("
+      "\004\"\036\n\013UnsetGemAck\022\017\n\007RetCode\030\001 \001(\r\"9\n\017Set"
+      "upPartnerReq\022\023\n\013PartnerGuid\030\001 \001(\004\022\021\n\tTar"
+      "getPos\030\002 \001(\005\"\"\n\017SetupPartnerAck\022\017\n\007RetCo"
+      "de\030\001 \001(\r\"$\n\017UnsetPartnerReq\022\021\n\tTargetPos"
+      "\030\001 \001(\005\"\"\n\017UnsetPartnerAck\022\017\n\007RetCode\030\001 \001"
+      "(\r\"5\n\rSetupMountReq\022\021\n\tMountGuid\030\001 \001(\004\022\021"
+      "\n\tTargetPos\030\002 \001(\005\" \n\rSetupMountAck\022\017\n\007Re"
+      "tCode\030\001 \001(\r\"\"\n\rUnsetMountReq\022\021\n\tMountGui"
+      "d\030\001 \001(\004\" \n\rUnsetMountAck\022\017\n\007RetCode\030\001 \001("
+      "\r\"\036\n\013SetupPetReq\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013Set"
+      "upPetAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetPetReq"
+      "\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013UnsetPetAck\022\017\n\007RetC"
+      "ode\030\001 \001(\r\"A\n\013StoreBuyReq\022\021\n\tStoreType\030\001 "
+      "\001(\005\022\017\n\007StoreID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n\013"
+      "StoreBuyAck\022\017\n\007RetCode\030\001 \001(\r\"p\n\022ObjectCh"
+      "angeNotify\022\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeType"
+      "\030\002 \001(\005\022\021\n\tIntValue1\030\003 \001(\003\022\021\n\tIntValue2\030\004"
+      " \001(\003\022\020\n\010StrValue\030\005 \001(\t\"R\n\rHitEffectItem\022"
+      "\014\n\004Guid\030\001 \001(\004\022\022\n\nTargetGUID\030\002 \001(\004\022\021\n\tHur"
+      "tValue\030\003 \001(\005\022\014\n\004Crit\030\004 \001(\010\"0\n\014HitEffectN"
+      "tf\022 \n\010ItemList\030\001 \003(\0132\016.HitEffectItem\"\014\n\n"
+      "UseItemReq\"\014\n\nUseItemAck\"\"\n\023MsgGetRandom"
+      "NameReq\022\013\n\003Sex\030\001 \001(\005\"#\n\023MsgGetRandomName"
+      "Ack\022\014\n\004Name\030\001 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6289);
+      descriptor, 6385);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Game.proto", &protobuf_RegisterTypes);
 }
@@ -7395,6 +7430,7 @@ void SvrRegToSvrAck::InternalSwap(SvrRegToSvrAck* other) {
 void SelectServerReq::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SelectServerReq::kAccountIDFieldNumber;
 const int SelectServerReq::kServerIDFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -7411,12 +7447,16 @@ SelectServerReq::SelectServerReq(const SelectServerReq& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  serverid_ = from.serverid_;
+  ::memcpy(&accountid_, &from.accountid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&serverid_) -
+    reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
   // @@protoc_insertion_point(copy_constructor:SelectServerReq)
 }
 
 void SelectServerReq::SharedCtor() {
-  serverid_ = 0;
+  ::memset(&accountid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverid_) -
+      reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
   _cached_size_ = 0;
 }
 
@@ -7457,7 +7497,9 @@ void SelectServerReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  serverid_ = 0;
+  ::memset(&accountid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverid_) -
+      reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
   _internal_metadata_.Clear();
 }
 
@@ -7471,10 +7513,24 @@ bool SelectServerReq::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // int32 ServerID = 1;
+      // uint64 AccountID = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &accountid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 ServerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -7511,9 +7567,14 @@ void SelectServerReq::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 ServerID = 1;
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->accountid(), output);
+  }
+
+  // int32 ServerID = 2;
   if (this->serverid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->serverid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->serverid(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7530,9 +7591,14 @@ void SelectServerReq::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 ServerID = 1;
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->accountid(), target);
+  }
+
+  // int32 ServerID = 2;
   if (this->serverid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->serverid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->serverid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7552,7 +7618,14 @@ size_t SelectServerReq::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // int32 ServerID = 1;
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->accountid());
+  }
+
+  // int32 ServerID = 2;
   if (this->serverid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -7588,6 +7661,9 @@ void SelectServerReq::MergeFrom(const SelectServerReq& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.accountid() != 0) {
+    set_accountid(from.accountid());
+  }
   if (from.serverid() != 0) {
     set_serverid(from.serverid());
   }
@@ -7617,6 +7693,7 @@ void SelectServerReq::Swap(SelectServerReq* other) {
 }
 void SelectServerReq::InternalSwap(SelectServerReq* other) {
   using std::swap;
+  swap(accountid_, other->accountid_);
   swap(serverid_, other->serverid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -7634,6 +7711,7 @@ void SelectServerAck::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SelectServerAck::kRetCodeFieldNumber;
+const int SelectServerAck::kAccountIDFieldNumber;
 const int SelectServerAck::kServerIDFieldNumber;
 const int SelectServerAck::kServerAddrFieldNumber;
 const int SelectServerAck::kServerPortFieldNumber;
@@ -7657,17 +7735,17 @@ SelectServerAck::SelectServerAck(const SelectServerAck& from)
   if (from.serveraddr().size() > 0) {
     serveraddr_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serveraddr_);
   }
-  ::memcpy(&retcode_, &from.retcode_,
+  ::memcpy(&accountid_, &from.accountid_,
     static_cast<size_t>(reinterpret_cast<char*>(&logincode_) -
-    reinterpret_cast<char*>(&retcode_)) + sizeof(logincode_));
+    reinterpret_cast<char*>(&accountid_)) + sizeof(logincode_));
   // @@protoc_insertion_point(copy_constructor:SelectServerAck)
 }
 
 void SelectServerAck::SharedCtor() {
   serveraddr_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&retcode_, 0, static_cast<size_t>(
+  ::memset(&accountid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&logincode_) -
-      reinterpret_cast<char*>(&retcode_)) + sizeof(logincode_));
+      reinterpret_cast<char*>(&accountid_)) + sizeof(logincode_));
   _cached_size_ = 0;
 }
 
@@ -7710,9 +7788,9 @@ void SelectServerAck::Clear() {
   (void) cached_has_bits;
 
   serveraddr_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&retcode_, 0, static_cast<size_t>(
+  ::memset(&accountid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&logincode_) -
-      reinterpret_cast<char*>(&retcode_)) + sizeof(logincode_));
+      reinterpret_cast<char*>(&accountid_)) + sizeof(logincode_));
   _internal_metadata_.Clear();
 }
 
@@ -7740,10 +7818,24 @@ bool SelectServerAck::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 ServerID = 2;
+      // uint64 AccountID = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &accountid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 ServerID = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -7754,10 +7846,10 @@ bool SelectServerAck::MergePartialFromCodedStream(
         break;
       }
 
-      // string ServerAddr = 3;
-      case 3: {
+      // string ServerAddr = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_serveraddr()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -7770,10 +7862,10 @@ bool SelectServerAck::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 ServerPort = 4;
-      case 4: {
+      // int32 ServerPort = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -7784,10 +7876,10 @@ bool SelectServerAck::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 LoginCode = 5;
-      case 5: {
+      // int32 LoginCode = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -7829,29 +7921,34 @@ void SelectServerAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->retcode(), output);
   }
 
-  // int32 ServerID = 2;
-  if (this->serverid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->serverid(), output);
+  // uint64 AccountID = 2;
+  if (this->accountid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->accountid(), output);
   }
 
-  // string ServerAddr = 3;
+  // int32 ServerID = 3;
+  if (this->serverid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->serverid(), output);
+  }
+
+  // string ServerAddr = 4;
   if (this->serveraddr().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->serveraddr().data(), static_cast<int>(this->serveraddr().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "SelectServerAck.ServerAddr");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->serveraddr(), output);
+      4, this->serveraddr(), output);
   }
 
-  // int32 ServerPort = 4;
+  // int32 ServerPort = 5;
   if (this->serverport() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->serverport(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->serverport(), output);
   }
 
-  // int32 LoginCode = 5;
+  // int32 LoginCode = 6;
   if (this->logincode() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->logincode(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->logincode(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7873,12 +7970,17 @@ void SelectServerAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->retcode(), target);
   }
 
-  // int32 ServerID = 2;
-  if (this->serverid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->serverid(), target);
+  // uint64 AccountID = 2;
+  if (this->accountid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->accountid(), target);
   }
 
-  // string ServerAddr = 3;
+  // int32 ServerID = 3;
+  if (this->serverid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->serverid(), target);
+  }
+
+  // string ServerAddr = 4;
   if (this->serveraddr().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->serveraddr().data(), static_cast<int>(this->serveraddr().length()),
@@ -7886,17 +7988,17 @@ void SelectServerAck::SerializeWithCachedSizes(
       "SelectServerAck.ServerAddr");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->serveraddr(), target);
+        4, this->serveraddr(), target);
   }
 
-  // int32 ServerPort = 4;
+  // int32 ServerPort = 5;
   if (this->serverport() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->serverport(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->serverport(), target);
   }
 
-  // int32 LoginCode = 5;
+  // int32 LoginCode = 6;
   if (this->logincode() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->logincode(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->logincode(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7916,11 +8018,18 @@ size_t SelectServerAck::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // string ServerAddr = 3;
+  // string ServerAddr = 4;
   if (this->serveraddr().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->serveraddr());
+  }
+
+  // uint64 AccountID = 2;
+  if (this->accountid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->accountid());
   }
 
   // uint32 RetCode = 1;
@@ -7930,21 +8039,21 @@ size_t SelectServerAck::ByteSizeLong() const {
         this->retcode());
   }
 
-  // int32 ServerID = 2;
+  // int32 ServerID = 3;
   if (this->serverid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->serverid());
   }
 
-  // int32 ServerPort = 4;
+  // int32 ServerPort = 5;
   if (this->serverport() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->serverport());
   }
 
-  // int32 LoginCode = 5;
+  // int32 LoginCode = 6;
   if (this->logincode() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -7983,6 +8092,9 @@ void SelectServerAck::MergeFrom(const SelectServerAck& from) {
   if (from.serveraddr().size() > 0) {
 
     serveraddr_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serveraddr_);
+  }
+  if (from.accountid() != 0) {
+    set_accountid(from.accountid());
   }
   if (from.retcode() != 0) {
     set_retcode(from.retcode());
@@ -8023,6 +8135,7 @@ void SelectServerAck::Swap(SelectServerAck* other) {
 void SelectServerAck::InternalSwap(SelectServerAck* other) {
   using std::swap;
   serveraddr_.Swap(&other->serveraddr_);
+  swap(accountid_, other->accountid_);
   swap(retcode_, other->retcode_);
   swap(serverid_, other->serverid_);
   swap(serverport_, other->serverport_);
@@ -23055,6 +23168,286 @@ void SealAccountAck::InternalSwap(SealAccountAck* other) {
 }
 
 ::google::protobuf::Metadata SealAccountAck::GetMetadata() const {
+  protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void SetLastServerNty::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SetLastServerNty::kAccountIDFieldNumber;
+const int SetLastServerNty::kServerIDFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SetLastServerNty::SetLastServerNty()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetLastServerNty();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:SetLastServerNty)
+}
+SetLastServerNty::SetLastServerNty(const SetLastServerNty& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&accountid_, &from.accountid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&serverid_) -
+    reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
+  // @@protoc_insertion_point(copy_constructor:SetLastServerNty)
+}
+
+void SetLastServerNty::SharedCtor() {
+  ::memset(&accountid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverid_) -
+      reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
+  _cached_size_ = 0;
+}
+
+SetLastServerNty::~SetLastServerNty() {
+  // @@protoc_insertion_point(destructor:SetLastServerNty)
+  SharedDtor();
+}
+
+void SetLastServerNty::SharedDtor() {
+}
+
+void SetLastServerNty::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* SetLastServerNty::descriptor() {
+  ::protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SetLastServerNty& SetLastServerNty::default_instance() {
+  ::protobuf_Msg_5fGame_2eproto::InitDefaultsSetLastServerNty();
+  return *internal_default_instance();
+}
+
+SetLastServerNty* SetLastServerNty::New(::google::protobuf::Arena* arena) const {
+  SetLastServerNty* n = new SetLastServerNty;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void SetLastServerNty::Clear() {
+// @@protoc_insertion_point(message_clear_start:SetLastServerNty)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&accountid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverid_) -
+      reinterpret_cast<char*>(&accountid_)) + sizeof(serverid_));
+  _internal_metadata_.Clear();
+}
+
+bool SetLastServerNty::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:SetLastServerNty)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // uint64 AccountID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &accountid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 ServerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &serverid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:SetLastServerNty)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:SetLastServerNty)
+  return false;
+#undef DO_
+}
+
+void SetLastServerNty::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:SetLastServerNty)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->accountid(), output);
+  }
+
+  // int32 ServerID = 2;
+  if (this->serverid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->serverid(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:SetLastServerNty)
+}
+
+::google::protobuf::uint8* SetLastServerNty::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:SetLastServerNty)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->accountid(), target);
+  }
+
+  // int32 ServerID = 2;
+  if (this->serverid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->serverid(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:SetLastServerNty)
+  return target;
+}
+
+size_t SetLastServerNty::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:SetLastServerNty)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // uint64 AccountID = 1;
+  if (this->accountid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->accountid());
+  }
+
+  // int32 ServerID = 2;
+  if (this->serverid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->serverid());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void SetLastServerNty::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:SetLastServerNty)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SetLastServerNty* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetLastServerNty>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:SetLastServerNty)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:SetLastServerNty)
+    MergeFrom(*source);
+  }
+}
+
+void SetLastServerNty::MergeFrom(const SetLastServerNty& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:SetLastServerNty)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.accountid() != 0) {
+    set_accountid(from.accountid());
+  }
+  if (from.serverid() != 0) {
+    set_serverid(from.serverid());
+  }
+}
+
+void SetLastServerNty::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:SetLastServerNty)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SetLastServerNty::CopyFrom(const SetLastServerNty& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SetLastServerNty)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetLastServerNty::IsInitialized() const {
+  return true;
+}
+
+void SetLastServerNty::Swap(SetLastServerNty* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SetLastServerNty::InternalSwap(SetLastServerNty* other) {
+  using std::swap;
+  swap(accountid_, other->accountid_);
+  swap(serverid_, other->serverid_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata SetLastServerNty::GetMetadata() const {
   protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages];
 }

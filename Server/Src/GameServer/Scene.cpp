@@ -200,6 +200,7 @@ BOOL CScene::OnMsgObjectActionReq( NetPacket* pNetPacket )
 			continue;
 		}
 		pSceneObj->ProcessAction(Item);
+		m_pMonsterCreator->OnPlayerMove(pSceneObj->m_Pos.m_x, pSceneObj->m_Pos.m_z);
 	}
 
 	return TRUE;
@@ -733,8 +734,10 @@ BOOL CScene::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 		pSkillItem->set_skillid(pSceneObj->m_vtSpecials[i].dwSkillID);
 	}
 
-
 	pSceneObj->SendMsgProtoBuf(MSG_ENTER_SCENE_ACK, Ack);
+
+	UpdateAiController(0);
+
 	SendAllNewObjectToPlayer(pSceneObj);
 
 	return TRUE;
@@ -770,14 +773,11 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 			continue;
 		}
 
+		//如果是机器人，必须有实控人
 		if (pOther->IsRobot())
 		{
-			if (pOther->m_uControlerID == 0)
-			{
-				pOther->m_uControlerID = pSceneObject->GetObjectGUID();
-			}
+			ERROR_RETURN_FALSE(pOther->m_uControlerID != 0);
 		}
-
 
 		pOther->SaveNewData(Nty);
 	}
@@ -792,10 +792,8 @@ BOOL CScene::SendAllNewObjectToPlayer( CSceneObject* pSceneObject )
 			continue;
 		}
 
-		if(pOther->m_uControlerID == 0)
-		{
-			pOther->m_uControlerID = pSceneObject->GetObjectGUID();
-		}
+		//宠物必须有控制人
+		ERROR_RETURN_FALSE(pOther->m_uControlerID != 0);
 
 		pOther->SaveNewData(Nty);
 	}
@@ -1038,6 +1036,7 @@ BOOL CScene::RemoveDeadObject()
 	return TRUE;
 }
 
+//场景里有玩家进入和退出的时候，都要进行控制人检查
 BOOL CScene::UpdateAiController(UINT64 uFilterID)
 {
 	UINT64 u64ControllerID = SelectController(uFilterID);
@@ -1474,8 +1473,13 @@ CSceneObject* CScene::CreateMonster(UINT32 dwActorID, UINT32 dwCamp, FLOAT x, FL
 	pObject->SetPos(x, y, z, ft);
 
 	m_pSceneLogic->OnObjectCreate(pObject);
+
 	AddMonster(pObject);
+
+	pObject->m_uControlerID = SelectController(0);
+
 	BroadNewObject(pObject);
+
 	return pObject;
 }
 

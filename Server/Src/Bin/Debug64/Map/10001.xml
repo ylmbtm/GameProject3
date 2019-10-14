@@ -1,16 +1,27 @@
-<Root MapID="10001" MapType="0" MapName="" AllowRide="true" AllowPK="true" AllowTrade="true">
+<Root MapID="10001" MapName="">
   <MapBorns>
     <DTBorn ID="1" Pos="(-23.47,20.50,27.03)" Face="0.00" />
   </MapBorns>
   <MapWaves>
-    <DTWave ID="5">
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-13.54,20.50,4.87)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-26.84,20.50,3.29)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-13.58,20.50,12.87)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-27.32,20.50,13.07)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-20.06,20.50,3.00)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-24.54,20.50,7.13)" Face="0.00" Camp="2" />
-      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-16.44,20.50,6.87)" Face="0.00" Camp="2" />
+    <DTWave ID="1" TriggerType="0" TriggerBox="(-22.00,9.00,-16.00,15.00)">
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-13.54,20.50,10.94)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-26.84,20.50,9.69)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-20.20,20.50,6.56)" Face="0.00" Camp="2" />
+    </DTWave>
+    <DTWave ID="2" TriggerType="0" TriggerBox="(-20.00,-8.00,-14.00,-2.00)">
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-10.96,20.50,-9.89)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-17.47,20.50,-11.89)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-24.54,20.50,-9.34)" Face="0.00" Camp="2" />
+    </DTWave>
+    <DTWave ID="3" TriggerType="0" TriggerBox="(-16.00,-25.00,-10.00,-19.00)">
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-14.99,20.50,-28.67)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-21.18,20.50,-24.63)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-8.20,20.50,-27.40)" Face="0.00" Camp="2" />
+    </DTWave>
+    <DTWave ID="4" TriggerType="0" TriggerBox="(-16.00,-56.00,-10.00,-50.00)">
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-13.54,18.67,-60.50)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-18.60,18.67,-56.70)" Face="0.00" Camp="2" />
+      <DTMonster MonsterID="50003" MonsterAI="0" Pos="(-11.30,18.67,-58.00)" Face="0.00" Camp="2" />
     </DTWave>
   </MapWaves>
   <MapConditions>

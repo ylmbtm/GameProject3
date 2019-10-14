@@ -37,6 +37,12 @@ enum EBattleCamp
 	EBC_MONSTER,  //怪物阵营
 };
 
+enum ETriggerType
+{
+	ETT_NORMAL,     //直接触发
+	ETT_TRIBOX,     //触发盒触发
+	ETT_TIME,       //时间触发
+};
 
 
 #endif //__SERVER_STRUCT_H__
