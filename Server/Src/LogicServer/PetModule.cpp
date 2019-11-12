@@ -176,11 +176,10 @@ BOOL CPetModule::OnMsgSetupPetReq(NetPacket* pNetPacket)
 		m_pOwnPlayer->SendPlayerChange(ECT_PET, 0, pTargetObject->m_PetID, "");
 	}
 
-
-
 	SetupPetAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	m_pOwnPlayer->SendMsgProtoBuf(MSG_SETUP_PET_ACK, Ack);
+
 	return TRUE;
 }
 

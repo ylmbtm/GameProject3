@@ -91,7 +91,10 @@ BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::M
 BOOL CPlayerManager::ZeroTimer(UINT32 nParam)
 {
 	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
-	ERROR_RETURN_FALSE(pNode != NULL);
+	if (pNode == NULL) //一个人也没有
+	{
+		return TRUE;
+	}
 
 	CPlayerObject* pTempObj = NULL;
 	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))

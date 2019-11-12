@@ -188,7 +188,7 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 	//判断是否爆击
 	dwRandValue = CommonFunc::GetRandNum(1);
 	BOOL bCriticalHit = FALSE;
-	if (dwRandValue < (m_pCastObject->m_Propertys[EA_CRIT_HIT] - m_pCastObject->m_Propertys[EA_CRIT_DEF]) || dwRandValue < 100)
+	if (dwRandValue < (m_pCastObject->m_Propertys[EA_CRIT_HIT] - pTarget->m_Propertys[EA_CRIT_DEF]) || dwRandValue < 100)
 	{
 		bCriticalHit = TRUE;
 	}

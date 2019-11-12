@@ -566,8 +566,6 @@ BOOL CStaticData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector
 		}
 	}
 
-
-
 	for (int  cycle = 0; cycle < AwardItem.dwRatioCount; cycle++ )
 	{
 		UINT32 dwRandValue = CommonFunc::GetRandNum(0);
