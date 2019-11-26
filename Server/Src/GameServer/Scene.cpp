@@ -131,13 +131,16 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
-BOOL CScene::AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit)
+BOOL CScene::AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit, UINT32 nHitActionID, UINT32 nHitEffectID, FLOAT fHitDistance)
 {
 	HitEffectItem* pItem = m_HitEffectNtf.add_itemlist();
-	pItem->set_guid(uAttackerID);
+	pItem->set_castguid(uAttackerID);
 	pItem->set_targetguid(uTargetID);
 	pItem->set_crit(bCritHit);
 	pItem->set_hurtvalue(nHurtValue);
+	pItem->set_hitactionid(nHitActionID);
+	pItem->set_hiteffectid(nHitEffectID);
+	pItem->set_hitdistance(fHitDistance);
 
 	return TRUE;
 }

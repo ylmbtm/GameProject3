@@ -91,13 +91,12 @@ enum EActionType {
   AT_BEATBACK = 14,
   AT_BEATDOWN = 15,
   AT_BEATFLY = 16,
-  AT_FLOATING = 17,
   EActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   EActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool EActionType_IsValid(int value);
 const EActionType EActionType_MIN = AT_NONE;
-const EActionType EActionType_MAX = AT_FLOATING;
+const EActionType EActionType_MAX = AT_BEATFLY;
 const int EActionType_ARRAYSIZE = EActionType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* EActionType_descriptor();

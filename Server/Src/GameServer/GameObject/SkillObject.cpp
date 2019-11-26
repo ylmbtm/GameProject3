@@ -167,7 +167,7 @@ INT32 CSkillObject::GetTargetNum()
 	return (INT32)m_vtTargets.size();
 }
 
-BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
+BOOL CSkillObject::AttackTarget(CSceneObject* pTarget, UINT32 HitActionID, UINT32 HitEffectID, FLOAT HitDistance)
 {
 	ERROR_RETURN_FALSE(m_pCastObject != NULL);
 	ERROR_RETURN_FALSE(m_pSkillInfo != NULL);
@@ -181,7 +181,7 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 	if (dwRandValue > (8000 + m_pCastObject->m_Propertys[EA_HIT_RATE] - pTarget->m_Propertys[EA_DODGE]) && dwRandValue > 5000)
 	{
 		//未命中
-		pScene->AddHitEffect(m_pCastObject->GetObjectGUID(), pTarget->GetObjectGUID(), 0, FALSE);
+		pScene->AddHitEffect(m_pCastObject->GetObjectGUID(), pTarget->GetObjectGUID(), 0, FALSE, HitActionID, HitEffectID, HitDistance);
 		return TRUE;
 	}
 
@@ -220,7 +220,7 @@ BOOL CSkillObject::AttackTarget(CSceneObject* pTarget)
 
 	pTarget->ChangeHp(-nHurt);
 
-	pScene->AddHitEffect(m_pCastObject->GetObjectGUID(), pTarget->GetObjectGUID(), -nHurt, bCriticalHit);
+	pScene->AddHitEffect(m_pCastObject->GetObjectGUID(), pTarget->GetObjectGUID(), -nHurt, bCriticalHit, HitActionID, HitEffectID, HitDistance);
 
 	return TRUE;
 }
@@ -267,7 +267,7 @@ BOOL CSkillObject::ProcessSkillEvent(StSkillEvent& SkillEvent)
 			pTempObject->AddBuff(SkillEvent.TargetBuffID);
 		}
 
-		AttackTarget(pTempObject);
+		AttackTarget(pTempObject, SkillEvent.HitActionID, SkillEvent.HitEffect, SkillEvent.HitDistance);
 	}
 
 	if (SkillEvent.vtBullets.size() > 0)

@@ -158,9 +158,6 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	bRet = CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
-	ERROR_RETURN_FALSE(bRet)
-
 	m_LogicMsgHandler.Init(0);
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");

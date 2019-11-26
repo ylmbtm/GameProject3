@@ -7,7 +7,7 @@ UINT32 CommonFunc::GetProcessorNum()
 #ifdef WIN32
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);
-	dwNum = sysInfo.dwNumberOfProcessors * 2;
+	dwNum = sysInfo.dwNumberOfProcessors;
 #else
 	dwNum = sysconf(_SC_NPROCESSORS_CONF);
 #endif

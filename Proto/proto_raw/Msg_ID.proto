@@ -60,7 +60,9 @@ enum MessageID {
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;
     
     MSG_SET_LAST_SERVER_NTY          = 100034;
-
+    
+    MSG_GM_STOP_SERVER_REQ			 = 100035;
+    MSG_GM_STOP_SERVER_ACK			 = 100036;
     MSG_NORMAL_MSGID_END             = 199999;
     
     //============================================================================================

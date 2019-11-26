@@ -1028,7 +1028,6 @@ BOOL CStaticData::ReadSkillEvent()
 		for (auto pEventNode = pSkillNode->first_node("ActScope"); pEventNode != NULL; pEventNode = pEventNode->next_sibling("ActScope"))
 		{
 			StSkillEvent tEvent;
-			tEvent.ActionID = 0;
 			pAttr = pEventNode->first_attribute("RangeType", strlen("RangeType"), false);
 			if (pAttr == NULL)
 			{
@@ -1051,6 +1050,30 @@ BOOL CStaticData::ReadSkillEvent()
 			}
 
 			tEvent.TrigerTime = (UINT64)(CommonConvert::StringToFloat(pAttr->value()) * 1000);
+
+			pAttr = pEventNode->first_attribute("HitActionID", strlen("HitActionID"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+
+			tEvent.HitActionID = (UINT32)CommonConvert::StringToInt(pAttr->value());
+
+			pAttr = pEventNode->first_attribute("HitEffectID", strlen("HitEffectID"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+
+			tEvent.HitEffect = (UINT32)CommonConvert::StringToInt(pAttr->value());
+
+			pAttr = pEventNode->first_attribute("HitDistance", strlen("HitDistance"), false);
+			if (pAttr == NULL)
+			{
+				continue;
+			}
+
+			tEvent.HitDistance = CommonConvert::StringToFloat(pAttr->value());
 
 			//////////////////////////////////////////////////////////////////////////
 			//解析子弹

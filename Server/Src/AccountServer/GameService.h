@@ -45,6 +45,7 @@ public:
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
+	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

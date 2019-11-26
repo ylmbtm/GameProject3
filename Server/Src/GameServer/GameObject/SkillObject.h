@@ -32,7 +32,7 @@ public:
 
 	INT32 GetTargetNum();
 
-	BOOL AttackTarget(CSceneObject* pTarget);
+	BOOL AttackTarget(CSceneObject* pTarget, UINT32 HitActionID, UINT32 HitEffectID, FLOAT HitDistance);
 
 	BOOL CalcTargetObjects(StSkillEvent& SkillEvent);
 

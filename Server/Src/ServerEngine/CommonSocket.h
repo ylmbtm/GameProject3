@@ -58,6 +58,8 @@ std::string IpAddrIntToStr(UINT32 dwIpAddr);
 
 BOOL		SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize);
 
+std::string GetRemoteIP(SOCKET hSocket);
+
 #ifdef WIN32
 BOOL		ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
 

@@ -186,3 +186,10 @@ BOOL CGameService::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
 
 	return TRUE;
 }
+
+BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
+{
+	GmStopServerReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	return TRUE;
+}

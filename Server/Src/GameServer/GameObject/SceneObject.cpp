@@ -309,7 +309,6 @@ BOOL CSceneObject::Reset()
 	m_nBattleResult     = ECR_NONE;
 	m_bIsMonsCheck      = FALSE;
 	m_bIsCampCheck      = TRUE;
-	m_dwActorID         = 0;
 	m_uHostGuid         = 0;
 	m_uControlerID      = 0;
 	m_uSummonerID       = 0;

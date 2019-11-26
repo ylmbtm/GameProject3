@@ -44,6 +44,7 @@ enum EBulletType
 	EBT_BACK            = 6,//回旋飞弹
 	EBT_EXTRACT         = 7,//抽取飞弹
 	EBT_BOUNDCE         = 8,//弹跳飞弹
+	EBT_WAVE            = 9,//冲击波
 };
 
 enum ESkillStatus
@@ -121,6 +122,9 @@ struct StBulletInfo
 	ERangeType  RangeType   = ERT_CIRCLE;       //范围类型
 	FLOAT       RangeParams[5] = { 0 };         //范围参数
 	UINT32      LifeTime    = 0;                //生命期
+	UINT32      HitActionID = 0;                 //受击动作, 击退，击飞， 击倒
+	UINT32      HitEffect = 0;                   //受击特效
+	FLOAT       HitDistance = 0;                 //受击移动移动距离
 };
 
 struct StBulletObject
@@ -139,7 +143,6 @@ struct StGoblinInfo
 struct StSkillEvent
 {
 	UINT64 TrigerTime = 0;                  //触发时间
-	UINT32 ActionID = 0;                    //受击动作, 击退，击飞， 击倒
 	UINT32 SelfBuffID = 0;                  //自己的BuffID
 	UINT32 TargetBuffID = 0;                //目标的BuffID
 	FLOAT  RangeParams[5] = {0};            //范围参数
@@ -147,6 +150,9 @@ struct StSkillEvent
 	UINT32 CenterType = 0;                  //中心点类型
 	std::vector<StBulletObject> vtBullets;  //子弹列表
 	std::vector<StGoblinInfo> vtGoblins;    //召唤的妖精列表
+	UINT32 HitActionID = 0;                 //受击动作, 击退，击飞， 击倒
+	UINT32 HitEffect = 0;                   //受击特效
+	FLOAT  HitDistance = 0;                 //受击移动移动距离
 };
 
 struct StSkillInfo

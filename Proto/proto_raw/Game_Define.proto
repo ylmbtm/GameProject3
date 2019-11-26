@@ -19,7 +19,6 @@ enum EActionType {
     AT_RUN          = 4;    //跑动
     AT_FLY          = 5;    //飞行
     
-    
     AT_SKILL        = 6;    //技能
     AT_MINE         = 7;    //采集
     AT_ROLL         = 8;    //翻滚
@@ -32,9 +31,6 @@ enum EActionType {
     AT_BEATBACK     = 14;   //击退
     AT_BEATDOWN     = 15;   //击倒
     AT_BEATFLY      = 16;   //击飞
-    AT_FLOATING     = 17;   //浮空
-    
-
 }
 
 enum EActionStatue {

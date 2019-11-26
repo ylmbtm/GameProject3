@@ -46,7 +46,7 @@ BOOL CBulletObject::OnUpdate(UINT64 uTick)
 	{
 		for (int i = 0; i < m_vtTargets.size(); i++)
 		{
-			m_pSkillObject->AttackTarget(m_vtTargets[i]);
+			m_pSkillObject->AttackTarget(m_vtTargets[i], m_pBulletInfo->HitActionID, m_pBulletInfo->HitEffect, m_pBulletInfo->HitDistance );
 		}
 
 		FinishBullet();
@@ -253,6 +253,10 @@ BOOL CBulletObject::UpdateBulletPos(UINT64 uTick)
 		}
 		break;
 		case EBT_BOUNDCE:       //弹跳飞弹
+		{
+		}
+		break;
+		case EBT_WAVE:          //冲击波
 		{
 		}
 		break;

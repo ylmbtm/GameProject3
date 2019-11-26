@@ -6,6 +6,15 @@ message SkillItem {
     int32  KeyPos = 3;   //强化等级
 }
 
+message GmStopServerReq {
+    uint32    Data        	= 1;
+}
+
+message GmStopServerAck {
+    uint32    RetCode       = 1;
+}
+
+
 message CheckVersionReq {
     string   ClientVerion   = 1;
     int32    Channel        = 2;
@@ -540,10 +549,13 @@ message ObjectChangeNotify {
 
 message HitEffectItem
 {
-    uint64            Guid        = 1;
-    uint64            TargetGUID  = 2; //目标的ID
+    uint64            CastGuid    = 1; //施放者GUID
+    uint64            TargetGuid  = 2; //目标GUID
     int32             HurtValue   = 3; //伤害值
     bool              Crit        = 4; //是否暴击
+    uint32            HitActionID = 5;
+    uint32            HitEffectID = 6;
+    float             HitDistance = 7;
 }
 
 message HitEffectNtf

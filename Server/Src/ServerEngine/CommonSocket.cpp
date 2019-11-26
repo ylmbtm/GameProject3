@@ -62,6 +62,23 @@ BOOL    CommonSocket::SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 n
 	return TRUE;
 }
 
+std::string CommonSocket::GetRemoteIP(SOCKET hSocket)
+{
+	sockaddr_in     _sockAddr;
+
+	socklen_t       _sockAddr_len = sizeof(_sockAddr);
+
+	memset(&_sockAddr, 0, sizeof(_sockAddr));
+
+	getpeername(hSocket, (sockaddr*)&_sockAddr, &_sockAddr_len);
+
+	CHAR szIpBuffer[100] = { 0 };
+
+	inet_ntop(AF_INET, &_sockAddr.sin_addr, szIpBuffer, 100);
+
+	return std::string(szIpBuffer);
+}
+
 BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
 	int bOn = 1;
@@ -110,7 +127,7 @@ void   CommonSocket::CloseSocket(SOCKET hSocket)
 
 std::string CommonSocket::GetLocalIP()
 {
-	char hostname[256];
+	char hostname[256] = { 0 };
 	int ret = gethostname(hostname, sizeof(hostname));
 	if (ret == SOCKET_ERROR)
 	{
@@ -263,9 +280,9 @@ BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlappe
 	DWORD dwBytes;
 	GUID GuidAcceptEx = WSAID_ACCEPTEX;
 	if (SOCKET_ERROR == WSAIoctl(hListenSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
-		&GuidAcceptEx, sizeof(GuidAcceptEx),
-		&lpfnAcceptEx, sizeof(lpfnAcceptEx),
-		&dwBytes, NULL, NULL))
+	                             &GuidAcceptEx, sizeof(GuidAcceptEx),
+	                             &lpfnAcceptEx, sizeof(lpfnAcceptEx),
+	                             &dwBytes, NULL, NULL))
 	{
 		return FALSE;
 	}

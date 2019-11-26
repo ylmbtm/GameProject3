@@ -127,7 +127,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//伤害效果
 	HitEffectNtf    m_HitEffectNtf;
-	BOOL            AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit);
+	BOOL            AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit, UINT32 nHitActionID, UINT32 nHitEffectID, FLOAT fHitDistance);
 	BOOL            BroadHitEffect();
 
 	//////////////////////////////////////////////////////////////////////////
