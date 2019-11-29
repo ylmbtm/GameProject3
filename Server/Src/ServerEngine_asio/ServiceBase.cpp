@@ -43,17 +43,9 @@ BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnectio
 
 BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp)
 {
-	if (pDispather == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE (pDispather != NULL)
 
-	if((nPortNum == 0) || (nMaxConn == 0))
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE((nPortNum != 0) && (nMaxConn != 0))
 
 	m_pPacketDispatcher = pDispather;
 
@@ -132,11 +124,7 @@ BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
 
 CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 {
-	if(strIpAddr.empty() || sPort <= 0)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(!strIpAddr.empty() && sPort > 0)
 
 	return CNetManager::GetInstancePtr()->ConnectTo_Async(strIpAddr, sPort);
 }

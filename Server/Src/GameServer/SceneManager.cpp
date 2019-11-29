@@ -51,7 +51,7 @@ BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCop
 
 	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum, uCreateKey))
 	{
-		ASSERT_FAIELD;
+		CLog::GetInstancePtr()->LogError("Error Create Scene Failed!!!");
 
 		delete pScene;
 
@@ -194,12 +194,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 
 BOOL CSceneManager::LoadMainScene()
 {
-	if(!CreateScene(6, MakeCopyGUID(), 3, 0, 0))
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(CreateScene(6, MakeCopyGUID(), 3, 0, 0));
 
 	return TRUE;
 }

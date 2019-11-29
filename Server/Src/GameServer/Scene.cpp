@@ -1724,11 +1724,6 @@ BOOL CScene::ReadSceneXml()
 
 CSceneObject* CScene::GetOwnPlayer()
 {
-	if((m_mapPlayer.size() < 1) || (m_mapPlayer.size() > 1))
-	{
-		ASSERT_FAIELD;
-	}
-
 	std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin();
 	if(itor == m_mapPlayer.end())
 	{

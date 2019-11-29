@@ -477,7 +477,6 @@ BOOL CPlayerObject::IsOnline()
 {
 	if (m_IsOnline && m_dwProxyConnID == 0)
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 

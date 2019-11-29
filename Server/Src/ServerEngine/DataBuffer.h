@@ -41,9 +41,9 @@ public:
 
 	BOOL Release()
 	{
-		ASSERT(m_pManager != NULL);
+		ERROR_RETURN_FALSE(m_pManager != NULL);
 
-		m_pManager->ReleaseDataBuff(this);
+		ERROR_RETURN_FALSE(m_pManager->ReleaseDataBuff(this));
 
 		return TRUE;
 	}
@@ -91,7 +91,6 @@ public:
 	{
 		if(dwDestLen < GetTotalLenth())
 		{
-			ASSERT_FAIELD;
 			return 0;
 		}
 
@@ -157,10 +156,7 @@ public:
 			pDataBuffer->m_pPrev = NULL;
 		}
 
-		if(pDataBuffer->m_dwRefCount != 0)
-		{
-			ASSERT_FAIELD;
-		}
+		ERROR_RETURN_NULL(pDataBuffer->m_dwRefCount == 0);
 
 		pDataBuffer->m_dwRefCount = 1;
 
@@ -192,7 +188,7 @@ public:
 		pBuff->m_dwRefCount--;
 		if (pBuff->m_dwRefCount < 0)
 		{
-			ASSERT_FAIELD;
+			return FALSE;
 		}
 
 		if (pBuff->m_dwRefCount == 0)
@@ -210,7 +206,7 @@ public:
 			}
 			else
 			{
-				ASSERT(pBuff->m_pPrev != NULL);
+				ERROR_RETURN_FALSE(pBuff->m_pPrev != NULL);
 				pBuff->m_pPrev->m_pNext = pBuff->m_pNext;
 				if (pBuff->m_pNext != NULL)
 				{
@@ -283,7 +279,6 @@ public:
 			if(bNext)
 			{
 				dwCount++;
-				ASSERT(dwCount < 10);
 				if(pBufferNode->m_pNext != NULL)
 				{
 					pBufferNode = pBufferNode->m_pNext;
@@ -297,7 +292,6 @@ public:
 			else
 			{
 				dwCount++;
-				ASSERT(dwCount < 10);
 				pBufferNode = pBufferNode->m_pPrev;
 			}
 		}

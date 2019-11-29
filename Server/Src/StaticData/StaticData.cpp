@@ -132,7 +132,6 @@ INT32 CStaticData::GetConstantValue(std::string& strName)
 		return itor->second;
 	}
 
-	ASSERT_FAIELD;
 	return 0;
 }
 
@@ -145,7 +144,6 @@ INT32 CStaticData::GetConstantValue(char* pszName)
 		return itor->second;
 	}
 
-	ASSERT_FAIELD;
 	return 0;
 }
 
@@ -153,7 +151,6 @@ INT64 CStaticData::GetActoinMaxValue(UINT32 dwActionID)
 {
 	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
 	{
-		ASSERT_FAIELD;
 		return 1;
 	}
 
@@ -164,7 +161,6 @@ UINT32 CStaticData::GetActoinUnitTime(UINT32 dwActionID)
 {
 	if((dwActionID <= 0) || (dwActionID >= m_vtActionList.size()))
 	{
-		ASSERT_FAIELD;
 		return 1;
 	}
 
@@ -275,7 +271,6 @@ StActorInfo* CStaticData::GetActorInfo(UINT32 dwActorID)
 	{
 		return &itor->second;
 	}
-	ASSERT_FAIELD;
 	return NULL;
 }
 

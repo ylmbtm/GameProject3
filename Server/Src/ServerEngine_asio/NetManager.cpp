@@ -19,14 +19,9 @@ CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler , std::string &strListenIp)
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp)
 {
-	if(pBufferHandler == NULL)
-	{
-		ASSERT_FAIELD;
-
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
 	m_pBufferHandler = pBufferHandler;
 
@@ -36,7 +31,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 	{
 		strListenIp = "0.0.0.0";
 	}
-	
+
 	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address_v4::from_string(strListenIp), nPortNum);
 
 	m_pAcceptor = new boost::asio::ip::tcp::acceptor(m_IoService, ep);
@@ -63,11 +58,7 @@ BOOL CNetManager::Close()
 BOOL CNetManager::WaitForConnect()
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	if(pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	m_pAcceptor->async_accept(pConnection->GetSocket(), boost::bind(&CNetManager::HandleAccept, this,  pConnection, boost::asio::placeholders::error));
 
@@ -76,7 +67,7 @@ BOOL CNetManager::WaitForConnect()
 
 CConnection* CNetManager::ConnectTo_Sync(std::string strIpAddr, UINT16 sPort)
 {
-	ASSERT_FAIELD;
+
 
 	return NULL;
 }
@@ -90,10 +81,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 	//boost::system::error_code error = boost::asio::error::host_not_found;
 
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	if(pConnection == NULL)
-	{
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pConnection != NULL);
 
 	//boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(strIpAddr), sPort);
 
@@ -216,11 +204,7 @@ BOOL CNetManager::SendMessageByConnID(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u6
 
 BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 {
-	if (pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	if (!pConnection->m_IsSending)
 	{

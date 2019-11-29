@@ -91,14 +91,12 @@ BOOL SharedMemoryBase::NewPage()
 	newpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, m_nPageCount, size);
 	if(newpage.m_shm == NULL)
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
 	newpage.m_pdata = (CHAR*)CommonFunc::GetShareMemory(newpage.m_shm);
 	if(newpage.m_pdata == NULL)
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -240,7 +238,6 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize,
 			firstpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, 0, size);
 			if(firstpage.m_shm == NULL)
 			{
-				ASSERT_FAIELD;
 				return;
 			}
 

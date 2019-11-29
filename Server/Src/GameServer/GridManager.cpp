@@ -240,12 +240,8 @@ BOOL CGridManager::GetSurroundingGrids( INT32 nIndex, INT32 sGridsp[10])
 BOOL CGridManager::IsObjectExist(CMapObject* pMapObject, INT32 dwIndex)
 {
 	CGrid* pGrid = GetGridByIndex(dwIndex);
-	if (pGrid == NULL)
-	{
-		ASSERT_FAIELD;
 
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pGrid != NULL);
 
 	return pGrid->IsObjectExist(pMapObject);
 

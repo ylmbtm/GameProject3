@@ -65,10 +65,6 @@ IDataBuffer* CBufferAllocator::AllocDataBuff( int nSize )
 	{
 		return m_BufferManager64K.AllocDataBuff();
 	}
-	else
-	{
-		return m_BufferManagerAny.AllocDataBuff();
-	}
 
-	return NULL;
+	return m_BufferManagerAny.AllocDataBuff();
 }

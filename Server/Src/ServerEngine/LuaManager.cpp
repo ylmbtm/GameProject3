@@ -8,7 +8,6 @@ CLuaHelper::CLuaHelper()
 
 CLuaHelper::~CLuaHelper()
 {
-	//ASSERT(m_pLuaState != NULL);
 	//因为CLuaHelper是帮助类，所以这个指针必须在对象析构前要调用Deattch,
 	//而且m_pLuaState赋值也只能是通过Attach来做;
 
@@ -51,7 +50,7 @@ lua_State* CLuaHelper::GetLuaState()
 
 INT32 CLuaHelper::GetGlobalVarInt( const char* pszVarName )
 {
-	ASSERT(m_pLuaState != NULL);
+	ERROR_RETURN_NULL(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -164,19 +163,10 @@ BOOL CLuaHelper::GetStackValue_String(INT32 nStackIndex, const CHAR*& strValue)
 
 BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, ... )
 {
-	if(pStrParamSig == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
+	ERROR_RETURN_FALSE(pStrParamSig != NULL);
 	char* pInParam = pStrParamSig;
 	char* pOutParam = strchr(pStrParamSig, '=');
-	if(pOutParam == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pOutParam != NULL);
 
 	int nStackTop = lua_gettop(m_pLuaState);
 	pOutParam += 1;
@@ -190,7 +180,6 @@ BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 	{
 		va_end(VarList);
 		lua_settop(m_pLuaState, nStackTop);
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -237,7 +226,7 @@ BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				break;
 			default:
 			{
-				ASSERT_FAIELD;
+
 			}
 			break;
 		}
@@ -293,7 +282,7 @@ BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 				break;
 			default:
 			{
-				ASSERT_FAIELD;
+
 			}
 			break;
 		}
@@ -312,7 +301,6 @@ BOOL CLuaHelper::LoadScriptFile(const char* pszLuaFile)
 {
 	if(m_pLuaState == NULL)
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -350,7 +338,6 @@ BOOL CLuaHelper::GetStackParams( char* pStrParamSig, ... )
 	{
 		va_end(VarList);
 		lua_settop(m_pLuaState, 0);
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 

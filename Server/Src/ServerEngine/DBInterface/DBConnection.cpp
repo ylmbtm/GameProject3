@@ -121,11 +121,7 @@ void CDBConnection::Close( void )
 
 BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 {
-	if((NULL == m_pMySql) || (pDBStoredProcedure == NULL))
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE((NULL != m_pMySql) && (pDBStoredProcedure != NULL));
 
 	MYSQL_STMT* pMySqlStmt = mysql_stmt_init(m_pMySql);
 	if(pMySqlStmt == NULL)
@@ -168,7 +164,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 			m_strError = mysql_error( m_pMySql );
 			mysql_stmt_close( pMySqlStmt );
 			pMySqlStmt = NULL;
-			ASSERT_FAIELD;
 			CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
 			return FALSE;
 		}
@@ -178,7 +173,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno( m_pMySql );
 		m_strError = mysql_error( m_pMySql );
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -189,7 +183,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		mysql_stmt_close( pMySqlStmt );
 		pMySqlStmt = NULL;
 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -212,8 +205,6 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	else
 	{
 		//zm :走到这里来，是不应该的， 更新存储过程最多可能带参数，不允许返回结果集
-		ASSERT_FAIELD;
-		//write_log( "执行查询操作不应该返回任何结果集，请检查sql语句和存储过程实现!\n" );
 		mysql_stmt_store_result( pMySqlStmt );
 		mysql_free_result( pMySqlResult );
 		mysql_stmt_free_result( pMySqlStmt );
@@ -246,17 +237,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 // query.
 BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)
 {
-	if(pDBStoredProcedure->m_pMybind == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
-
-	if ( NULL == m_pMySql || NULL == pDBStoredProcedure)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pDBStoredProcedure->m_pMybind != NULL);
+	ERROR_RETURN_FALSE( NULL != m_pMySql && NULL != pDBStoredProcedure)
 
 	MYSQL_STMT* pMySqlStmt = mysql_stmt_init( m_pMySql );
 	if(NULL == pMySqlStmt)

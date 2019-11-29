@@ -34,7 +34,6 @@ int32 CDBRecordSet::GetRowCount(void)
 {
 	if(m_pMySqlStmt == NULL)
 	{
-		ASSERT_FAIELD;
 		return 0;
 	}
 
@@ -655,7 +654,6 @@ BOOL CDBRecordSet::InitRecordSet(MYSQL_STMT* pMySqlStmt, MYSQL_RES* pResult)
 {
 	if((pMySqlStmt == NULL) || (pResult == NULL))
 	{
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 
@@ -706,7 +704,6 @@ BOOL CDBRecordSet::InitRecordSet(MYSQL_STMT* pMySqlStmt, MYSQL_RES* pResult)
 		pMySqlStmt = NULL;
 		//CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_store_result], ErrorNo:%d, ErrorMsg:%s", nErrno, pStrError);
 		mysql_stmt_close( pMySqlStmt );
-		ASSERT_FAIELD;
 		return FALSE;
 	}
 

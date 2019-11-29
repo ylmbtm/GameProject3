@@ -15,7 +15,7 @@ public:
 
 	BOOL		OnUpdate(UINT64 uTick);
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
+	BOOL		DispatchPacket(NetPacket* pNetPacket);
 	//*********************消息处理定义开始******************************
 public:
 	BOOL		OnLogDataNtf(NetPacket* pNetPacket);

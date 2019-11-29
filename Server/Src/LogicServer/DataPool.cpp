@@ -84,11 +84,7 @@ BOOL CDataPool::RestoreFromShareMemory()
 
 SharedMemoryBase* CDataPool::GetSharePool(EShareData nIndex)
 {
-	if (nIndex <= ESD_BEGIN || nIndex >= ESD_END)
-	{
-		ASSERT_FAIELD;
-		return NULL;
-	}
+	ERROR_RETURN_NULL((nIndex > ESD_BEGIN && nIndex < ESD_END));
 
 	return m_vtDataObjectPools[nIndex];
 }

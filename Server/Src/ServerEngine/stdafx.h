@@ -7,7 +7,6 @@
 #define __STDAFX_H__
 
 #include <stdio.h>
-
 #include <map>
 #include <vector>
 #include <string>
@@ -18,17 +17,14 @@
 #include <deque>
 #include <mutex>
 #include <thread>
-
-#include "CheckMacroDefine.h"
-
 #include "Platform.h"
-
 #include "Log.h"
 #include "CommonFunc.h"
 #include "CommonConvert.h"
 #include "SpinLock.h"
 
 #define HAVE_RINT 1
+#define ASSERT(x)     (assert(x))
 #endif
 
 

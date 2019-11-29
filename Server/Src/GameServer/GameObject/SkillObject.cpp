@@ -30,7 +30,6 @@ BOOL CSkillObject::OnUpdate( UINT64 uTick )
 
 	if (m_dwSkillID == 0 || m_pSkillInfo == NULL || m_pSkillEventInfo == NULL)
 	{
-		ASSERT_FAIELD;
 		return TRUE;
 	}
 

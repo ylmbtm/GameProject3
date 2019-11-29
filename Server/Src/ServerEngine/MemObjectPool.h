@@ -16,7 +16,10 @@ class MemObjectPool
 {
 public:
 	MemObjectPool(void) {}
-	~MemObjectPool(void) {FreeNodeBuffer();}
+	~MemObjectPool(void)
+	{
+		FreeNodeBuffer();
+	}
 public:
 	T*		CreateMemObject();
 	void    FreeMemObject(T* pValue);
@@ -275,7 +278,7 @@ bool MemObjectMTPool<T>::FreeNodeBuffer()
 	{ \
 		if(size != sizeof(ClassName))\
 		{\
-			ASSERT_FAIELD;\
+			return NULL;\
 		}\
 		return GetObjectPool()->CreateMemObject(); \
 	} \
@@ -296,7 +299,7 @@ bool MemObjectMTPool<T>::FreeNodeBuffer()
 	{ \
 		if(size != sizeof(ClassName))\
 		{\
-			ASSERT_FAIELD;\
+			return NULL;\
 		}\
 		return (void*)GetObjectPool()->CreateMemObject(); \
 	} \

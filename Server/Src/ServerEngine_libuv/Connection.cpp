@@ -117,11 +117,7 @@ CConnection::~CConnection(void)
 
 BOOL CConnection::DoReceive()
 {
-	if (0 != uv_read_start((uv_stream_t*)&m_hSocket, On_AllocBuff, On_ReadData))
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE (0 == uv_read_start((uv_stream_t*)&m_hSocket, On_AllocBuff, On_ReadData))
 
 	return TRUE;
 }
@@ -138,9 +134,9 @@ UINT64 CConnection::GetConnectionData()
 
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
-	ASSERT(dwConnID != 0);
+	ERROR_RETURN_NONE(dwConnID != 0);
 
-	ASSERT(!m_bConnected);
+	ERROR_RETURN_NONE(!m_bConnected);
 
 	m_dwConnID = dwConnID;
 
@@ -149,7 +145,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
-	ASSERT(m_dwConnID != 0);
+	ERROR_RETURN_NONE(m_dwConnID != 0);
 
 	m_u64ConnData = dwData;
 
@@ -545,10 +541,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	if(m_pFreeConnTail == NULL)
 	{
-		if(m_pFreeConnRoot != NULL)
-		{
-			ASSERT_FAIELD;
-		}
+		ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
 
 		m_pFreeConnTail = m_pFreeConnRoot = pConnection;
 	}

@@ -33,7 +33,7 @@
     <ActAnim StTime="1.000" EdTime="2.100" AnimName="xuli_02" Looped="false" Speed="1.000" />
     <ActEffect StTime="0.000" EdTime="1.000" ID="61020" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
     <ActEffect StTime="1.000" EdTime="2.100" ID="64054" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
-    <ActScope StTime="1.000" EdTime="1.000" RangeType="3" RangeParams="6~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="1.000" EdTime="1.000" RangeType="3" RangeParams="6~360~2~0~0" HitActionID="14" HitEffectID="0" HitDistance="5.000" />
     <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_shengwushi_01" Volume="1.000" Pitch="1.000" Looped="false" />
     <ActAudio StTime="1.000" EdTime="2.100" Path="Sound/Sound/sound_roar_shengwushi_02" Volume="1.000" Pitch="1.000" Looped="false" />
     <ActAudio StTime="1.300" EdTime="2.100" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Looped="false" />

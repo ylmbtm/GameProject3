@@ -226,7 +226,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					else
 					{
 						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
-						ASSERT_FAIELD;
 					}
 				}
 			}
@@ -238,7 +237,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if (pConnection == NULL)
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_SEND, pConnection == NULL。");
-					ASSERT_FAIELD;
 					break;
 				}
 
@@ -257,7 +255,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if (pConnection == NULL)
 				{
 					CLog::GetInstancePtr()->LogError("触发了NET_MSG_POST1, pConnection == NULL。");
-					ASSERT_FAIELD;
 					break;
 				}
 
@@ -748,11 +745,7 @@ BOOL CNetManager::CloseEventThread()
 
 BOOL CNetManager::PostSendOperation(CConnection* pConnection, BOOL bCheck)
 {
-	if (pConnection == NULL)
-	{
-		ASSERT_FAIELD;
-		return FALSE;
-	}
+	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	if (!pConnection->m_IsSending || !bCheck)
 	{

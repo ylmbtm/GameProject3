@@ -704,7 +704,6 @@ INT64 CppMySQL3DB::getAutoIncrementID(const char* szTableName, const char* szDBN
 {
 	if ((szTableName == NULL) || (szDBName == NULL))
 	{
-		ASSERT_FAIELD;
 		return 0;
 	}
 
@@ -737,7 +736,6 @@ bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const c
 {
 	if ((szTableName == NULL) || (szDBName == NULL))
 	{
-		ASSERT_FAIELD;
 		return 0;
 	}
 

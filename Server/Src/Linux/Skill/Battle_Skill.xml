@@ -1,403 +1,314 @@
 <Root>
- <Skill ID="1000" Name="曾通攻击" SkillDistance="4.300" CastType="0" Duration="0.367">
- <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.367" ID="61009" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.200" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
- <Skill ID="1001" Name="连环斩1" SkillDistance="4.300" CastType="0" Duration="0.367">
- <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.367" ID="61009" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.200" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="1002" Name="连环斩2" SkillDistance="4.300" CastType="0" Duration="0.333">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_shengwushi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.333" ID="61010" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="1003" Name="连环斩3" SkillDistance="4.300" CastType="0" Duration="0.367">
- <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_03" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.367" ID="61011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="1004" Name="连环斩4" SkillDistance="4.300" CastType="0" Duration="1.167">
- <ActAnim StTime="0.000" EdTime="1.167" AnimName="attack_04" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="1.167" Path="Sound/Sound/sound_attack1_shengwushi_04" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="1.167" ID="61012" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="1005" Name="半月斩" SkillDistance="4.000" CastType="0" Duration="2.100">
- <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Loopped="false" PlaySpeed="1.233" />
- <ActAnim StTime="1.000" EdTime="2.100" AnimName="xuli_02" Loopped="false" PlaySpeed="1.000" />
- <ActEffect StTime="0.000" EdTime="1.000" ID="61020" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="true" />
- <ActEffect StTime="1.000" EdTime="2.100" ID="64054" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="true" />
- <ActScope StTime="1.000" RangeType="3" RangeParams="6~360~2~0~0">
- </ActScope>
- <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_shengwushi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActAudio StTime="1.000" EdTime="2.100" Path="Sound/Sound/sound_roar_shengwushi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActAudio StTime="1.300" EdTime="2.100" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Loopped="false" />
- </Skill>
- 
- <Skill ID="1006" Name="神威斩" SkillDistance="4.000" CastType="0" Duration="2.233">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_shenweizhan_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="2.233" AnimName="skill_shenweizhan_02" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="2.233" Path="Sound/Sound/sound_skill_shengwushi_shenweizhan" Volume="1.000" Pitch="1.400" Loopped="false" />
- <ActEffect StTime="0.333" EdTime="2.233" ID="61018" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.833" RangeType="4" RangeParams="6~3~2~0~0">
- </ActScope> 
- </Skill>
- 
- <Skill ID="1007" Name="破邪斩" SkillDistance="4.000" CastType="0" Duration="2.066">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_poxiezhan_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="2.066" AnimName="skill_poxiezhan_02" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="2.066" Path="Sound/Sound/sound_skill_shengwushi_poxiezhan" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.333" EdTime="2.066" ID="61016" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.833" RangeType="3" RangeParams="5~360~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="1008" Name="圣光斩" SkillDistance="4.000" CastType="0" Duration="5.000">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_chengjiezitai_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="0.433" AnimName="skill_chengjiezitai_02" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.433" EdTime="4.667" AnimName="skill_chengjiezitai_03" Loopped="true" PlaySpeed="1.000" />
- <ActAnim StTime="4.667" EdTime="5.000" AnimName="skill_chengjiezitai_04" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai1" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActAudio StTime="0.000" EdTime="5.000" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai2" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="5.000" ID="64011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.500" RangeType="3" RangeParams="4~360~2~0~0">
- </ActScope> 
- </Skill>
- <Skill ID="1009" Name="苍冥火" SkillDistance="0.000" CastType="0" Duration="0.267">
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" RangeType="0" RangeParams="">
- <ActFlyObject ID="7" Angle="0.00" />
- <ActFlyObject ID="7" Angle="0.00" />
- <ActFlyObject ID="7" Angle="0.00" />
- </ActScope>
- </Skill>
- 
- 
- <Skill ID="2001" Name="火球术1" SkillDistance="20.000" CastType="0" Duration="0.267">
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" RangeType="0" RangeParams="">
- <ActFlyObject ID="2" Angle="0.00" />
- </ActScope>
- </Skill>
- 
- <Skill ID="2002" Name="火球术2" SkillDistance="20.000" CastType="0" Duration="0.433">
- <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.200" RangeType="0" RangeParams="">
- <ActFlyObject ID="2" Angle="-10.00)" />
- <ActFlyObject ID="2" Angle="0.00" />
- <ActFlyObject ID="2" Angle="10.00" />
- </ActScope>
- </Skill>
- 
- <Skill ID="2003" Name="火球术3" SkillDistance="20.000" CastType="0" Duration="0.267">
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" RangeType="0" RangeParams="">
- <ActFlyObject ID="2" Angle="-20.00" />
- <ActFlyObject ID="2" Angle="-10.00" />
- <ActFlyObject ID="2" Angle="0.00" />
- <ActFlyObject ID="2" Angle="10.00" />
- <ActFlyObject ID="2" Angle="20.00" />
- </ActScope>
- </Skill>
- 
- <Skill ID="2004" Name="龙息术" SkillDistance="9.000" CastType="0" Duration="2.432">
- <ActCanTurn StTime="0.333" EdTime="2.065" />
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_longxi_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="2.065" AnimName="skill_longxi_03" Loopped="true" PlaySpeed="1.000" />
- <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.333" EdTime="2.065" Path="Sound/Sound/sound_longxi" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.333" EdTime="2.065" ID="64004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.500" RangeType="4" RangeParams="9~2~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="2005" Name="冰封术" SkillDistance="9.000" CastType="0" Duration="3.200">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_bingshuangfengbao_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="0.533" AnimName="skill_bingshuangfengbao_02" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.533" EdTime="1.000" AnimName="skill_bingshuangfengbao_03" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="1.000" EdTime="3.200" AnimName="skill_bingshuangfengbao_04" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="1.700" EdTime="1.724" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="1.700" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActEffect StTime="1.700" EdTime="3.000" ID="64023" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="1.700" RangeType="3" RangeParams="9~360~2~0~0">
- </ActScope>
- </Skill>
- 
- <Skill ID="2006" Name="冰花术" SkillDistance="20.000" CastType="0" Duration="1.667">
- <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="1.000" EdTime="1.667" AnimName="xuli_02" Loopped="false" PlaySpeed="1.000" />
- <ActEffect StTime="0.000" EdTime="1.000" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_fashi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActAudio StTime="1.000" EdTime="1.024" Path="Sound/Sound/sound_roar_fashi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActScope StTime="1.000" RangeType="0" RangeParams="">
- <ActFlyObject ID="4" Angle="0.00"/>
- </ActScope>
- </Skill>
-
- <Skill ID="2007" Name="地火术" SkillDistance=" 9.000" CastType="0" Duration="5.236">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_dihuogongji_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="0.533" AnimName="skill_dihuogongji_02" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.533" EdTime="4.736" AnimName="skill_dihuogongji_03" Loopped="true" PlaySpeed="1.000" />
- <ActAnim StTime="4.736" EdTime="5.236" AnimName="skill_dihuogongji_04" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.600" RangeType="3" RangeParams="4~1~2~2">
- <ActFlyObject ID="5" Angle="0.00" />
- </ActScope>
- </Skill>
-
- <Skill ID="2008" Name="闪电箭" SkillDistance="20.000" CastType="0" Duration="2.432">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_longxi_01" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="0.333" EdTime="2.065" AnimName="skill_longxi_03" Loopped="false" PlaySpeed="1.000" />
- <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.333" RangeType="0" RangeParams="">
- <ActFlyObject ID="6" Angle="0.00"/> 
- </ActScope> 
- </Skill>
-
- <Skill ID="2009" Name="苍冥火" SkillDistance="0.000" CastType="0" Duration="0.267">
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" RangeType="0" RangeParams="">
- <ActFlyObject ID="7" Angle="0.00"/>
- <ActFlyObject ID="7" Angle="0.00"/>
- <ActFlyObject ID="7" Angle="0.00"/>
- </ActScope>
- </Skill>
-
- <Skill ID="2010" Name="寒冰墙" SkillDistance="20.000" CastType="0" Duration="0.267">
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="">
- <ActFlyObject ID="9" Angle="0.00" />
- </ActScope>
- </Skill> 
- <Skill ID="3001" Name="攻击1" SkillDistance="3" CastType="0" Duration="0.233">
- <ActAnim StTime="0.000" EdTime="0.233" AnimName="attack_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="0.233" ClipName="Sound/Sound/sound_attack1_shengwushi_01"/>
- <ActEffect StTime="0.133" EdTime="0.233" ID="61091" CasterBind="2" Retain="false" /> 
- <ActScope StTime="0.133">
- </ActScope>
- </Skill>
-
- <Skill ID="3002" Name="攻击2" SkillDistance="3" CastType="0" Duration="0.267" >
- <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActEffect StTime="0.000" EdTime="0.267" ID="61092" CasterBind="2" Retain="false" />
- <ActAudio StTime="0.000" EdTime="0.267" ClipName="Sound/Sound/sound_attack1_shengwushi_02"/> 
- <ActScope StTime="0.110">
- </ActScope>
- </Skill>
-
- <Skill ID="3003" Name="攻击3"  CastType="0" SkillDistance="3" Duration="0.233" >
- <ActAnim StTime="0.000" EdTime="0.233" AnimName="attack_03" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="0.233" ClipName="Sound/Sound/sound_attack1_shengwushi_03"/>
- <ActEffect StTime="0.000" EdTime="0.233" ID="61093" CasterBind="2" Retain="false" /> 
- <ActScope StTime="0.186" EdTime="0.233" Affect="2" MaxDis="3.000" HAngle="150" Height="2.000">
- </ActScope>
- </Skill>
-
- <Skill ID="3004" Name="攻击4" SkillDistance="3" CastType="0" Duration="0.633" >
- <ActAnim StTime="0.000" EdTime="0.633" AnimName="attack_04" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="0.633" ClipName="Sound/Sound/sound_attack1_shengwushi_04"/>
- <ActEffect StTime="0.000" EdTime="0.633" ID="61094" CasterBind="2" Retain="false" />
- <ActScope StTime="0.253" Affect="2" MaxDis="3.000" HAngle="150" Height="2.000">
- </ActScope>
- <ActScope StTime="0.538">
- </ActScope> 
- </Skill>
-
- <Skill ID="3005" Name="攻击5" SkillDistance="3" CastType="0" Duration="0.633" >
- <ActAnim StTime="0.000" EdTime="0.633" AnimName="attack_05" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="0.633" ClipName="Sound/Sound/sound_attack1_shengwushi_05"/>
- <ActEffect StTime="0.000" EdTime="0.633" ID="61095" CasterBind="2" Retain="false" /> 
- <ActScope StTime="0.170" >
- </ActScope>
- </Skill>
-
- <Skill ID="3006" Name="暗影突袭" SkillDistance="3" CastType="0" Duration="1.833">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_anyingtuji_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="0.500" AnimName="skill_anyingtuji_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.500" EdTime="0.700" AnimName="skill_anyingtuji_03" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.700" EdTime="0.833" AnimName="skill_anyingtuji_04" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.833" EdTime="1.033" AnimName="skill_anyingtuji_05" IsLooped="false" PlaySpeed="1.0"/> 
- <ActAnim StTime="1.033" EdTime="1.333" AnimName="skill_anyingtuji_06" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.333" EdTime="1.833" AnimName="skill_anyingtuji_07" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="3.200" ClipName="Sound/Sound/sound_skill_cike_anyingtuxi"/> 
- <ActEffect StTime="0.000" EdTime="1.833" ID="61084" CasterBind="2" Retain="false" />
- <ActScopeBox StTime="0.400" Affect="2" L="5.0" W="4.0" H="2.0">
- </ActScopeBox>
- <ActScopeBox StTime="0.800" Affect="2" L="6.4" W="5.0" H="2.0">
- </ActScopeBox>
- <ActScopeBox StTime="1.200" Affect="2" L="6.4" W="5.0" H="2.0">
- </ActScopeBox>
- <ActThroughMoveStart StTime="0.333"/> 
- <ActThroughMove StTime="0.400" EdTime="0.420" EndValueOffset ="( 2, 0, 2)"/>
- <ActThroughMove StTime="0.750" EdTime="0.770" EndValueOffset ="(-2, 0, 2)"/>
- <ActThroughMove StTime="1.150" EdTime="1.170" EndValueOffset ="( 2, 0,-2)"/>
- <ActThroughMoveEnd StTime="1.350" EdTime="1.500"/>
- </Skill>
- <Skill ID="3007" Name="死亡空间" SkillDistance="5" CastType="0" Duration="1.266" >
- <ActAnim StTime="0.000" EdTime="1.500" AnimName="skill_siwangkongjian_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.500" EdTime="2.033" AnimName="skill_siwangkongjian_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" ClipName="Sound/Sound/sound_skill_cike_siwangkongjian"/>
- <ActScope StTime="1.300" MaxCount="10" Affect="2" MaxDis="5.0" HAngle="360" Height="3">
- </ActScope>
- <ActScope StTime="1.700" MaxCount="10" Affect="2" MaxDis="5.0" HAngle="360" Height="3">
- </ActScope>
- <ActScope StTime="2.100" MaxCount="10" Affect="2" MaxDis="5.0" HAngle="360" Height="3">
- </ActScope>
- <ActScope StTime="2.400" MaxCount="10" Affect="2" MaxDis="6.0" HAngle="360" Height="3">
- </ActScope>
- </Skill>
-
- <Skill ID="3008" Name="摘叶飞花" SkillDistance="9" CastType="0" Duration="2.167" >
- <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.000" EdTime="2.167" AnimName="xuli_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActEffect StTime="0.000" EdTime="1.000" ID="61097" CasterBind="2" Retain="false" World="true"/>
- <ActEffect StTime="1.000" EdTime="2.167" ID="61096" CasterBind="2" Retain="false"/>
- <ActEffect StTime="1.817" EdTime="2.167" ID="64057" CasterBind="2" Retain="true"/>
- <ActAudio StTime="1.817" ClipName="Sound/Sound/sound_explosion"/>
- <ActShake StTime="1.817" EdTime="2.167"/>
- <ActScope StTime="1.817" MaxCount="10" Affect="2" MaxDis="4.0" HAngle="360" Height="3">
- <ActDamage Percent="0.455" FixValue="270" SelectTarget="2"/>
- </ActScope> 
- </Skill>
- <Skill ID="3009" Name="斩杀风暴" SkillDistance="3" CastType="0" Duration="3.667">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_zhanshafengbao_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="1.900" AnimName="skill_zhanshafengbao_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.900" EdTime="3.667" AnimName="skill_zhanshafengbao_03" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" ClipName="Sound/Sound/sound_skill_cike_zhanshafengbao"/>
- </Skill>
- <Skill ID="3010" Name="剧毒飞刃" SkillDistance="15" CastType="0" Duration="1.266">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_judufeiren_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="1.266" AnimName="skill_judufeiren_02" IsLooped="false" PlaySpeed="1.0"/>
- <ActAudio StTime="0.000" EdTime="1.266" ClipName="Sound/Sound/sound_skill_cike_juduzhiren1"/>
- <ActAudio StTime="0.333" EdTime="1.266" ClipName="Sound/Sound/sound_skill_cike_juduzhiren2"/>
- </Skill>
- <Skill ID="4001" Name="霹雳斩1" SkillDistance="4.300" CastType="0" Duration="0.333">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_01" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_kuangzhanshi_01" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.333" ID="61001" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4002" Name="霹雳斩2" SkillDistance="4.300" CastType="0" Duration="0.467">
- <ActAnim StTime="0.000" EdTime="0.467" AnimName="attack_02" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_02" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.467" ID="61002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4003" Name="霹雳斩3" SkillDistance="4.300" CastType="0" Duration="0.433">
- <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_03" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.433" Path="Sound/Sound/sound_attack1_kuangzhanshi_03" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.433" ID="61003" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActScope StTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4004" Name="霹雳斩4" SkillDistance="4.300" CastType="0" Duration="0.467">
- <ActAnim StTime="0.000" EdTime="0.467" AnimName="attack_04" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_04" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.467" ID="61004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActEffect StTime="0.200" EdTime="0.467" ID="61006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
- <ActScope StTime="0.200" RangeType="4" RangeParams="4~2~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4005" Name="霹雳斩5" SkillDistance="4.300" CastType="0" Duration="0.767">
- <ActAnim StTime="0.000" EdTime="0.767" AnimName="attack_05" Loopped="false" PlaySpeed="1.000" />
- <ActAudio StTime="0.000" EdTime="0.767" Path="Sound/Sound/sound_attack1_kuangzhanshi_05" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.000" EdTime="0.767" ID="61005" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
- <ActScope StTime="0.100" RangeType="2" RangeParams="5~360~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4006" Name="堡垒之心" SkillDistance="3.500" CastType="0" Duration="1.267">
- <ActAnim StTime="0.000" EdTime="1.267" AnimName="skill_baoleizhixin" Loopped="false" PlaySpeed="1.000" />
- <ActEffect StTime="0.100" EdTime="1.267" ID="68017" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_skill_kuangzhanshi_baoleizhixin" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActScope StTime="0.100" RangeType="2" RangeParams="3~180~2~0~0">
- </ActScope> 
- </Skill>
-
- <Skill ID="4007" Name="暴掠疯狂" SkillDistance="3.500" CastType="0" Duration="3.899">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_fengkuang_01" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="0.966" AnimName="skill_fengkuang_02" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.966" EdTime="1.599" AnimName="skill_fengkuang_03" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.599" EdTime="2.166" AnimName="skill_fengkuang_04" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="2.166" EdTime="2.666" AnimName="skill_fengkuang_05" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="2.666" EdTime="3.899" AnimName="skill_fengkuang_06" Looped="false" PlaySpeed="1.0"/>
- <ActEffect StTime="0.100" EdTime="3.899" ID="64002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActAudio StTime="0.000" EdTime="3.899" Path="Sound/Sound/sound_skill_fengkuang" Volume="1.000" Pitch="1.000" Loopped="false" />
- 
- <ActScope StTime="0.466" RangeType="4" RangeParams="5~2~2~0~0">
- </ActScope>
- <ActScope StTime="1.924" RangeType="4" RangeParams="5~2~2~0~0">
-
- </ActScope>
- <ActScope StTime="2.560" RangeType="4" RangeParams="5~2~2~0~0">
- </ActScope>
- <ActScope StTime="2.500" RangeType="4" RangeParams="5~2~2~0~0">
- </ActScope>
- <ActScope StTime="3.100" RangeType="4" RangeParams="5~2~2~0~0">
- </ActScope>
- <ActShake StTime="0.466" EdTime="0.666"/>
- <ActShake StTime="1.266" EdTime="1.466"/>
- <ActShake StTime="1.924" EdTime="2.124"/>
- <ActShake StTime="2.560" EdTime="2.760"/>
- <ActShake StTime="3.100" EdTime="3.600"/>
- </Skill>
-
- <Skill ID="4008" Name="狂暴旋风" SkillDistance="3.500" CastType="0" Duration="5.433">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_kuangbaoxuanfeng_01" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="4.333" AnimName="skill_kuangbaoxuanfeng_02" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="4.333" EdTime="5.433" AnimName="skill_kuangbaoxuanfeng_03" Looped="false" PlaySpeed="1.0"/>
- <ActEffect StTime="0.000" EdTime="4.433" ID="64055" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActEffect StTime="4.433" EdTime="5.433" ID="64056" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActAudio StTime="0.000" EdTime="5.433" Path="Sound/Sound/sound_skill_kuangzhanshi_kuangbaoxuanfeng" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActCanMove StTime="0.400" EdTime="4.333"/>
- <ActCanTurn StTime="0.400" EdTime="4.333"/> 
- <ActScope StTime="0.400" RangeType="2" RangeParams="4~360~2~0~0">
- </ActScope> 
- </Skill>
-
- <Skill ID="4009" Name="战争践踏" SkillDistance="5.000" CastType="0" Duration="1.433">
- <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_zhanzhengjianta_01" IsLooped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="0.333" EdTime="1.433" AnimName="skill_zhanzhengjianta_02" IsLooped="false" PlaySpeed="1.0"/> 
- <ActAudio StTime="0.600" EdTime="1.433" Path="Sound/Sound/sound_skill_kuangzhanshi_zhanzhengjianta" Volume="1.000" Pitch="1.000" Loopped="false" />
- <ActEffect StTime="0.600" EdTime="1.433" ID="64014" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActShake StTime="0.800" EdTime="1.300"/> 
- <ActScope StTime="0.800" RangeType="2" RangeParams="5~360~2~0~0">
- </ActScope>
- </Skill>
-
- <Skill ID="4010" Name="血型斩杀" SkillDistance="4.000" CastType="0" Duration="2.367">
- <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.000" EdTime="1.600" AnimName="xuli_02" Looped="false" PlaySpeed="1.0"/>
- <ActAnim StTime="1.600" EdTime="2.367" AnimName="xuli_03" Looped="false" PlaySpeed="1.0"/>
- <ActEffect StTime="0.600" EdTime="1.000" ID="64005" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="true" />
- <ActEffect StTime="1.000" EdTime="1.600" ID="64006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" />
- <ActEffect StTime="1.600" EdTime="2.367" ID="64007" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Retain="false" /> 
- <ActAudio StTime="0.000" EdTime="2.367" Path="Sound/Sound/sound_skill_kuangzhanshi_xuli" Volume="1.000" Pitch="1.000" Loopped="false" /> 
- <ActScope StTime="1.000" RangeType="2" RangeParams="4~360~2~0~0">
- </ActScope>
- <ActScope StTime="1.600" RangeType="2" RangeParams="4~360~2~0~0">
- </ActScope> 
- </Skill>
-
+  <Skill ID="1000" Name="曾通攻击" CastDistance="4.300" CastType="0" Duration="0.367">
+    <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="0.200" EdTime="0.240" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1001" Name="连环斩1" CastDistance="4.300" CastType="0" Duration="0.367">
+    <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.367" ID="61009" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.200" EdTime="0.200" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1002" Name="连环斩2" CastDistance="4.300" CastType="0" Duration="0.333">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_shengwushi_02" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.333" ID="61010" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.182" EdTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1003" Name="连环斩3" CastDistance="4.300" CastType="0" Duration="0.367">
+    <ActAnim StTime="0.000" EdTime="0.367" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.367" Path="Sound/Sound/sound_attack1_shengwushi_03" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.367" ID="61011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.182" EdTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1004" Name="连环斩4" CastDistance="4.300" CastType="0" Duration="1.167">
+    <ActAnim StTime="0.000" EdTime="1.167" AnimName="attack_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="1.167" Path="Sound/Sound/sound_attack1_shengwushi_04" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="1.167" ID="61012" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.182" EdTime="0.182" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1005" Name="半月斩" CastDistance="4.000" CastType="0" Duration="2.100">
+    <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Looped="false" Speed="1.233" />
+    <ActAnim StTime="1.000" EdTime="2.100" AnimName="xuli_02" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.000" EdTime="1.000" ID="61020" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
+    <ActEffect StTime="1.000" EdTime="2.100" ID="64054" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
+    <ActScope StTime="1.000" EdTime="1.000" RangeType="3" RangeParams="6~360~2~0~0" HitActionID="14" HitEffectID="0" HitDistance="5.000" />
+    <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_shengwushi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActAudio StTime="1.000" EdTime="2.100" Path="Sound/Sound/sound_roar_shengwushi_02" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActAudio StTime="1.300" EdTime="2.100" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Looped="false" />
+  </Skill>
+  <Skill ID="1006" Name="神威斩" CastDistance="4.000" CastType="0" Duration="2.233">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_shenweizhan_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="2.233" AnimName="skill_shenweizhan_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="2.233" Path="Sound/Sound/sound_skill_shengwushi_shenweizhan" Volume="1.000" Pitch="1.400" Looped="false" />
+    <ActEffect StTime="0.333" EdTime="2.233" ID="61018" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.833" EdTime="0.833" RangeType="4" RangeParams="6~3~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1007" Name="破邪斩" CastDistance="4.000" CastType="0" Duration="2.066">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_poxiezhan_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="2.066" AnimName="skill_poxiezhan_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="2.066" Path="Sound/Sound/sound_skill_shengwushi_poxiezhan" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.333" EdTime="2.066" ID="61016" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.833" EdTime="0.833" RangeType="3" RangeParams="5~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1008" Name="圣光斩" CastDistance="4.000" CastType="0" Duration="5.000">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_chengjiezitai_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="0.433" AnimName="skill_chengjiezitai_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.433" EdTime="4.667" AnimName="skill_chengjiezitai_03" Looped="true" Speed="1.000" />
+    <ActAnim StTime="4.667" EdTime="5.000" AnimName="skill_chengjiezitai_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai1" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActAudio StTime="0.000" EdTime="5.000" Path="Sound/Sound/sound_skill_shengwushi_chengjiezitai2" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="5.000" ID="64011" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.500" EdTime="0.500" RangeType="3" RangeParams="4~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="1009" Name="苍冥火" CastDistance="0.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="7" Angle="0.000" />
+      <ActFlyObject ID="7" Angle="0.000" />
+      <ActFlyObject ID="7" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2001" Name="火球术1" CastDistance="20.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="2" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2002" Name="火球术2" CastDistance="20.000" CastType="0" Duration="0.433">
+    <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_02" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.200" EdTime="0.200" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="2" Angle="-10.000" />
+      <ActFlyObject ID="2" Angle="0.000" />
+      <ActFlyObject ID="2" Angle="10.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2003" Name="火球术3" CastDistance="20.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="2" Angle="-20.000" />
+      <ActFlyObject ID="2" Angle="-10.000" />
+      <ActFlyObject ID="2" Angle="0.000" />
+      <ActFlyObject ID="2" Angle="10.000" />
+      <ActFlyObject ID="2" Angle="20.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2004" Name="龙息术" CastDistance="9.000" CastType="0" Duration="2.432">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_longxi_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="2.065" AnimName="skill_longxi_03" Looped="true" Speed="1.000" />
+    <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.333" EdTime="2.065" Path="Sound/Sound/sound_longxi" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.333" EdTime="2.065" ID="64004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.500" EdTime="0.500" RangeType="4" RangeParams="9~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="2005" Name="冰封术" CastDistance="9.000" CastType="0" Duration="3.200">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_bingshuangfengbao_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="0.533" AnimName="skill_bingshuangfengbao_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.533" EdTime="1.000" AnimName="skill_bingshuangfengbao_03" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.000" EdTime="3.200" AnimName="skill_bingshuangfengbao_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="1.700" EdTime="1.724" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="1.700" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="1.700" EdTime="3.000" ID="64023" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="1.700" EdTime="1.700" RangeType="3" RangeParams="9~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="2006" Name="冰花术" CastDistance="20.000" CastType="0" Duration="1.667">
+    <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.000" EdTime="1.667" AnimName="xuli_02" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.000" EdTime="1.000" ID="64053" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_roar_fashi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActAudio StTime="1.000" EdTime="1.024" Path="Sound/Sound/sound_roar_fashi_02" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="1.000" EdTime="1.000" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="4" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2007" Name="地火术" CastDistance="9.000" CastType="0" Duration="5.236">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_dihuogongji_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="0.533" AnimName="skill_dihuogongji_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.533" EdTime="4.736" AnimName="skill_dihuogongji_03" Looped="true" Speed="1.000" />
+    <ActAnim StTime="4.736" EdTime="5.236" AnimName="skill_dihuogongji_04" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.600" EdTime="0.600" RangeType="3" RangeParams="4~1~2~2" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="5" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2008" Name="闪电箭" CastDistance="20.000" CastType="0" Duration="2.432">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_longxi_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="2.065" AnimName="skill_longxi_03" Looped="false" Speed="1.000" />
+    <ActAnim StTime="2.065" EdTime="2.432" AnimName="skill_longxi_04" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.333" EdTime="0.333" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="6" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2009" Name="苍冥火" CastDistance="0.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="7" Angle="0.000" />
+      <ActFlyObject ID="7" Angle="0.000" />
+      <ActFlyObject ID="7" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="2010" Name="寒冰墙" CastDistance="20.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActScope StTime="0.167" EdTime="0.167" RangeType="0" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000">
+      <ActFlyObject ID="9" Angle="0.000" />
+    </ActScope>
+  </Skill>
+  <Skill ID="3001" Name="攻击1" CastDistance="3.000" CastType="0" Duration="0.233">
+    <ActAnim StTime="0.000" EdTime="0.233" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.233" Path="Sound/Sound/sound_attack1_shengwushi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.133" EdTime="0.233" ID="61091" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.133" EdTime="0.133" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3002" Name="攻击2" CastDistance="3.000" CastType="0" Duration="0.267">
+    <ActAnim StTime="0.000" EdTime="0.267" AnimName="attack_02" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.000" EdTime="0.267" ID="61092" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="0.267" Path="Sound/Sound/sound_attack1_shengwushi_02" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="0.110" EdTime="0.110" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3003" Name="攻击3" CastDistance="3.000" CastType="0" Duration="0.233">
+    <ActAnim StTime="0.000" EdTime="0.233" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.233" Path="Sound/Sound/sound_attack1_shengwushi_03" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.233" ID="61093" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.186" EdTime="0.233" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3004" Name="攻击4" CastDistance="3.000" CastType="0" Duration="0.633">
+    <ActAnim StTime="0.000" EdTime="0.633" AnimName="attack_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.633" Path="Sound/Sound/sound_attack1_shengwushi_04" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.633" ID="61094" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.253" EdTime="0.253" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="0.538" EdTime="0.538" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3005" Name="攻击5" CastDistance="3.000" CastType="0" Duration="0.633">
+    <ActAnim StTime="0.000" EdTime="0.633" AnimName="attack_05" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.633" Path="Sound/Sound/sound_attack1_shengwushi_05" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.633" ID="61095" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.170" EdTime="0.170" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3006" Name="暗影突袭" CastDistance="3.000" CastType="0" Duration="1.833">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_anyingtuji_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="0.500" AnimName="skill_anyingtuji_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.500" EdTime="0.700" AnimName="skill_anyingtuji_03" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.700" EdTime="0.833" AnimName="skill_anyingtuji_04" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.833" EdTime="1.033" AnimName="skill_anyingtuji_05" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.033" EdTime="1.333" AnimName="skill_anyingtuji_06" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.333" EdTime="1.833" AnimName="skill_anyingtuji_07" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="3.200" Path="Sound/Sound/sound_skill_cike_anyingtuxi" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="1.833" ID="61084" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+  </Skill>
+  <Skill ID="3007" Name="死亡空间" CastDistance="5.000" CastType="0" Duration="1.266">
+    <ActAnim StTime="0.000" EdTime="1.500" AnimName="skill_siwangkongjian_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.500" EdTime="2.033" AnimName="skill_siwangkongjian_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.000" Path="Sound/Sound/sound_skill_cike_siwangkongjian" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="1.300" EdTime="1.300" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="1.700" EdTime="1.700" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="2.100" EdTime="2.100" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="2.400" EdTime="2.400" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3008" Name="摘叶飞花" CastDistance="9.000" CastType="0" Duration="2.167">
+    <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.000" EdTime="2.167" AnimName="xuli_02" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.000" EdTime="1.000" ID="61097" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="1.000" EdTime="2.167" ID="61096" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="1.817" EdTime="2.167" ID="64057" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
+    <ActAudio StTime="1.817" EdTime="0.000" Path="Sound/Sound/sound_explosion" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActShake StTime="1.817" EdTime="2.167" ShakeStrength="0" />
+    <ActScope StTime="1.817" EdTime="1.817" RangeType="1" RangeParams="" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="3009" Name="斩杀风暴" CastDistance="3.000" CastType="0" Duration="3.667">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_zhanshafengbao_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="1.900" AnimName="skill_zhanshafengbao_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.900" EdTime="3.667" AnimName="skill_zhanshafengbao_03" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.000" Path="Sound/Sound/sound_skill_cike_zhanshafengbao" Volume="1.000" Pitch="1.000" Looped="false" />
+  </Skill>
+  <Skill ID="3010" Name="剧毒飞刃" CastDistance="15.000" CastType="0" Duration="1.266">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_judufeiren_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="1.266" AnimName="skill_judufeiren_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="1.266" Path="Sound/Sound/sound_skill_cike_juduzhiren1" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActAudio StTime="0.333" EdTime="1.266" Path="Sound/Sound/sound_skill_cike_juduzhiren2" Volume="1.000" Pitch="1.000" Looped="false" />
+  </Skill>
+  <Skill ID="4001" Name="霹雳斩1" CastDistance="4.300" CastType="0" Duration="0.333">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="attack_01" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.333" Path="Sound/Sound/sound_attack1_kuangzhanshi_01" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.333" ID="61001" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.100" EdTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4002" Name="霹雳斩2" CastDistance="4.300" CastType="0" Duration="0.467">
+    <ActAnim StTime="0.000" EdTime="0.467" AnimName="attack_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_02" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.467" ID="61002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.100" EdTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4003" Name="霹雳斩3" CastDistance="4.300" CastType="0" Duration="0.433">
+    <ActAnim StTime="0.000" EdTime="0.433" AnimName="attack_03" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.433" Path="Sound/Sound/sound_attack1_kuangzhanshi_03" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.433" ID="61003" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.100" EdTime="0.100" RangeType="2" RangeParams="4.3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4004" Name="霹雳斩4" CastDistance="4.300" CastType="0" Duration="0.467">
+    <ActAnim StTime="0.000" EdTime="0.467" AnimName="attack_04" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.467" Path="Sound/Sound/sound_attack1_kuangzhanshi_04" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.467" ID="61004" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="0.200" EdTime="0.467" ID="61006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.200" EdTime="0.200" RangeType="4" RangeParams="4~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4005" Name="霹雳斩5" CastDistance="4.300" CastType="0" Duration="0.767">
+    <ActAnim StTime="0.000" EdTime="0.767" AnimName="attack_05" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.000" EdTime="0.767" Path="Sound/Sound/sound_attack1_kuangzhanshi_05" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.000" EdTime="0.767" ID="61005" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActScope StTime="0.100" EdTime="0.100" RangeType="2" RangeParams="5~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4006" Name="堡垒之心" CastDistance="3.500" CastType="0" Duration="1.267">
+    <ActAnim StTime="0.000" EdTime="1.267" AnimName="skill_baoleizhixin" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.100" EdTime="1.267" ID="68017" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="1.000" Path="Sound/Sound/sound_skill_kuangzhanshi_baoleizhixin" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="0.100" EdTime="0.100" RangeType="2" RangeParams="3~180~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4007" Name="暴掠疯狂" CastDistance="3.500" CastType="0" Duration="3.899">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_fengkuang_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="0.966" AnimName="skill_fengkuang_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.966" EdTime="1.599" AnimName="skill_fengkuang_03" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.599" EdTime="2.166" AnimName="skill_fengkuang_04" Looped="false" Speed="1.000" />
+    <ActAnim StTime="2.166" EdTime="2.666" AnimName="skill_fengkuang_05" Looped="false" Speed="1.000" />
+    <ActAnim StTime="2.666" EdTime="3.899" AnimName="skill_fengkuang_06" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.100" EdTime="3.899" ID="64002" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="3.899" Path="Sound/Sound/sound_skill_fengkuang" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="0.466" EdTime="0.466" RangeType="4" RangeParams="5~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="1.924" EdTime="1.924" RangeType="4" RangeParams="5~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="2.560" EdTime="2.560" RangeType="4" RangeParams="5~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="2.500" EdTime="2.500" RangeType="4" RangeParams="5~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="3.100" EdTime="3.100" RangeType="4" RangeParams="5~2~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActShake StTime="0.466" EdTime="0.666" ShakeStrength="0" />
+    <ActShake StTime="1.266" EdTime="1.466" ShakeStrength="0" />
+    <ActShake StTime="1.924" EdTime="2.124" ShakeStrength="0" />
+    <ActShake StTime="2.560" EdTime="2.760" ShakeStrength="0" />
+    <ActShake StTime="3.100" EdTime="3.600" ShakeStrength="0" />
+  </Skill>
+  <Skill ID="4008" Name="狂暴旋风" CastDistance="3.500" CastType="0" Duration="5.433">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_kuangbaoxuanfeng_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="4.333" AnimName="skill_kuangbaoxuanfeng_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="4.333" EdTime="5.433" AnimName="skill_kuangbaoxuanfeng_03" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.000" EdTime="4.433" ID="64055" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="4.433" EdTime="5.433" ID="64056" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="5.433" Path="Sound/Sound/sound_skill_kuangzhanshi_kuangbaoxuanfeng" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="0.400" EdTime="0.400" RangeType="2" RangeParams="4~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4009" Name="战争践踏" CastDistance="5.000" CastType="0" Duration="1.433">
+    <ActAnim StTime="0.000" EdTime="0.333" AnimName="skill_zhanzhengjianta_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="0.333" EdTime="1.433" AnimName="skill_zhanzhengjianta_02" Looped="false" Speed="1.000" />
+    <ActAudio StTime="0.600" EdTime="1.433" Path="Sound/Sound/sound_skill_kuangzhanshi_zhanzhengjianta" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActEffect StTime="0.600" EdTime="1.433" ID="64014" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActShake StTime="0.800" EdTime="1.300" ShakeStrength="0" />
+    <ActScope StTime="0.800" EdTime="0.800" RangeType="2" RangeParams="5~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
+  <Skill ID="4010" Name="血型斩杀" CastDistance="4.000" CastType="0" Duration="2.367">
+    <ActAnim StTime="0.000" EdTime="1.000" AnimName="xuli_01" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.000" EdTime="1.600" AnimName="xuli_02" Looped="false" Speed="1.000" />
+    <ActAnim StTime="1.600" EdTime="2.367" AnimName="xuli_03" Looped="false" Speed="1.000" />
+    <ActEffect StTime="0.600" EdTime="1.000" ID="64005" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="true" />
+    <ActEffect StTime="1.000" EdTime="1.600" ID="64006" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActEffect StTime="1.600" EdTime="2.367" ID="64007" Bind="2" Offset="(0.00,0.00,0.00)" Euler="(0.00,0.00,0.00)" Size="1.000" Retain="false" />
+    <ActAudio StTime="0.000" EdTime="2.367" Path="Sound/Sound/sound_skill_kuangzhanshi_xuli" Volume="1.000" Pitch="1.000" Looped="false" />
+    <ActScope StTime="1.000" EdTime="1.000" RangeType="2" RangeParams="4~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+    <ActScope StTime="1.600" EdTime="1.600" RangeType="2" RangeParams="4~360~2~0~0" HitActionID="13" HitEffectID="0" HitDistance="0.000" />
+  </Skill>
 </Root>

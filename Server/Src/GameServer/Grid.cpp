@@ -12,8 +12,8 @@ CGrid::~CGrid(void)
 
 BOOL CGrid::AddObject(CMapObject* pObject )
 {
-	ASSERT(pObject->m_pObjectNext == NULL);
-	ASSERT(pObject->m_pObjectPrev == NULL);
+	ERROR_RETURN_FALSE(pObject->m_pObjectNext == NULL);
+	ERROR_RETURN_FALSE(pObject->m_pObjectPrev == NULL);
 
 	if(m_pHead == NULL)
 	{
@@ -43,7 +43,7 @@ BOOL CGrid::RemoveObject(CMapObject* pObject)
 	{
 		if(pObject->m_pObjectNext != NULL)
 		{
-			ASSERT(pObject->m_pObjectNext->m_pObjectPrev == pObject);
+			ERROR_RETURN_FALSE(pObject->m_pObjectNext->m_pObjectPrev == pObject);
 		}
 
 		m_pHead = pObject->m_pObjectNext;
@@ -61,9 +61,9 @@ BOOL CGrid::RemoveObject(CMapObject* pObject)
 			pTest = pTest->m_pObjectPrev;
 		}
 
-		ASSERT(m_pHead == pTest);
+		ERROR_RETURN_FALSE(m_pHead == pTest);
 
-		ASSERT(pObject->m_pObjectPrev->m_pObjectNext == pObject);
+		ERROR_RETURN_FALSE(pObject->m_pObjectPrev->m_pObjectNext == pObject);
 
 		pObject->m_pObjectPrev->m_pObjectNext = pObject->m_pObjectNext;
 

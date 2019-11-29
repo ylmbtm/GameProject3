@@ -54,7 +54,6 @@ protected:
     if(P == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-        ASSERT_FAIELD; \
         return TRUE;	\
     }
 
@@ -63,7 +62,6 @@ protected:
     if(P == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-        ASSERT_FAIELD; \
         return FALSE;	\
     }
 
@@ -71,7 +69,6 @@ protected:
 	if(P == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	ASSERT_FAIELD; \
 	return NULL;	\
 }
 
@@ -79,7 +76,6 @@ protected:
 	if(P == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	ASSERT_FAIELD; \
 	return ;	\
 }
 
@@ -87,7 +83,6 @@ protected:
 	if(P == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	ASSERT_FAIELD; \
 	return R;	\
 }
 
@@ -95,7 +90,6 @@ protected:
 	if(P == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	ASSERT_FAIELD; \
 	return Code;	\
 }
 

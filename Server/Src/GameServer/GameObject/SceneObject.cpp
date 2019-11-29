@@ -666,14 +666,10 @@ BOOL CSceneObject::ClearBuff()
 INT32 CSceneObject::GetSkillLevel(UINT32 dwSkillID)
 {
 	St_SkillData* pData  = GetSkillData(dwSkillID);
-	if (pData != NULL)
-	{
-		return pData->nLevel;
-	}
 
-	ASSERT_FAIELD;
+	ERROR_RETURN_CODE(pData != NULL, 0);
 
-	return 0;
+	return pData->nLevel;
 }
 
 BOOL CSceneObject::InitSkills(const google::protobuf::RepeatedPtrField< ::SkillItem >& vtSkills)

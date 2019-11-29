@@ -73,6 +73,7 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
+			PROCESS_MESSAGE_ITEM(MSG_ROLE_DELETE_REQ,       OnMsgRoleDeleteReq);
 			PROCESS_MESSAGE_ITEM(MSG_DB_EXE_SQL_REQ,		OnMsgExeSqlReq);
 	}
 
@@ -119,6 +120,15 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 	m_DBManager.GetFriendData(Req.roleid(),		Ack);
 	m_DBManager.GetSkillData(Req.roleid(),		Ack);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
+}
+
+BOOL CDBMsgHandler::OnMsgRoleDeleteReq(NetPacket* pPacket)
+{
+	RoleDeleteReq Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	return TRUE;
 }
 
 BOOL CDBMsgHandler::OnMsgExeSqlReq(NetPacket* pPacket)
