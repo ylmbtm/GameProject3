@@ -19,7 +19,7 @@
 #include "SharedMemory.h"
 #include "SpinLock.h"
 #include "ServiceBase.h"
-
+#undef  ASSERT
 #define ASSERT(x)     (assert(x))
 
 #endif //_SERVER_ENGINE_H_

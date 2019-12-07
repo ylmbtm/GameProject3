@@ -48,7 +48,7 @@ protected:
 	std::string         m_strPrefix;
 };
 
-#define LOG_ERROR  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);
+#define LOG_FUNCTION_LINE  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);
 
 #define ERROR_RETURN_TRUE(P) \
     if(P == FALSE)\
@@ -79,18 +79,11 @@ protected:
 	return ;	\
 }
 
-#define ERROR_RETURN_VALUE(P, R) \
+#define ERROR_RETURN_VALUE(P, V) \
 	if(P == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	return R;	\
-}
-
-#define ERROR_RETURN_CODE(P, Code) \
-	if(P == FALSE)\
-{\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	return Code;	\
+	return V;	\
 }
 
 #define ERROR_CONTINUE_EX(P) \
@@ -100,5 +93,11 @@ protected:
     continue; \
 }
 
+#define ERROR_TO_CONTINUE(P) \
+    if(P == FALSE)\
+{\
+	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    continue; \
+}
 
 #endif

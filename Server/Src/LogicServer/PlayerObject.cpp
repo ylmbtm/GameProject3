@@ -100,7 +100,7 @@ BOOL CPlayerObject::OnLogin()
 	m_IsOnline = TRUE;
 
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
-	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
+	ERROR_RETURN_VALUE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
 
 	if (!CommonFunc::IsSameDay(pRoleModule->GetLastLogoffTime()))
 	{
@@ -245,10 +245,10 @@ UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 {
 	return TRUE;
 	StCopyInfo* pCopyInfo = CStaticData::GetInstancePtr()->GetCopyInfo(dwCopyID);
-	ERROR_RETURN_CODE(m_u64ID != 0, MRC_INVALID_COPYID);
+	ERROR_RETURN_VALUE(m_u64ID != 0, MRC_INVALID_COPYID);
 
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
-	ERROR_RETURN_CODE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
+	ERROR_RETURN_VALUE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
 
 	if(!pRoleModule->CheckActionEnough(pCopyInfo->dwCostActID, pCopyInfo->dwCostActNum))
 	{
@@ -256,10 +256,10 @@ UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
 	}
 
 	CCopyModule* pCopyModule = (CCopyModule*)GetModuleByType(MT_COPY);
-	ERROR_RETURN_CODE(pCopyModule != NULL, MRC_UNKNOW_ERROR);
+	ERROR_RETURN_VALUE(pCopyModule != NULL, MRC_UNKNOW_ERROR);
 
 	CopyDataObject* pObject = pCopyModule->GetCopyData(dwCopyID);
-	ERROR_RETURN_CODE(pObject != NULL, MRC_UNKNOW_ERROR);
+	ERROR_RETURN_VALUE(pObject != NULL, MRC_UNKNOW_ERROR);
 
 	if(pObject->m_dwBattleCnt >= pCopyInfo->dwBattleTimes)
 	{
@@ -304,11 +304,7 @@ BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 
 CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 {
-	if(dwModuleType >= (UINT32)m_MoudleList.size())
-	{
-		LOG_ERROR;
-		return NULL;
-	}
+	ERROR_RETURN_NULL(dwModuleType < (UINT32)m_MoudleList.size());
 
 	return m_MoudleList.at(dwModuleType);
 }
@@ -330,7 +326,7 @@ UINT32 CPlayerObject::GetActorID()
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 
-	ERROR_RETURN_CODE(pModule != NULL, 0);
+	ERROR_RETURN_VALUE(pModule != NULL, 0);
 
 	return pModule->GetActorID();
 }
@@ -339,7 +335,7 @@ CHAR* CPlayerObject::GetName()
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 
-	ERROR_RETURN_CODE(pModule != NULL, 0);
+	ERROR_RETURN_VALUE(pModule != NULL, 0);
 
 	return pModule->GetName();
 }
@@ -348,7 +344,7 @@ UINT32 CPlayerObject::GetCarrerID()
 {
 	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 
-	ERROR_RETURN_CODE(pModule != NULL, 0);
+	ERROR_RETURN_VALUE(pModule != NULL, 0);
 
 	return pModule->GetCarrerID();
 }
