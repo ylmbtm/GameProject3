@@ -111,9 +111,9 @@ BOOL CSceneManager::OnUpdate( UINT64 uTick )
 			continue;
 		}
 
-		pScene->SetLastTick(uTick);
-
 		pScene->OnUpdate(uTick);
+
+		pScene->SetLastTick(uTick);
 
 		if(pScene->IsFinished())
 		{

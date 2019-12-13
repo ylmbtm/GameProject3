@@ -3,7 +3,7 @@
 
 BOOL  CommonSocket::SetSocketReuseable(SOCKET hSocket)
 {
-	char nReuse = 1;
+	int nReuse = 1;
 
 	if(0 != setsockopt(hSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&nReuse, sizeof(int)))
 	{

@@ -667,7 +667,7 @@ INT32 CSceneObject::GetSkillLevel(UINT32 dwSkillID)
 {
 	St_SkillData* pData  = GetSkillData(dwSkillID);
 
-	ERROR_RETURN_CODE(pData != NULL, 0);
+	ERROR_RETURN_VALUE(pData != NULL, 0);
 
 	return pData->nLevel;
 }
@@ -817,14 +817,14 @@ BOOL CSceneObject::CheckSkillCD(UINT32 dwSkillID, UINT64 uCD)
 
 UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 {
-	ERROR_RETURN_CODE(m_pScene != NULL, MRC_UNKNOW_ERROR);
+	ERROR_RETURN_VALUE(m_pScene != NULL, MRC_UNKNOW_ERROR);
 
 	//取技能等级
 	INT32 nLevel = GetSkillLevel(Req.skillid());
-	ERROR_RETURN_CODE(nLevel > 0, MRC_INVALID_SKILL_ID);
+	ERROR_RETURN_VALUE(nLevel > 0, MRC_INVALID_SKILL_ID);
 
 	StSkillInfo* pSkillInfo = CStaticData::GetInstancePtr()->GetSkillInfo(Req.skillid(), nLevel);
-	ERROR_RETURN_CODE(pSkillInfo != NULL, MRC_INVALID_SKILL_ID);
+	ERROR_RETURN_VALUE(pSkillInfo != NULL, MRC_INVALID_SKILL_ID);
 
 	//3. 扣除放技能需要的东西
 	//if (GetMp() < pSkillInfo->CostMp)
@@ -890,8 +890,8 @@ UINT32 CSceneObject::ProcessSkill(const SkillCastReq& Req)
 
 UINT32 CSceneObject::ProcessAction(const ActionReqItem& Item)
 {
-	ERROR_RETURN_CODE(m_dwActionID != AT_DEAD, MRC_SKILL_DEAD_OBJ);
-	ERROR_RETURN_CODE(m_pScene != NULL, MRC_SUCCESSED);
+	ERROR_RETURN_VALUE(m_dwActionID != AT_DEAD, MRC_SKILL_DEAD_OBJ);
+	ERROR_RETURN_VALUE(m_pScene != NULL, MRC_SUCCESSED);
 
 	m_Pos.m_x		= Item.hostx();
 	m_Pos.m_y		= Item.hosty();

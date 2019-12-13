@@ -316,7 +316,7 @@ BOOL CClientObject::OnMsgRoleListAck(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufL
 	{
 		m_dwHostState = ST_RoleCreate;
 
-		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(rand() % 1000), m_dwCarrerID);
+		SendCreateRoleReq(m_dwAccountID, m_strAccountName + CommonConvert::IntToString(m_dwAccountID) + CommonConvert::IntToString(rand() % 1000), m_dwCarrerID);
 	}
 
 	return TRUE;
@@ -507,7 +507,9 @@ BOOL CClientObject::SendRoleLogoutReq( UINT64 u64CharID )
 BOOL CClientObject::SendRoleLoginReq(UINT64 u64CharID)
 {
 	RoleLoginReq Req;
+	Req.set_accountid(m_dwAccountID);
 	Req.set_roleid(u64CharID);
+	Req.set_logincode(11111);
 	m_ClientConnector.SendData(MSG_ROLE_LOGIN_REQ, Req, 0, 0);
 	return TRUE;
 }
