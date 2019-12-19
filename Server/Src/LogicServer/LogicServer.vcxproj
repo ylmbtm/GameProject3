@@ -144,6 +144,7 @@
     <ClCompile Include="GameSvrMgr.cpp" />
     <ClCompile Include="GemModule.cpp" />
     <ClCompile Include="GlobalDataMgr.cpp" />
+    <ClCompile Include="LoginCodeMgr.cpp" />
     <ClCompile Include="MailManager.cpp" />
     <ClCompile Include="Guild.cpp" />
     <ClCompile Include="GuildManager.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="GameSvrMgr.h" />
     <ClInclude Include="GemModule.h" />
     <ClInclude Include="GlobalDataMgr.h" />
+    <ClInclude Include="LoginCodeMgr.h" />
     <ClInclude Include="MailManager.h" />
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />

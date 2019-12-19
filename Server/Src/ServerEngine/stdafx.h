@@ -24,7 +24,6 @@
 #include "SpinLock.h"
 
 #define HAVE_RINT 1
-#define ASSERT(x)     (assert(x))
 #endif
 
 

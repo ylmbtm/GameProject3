@@ -33,7 +33,7 @@ BOOL CLuaHelper::LoadAllLua(const char* pszDir)
 {
 	std::vector<std::string> vtFiles;
 
-	CommonFunc::GetDirFiles(pszDir, "*.*", vtFiles, TRUE);
+	CommonFunc::GetDirFiles(pszDir, "*.lua", vtFiles, TRUE);
 
 	return LoadScriptFile(vtFiles);
 }

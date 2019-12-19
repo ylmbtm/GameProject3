@@ -220,12 +220,12 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 				mysql_stmt_free_result( pMySqlStmt );
 				if ( server_status & SERVER_PS_OUT_PARAMS )
 				{
-					//write_log( "此调用存储存在返回参数值，请检查sql语句和存储过程实现!\n" );
+					//此调用存储存在返回参数值，请检查sql语句和存储过程实现!
 					break;
 				}
 				else
 				{
-					// //write_log( "执行查询操作不应该返回任何结果集，请检查sql语句和存储过程实现!\n" );
+					//执行查询操作不应该返回任何结果集，请检查sql语句和存储过程实现!
 				}
 			}
 		}

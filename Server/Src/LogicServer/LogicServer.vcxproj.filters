@@ -34,6 +34,9 @@
     <Filter Include="Mail">
       <UniqueIdentifier>{72c7eabe-884d-4263-b7c1-d37a4d12b450}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LoginCode">
+      <UniqueIdentifier>{315677d3-def9-42b6-a043-19bb0b8566ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameService.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="MailManager.cpp">
       <Filter>Mail</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginCodeMgr.cpp">
+      <Filter>LoginCode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="MsgHandlerManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginCodeMgr.h">
+      <Filter>LoginCode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@
 #include "../ServerData/RoleData.h"
 #include "PartnerModule.h"
 #include "MsgHandlerManager.h"
+#include "LoginCodeMgr.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -80,7 +81,7 @@ BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	SelectServerAck Ack;
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
-	Ack.set_logincode(12345678);
+	Ack.set_logincode(CLoginCodeManager::GetInstancePtr()->CreateLoginCode(Req.accountid()));
 	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_accountid(Req.accountid());
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
@@ -93,6 +94,14 @@ BOOL CLogicMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(Req.accountid() != 0);
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+
+	//if(!CLoginCodeManager::GetInstancePtr()->CheckLoginCode(Req.accountid(), Req.logincode()))
+	//{
+	//  这是一个非法的连接
+	//  通知ProxyServer断开连接
+	//
+	//}
+
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
 	return TRUE;
 }
@@ -224,6 +233,11 @@ BOOL CLogicMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 	RoleDeleteAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_DELETE_ACK, pHeader->u64TargetID, 0, Ack);
+}
+
+BOOL CLogicMsgHandler::OnMsgRoleDeleteAck(NetPacket* pNetPacket)
+{
+	return TRUE;
 }
 
 BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
