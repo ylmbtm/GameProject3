@@ -21,6 +21,9 @@ ServiceBase::~ServiceBase(void)
 {
 	delete m_pRecvDataQueue;
 	delete m_pDispathQueue;
+
+	m_pRecvDataQueue = NULL;
+	m_pDispathQueue = NULL;
 }
 
 ServiceBase* ServiceBase::GetInstancePtr()

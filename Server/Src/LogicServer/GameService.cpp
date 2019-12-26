@@ -102,11 +102,15 @@ BOOL CGameService::Init()
 
 	//if (!luaopen_LuaScript(CLuaManager::GetInstancePtr()->GetLuaState()))
 	//{
-	//	CLog::GetInstancePtr()->LogError("导出Lua数据失败!");
+	//	CLog::GetInstancePtr()->LogError("导出Lua接口失败!");
 	//	return FALSE;
 	//}
 
-	//CLuaManager::GetInstancePtr()->LoadAllLua(".\\Lua");
+	//if (!CLuaManager::GetInstancePtr()->LoadAllLua(".\\Lua"))
+	//{
+	//	CLog::GetInstancePtr()->LogError("加载lua代码失败!");
+	//	return FALSE;
+	//}
 
 	///////////////////////////////////
 	//服务器启动之前需要加载的数据
@@ -145,20 +149,18 @@ BOOL CGameService::Init()
 
 	bRet = CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
-	///////////////////////////////////////////////
 
 	bRet = CGameSvrMgr::GetInstancePtr()->Init();
 	ERROR_RETURN_FALSE(bRet);
 
-	CTeamCopyMgr::GetInstancePtr()->Init();
+	bRet = CTeamCopyMgr::GetInstancePtr()->Init();
+	ERROR_RETURN_FALSE(bRet);
 
-	if (!CPayManager::GetInstancePtr()->InitPayManager())
-	{
-		CLog::GetInstancePtr()->LogError("初始化支付管理器失败!");
-		return FALSE;
-	}
+	bRet = CPayManager::GetInstancePtr()->Init();
+	ERROR_RETURN_FALSE(bRet);
 
-	m_LogicMsgHandler.Init(0);
+	bRet = m_LogicMsgHandler.Init(0);
+	ERROR_RETURN_FALSE(bRet);
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 

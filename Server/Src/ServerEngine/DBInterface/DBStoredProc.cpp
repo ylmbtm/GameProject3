@@ -29,6 +29,7 @@ CDBStoredProcedure::~CDBStoredProcedure( void )
 		}
 
 		delete []m_pMybind;
+		m_pMybind = NULL;
 	}
 }
 

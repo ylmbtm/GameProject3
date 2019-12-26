@@ -10,7 +10,7 @@ public:
 	static CPayManager* GetInstancePtr();
 
 public:
-	BOOL InitPayManager();
+	BOOL Init();
 
 	BOOL OnMsgRechargeMoney(INT32 nDiamond, int nProductID);
 };

@@ -550,9 +550,13 @@ BOOL CNetManager::StopListen()
 {
 	CommonSocket::CloseSocket(m_hListenSocket);
 
+	ERROR_RETURN_FALSE(m_pListenThread != NULL);
+
 	m_pListenThread->join();
 
 	delete m_pListenThread;
+
+	m_pListenThread = NULL;
 
 	return TRUE;
 }

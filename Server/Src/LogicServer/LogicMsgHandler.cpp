@@ -95,12 +95,12 @@ BOOL CLogicMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
-	//if(!CLoginCodeManager::GetInstancePtr()->CheckLoginCode(Req.accountid(), Req.logincode()))
-	//{
-	//  这是一个非法的连接
-	//  通知ProxyServer断开连接
-	//
-	//}
+	if(!CLoginCodeManager::GetInstancePtr()->CheckLoginCode(Req.accountid(), Req.logincode()))
+	{
+		//  这是一个非法的连接
+		//  通知ProxyServer断开连接
+		//
+	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
 	return TRUE;

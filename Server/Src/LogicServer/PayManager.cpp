@@ -19,7 +19,7 @@ CPayManager* CPayManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CPayManager::InitPayManager()
+BOOL CPayManager::Init()
 {
 	return TRUE;
 }

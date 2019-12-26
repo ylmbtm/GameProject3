@@ -59,6 +59,9 @@ BOOL CDataPool::ReleaseDataPool()
 		SharedMemoryBase* pShareBase = m_vtDataObjectPools.at(i);
 		delete pShareBase;
 	}
+
+	m_vtDataObjectPools.clear();
+
 	return TRUE;
 }
 

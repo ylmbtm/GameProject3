@@ -189,6 +189,7 @@ BOOL CPlayerObject::DestroyAllModule()
 	}
 
 	m_MoudleList.clear();
+
 	return TRUE;
 }
 
@@ -196,7 +197,7 @@ BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Mess
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
 		return FALSE;
 	}
 

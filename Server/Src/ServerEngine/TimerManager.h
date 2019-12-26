@@ -82,6 +82,7 @@ public:
 		if(m_pTimerFuncSlot != NULL)
 		{
 			delete m_pTimerFuncSlot;
+			m_pTimerFuncSlot = NULL;
 		}
 	}
 

@@ -66,7 +66,7 @@ INT32 CLuaHelper::GetGlobalVarInt( const char* pszVarName )
 
 BOOL CLuaHelper::GetGlobalVarBoolean( const char* pszVarName )
 {
-	ASSERT(m_pLuaState != NULL);
+	ERROR_RETURN_FALSE(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -82,7 +82,7 @@ BOOL CLuaHelper::GetGlobalVarBoolean( const char* pszVarName )
 
 const CHAR* CLuaHelper::GetGlobalVarString( const char* pszVarName )
 {
-	ASSERT(m_pLuaState != NULL);
+	ERROR_RETURN_NULL(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -98,7 +98,7 @@ const CHAR* CLuaHelper::GetGlobalVarString( const char* pszVarName )
 
 DOUBLE CLuaHelper::GetGlobalVarDouble( const char* pszVarName )
 {
-	ASSERT(m_pLuaState != NULL);
+	ERROR_RETURN_NULL(m_pLuaState != NULL);
 
 	lua_getglobal(m_pLuaState, pszVarName);
 
@@ -250,31 +250,31 @@ BOOL CLuaHelper::CallLuaFunction( std::string strFuncName, char* pStrParamSig, .
 		switch(cParmSig)
 		{
 			case 'd':
-				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, double*) = lua_tonumber(m_pLuaState, nRetIndex);
 				break;
 			case 'f':
-				ASSERT(lua_isnumber(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isnumber(m_pLuaState, nRetIndex));
 				*va_arg(VarList, float*) = (float)lua_tonumber(m_pLuaState, nRetIndex);
 				break;
 			case 'i':
-				ASSERT(lua_isinteger(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isinteger(m_pLuaState, nRetIndex));
 				*va_arg(VarList, int*) = (int)lua_tointeger(m_pLuaState, nRetIndex);
 				break;
 			case 'l':
-				ASSERT(lua_isinteger(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isinteger(m_pLuaState, nRetIndex));
 				*va_arg(VarList, long long*) = (long long)lua_tointeger(m_pLuaState, nRetIndex);
 				break;
 			case 's':
-				ASSERT(lua_isstring(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isstring(m_pLuaState, nRetIndex));
 				*va_arg(VarList, const char**) = lua_tostring(m_pLuaState, nRetIndex);
 				break;
 			case 'p':
-				ASSERT(lua_isuserdata(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isuserdata(m_pLuaState, nRetIndex));
 				*va_arg(VarList, void**) = lua_touserdata(m_pLuaState, nRetIndex);
 				break;
 			case 'b':
-				ASSERT(lua_isboolean(m_pLuaState, nRetIndex));
+				ERROR_RETURN_FALSE(lua_isboolean(m_pLuaState, nRetIndex));
 				*va_arg(VarList, bool*) = lua_toboolean(m_pLuaState, nRetIndex);
 				break;
 			case 0:
