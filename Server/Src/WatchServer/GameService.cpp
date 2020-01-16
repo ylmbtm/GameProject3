@@ -22,7 +22,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("WatchServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("WatchServer", "log"))
 	{
 		return FALSE;
 	}

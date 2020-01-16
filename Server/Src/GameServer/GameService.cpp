@@ -37,7 +37,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("GameServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("GameServer", "log"))
 	{
 		return FALSE;
 	}

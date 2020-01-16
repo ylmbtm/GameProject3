@@ -118,6 +118,19 @@ time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nH
 	return mktime(&newtm);;
 }
 
+std::string CommonFunc::TimeToString(time_t tTime)
+{
+	tm* t_tm = localtime(&tTime);
+	if (t_tm == NULL)
+	{
+		return "";
+	}
+
+	char szTime[128] = { 0 };
+	strftime(szTime, 128, "%Y-%m-%d %H:%M:%S", t_tm);
+	return std::string(szTime);
+}
+
 UINT64 CommonFunc::GetTickCount()
 {
 #ifdef WIN32

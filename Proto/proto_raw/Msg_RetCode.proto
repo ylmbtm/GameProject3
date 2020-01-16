@@ -6,10 +6,11 @@ enum MessageRetCode {
    MRC_ACCOUNT_EXIST    = 3;    //账号己存在
    MRC_NAME_EXIST       = 4;    //角色名己存在
    MRC_ACCOUNT_SEALED   = 5;    //账号被封禁
+   MRC_BAD_CLIENT_VER	= 6;    //客户端版本号不正确
 
    //无效的ID
-   MRC_INVALID_ACCNAME   = 100;    //无效的密码
-   MRC_INVALID_ACCID     = 101;    //无效的密码
+   MRC_INVALID_ACCNAME   = 100;    //无效的账名名
+   MRC_INVALID_ACCID     = 101;    //无效的账号ID
    MRC_INVALID_PASSWORD  = 102;    //无效的密码
    MRC_INVALID_NAME      = 103;    //无效的名字
    MRC_INVALID_ROLEID    = 104;    //无效的角色ID

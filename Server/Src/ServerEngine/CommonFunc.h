@@ -31,6 +31,8 @@ UINT64			GetWeekBeginTime(); //获取当周起点的秒数
 
 time_t			YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec);
 
+std::string     TimeToString(time_t tTime);
+
 UINT64			GetTickCount();
 
 UINT32			GetCurThreadID();

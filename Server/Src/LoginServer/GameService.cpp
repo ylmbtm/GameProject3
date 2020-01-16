@@ -4,6 +4,7 @@
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_ID.pb.h"
+#include "LoginClientMgr.h"
 CGameService::CGameService(void)
 {
 	m_dwAccountConnID	= 0;
@@ -34,7 +35,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("LoginServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("LoginServer", "log"))
 	{
 		return FALSE;
 	}
@@ -127,6 +128,8 @@ BOOL CGameService::OnCloseConnect(CConnection* pConn)
 	{
 		m_dwWatchSvrConnID = 0;
 	}
+
+	CLoginClientMgr::GetInstancePtr()->OnCloseConnect(pConn->GetConnectionID());
 
 	return TRUE;
 }

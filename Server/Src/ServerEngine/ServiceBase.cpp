@@ -73,7 +73,7 @@ BOOL ServiceBase::StopNetwork()
 
 	CNetManager::GetInstancePtr()->Close();
 
-	CLog::GetInstancePtr()->CloseLog();
+	CLog::GetInstancePtr()->Close();
 
 	return TRUE;
 }

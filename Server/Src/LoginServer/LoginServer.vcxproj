@@ -113,6 +113,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameService.cpp" />
+    <ClCompile Include="LoginClientMgr.cpp" />
     <ClCompile Include="LoginMsgHandler.cpp" />
     <ClCompile Include="LogicSvrManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_ID.pb.h" />
     <ClInclude Include="GameService.h" />
+    <ClInclude Include="LoginClientMgr.h" />
     <ClInclude Include="LoginMsgHandler.h" />
     <ClInclude Include="LogicSvrManager.h" />
     <ClInclude Include="stdafx.h" />

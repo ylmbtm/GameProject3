@@ -42,6 +42,9 @@
     <ClCompile Include="WebCommandHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LoginClientMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="..\Message\Msg_Game.pb.h">
       <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginClientMgr.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

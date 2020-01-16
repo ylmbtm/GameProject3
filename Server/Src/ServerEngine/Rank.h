@@ -105,21 +105,18 @@ public:
 		return nTargetIndex;
 	}
 
-	void SetRankItemEx(TID RankID, TValue OldRankValue, TValue NewRankValue)
+	void SetRankItemEx(TID RankID, TValue NewRankValue)
 	{
 		INT32 nCount = (INT32)m_vtRankList.size();
 		TValue uMinValue = m_vtRankList[nCount - 1].RankValue;
 		INT32 nOldIndex = -1;
 
-		//if (OldRankValue >= uMinValue)
+		for ( INT32 i = 0; i < nCount; i++)
 		{
-			for ( INT32 i = 0; i < nCount; i++)
+			if (RankID == m_vtRankList[i].RankID)
 			{
-				if (RankID == m_vtRankList[i].RankID)
-				{
-					nOldIndex = i;
-					break;
-				}
+				nOldIndex = i;
+				break;
 			}
 		}
 

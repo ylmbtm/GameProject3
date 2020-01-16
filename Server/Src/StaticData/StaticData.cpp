@@ -425,26 +425,23 @@ BOOL CStaticData::ReadAwardData(CppSQLite3Query& QueryData)
 
 		if (strRatioDrop != "NULL")
 		{
-			UINT32 dwRatioBegin = 1;
-			UINT32 dwTempValue = 0;
 			std::vector<std::string> vtRet;
 			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
+
+			UINT32 nCheckRatio = 0;
 
 			StDropItem item;
 			for(std::vector<std::string>::size_type i = 0; i < vtRet.size(); i++)
 			{
 				ParseToDropItem(vtRet.at(i), item);
 				stValue.RatioItems.push_back(item);
-
-				dwTempValue = stValue.RatioItems[i].dwRatio;
-				stValue.RatioItems[i].dwRatio = dwRatioBegin;
-				dwRatioBegin += dwTempValue;
+				nCheckRatio += item.dwRatio;
 			}
 
-
-			stValue.RatioItems.push_back(item);
-			stValue.RatioItems[vtRet.size()].dwItemID = 0;
-			stValue.RatioItems[vtRet.size()].dwRatio = 10000;
+			if (nCheckRatio != 10000)
+			{
+				CLog::GetInstancePtr()->LogError("ReadAwardData Error: Invalid awardid :%d", stValue.dwAwardID);
+			}
 		}
 
 		if ((stValue.FixItems.size() <= 0) && (stValue.RatioItems.size() <= 0))
@@ -561,12 +558,13 @@ BOOL CStaticData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector
 		}
 	}
 
+	//多次可取到同样的物品
 	for (int  cycle = 0; cycle < AwardItem.dwRatioCount; cycle++ )
 	{
 		UINT32 dwRandValue = CommonFunc::GetRandNum(0);
 		for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.RatioItems.size() - 1; i++)
 		{
-			if ((dwRandValue >= AwardItem.RatioItems[i].dwRatio) && (dwRandValue < AwardItem.RatioItems[i + 1].dwRatio))
+			if (dwRandValue <= AwardItem.RatioItems[i].dwRatio)
 			{
 				tempItem.dwItemID = AwardItem.RatioItems[i].dwItemID;
 				if (AwardItem.RatioItems[i].dwItemNum[1] == AwardItem.RatioItems[i].dwItemNum[0])
@@ -583,8 +581,53 @@ BOOL CStaticData::GetItemsFromAwardID(INT32 nAwardID, INT32 nCarrer, std::vector
 					vtItemList.push_back(tempItem);
 				}
 			}
+			else
+			{
+				dwRandValue -= AwardItem.RatioItems[i].dwRatio;
+			}
 		}
 	}
+
+	//确保多次都取到不同样的物品
+	/*
+	bool UsedFlag[100] = { 0 };
+	UINT32 UsedValue = 0;
+	for (int cycle = 0; cycle < AwardItem.dwRatioCount; cycle++)
+	{
+		UINT32 dwRandValue = CommonFunc::GetRandNum(0) - UsedValue;
+		for (std::vector<StDropItem>::size_type i = 0; i < AwardItem.RatioItems.size() - 1; i++)
+		{
+			if (UsedFlag[i])
+			{
+				continue;
+			}
+
+			if (dwRandValue <= AwardItem.RatioItems[i].dwRatio)
+			{
+				tempItem.dwItemID = AwardItem.RatioItems[i].dwItemID;
+				if (AwardItem.RatioItems[i].dwItemNum[1] == AwardItem.RatioItems[i].dwItemNum[0])
+				{
+					tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0];
+				}
+				else
+				{
+					tempItem.dwItemNum = AwardItem.RatioItems[i].dwItemNum[0] + CommonFunc::GetRandNum(0) % (AwardItem.RatioItems[i].dwItemNum[1] - AwardItem.RatioItems[i].dwItemNum[0] + 1);
+				}
+
+				if (tempItem.dwItemNum > 0)
+				{
+					vtItemList.push_back(tempItem);
+					UsedFlag[i] = true;
+					UsedValue += AwardItem.RatioItems[i].dwRatio;
+				}
+			}
+			else
+			{
+				dwRandValue -= AwardItem.RatioItems[i].dwRatio;
+			}
+		}
+	}
+	*/
 
 	return TRUE;
 }

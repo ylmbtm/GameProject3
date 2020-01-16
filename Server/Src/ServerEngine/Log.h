@@ -20,9 +20,9 @@ private:
 public:
 	static CLog* GetInstancePtr();
 
-	BOOL StartLog(std::string strPrefix, std::string strLogDir = "log");
+	BOOL Start(std::string strPrefix, std::string strLogDir = "log");
 
-	BOOL CloseLog();
+	BOOL Close();
 
 	void LogWarnning(char* lpszFormat, ...);
 

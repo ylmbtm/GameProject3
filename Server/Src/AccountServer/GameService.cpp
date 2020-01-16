@@ -33,7 +33,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("AccountServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("AccountServer", "log"))
 	{
 		return FALSE;
 	}

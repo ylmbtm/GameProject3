@@ -57,7 +57,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("LogicServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("LogicServer", "log"))
 	{
 		return FALSE;
 	}

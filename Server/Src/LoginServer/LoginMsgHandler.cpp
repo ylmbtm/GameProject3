@@ -6,6 +6,7 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
+#include "LoginClientMgr.h"
 
 CLoginMsgHandler::CLoginMsgHandler()
 {
@@ -37,6 +38,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
+			//客户端连接上的第一个消息，验证版本号
 			PROCESS_MESSAGE_ITEM(MSG_CHECK_VERSION_REQ,		OnMsgCheckVersionReq);
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,		OnMsgAccountRegReq);
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,		OnMsgAccountLoginReq);
@@ -57,9 +59,18 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 {
 	CheckVersionReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nConnID = pPacket->m_dwConnID;
+	ERROR_RETURN_TRUE(nConnID != 0);
 
 	CheckVersionAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
+	if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, MSG_CHECK_VERSION_REQ))
+	{
+		Ack.set_retcode(MRC_BAD_CLIENT_VER);
+	}
+
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
 	return TRUE;
 }
@@ -161,13 +172,20 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ERROR_RETURN_TRUE(nConnID != 0);
 
+	if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, MSG_SELECT_SERVER_REQ))
+	{
+		CLog::GetInstancePtr()->LogError("非法的消息请求SelectServer!!!");
+		return TRUE;
+	}
+
+	CLoginClientMgr::GetInstancePtr()->RemoveByConnID(nConnID);
+
 	UINT32 SvrConnID = m_LogicSvrMgr.GetLogicConnID(Req.serverid());
 	if (SvrConnID == 0)
 	{
 		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用。", Req.serverid());
 		return TRUE;
 	}
-
 
 	ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req));
 

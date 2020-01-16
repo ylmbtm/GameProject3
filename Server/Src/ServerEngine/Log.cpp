@@ -8,7 +8,7 @@ CLog::CLog(void)
 
 CLog::~CLog(void)
 {
-	CloseLog();
+	Close();
 }
 
 CLog* CLog::GetInstancePtr()
@@ -18,7 +18,7 @@ CLog* CLog::GetInstancePtr()
 	return &Log;
 }
 
-BOOL CLog::StartLog(std::string strPrefix, std::string strLogDir)
+BOOL CLog::Start(std::string strPrefix, std::string strLogDir)
 {
 	if(!CommonFunc::CreateDir(strLogDir))
 	{
@@ -48,7 +48,7 @@ BOOL CLog::StartLog(std::string strPrefix, std::string strLogDir)
 	return TRUE;
 }
 
-BOOL CLog::CloseLog()
+BOOL CLog::Close()
 {
 	if(m_pLogFile == NULL)
 	{

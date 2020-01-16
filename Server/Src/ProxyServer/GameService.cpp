@@ -34,7 +34,7 @@ BOOL CGameService::Init()
 {
 	CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->StartLog("ProxyServer", "log"))
+	if(!CLog::GetInstancePtr()->Start("ProxyServer", "log"))
 	{
 		return FALSE;
 	}
