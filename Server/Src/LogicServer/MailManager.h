@@ -16,6 +16,8 @@ public:
 
 	BOOL  SendOffOperation(UINT64 uRoleID);
 
+	BOOL  LoadData(CppMySQL3DB& tDBConnection);
+
 	BOOL  LoadGroupMailData(CppMySQL3DB& tDBConnection);
 
 	BOOL  LoadOffMailData(CppMySQL3DB& tDBConnection);

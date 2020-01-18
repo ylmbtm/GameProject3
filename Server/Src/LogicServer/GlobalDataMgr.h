@@ -10,7 +10,7 @@ class CGlobalDataManager
 public:
 	static CGlobalDataManager* GetInstancePtr();
 
-	BOOL LoadGlobalData(CppMySQL3DB& tDBConnection);
+	BOOL LoadData(CppMySQL3DB& tDBConnection);
 
 	UINT64 MakeNewGuid();
 

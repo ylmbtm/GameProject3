@@ -49,11 +49,6 @@ public:
 public:
 	std::map<UINT64, PartnerDataObject*>m_mapPartnerData;
 	PartnerDataObject* m_vtSetupPartner[PARTNER_MAX_NUM];
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
-
-
 };
 
 #endif //__PARTNER_MODULE_H__

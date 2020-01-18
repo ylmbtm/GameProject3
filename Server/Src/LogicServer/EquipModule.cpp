@@ -125,7 +125,7 @@ UINT64 CEquipModule::AddEquip(UINT32 dwEquipID)
 
 	m_mapEquipData.insert(std::make_pair(pObject->m_uGuid, pObject));
 
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	return pObject->m_uGuid;
 }
@@ -205,7 +205,7 @@ UINT32 CEquipModule::UnDressEquip(UINT64 uGuid)
 	pObject->Lock();
 	pObject->m_IsUsing = FALSE;
 	pObject->Unlock();
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 	m_vtDressEquip[pInfo->dwPos - 1] = NULL;
 
 	CBagModule* pBagModule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
@@ -251,7 +251,7 @@ UINT32 CEquipModule::DressEquip(UINT64 uGuid, UINT64 uBagGuid)
 		m_vtDressEquip[pInfo->dwPos - 1]->Lock();
 		m_vtDressEquip[pInfo->dwPos - 1]->m_IsUsing = FALSE;
 		m_vtDressEquip[pInfo->dwPos - 1]->Unlock();
-		m_setChange.insert(m_vtDressEquip[pInfo->dwPos - 1]->m_uGuid);
+		AddChangeID(m_vtDressEquip[pInfo->dwPos - 1]->m_uGuid);
 		pBagModule->SetBagItem(uBagGuid, m_vtDressEquip[pInfo->dwPos - 1]->m_uGuid, m_vtDressEquip[pInfo->dwPos - 1]->m_EquipID, 1);
 	}
 	else
@@ -263,7 +263,7 @@ UINT32 CEquipModule::DressEquip(UINT64 uGuid, UINT64 uBagGuid)
 	pObject->m_IsUsing = TRUE;
 	pObject->Unlock();
 	m_vtDressEquip[pInfo->dwPos - 1] = pObject;
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	m_pOwnPlayer->SendPlayerChange(ECT_EQUIP, pInfo->dwPos, pObject->m_EquipID, "");
 

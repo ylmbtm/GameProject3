@@ -48,9 +48,6 @@ public:
 
 public:
 	std::map<UINT64, PetDataObject*>m_mapPetData;
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
 };
 
 #endif //__PET_MODULE_H__

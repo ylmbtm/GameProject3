@@ -17,6 +17,20 @@ BOOL CModuleBase::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
+BOOL CModuleBase::AddChangeID(UINT64 uID)
+{
+	m_setChange.insert(uID);
+
+	return TRUE;
+}
+
+BOOL CModuleBase::AddRemoveID(UINT64 uID)
+{
+	m_setRemove.insert(uID);
+
+	return TRUE;
+}
+
 BOOL CModuleBase::SetOwner(CPlayerObject* pOwner)
 {
 	m_pOwnPlayer = pOwner;

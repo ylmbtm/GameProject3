@@ -210,7 +210,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 					pTempObject->m_nCount += nTempCount;
 					pTempObject->Unlock();
 					nTempCount = 0;
-					m_setChange.insert(pTempObject->m_uGuid);
+					AddChangeID(pTempObject->m_uGuid);
 					break;
 				}
 				else
@@ -219,7 +219,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 					pTempObject->m_nCount += nCanAdd;
 					pTempObject->Unlock();
 					nTempCount -= nCanAdd;
-					m_setChange.insert(pTempObject->m_uGuid);
+					AddChangeID(pTempObject->m_uGuid);
 				}
 			}
 		}
@@ -241,7 +241,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->Unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	return TRUE;
 }
@@ -261,7 +261,7 @@ BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount)
 	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	pObject->Unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 	return TRUE;
 }
 
@@ -315,7 +315,7 @@ BOOL CBagModule::RemoveItem(UINT64 uGuid)
 		BagDataObject* pTempObject = itor->second;
 		pTempObject->Destroy();
 		m_mapBagData.erase(uGuid);
-		m_setRemove.insert(uGuid);
+		AddRemoveID(uGuid);
 	}
 
 	return TRUE;
@@ -334,7 +334,7 @@ BOOL CBagModule::SetBagItem(UINT64 uGuid, UINT64 uItemGuid, UINT32 dwItemID, INT
 		pTempObject->m_ItemID = dwItemID;
 		pTempObject->m_nCount = nCount;
 		pTempObject->Unlock();
-		m_setChange.insert(uGuid);
+		AddChangeID(uGuid);
 		return TRUE;
 	}
 

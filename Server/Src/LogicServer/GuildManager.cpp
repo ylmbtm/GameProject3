@@ -21,7 +21,7 @@ CGuildManager* CGuildManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CGuildManager::LoadAllGuildData(CppMySQL3DB& tDBConnection)
+BOOL CGuildManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM guild");
 	while(!QueryResult.eof())

@@ -124,7 +124,7 @@ UINT64 CGemModule::AddGem(UINT32 dwGemID)
 
 	m_mapGemData.insert(std::make_pair(pObject->m_uGuid, pObject));
 
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	return pObject->m_uGuid;
 }
@@ -206,7 +206,7 @@ UINT32 CGemModule::UnDressGem(UINT64 uGuid)
 	pObject->Lock();
 	pObject->m_EquipPos = 0;
 	pObject->Unlock();
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	CBagModule* pBagModule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
 	if (pBagModule == NULL)
@@ -283,7 +283,7 @@ UINT32 CGemModule::DressGem(UINT64 uGuid, UINT64 uBagGuid, INT32 EquipPos)
 		m_vtDressGem[dwTargetPos]->Lock();
 		m_vtDressGem[dwTargetPos]->m_EquipPos = 0;
 		m_vtDressGem[dwTargetPos]->Unlock();
-		m_setChange.insert(m_vtDressGem[dwTargetPos]->m_uGuid);
+		AddChangeID(m_vtDressGem[dwTargetPos]->m_uGuid);
 		pBagModule->SetBagItem(uBagGuid, m_vtDressGem[dwTargetPos]->m_uGuid, m_vtDressGem[dwTargetPos]->m_GemID, 1);
 	}
 	else
@@ -295,7 +295,7 @@ UINT32 CGemModule::DressGem(UINT64 uGuid, UINT64 uBagGuid, INT32 EquipPos)
 	pObject->m_EquipPos = EquipPos;
 	pObject->Unlock();
 	m_vtDressGem[dwTargetPos] = pObject;
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 
 	return MRC_SUCCESSED;
 }

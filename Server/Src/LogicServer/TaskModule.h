@@ -40,9 +40,6 @@ public:
 	std::map<UINT32, TaskDataObject*>m_mapTaskData;
 
 	std::map<UINT32, TaskDataObject*>m_mapCommitTask;
-
-	std::set<UINT32> m_setChange;
-	std::set<UINT32> m_setRemove;
 };
 
 #endif //__PARTNER_MODULE_H__

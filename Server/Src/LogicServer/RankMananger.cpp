@@ -21,7 +21,7 @@ CRankManager::~CRankManager()
 
 }
 
-BOOL CRankManager::LoadRankData(CppMySQL3DB& tDBConnection)
+BOOL CRankManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 
 	return TRUE;

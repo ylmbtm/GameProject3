@@ -85,7 +85,7 @@ BOOL CMailModule::AddMail(MailDataObject* pMail)
 {
 	m_mapMailData.insert(std::make_pair(pMail->m_uGuid, pMail));
 
-	m_setChange.insert(pMail->m_uGuid);
+	AddChangeID(pMail->m_uGuid);
 
 	return TRUE;
 }
@@ -104,7 +104,7 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 
 	m_mapMailData.erase(itor);
 
-	m_setRemove.insert(uGuid);
+	AddRemoveID(uGuid);
 
 	return TRUE;
 }

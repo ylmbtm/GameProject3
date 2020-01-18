@@ -55,7 +55,15 @@ public:
 	CScene*		m_pScene;
 
 public:
-
 };
+
+// struct CObjectAi
+// {
+// 	virtual INT32           GetAttribute(INT32 nAttriIndex) = 0;
+// 	virtual UINT64          GetTargetID() = 0;
+// 	virtual CSceneObject*   GetTargetObject() = 0;
+// 	virtual FLOAT           GetTargetDistance() = 0;
+// 	//是否有目标
+// };
 
 #endif //__MAP_OBJECT_H__

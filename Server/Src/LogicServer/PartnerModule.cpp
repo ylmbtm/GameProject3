@@ -194,14 +194,14 @@ BOOL CPartnerModule::OnMsgSetupPartnerReq(NetPacket* pNetPacket)
 		m_vtSetupPartner[Req.targetpos() - 1]->Lock();
 		m_vtSetupPartner[Req.targetpos() - 1]->m_SetPos = 0;
 		m_vtSetupPartner[Req.targetpos() - 1]->Unlock();
-		m_setChange.insert(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
+		AddChangeID(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
 	}
 
 	m_vtSetupPartner[Req.targetpos() - 1] = pPartnerObj;
 	pPartnerObj->Lock();
 	pPartnerObj->m_SetPos = Req.targetpos();
 	pPartnerObj->Unlock();
-	m_setChange.insert(pPartnerObj->m_uGuid);
+	AddChangeID(pPartnerObj->m_uGuid);
 
 	SetupPartnerAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
@@ -229,7 +229,7 @@ BOOL CPartnerModule::OnMsgUnsetPartnerReq(NetPacket* pNetPacket)
 		m_vtSetupPartner[Req.targetpos() - 1]->Lock();
 		m_vtSetupPartner[Req.targetpos() - 1]->m_SetPos = 0;
 		m_vtSetupPartner[Req.targetpos() - 1]->Unlock();
-		m_setChange.insert(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
+		AddChangeID(m_vtSetupPartner[Req.targetpos() - 1]->m_uGuid);
 	}
 
 	UnsetPartnerAck Ack;
@@ -254,7 +254,7 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 	pObject->m_SetPos = 0;
 	pObject->Unlock();
 	m_mapPartnerData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 	return pObject->m_uGuid;
 }
 

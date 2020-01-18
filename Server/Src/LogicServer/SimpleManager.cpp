@@ -19,7 +19,7 @@ CSimpleManager* CSimpleManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CSimpleManager::LoadSimpleData(CppMySQL3DB& tDBConnection)
+BOOL CSimpleManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM player");
 	while(!QueryResult.eof())
@@ -206,9 +206,9 @@ BOOL CSimpleManager::SetOnline(UINT64 u64ID, BOOL bOnline)
 
 BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64>& vtRoleIDs)
 {
-	for (auto itor = m_mapID2Simple.begin();itor != m_mapID2Simple.end(); ++itor)
+	for (auto itor = m_mapID2Simple.begin(); itor != m_mapID2Simple.end(); ++itor)
 	{
-		CSimpleInfo *pInfo = itor->second;
+		CSimpleInfo* pInfo = itor->second;
 		ERROR_RETURN_FALSE(pInfo != NULL);
 
 		if (pInfo->m_uAccountID == uAccountID)

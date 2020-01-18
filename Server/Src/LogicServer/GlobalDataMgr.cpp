@@ -20,7 +20,7 @@ CGlobalDataManager* CGlobalDataManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CGlobalDataManager::LoadGlobalData(CppMySQL3DB& tDBConnection)
+BOOL CGlobalDataManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 	UINT64 dwMaxGuid = 0;
 	UINT32 dwMaxOnline = 0;

@@ -129,25 +129,22 @@ BOOL CGameService::Init()
 
 	BOOL bRet = FALSE;
 
-	bRet = CGlobalDataManager::GetInstancePtr()->LoadGlobalData(tDBConnection);
+	bRet = CGlobalDataManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet);
 
-	bRet = CSimpleManager::GetInstancePtr()->LoadSimpleData(tDBConnection);
+	bRet = CSimpleManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
 
-	bRet = CMailManager::GetInstancePtr()->LoadGroupMailData(tDBConnection);
+	bRet = CMailManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
 
-	bRet = CMailManager::GetInstancePtr()->LoadOffMailData(tDBConnection);
+	bRet = CGuildManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
 
-	bRet = CGuildManager::GetInstancePtr()->LoadAllGuildData(tDBConnection);
+	bRet = CActivityManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
 
-	bRet = CActivityManager::GetInstancePtr()->LoadActivityData(tDBConnection);
-	ERROR_RETURN_FALSE(bRet)
-
-	bRet = CRankManager::GetInstancePtr()->LoadRankData(tDBConnection);
+	bRet = CRankManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet)
 
 	bRet = CGameSvrMgr::GetInstancePtr()->Init();

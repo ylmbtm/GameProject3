@@ -46,9 +46,6 @@ public:
 
 public:
 	std::map<UINT64, BagDataObject*>m_mapBagData;
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
 };
 
 #endif //__BAG_MODULE_H__

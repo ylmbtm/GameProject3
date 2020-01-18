@@ -49,11 +49,6 @@ public:
 public:
 	std::map<UINT64, GemDataObject*>m_mapGemData;
 	GemDataObject* m_vtDressGem[40];
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
-
-
 };
 
 #endif //__GEM_MODULE_H__

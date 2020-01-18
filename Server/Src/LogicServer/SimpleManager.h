@@ -45,7 +45,7 @@ public:
 
 	BOOL	AddSimpleInfo(CSimpleInfo* pInfo);
 
-	BOOL	LoadSimpleData(CppMySQL3DB& tDBConnection);
+	BOOL	LoadData(CppMySQL3DB& tDBConnection);
 
 	UINT64	GetRoleIDByName(std::string Name);
 

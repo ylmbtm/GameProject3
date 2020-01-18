@@ -47,6 +47,17 @@ BOOL CMailManager::SendOffOperation(UINT64 uRoleID)
 	return TRUE;
 }
 
+BOOL CMailManager::LoadData(CppMySQL3DB& tDBConnection)
+{
+	BOOL bRet = LoadGroupMailData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet);
+
+	bRet = LoadGroupMailData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet);
+
+	return TRUE;
+}
+
 BOOL CMailManager::LoadGroupMailData(CppMySQL3DB& tDBConnection)
 {
 	return TRUE;

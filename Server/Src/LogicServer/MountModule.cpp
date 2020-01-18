@@ -121,7 +121,7 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 	pObject->m_IsUsing = FALSE;
 	pObject->Unlock();
 	m_mapMountData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 	return pObject->m_uGuid;
 }
 
@@ -199,7 +199,7 @@ BOOL CMountModule::OnMsgSetupMountReq(NetPacket* pNetPacket)
 		pCurObject->Lock();
 		pCurObject->m_IsUsing = false;
 		pCurObject->Unlock();
-		m_setChange.insert(pCurObject->m_uGuid);
+		AddChangeID(pCurObject->m_uGuid);
 	}
 
 	MountDataObject* pTargetObject = GetMountByGuid(Req.mountguid());
@@ -208,7 +208,7 @@ BOOL CMountModule::OnMsgSetupMountReq(NetPacket* pNetPacket)
 		pTargetObject->Lock();
 		pTargetObject->m_IsUsing = TRUE;
 		pTargetObject->Unlock();
-		m_setChange.insert(pTargetObject->m_uGuid);
+		AddChangeID(pTargetObject->m_uGuid);
 		m_pOwnPlayer->SendPlayerChange(ECT_MOUNT, 0, pTargetObject->m_MountID, "");
 	}
 
@@ -233,7 +233,7 @@ BOOL CMountModule::OnMsgUnsetMountReq(NetPacket* pNetPacket)
 		pCurObject->Lock();
 		pCurObject->m_IsUsing = false;
 		pCurObject->Unlock();
-		m_setChange.insert(pCurObject->m_uGuid);
+		AddChangeID(pCurObject->m_uGuid);
 	}
 
 	UnsetMountAck Ack;

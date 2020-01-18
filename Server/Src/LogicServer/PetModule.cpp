@@ -163,7 +163,7 @@ BOOL CPetModule::OnMsgSetupPetReq(NetPacket* pNetPacket)
 		pCurObject->Lock();
 		pCurObject->m_IsUsing = false;
 		pCurObject->Unlock();
-		m_setChange.insert(pCurObject->m_uGuid);
+		AddChangeID(pCurObject->m_uGuid);
 	}
 
 	PetDataObject* pTargetObject = GetPetByGuid(Req.petguid());
@@ -172,7 +172,7 @@ BOOL CPetModule::OnMsgSetupPetReq(NetPacket* pNetPacket)
 		pTargetObject->Lock();
 		pTargetObject->m_IsUsing = TRUE;
 		pTargetObject->Unlock();
-		m_setChange.insert(pTargetObject->m_uGuid);
+		AddChangeID(pTargetObject->m_uGuid);
 		m_pOwnPlayer->SendPlayerChange(ECT_PET, 0, pTargetObject->m_PetID, "");
 	}
 
@@ -195,7 +195,7 @@ BOOL CPetModule::OnMsgUnsetPetReq(NetPacket* pNetPacket)
 		pCurObject->Lock();
 		pCurObject->m_IsUsing = false;
 		pCurObject->Unlock();
-		m_setChange.insert(pCurObject->m_uGuid);
+		AddChangeID(pCurObject->m_uGuid);
 	}
 
 	UnsetPetAck Ack;
@@ -219,7 +219,7 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 	pObject->m_RefineLevel = 1;
 	pObject->Unlock();
 	m_mapPetData.insert(std::make_pair(pObject->m_uGuid, pObject));
-	m_setChange.insert(pObject->m_uGuid);
+	AddChangeID(pObject->m_uGuid);
 	return pObject->m_uGuid;
 }
 

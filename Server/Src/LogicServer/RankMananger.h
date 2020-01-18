@@ -14,7 +14,7 @@ private:
 	~CRankManager();
 
 public:
-	BOOL    LoadRankData(CppMySQL3DB& tDBConnection);
+	BOOL    LoadData(CppMySQL3DB& tDBConnection);
 
 	TRanker<UINT64, INT32> m_LevelRanker; //等级排行榜
 

@@ -13,7 +13,7 @@ public:
 public:
 	BOOL Init();
 
-	BOOL LoadActivityData(CppMySQL3DB& tDBConnection);
+	BOOL LoadData(CppMySQL3DB& tDBConnection);
 
 	BOOL OnSecondTimer();
 

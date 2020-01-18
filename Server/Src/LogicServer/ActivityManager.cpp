@@ -31,7 +31,7 @@ BOOL CActivityManager::Init()
 	return TRUE;
 }
 
-BOOL CActivityManager::LoadActivityData(CppMySQL3DB& tDBConnection)
+BOOL CActivityManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 
 
@@ -41,8 +41,8 @@ BOOL CActivityManager::LoadActivityData(CppMySQL3DB& tDBConnection)
 BOOL CActivityManager::OnSecondTimer()
 {
 	for (std::map <UINT32, StActivityInfo>::iterator itor = CStaticData::GetInstancePtr()->m_mapActivityInfo.begin();
-		itor != CStaticData::GetInstancePtr()->m_mapActivityInfo.end();
-		itor++)
+	        itor != CStaticData::GetInstancePtr()->m_mapActivityInfo.end();
+	        itor++)
 	{
 		StActivityInfo& ActInfo = itor->second;
 

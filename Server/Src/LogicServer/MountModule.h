@@ -48,9 +48,6 @@ public:
 
 public:
 	std::map<UINT64, MountDataObject*>m_mapMountData;
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
 };
 
 #endif //__PET_MODULE_H__

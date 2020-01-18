@@ -73,11 +73,9 @@ BOOL CLoginClientMgr::CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID)
 		{
 			pLoginClient = CreateLoginClient(dwConnID);
 		}
-
-		return TRUE;
 	}
 
-	//如果是初始状态，则只能接收MSG_CHECK_VERSION_REQ版本验证消息，否则就是非法
+	//如果是初始状态，则只能接收MSG_CHECK_VERSION_REQ版本验证消息，否则非法
 	if (pLoginClient->m_ClientStatue == ECS_NONE)
 	{
 		return dwMsgID == MSG_CHECK_VERSION_REQ;
@@ -89,7 +87,7 @@ BOOL CLoginClientMgr::CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID)
 		return dwMsgID == MSG_ACCOUNT_LOGIN_REQ || dwMsgID == MSG_ACCOUNT_REG_REQ;
 	}
 
-	//如果账号密码己验证，则下一个消息必须是选服消息
+	//如果账号密码己验证，则下一个消息必须是选服消息，否则非法
 	if (pLoginClient->m_ClientStatue == ECS_PSD_CHECKED)
 	{
 		return dwMsgID == MSG_SERVER_LIST_REQ || dwMsgID == MSG_SERVER_LIST_REQ;
