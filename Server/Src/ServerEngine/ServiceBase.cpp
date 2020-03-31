@@ -176,7 +176,7 @@ BOOL ServiceBase::Update()
 
 	if (m_pDispathQueue->size() > 0)
 	{
-		for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); itor++)
+		for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); ++itor)
 		{
 			NetPacket& item = *itor;
 			if (item.m_dwMsgID == NEW_CONNECTION)

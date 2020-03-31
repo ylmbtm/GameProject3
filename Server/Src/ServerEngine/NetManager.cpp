@@ -57,7 +57,7 @@ BOOL CNetManager::WorkThread_Listen()
 			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 			return FALSE;
 		}
-		CommonSocket::SetSocketUnblock(hClientSocket);
+		CommonSocket::SetSocketBlock(hClientSocket, FALSE);
 		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 		if(pConnection != NULL)
 		{
@@ -84,7 +84,7 @@ BOOL CNetManager::WorkThread_Listen()
 	return TRUE;
 }
 
-BOOL CNetManager::StartListen(UINT16 nPortNum)
+BOOL CNetManager::StartNetListen(UINT16 nPortNum)
 {
 	sockaddr_in SvrAddr;
 	SvrAddr.sin_family		= AF_INET;
@@ -181,9 +181,9 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 		}
 
 		NetIoOperatorData* pIoPeratorData = (NetIoOperatorData*)lpOverlapped;
-		switch( pIoPeratorData->dwCmdType )
+		switch( pIoPeratorData->dwOpType)
 		{
-			case NET_MSG_RECV:
+			case NET_OP_RECV:
 			{
 				CConnection* pConnection = (CConnection*)CompleteKey;
 				if(pConnection == NULL)
@@ -230,7 +230,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 			}
 			break;
-			case NET_MSG_SEND:
+			case NET_OP_SEND:
 			{
 				pIoPeratorData->pDataBuffer->Release();
 				CConnection* pConnection = (CConnection*)CompleteKey;
@@ -249,7 +249,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				pConnection->DoSend();
 			}
 			break;
-			case NET_MSG_POST:
+			case NET_OP_POST:
 			{
 				CConnection* pConnection = (CConnection*)CompleteKey;
 				if (pConnection == NULL)
@@ -267,7 +267,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				pConnection->DoSend();
 			}
 			break;
-			case NET_MSG_CONNECT:
+			case NET_OP_CONNECT:
 			{
 				CConnection* pConnection = (CConnection*)CompleteKey;
 				if (pConnection == NULL)
@@ -365,11 +365,11 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 
 BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 {
-	struct epoll_event EpollEvent[20];
+	struct epoll_event vtEvents[20];
 	int nFd = 0;
 	while (!m_bCloseEvent)
 	{
-		nFd = epoll_wait(m_hCompletePort, EpollEvent, 20, 1000);
+		nFd = epoll_wait(m_hCompletePort, vtEvents, 20, 1000);
 		if (nFd == -1)
 		{
 			continue;
@@ -377,14 +377,14 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 		for (int i = 0; i < nFd; ++i)
 		{
-			CConnection* pConnection = (CConnection*)EpollEvent[i].data.ptr;
+			CConnection* pConnection = (CConnection*)vtEvents[i].data.ptr;
 			if (pConnection == NULL)
 			{
 				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!");
 				continue;
 			}
 
-			if ((EpollEvent[i].events & EPOLLERR) || (EpollEvent[i].events & EPOLLHUP))
+			if ((vtEvents[i].events & EPOLLERR) || (vtEvents[i].events & EPOLLHUP))
 			{
 				EventDelete(pConnection);
 				pConnection->Close();
@@ -401,12 +401,12 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 			if (nError != 0)
 			{
-				if (EpollEvent[i].events & EPOLLIN)
+				if (vtEvents[i].events & EPOLLIN)
 				{
 					CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
 				}
 
-				if (EpollEvent[i].events & EPOLLOUT)
+				if (vtEvents[i].events & EPOLLOUT)
 				{
 					CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
 				}
@@ -414,7 +414,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				continue;
 			}
 
-			if (EpollEvent[i].events & EPOLLIN)
+			if (vtEvents[i].events & EPOLLIN)
 			{
 				if (!pConnection->IsConnectionOK())
 				{
@@ -431,7 +431,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 			}
 
-			if (EpollEvent[i].events & EPOLLOUT)
+			if (vtEvents[i].events & EPOLLOUT)
 			{
 				if (!pConnection->IsConnectionOK())
 				{
@@ -506,7 +506,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 		return FALSE;
 	}
 
-	if(!StartListen(nPortNum))
+	if(!StartNetListen(nPortNum))
 	{
 		CLog::GetInstancePtr()->LogError("开启监听失败！！");
 		return FALSE;
@@ -571,7 +571,7 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 
-	CommonSocket::SetSocketBlock(hSocket);
+	CommonSocket::SetSocketBlock(hSocket, TRUE);
 
 	CommonSocket::SetSocketNoDelay(hSocket);
 
@@ -588,7 +588,7 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 
-	CommonSocket::SetSocketUnblock(hSocket);
+	CommonSocket::SetSocketBlock(hSocket, FALSE);
 
 	pConnection->SetConnectionOK(TRUE);
 
@@ -612,7 +612,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 
-	CommonSocket::SetSocketUnblock(hSocket);
+	CommonSocket::SetSocketBlock(hSocket, FALSE);
 
 	CommonSocket::SetSocketNoDelay(hSocket);
 
@@ -627,7 +627,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
 	pConnection->m_IoOverlapRecv.Reset();
 
-	pConnection->m_IoOverlapRecv.dwCmdType = NET_MSG_CONNECT;
+	pConnection->m_IoOverlapRecv.dwOpType = NET_OP_CONNECT;
 
 	pConnection->m_IoOverlapRecv.dwConnID = pConnection->GetConnectionID();
 
@@ -756,7 +756,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection, BOOL bCheck)
 #ifdef WIN32
 		pConnection->m_IsSending = TRUE;
 		pConnection->m_IoOverLapPost.Reset();
-		pConnection->m_IoOverLapPost.dwCmdType = NET_MSG_POST;
+		pConnection->m_IoOverLapPost.dwOpType = NET_OP_POST;
 		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
 		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
 #else

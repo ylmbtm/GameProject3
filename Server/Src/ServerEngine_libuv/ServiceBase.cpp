@@ -169,7 +169,7 @@ BOOL ServiceBase::Update()
 	std::swap(m_pRecvDataQueue, m_pDispathQueue);
 	m_SpinLock.Unlock();
 
-	for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); itor++)
+	for (std::deque<NetPacket>::iterator itor = m_pDispathQueue->begin(); itor != m_pDispathQueue->end(); ++itor)
 	{
 		NetPacket& item = *itor;
 		if (item.m_dwMsgID == NEW_CONNECTION)

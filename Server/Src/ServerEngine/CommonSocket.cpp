@@ -14,28 +14,15 @@ BOOL  CommonSocket::SetSocketReuseable(SOCKET hSocket)
 }
 
 
-//设置套接字为非阻塞状态
-BOOL    CommonSocket::SetSocketUnblock(SOCKET hSocket)
+//设置套接字阻塞状态
+BOOL    CommonSocket::SetSocketBlock(SOCKET hSocket, BOOL bBlock)
 {
 #ifdef WIN32
-	u_long iMode = 1;
+	u_long iMode = bBlock ? 0 : 1;
 	ioctlsocket(hSocket, FIONBIO, &iMode);
 #else
 	int flags = fcntl(hSocket, F_GETFL, 0);
-	fcntl(hSocket, F_SETFL, flags | O_NONBLOCK);
-#endif
-
-	return TRUE;
-}
-
-BOOL    CommonSocket::SetSocketBlock(SOCKET hSocket)
-{
-#ifdef WIN32
-	u_long iMode = 0;
-	ioctlsocket(hSocket, FIONBIO, &iMode);
-#else
-	int flags = fcntl(hSocket, F_GETFL, 0);
-	fcntl(hSocket, F_SETFL, flags & (~O_NONBLOCK));
+	fcntl(hSocket, F_SETFL, bBlock ? (flags | O_NONBLOCK) : (flags & (~O_NONBLOCK)));
 #endif
 
 	return TRUE;
@@ -273,23 +260,29 @@ UINT32  CommonSocket::IpAddrStrToInt(const CHAR* pszIpAddr)
 
 #ifdef WIN32
 
-BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlapped)
+BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, SOCKET hAcceptSocket, CHAR* pBuff, LPOVERLAPPED lpOverlapped)
 {
-	LPFN_ACCEPTEX lpfnAcceptEx = NULL;
+	static LPFN_ACCEPTEX lpfnAcceptEx = NULL;
 
-	DWORD dwBytes;
-	GUID GuidAcceptEx = WSAID_ACCEPTEX;
-	if (SOCKET_ERROR == WSAIoctl(hListenSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
-	                             &GuidAcceptEx, sizeof(GuidAcceptEx),
-	                             &lpfnAcceptEx, sizeof(lpfnAcceptEx),
-	                             &dwBytes, NULL, NULL))
+	ERROR_RETURN_FALSE(pBuff != NULL);
+
+	DWORD dwBytes = 0;
+	if (lpfnAcceptEx == NULL)
 	{
-		return FALSE;
+
+		GUID GuidAcceptEx = WSAID_ACCEPTEX;
+		if (SOCKET_ERROR == WSAIoctl(hListenSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		                             &GuidAcceptEx, sizeof(GuidAcceptEx),
+		                             &lpfnAcceptEx, sizeof(lpfnAcceptEx),
+		                             &dwBytes, NULL, NULL))
+		{
+			return FALSE;
+		}
 	}
 
-	SOCKET hAcceptSocket = CreateSocket();
+	dwBytes = 0;
 
-	if (!lpfnAcceptEx(hListenSocket, hAcceptSocket, NULL, NULL, NULL, NULL, NULL, lpOverlapped))
+	if (!lpfnAcceptEx(hListenSocket, hAcceptSocket, pBuff, 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &dwBytes, lpOverlapped))
 	{
 		if (ERROR_IO_PENDING != CommonSocket::GetSocketLastError())
 		{
@@ -300,18 +293,51 @@ BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlappe
 	return TRUE;
 }
 
+BOOL CommonSocket::GetSocketAddress(SOCKET hSocket, CHAR* pDataBuffer, sockaddr_in*& pAddrClient, sockaddr_in*& pAddrLocal)
+{
+	static  LPFN_GETACCEPTEXSOCKADDRS lpfnGetAcceptExSockaddrs = NULL;
+	if (lpfnGetAcceptExSockaddrs == NULL)
+	{
+		DWORD dwBytes;
+		GUID GuidAddressEx = WSAID_GETACCEPTEXSOCKADDRS;
+		if (SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		                             &GuidAddressEx, sizeof(GuidAddressEx),
+		                             &lpfnGetAcceptExSockaddrs, sizeof(lpfnGetAcceptExSockaddrs),
+		                             &dwBytes, NULL, NULL))
+		{
+			return FALSE;
+		}
+	}
+
+	sockaddr_in* pClient = NULL, *pLocal = NULL;
+	int nAddrLen = sizeof(sockaddr_in);
+
+	lpfnGetAcceptExSockaddrs(pDataBuffer, 0,
+	                         sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16,
+	                         (LPSOCKADDR*)&pLocal, &nAddrLen,
+	                         (LPSOCKADDR*)&pClient, &nAddrLen);
+
+	pAddrClient = pClient;
+	pAddrLocal = pLocal;
+
+	return TRUE;
+}
+
 BOOL	CommonSocket::ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped)
 {
-	LPFN_CONNECTEX lpfnConnectEx = NULL;
+	static LPFN_CONNECTEX lpfnConnectEx = NULL;
 
-	DWORD dwBytes;
-	GUID GuidConnectEx = WSAID_CONNECTEX;
-	if(SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
-	                            &GuidConnectEx, sizeof(GuidConnectEx),
-	                            &lpfnConnectEx, sizeof(lpfnConnectEx),
-	                            &dwBytes, NULL, NULL))
+	if (lpfnConnectEx == NULL)
 	{
-		return FALSE;
+		DWORD dwBytes;
+		GUID GuidConnectEx = WSAID_CONNECTEX;
+		if (SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		                             &GuidConnectEx, sizeof(GuidConnectEx),
+		                             &lpfnConnectEx, sizeof(lpfnConnectEx),
+		                             &dwBytes, NULL, NULL))
+		{
+			return FALSE;
+		}
 	}
 
 	sockaddr_in  svrAddr;

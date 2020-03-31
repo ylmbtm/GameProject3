@@ -4,10 +4,11 @@
 #include "IBufferHandler.h"
 #include "LockFreeQueue.h"
 
-#define  NET_MSG_RECV				1
-#define  NET_MSG_SEND				2
-#define  NET_MSG_CONNECT			3
-#define  NET_MSG_POST				4
+#define  NET_OP_RECV				1
+#define  NET_OP_SEND				2
+#define  NET_OP_CONNECT				3
+#define  NET_OP_ACCEPT				4
+#define  NET_OP_POST				5
 
 #define RECV_BUF_SIZE               8192
 #define MAX_BUFF_SIZE				32768
@@ -21,7 +22,7 @@ struct NetIoOperatorData
 #ifdef WIN32
 	OVERLAPPED		Overlap;
 #endif
-	UINT32			dwCmdType;
+	UINT32			dwOpType;
 	UINT32			dwConnID;
 
 	IDataBuffer*	pDataBuffer;

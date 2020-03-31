@@ -1,14 +1,7 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-
-struct EventNode
-{
-	UINT32		dwEvent;
-	void*		pPtr;
-};
-
-////////////////////////////////////////////////
+#include "Connection.h"
 
 class CNetManager
 {
@@ -35,7 +28,7 @@ public:
 
 	BOOL	UninitNetwork();
 
-	BOOL	StartListen(UINT16 nPortNum);
+	BOOL	StartNetListen(UINT16 nPortNum);
 
 	BOOL	StopListen();
 

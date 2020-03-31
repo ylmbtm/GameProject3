@@ -66,6 +66,11 @@ public:
 		return m_dwShowNum;
 	}
 
+	INT32 GetTotalNum()
+	{
+		return m_dwShowNum;
+	}
+
 	INT32 SetRankItem(TID RankID, TValue RankValue)
 	{
 		INT32 nCount = (INT32)m_vtRankList.size();
@@ -151,6 +156,34 @@ public:
 		SearchInsert(RankID, RankValue, nOrgIndex, nTargetIndex);
 
 		return nOrgIndex;
+	}
+
+	BOOL RemoveRankItem(TID RankID)
+	{
+		INT32 nPos = -1;
+		for (INT32 i = 0; i < m_vtRankList.size(); i++)
+		{
+			if (m_vtRankList[i].RankID == RankID)
+			{
+				nPos = i;
+				break;
+			}
+		}
+
+		if (nPos < 0)
+		{
+			return TRUE;
+		}
+
+		for (INT32 i = nPos; i < m_vtRankList.size() - 1; i++)
+		{
+			m_vtRankList[i] = m_vtRankList[i + 1];
+		}
+
+		m_vtRankList[m_vtRankList.size() - 1].RankID = 0;
+		m_vtRankList[m_vtRankList.size() - 1].RankValue = 0;
+
+		return TRUE;
 	}
 
 	TRankItem<TID, TValue>* GetRankItem(INT32 nIndex)

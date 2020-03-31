@@ -77,7 +77,7 @@ BOOL CLoginClientMgr::CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID)
 	}
 
 	//如果是初始状态，则只能接收MSG_CHECK_VERSION_REQ版本验证消息，否则非法
-	if (pLoginClient->m_ClientStatue == ECS_NONE)
+	if (pLoginClient == NULL || pLoginClient->m_ClientStatue == ECS_NONE)
 	{
 		return dwMsgID == MSG_CHECK_VERSION_REQ;
 	}

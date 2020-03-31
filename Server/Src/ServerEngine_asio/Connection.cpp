@@ -64,6 +64,7 @@ UINT64 CConnection::GetConnectionData()
 void CConnection::SetConnectionID( UINT32 dwConnID )
 {
 	ERROR_RETURN_NONE(dwConnID != 0);
+
 	ERROR_RETURN_NONE(!m_bConnected);
 
 	m_dwConnID = dwConnID;
@@ -430,10 +431,15 @@ CConnectionMgr::~CConnectionMgr()
 
 CConnection* CConnectionMgr::CreateConnection()
 {
-	ERROR_RETURN_NULL(m_pFreeConnRoot != NULL);
-
 	CConnection* pTemp = NULL;
 	m_ConnListMutex.lock();
+	if (m_pFreeConnRoot == NULL)
+	{
+		//表示己到达连接的上限，不能再创建新的连接了
+		m_ConnListMutex.unlock();
+		return NULL;
+	}
+
 	if(m_pFreeConnRoot == m_pFreeConnTail)
 	{
 		pTemp = m_pFreeConnRoot;
@@ -454,15 +460,13 @@ CConnection* CConnectionMgr::CreateConnection()
 
 CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 {
+	ERROR_RETURN_NULL(dwConnID != 0);
+
 	UINT32 dwIndex = dwConnID % m_vtConnList.size();
 
-	ERROR_RETURN_NULL(dwIndex < m_vtConnList.size())
+	CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
 
-	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
-	if(pConnect->GetConnectionID() != dwConnID)
-	{
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pConnect->GetConnectionID() == dwConnID);
 
 	return pConnect;
 }

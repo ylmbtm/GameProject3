@@ -10,7 +10,7 @@ void NetIoOperatorData::Reset()
 	memset(&Overlap, 0, sizeof(Overlap));
 #endif
 
-	dwCmdType = 0;
+	dwOpType = 0;
 	dwConnID = 0;
 
 	pDataBuffer = NULL;
@@ -65,7 +65,7 @@ BOOL CConnection::DoReceive()
 	DWORD dwRecvBytes = 0, dwFlags = 0;
 
 	m_IoOverlapRecv.Reset();
-	m_IoOverlapRecv.dwCmdType = NET_MSG_RECV;
+	m_IoOverlapRecv.dwOpType = NET_OP_RECV;
 	m_IoOverlapRecv.dwConnID = m_dwConnID;
 
 	int nRet = WSARecv(m_hSocket, &DataBuf, 1, &dwRecvBytes, &dwFlags, (LPOVERLAPPED)&m_IoOverlapRecv, NULL);
@@ -496,7 +496,7 @@ BOOL CConnection::DoSend()
 	DataBuf.len = pSendingBuffer->GetTotalLenth();
 	DataBuf.buf = pSendingBuffer->GetBuffer();
 	m_IoOverlapSend.Reset();
-	m_IoOverlapSend.dwCmdType   = NET_MSG_SEND;
+	m_IoOverlapSend.dwOpType = NET_OP_SEND;
 	m_IoOverlapSend.pDataBuffer = pSendingBuffer;
 	m_IoOverlapSend.dwConnID = m_dwConnID;
 
@@ -649,16 +649,9 @@ CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
 
 	UINT32 dwIndex = dwConnID % m_vtConnList.size();
 
-	if (dwIndex == 0)
-	{
-		dwIndex = (UINT32)m_vtConnList.size();
-	}
+	CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
 
-	CConnection* pConnect = m_vtConnList.at(dwIndex - 1);
-	if(pConnect->GetConnectionID() != dwConnID)
-	{
-		return NULL;
-	}
+	ERROR_RETURN_NULL(pConnect->GetConnectionID() == dwConnID);
 
 	return pConnect;
 }
@@ -680,7 +673,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
 	if(m_pFreeConnTail == NULL)
 	{
-		ERROR_RETURN_FALSE(m_pFreeConnRoot != NULL);
+		ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
 
 		m_pFreeConnTail = m_pFreeConnRoot = pConnection;
 	}

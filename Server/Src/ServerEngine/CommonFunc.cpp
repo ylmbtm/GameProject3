@@ -527,3 +527,50 @@ INT32 CommonFunc::Min(INT32 nValue1, INT32 nValue2)
 {
 	return (nValue1 < nValue2) ? nValue1 : nValue2;
 }
+
+BOOL CommonFunc::IsAlreadyRun(std::string strSignName)
+{
+#ifdef WIN32
+	HANDLE hMutex = NULL;
+	hMutex = CreateMutex(NULL, FALSE, strSignName.c_str());
+	if (hMutex != NULL)
+	{
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			CloseHandle(hMutex);
+			return TRUE;
+		}
+	}
+	return FALSE;
+#else
+	INT32 fd;
+	CHAR szbuf[32] = {0};
+
+	std::string strLockFile = "/var/run/" + strSignName + ".pid";
+	fd = open(strLockFile.c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (fd < 0)
+	{
+		return TRUE;
+	}
+
+	struct flock fl;
+	fl.l_type  = F_WRLCK;
+	fl.l_start = 0;
+	fl.l_whence = SEEK_SET;
+	fl.l_len   = 0;
+
+	if (fcntl(fd, F_SETLK, &fl) < 0)
+	{
+		close(fd);
+		return TRUE;
+	}
+
+	ftruncate(fd, 0);
+
+	snprintf(szbuf, 32, "%ld", (long)getpid());
+
+	write(fd, szbuf, strlen(szbuf) + 1);
+
+	return FALSE;
+#endif
+}

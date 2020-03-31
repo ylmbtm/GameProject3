@@ -9,10 +9,7 @@ namespace CommonSocket
 BOOL		SetSocketReuseable(SOCKET hSocket);
 
 //设置套接字为非阻塞状态
-BOOL		SetSocketUnblock(SOCKET hSocket);
-
-//设置套接字为阻塞状态
-BOOL		SetSocketBlock(SOCKET hSocket);
+BOOL		SetSocketBlock(SOCKET hSocket, BOOL bBlock);
 
 BOOL		SetSocketNoDelay(SOCKET hSocket);
 
@@ -63,7 +60,9 @@ std::string GetRemoteIP(SOCKET hSocket);
 #ifdef WIN32
 BOOL		ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
 
-BOOL		AcceptSocketEx(SOCKET hListenSocket, LPOVERLAPPED lpOverlapped);
+BOOL		AcceptSocketEx(SOCKET hListenSocket, SOCKET hAcceptSocket, CHAR* pBuff, LPOVERLAPPED lpOverlapped);
+
+BOOL        GetSocketAddress(SOCKET hSocket, CHAR* pDataBuffer, sockaddr_in*& pAddrClient, sockaddr_in*& pAddrLocal);
 #endif
 }
 

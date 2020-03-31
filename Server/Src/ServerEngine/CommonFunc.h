@@ -66,6 +66,8 @@ BOOL			DbgTrace(char* format, ...);
 BOOL			KillProcess(UINT64 dwPid);
 
 INT32			Min(INT32 nValue1, INT32 nValue2);
+
+BOOL            IsAlreadyRun(std::string strSignName);
 }
 
 
