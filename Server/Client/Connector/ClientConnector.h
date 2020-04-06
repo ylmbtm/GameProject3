@@ -10,11 +10,11 @@ enum ConnectState
 	ECS_CONNECTED	//己连接
 };
 
-#define CONST_BUFF_SIZE 8192
+#define CONST_BUFF_SIZE 1024000
 
 struct IMessageHandler
 {
-	virtual BOOL DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen) = 0;
+	virtual BOOL DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen) = 0;
 };
 
 class CClientConnector

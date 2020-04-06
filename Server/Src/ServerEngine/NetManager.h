@@ -20,9 +20,9 @@ public:
 
 	BOOL	Close();
 
-	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer);
+	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
 public:
 	BOOL	InitNetwork();
 

@@ -65,8 +65,8 @@ CLoginClient* CLoginClientMgr::CreateLoginClient(UINT32 dwConnID)
 
 BOOL CLoginClientMgr::CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID)
 {
+	return TRUE;
 	CLoginClient* pLoginClient = GetByConnID(dwConnID);
-        return TRUE;
 	//MSG_CHECK_VERSION_REQ是第一个消息，用于创建登录状态
 	if (dwMsgID == MSG_CHECK_VERSION_REQ)
 	{

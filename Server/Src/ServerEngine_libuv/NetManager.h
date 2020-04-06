@@ -16,13 +16,13 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string &strListenIp);
+	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
 
 	BOOL	Close();
 
-	BOOL	SendMessageByConnID(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMsgBufByConnID(UINT32 dwConnID, IDataBuffer* pBuffer);
+	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
 
 public:
 	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
@@ -32,7 +32,7 @@ public:
 	void HandleConnect(CConnection* pConnection, INT32 dwStatus);
 
 	void HandleAccept(CConnection* pConnection, INT32 dwStatus);
-	
+
 	BOOL PostSendOperation(CConnection* pConnection);
 
 	void RunLoop();
@@ -40,7 +40,7 @@ public:
 	uv_tcp_t						m_ListenSocket;
 	uv_loop_t*						m_pMainLoop;
 	uv_thread_t						m_LoopThreadID;
-	
+
 public:
 	IDataHandler*					m_pBufferHandler;
 };

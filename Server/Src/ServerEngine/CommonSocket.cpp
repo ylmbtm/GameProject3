@@ -32,7 +32,7 @@ BOOL    CommonSocket::SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 n
 {
 	if (nRecvSize > 0)
 	{
-		if (0 != setsockopt(hSocket, IPPROTO_TCP, SO_RCVBUF, (char*)&nRecvSize, sizeof(INT32)))
+		if (0 != setsockopt(hSocket, SOL_SOCKET, SO_RCVBUF, (char*)&nRecvSize, sizeof(INT32)))
 		{
 			return FALSE;
 		}
@@ -40,7 +40,7 @@ BOOL    CommonSocket::SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 n
 
 	if (nSendSize > 0)
 	{
-		if (0 != setsockopt(hSocket, IPPROTO_TCP, SO_SNDBUF, (char*)&nSendSize, sizeof(INT32)))
+		if (0 != setsockopt(hSocket, SOL_SOCKET, SO_SNDBUF, (char*)&nSendSize, sizeof(INT32)))
 		{
 			return FALSE;
 		}
@@ -264,7 +264,10 @@ BOOL	CommonSocket::AcceptSocketEx(SOCKET hListenSocket, SOCKET hAcceptSocket, CH
 {
 	static LPFN_ACCEPTEX lpfnAcceptEx = NULL;
 
-	ERROR_RETURN_FALSE(pBuff != NULL);
+	if (pBuff == NULL)
+	{
+		return FALSE;
+	}
 
 	DWORD dwBytes = 0;
 	if (lpfnAcceptEx == NULL)

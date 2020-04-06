@@ -185,7 +185,9 @@ BOOL CClientConnector::ConnectTo( std::string strIpAddr, UINT16 sPort )
 		return FALSE;
 	}
 
-	CommonSocket::SetSocketUnblock(m_hSocket);
+	CommonSocket::SetSocketBlock(m_hSocket, FALSE);
+
+	CommonSocket::SetSocketBuffSize(m_hSocket, 1024 * 1024, 1024 * 1024);
 
 	SetConnectState(ECS_CONNECTED);
 

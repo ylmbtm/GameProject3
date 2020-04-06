@@ -264,6 +264,7 @@ BOOL CClientObject::SendSelectSvrReq(UINT32 dwSvrID)
 {
 	SelectServerReq Req;
 	Req.set_serverid(dwSvrID);
+	Req.set_accountid(m_dwAccountID);
 	m_ClientConnector.SendData(MSG_SELECT_SERVER_REQ, Req, 0, 0);
 	return TRUE;
 }

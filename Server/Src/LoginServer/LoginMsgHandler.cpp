@@ -171,6 +171,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ERROR_RETURN_TRUE(nConnID != 0);
+	ERROR_RETURN_TRUE(Req.serverid() != 0);
 
 	if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, pPacket->m_dwMsgID))
 	{
