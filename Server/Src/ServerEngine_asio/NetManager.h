@@ -7,7 +7,7 @@
 #include <boost/thread/thread.hpp>
 #include "boost/asio/io_service.hpp"
 #include "boost/asio/connect.hpp"
-
+#include "Connection.h"
 
 ////////////////////////////////////////////////
 class CNetManager

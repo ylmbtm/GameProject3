@@ -22,9 +22,9 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(CConnection* pConn);
+	BOOL		OnNewConnect(UINT32 nConnID);
 
-	BOOL		OnCloseConnect(CConnection* pConn);
+	BOOL		OnCloseConnect(UINT32 nConnID);
 
 	BOOL		OnSecondTimer();
 
@@ -45,6 +45,7 @@ public:
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
+	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

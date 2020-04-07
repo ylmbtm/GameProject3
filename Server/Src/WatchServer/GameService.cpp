@@ -52,16 +52,16 @@ BOOL CGameService::Init()
 }
 
 
-BOOL CGameService::OnNewConnect(CConnection* pConn)
+BOOL CGameService::OnNewConnect(UINT32 nConnID)
 {
-	m_WatchMsgHandler.OnNewConnect(pConn);
+	m_WatchMsgHandler.OnNewConnect(nConnID);
 
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection* pConn)
+BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 {
-	m_WatchMsgHandler.OnCloseConnect(pConn);
+	m_WatchMsgHandler.OnCloseConnect(nConnID);
 
 	return TRUE;
 }

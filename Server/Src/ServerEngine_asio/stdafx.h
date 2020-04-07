@@ -18,8 +18,6 @@
 #include <deque>
 #include <mutex>
 
-#include "CheckMacroDefine.h"
-
 #include "Platform.h"
 
 #include "Log.h"

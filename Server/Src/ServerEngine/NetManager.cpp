@@ -58,6 +58,7 @@ BOOL CNetManager::WorkThread_Listen()
 			return FALSE;
 		}
 		CommonSocket::SetSocketBlock(hClientSocket, FALSE);
+		CommonSocket::SetSocketNoDelay(hClientSocket);
 		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 		if(pConnection != NULL)
 		{
@@ -65,7 +66,7 @@ BOOL CNetManager::WorkThread_Listen()
 
 			pConnection->SetConnectionOK(TRUE);
 
-			m_pBufferHandler->OnNewConnect(pConnection);
+			m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 			//在Windows的IOCP模式，一个新的连接必须首先调一次接收， 而EPOLL模型下，只要关注了读事件就可以等事件到了之后发读的操作。
 #ifdef WIN32
@@ -285,7 +286,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if(bRetValue)
 				{
 					pConnection->SetConnectionOK(TRUE);
-					m_pBufferHandler->OnNewConnect(pConnection);
+					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 					if(!pConnection->DoReceive())
 					{
@@ -310,7 +311,6 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NULL(pConnection != NULL);
 	pConnection->SetSocket(hSocket);
-	CommonSocket::SetSocketNoDelay(hSocket);
 	pConnection->SetDataHandler(m_pBufferHandler);
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
 	{
@@ -419,7 +419,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if (!pConnection->IsConnectionOK())
 				{
 					pConnection->SetConnectionOK(TRUE);
-					m_pBufferHandler->OnNewConnect(pConnection);
+					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 				}
 
 				if (!pConnection->HandleRecvEvent(0))
@@ -429,6 +429,13 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					pConnection->Close();
 					continue;
 				}
+				else
+				{
+					struct epoll_event EpollEvent;
+					EpollEvent.data.ptr = pConnection;
+					EpollEvent.events = EPOLLIN | EPOLLET;
+					epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+				}
 			}
 
 			if (vtEvents[i].events & EPOLLOUT)
@@ -436,7 +443,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				if (!pConnection->IsConnectionOK())
 				{
 					pConnection->SetConnectionOK(TRUE);
-					m_pBufferHandler->OnNewConnect(pConnection);
+					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 				}
 
 				UINT32 nRet = pConnection->DoSend();
@@ -592,7 +599,7 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 
 	pConnection->SetConnectionOK(TRUE);
 
-	m_pBufferHandler->OnNewConnect(pConnection);
+	m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 	if(!pConnection->DoReceive())
 	{

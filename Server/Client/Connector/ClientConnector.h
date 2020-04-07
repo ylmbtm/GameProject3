@@ -31,15 +31,15 @@ public:
 	BOOL	DisConnect();
 
 	BOOL	SendData(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT64 u64TargetID, UINT32 dwUserData);
-	
-	BOOL	RegisterMsgHandler(IMessageHandler *pMsgHandler);
 
-	BOOL	UnregisterMsgHandler(IMessageHandler *pMsgHandler);
+	BOOL	RegisterMsgHandler(IMessageHandler* pMsgHandler);
+
+	BOOL	UnregisterMsgHandler(IMessageHandler* pMsgHandler);
 
 	BOOL	Render();
 
 	UINT32  GetServerTime();
-	
+
 	BOOL	IsConnected();
 
 	ConnectState GetConnectState(VOID);
@@ -51,12 +51,12 @@ protected:
 
 	BOOL	ProcessData();
 
-	BOOL	SendData(char *pData, INT32 dwLen);
+	BOOL	SendData(char* pData, INT32 dwLen);
 
 	//以下是内部的消息处理
-	BOOL	DispatchPacket(UINT32 dwMsgID, CHAR *PacketBuf, INT32 BufLen);
+	BOOL	DispatchPacket(UINT32 dwMsgID, CHAR* PacketBuf, INT32 BufLen);
 
-	
+
 protected:
 	ConnectState		m_ConnectState;
 
@@ -67,7 +67,7 @@ protected:
 
 	INT32               m_PacketLen;
 	CHAR				m_PackBuffer[CONST_BUFF_SIZE];
-	
+
 	std::vector<IMessageHandler*> m_vtMsgHandler;
 
 	UINT32				m_dwServerTime;

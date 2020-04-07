@@ -167,7 +167,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
 void CNetManager::HandleConnect(CConnection* pConnection, INT32 dwStatus)
 {
-	m_pBufferHandler->OnNewConnect(pConnection);
+	m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 	pConnection->DoReceive();
 
@@ -178,7 +178,7 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 {
 	if (dwStatus == 0)
 	{
-		m_pBufferHandler->OnNewConnect(pConnection);
+		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
 	}

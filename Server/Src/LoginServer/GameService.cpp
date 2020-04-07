@@ -107,9 +107,9 @@ BOOL CGameService::ConnectToAccountSvr()
 	return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(CConnection* pConn)
+BOOL CGameService::OnNewConnect(UINT32 nConnID)
 {
-	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	if (nConnID == m_dwWatchSvrConnID)
 	{
 		SendWatchHeartBeat();
 	}
@@ -117,19 +117,19 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection* pConn)
+BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 {
-	if(pConn->GetConnectionID() == m_dwAccountConnID)
+	if(nConnID == m_dwAccountConnID)
 	{
 		m_dwAccountConnID = 0;
 	}
 
-	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	if (nConnID == m_dwWatchSvrConnID)
 	{
 		m_dwWatchSvrConnID = 0;
 	}
 
-	CLoginClientMgr::GetInstancePtr()->OnCloseConnect(pConn->GetConnectionID());
+	CLoginClientMgr::GetInstancePtr()->OnCloseConnect(nConnID);
 
 	return TRUE;
 }
@@ -183,6 +183,13 @@ BOOL CGameService::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
 	WatchHeartBeatAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
+{
+	GmStopServerReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	return TRUE;
 }
 

@@ -1,7 +1,5 @@
 ﻿#ifndef __IBUFFER_HANDLER_H__
 #define __IBUFFER_HANDLER_H__
-class CConnection;
-class CBufferHelper;
 struct NetPacket;
 
 class IDataBuffer
@@ -32,26 +30,18 @@ public:
 
 struct IDataHandler
 {
-	virtual BOOL OnDataHandle( IDataBuffer* pDataBuffer, CConnection* pConnection) = 0;
-	virtual BOOL OnCloseConnect(CConnection* pConnection) = 0;
-	virtual BOOL OnNewConnect(CConnection* pConnection) = 0;
+	virtual BOOL OnDataHandle( IDataBuffer* pDataBuffer, UINT32 nConnID) = 0;
+	virtual BOOL OnCloseConnect(UINT32 nConnID) = 0;
+	virtual BOOL OnNewConnect(UINT32 nConnID) = 0;
 };
 
 struct IPacketDispatcher
 {
 	virtual BOOL DispatchPacket( NetPacket* pNetPacket) = 0;
+	virtual BOOL OnCloseConnect(UINT32 nConnID) = 0;
+	virtual BOOL OnNewConnect(UINT32 nConnID) = 0;
 	virtual BOOL OnSecondTimer() = 0;
-	virtual BOOL OnCloseConnect(CConnection* pConnection) = 0;
-	virtual BOOL OnNewConnect(CConnection* pConnection) = 0;
 };
-
-struct  IThreadHandler
-{
-	virtual BOOL DispatchPacket(NetPacket* pNetPacket) = 0;
-	virtual BOOL OnThreadBegin() = 0;
-	virtual BOOL OnThreadEnd() = 0;
-};
-
 
 struct NetPacket
 {

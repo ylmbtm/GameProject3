@@ -282,14 +282,14 @@ BOOL CGameService::RegisterToCenterSvr()
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterID, MSG_LOGIC_REGTO_CENTER_REQ, 0, 0, Req);
 }
 
-BOOL CGameService::OnNewConnect(CConnection* pConn)
+BOOL CGameService::OnNewConnect(UINT32 nConnID)
 {
-	if(pConn->GetConnectionID() == m_dwLoginConnID)
+	if(nConnID == m_dwLoginConnID)
 	{
 		RegisterToLoginSvr();
 	}
 
-	if(pConn->GetConnectionID() == m_dwCenterID)
+	if(nConnID == m_dwCenterID)
 	{
 		RegisterToCenterSvr();
 	}
@@ -297,38 +297,38 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection* pConn)
+BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 {
-	if(m_dwLoginConnID == pConn->GetConnectionID())
+	if(m_dwLoginConnID == nConnID)
 	{
 		m_dwLoginConnID = 0;
 		return TRUE;
 	}
 
-	if(m_dwLogConnID == pConn->GetConnectionID())
+	if(m_dwLogConnID == nConnID)
 	{
 		m_dwLogConnID = 0;
 		return TRUE;
 	}
 
-	if(m_dwDBConnID == pConn->GetConnectionID())
+	if(m_dwDBConnID == nConnID)
 	{
 		m_dwDBConnID = 0;
 		return TRUE;
 	}
 
-	if(m_dwCenterID == pConn->GetConnectionID())
+	if(m_dwCenterID == nConnID)
 	{
 		m_dwCenterID = 0;
 		return TRUE;
 	}
 
-	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	if (m_dwWatchSvrConnID == nConnID)
 	{
 		m_dwWatchSvrConnID = 0;
 	}
 
-	CGameSvrMgr::GetInstancePtr()->OnCloseConnect(pConn->GetConnectionID());
+	CGameSvrMgr::GetInstancePtr()->OnCloseConnect(nConnID);
 
 	return TRUE;
 }

@@ -1,7 +1,7 @@
 ﻿#ifndef _NET_MANAGER_H_
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
-
+#include "Connection.h"
 ////////////////////////////////////////////////
 class CNetManager
 {

@@ -38,9 +38,9 @@ public:
 
 	BOOL		OnUpdate(UINT64 uTick);
 
-	BOOL		OnNewConnect(CConnection* pConn);
+	BOOL		OnNewConnect(UINT32 nConnID);
 
-	BOOL		OnCloseConnect(CConnection* pConn);
+	BOOL		OnCloseConnect(UINT32 nConnID);
 
 	BOOL		OnSecondTimer();
 public:

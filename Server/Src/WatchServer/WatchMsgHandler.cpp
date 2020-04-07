@@ -75,12 +75,12 @@ BOOL CWatchMsgHandler::OnUpdate(UINT64 uTick)
 }
 
 
-BOOL CWatchMsgHandler::OnNewConnect(CConnection* pConn)
+BOOL CWatchMsgHandler::OnNewConnect(UINT32 nConnID)
 {
 	return TRUE;
 }
 
-BOOL CWatchMsgHandler::OnCloseConnect(CConnection* pConn)
+BOOL CWatchMsgHandler::OnCloseConnect(UINT32 nConnID)
 {
 	return TRUE;
 }

@@ -16,9 +16,9 @@ public:
 
 	BOOL		DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL		OnNewConnect(CConnection* pConn);
+	BOOL		OnNewConnect(UINT32 nConnID);
 
-	BOOL		OnCloseConnect(CConnection* pConn);
+	BOOL		OnCloseConnect(UINT32 nConnID);
 public:
 	BOOL		RelayToGameServer(CProxyPlayer* pClientObj, IDataBuffer* pBuffer);
 

@@ -36,12 +36,12 @@ ServiceBase* ServiceBase::GetInstancePtr()
 }
 
 
-BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, CConnection* pConnection)
+BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, UINT32 nConnID)
 {
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
 
 	m_QueueLock.Lock();
-	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), pDataBuffer, pHeader->dwMsgID));
+	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, pDataBuffer, pHeader->dwMsgID));
 	m_QueueLock.Unlock();
 	return TRUE;
 }
@@ -136,21 +136,18 @@ CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 	return CNetManager::GetInstancePtr()->ConnectTo_Async(strIpAddr, sPort);
 }
 
-BOOL ServiceBase::OnCloseConnect( CConnection* pConnection )
+BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
 {
-	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
-
 	m_QueueLock.Lock();
-	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, CLOSE_CONNECTION));
+	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, NULL, CLOSE_CONNECTION));
 	m_QueueLock.Unlock();
 	return TRUE;
 }
 
-BOOL ServiceBase::OnNewConnect( CConnection* pConnection )
+BOOL ServiceBase::OnNewConnect(UINT32 nConnID)
 {
-	ERROR_RETURN_FALSE(pConnection->GetConnectionID() != 0);
 	m_QueueLock.Lock();
-	m_pRecvDataQueue->emplace_back(NetPacket(pConnection->GetConnectionID(), (IDataBuffer*)pConnection, NEW_CONNECTION));
+	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, NULL, NEW_CONNECTION));
 	m_QueueLock.Unlock();
 	return TRUE;
 }
@@ -181,13 +178,13 @@ BOOL ServiceBase::Update()
 			NetPacket& item = *itor;
 			if (item.m_dwMsgID == NEW_CONNECTION)
 			{
-				m_pPacketDispatcher->OnNewConnect((CConnection*)item.m_pDataBuffer);
+				m_pPacketDispatcher->OnNewConnect(item.m_dwConnID);
 			}
 			else if (item.m_dwMsgID == CLOSE_CONNECTION)
 			{
-				m_pPacketDispatcher->OnCloseConnect((CConnection*)item.m_pDataBuffer);
+				m_pPacketDispatcher->OnCloseConnect(item.m_dwConnID);
 				//发送通知
-				CConnectionMgr::GetInstancePtr()->DeleteConnection((CConnection*)item.m_pDataBuffer);
+				CConnectionMgr::GetInstancePtr()->DeleteConnection(item.m_dwConnID);
 			}
 			else
 			{

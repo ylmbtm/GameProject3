@@ -97,13 +97,16 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CProxyMsgHandler::OnNewConnect(CConnection* pConn)
+BOOL CProxyMsgHandler::OnNewConnect(UINT32 nConnID)
 {
 	return TRUE;
 }
 
-BOOL CProxyMsgHandler::OnCloseConnect(CConnection* pConn)
+BOOL CProxyMsgHandler::OnCloseConnect(UINT32 nConnID)
 {
+	CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(nConnID);
+	ERROR_RETURN_FALSE(pConn != NULL);
+
 	if(pConn->GetConnectionData() == 0)
 	{
 		return TRUE;

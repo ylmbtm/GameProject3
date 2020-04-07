@@ -34,7 +34,9 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address_v4::from_string(strListenIp), nPortNum);
 
-	m_pAcceptor = new boost::asio::ip::tcp::acceptor(m_IoService, ep);
+	m_pAcceptor = new boost::asio::ip::tcp::acceptor(m_IoService, ep, true);
+
+	//m_pAcceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 
 	WaitForConnect();
 
@@ -99,7 +101,7 @@ void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::e
 {
 	if (!e)
 	{
-		m_pBufferHandler->OnNewConnect(pConnection);
+		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
 	}
@@ -115,7 +117,7 @@ void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::er
 {
 	if (!e)
 	{
-		m_pBufferHandler->OnNewConnect(pConnection);
+		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
 

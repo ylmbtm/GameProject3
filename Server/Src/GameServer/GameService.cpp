@@ -74,22 +74,22 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(CConnection* pConn)
+BOOL CGameService::OnNewConnect(UINT32 nConnID)
 {
-	if(pConn->GetConnectionID() == m_dwLogicConnID)
+	if(nConnID == m_dwLogicConnID)
 	{
 		RegisterToLogicSvr();
 		m_SceneManager.SendCityReport();
 		return TRUE;
 	}
 
-	if(pConn->GetConnectionID() == m_dwProxyConnID)
+	if(nConnID == m_dwProxyConnID)
 	{
 		RegisterToProxySvr();
 		return TRUE;
 	}
 
-	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	if (nConnID == m_dwWatchSvrConnID)
 	{
 		SendWatchHeartBeat();
 	}
@@ -97,19 +97,19 @@ BOOL CGameService::OnNewConnect(CConnection* pConn)
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(CConnection* pConn)
+BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 {
-	if(m_dwLogicConnID == pConn->GetConnectionID())
+	if(m_dwLogicConnID == nConnID)
 	{
 		m_dwLogicConnID = 0;
 	}
 
-	if(m_dwProxyConnID == pConn->GetConnectionID())
+	if(m_dwProxyConnID == nConnID)
 	{
 		m_dwProxyConnID = 0;
 	}
 
-	if (pConn->GetConnectionID() == m_dwWatchSvrConnID)
+	if (nConnID == m_dwWatchSvrConnID)
 	{
 		m_dwWatchSvrConnID = 0;
 	}
@@ -269,6 +269,13 @@ BOOL CGameService::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
 	WatchHeartBeatAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
+{
+	GmStopServerReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	return TRUE;
 }
 
