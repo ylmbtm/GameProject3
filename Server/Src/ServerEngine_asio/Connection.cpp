@@ -458,7 +458,7 @@ CConnection* CConnectionMgr::CreateConnection()
 	return pTemp;
 }
 
-CConnection* CConnectionMgr::GetConnectionByConnID( UINT32 dwConnID )
+CConnection* CConnectionMgr::GetConnectionByID( UINT32 dwConnID )
 {
 	ERROR_RETURN_NULL(dwConnID != 0);
 
@@ -518,7 +518,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 BOOL CConnectionMgr::DeleteConnection(UINT32 nConnID)
 {
 	ERROR_RETURN_FALSE(nConnID != 0);
-	CConnection* pConnection = GetConnectionByConnID(nConnID);
+	CConnection* pConnection = GetConnectionByID(nConnID);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
 	return DeleteConnection(pConnection);

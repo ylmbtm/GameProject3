@@ -6,15 +6,15 @@
 #include "AVLTree.h"
 struct GameSvrInfo
 {
-	GameSvrInfo(UINT32 svrID, UINT32 conID)
+	GameSvrInfo(UINT32 dwSvrID, UINT32 dwConnID)
 	{
-		dwSvrID = svrID;
-		dwConnID = conID;
-		dwLoad   = 0;
+		m_dwSvrID = dwSvrID;
+		m_dwConnID = dwConnID;
+		m_dwLoad   = 0;
 	}
-	UINT32 dwSvrID;
-	UINT32 dwConnID;
-	UINT32 dwLoad;		//负载值
+	UINT32 m_dwSvrID;
+	UINT32 m_dwConnID;
+	UINT32 m_dwLoad;		//负载值
 };
 
 struct CityInfo
@@ -111,7 +111,6 @@ public:
 	BOOL	OnMsgGameSvrRegister(NetPacket* pNetPacket); //响应副本服务器注册
 	BOOL	OnMsgCreateSceneAck(NetPacket* pNetPacket);  //响应创建副本成功
 	BOOL	OnMsgTransRoleDataAck(NetPacket* pNetPacket);//响应角色数据传输成功
-	BOOL	OnMsgEnterSceneReq(NetPacket* pNetPacket);
 	BOOL	OnMsgCopyReportReq(NetPacket* pNetPacket);
 	BOOL	OnMsgBattleResultNty(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************

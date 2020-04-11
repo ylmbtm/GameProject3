@@ -110,7 +110,6 @@ VOID CGameSvrMgr::RegisterMessageHanler()
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_GAME_REGTO_LOGIC_REQ, &CGameSvrMgr::OnMsgGameSvrRegister, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CREATE_SCENE_ACK, &CGameSvrMgr::OnMsgCreateSceneAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_TRANSFER_DATA_ACK, &CGameSvrMgr::OnMsgTransRoleDataAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ENTER_SCENE_REQ, &CGameSvrMgr::OnMsgEnterSceneReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_COPYINFO_REPORT_REQ, &CGameSvrMgr::OnMsgCopyReportReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BATTLE_RESULT_NTY, &CGameSvrMgr::OnMsgBattleResultNty, this);
 }
@@ -135,7 +134,7 @@ UINT32 CGameSvrMgr::GetConnIDBySvrID(UINT32 dwServerID)
 		return 0;
 	}
 
-	return itor->second.dwConnID;
+	return itor->second.m_dwConnID;
 }
 
 BOOL CGameSvrMgr::SendPlayerToMainCity(UINT64 u64ID, UINT32 dwCopyID)
@@ -239,8 +238,8 @@ BOOL CGameSvrMgr::OnMsgGameSvrRegister(NetPacket* pNetPacket)
 	std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.find(Req.serverid());
 	if(itor != m_mapGameSvr.end())
 	{
-		itor->second.dwConnID = pNetPacket->m_dwConnID;
-		itor->second.dwSvrID = Req.serverid();
+		itor->second.m_dwConnID = pNetPacket->m_dwConnID;
+		itor->second.m_dwSvrID = Req.serverid();
 	}
 
 	m_mapGameSvr.insert(std::make_pair(Req.serverid(), GameSvrInfo(Req.serverid(), pNetPacket->m_dwConnID)));
@@ -352,28 +351,6 @@ BOOL CGameSvrMgr::OnMsgTransRoleDataAck(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CGameSvrMgr::OnMsgEnterSceneReq(NetPacket* pNetPacket)
-{
-	/*
-	EnterSceneReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
-	ERROR_RETURN_TRUE(Req.copyguid() != 0);
-	ERROR_RETURN_TRUE(Req.copyid() != 0);
-	ERROR_RETURN_TRUE(Req.serverid() != 0);
-
-	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
-
-	//如果原来在主城副本，需要通知离开
-	if(pPlayer->m_dwCopyID == 6)
-	{
-		pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
-	}
-	*/
-	return TRUE;
-}
-
 BOOL CGameSvrMgr::OnCloseConnect(UINT32 dwConnID)
 {
 
@@ -387,10 +364,10 @@ UINT32 CGameSvrMgr::GetBestGameServerID()
 	UINT32 dwSvrID = 0;
 	for(std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.begin(); itor != m_mapGameSvr.end(); itor++)
 	{
-		if(itor->second.dwLoad < dwMinLoad)
+		if(itor->second.m_dwLoad < dwMinLoad)
 		{
-			dwSvrID = itor->second.dwSvrID;
-			dwMinLoad = itor->second.dwLoad;
+			dwSvrID = itor->second.m_dwSvrID;
+			dwMinLoad = itor->second.m_dwLoad;
 		}
 	}
 

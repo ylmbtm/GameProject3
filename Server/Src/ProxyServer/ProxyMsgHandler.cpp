@@ -232,7 +232,6 @@ BOOL CProxyMsgHandler::OnMsgEnterSceneReq(NetPacket* pNetPacket)
 	ERROR_RETURN_TRUE(dwConnID != 0)
 	pPacketHeader->u64TargetID = pNetPacket->m_dwConnID;
 	RelayToConnect(dwConnID, pNetPacket->m_pDataBuffer);
-	RelayToLogicServer(pNetPacket->m_pDataBuffer);
 	return TRUE;
 }
 

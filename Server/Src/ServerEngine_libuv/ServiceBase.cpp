@@ -153,7 +153,7 @@ BOOL ServiceBase::OnNewConnect(UINT32 nConnID)
 
 CConnection* ServiceBase::GetConnectionByID( UINT32 dwConnID )
 {
-	return CConnectionMgr::GetInstancePtr()->GetConnectionByConnID(dwConnID);
+	return CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
 }
 
 BOOL ServiceBase::Update()

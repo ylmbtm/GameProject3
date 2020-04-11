@@ -104,8 +104,6 @@ public:
 
 	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
 
-
-
 	BOOL				        m_IsSending;
 
 	//LINUX下专用， 用于发了一半的包
@@ -133,7 +131,7 @@ public:
 
 	BOOL            DeleteConnection(UINT32 nConnID);
 
-	CConnection*    GetConnectionByConnID(UINT32 dwConnID);
+	CConnection*    GetConnectionByID(UINT32 dwConnID);
 
 	///////////////////////////////////////////
 	BOOL		    CloseAllConnection();
