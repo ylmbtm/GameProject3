@@ -45,7 +45,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 	return TRUE;
 }
 
-BOOL CNetManager::Close()
+BOOL CNetManager::Stop()
 {
 	m_IoService.stop();
 

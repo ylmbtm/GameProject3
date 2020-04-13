@@ -71,7 +71,7 @@ BOOL ServiceBase::StopNetwork()
 {
 	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
 
-	CNetManager::GetInstancePtr()->Close();
+	CNetManager::GetInstancePtr()->Stop();
 
 	CLog::GetInstancePtr()->Close();
 

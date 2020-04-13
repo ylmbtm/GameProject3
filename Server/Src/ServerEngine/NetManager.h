@@ -18,7 +18,7 @@ public:
 public:
 	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler);
 
-	BOOL	Close();
+	BOOL	Stop();
 
 	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
