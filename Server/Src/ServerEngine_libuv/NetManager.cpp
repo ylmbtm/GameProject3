@@ -120,6 +120,8 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 BOOL CNetManager::Stop()
 {
+	uv_close((uv_handle_t*)&m_ListenSocket, NULL);
+
 	uv_stop(m_pMainLoop);
 	uv_loop_close(m_pMainLoop);
 	uv_thread_join(&m_LoopThreadID);
@@ -279,7 +281,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 	{
 		uv_async_init(m_pMainLoop, &pConnection->m_AsyncReq, On_Async_Event);
 
-		pConnection->m_AsyncReq.data = pConnection;
+		uv_handle_set_data((uv_handle_t*)&pConnection->m_AsyncReq, (void*)pConnection);
 
 		uv_async_send(&pConnection->m_AsyncReq);
 	}

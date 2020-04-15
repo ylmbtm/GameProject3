@@ -8,7 +8,6 @@
 
 CNetManager::CNetManager(void)
 {
-	m_pListenThread		= NULL;
 	m_hListenSocket		= NULL;
 	m_hCompletePort		= NULL;
 	m_bCloseEvent		= TRUE;
@@ -17,6 +16,7 @@ CNetManager::CNetManager(void)
 
 CNetManager::~CNetManager(void)
 {
+	m_pBufferHandler = NULL;
 }
 
 BOOL CNetManager::CreateEventThread(UINT32 nNum )
@@ -114,10 +114,9 @@ BOOL CNetManager::StartNetListen(UINT16 nPortNum)
 		return FALSE;
 	}
 
-	m_pListenThread = new std::thread(&CNetManager::WorkThread_Listen, this);
-	if (m_pListenThread == NULL)
+	if (!WaitConnect())
 	{
-		CLog::GetInstancePtr()->LogError("创建监听线程失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("等待接受连接失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
@@ -300,6 +299,47 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 			}
 			break;
+			case NET_OP_ACCEPT:
+			{
+				if (m_hCurAcceptSocket == INVALID_SOCKET)
+				{
+					break;
+				}
+
+				sockaddr_in* addrClient = NULL, *addrLocal = NULL;
+				if (!CommonSocket::GetSocketAddress(m_hListenSocket, m_AddressBuf, addrClient, addrLocal))
+				{
+					CLog::GetInstancePtr()->LogError("接受新连接失败 原因:GetSocketAddress 返回FALSE!");
+					break;
+				}
+
+				CommonSocket::SetSocketBlock(m_hCurAcceptSocket, FALSE);
+				CommonSocket::SetSocketNoDelay(m_hCurAcceptSocket);
+				CConnection* pConnection = AssociateCompletePort(m_hCurAcceptSocket, FALSE);
+				if (pConnection != NULL)
+				{
+					pConnection->m_dwIpAddr = addrClient->sin_addr.s_addr;
+
+					pConnection->SetConnectionOK(TRUE);
+
+					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+
+					if (!pConnection->DoReceive())
+					{
+						pConnection->Close();
+					}
+				}
+				else
+				{
+					CLog::GetInstancePtr()->LogError("接受新连接失败 原因:AssociateCompletePort己达到最大连接数或者绑定失败!");
+				}
+
+				m_IoOverlapAccept.Reset();
+				m_IoOverlapAccept.dwOpType = NET_OP_ACCEPT;
+				m_hCurAcceptSocket = CommonSocket::CreateSocket();
+				CommonSocket::AcceptSocketEx(m_hListenSocket, m_hCurAcceptSocket, (CHAR*)m_AddressBuf, (LPOVERLAPPED)&m_IoOverlapAccept);
+			}
+			break;
 		}
 	}
 
@@ -377,6 +417,44 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 		for (int i = 0; i < nFd; ++i)
 		{
+			if (vtEvents[i].data.fd == m_hListenSocket)
+			{
+				sockaddr_in Con_Addr;
+				socklen_t nLen = sizeof(Con_Addr);
+				while (TRUE)
+				{
+					memset(&Con_Addr, 0, sizeof(Con_Addr));
+					SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
+					if (hClientSocket == INVALID_SOCKET)
+					{
+						if (errno != EAGAIN && errno != EINTR)
+						{
+							CLog::GetInstancePtr()->LogError("接受新连接失败 原因:%s", CommonSocket::GetLastErrorStr(errno).c_str());
+						}
+
+						break;
+					}
+
+					CommonSocket::SetSocketBlock(hClientSocket, FALSE);
+					CommonSocket::SetSocketNoDelay(hClientSocket);
+					CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
+					if (pConnection != NULL)
+					{
+						pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
+
+						pConnection->SetConnectionOK(TRUE);
+
+						m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+					}
+					else
+					{
+						CLog::GetInstancePtr()->LogError("接受新连接失败 原因:己达到最大连接数或者绑定失败!");
+						break;
+					}
+				}
+
+				continue;
+			}
 			CConnection* pConnection = (CConnection*)vtEvents[i].data.ptr;
 			if (pConnection == NULL)
 			{
@@ -557,13 +635,7 @@ BOOL CNetManager::StopListen()
 {
 	CommonSocket::CloseSocket(m_hListenSocket);
 
-	ERROR_RETURN_FALSE(m_pListenThread != NULL);
-
-	m_pListenThread->join();
-
-	delete m_pListenThread;
-
-	m_pListenThread = NULL;
+	CommonSocket::CloseSocket(m_hCurAcceptSocket);
 
 	return TRUE;
 }
@@ -667,6 +739,28 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 #endif
 
 	return pConnection;
+}
+
+BOOL CNetManager::WaitConnect()
+{
+	CommonSocket::SetSocketBlock(m_hListenSocket, FALSE);
+
+#ifdef WIN32
+	if (NULL == CreateIoCompletionPort((HANDLE)m_hListenSocket, m_hCompletePort, (ULONG_PTR)NULL, 0))
+	{
+		CLog::GetInstancePtr()->LogError("开接accpet套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		return FALSE;
+	}
+	m_IoOverlapAccept.Reset();
+	m_IoOverlapAccept.dwOpType = NET_OP_ACCEPT;
+	m_hCurAcceptSocket = CommonSocket::CreateSocket();
+	return CommonSocket::AcceptSocketEx(m_hListenSocket, m_hCurAcceptSocket, (CHAR*)m_AddressBuf, (LPOVERLAPPED)&m_IoOverlapAccept);
+#else
+	struct epoll_event EpollEvent;
+	EpollEvent.data.fd = m_hListenSocket;
+	EpollEvent.events = EPOLLIN | EPOLLET;
+	return (-1 < epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, m_hListenSocket, &EpollEvent));
+#endif
 }
 
 BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)

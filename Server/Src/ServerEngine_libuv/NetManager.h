@@ -40,9 +40,9 @@ public:
 	uv_tcp_t						m_ListenSocket;
 	uv_loop_t*						m_pMainLoop;
 	uv_thread_t						m_LoopThreadID;
+	IDataHandler*					m_pBufferHandler;
 
 public:
-	IDataHandler*					m_pBufferHandler;
 };
 
 #endif

@@ -6,7 +6,8 @@
 
 void On_AllocBuff(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
 {
-	CConnection* pConnection = (CConnection*)handle->data;
+
+	CConnection* pConnection = (CConnection*)uv_handle_get_data(handle);
 
 	buf->base = pConnection->m_pRecvBuf + pConnection->m_dwDataLen;
 
@@ -17,17 +18,13 @@ void On_AllocBuff(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
 
 void On_ReadData(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 {
-	CConnection* pConnection = (CConnection*)stream->data;
+	CConnection* pConnection = (CConnection*)uv_handle_get_data((uv_handle_t*)stream);
 	if (nread >= 0)
 	{
 		pConnection->HandReaddata(nread);
 
 		return;
 	}
-
-	//uv_last_error(uv_default_loop());
-
-
 
 	pConnection->Close();
 
@@ -451,7 +448,7 @@ BOOL CConnection::DoSend()
 		return FALSE;
 	}
 
-	m_WriteReq.data = (void*)this;
+	uv_handle_set_data((uv_handle_t*)&m_WriteReq, (void*)this);
 	uv_buf_t buf = uv_buf_init(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize());
 	uv_write(&m_WriteReq, (uv_stream_t*)&m_hSocket, &buf, 1, On_WriteData);
 

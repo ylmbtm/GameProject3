@@ -3,6 +3,7 @@
 #include "IBufferHandler.h"
 #include "boost/system/error_code.hpp"
 #include "boost/asio/ip/tcp.hpp"
+#include "boost/asio/ip/udp.hpp"
 #include <boost/thread.hpp>
 #include <boost/thread/thread.hpp>
 #include "boost/asio/io_service.hpp"
@@ -23,15 +24,16 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
+	BOOL    Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
 
-	BOOL	Stop();
+	BOOL    Stop();
 
-	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+	BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
 	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
-public:
-	BOOL	WaitForConnect();
+
+	BOOL    WaitForConnect();
+
 public:
 
 	CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
@@ -46,7 +48,7 @@ public:
 
 	boost::asio::ip::tcp::acceptor* m_pAcceptor;
 	boost::asio::io_service         m_IoService;
-	boost::thread*                   m_pWorkThread;
+	boost::thread*                  m_pWorkThread;
 	IDataHandler*					m_pBufferHandler;
 };
 

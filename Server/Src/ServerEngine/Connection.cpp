@@ -19,15 +19,15 @@ void NetIoOperatorData::Reset()
 
 CConnection::CConnection()
 {
-	m_hSocket			= INVALID_SOCKET;
+	m_hSocket           = INVALID_SOCKET;
 
-	m_pDataHandler		= NULL;
+	m_pDataHandler      = NULL;
 
-	m_dwDataLen			= 0;
+	m_dwDataLen         = 0;
 
-	m_bConnected		= FALSE;
+	m_bConnected        = FALSE;
 
-	m_u64ConnData        = 0;
+	m_u64ConnData       = 0;
 
 	m_dwConnID          = 0;
 
@@ -37,11 +37,11 @@ CConnection::CConnection()
 
 	m_nCheckNo          = 0;
 
-	m_IsSending			= FALSE;
+	m_IsSending         = FALSE;
 
-	m_pSendingBuffer	= NULL;
+	m_pSendingBuffer    = NULL;
 
-	m_nSendingPos		= 0;
+	m_nSendingPos       = 0;
 }
 
 CConnection::~CConnection(void)

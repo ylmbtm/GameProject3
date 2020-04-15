@@ -17,6 +17,7 @@ CNetManager::CNetManager(void)
 
 CNetManager::~CNetManager(void)
 {
+	m_pBufferHandler = NULL;
 }
 
 BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp)
@@ -48,6 +49,18 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 BOOL CNetManager::Stop()
 {
 	m_IoService.stop();
+
+	m_pAcceptor->close();
+
+	delete m_pAcceptor;
+
+	m_pAcceptor = NULL;
+
+	m_pWorkThread->join();
+
+	delete m_pWorkThread;
+
+	m_pWorkThread = NULL;
 
 	CConnectionMgr::GetInstancePtr()->CloseAllConnection();
 
