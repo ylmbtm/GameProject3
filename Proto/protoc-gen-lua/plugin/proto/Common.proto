@@ -1,5 +1,0 @@
-
-//框架底层消息，由服务器框架调用，不出现在任何实际网络消息中
-message ErrorMessage {
-	required int32 errorCode = 1;	//服务器框架，接口返回Wrap消息的错误码用
-}

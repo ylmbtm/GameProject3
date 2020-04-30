@@ -1,9 +1,0 @@
-
-
-message GetRoomDataReq {
-
-}
-
-message GetRoomDataResp {
-
-}
