@@ -759,7 +759,7 @@ BOOL CNetManager::WaitConnect()
 	struct epoll_event EpollEvent;
 	EpollEvent.data.fd = m_hListenSocket;
 	EpollEvent.events = EPOLLIN | EPOLLET;
-	return (-1 < epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, m_hListenSocket, &EpollEvent));
+	return (-1 < epoll_ctl(m_hCompletePort, EPOLL_CTL_ADD, m_hListenSocket, &EpollEvent));
 #endif
 }
 

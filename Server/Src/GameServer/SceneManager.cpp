@@ -51,7 +51,7 @@ BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCop
 
 	if(!pScene->Init(dwCopyID, dwCopyGuid, dwCopyType, dwPlayerNum, uCreateKey))
 	{
-		CLog::GetInstancePtr()->LogError("Error Create Scene Failed!!!");
+		CLog::GetInstancePtr()->LogError("Error Create Scene Failed, CopyID:%d; CopyType:%d, PlayerNum:%d", dwCopyID, dwCopyType, dwPlayerNum);
 
 		delete pScene;
 
