@@ -28,6 +28,7 @@ public:
 	BOOL OnMsgAccountLoginAck(NetPacket* pPacket);
 
 	BOOL OnMsgLogicSvrRegReq(NetPacket* pPacket);
+	BOOL OnMsgLogicUpdateReq(NetPacket* pPacket);
 	BOOL OnMsgSelectServerAck(NetPacket* pPacket);
 
 	BOOL OnMsgSealAccountAck(NetPacket* pPacket);

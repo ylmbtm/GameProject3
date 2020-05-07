@@ -431,6 +431,19 @@ message LogicRegToLoginAck {
     string    NewSvrName    = 2;
 }
 
+message LogicUpdateInfoReq {
+    int32    ServerID      = 1;
+    string    ServerName   = 2;
+    int32     MaxOnline    = 3;
+    int32     CurOnline    = 4;
+    int32     TotalNum     = 5;
+    int32     Status       = 6;
+}
+
+message LogicUpdateInfoAck {
+    uint32    RetCode       = 1;
+}
+
 message WatchHeartBeatReq {
     uint32    Data = 1;
     uint64    ProcessID    = 2;

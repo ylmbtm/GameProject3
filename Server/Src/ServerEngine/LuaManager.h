@@ -31,6 +31,8 @@ public:
 
 	BOOL	CallLuaFunction(std::string strFuncName, char* pStrParamSig, ...);
 
+	BOOL	CallLuaTableFunc(std::string strTableName, std::string strFuncName, char* pStrParamSig, ...);
+
 	BOOL	GetStackParams(char* pStrParamSig, ...);
 
 	BOOL    RegisterFunction(const char* pszLibName, const luaL_Reg* l);

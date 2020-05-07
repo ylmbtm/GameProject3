@@ -65,7 +65,8 @@ public:
 	UINT32			m_dwWatchIndex;
 public:
 	//*********************消息处理定义开始******************************
-
+	BOOL        OnMsgRegToLoginAck(NetPacket* pNetPacket);
+	BOOL        OnMsgRegToCenterAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

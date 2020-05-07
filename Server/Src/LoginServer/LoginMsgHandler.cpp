@@ -39,17 +39,18 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			//客户端连接上的第一个消息，验证版本号
-			PROCESS_MESSAGE_ITEM(MSG_CHECK_VERSION_REQ,		OnMsgCheckVersionReq);
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,		OnMsgAccountRegReq);
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,		OnMsgAccountLoginReq);
-			PROCESS_MESSAGE_ITEM(MSG_SERVER_LIST_REQ,		OnMsgServerListReq);
-			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_REQ,		OnMsgSelectServerReq);
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_ACK,		OnMsgAccountRegAck);
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_ACK,		OnMsgAccountLoginAck);
-			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ,	OnMsgLogicSvrRegReq);
-			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,		OnMsgSelectServerAck);
-			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,		OnMsgSealAccountAck);
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgWebCommandReq);
+			PROCESS_MESSAGE_ITEM(MSG_CHECK_VERSION_REQ,     OnMsgCheckVersionReq);
+			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,       OnMsgAccountRegReq);
+			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,     OnMsgAccountLoginReq);
+			PROCESS_MESSAGE_ITEM(MSG_SERVER_LIST_REQ,       OnMsgServerListReq);
+			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_REQ,     OnMsgSelectServerReq);
+			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_ACK,       OnMsgAccountRegAck);
+			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_ACK,     OnMsgAccountLoginAck);
+			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ, OnMsgLogicSvrRegReq);
+			PROCESS_MESSAGE_ITEM(MSG_LOGIC_UPDATE_REQ,      OnMsgLogicUpdateReq);
+			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,     OnMsgSelectServerAck);
+			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,      OnMsgSealAccountAck);
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,    OnMsgWebCommandReq);
 	}
 
 	return FALSE;
@@ -248,6 +249,17 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 	LogicRegToLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+	return TRUE;
+}
+
+BOOL CLoginMsgHandler::OnMsgLogicUpdateReq(NetPacket* pPacket)
+{
+	LogicUpdateInfoReq Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	m_LogicSvrMgr.UpdateLogicServerInfo(Req.serverid(), Req.maxonline(), Req.curonline(), Req.totalnum(), Req.status(), Req.servername());
+	LogicUpdateInfoAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_UPDATE_ACK, 0, 0, Ack);
 	return TRUE;
 }
 

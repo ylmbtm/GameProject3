@@ -36,7 +36,7 @@ namespace protobuf_Msg_5fGame_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[97];
+  static const ::google::protobuf::internal::ParseTable schema[99];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -174,6 +174,10 @@ void InitDefaultsLogicRegToLoginReqImpl();
 void InitDefaultsLogicRegToLoginReq();
 void InitDefaultsLogicRegToLoginAckImpl();
 void InitDefaultsLogicRegToLoginAck();
+void InitDefaultsLogicUpdateInfoReqImpl();
+void InitDefaultsLogicUpdateInfoReq();
+void InitDefaultsLogicUpdateInfoAckImpl();
+void InitDefaultsLogicUpdateInfoAck();
 void InitDefaultsWatchHeartBeatReqImpl();
 void InitDefaultsWatchHeartBeatReq();
 void InitDefaultsWatchHeartBeatAckImpl();
@@ -303,6 +307,8 @@ inline void InitDefaults() {
   InitDefaultsBroadMessageNotify();
   InitDefaultsLogicRegToLoginReq();
   InitDefaultsLogicRegToLoginAck();
+  InitDefaultsLogicUpdateInfoReq();
+  InitDefaultsLogicUpdateInfoAck();
   InitDefaultsWatchHeartBeatReq();
   InitDefaultsWatchHeartBeatAck();
   InitDefaultsSetupEquipReq();
@@ -438,6 +444,12 @@ extern LogicRegToLoginAckDefaultTypeInternal _LogicRegToLoginAck_default_instanc
 class LogicRegToLoginReq;
 class LogicRegToLoginReqDefaultTypeInternal;
 extern LogicRegToLoginReqDefaultTypeInternal _LogicRegToLoginReq_default_instance_;
+class LogicUpdateInfoAck;
+class LogicUpdateInfoAckDefaultTypeInternal;
+extern LogicUpdateInfoAckDefaultTypeInternal _LogicUpdateInfoAck_default_instance_;
+class LogicUpdateInfoReq;
+class LogicUpdateInfoReqDefaultTypeInternal;
+extern LogicUpdateInfoReqDefaultTypeInternal _LogicUpdateInfoReq_default_instance_;
 class MsgGetRandomNameAck;
 class MsgGetRandomNameAckDefaultTypeInternal;
 extern MsgGetRandomNameAckDefaultTypeInternal _MsgGetRandomNameAck_default_instance_;
@@ -8577,6 +8589,247 @@ class LogicRegToLoginAck : public ::google::protobuf::Message /* @@protoc_insert
 };
 // -------------------------------------------------------------------
 
+class LogicUpdateInfoReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LogicUpdateInfoReq) */ {
+ public:
+  LogicUpdateInfoReq();
+  virtual ~LogicUpdateInfoReq();
+
+  LogicUpdateInfoReq(const LogicUpdateInfoReq& from);
+
+  inline LogicUpdateInfoReq& operator=(const LogicUpdateInfoReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LogicUpdateInfoReq(LogicUpdateInfoReq&& from) noexcept
+    : LogicUpdateInfoReq() {
+    *this = ::std::move(from);
+  }
+
+  inline LogicUpdateInfoReq& operator=(LogicUpdateInfoReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogicUpdateInfoReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LogicUpdateInfoReq* internal_default_instance() {
+    return reinterpret_cast<const LogicUpdateInfoReq*>(
+               &_LogicUpdateInfoReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    66;
+
+  void Swap(LogicUpdateInfoReq* other);
+  friend void swap(LogicUpdateInfoReq& a, LogicUpdateInfoReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LogicUpdateInfoReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  LogicUpdateInfoReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const LogicUpdateInfoReq& from);
+  void MergeFrom(const LogicUpdateInfoReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(LogicUpdateInfoReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string ServerName = 2;
+  void clear_servername();
+  static const int kServerNameFieldNumber = 2;
+  const ::std::string& servername() const;
+  void set_servername(const ::std::string& value);
+  #if LANG_CXX11
+  void set_servername(::std::string&& value);
+  #endif
+  void set_servername(const char* value);
+  void set_servername(const char* value, size_t size);
+  ::std::string* mutable_servername();
+  ::std::string* release_servername();
+  void set_allocated_servername(::std::string* servername);
+
+  // int32 ServerID = 1;
+  void clear_serverid();
+  static const int kServerIDFieldNumber = 1;
+  ::google::protobuf::int32 serverid() const;
+  void set_serverid(::google::protobuf::int32 value);
+
+  // int32 MaxOnline = 3;
+  void clear_maxonline();
+  static const int kMaxOnlineFieldNumber = 3;
+  ::google::protobuf::int32 maxonline() const;
+  void set_maxonline(::google::protobuf::int32 value);
+
+  // int32 CurOnline = 4;
+  void clear_curonline();
+  static const int kCurOnlineFieldNumber = 4;
+  ::google::protobuf::int32 curonline() const;
+  void set_curonline(::google::protobuf::int32 value);
+
+  // int32 TotalNum = 5;
+  void clear_totalnum();
+  static const int kTotalNumFieldNumber = 5;
+  ::google::protobuf::int32 totalnum() const;
+  void set_totalnum(::google::protobuf::int32 value);
+
+  // int32 Status = 6;
+  void clear_status();
+  static const int kStatusFieldNumber = 6;
+  ::google::protobuf::int32 status() const;
+  void set_status(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:LogicUpdateInfoReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr servername_;
+  ::google::protobuf::int32 serverid_;
+  ::google::protobuf::int32 maxonline_;
+  ::google::protobuf::int32 curonline_;
+  ::google::protobuf::int32 totalnum_;
+  ::google::protobuf::int32 status_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoReqImpl();
+};
+// -------------------------------------------------------------------
+
+class LogicUpdateInfoAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:LogicUpdateInfoAck) */ {
+ public:
+  LogicUpdateInfoAck();
+  virtual ~LogicUpdateInfoAck();
+
+  LogicUpdateInfoAck(const LogicUpdateInfoAck& from);
+
+  inline LogicUpdateInfoAck& operator=(const LogicUpdateInfoAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LogicUpdateInfoAck(LogicUpdateInfoAck&& from) noexcept
+    : LogicUpdateInfoAck() {
+    *this = ::std::move(from);
+  }
+
+  inline LogicUpdateInfoAck& operator=(LogicUpdateInfoAck&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogicUpdateInfoAck& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LogicUpdateInfoAck* internal_default_instance() {
+    return reinterpret_cast<const LogicUpdateInfoAck*>(
+               &_LogicUpdateInfoAck_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    67;
+
+  void Swap(LogicUpdateInfoAck* other);
+  friend void swap(LogicUpdateInfoAck& a, LogicUpdateInfoAck& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LogicUpdateInfoAck* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  LogicUpdateInfoAck* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const LogicUpdateInfoAck& from);
+  void MergeFrom(const LogicUpdateInfoAck& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(LogicUpdateInfoAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 RetCode = 1;
+  void clear_retcode();
+  static const int kRetCodeFieldNumber = 1;
+  ::google::protobuf::uint32 retcode() const;
+  void set_retcode(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:LogicUpdateInfoAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 retcode_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
+  friend void ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoAckImpl();
+};
+// -------------------------------------------------------------------
+
 class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:WatchHeartBeatReq) */ {
  public:
   WatchHeartBeatReq();
@@ -8612,7 +8865,7 @@ class WatchHeartBeatReq : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    66;
+    68;
 
   void Swap(WatchHeartBeatReq* other);
   friend void swap(WatchHeartBeatReq& a, WatchHeartBeatReq& b) {
@@ -8718,7 +8971,7 @@ class WatchHeartBeatAck : public ::google::protobuf::Message /* @@protoc_inserti
                &_WatchHeartBeatAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    67;
+    69;
 
   void Swap(WatchHeartBeatAck* other);
   friend void swap(WatchHeartBeatAck& a, WatchHeartBeatAck& b) {
@@ -8831,7 +9084,7 @@ class SetupEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    68;
+    70;
 
   void Swap(SetupEquipReq* other);
   friend void swap(SetupEquipReq& a, SetupEquipReq& b) {
@@ -8937,7 +9190,7 @@ class SetupEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    69;
+    71;
 
   void Swap(SetupEquipAck* other);
   friend void swap(SetupEquipAck& a, SetupEquipAck& b) {
@@ -9036,7 +9289,7 @@ class UnsetEquipReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    70;
+    72;
 
   void Swap(UnsetEquipReq* other);
   friend void swap(UnsetEquipReq& a, UnsetEquipReq& b) {
@@ -9135,7 +9388,7 @@ class UnsetEquipAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetEquipAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    71;
+    73;
 
   void Swap(UnsetEquipAck* other);
   friend void swap(UnsetEquipAck& a, UnsetEquipAck& b) {
@@ -9234,7 +9487,7 @@ class SetupGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    72;
+    74;
 
   void Swap(SetupGemReq* other);
   friend void swap(SetupGemReq& a, SetupGemReq& b) {
@@ -9347,7 +9600,7 @@ class SetupGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    73;
+    75;
 
   void Swap(SetupGemAck* other);
   friend void swap(SetupGemAck& a, SetupGemAck& b) {
@@ -9446,7 +9699,7 @@ class UnsetGemReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    74;
+    76;
 
   void Swap(UnsetGemReq* other);
   friend void swap(UnsetGemReq& a, UnsetGemReq& b) {
@@ -9545,7 +9798,7 @@ class UnsetGemAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetGemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    75;
+    77;
 
   void Swap(UnsetGemAck* other);
   friend void swap(UnsetGemAck& a, UnsetGemAck& b) {
@@ -9644,7 +9897,7 @@ class SetupPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    76;
+    78;
 
   void Swap(SetupPartnerReq* other);
   friend void swap(SetupPartnerReq& a, SetupPartnerReq& b) {
@@ -9750,7 +10003,7 @@ class SetupPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_SetupPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    77;
+    79;
 
   void Swap(SetupPartnerAck* other);
   friend void swap(SetupPartnerAck& a, SetupPartnerAck& b) {
@@ -9849,7 +10102,7 @@ class UnsetPartnerReq : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    78;
+    80;
 
   void Swap(UnsetPartnerReq* other);
   friend void swap(UnsetPartnerReq& a, UnsetPartnerReq& b) {
@@ -9948,7 +10201,7 @@ class UnsetPartnerAck : public ::google::protobuf::Message /* @@protoc_insertion
                &_UnsetPartnerAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    79;
+    81;
 
   void Swap(UnsetPartnerAck* other);
   friend void swap(UnsetPartnerAck& a, UnsetPartnerAck& b) {
@@ -10047,7 +10300,7 @@ class SetupMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    80;
+    82;
 
   void Swap(SetupMountReq* other);
   friend void swap(SetupMountReq& a, SetupMountReq& b) {
@@ -10153,7 +10406,7 @@ class SetupMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_SetupMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    81;
+    83;
 
   void Swap(SetupMountAck* other);
   friend void swap(SetupMountAck& a, SetupMountAck& b) {
@@ -10252,7 +10505,7 @@ class UnsetMountReq : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    82;
+    84;
 
   void Swap(UnsetMountReq* other);
   friend void swap(UnsetMountReq& a, UnsetMountReq& b) {
@@ -10351,7 +10604,7 @@ class UnsetMountAck : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_UnsetMountAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    83;
+    85;
 
   void Swap(UnsetMountAck* other);
   friend void swap(UnsetMountAck& a, UnsetMountAck& b) {
@@ -10450,7 +10703,7 @@ class SetupPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    84;
+    86;
 
   void Swap(SetupPetReq* other);
   friend void swap(SetupPetReq& a, SetupPetReq& b) {
@@ -10549,7 +10802,7 @@ class SetupPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_SetupPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    85;
+    87;
 
   void Swap(SetupPetAck* other);
   friend void swap(SetupPetAck& a, SetupPetAck& b) {
@@ -10648,7 +10901,7 @@ class UnsetPetReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    86;
+    88;
 
   void Swap(UnsetPetReq* other);
   friend void swap(UnsetPetReq& a, UnsetPetReq& b) {
@@ -10747,7 +11000,7 @@ class UnsetPetAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_UnsetPetAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    87;
+    89;
 
   void Swap(UnsetPetAck* other);
   friend void swap(UnsetPetAck& a, UnsetPetAck& b) {
@@ -10846,7 +11099,7 @@ class StoreBuyReq : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    88;
+    90;
 
   void Swap(StoreBuyReq* other);
   friend void swap(StoreBuyReq& a, StoreBuyReq& b) {
@@ -10959,7 +11212,7 @@ class StoreBuyAck : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StoreBuyAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    89;
+    91;
 
   void Swap(StoreBuyAck* other);
   friend void swap(StoreBuyAck& a, StoreBuyAck& b) {
@@ -11058,7 +11311,7 @@ class ObjectChangeNotify : public ::google::protobuf::Message /* @@protoc_insert
                &_ObjectChangeNotify_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    90;
+    92;
 
   void Swap(ObjectChangeNotify* other);
   friend void swap(ObjectChangeNotify& a, ObjectChangeNotify& b) {
@@ -11193,7 +11446,7 @@ class HitEffectItem : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_HitEffectItem_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    91;
+    93;
 
   void Swap(HitEffectItem* other);
   friend void swap(HitEffectItem& a, HitEffectItem& b) {
@@ -11334,7 +11587,7 @@ class HitEffectNtf : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_HitEffectNtf_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    92;
+    94;
 
   void Swap(HitEffectNtf* other);
   friend void swap(HitEffectNtf& a, HitEffectNtf& b) {
@@ -11439,7 +11692,7 @@ class UseItemReq : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    93;
+    95;
 
   void Swap(UseItemReq* other);
   friend void swap(UseItemReq& a, UseItemReq& b) {
@@ -11531,7 +11784,7 @@ class UseItemAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_UseItemAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    94;
+    96;
 
   void Swap(UseItemAck* other);
   friend void swap(UseItemAck& a, UseItemAck& b) {
@@ -11623,7 +11876,7 @@ class MsgGetRandomNameReq : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameReq_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    95;
+    97;
 
   void Swap(MsgGetRandomNameReq* other);
   friend void swap(MsgGetRandomNameReq& a, MsgGetRandomNameReq& b) {
@@ -11722,7 +11975,7 @@ class MsgGetRandomNameAck : public ::google::protobuf::Message /* @@protoc_inser
                &_MsgGetRandomNameAck_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    96;
+    98;
 
   void Swap(MsgGetRandomNameAck* other);
   friend void swap(MsgGetRandomNameAck& a, MsgGetRandomNameAck& b) {
@@ -16678,6 +16931,151 @@ inline void LogicRegToLoginAck::set_allocated_newsvrname(::std::string* newsvrna
 
 // -------------------------------------------------------------------
 
+// LogicUpdateInfoReq
+
+// int32 ServerID = 1;
+inline void LogicUpdateInfoReq::clear_serverid() {
+  serverid_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::serverid() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.ServerID)
+  return serverid_;
+}
+inline void LogicUpdateInfoReq::set_serverid(::google::protobuf::int32 value) {
+  
+  serverid_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.ServerID)
+}
+
+// string ServerName = 2;
+inline void LogicUpdateInfoReq::clear_servername() {
+  servername_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LogicUpdateInfoReq::servername() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.ServerName)
+  return servername_.GetNoArena();
+}
+inline void LogicUpdateInfoReq::set_servername(const ::std::string& value) {
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.ServerName)
+}
+#if LANG_CXX11
+inline void LogicUpdateInfoReq::set_servername(::std::string&& value) {
+  
+  servername_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LogicUpdateInfoReq.ServerName)
+}
+#endif
+inline void LogicUpdateInfoReq::set_servername(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LogicUpdateInfoReq.ServerName)
+}
+inline void LogicUpdateInfoReq::set_servername(const char* value, size_t size) {
+  
+  servername_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LogicUpdateInfoReq.ServerName)
+}
+inline ::std::string* LogicUpdateInfoReq::mutable_servername() {
+  
+  // @@protoc_insertion_point(field_mutable:LogicUpdateInfoReq.ServerName)
+  return servername_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LogicUpdateInfoReq::release_servername() {
+  // @@protoc_insertion_point(field_release:LogicUpdateInfoReq.ServerName)
+  
+  return servername_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LogicUpdateInfoReq::set_allocated_servername(::std::string* servername) {
+  if (servername != NULL) {
+    
+  } else {
+    
+  }
+  servername_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), servername);
+  // @@protoc_insertion_point(field_set_allocated:LogicUpdateInfoReq.ServerName)
+}
+
+// int32 MaxOnline = 3;
+inline void LogicUpdateInfoReq::clear_maxonline() {
+  maxonline_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::maxonline() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.MaxOnline)
+  return maxonline_;
+}
+inline void LogicUpdateInfoReq::set_maxonline(::google::protobuf::int32 value) {
+  
+  maxonline_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.MaxOnline)
+}
+
+// int32 CurOnline = 4;
+inline void LogicUpdateInfoReq::clear_curonline() {
+  curonline_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::curonline() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.CurOnline)
+  return curonline_;
+}
+inline void LogicUpdateInfoReq::set_curonline(::google::protobuf::int32 value) {
+  
+  curonline_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.CurOnline)
+}
+
+// int32 TotalNum = 5;
+inline void LogicUpdateInfoReq::clear_totalnum() {
+  totalnum_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::totalnum() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.TotalNum)
+  return totalnum_;
+}
+inline void LogicUpdateInfoReq::set_totalnum(::google::protobuf::int32 value) {
+  
+  totalnum_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.TotalNum)
+}
+
+// int32 Status = 6;
+inline void LogicUpdateInfoReq::clear_status() {
+  status_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::status() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.Status)
+  return status_;
+}
+inline void LogicUpdateInfoReq::set_status(::google::protobuf::int32 value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.Status)
+}
+
+// -------------------------------------------------------------------
+
+// LogicUpdateInfoAck
+
+// uint32 RetCode = 1;
+inline void LogicUpdateInfoAck::clear_retcode() {
+  retcode_ = 0u;
+}
+inline ::google::protobuf::uint32 LogicUpdateInfoAck::retcode() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoAck.RetCode)
+  return retcode_;
+}
+inline void LogicUpdateInfoAck::set_retcode(::google::protobuf::uint32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoAck.RetCode)
+}
+
+// -------------------------------------------------------------------
+
 // WatchHeartBeatReq
 
 // uint32 Data = 1;
@@ -17583,6 +17981,10 @@ inline void MsgGetRandomNameAck::set_allocated_name(::std::string* name) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
