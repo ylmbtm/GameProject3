@@ -257,9 +257,9 @@ BOOL CLoginMsgHandler::OnMsgLogicUpdateReq(NetPacket* pPacket)
 	LogicUpdateInfoReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	m_LogicSvrMgr.UpdateLogicServerInfo(Req.serverid(), Req.maxonline(), Req.curonline(), Req.totalnum(), Req.status(), Req.servername());
-	LogicUpdateInfoAck Ack;
-	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_UPDATE_ACK, 0, 0, Ack);
+	//LogicUpdateInfoAck Ack;
+	//Ack.set_retcode(MRC_SUCCESSED);
+	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_UPDATE_ACK, 0, 0, Ack);
 	return TRUE;
 }
 
