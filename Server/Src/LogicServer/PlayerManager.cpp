@@ -38,6 +38,35 @@ CPlayerObject* CPlayerManager::CreatePlayerByID( UINT64 u64RoleID )
 	return InsertAlloc(u64RoleID);
 }
 
+INT32 CPlayerManager::GetOnlineCount()
+{
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	if (pNode == NULL)
+	{
+		return 0;
+	}
+
+	INT32 nCount = 0;
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		if (pTempObj == NULL)
+		{
+			continue;
+		}
+
+		if (!pTempObj->IsOnline())
+		{
+			continue;
+		}
+
+		nCount++;
+	}
+
+	return nCount;
+}
+
 BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
 {
 	CPlayerObject* pPlayer = GetByKey(u64RoleID);

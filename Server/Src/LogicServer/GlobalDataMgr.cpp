@@ -58,6 +58,13 @@ UINT64 CGlobalDataManager::MakeNewGuid()
 	return m_pGlobalDataObject->m_u64Guid;
 }
 
+VOID CGlobalDataManager::SetMaxOnline(INT32 nNum)
+{
+	m_pGlobalDataObject->Lock();
+	m_pGlobalDataObject->m_dwMaxOnline = nNum;
+	m_pGlobalDataObject->Unlock();
+}
+
 UINT32 CGlobalDataManager::GetMaxOnline()
 {
 	return m_pGlobalDataObject->m_dwMaxOnline;

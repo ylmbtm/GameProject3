@@ -132,7 +132,6 @@ BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnlin
 
 	if ((pNode->m_dwMaxOnline != dwMaxOnline) || (pNode->m_dwCurOnline != dwCurOnline) || (pNode->m_dwTotalNum != dwTotal))
 	{
-
 		pNode->m_dwMaxOnline = dwMaxOnline;
 		pNode->m_dwCurOnline = dwCurOnline;
 		pNode->m_dwTotalNum = dwTotal;
@@ -342,7 +341,7 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 
 				memset(szSql, 0, SQL_BUFF_LEN);
 				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), 0, 0, 0, 0, 0, 0);
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", m_DBConnection.GetErrorMsg());
@@ -360,7 +359,7 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 
 				memset(szSql, 0, SQL_BUFF_LEN);
 				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), 0, 0, 0, 0, 0, 0);
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
@@ -370,7 +369,7 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 			if (pTempNode->m_eChangeStatus == EUS_UPDATE)
 			{
 				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), 0, 0, 0, 0, 0, 0);
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());

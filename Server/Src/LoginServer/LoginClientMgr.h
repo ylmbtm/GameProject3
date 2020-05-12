@@ -50,7 +50,6 @@ public:
 	BOOL            SetClientStatue(UINT32 dwConnID, EClientStatue eStatue);
 
 	BOOL            OnCloseConnect(UINT32 dwConnID);
-
 };
 
 #endif /*__LOGIN_CLIENT_MGR_H__*/

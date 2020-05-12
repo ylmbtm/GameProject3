@@ -1361,6 +1361,27 @@ sqlite_int64 CppSQLite3DB::lastRowId()
 }
 
 
+bool CppSQLite3DB::startTransaction()
+{
+	char* szError = 0;
+	if (sqlite3_exec(mpDB, "begin;", NULL, 0, &szError) != SQLITE_OK)
+	{
+		sqlite3_free(szError);
+		return false;
+	}
+
+	return true;
+}
+
+bool CppSQLite3DB::commit()
+{
+	if (sqlite3_exec(mpDB, "commit;", NULL, 0, 0) != SQLITE_OK)
+	{
+		return false;
+	}
+	return true;
+}
+
 void CppSQLite3DB::setBusyTimeout(int nMillisecs)
 {
 	mnBusyTimeoutMs = nMillisecs;
@@ -1537,18 +1558,27 @@ int sqlite3_encode_binary(const unsigned char* in, int n, unsigned char* out)
 		return 1;
 	}
 	memset(cnt, 0, sizeof(cnt));
-	for(i = n - 1; i >= 0; i--) { cnt[in[i]]++; }
+	for(i = n - 1; i >= 0; i--)
+	{
+		cnt[in[i]]++;
+	}
 	m = n;
 	for(i = 1; i < 256; i++)
 	{
 		int sum;
-		if( i == '\'' ) { continue; }
+		if( i == '\'' )
+		{
+			continue;
+		}
 		sum = cnt[i] + cnt[(i + 1) & 0xff] + cnt[(i + '\'') & 0xff];
 		if( sum < m )
 		{
 			m = sum;
 			e = i;
-			if( m == 0 ) { break; }
+			if( m == 0 )
+			{
+				break;
+			}
 		}
 	}
 	out[0] = e;

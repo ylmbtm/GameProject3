@@ -62,9 +62,6 @@ private:
 	int		m_nColCnt;			// with current map's width and height
 	int		m_nTotalTiles;	// to allocate memory for the
 	BYTE*	m_pTileMap;		// pointer to the A* own tilemap data array
-
-
-
 };
 
 

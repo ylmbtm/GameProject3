@@ -91,7 +91,7 @@ BOOL CLoginClientMgr::CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID)
 	//如果账号密码己验证，则下一个消息必须是选服消息，否则非法
 	if (pLoginClient->m_ClientStatue == ECS_PSD_CHECKED)
 	{
-		return dwMsgID == MSG_SERVER_LIST_REQ || dwMsgID == MSG_SERVER_LIST_REQ;
+		return dwMsgID == MSG_SERVER_LIST_REQ;
 	}
 
 	return TRUE;

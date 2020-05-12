@@ -87,7 +87,6 @@ BOOL CWatchMsgHandler::OnCloseConnect(UINT32 nConnID)
 
 BOOL CWatchMsgHandler::OnSecondTimer()
 {
-
 	return TRUE;
 }
 
@@ -439,5 +438,3 @@ BOOL CWatchMsgHandler::CanStopServer()
 	}
 	return TRUE;
 }
-
-

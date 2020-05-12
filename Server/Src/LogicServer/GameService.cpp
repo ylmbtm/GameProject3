@@ -412,10 +412,15 @@ BOOL CGameService::ReportServerStatus()
 		return TRUE;
 	}
 
+	if (CGlobalDataManager::GetInstancePtr()->GetMaxOnline() < CPlayerManager::GetInstancePtr()->GetOnlineCount())
+	{
+		CGlobalDataManager::GetInstancePtr()->SetMaxOnline(CPlayerManager::GetInstancePtr()->GetOnlineCount());
+	}
+
 	LogicUpdateInfoReq Req;
 
 	Req.set_maxonline(CGlobalDataManager::GetInstancePtr()->GetMaxOnline()); //最大在线人数
-	Req.set_curonline(CSimpleManager::GetInstancePtr()->GetOnline());
+	Req.set_curonline(CPlayerManager::GetInstancePtr()->GetOnlineCount());
 	Req.set_totalnum(CSimpleManager::GetInstancePtr()->GetTotalCount());
 	Req.set_serverid(CConfigFile::GetInstancePtr()->GetIntValue("areaid"));
 	Req.set_servername(CConfigFile::GetInstancePtr()->GetStringValue("areaname"));
