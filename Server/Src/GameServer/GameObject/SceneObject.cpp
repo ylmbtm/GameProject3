@@ -312,6 +312,8 @@ BOOL CSceneObject::Reset()
 	m_uHostGuid         = 0;
 	m_uControlerID      = 0;
 	m_uSummonerID       = 0;
+	m_uPetGuid          = 0;
+	m_uPartnerGuid      = 0;
 
 	memset(m_Equips, 0, sizeof(m_Equips));
 

@@ -477,12 +477,28 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
-	ERROR_RETURN_TRUE(pSceneObject != NULL);
+	CSceneObject* pPlayer = GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	BroadRemoveObject(pSceneObject);
+	BroadRemoveObject(pPlayer);
 
-	DeletePlayer(pSceneObject->GetObjectGUID());
+	DeletePlayer(pPlayer->GetObjectGUID());
+
+	if (pPlayer->m_uPetGuid > 0)
+	{
+		CSceneObject* pPet = GetSceneObject(pPlayer->m_uPetGuid);
+		ERROR_RETURN_FALSE(pPet != NULL);
+		BroadRemoveObject(pPet);
+		DeleteMonster(pPlayer->m_uPetGuid);
+	}
+
+	if (pPlayer->m_uPartnerGuid > 0)
+	{
+		CSceneObject* pPartner = GetSceneObject(pPlayer->m_uPartnerGuid);
+		ERROR_RETURN_FALSE(pPartner != NULL);
+		BroadRemoveObject(pPartner);
+		DeleteMonster(pPlayer->m_uPartnerGuid);
+	}
 
 	return TRUE;
 }
@@ -1549,6 +1565,7 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	CSceneObject* pHostObject = GetPlayer(uHostID);
 	ERROR_RETURN_NULL(pHostObject != NULL);
 
+	pHostObject->m_uPetGuid = petData.petguid();
 	pObject->SetPos(pHostObject->m_Pos.m_x + 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z - 1);
 	m_pSceneLogic->OnObjectCreate(pObject);
 
@@ -1586,6 +1603,7 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	CSceneObject* pHostObject = GetPlayer(uHostID);
 	ERROR_RETURN_NULL(pHostObject != NULL);
 
+	pHostObject->m_uPartnerGuid = partnerData.partnerguid();
 	pObject->SetPos(pHostObject->m_Pos.m_x - 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z + 1);
 
 	m_pSceneLogic->OnObjectCreate(pObject);

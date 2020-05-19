@@ -129,6 +129,8 @@ public:
 	UINT64          m_uHostGuid;					//主人的GUID
 	UINT64          m_uControlerID;					//AI控制人的GUID
 	UINT64          m_uSummonerID;					//招唤者的GUID
+	UINT64          m_uPetGuid;                     //宠物guid
+	UINT64          m_uPartnerGuid;                 //伙伴guid
 	UINT64          m_uLastMoveTick;
 
 	BOOL            m_bIsCampCheck;					//是否影响阵营结算

@@ -345,6 +345,16 @@ class LogicRegToLoginAckDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<LogicRegToLoginAck>
       _instance;
 } _LogicRegToLoginAck_default_instance_;
+class LogicUpdateInfoReqDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<LogicUpdateInfoReq>
+      _instance;
+} _LogicUpdateInfoReq_default_instance_;
+class LogicUpdateInfoAckDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<LogicUpdateInfoAck>
+      _instance;
+} _LogicUpdateInfoAck_default_instance_;
 class WatchHeartBeatReqDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<WatchHeartBeatReq>
@@ -1634,6 +1644,40 @@ void InitDefaultsLogicRegToLoginAck() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsLogicRegToLoginAckImpl);
 }
 
+void InitDefaultsLogicUpdateInfoReqImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  ::google::protobuf::internal::InitProtobufDefaults();
+  {
+    void* ptr = &::_LogicUpdateInfoReq_default_instance_;
+    new (ptr) ::LogicUpdateInfoReq();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LogicUpdateInfoReq::InitAsDefaultInstance();
+}
+
+void InitDefaultsLogicUpdateInfoReq() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsLogicUpdateInfoReqImpl);
+}
+
+void InitDefaultsLogicUpdateInfoAckImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  ::google::protobuf::internal::InitProtobufDefaults();
+  {
+    void* ptr = &::_LogicUpdateInfoAck_default_instance_;
+    new (ptr) ::LogicUpdateInfoAck();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LogicUpdateInfoAck::InitAsDefaultInstance();
+}
+
+void InitDefaultsLogicUpdateInfoAck() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsLogicUpdateInfoAckImpl);
+}
+
 void InitDefaultsWatchHeartBeatReqImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -2162,7 +2206,7 @@ void InitDefaultsMsgGetRandomNameAck() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsMsgGetRandomNameAckImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[97];
+::google::protobuf::Metadata file_level_metadata[99];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -2712,6 +2756,23 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicRegToLoginAck, retcode_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicRegToLoginAck, newsvrname_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, serverid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, servername_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, maxonline_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, curonline_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, totalnum_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, status_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoAck, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoAck, retcode_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::WatchHeartBeatReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2983,37 +3044,39 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 520, -1, sizeof(::BroadMessageNotify)},
   { 528, -1, sizeof(::LogicRegToLoginReq)},
   { 539, -1, sizeof(::LogicRegToLoginAck)},
-  { 546, -1, sizeof(::WatchHeartBeatReq)},
-  { 553, -1, sizeof(::WatchHeartBeatAck)},
-  { 561, -1, sizeof(::SetupEquipReq)},
-  { 568, -1, sizeof(::SetupEquipAck)},
-  { 574, -1, sizeof(::UnsetEquipReq)},
-  { 580, -1, sizeof(::UnsetEquipAck)},
-  { 586, -1, sizeof(::SetupGemReq)},
-  { 594, -1, sizeof(::SetupGemAck)},
-  { 600, -1, sizeof(::UnsetGemReq)},
-  { 606, -1, sizeof(::UnsetGemAck)},
-  { 612, -1, sizeof(::SetupPartnerReq)},
-  { 619, -1, sizeof(::SetupPartnerAck)},
-  { 625, -1, sizeof(::UnsetPartnerReq)},
-  { 631, -1, sizeof(::UnsetPartnerAck)},
-  { 637, -1, sizeof(::SetupMountReq)},
-  { 644, -1, sizeof(::SetupMountAck)},
-  { 650, -1, sizeof(::UnsetMountReq)},
-  { 656, -1, sizeof(::UnsetMountAck)},
-  { 662, -1, sizeof(::SetupPetReq)},
-  { 668, -1, sizeof(::SetupPetAck)},
-  { 674, -1, sizeof(::UnsetPetReq)},
-  { 680, -1, sizeof(::UnsetPetAck)},
-  { 686, -1, sizeof(::StoreBuyReq)},
-  { 694, -1, sizeof(::StoreBuyAck)},
-  { 700, -1, sizeof(::ObjectChangeNotify)},
-  { 710, -1, sizeof(::HitEffectItem)},
-  { 722, -1, sizeof(::HitEffectNtf)},
-  { 728, -1, sizeof(::UseItemReq)},
-  { 733, -1, sizeof(::UseItemAck)},
-  { 738, -1, sizeof(::MsgGetRandomNameReq)},
-  { 744, -1, sizeof(::MsgGetRandomNameAck)},
+  { 546, -1, sizeof(::LogicUpdateInfoReq)},
+  { 557, -1, sizeof(::LogicUpdateInfoAck)},
+  { 563, -1, sizeof(::WatchHeartBeatReq)},
+  { 570, -1, sizeof(::WatchHeartBeatAck)},
+  { 578, -1, sizeof(::SetupEquipReq)},
+  { 585, -1, sizeof(::SetupEquipAck)},
+  { 591, -1, sizeof(::UnsetEquipReq)},
+  { 597, -1, sizeof(::UnsetEquipAck)},
+  { 603, -1, sizeof(::SetupGemReq)},
+  { 611, -1, sizeof(::SetupGemAck)},
+  { 617, -1, sizeof(::UnsetGemReq)},
+  { 623, -1, sizeof(::UnsetGemAck)},
+  { 629, -1, sizeof(::SetupPartnerReq)},
+  { 636, -1, sizeof(::SetupPartnerAck)},
+  { 642, -1, sizeof(::UnsetPartnerReq)},
+  { 648, -1, sizeof(::UnsetPartnerAck)},
+  { 654, -1, sizeof(::SetupMountReq)},
+  { 661, -1, sizeof(::SetupMountAck)},
+  { 667, -1, sizeof(::UnsetMountReq)},
+  { 673, -1, sizeof(::UnsetMountAck)},
+  { 679, -1, sizeof(::SetupPetReq)},
+  { 685, -1, sizeof(::SetupPetAck)},
+  { 691, -1, sizeof(::UnsetPetReq)},
+  { 697, -1, sizeof(::UnsetPetAck)},
+  { 703, -1, sizeof(::StoreBuyReq)},
+  { 711, -1, sizeof(::StoreBuyAck)},
+  { 717, -1, sizeof(::ObjectChangeNotify)},
+  { 727, -1, sizeof(::HitEffectItem)},
+  { 739, -1, sizeof(::HitEffectNtf)},
+  { 745, -1, sizeof(::UseItemReq)},
+  { 750, -1, sizeof(::UseItemAck)},
+  { 755, -1, sizeof(::MsgGetRandomNameReq)},
+  { 761, -1, sizeof(::MsgGetRandomNameAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -3083,6 +3146,8 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::_BroadMessageNotify_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_LogicRegToLoginReq_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_LogicRegToLoginAck_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_LogicUpdateInfoReq_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_LogicUpdateInfoAck_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_WatchHeartBeatReq_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_WatchHeartBeatAck_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::_SetupEquipReq_default_instance_),
@@ -3132,7 +3197,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 97);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 99);
 }
 
 void AddDescriptorsImpl() {
@@ -3265,46 +3330,50 @@ void AddDescriptorsImpl() {
       "(\t\022\020\n\010ServerIp\030\003 \001(\t\022\022\n\nServerPort\030\004 \001(\005"
       "\022\020\n\010HttpPort\030\005 \001(\005\022\021\n\tWatchPort\030\006 \001(\005\"9\n"
       "\022LogicRegToLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\022\n\n"
-      "NewSvrName\030\002 \001(\t\"4\n\021WatchHeartBeatReq\022\014\n"
-      "\004Data\030\001 \001(\r\022\021\n\tProcessID\030\002 \001(\004\"E\n\021WatchH"
-      "eartBeatAck\022\017\n\007RetCode\030\001 \001(\r\022\014\n\004Data\030\002 \001"
-      "(\r\022\021\n\tProcessID\030\003 \001(\004\"3\n\rSetupEquipReq\022\021"
-      "\n\tEquipGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\" \n\rSe"
-      "tupEquipAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetEqu"
-      "ipReq\022\021\n\tEquipGuid\030\001 \001(\004\" \n\rUnsetEquipAc"
-      "k\022\017\n\007RetCode\030\001 \001(\r\"B\n\013SetupGemReq\022\017\n\007Gem"
-      "Guid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\022\021\n\tTargetPos"
-      "\030\003 \001(\005\"\036\n\013SetupGemAck\022\017\n\007RetCode\030\001 \001(\r\"\036"
-      "\n\013UnsetGemReq\022\017\n\007GemGuid\030\001 \001(\004\"\036\n\013UnsetG"
-      "emAck\022\017\n\007RetCode\030\001 \001(\r\"9\n\017SetupPartnerRe"
-      "q\022\023\n\013PartnerGuid\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001("
-      "\005\"\"\n\017SetupPartnerAck\022\017\n\007RetCode\030\001 \001(\r\"$\n"
-      "\017UnsetPartnerReq\022\021\n\tTargetPos\030\001 \001(\005\"\"\n\017U"
-      "nsetPartnerAck\022\017\n\007RetCode\030\001 \001(\r\"5\n\rSetup"
-      "MountReq\022\021\n\tMountGuid\030\001 \001(\004\022\021\n\tTargetPos"
-      "\030\002 \001(\005\" \n\rSetupMountAck\022\017\n\007RetCode\030\001 \001(\r"
-      "\"\"\n\rUnsetMountReq\022\021\n\tMountGuid\030\001 \001(\004\" \n\r"
-      "UnsetMountAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013SetupP"
-      "etReq\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013SetupPetAck\022\017\n"
-      "\007RetCode\030\001 \001(\r\"\036\n\013UnsetPetReq\022\017\n\007PetGuid"
-      "\030\001 \001(\004\"\036\n\013UnsetPetAck\022\017\n\007RetCode\030\001 \001(\r\"A"
-      "\n\013StoreBuyReq\022\021\n\tStoreType\030\001 \001(\005\022\017\n\007Stor"
-      "eID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n\013StoreBuyAck"
-      "\022\017\n\007RetCode\030\001 \001(\r\"p\n\022ObjectChangeNotify\022"
-      "\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeType\030\002 \001(\005\022\021\n\tI"
-      "ntValue1\030\003 \001(\003\022\021\n\tIntValue2\030\004 \001(\003\022\020\n\010Str"
-      "Value\030\005 \001(\t\"\225\001\n\rHitEffectItem\022\020\n\010CastGui"
-      "d\030\001 \001(\004\022\022\n\nTargetGuid\030\002 \001(\004\022\021\n\tHurtValue"
-      "\030\003 \001(\005\022\014\n\004Crit\030\004 \001(\010\022\023\n\013HitActionID\030\005 \001("
-      "\r\022\023\n\013HitEffectID\030\006 \001(\r\022\023\n\013HitDistance\030\007 "
-      "\001(\002\"0\n\014HitEffectNtf\022 \n\010ItemList\030\001 \003(\0132\016."
-      "HitEffectItem\"\014\n\nUseItemReq\"\014\n\nUseItemAc"
-      "k\"\"\n\023MsgGetRandomNameReq\022\013\n\003Sex\030\001 \001(\005\"#\n"
-      "\023MsgGetRandomNameAck\022\014\n\004Name\030\001 \001(\tb\006prot"
-      "o3"
+      "NewSvrName\030\002 \001(\t\"\202\001\n\022LogicUpdateInfoReq\022"
+      "\020\n\010ServerID\030\001 \001(\005\022\022\n\nServerName\030\002 \001(\t\022\021\n"
+      "\tMaxOnline\030\003 \001(\005\022\021\n\tCurOnline\030\004 \001(\005\022\020\n\010T"
+      "otalNum\030\005 \001(\005\022\016\n\006Status\030\006 \001(\005\"%\n\022LogicUp"
+      "dateInfoAck\022\017\n\007RetCode\030\001 \001(\r\"4\n\021WatchHea"
+      "rtBeatReq\022\014\n\004Data\030\001 \001(\r\022\021\n\tProcessID\030\002 \001"
+      "(\004\"E\n\021WatchHeartBeatAck\022\017\n\007RetCode\030\001 \001(\r"
+      "\022\014\n\004Data\030\002 \001(\r\022\021\n\tProcessID\030\003 \001(\004\"3\n\rSet"
+      "upEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\022\017\n\007BagGuid"
+      "\030\002 \001(\004\" \n\rSetupEquipAck\022\017\n\007RetCode\030\001 \001(\r"
+      "\"\"\n\rUnsetEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\" \n\r"
+      "UnsetEquipAck\022\017\n\007RetCode\030\001 \001(\r\"B\n\013SetupG"
+      "emReq\022\017\n\007GemGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\022"
+      "\021\n\tTargetPos\030\003 \001(\005\"\036\n\013SetupGemAck\022\017\n\007Ret"
+      "Code\030\001 \001(\r\"\036\n\013UnsetGemReq\022\017\n\007GemGuid\030\001 \001"
+      "(\004\"\036\n\013UnsetGemAck\022\017\n\007RetCode\030\001 \001(\r\"9\n\017Se"
+      "tupPartnerReq\022\023\n\013PartnerGuid\030\001 \001(\004\022\021\n\tTa"
+      "rgetPos\030\002 \001(\005\"\"\n\017SetupPartnerAck\022\017\n\007RetC"
+      "ode\030\001 \001(\r\"$\n\017UnsetPartnerReq\022\021\n\tTargetPo"
+      "s\030\001 \001(\005\"\"\n\017UnsetPartnerAck\022\017\n\007RetCode\030\001 "
+      "\001(\r\"5\n\rSetupMountReq\022\021\n\tMountGuid\030\001 \001(\004\022"
+      "\021\n\tTargetPos\030\002 \001(\005\" \n\rSetupMountAck\022\017\n\007R"
+      "etCode\030\001 \001(\r\"\"\n\rUnsetMountReq\022\021\n\tMountGu"
+      "id\030\001 \001(\004\" \n\rUnsetMountAck\022\017\n\007RetCode\030\001 \001"
+      "(\r\"\036\n\013SetupPetReq\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013Se"
+      "tupPetAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetPetRe"
+      "q\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013UnsetPetAck\022\017\n\007Ret"
+      "Code\030\001 \001(\r\"A\n\013StoreBuyReq\022\021\n\tStoreType\030\001"
+      " \001(\005\022\017\n\007StoreID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n"
+      "\013StoreBuyAck\022\017\n\007RetCode\030\001 \001(\r\"p\n\022ObjectC"
+      "hangeNotify\022\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeTyp"
+      "e\030\002 \001(\005\022\021\n\tIntValue1\030\003 \001(\003\022\021\n\tIntValue2\030"
+      "\004 \001(\003\022\020\n\010StrValue\030\005 \001(\t\"\225\001\n\rHitEffectIte"
+      "m\022\020\n\010CastGuid\030\001 \001(\004\022\022\n\nTargetGuid\030\002 \001(\004\022"
+      "\021\n\tHurtValue\030\003 \001(\005\022\014\n\004Crit\030\004 \001(\010\022\023\n\013HitA"
+      "ctionID\030\005 \001(\r\022\023\n\013HitEffectID\030\006 \001(\r\022\023\n\013Hi"
+      "tDistance\030\007 \001(\002\"0\n\014HitEffectNtf\022 \n\010ItemL"
+      "ist\030\001 \003(\0132\016.HitEffectItem\"\014\n\nUseItemReq\""
+      "\014\n\nUseItemAck\"\"\n\023MsgGetRandomNameReq\022\013\n\003"
+      "Sex\030\001 \001(\005\"#\n\023MsgGetRandomNameAck\022\014\n\004Name"
+      "\030\001 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6522);
+      descriptor, 6694);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Game.proto", &protobuf_RegisterTypes);
 }
@@ -25575,6 +25644,689 @@ void LogicRegToLoginAck::InternalSwap(LogicRegToLoginAck* other) {
 }
 
 ::google::protobuf::Metadata LogicRegToLoginAck::GetMetadata() const {
+  protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void LogicUpdateInfoReq::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int LogicUpdateInfoReq::kServerIDFieldNumber;
+const int LogicUpdateInfoReq::kServerNameFieldNumber;
+const int LogicUpdateInfoReq::kMaxOnlineFieldNumber;
+const int LogicUpdateInfoReq::kCurOnlineFieldNumber;
+const int LogicUpdateInfoReq::kTotalNumFieldNumber;
+const int LogicUpdateInfoReq::kStatusFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+LogicUpdateInfoReq::LogicUpdateInfoReq()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoReq();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LogicUpdateInfoReq)
+}
+LogicUpdateInfoReq::LogicUpdateInfoReq(const LogicUpdateInfoReq& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  servername_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.servername().size() > 0) {
+    servername_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.servername_);
+  }
+  ::memcpy(&serverid_, &from.serverid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&status_) -
+    reinterpret_cast<char*>(&serverid_)) + sizeof(status_));
+  // @@protoc_insertion_point(copy_constructor:LogicUpdateInfoReq)
+}
+
+void LogicUpdateInfoReq::SharedCtor() {
+  servername_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&serverid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&status_) -
+      reinterpret_cast<char*>(&serverid_)) + sizeof(status_));
+  _cached_size_ = 0;
+}
+
+LogicUpdateInfoReq::~LogicUpdateInfoReq() {
+  // @@protoc_insertion_point(destructor:LogicUpdateInfoReq)
+  SharedDtor();
+}
+
+void LogicUpdateInfoReq::SharedDtor() {
+  servername_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void LogicUpdateInfoReq::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* LogicUpdateInfoReq::descriptor() {
+  ::protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const LogicUpdateInfoReq& LogicUpdateInfoReq::default_instance() {
+  ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoReq();
+  return *internal_default_instance();
+}
+
+LogicUpdateInfoReq* LogicUpdateInfoReq::New(::google::protobuf::Arena* arena) const {
+  LogicUpdateInfoReq* n = new LogicUpdateInfoReq;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void LogicUpdateInfoReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:LogicUpdateInfoReq)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  servername_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&serverid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&status_) -
+      reinterpret_cast<char*>(&serverid_)) + sizeof(status_));
+  _internal_metadata_.Clear();
+}
+
+bool LogicUpdateInfoReq::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:LogicUpdateInfoReq)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 ServerID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &serverid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string ServerName = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_servername()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->servername().data(), static_cast<int>(this->servername().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "LogicUpdateInfoReq.ServerName"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 MaxOnline = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &maxonline_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 CurOnline = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &curonline_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 TotalNum = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &totalnum_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 Status = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &status_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:LogicUpdateInfoReq)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:LogicUpdateInfoReq)
+  return false;
+#undef DO_
+}
+
+void LogicUpdateInfoReq::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:LogicUpdateInfoReq)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 ServerID = 1;
+  if (this->serverid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->serverid(), output);
+  }
+
+  // string ServerName = 2;
+  if (this->servername().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->servername().data(), static_cast<int>(this->servername().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "LogicUpdateInfoReq.ServerName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->servername(), output);
+  }
+
+  // int32 MaxOnline = 3;
+  if (this->maxonline() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->maxonline(), output);
+  }
+
+  // int32 CurOnline = 4;
+  if (this->curonline() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->curonline(), output);
+  }
+
+  // int32 TotalNum = 5;
+  if (this->totalnum() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->totalnum(), output);
+  }
+
+  // int32 Status = 6;
+  if (this->status() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->status(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:LogicUpdateInfoReq)
+}
+
+::google::protobuf::uint8* LogicUpdateInfoReq::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:LogicUpdateInfoReq)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 ServerID = 1;
+  if (this->serverid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->serverid(), target);
+  }
+
+  // string ServerName = 2;
+  if (this->servername().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->servername().data(), static_cast<int>(this->servername().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "LogicUpdateInfoReq.ServerName");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->servername(), target);
+  }
+
+  // int32 MaxOnline = 3;
+  if (this->maxonline() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->maxonline(), target);
+  }
+
+  // int32 CurOnline = 4;
+  if (this->curonline() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->curonline(), target);
+  }
+
+  // int32 TotalNum = 5;
+  if (this->totalnum() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->totalnum(), target);
+  }
+
+  // int32 Status = 6;
+  if (this->status() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->status(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:LogicUpdateInfoReq)
+  return target;
+}
+
+size_t LogicUpdateInfoReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:LogicUpdateInfoReq)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string ServerName = 2;
+  if (this->servername().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->servername());
+  }
+
+  // int32 ServerID = 1;
+  if (this->serverid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->serverid());
+  }
+
+  // int32 MaxOnline = 3;
+  if (this->maxonline() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->maxonline());
+  }
+
+  // int32 CurOnline = 4;
+  if (this->curonline() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->curonline());
+  }
+
+  // int32 TotalNum = 5;
+  if (this->totalnum() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->totalnum());
+  }
+
+  // int32 Status = 6;
+  if (this->status() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->status());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void LogicUpdateInfoReq::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LogicUpdateInfoReq)
+  GOOGLE_DCHECK_NE(&from, this);
+  const LogicUpdateInfoReq* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const LogicUpdateInfoReq>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LogicUpdateInfoReq)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LogicUpdateInfoReq)
+    MergeFrom(*source);
+  }
+}
+
+void LogicUpdateInfoReq::MergeFrom(const LogicUpdateInfoReq& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LogicUpdateInfoReq)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.servername().size() > 0) {
+
+    servername_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.servername_);
+  }
+  if (from.serverid() != 0) {
+    set_serverid(from.serverid());
+  }
+  if (from.maxonline() != 0) {
+    set_maxonline(from.maxonline());
+  }
+  if (from.curonline() != 0) {
+    set_curonline(from.curonline());
+  }
+  if (from.totalnum() != 0) {
+    set_totalnum(from.totalnum());
+  }
+  if (from.status() != 0) {
+    set_status(from.status());
+  }
+}
+
+void LogicUpdateInfoReq::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LogicUpdateInfoReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void LogicUpdateInfoReq::CopyFrom(const LogicUpdateInfoReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LogicUpdateInfoReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LogicUpdateInfoReq::IsInitialized() const {
+  return true;
+}
+
+void LogicUpdateInfoReq::Swap(LogicUpdateInfoReq* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void LogicUpdateInfoReq::InternalSwap(LogicUpdateInfoReq* other) {
+  using std::swap;
+  servername_.Swap(&other->servername_);
+  swap(serverid_, other->serverid_);
+  swap(maxonline_, other->maxonline_);
+  swap(curonline_, other->curonline_);
+  swap(totalnum_, other->totalnum_);
+  swap(status_, other->status_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata LogicUpdateInfoReq::GetMetadata() const {
+  protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void LogicUpdateInfoAck::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int LogicUpdateInfoAck::kRetCodeFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+LogicUpdateInfoAck::LogicUpdateInfoAck()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoAck();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LogicUpdateInfoAck)
+}
+LogicUpdateInfoAck::LogicUpdateInfoAck(const LogicUpdateInfoAck& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  retcode_ = from.retcode_;
+  // @@protoc_insertion_point(copy_constructor:LogicUpdateInfoAck)
+}
+
+void LogicUpdateInfoAck::SharedCtor() {
+  retcode_ = 0u;
+  _cached_size_ = 0;
+}
+
+LogicUpdateInfoAck::~LogicUpdateInfoAck() {
+  // @@protoc_insertion_point(destructor:LogicUpdateInfoAck)
+  SharedDtor();
+}
+
+void LogicUpdateInfoAck::SharedDtor() {
+}
+
+void LogicUpdateInfoAck::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* LogicUpdateInfoAck::descriptor() {
+  ::protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const LogicUpdateInfoAck& LogicUpdateInfoAck::default_instance() {
+  ::protobuf_Msg_5fGame_2eproto::InitDefaultsLogicUpdateInfoAck();
+  return *internal_default_instance();
+}
+
+LogicUpdateInfoAck* LogicUpdateInfoAck::New(::google::protobuf::Arena* arena) const {
+  LogicUpdateInfoAck* n = new LogicUpdateInfoAck;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void LogicUpdateInfoAck::Clear() {
+// @@protoc_insertion_point(message_clear_start:LogicUpdateInfoAck)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  retcode_ = 0u;
+  _internal_metadata_.Clear();
+}
+
+bool LogicUpdateInfoAck::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:LogicUpdateInfoAck)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // uint32 RetCode = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &retcode_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:LogicUpdateInfoAck)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:LogicUpdateInfoAck)
+  return false;
+#undef DO_
+}
+
+void LogicUpdateInfoAck::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:LogicUpdateInfoAck)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 RetCode = 1;
+  if (this->retcode() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->retcode(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:LogicUpdateInfoAck)
+}
+
+::google::protobuf::uint8* LogicUpdateInfoAck::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:LogicUpdateInfoAck)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 RetCode = 1;
+  if (this->retcode() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->retcode(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:LogicUpdateInfoAck)
+  return target;
+}
+
+size_t LogicUpdateInfoAck::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:LogicUpdateInfoAck)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // uint32 RetCode = 1;
+  if (this->retcode() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->retcode());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void LogicUpdateInfoAck::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LogicUpdateInfoAck)
+  GOOGLE_DCHECK_NE(&from, this);
+  const LogicUpdateInfoAck* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const LogicUpdateInfoAck>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LogicUpdateInfoAck)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LogicUpdateInfoAck)
+    MergeFrom(*source);
+  }
+}
+
+void LogicUpdateInfoAck::MergeFrom(const LogicUpdateInfoAck& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LogicUpdateInfoAck)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.retcode() != 0) {
+    set_retcode(from.retcode());
+  }
+}
+
+void LogicUpdateInfoAck::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LogicUpdateInfoAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void LogicUpdateInfoAck::CopyFrom(const LogicUpdateInfoAck& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LogicUpdateInfoAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LogicUpdateInfoAck::IsInitialized() const {
+  return true;
+}
+
+void LogicUpdateInfoAck::Swap(LogicUpdateInfoAck* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void LogicUpdateInfoAck::InternalSwap(LogicUpdateInfoAck* other) {
+  using std::swap;
+  swap(retcode_, other->retcode_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata LogicUpdateInfoAck::GetMetadata() const {
   protobuf_Msg_5fGame_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Msg_5fGame_2eproto::file_level_metadata[kIndexInFileMessages];
 }
