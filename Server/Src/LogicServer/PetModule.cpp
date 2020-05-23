@@ -134,6 +134,15 @@ BOOL CPetModule::ToTransferData(TransferDataItem* pTransItem)
 		pPetData->add_propertys(pActorInfo->Propertys[i]);
 	}
 
+	StActorSkillInfo* pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(pPetInfo->dwActorID);
+	ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
+
+	SkillItem* pSkillItem = pPetData->add_skills();
+	pSkillItem->set_keypos(1);
+	pSkillItem->set_level(1);
+	pSkillItem->set_skillid(pActorSkillInfo->NormalID);
+
+
 	return TRUE;
 }
 

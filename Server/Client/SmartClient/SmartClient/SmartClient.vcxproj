@@ -119,7 +119,6 @@
     <ClCompile Include="..\..\..\Src\ServerEngine\CommonConvert.cpp" />
     <ClCompile Include="..\..\..\Src\ServerEngine\CommonFunc.cpp" />
     <ClCompile Include="..\..\..\Src\ServerEngine\CommonSocket.cpp" />
-    <ClCompile Include="..\..\..\Src\ServerEngine\CommonThreadFunc.cpp" />
     <ClCompile Include="..\..\Connector\ClientConnector.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="exported\behaviac_generated\types\internal\behaviac_agent_meta.cpp">
@@ -139,7 +138,6 @@
     <ClInclude Include="..\..\..\Src\ServerEngine\CommonConvert.h" />
     <ClInclude Include="..\..\..\Src\ServerEngine\CommonFunc.h" />
     <ClInclude Include="..\..\..\Src\ServerEngine\CommonSocket.h" />
-    <ClInclude Include="..\..\..\Src\ServerEngine\CommonThreadFunc.h" />
     <ClInclude Include="..\..\..\Src\ServerEngine\XMath.h" />
     <ClInclude Include="..\..\Connector\ClientConnector.h" />
     <ClInclude Include="ClientObject.h" />

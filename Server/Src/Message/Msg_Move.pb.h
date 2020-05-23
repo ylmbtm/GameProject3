@@ -433,6 +433,12 @@ class SkillCastAck : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
+  // uint64 ObjectGuid = 2;
+  void clear_objectguid();
+  static const int kObjectGuidFieldNumber = 2;
+  ::google::protobuf::uint64 objectguid() const;
+  void set_objectguid(::google::protobuf::uint64 value);
+
   // uint32 RetCode = 1;
   void clear_retcode();
   static const int kRetCodeFieldNumber = 1;
@@ -443,6 +449,7 @@ class SkillCastAck : public ::google::protobuf::Message /* @@protoc_insertion_po
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 objectguid_;
   ::google::protobuf::uint32 retcode_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fMove_2eproto::TableStruct;
@@ -3052,6 +3059,20 @@ inline void SkillCastAck::set_retcode(::google::protobuf::uint32 value) {
   
   retcode_ = value;
   // @@protoc_insertion_point(field_set:SkillCastAck.RetCode)
+}
+
+// uint64 ObjectGuid = 2;
+inline void SkillCastAck::clear_objectguid() {
+  objectguid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 SkillCastAck::objectguid() const {
+  // @@protoc_insertion_point(field_get:SkillCastAck.ObjectGuid)
+  return objectguid_;
+}
+inline void SkillCastAck::set_objectguid(::google::protobuf::uint64 value) {
+  
+  objectguid_ = value;
+  // @@protoc_insertion_point(field_set:SkillCastAck.ObjectGuid)
 }
 
 // -------------------------------------------------------------------

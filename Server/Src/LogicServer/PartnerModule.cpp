@@ -160,6 +160,14 @@ BOOL CPartnerModule::ToTransferData(TransferDataItem* pTransItem)
 			pPartnerData->add_propertys(pActorInfo->Propertys[i]);
 		}
 
+		StActorSkillInfo* pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(pPartnerInfo->dwActorID);
+		ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
+
+		SkillItem* pSkillItem = pPartnerData->add_skills();
+		pSkillItem->set_keypos(1);
+		pSkillItem->set_level(1);
+		pSkillItem->set_skillid(pActorSkillInfo->NormalID);
+
 		return TRUE;
 	}
 
