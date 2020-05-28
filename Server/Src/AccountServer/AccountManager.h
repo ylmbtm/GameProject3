@@ -45,6 +45,8 @@ public:
 
 	BOOL				Uninit();
 
+	BOOL				IsRun();
+
 public:
 
 	std::map<std::string, CAccountObject*>	m_mapNameObj;

@@ -437,7 +437,8 @@ message LogicUpdateInfoReq {
     int32     MaxOnline    = 3;
     int32     CurOnline    = 4;
     int32     TotalNum     = 5;
-    int32     Status       = 6;
+    int32     CacheNum     = 6;
+    int32     Status       = 7;
 }
 
 message LogicUpdateInfoAck {

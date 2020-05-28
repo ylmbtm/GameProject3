@@ -38,6 +38,8 @@ public:
 	UINT32          GetActorID();
 	UINT32          GetObjType();
 	UINT32          GetCamp();
+	UINT64          GetControllerID();
+	VOID            SetControllerID(UINT64 uID);
 
 	VOID            ChangeHp(INT32 nValue);
 	VOID            ChangeMp(INT32 nValue);

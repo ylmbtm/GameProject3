@@ -6,7 +6,6 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "PacketHeader.h"
-#include "../GameServer/GameObject/SceneObject.h"
 #include "PlayerManager.h"
 #include "MsgHandlerManager.h"
 

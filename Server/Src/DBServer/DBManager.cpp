@@ -365,6 +365,31 @@ BOOL CDBManager::GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from mail where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBMailData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_maildata();
+		}
+
+		DBMailItem* pItem = pData->add_maillist();
+		pItem->set_sender(QueryRes.getStringField("sendername", 0));
+		pItem->set_senderid(QueryRes.getInt64Field("sendid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_time(QueryRes.getInt64Field("mail_time", 0));
+		pItem->set_title(QueryRes.getStringField("title", 0));
+		pItem->set_content(QueryRes.getStringField("content", 0));
+		INT32 nLen = 0;
+		const unsigned char* pData = QueryRes.getBlobField("data", nLen);
+		pItem->set_items(pData, nLen);
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 

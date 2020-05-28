@@ -161,46 +161,44 @@ CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 u64ID, const CHAR* pS
 
 BOOL CAccountObjectMgr::SaveAccountChange()
 {
-	while(m_IsRun)
+	while(IsRun())
 	{
 		CAccountObject* pAccount = NULL;
 
 		CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
-		if (m_ArrChangedAccount.size() <= 0)
-		{
-			CommonFunc::Sleep(100);
-			continue;
-		}
+		if(m_ArrChangedAccount.size())
 
-		while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
-		{
-			snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid, channel, create_time, seal_end_time) values('%lld','%s','%s','%d', '%d', '%lld','%lld')",
-			         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwLastSvrID, pAccount->m_dwChannel, pAccount->m_uCreateTime, pAccount->m_uSealTime);
-
-			if(m_DBConnection.execSQL(szSql) > 0)
+			while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
 			{
-				continue;
-			}
+				snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid, channel, create_time, seal_end_time) values('%lld','%s','%s','%d', '%d', '%lld','%lld')",
+				         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwLastSvrID, pAccount->m_dwChannel, pAccount->m_uCreateTime, pAccount->m_uSealTime);
 
-			CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
-
-			int nTimes = 0;
-			while (!m_DBConnection.reconnect())
-			{
-				nTimes++;
-				if (nTimes > 3)
+				if(m_DBConnection.execSQL(szSql) > 0)
 				{
-					break;
+					continue;
 				}
-				CommonFunc::Sleep(1000);
+
+				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
+
+				int nTimes = 0;
+				while (!m_DBConnection.reconnect())
+				{
+					nTimes++;
+					if (nTimes > 3)
+					{
+						break;
+					}
+					CommonFunc::Sleep(1000);
+				}
+
+				if(m_DBConnection.execSQL(szSql) < 0)
+				{
+					CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
+				}
 			}
 
-			if(m_DBConnection.execSQL(szSql) < 0)
-			{
-				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
-			}
-		}
+		CommonFunc::Sleep(10);
 	}
 
 	return TRUE;
@@ -234,6 +232,11 @@ BOOL CAccountObjectMgr::Uninit()
 	Clear();
 
 	return TRUE;
+}
+
+BOOL CAccountObjectMgr::IsRun()
+{
+	return m_IsRun;
 }
 
 CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, UINT32 dwChannel )

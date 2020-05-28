@@ -185,8 +185,7 @@ CREATE TABLE `mail`  (
   `mail_time` bigint(20) NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `itemid` tinyblob NULL,
-  `itemcnt` tinyblob NULL,
+  `itemdata` tinyblob NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -201,8 +200,7 @@ CREATE TABLE `mail_group`  (
   `channel` int(11) NULL DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `itemid` tinyblob NULL,
-  `itemcnt` tinyblob NULL,
+  `itemdata` tinyblob NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -396,9 +394,10 @@ DROP TABLE IF EXISTS `server_status`;
 CREATE TABLE `server_status` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `curr_online` int(255) DEFAULT NULL,
-  `max_online` int(11) DEFAULT '0',
-  `total_cnt` int(20) DEFAULT '0' ,
+  `curr_online` int(11) NULL DEFAULT NULL,
+  `max_online` int(11) NULL DEFAULT 0,
+  `total_cnt` int(11) NULL DEFAULT 0,
+  `cache_cnt` int(11) NULL DEFAULT NULL COMMENT '缓存人数',
   `update_time` bigint(11) DEFAULT '0',
   `status` int(11) DEFAULT '0' COMMENT '',
   `file_version` int(11) DEFAULT '0',

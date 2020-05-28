@@ -155,13 +155,20 @@ message DBTaskData {
 }
 
 message DBMailItem {
-    uint64 RoleID = 1;         //角色ID
+    uint64   RoleID    = 1;   //角色ID
+    uint64   Guid      = 2;   //邮件guid
+    int32    GroupID   = 3;   //群邮件id
+    uint64   Time      = 4;   //邮件时间
+    uint64   SenderID  = 5;   //发送者ID
+    string   Sender    = 6;   //发送者名字
+    string   Title     = 7;   //邮件标题
+    string   Content   = 8;   //邮件内容
+    bytes    Items     = 9;   //邮件物品
 }
 
 message DBMailData {
     repeated DBMailItem MailList = 1;
 }
-
 
 message DBActivityItem {
     uint64    RoleID = 1;            //角色ID

@@ -222,6 +222,7 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 	if (dwRetCode != MRC_SUCCESSED)
 	{
 		SkillCastAck Ack;
+		Ack.set_objectguid(Req.objectguid());
 		Ack.set_retcode(dwRetCode);
 
 		if (pSceneObj->IsRobot())
@@ -484,18 +485,16 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 
 	DeletePlayer(pPlayer->GetObjectGUID());
 
-	if (pPlayer->m_uPetGuid > 0)
+	CSceneObject* pPet = GetSceneObject(pPlayer->m_uPetGuid);
+	if (pPet != NULL)
 	{
-		CSceneObject* pPet = GetSceneObject(pPlayer->m_uPetGuid);
-		ERROR_RETURN_FALSE(pPet != NULL);
 		BroadRemoveObject(pPet);
 		DeleteMonster(pPlayer->m_uPetGuid);
 	}
 
-	if (pPlayer->m_uPartnerGuid > 0)
+	CSceneObject* pPartner = GetSceneObject(pPlayer->m_uPartnerGuid);
+	if (pPartner != NULL)
 	{
-		CSceneObject* pPartner = GetSceneObject(pPlayer->m_uPartnerGuid);
-		ERROR_RETURN_FALSE(pPartner != NULL);
 		BroadRemoveObject(pPartner);
 		DeleteMonster(pPlayer->m_uPartnerGuid);
 	}
@@ -1059,11 +1058,6 @@ BOOL CScene::RemoveDeadObject()
 BOOL CScene::UpdateAiController(UINT64 uFilterID)
 {
 	UINT64 u64ControllerID = SelectController(uFilterID);
-	if(u64ControllerID == 0)
-	{
-		return FALSE;
-	}
-
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
@@ -1076,9 +1070,9 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 
 		if(pOther->IsRobot())
 		{
-			if(pOther->m_uControlerID == uFilterID)
+			if(pOther->GetControllerID() == uFilterID)
 			{
-				pOther->m_uControlerID = u64ControllerID;
+				pOther->SetControllerID(u64ControllerID);
 			}
 		}
 	}
@@ -1088,9 +1082,9 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
 
-		if(pOther->m_uControlerID == uFilterID)
+		if(pOther->GetControllerID() == uFilterID)
 		{
-			pOther->m_uControlerID = u64ControllerID;
+			pOther->SetControllerID(u64ControllerID);
 		}
 	}
 

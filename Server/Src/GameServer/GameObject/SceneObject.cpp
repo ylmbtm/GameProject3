@@ -128,6 +128,17 @@ UINT32 CSceneObject::GetCamp()
 	return m_dwCamp;
 }
 
+UINT64 CSceneObject::GetControllerID()
+{
+	return m_uControlerID;
+}
+
+VOID CSceneObject::SetControllerID(UINT64 uID)
+{
+	m_uControlerID = uID;
+	m_ChangeFlag.bControl = 1;
+}
+
 BOOL CSceneObject::IsConnected()
 {
 	return (m_dwClientConnID != 0) && (m_dwProxyConnID != 0);
@@ -509,6 +520,15 @@ ECopyResult CSceneObject::GetBattleResult()
 
 BOOL CSceneObject::UpdatePosition(UINT64 uTick)
 {
+	if(m_dwActionID == AT_RUN)
+	{
+
+	}
+
+	if (m_dwActionID == AT_WALK)
+	{
+
+	}
 
 
 	return TRUE;

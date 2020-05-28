@@ -68,7 +68,6 @@ VOID CLogicMsgHandler::RegisterMessageHanler()
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CLogicMsgHandler::OnMsgRegToLoginAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_TEST_ADD_ITEM, &CLogicMsgHandler::OnMsgTestAddItemReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_PHP_GM_COMMAND_REQ, &CLogicMsgHandler::OnMsgWebCommandReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_WATCH_HEART_BEAT_ACK, &CLogicMsgHandler::OnMsgWatchHeartBeatAck, this);
 }
@@ -482,21 +481,6 @@ BOOL CLogicMsgHandler::ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& 
 		}
 	}
 
-	return TRUE;
-}
-
-
-BOOL CLogicMsgHandler::OnMsgTestAddItemReq(NetPacket* pNetPacket)
-{
-	ChatMessageReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
-	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.srcid());
-	ERROR_RETURN_TRUE(pPlayer != NULL);
-	CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
-	ERROR_RETURN_TRUE(pBag != NULL);
-	//pBag->AddItem(Req.guildid(), 1);
 	return TRUE;
 }
 
