@@ -53,6 +53,11 @@ BOOL CGameService::SetWatchIndex(UINT32 nIndex)
 	return TRUE;
 }
 
+UINT32 CGameService::GetLogSvrConnID()
+{
+	return m_dwLogConnID;
+}
+
 BOOL CGameService::OnMsgRegToLoginAck(NetPacket* pNetPacket)
 {
 	return TRUE;
@@ -412,6 +417,15 @@ BOOL CGameService::ReportServerStatus()
 		return TRUE;
 	}
 
+	static INT32 nCount = 0;
+
+	if (nCount < 30)
+	{
+		return TRUE;
+	}
+
+	nCount = 0;
+
 	if (CGlobalDataManager::GetInstancePtr()->GetMaxOnline() < CPlayerManager::GetInstancePtr()->GetOnlineCount())
 	{
 		CGlobalDataManager::GetInstancePtr()->SetMaxOnline(CPlayerManager::GetInstancePtr()->GetOnlineCount());
@@ -422,6 +436,7 @@ BOOL CGameService::ReportServerStatus()
 	Req.set_maxonline(CGlobalDataManager::GetInstancePtr()->GetMaxOnline()); //最大在线人数
 	Req.set_curonline(CPlayerManager::GetInstancePtr()->GetOnlineCount());
 	Req.set_totalnum(CSimpleManager::GetInstancePtr()->GetTotalCount());
+	Req.set_cachenum(CPlayerManager::GetInstancePtr()->GetCount());
 	Req.set_serverid(CConfigFile::GetInstancePtr()->GetIntValue("areaid"));
 	Req.set_servername(CConfigFile::GetInstancePtr()->GetStringValue("areaname"));
 

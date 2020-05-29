@@ -28,6 +28,10 @@ BOOL CGameService::SetWatchIndex(UINT32 nIndex)
 	return TRUE;
 }
 
+UINT32 CGameService::GetLogSvrConnID()
+{
+	return m_dwLogSvrConnID;
+}
 
 BOOL CGameService::Init()
 {
@@ -90,7 +94,7 @@ BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 
 BOOL CGameService::OnSecondTimer()
 {
-	//ConnectToLogServer();
+	ConnectToLogServer();
 
 	SendWatchHeartBeat();
 

@@ -22,7 +22,6 @@
 #include "../ServerData/RoleData.h"
 #include "../StaticData/StaticData.h"
 #include "../ServerData/CopyData.h"
-#include "../GameServer/GameService.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "MailManager.h"

@@ -54,6 +54,8 @@ public:
 	BOOL		ReportServerStatus();
 
 	BOOL		SetWatchIndex(UINT32 nIndex);
+
+	UINT32      GetLogSvrConnID();
 public:
 	CLogicMsgHandler m_LogicMsgHandler;
 

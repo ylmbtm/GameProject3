@@ -194,7 +194,7 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 
 				if(m_DBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error!");
+					CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error! Sql:%s", szSql);
 				}
 			}
 
