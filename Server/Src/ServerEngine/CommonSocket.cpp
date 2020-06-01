@@ -66,6 +66,16 @@ std::string CommonSocket::GetRemoteIP(SOCKET hSocket)
 	return std::string(szIpBuffer);
 }
 
+UINT32 CommonSocket::HostToNet(UINT32 nValue)
+{
+	return htonl(nValue);
+}
+
+UINT32 CommonSocket::NetToHost(UINT32 nValue)
+{
+	return ntohl(nValue);
+}
+
 BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
 	int bOn = 1;
@@ -322,6 +332,27 @@ BOOL CommonSocket::GetSocketAddress(SOCKET hSocket, CHAR* pDataBuffer, sockaddr_
 
 	pAddrClient = pClient;
 	pAddrLocal = pLocal;
+
+	return TRUE;
+}
+
+BOOL CommonSocket::DisconnectEx(SOCKET hSocket, LPOVERLAPPED lpOverlapped, BOOL bReuse)
+{
+	static  LPFN_DISCONNECTEX lpfnDisconnectEx = NULL;
+	if (lpfnDisconnectEx == NULL)
+	{
+		DWORD dwBytes;
+		GUID GuidAddressEx = WSAID_DISCONNECTEX;
+		if (SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		                             &GuidAddressEx, sizeof(GuidAddressEx),
+		                             &lpfnDisconnectEx, sizeof(lpfnDisconnectEx),
+		                             &dwBytes, NULL, NULL))
+		{
+			return FALSE;
+		}
+	}
+
+	lpfnDisconnectEx(hSocket, lpOverlapped, bReuse ? TF_REUSE_SOCKET : 0, 0);
 
 	return TRUE;
 }

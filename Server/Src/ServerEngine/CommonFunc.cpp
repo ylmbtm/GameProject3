@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "CommonFunc.h"
 
 UINT32 CommonFunc::GetProcessorNum()
@@ -574,3 +574,66 @@ BOOL CommonFunc::IsAlreadyRun(std::string strSignName)
 	return FALSE;
 #endif
 }
+
+BOOL CommonFunc::PrintColorText(CHAR* pSzText, INT32 nColor)
+{
+	//nColor 0:默认 1:红; 2:黄; 3; 绿
+#ifdef WIN32
+	switch (nColor)
+	{
+		case 1:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		case 2:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		case 3:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		default:
+		{
+			printf(pSzText);
+		}
+		break;
+	}
+#else
+	switch (nColor)
+	{
+		case 1:
+		{
+			printf("\033[1;31;40m%s\033[0m", pSzText);
+		}
+		break;
+		case 2:
+		{
+			printf("\033[1;33;40m%s\033[0m", pSzText);
+		}
+		break
+		case 3:
+		{
+			printf("\033[1;32;40m%s\033[0m", pSzText);
+		}
+		break;
+		default:
+		{
+			printf(pSzText);
+		}
+		break;
+	}
+#endif
+
+	return TRUE;
+}
+
