@@ -1,7 +1,4 @@
-
-
-# GameProject3 Linux Build Step
-
+# GameProject3 Linux Build Steps
 
 ## Build server from source
 
@@ -44,8 +41,7 @@ mysql -uroot -p -h 127.0.0.1 < db_create.sql
 -rwxr-xr-x 1 root root  9358672 6月   1 16:51 LogServer
 -rwxr-xr-x 1 root root  9532608 6月   1 16:51 ProxyServer
 -rwxr-xr-x 1 root root  9449040 6月   1 20:08 WatchServer
-
-[root@iZbp1fwykdvz81j5qum40vZ Linux]# sh startall.sh
+[root@iZbp1fwykdvz81j5qum40vZ Linux]# sh startall.sh # all server will be start as backend job
 
 ``` 
 
