@@ -58,7 +58,7 @@ BOOL StringToVector(const char* pStrValue, INT32 IntVector[], INT32 nSize, char 
 
 BOOL StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim = ',');
 
-UINT32 VersionToInt(std::string& strVersion);
+UINT32 VersionToInt(const std::string& strVersion);
 
 INT32  CountSymbol(char* pStr, char cSymbol);
 

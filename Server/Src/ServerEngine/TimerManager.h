@@ -15,8 +15,6 @@ public:
 	}
 };
 
-
-
 template<typename T>
 class CTimerSlot : public CTimerSlotBase
 {

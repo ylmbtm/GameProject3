@@ -519,7 +519,7 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	return TRUE;
 }
 
-UINT32 CommonConvert::VersionToInt( std::string& strVersion )
+UINT32 CommonConvert::VersionToInt(const std::string& strVersion )
 {
 	INT32 nValue[3] = { 0 };
 	StringToVector(strVersion.c_str(), nValue, 3, '.');

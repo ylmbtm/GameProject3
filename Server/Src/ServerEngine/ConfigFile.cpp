@@ -26,7 +26,7 @@ BOOL CConfigFile::Load( std::string strFileName )
 	{
 		fgets(szBuff, 256, pFile);
 
-		if(szBuff[0] == ';')
+		if(szBuff[0] == '#')
 		{
 			continue;
 		}
@@ -91,4 +91,35 @@ DOUBLE CConfigFile::GetDoubleValue( std::string VarName )
 	return atof(GetStringValue(VarName).c_str());
 }
 
+INT32 CConfigFile::GetRealNetPort(std::string VarName)
+{
+	INT32 nPort = GetIntValue(VarName);
+	if (nPort > 0)
+	{
+		return nPort;
+	}
+
+	if (VarName == "log_svr_port")
+	{
+		return GetIntValue("areaid") + 40000;
+	}
+	else if (VarName == "logic_svr_port")
+	{
+		return GetIntValue("areaid") + 10000;
+	}
+	else if (VarName == "db_svr_port")
+	{
+		return GetIntValue("areaid") + 20000;
+	}
+	else if (VarName == "proxy_svr_port")
+	{
+		return GetIntValue("areaid") + 30000;
+	}
+	else if (VarName == "watch_svr_port")
+	{
+		return GetIntValue("areaid") + 50000;
+	}
+
+	return GetIntValue(VarName);
+}
 

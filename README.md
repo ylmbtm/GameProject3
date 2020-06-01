@@ -28,6 +28,9 @@ Game Engine Frame
 	日志服务器(LogServer)    说明 : 日志服务器 主要负责逻辑服运营日志的写入mysql数据库。
 	监视服务器(WatchServer)  说明 : 主要负责接受WEB后台的控制命令， 控制服务器。
 
+#### 文档与教程
+1.群友 Binaryhobart(450282550) 提供的视频搭建教程 [教程地址](https://www.bilibili.com/video/BV1k5411s7Vf?from=search&seid=3304544258866101487)
+
 #### 体验客户端效果(加群可以获取全部客户端代码及资源)
 
 ![login1](https://github.com/ylmbtm/resource/blob/master/01.png)

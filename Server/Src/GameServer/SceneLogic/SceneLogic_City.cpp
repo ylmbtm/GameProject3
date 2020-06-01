@@ -42,19 +42,17 @@ BOOL SceneLogic_City::OnPlayerLeave(CSceneObject* pPlayer, BOOL bDisConnect)
 	m_pScene->BroadRemoveObject(pPlayer);
 	m_pScene->DeletePlayer(pPlayer->GetObjectGUID());
 	//在主城里下线，宠物和伙伴也应该清除
-	if (pPlayer->m_uPetGuid > 0)
+
+	CSceneObject* pPet = m_pScene->GetSceneObject(pPlayer->m_uPetGuid);
+	if (pPet != NULL)
 	{
-		CSceneObject* pPet = m_pScene->GetSceneObject(pPlayer->m_uPetGuid);
-		ERROR_RETURN_FALSE(pPet != NULL);
 		m_pScene->BroadRemoveObject(pPet);
 		m_pScene->DeleteMonster(pPlayer->m_uPetGuid);
 	}
 
-
-	if (pPlayer->m_uPartnerGuid > 0)
+	CSceneObject* pPartner = m_pScene->GetSceneObject(pPlayer->m_uPartnerGuid);
+	if (pPartner != NULL)
 	{
-		CSceneObject* pPartner = m_pScene->GetSceneObject(pPlayer->m_uPartnerGuid);
-		ERROR_RETURN_FALSE(pPartner != NULL);
 		m_pScene->BroadRemoveObject(pPartner);
 		m_pScene->DeleteMonster(pPlayer->m_uPartnerGuid);
 	}
