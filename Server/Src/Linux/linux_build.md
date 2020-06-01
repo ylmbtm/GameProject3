@@ -46,9 +46,16 @@ mysql -uroot -p -h 127.0.0.1 < db_create.sql
 ``` 
 
 
+## Protobuf build 
 
-
-
+```txt
+git clone https://github.com/protocolbuffers/protobuf.git
+cd protobuf/
+./configure
+make && make install
+```
+* protoc output dir `/usr/local/bin/protoc`
+* use protoc to generate protocol code 
 
 
 
