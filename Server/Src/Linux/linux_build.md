@@ -46,7 +46,7 @@ mysql -uroot -p -h 127.0.0.1 < db_create.sql
 ``` 
 
 
-## Protobuf build 
+## Build protobuf from source
 
 ```txt
 git clone https://github.com/protocolbuffers/protobuf.git
