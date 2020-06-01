@@ -3,7 +3,7 @@
 # GameProject3 Linux Build Step
 
 
-## build server from source
+## Build server from source
 
 ```txt
 
@@ -29,7 +29,7 @@ mysql -uroot -p -h 127.0.0.1 < db_create.sql
 
 
 
-## How to run server ?
+## How to run the game server ?
 
 ```txt
 
