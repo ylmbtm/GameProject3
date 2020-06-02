@@ -209,7 +209,5 @@ BOOL ServiceBase::Update()
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
 
-	CLog::GetInstancePtr()->Flush();
-
 	return TRUE;
 }

@@ -5,7 +5,7 @@ enum LogLevel
 {
 	Log_All,
 	Log_Error,
-	Log_Warnning,
+	Log_Warn,
 	Log_Info,
 	Log_None
 };
@@ -33,8 +33,6 @@ public:
 	void SetLogLevel(int Level);
 
 	void SetTitle(char* lpszFormat, ...);
-
-	void Flush();
 
 protected:
 	std::mutex			m_WriteMutex;

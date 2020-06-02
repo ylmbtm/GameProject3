@@ -748,7 +748,7 @@ BOOL CNetManager::WaitConnect()
 #ifdef WIN32
 	if (NULL == CreateIoCompletionPort((HANDLE)m_hListenSocket, m_hCompletePort, (ULONG_PTR)NULL, 0))
 	{
-		CLog::GetInstancePtr()->LogError("开接accpet套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("WaitConnect邦定Listen套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 	m_IoOverlapAccept.Reset();

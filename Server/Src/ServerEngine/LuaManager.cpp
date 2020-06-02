@@ -469,6 +469,20 @@ BOOL CLuaHelper::LoadScriptFile( std::vector<std::string>& vtScriptList )
 	return TRUE;
 }
 
+BOOL CLuaHelper::DoLuaScript(std::string strLuaScript)
+{
+	if (m_pLuaState == NULL)
+	{
+		return FALSE;
+	}
+
+	if (luaL_dostring(m_pLuaState, strLuaScript.c_str()))
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
 
 BOOL CLuaHelper::GetStackParams( char* pStrParamSig, ... )
 {

@@ -36,7 +36,7 @@ BOOL CGameService::Init()
 
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("watch_log_level"));
 
-	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
