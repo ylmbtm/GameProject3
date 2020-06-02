@@ -463,8 +463,9 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet != 0)
 	{
-		int nError = mysql_errno(m_pMySqlDB);
-		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
+		if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
 		{
 			reconnect();
 			nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -488,8 +489,9 @@ int CppMySQL3DB::execSQL(const char* sql)
 		return (int)mysql_affected_rows(m_pMySqlDB) ;
 	}
 
-	int nError = mysql_errno(m_pMySqlDB);
-	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
+	if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
 	{
 		reconnect();
 		nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));

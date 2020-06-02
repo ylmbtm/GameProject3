@@ -6,6 +6,7 @@
 #include "PacketHeader.h"
 
 #include <boost/asio.hpp>
+#include "CommonSocket.h"
 
 
 CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservice)
@@ -244,8 +245,6 @@ BOOL CConnection::Reset()
 
 	m_dwDataLen = 0;
 
-	m_dwIpAddr  = 0;
-
 	m_pBufPos   = m_pRecvBuf;
 
 	m_nCheckNo = 0;
@@ -311,6 +310,16 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 	}*/
 
 	return TRUE;
+}
+
+UINT32 CConnection::GetIpAddr(BOOL bHost)
+{
+	if (bHost)
+	{
+		return m_hSocket.remote_endpoint().address().to_v4().to_ulong();
+	}
+
+	return CommonSocket::HostToNet(m_hSocket.remote_endpoint().address().to_v4().to_ulong());
 }
 
 BOOL CConnection::DoSend()

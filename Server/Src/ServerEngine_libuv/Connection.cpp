@@ -3,6 +3,7 @@
 #include "DataBuffer.h"
 #include "CommandDef.h"
 #include "PacketHeader.h"
+#include "CommonSocket.h"
 
 void On_AllocBuff(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
 {
@@ -380,6 +381,16 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 	}*/
 
 	return TRUE;
+}
+
+UINT32 CConnection::GetIpAddr(BOOL bHost)
+{
+	if (bHost)
+	{
+		return m_dwIpAddr;
+	}
+
+	return CommonSocket::HostToNet(m_dwIpAddr);
 }
 
 BOOL CConnection::DoSend()

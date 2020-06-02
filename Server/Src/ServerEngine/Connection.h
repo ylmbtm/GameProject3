@@ -71,6 +71,8 @@ public:
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
 
+	UINT32  GetIpAddr(BOOL bHost = TRUE);
+
 public:
 	SOCKET						m_hSocket;
 
