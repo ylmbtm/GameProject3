@@ -96,6 +96,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
 		pTempObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 		pTempObject->m_uValue = 0;
 		pTempObject->m_dwIndex = dwIndex;
+		pTempObject->m_uTime = CommonFunc::GetCurrTime();
 		m_mapCounterData.insert(std::make_pair(uKey, pTempObject));
 		return pTempObject;
 	}
@@ -124,6 +125,7 @@ BOOL CCounterModule::SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*
 
 	pTempObject->Lock();
 	pTempObject->m_uValue = uValue;
+	pTempObject->m_uTime = CommonFunc::GetCurrTime();
 	pTempObject->Unlock();
 
 	return TRUE;
@@ -139,6 +141,7 @@ BOOL CCounterModule::AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*
 
 	pTempObject->Lock();
 	pTempObject->m_uValue += uValue;
+	pTempObject->m_uTime = CommonFunc::GetCurrTime();
 	pTempObject->Unlock();
 
 	return TRUE;
