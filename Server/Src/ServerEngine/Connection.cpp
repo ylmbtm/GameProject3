@@ -432,7 +432,7 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 	return TRUE;
 }
 
-UINT32 CConnection::GetIpAddr()
+UINT32 CConnection::GetIpAddr(BOOL bHost)
 {
 	if (bHost)
 	{
