@@ -374,6 +374,17 @@ UINT32 CGameSvrMgr::GetBestGameServerID()
 	return dwSvrID;
 }
 
+GameSvrInfo* CGameSvrMgr::GetGameSvrInfo(UINT32 dwSvrID)
+{
+	std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.find(dwSvrID);
+	if (itor == m_mapGameSvr.end())
+	{
+		return NULL;
+	}
+
+	return &itor->second;
+}
+
 BOOL CGameSvrMgr::OnMsgBattleResultNty( NetPacket* pNetPacket )
 {
 	BattleResultNty Nty;

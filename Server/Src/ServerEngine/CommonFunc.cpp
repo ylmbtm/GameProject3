@@ -620,7 +620,7 @@ BOOL CommonFunc::PrintColorText(CHAR* pSzText, INT32 nColor)
 		{
 			printf("\033[1;33;40m%s\033[0m", pSzText);
 		}
-		break
+		break;
 		case 3:
 		{
 			printf("\033[1;32;40m%s\033[0m", pSzText);

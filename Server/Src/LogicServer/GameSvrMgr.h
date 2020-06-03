@@ -88,6 +88,8 @@ private:
 
 	UINT32		GetBestGameServerID();
 
+	GameSvrInfo* GetGameSvrInfo(UINT32 dwSvrID);
+
 	BOOL		SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 
 	BOOL		SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCamp);
@@ -115,13 +117,13 @@ public:
 	BOOL	OnMsgBattleResultNty(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->副本服务器信息
+	std::map<UINT32, GameSvrInfo>   m_mapGameSvr; //服务器ID-->副本服务器信息
 
-	std::map<UINT32, CityInfo> m_mapCity;
+	std::map<UINT32, CityInfo>      m_mapCity;
 
-	std::map<UINT32, UINT32> m_GuidToSvrID;    //副本guid->副本服务器ID
+	std::map<UINT32, UINT32>        m_GuidToSvrID;    //副本guid->副本服务器ID
 
-	CWaitCopyList               m_WaitCopyList;
+	CWaitCopyList                   m_WaitCopyList;
 };
 
 #endif
