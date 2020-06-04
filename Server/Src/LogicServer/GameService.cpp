@@ -86,7 +86,13 @@ BOOL CGameService::Init()
 
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("logic_log_level"));
 
-	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
+	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
+	if (nPort <= 0)
+	{
+		CLog::GetInstancePtr()->LogError("配制文件logic_svr_port配制错误!");
+		return FALSE;
+	}
+
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
@@ -212,7 +218,7 @@ BOOL CGameService::ConnectToLogServer()
 	{
 		return TRUE;
 	}
-	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetIntValue("log_svr_port");
+	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetRealNetPort("log_svr_port");
 	std::string strLogIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strLogIp, nLogPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -241,7 +247,7 @@ BOOL CGameService::ConnectToDBSvr()
 	{
 		return TRUE;
 	}
-	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_port");
+	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetRealNetPort("db_svr_port");
 	std::string strDBIp = CConfigFile::GetInstancePtr()->GetStringValue("db_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strDBIp, nDBPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -269,9 +275,9 @@ BOOL CGameService::RegisterToLoginSvr()
 	LogicRegToLoginReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
-	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
-	UINT32 dwHttpPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
-	UINT32 dwWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
+	UINT32 dwHttpPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
+	UINT32 dwWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
 	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
@@ -287,7 +293,7 @@ BOOL CGameService::RegisterToCenterSvr()
 	SvrRegToSvrReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
-	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
+	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
 	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
@@ -416,9 +422,9 @@ BOOL CGameService::ReportServerStatus()
 		return TRUE;
 	}
 
-	static INT32 nCount = 0;
-
-	if (nCount < 30)
+	static INT32 nCount = 30;
+	nCount++;
+	if (nCount < 10)
 	{
 		return TRUE;
 	}
@@ -472,7 +478,7 @@ BOOL CGameService::ConnectToWatchServer()
 	{
 		return TRUE;
 	}
-	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

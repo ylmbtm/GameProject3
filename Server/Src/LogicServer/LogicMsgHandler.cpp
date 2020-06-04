@@ -68,7 +68,6 @@ VOID CLogicMsgHandler::RegisterMessageHanler()
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CLogicMsgHandler::OnMsgRegToLoginAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_PHP_GM_COMMAND_REQ, &CLogicMsgHandler::OnMsgWebCommandReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_WATCH_HEART_BEAT_ACK, &CLogicMsgHandler::OnMsgWatchHeartBeatAck, this);
 }
 
@@ -275,7 +274,6 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 
 	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
 	pPlayer->OnLogin();
-	pPlayer->OnAllModuleOK();
 	return TRUE;
 }
 
@@ -291,7 +289,6 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginAck(NetPacket* pNetPacket)
 	pPlayer->SetConnectID((UINT32)pHeader->u64TargetID, pHeader->dwUserData);
 	pPlayer->ReadFromDBLoginData(Ack);
 	pPlayer->OnLogin();
-	pPlayer->OnAllModuleOK();
 	return TRUE;
 }
 

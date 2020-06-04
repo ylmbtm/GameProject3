@@ -132,7 +132,7 @@ BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
 		}
 	}
 
-	CLog::GetInstancePtr()->LogError("--收到心跳， 总进程数:%d, 当前有效心跳数:%d， 监视:%s", m_vtProcess.size(), nCount, m_bStartWatch ? "[开]" : "[关]");
+	CLog::GetInstancePtr()->LogInfo("--收到心跳， 总进程数:%d, 当前有效心跳数:%d， 监视:%s", m_vtProcess.size(), nCount, m_bStartWatch ? "[开]" : "[关]");
 
 	WatchHeartBeatAck Ack;
 	Ack.set_data(index);
@@ -149,7 +149,7 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogError("----收到GM 指令， Action:%s----", strAction.c_str());
+	CLog::GetInstancePtr()->LogInfo("----收到GM 指令， Action:%s----", strAction.c_str());
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 	switch (eWebAction)

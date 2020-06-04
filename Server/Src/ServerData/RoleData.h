@@ -41,6 +41,7 @@ struct RoleDataObject : public ShareObject
 	UINT64      m_uCreateTime;          //角色创建时间
 	UINT64      m_uLogonTime;           //本次登录时间
 	UINT64      m_uLogoffTime;          //离线时间
+	UINT64      m_uGroupMailTime;       //群邮件接收时间
 
 	//签到数据
 	INT32		m_nSignNum;             //签到天数
@@ -49,8 +50,8 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime) \
-			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
+			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
 		csp.set_string(2, m_szName, strlen(m_szName));
@@ -70,14 +71,15 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(16, m_uCreateTime);
 		csp.set_int64(17, m_uLogonTime);
 		csp.set_int64(18, m_uLogoffTime);
+		csp.set_int64(19, m_uGroupMailTime);
 		pDB->Execute(&csp);
 		return TRUE;
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime) \
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
 		csp.set_string(2, m_szName, strlen(m_szName));
@@ -97,6 +99,7 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(16, m_uCreateTime);
 		csp.set_int64(17, m_uLogonTime);
 		csp.set_int64(18, m_uLogoffTime);
+		csp.set_int64(19, m_uGroupMailTime);
 		pDB->Execute(&csp);
 		return TRUE;
 	}

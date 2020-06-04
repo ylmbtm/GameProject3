@@ -60,7 +60,6 @@ class CHandlerManager
 public:
 	CHandlerManager()
 	{
-
 	}
 
 	~CHandlerManager()

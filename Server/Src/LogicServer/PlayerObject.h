@@ -63,7 +63,6 @@ public:
 	BOOL			CreateAllModule();
 	BOOL			DestroyAllModule();
 	CModuleBase*	GetModuleByType(UINT32 dwModuleType);
-	BOOL			OnAllModuleOK();
 
 public:
 	UINT32			CheckCopyConditoin(UINT32 dwCopyID);

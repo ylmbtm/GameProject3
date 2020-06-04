@@ -18,11 +18,11 @@ CLogMsgHandler::~CLogMsgHandler()
 
 BOOL CLogMsgHandler::Init(UINT32 dwReserved)
 {
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_log_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_db_name");
 	BOOL bRet = m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
 	if(!bRet)
 	{

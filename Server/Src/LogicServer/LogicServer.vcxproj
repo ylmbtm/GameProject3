@@ -60,7 +60,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\PublicData;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -81,7 +81,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\ServerEngine;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ServerEngine;..\PublicData;..\..\Common;..\..\Common\protobuf\src;../../Common/MySql;..\..\Common\Sqlite;../../Common/Lua;../../Common/toluapp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -147,7 +147,6 @@
     <ClCompile Include="MailManager.cpp" />
     <ClCompile Include="Guild.cpp" />
     <ClCompile Include="GuildManager.cpp" />
-    <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="MailModule.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleBase.cpp" />
@@ -218,7 +217,6 @@
     <ClInclude Include="MailManager.h" />
     <ClInclude Include="Guild.h" />
     <ClInclude Include="GuildManager.h" />
-    <ClInclude Include="LogManager.h" />
     <ClInclude Include="Lua_Script.h" />
     <ClInclude Include="MailModule.h" />
     <ClInclude Include="ModuleBase.h" />

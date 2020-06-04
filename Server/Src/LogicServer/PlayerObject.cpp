@@ -113,6 +113,16 @@ BOOL CPlayerObject::OnLogin()
 
 	m_uRoomID = 0;
 
+	ERROR_RETURN_FALSE(m_u64ID != 0);
+
+	CMailManager::GetInstancePtr()->ProcessRoleLogin(this);
+
+	CalcFightDataInfo();
+
+	SendRoleLoginAck();
+
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
+
 	return TRUE;
 }
 
@@ -225,20 +235,6 @@ BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Messa
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
-}
-
-BOOL CPlayerObject::OnAllModuleOK()
-{
-	ERROR_RETURN_FALSE(m_u64ID != 0);
-
-	CMailManager::GetInstancePtr()->ProcessRoleLogin(this);
-
-	CalcFightDataInfo();
-
-	SendRoleLoginAck();
-
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
-	return TRUE;
 }
 
 UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
