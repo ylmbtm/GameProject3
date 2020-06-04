@@ -69,3 +69,13 @@ UINT32 CGlobalDataManager::GetMaxOnline()
 {
 	return m_pGlobalDataObject->m_dwMaxOnline;
 }
+
+BOOL CGlobalDataManager::SetDataChange()
+{
+	///m_pGlobalDataObject->Lock();
+	//memset(m_pGlobalDataObject->m_CustomData, 0, len);
+	//SvrRegToSvrReq Req;
+	//Req.SerializePartialToArray(m_pGlobalDataObject->m_CustomData, Req.ByteSize());
+	//m_pGlobalDataObject->Unlock();
+	return TRUE;
+}

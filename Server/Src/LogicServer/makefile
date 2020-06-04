@@ -3,6 +3,7 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
+		-I../PublicData \
 		-I../../Common \
 		-I../../Common/Mysql \
 		-I../../Common/Sqlite  \

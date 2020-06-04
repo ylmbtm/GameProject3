@@ -108,9 +108,6 @@
     <ClCompile Include="LogManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GmCommand.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="WebCommandHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -295,9 +292,6 @@
     </ClInclude>
     <ClInclude Include="..\ServerData\GemData.h">
       <Filter>ServerData</Filter>
-    </ClInclude>
-    <ClInclude Include="GmCommand.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\TaskData.h">
       <Filter>ServerData</Filter>

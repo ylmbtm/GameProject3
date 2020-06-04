@@ -7,6 +7,7 @@
 #include "RapidXml.h"
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
+#include "WebActionDef.h"
 
 
 CWatchMsgHandler::CWatchMsgHandler()
@@ -42,9 +43,6 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch (pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_UPDATE_SVR_REQ,  OnMsgUpdateServerReq)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_START_SVR_REQ,	OnMsgStartServerReq)
-			PROCESS_MESSAGE_ITEM(MSG_WATCH_STOP_SVR_REQ,	OnMsgStopServerReq)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_REQ,	OnMsgServerHeartReq)
 			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,	OnMsgWebCommandReq)
 	}
@@ -107,63 +105,6 @@ BOOL CWatchMsgHandler::KillAllProcess()
 	return TRUE;
 }
 
-
-BOOL CWatchMsgHandler::OnMsgUpdateServerReq(NetPacket* pNetPacket)
-{
-	/*
-	ReadConfigFile();
-	MD5校验;
-	更新失败
-
-	更新文件
-	检查
-
-	//检查完成，更新完成
-	*/
-	return TRUE;
-}
-
-BOOL CWatchMsgHandler::OnMsgStartServerReq(NetPacket* pNetPacket)
-{
-	if (CanStartServer())
-	{
-		SetStartWatch(TRUE);
-	}
-	else
-	{
-		CLog::GetInstancePtr()->LogError("----服务器已经连接 不能重复启动----");
-	}
-
-	return TRUE;
-}
-
-
-BOOL CWatchMsgHandler::OnMsgStopServerReq(NetPacket* pNetPacket)
-{
-	if (CanStopServer())
-	{
-		SetStartWatch(FALSE);
-		for (INT32 i = 0; i < m_vtProcess.size(); i++)
-		{
-			ServerProcessInfo& serverData = m_vtProcess[i];
-			if (CommonFunc::KillProcess(serverData.ProcessID))
-			{
-				serverData.ProscessStatus = EPS_Stop;
-				serverData.LastHeartTick = CommonFunc::GetTickCount();
-				serverData.ProcessID = 0;
-				serverData.ConnID = 0;
-			}
-		}
-	}
-	else
-	{
-		CLog::GetInstancePtr()->LogError("----有服务等待连接 不能关闭----");
-	}
-
-	return TRUE;
-
-}
-
 BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
 {
 	WatchHeartBeatReq Req;
@@ -204,56 +145,75 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
 	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	char sz[] = "success";
-	ServiceBase::GetInstancePtr()->SendMsgRawData(pNetPacket->m_dwConnID, 12345, 0, 0, sz, (UINT32)strlen(sz));
 
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-
 	CLog::GetInstancePtr()->LogError("----收到GM 指令， Action:%s----", strAction.c_str());
-	if (strAction == "StartServer")
-	{
-		if (CanStartServer())
-		{
-			StartAllProcess();
 
-			SetStartWatch(TRUE);
-		}
-	}
-	else if (strAction == "StopServer")
+	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
+	switch (eWebAction)
 	{
-		if (CanStopServer())
-		{
-			SetStartWatch(FALSE);
-			for (INT32 i = 0; i < m_vtProcess.size(); i++)
-			{
-				ServerProcessInfo& serverData = m_vtProcess[i];
-				if (CommonFunc::KillProcess(serverData.ProcessID))
-				{
-					serverData.ProscessStatus = EPS_Stop;
-					serverData.LastHeartTick = CommonFunc::GetTickCount();
-					serverData.ProcessID = 0;
-					serverData.ConnID = 0;
-				}
-			}
-		}
+		case EWA_SERVER_START:
+			OnGmServerStart(Params, pNetPacket->m_dwConnID);
+			break;
+		case EWA_SERVER_STOP:
+			OnGmServerStop(Params, pNetPacket->m_dwConnID);
+		case EWA_SERVER_UPDATE:
+			OnGmServerUpdate(Params, pNetPacket->m_dwConnID);
+		case EWA_SERVER_INFO:
+			OnGmServerInfo(Params, pNetPacket->m_dwConnID);
+		default:
+			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
+			break;
 	}
-	else if (strAction == "UpdateServer")
-	{
-		system("start updatesvr.bat");
-	}
-	else if (strAction == "UpdateInfo")
-	{
-	}
+
 	return TRUE;
 }
 
-BOOL CWatchMsgHandler::UpdateServer_Thread()
+void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, UINT32 nConnID)
 {
-	//if() {}
+	if (CanStartServer())
+	{
+		StartAllProcess();
 
-	return TRUE;
+		SetStartWatch(TRUE);
+	}
+
+	SendWebResult(nConnID, EWR_SUCCESSED);
+}
+
+void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, UINT32 nConnID)
+{
+	if (CanStopServer())
+	{
+		SetStartWatch(FALSE);
+		for (INT32 i = 0; i < m_vtProcess.size(); i++)
+		{
+			ServerProcessInfo& serverData = m_vtProcess[i];
+			if (CommonFunc::KillProcess(serverData.ProcessID))
+			{
+				serverData.ProscessStatus = EPS_Stop;
+				serverData.LastHeartTick = CommonFunc::GetTickCount();
+				serverData.ProcessID = 0;
+				serverData.ConnID = 0;
+			}
+		}
+	}
+
+	SendWebResult(nConnID, EWR_SUCCESSED);
+}
+
+void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, UINT32 nConnID)
+{
+	system("start updatesvr.bat");
+
+	SendWebResult(nConnID, EWR_SUCCESSED);
+}
+
+void CWatchMsgHandler::OnGmServerInfo(HttpParameter& hParams, UINT32 nConnID)
+{
+	SendWebResult(nConnID, EWR_SUCCESSED);
 }
 
 BOOL CWatchMsgHandler::StartAllProcess()
@@ -436,5 +396,14 @@ BOOL CWatchMsgHandler::CanStopServer()
 			return FALSE;
 		}
 	}
+	return TRUE;
+}
+
+BOOL CWatchMsgHandler::SendWebResult(UINT32 nConnID, EWebResult eResult)
+{
+	std::string strResult = CommonConvert::IntToString((INT64)eResult);
+
+	ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (UINT32)strResult.size());
+
 	return TRUE;
 }

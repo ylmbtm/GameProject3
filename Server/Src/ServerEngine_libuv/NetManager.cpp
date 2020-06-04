@@ -180,6 +180,14 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 {
 	if (dwStatus == 0)
 	{
+		struct sockaddr_in ClientAddr;
+
+		socklen_t namelen = sizeof(ClientAddr);
+
+		uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr*)&ClientAddr, &namelen);
+
+		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
+
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();

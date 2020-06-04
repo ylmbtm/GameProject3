@@ -17,6 +17,8 @@ public:
 	VOID   SetMaxOnline(INT32 nNum);
 	UINT32 GetMaxOnline();
 
+	BOOL   SetDataChange();
+
 public:
 	GlobalDataObject*  m_pGlobalDataObject;
 };

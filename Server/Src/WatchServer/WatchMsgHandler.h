@@ -3,6 +3,8 @@
 
 #include "../StaticData/StaticStruct.h"
 #include "RapidXml.h"
+#include "WebActionDef.h"
+#include "HttpParameter.h"
 
 enum EProcessStatus
 {
@@ -45,14 +47,17 @@ public:
 	BOOL		OnSecondTimer();
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgUpdateServerReq(NetPacket* pNetPacket);  //更新服务器
-	BOOL OnMsgStartServerReq(NetPacket* pNetPacket);
-	BOOL OnMsgStopServerReq(NetPacket* pNetPacket);
 	BOOL OnMsgServerHeartReq(NetPacket* pNetPacket);
 	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
-	BOOL UpdateServer_Thread();
+public:
+	//*********************WebAction处理定义开始******************************
+	void OnGmServerStart(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmServerStop(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmServerUpdate(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmServerInfo(HttpParameter& hParams, UINT32 nConnID);
+	//*********************WebAction处理定义开始******************************
 
 protected:
 	BOOL CheckProcessStatus(UINT64 uTick, UINT32 nIndex);
@@ -77,6 +82,7 @@ protected:
 
 	BOOL CanStopServer();
 
+	BOOL SendWebResult(UINT32 nConnID, EWebResult eResult);
 private:
 
 	std::vector<ServerProcessInfo> m_vtProcess;

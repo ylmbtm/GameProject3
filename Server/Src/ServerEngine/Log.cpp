@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Log.h"
-
 CLog::CLog(void)
 {
 	m_LogLevel = 0;
@@ -83,15 +82,16 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 31, 512 - 31,  lpszFormat, argList);
+	vsnprintf(szLog + 28, 512 - 28,  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Warn);
 	m_WriteMutex.unlock();
 
 	return ;
@@ -122,8 +122,9 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Error);
 	m_WriteMutex.unlock();
 
 	return ;
@@ -155,8 +156,9 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Info);
 	m_WriteMutex.unlock();
 
 	return ;
@@ -187,12 +189,3 @@ void CLog::SetTitle(char* lpszFormat, ...)
 	return;
 }
 
-void CLog::Flush()
-{
-	if (m_LogCount > 0)
-	{
-		fflush(m_pLogFile);
-
-		m_LogCount = 0;
-	}
-}

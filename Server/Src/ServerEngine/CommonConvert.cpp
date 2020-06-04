@@ -19,7 +19,11 @@ INT64 CommonConvert::StringToInt64(char* pStr)
 		return 0;
 	}
 
-	return atol(pStr);
+#ifdef WIN32
+	return _atoi64(pStr);
+#else
+	return atoll(pStr);
+#endif
 }
 
 INT64 CommonConvert::StringToInt64(const char* pStr)

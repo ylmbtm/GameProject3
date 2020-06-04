@@ -99,11 +99,7 @@ INT32 CConfigFile::GetRealNetPort(std::string VarName)
 		return nPort;
 	}
 
-	if (VarName == "log_svr_port")
-	{
-		return GetIntValue("areaid") + 40000;
-	}
-	else if (VarName == "logic_svr_port")
+	if (VarName == "logic_svr_port")
 	{
 		return GetIntValue("areaid") + 10000;
 	}
@@ -114,6 +110,10 @@ INT32 CConfigFile::GetRealNetPort(std::string VarName)
 	else if (VarName == "proxy_svr_port")
 	{
 		return GetIntValue("areaid") + 30000;
+	}
+	else if (VarName == "log_svr_port")
+	{
+		return GetIntValue("areaid") + 40000;
 	}
 	else if (VarName == "watch_svr_port")
 	{

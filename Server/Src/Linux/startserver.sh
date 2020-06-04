@@ -1,24 +1,21 @@
-nohup ./ProxyServer >> proxy.log 2>&1 &
-echo "$!" > proxy.pid
-
-nohup ./AccountServer >> account.log 2>&1 &
+nohup ./AccountServer &
 echo "$!" > account.pid
 
-nohup ./LoginServer >> login.log 2>&1 &
+nohup ./LoginServer &
 echo "$!" > login.pid
 
-nohup ./LogServer >> log_svr.log 2>&1 &
+nohup ./LogServer  &
 echo "$!" > logsvr.pid
 
-nohup ./CenterServer >> center.log 2>&1 &
+nohup ./CenterServer &
 echo "$!" > center.pid
 
-nohup ./DBServer >> db.log 2>&1 &
+nohup ./DBServer &
 echo "$!" > dbsvr.pid
 
-nohup ./LogicServer >> logic.log 2>&1 &
+nohup ./LogicServer &
 echo "$!" > logic.pid
 
-nohup ./GameServer id=1 port=9008 >> game1.log 2>&1 &
+nohup ./GameServer id=1 port=9008 &
 echo "$!" > game1.pid
  
