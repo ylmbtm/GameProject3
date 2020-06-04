@@ -15,7 +15,6 @@
 #include "PayManager.h"
 #include "GuildManager.h"
 #include "ActivityManager.h"
-#include "GmCommand.h"
 #include "RankMananger.h"
 #include "MsgHandlerManager.h"
 #include "PacketHeader.h"

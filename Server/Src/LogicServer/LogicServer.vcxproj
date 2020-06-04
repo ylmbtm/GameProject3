@@ -134,7 +134,6 @@
     <ClCompile Include="ActivityManager.cpp" />
     <ClCompile Include="ActivityModule.cpp" />
     <ClCompile Include="BagModule.cpp" />
-    <ClCompile Include="GmCommand.cpp" />
     <ClCompile Include="CopyModule.cpp" />
     <ClCompile Include="CounterModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
@@ -206,7 +205,6 @@
     <ClInclude Include="ActivityManager.h" />
     <ClInclude Include="ActivityModule.h" />
     <ClInclude Include="BagModule.h" />
-    <ClInclude Include="GmCommand.h" />
     <ClInclude Include="CopyModule.h" />
     <ClInclude Include="CounterModule.h" />
     <ClInclude Include="DataPool.h" />

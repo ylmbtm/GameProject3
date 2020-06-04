@@ -2765,6 +2765,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, maxonline_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, curonline_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, totalnum_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, cachenum_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoReq, status_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::LogicUpdateInfoAck, _internal_metadata_),
@@ -3045,38 +3046,38 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 528, -1, sizeof(::LogicRegToLoginReq)},
   { 539, -1, sizeof(::LogicRegToLoginAck)},
   { 546, -1, sizeof(::LogicUpdateInfoReq)},
-  { 557, -1, sizeof(::LogicUpdateInfoAck)},
-  { 563, -1, sizeof(::WatchHeartBeatReq)},
-  { 570, -1, sizeof(::WatchHeartBeatAck)},
-  { 578, -1, sizeof(::SetupEquipReq)},
-  { 585, -1, sizeof(::SetupEquipAck)},
-  { 591, -1, sizeof(::UnsetEquipReq)},
-  { 597, -1, sizeof(::UnsetEquipAck)},
-  { 603, -1, sizeof(::SetupGemReq)},
-  { 611, -1, sizeof(::SetupGemAck)},
-  { 617, -1, sizeof(::UnsetGemReq)},
-  { 623, -1, sizeof(::UnsetGemAck)},
-  { 629, -1, sizeof(::SetupPartnerReq)},
-  { 636, -1, sizeof(::SetupPartnerAck)},
-  { 642, -1, sizeof(::UnsetPartnerReq)},
-  { 648, -1, sizeof(::UnsetPartnerAck)},
-  { 654, -1, sizeof(::SetupMountReq)},
-  { 661, -1, sizeof(::SetupMountAck)},
-  { 667, -1, sizeof(::UnsetMountReq)},
-  { 673, -1, sizeof(::UnsetMountAck)},
-  { 679, -1, sizeof(::SetupPetReq)},
-  { 685, -1, sizeof(::SetupPetAck)},
-  { 691, -1, sizeof(::UnsetPetReq)},
-  { 697, -1, sizeof(::UnsetPetAck)},
-  { 703, -1, sizeof(::StoreBuyReq)},
-  { 711, -1, sizeof(::StoreBuyAck)},
-  { 717, -1, sizeof(::ObjectChangeNotify)},
-  { 727, -1, sizeof(::HitEffectItem)},
-  { 739, -1, sizeof(::HitEffectNtf)},
-  { 745, -1, sizeof(::UseItemReq)},
-  { 750, -1, sizeof(::UseItemAck)},
-  { 755, -1, sizeof(::MsgGetRandomNameReq)},
-  { 761, -1, sizeof(::MsgGetRandomNameAck)},
+  { 558, -1, sizeof(::LogicUpdateInfoAck)},
+  { 564, -1, sizeof(::WatchHeartBeatReq)},
+  { 571, -1, sizeof(::WatchHeartBeatAck)},
+  { 579, -1, sizeof(::SetupEquipReq)},
+  { 586, -1, sizeof(::SetupEquipAck)},
+  { 592, -1, sizeof(::UnsetEquipReq)},
+  { 598, -1, sizeof(::UnsetEquipAck)},
+  { 604, -1, sizeof(::SetupGemReq)},
+  { 612, -1, sizeof(::SetupGemAck)},
+  { 618, -1, sizeof(::UnsetGemReq)},
+  { 624, -1, sizeof(::UnsetGemAck)},
+  { 630, -1, sizeof(::SetupPartnerReq)},
+  { 637, -1, sizeof(::SetupPartnerAck)},
+  { 643, -1, sizeof(::UnsetPartnerReq)},
+  { 649, -1, sizeof(::UnsetPartnerAck)},
+  { 655, -1, sizeof(::SetupMountReq)},
+  { 662, -1, sizeof(::SetupMountAck)},
+  { 668, -1, sizeof(::UnsetMountReq)},
+  { 674, -1, sizeof(::UnsetMountAck)},
+  { 680, -1, sizeof(::SetupPetReq)},
+  { 686, -1, sizeof(::SetupPetAck)},
+  { 692, -1, sizeof(::UnsetPetReq)},
+  { 698, -1, sizeof(::UnsetPetAck)},
+  { 704, -1, sizeof(::StoreBuyReq)},
+  { 712, -1, sizeof(::StoreBuyAck)},
+  { 718, -1, sizeof(::ObjectChangeNotify)},
+  { 728, -1, sizeof(::HitEffectItem)},
+  { 740, -1, sizeof(::HitEffectNtf)},
+  { 746, -1, sizeof(::UseItemReq)},
+  { 751, -1, sizeof(::UseItemAck)},
+  { 756, -1, sizeof(::MsgGetRandomNameReq)},
+  { 762, -1, sizeof(::MsgGetRandomNameAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -3330,50 +3331,50 @@ void AddDescriptorsImpl() {
       "(\t\022\020\n\010ServerIp\030\003 \001(\t\022\022\n\nServerPort\030\004 \001(\005"
       "\022\020\n\010HttpPort\030\005 \001(\005\022\021\n\tWatchPort\030\006 \001(\005\"9\n"
       "\022LogicRegToLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\022\n\n"
-      "NewSvrName\030\002 \001(\t\"\202\001\n\022LogicUpdateInfoReq\022"
+      "NewSvrName\030\002 \001(\t\"\224\001\n\022LogicUpdateInfoReq\022"
       "\020\n\010ServerID\030\001 \001(\005\022\022\n\nServerName\030\002 \001(\t\022\021\n"
       "\tMaxOnline\030\003 \001(\005\022\021\n\tCurOnline\030\004 \001(\005\022\020\n\010T"
-      "otalNum\030\005 \001(\005\022\016\n\006Status\030\006 \001(\005\"%\n\022LogicUp"
-      "dateInfoAck\022\017\n\007RetCode\030\001 \001(\r\"4\n\021WatchHea"
-      "rtBeatReq\022\014\n\004Data\030\001 \001(\r\022\021\n\tProcessID\030\002 \001"
-      "(\004\"E\n\021WatchHeartBeatAck\022\017\n\007RetCode\030\001 \001(\r"
-      "\022\014\n\004Data\030\002 \001(\r\022\021\n\tProcessID\030\003 \001(\004\"3\n\rSet"
-      "upEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\022\017\n\007BagGuid"
-      "\030\002 \001(\004\" \n\rSetupEquipAck\022\017\n\007RetCode\030\001 \001(\r"
-      "\"\"\n\rUnsetEquipReq\022\021\n\tEquipGuid\030\001 \001(\004\" \n\r"
-      "UnsetEquipAck\022\017\n\007RetCode\030\001 \001(\r\"B\n\013SetupG"
-      "emReq\022\017\n\007GemGuid\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\022"
-      "\021\n\tTargetPos\030\003 \001(\005\"\036\n\013SetupGemAck\022\017\n\007Ret"
-      "Code\030\001 \001(\r\"\036\n\013UnsetGemReq\022\017\n\007GemGuid\030\001 \001"
-      "(\004\"\036\n\013UnsetGemAck\022\017\n\007RetCode\030\001 \001(\r\"9\n\017Se"
-      "tupPartnerReq\022\023\n\013PartnerGuid\030\001 \001(\004\022\021\n\tTa"
-      "rgetPos\030\002 \001(\005\"\"\n\017SetupPartnerAck\022\017\n\007RetC"
-      "ode\030\001 \001(\r\"$\n\017UnsetPartnerReq\022\021\n\tTargetPo"
-      "s\030\001 \001(\005\"\"\n\017UnsetPartnerAck\022\017\n\007RetCode\030\001 "
-      "\001(\r\"5\n\rSetupMountReq\022\021\n\tMountGuid\030\001 \001(\004\022"
-      "\021\n\tTargetPos\030\002 \001(\005\" \n\rSetupMountAck\022\017\n\007R"
-      "etCode\030\001 \001(\r\"\"\n\rUnsetMountReq\022\021\n\tMountGu"
-      "id\030\001 \001(\004\" \n\rUnsetMountAck\022\017\n\007RetCode\030\001 \001"
-      "(\r\"\036\n\013SetupPetReq\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013Se"
-      "tupPetAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetPetRe"
-      "q\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013UnsetPetAck\022\017\n\007Ret"
-      "Code\030\001 \001(\r\"A\n\013StoreBuyReq\022\021\n\tStoreType\030\001"
-      " \001(\005\022\017\n\007StoreID\030\002 \001(\005\022\016\n\006BuyNum\030\003 \001(\005\"\036\n"
-      "\013StoreBuyAck\022\017\n\007RetCode\030\001 \001(\r\"p\n\022ObjectC"
-      "hangeNotify\022\016\n\006RoleID\030\001 \001(\003\022\022\n\nChangeTyp"
-      "e\030\002 \001(\005\022\021\n\tIntValue1\030\003 \001(\003\022\021\n\tIntValue2\030"
-      "\004 \001(\003\022\020\n\010StrValue\030\005 \001(\t\"\225\001\n\rHitEffectIte"
-      "m\022\020\n\010CastGuid\030\001 \001(\004\022\022\n\nTargetGuid\030\002 \001(\004\022"
-      "\021\n\tHurtValue\030\003 \001(\005\022\014\n\004Crit\030\004 \001(\010\022\023\n\013HitA"
-      "ctionID\030\005 \001(\r\022\023\n\013HitEffectID\030\006 \001(\r\022\023\n\013Hi"
-      "tDistance\030\007 \001(\002\"0\n\014HitEffectNtf\022 \n\010ItemL"
-      "ist\030\001 \003(\0132\016.HitEffectItem\"\014\n\nUseItemReq\""
-      "\014\n\nUseItemAck\"\"\n\023MsgGetRandomNameReq\022\013\n\003"
-      "Sex\030\001 \001(\005\"#\n\023MsgGetRandomNameAck\022\014\n\004Name"
-      "\030\001 \001(\tb\006proto3"
+      "otalNum\030\005 \001(\005\022\020\n\010CacheNum\030\006 \001(\005\022\016\n\006Statu"
+      "s\030\007 \001(\005\"%\n\022LogicUpdateInfoAck\022\017\n\007RetCode"
+      "\030\001 \001(\r\"4\n\021WatchHeartBeatReq\022\014\n\004Data\030\001 \001("
+      "\r\022\021\n\tProcessID\030\002 \001(\004\"E\n\021WatchHeartBeatAc"
+      "k\022\017\n\007RetCode\030\001 \001(\r\022\014\n\004Data\030\002 \001(\r\022\021\n\tProc"
+      "essID\030\003 \001(\004\"3\n\rSetupEquipReq\022\021\n\tEquipGui"
+      "d\030\001 \001(\004\022\017\n\007BagGuid\030\002 \001(\004\" \n\rSetupEquipAc"
+      "k\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetEquipReq\022\021\n\tE"
+      "quipGuid\030\001 \001(\004\" \n\rUnsetEquipAck\022\017\n\007RetCo"
+      "de\030\001 \001(\r\"B\n\013SetupGemReq\022\017\n\007GemGuid\030\001 \001(\004"
+      "\022\017\n\007BagGuid\030\002 \001(\004\022\021\n\tTargetPos\030\003 \001(\005\"\036\n\013"
+      "SetupGemAck\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013UnsetGem"
+      "Req\022\017\n\007GemGuid\030\001 \001(\004\"\036\n\013UnsetGemAck\022\017\n\007R"
+      "etCode\030\001 \001(\r\"9\n\017SetupPartnerReq\022\023\n\013Partn"
+      "erGuid\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001(\005\"\"\n\017Setup"
+      "PartnerAck\022\017\n\007RetCode\030\001 \001(\r\"$\n\017UnsetPart"
+      "nerReq\022\021\n\tTargetPos\030\001 \001(\005\"\"\n\017UnsetPartne"
+      "rAck\022\017\n\007RetCode\030\001 \001(\r\"5\n\rSetupMountReq\022\021"
+      "\n\tMountGuid\030\001 \001(\004\022\021\n\tTargetPos\030\002 \001(\005\" \n\r"
+      "SetupMountAck\022\017\n\007RetCode\030\001 \001(\r\"\"\n\rUnsetM"
+      "ountReq\022\021\n\tMountGuid\030\001 \001(\004\" \n\rUnsetMount"
+      "Ack\022\017\n\007RetCode\030\001 \001(\r\"\036\n\013SetupPetReq\022\017\n\007P"
+      "etGuid\030\001 \001(\004\"\036\n\013SetupPetAck\022\017\n\007RetCode\030\001"
+      " \001(\r\"\036\n\013UnsetPetReq\022\017\n\007PetGuid\030\001 \001(\004\"\036\n\013"
+      "UnsetPetAck\022\017\n\007RetCode\030\001 \001(\r\"A\n\013StoreBuy"
+      "Req\022\021\n\tStoreType\030\001 \001(\005\022\017\n\007StoreID\030\002 \001(\005\022"
+      "\016\n\006BuyNum\030\003 \001(\005\"\036\n\013StoreBuyAck\022\017\n\007RetCod"
+      "e\030\001 \001(\r\"p\n\022ObjectChangeNotify\022\016\n\006RoleID\030"
+      "\001 \001(\003\022\022\n\nChangeType\030\002 \001(\005\022\021\n\tIntValue1\030\003"
+      " \001(\003\022\021\n\tIntValue2\030\004 \001(\003\022\020\n\010StrValue\030\005 \001("
+      "\t\"\225\001\n\rHitEffectItem\022\020\n\010CastGuid\030\001 \001(\004\022\022\n"
+      "\nTargetGuid\030\002 \001(\004\022\021\n\tHurtValue\030\003 \001(\005\022\014\n\004"
+      "Crit\030\004 \001(\010\022\023\n\013HitActionID\030\005 \001(\r\022\023\n\013HitEf"
+      "fectID\030\006 \001(\r\022\023\n\013HitDistance\030\007 \001(\002\"0\n\014Hit"
+      "EffectNtf\022 \n\010ItemList\030\001 \003(\0132\016.HitEffectI"
+      "tem\"\014\n\nUseItemReq\"\014\n\nUseItemAck\"\"\n\023MsgGe"
+      "tRandomNameReq\022\013\n\003Sex\030\001 \001(\005\"#\n\023MsgGetRan"
+      "domNameAck\022\014\n\004Name\030\001 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6694);
+      descriptor, 6712);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Game.proto", &protobuf_RegisterTypes);
 }
@@ -25659,6 +25660,7 @@ const int LogicUpdateInfoReq::kServerNameFieldNumber;
 const int LogicUpdateInfoReq::kMaxOnlineFieldNumber;
 const int LogicUpdateInfoReq::kCurOnlineFieldNumber;
 const int LogicUpdateInfoReq::kTotalNumFieldNumber;
+const int LogicUpdateInfoReq::kCacheNumFieldNumber;
 const int LogicUpdateInfoReq::kStatusFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -25820,10 +25822,24 @@ bool LogicUpdateInfoReq::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 Status = 6;
+      // int32 CacheNum = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &cachenum_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 Status = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -25890,9 +25906,14 @@ void LogicUpdateInfoReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->totalnum(), output);
   }
 
-  // int32 Status = 6;
+  // int32 CacheNum = 6;
+  if (this->cachenum() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->cachenum(), output);
+  }
+
+  // int32 Status = 7;
   if (this->status() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->status(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->status(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -25940,9 +25961,14 @@ void LogicUpdateInfoReq::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->totalnum(), target);
   }
 
-  // int32 Status = 6;
+  // int32 CacheNum = 6;
+  if (this->cachenum() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->cachenum(), target);
+  }
+
+  // int32 Status = 7;
   if (this->status() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->status(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->status(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -25997,7 +26023,14 @@ size_t LogicUpdateInfoReq::ByteSizeLong() const {
         this->totalnum());
   }
 
-  // int32 Status = 6;
+  // int32 CacheNum = 6;
+  if (this->cachenum() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->cachenum());
+  }
+
+  // int32 Status = 7;
   if (this->status() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -26049,6 +26082,9 @@ void LogicUpdateInfoReq::MergeFrom(const LogicUpdateInfoReq& from) {
   if (from.totalnum() != 0) {
     set_totalnum(from.totalnum());
   }
+  if (from.cachenum() != 0) {
+    set_cachenum(from.cachenum());
+  }
   if (from.status() != 0) {
     set_status(from.status());
   }
@@ -26083,6 +26119,7 @@ void LogicUpdateInfoReq::InternalSwap(LogicUpdateInfoReq* other) {
   swap(maxonline_, other->maxonline_);
   swap(curonline_, other->curonline_);
   swap(totalnum_, other->totalnum_);
+  swap(cachenum_, other->cachenum_);
   swap(status_, other->status_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

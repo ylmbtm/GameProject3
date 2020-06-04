@@ -8709,9 +8709,15 @@ class LogicUpdateInfoReq : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::int32 totalnum() const;
   void set_totalnum(::google::protobuf::int32 value);
 
-  // int32 Status = 6;
+  // int32 CacheNum = 6;
+  void clear_cachenum();
+  static const int kCacheNumFieldNumber = 6;
+  ::google::protobuf::int32 cachenum() const;
+  void set_cachenum(::google::protobuf::int32 value);
+
+  // int32 Status = 7;
   void clear_status();
-  static const int kStatusFieldNumber = 6;
+  static const int kStatusFieldNumber = 7;
   ::google::protobuf::int32 status() const;
   void set_status(::google::protobuf::int32 value);
 
@@ -8724,6 +8730,7 @@ class LogicUpdateInfoReq : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::int32 maxonline_;
   ::google::protobuf::int32 curonline_;
   ::google::protobuf::int32 totalnum_;
+  ::google::protobuf::int32 cachenum_;
   ::google::protobuf::int32 status_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fGame_2eproto::TableStruct;
@@ -17042,7 +17049,21 @@ inline void LogicUpdateInfoReq::set_totalnum(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.TotalNum)
 }
 
-// int32 Status = 6;
+// int32 CacheNum = 6;
+inline void LogicUpdateInfoReq::clear_cachenum() {
+  cachenum_ = 0;
+}
+inline ::google::protobuf::int32 LogicUpdateInfoReq::cachenum() const {
+  // @@protoc_insertion_point(field_get:LogicUpdateInfoReq.CacheNum)
+  return cachenum_;
+}
+inline void LogicUpdateInfoReq::set_cachenum(::google::protobuf::int32 value) {
+  
+  cachenum_ = value;
+  // @@protoc_insertion_point(field_set:LogicUpdateInfoReq.CacheNum)
+}
+
+// int32 Status = 7;
 inline void LogicUpdateInfoReq::clear_status() {
   status_ = 0;
 }
