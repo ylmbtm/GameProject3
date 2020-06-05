@@ -43,7 +43,8 @@ protected:
 
 	INT32				m_LogLevel;
 
-	std::string         m_strPrefix;
+	std::string			m_strPrefix;
+	std::string			m_strLogDir;
 };
 
 #define LOG_FUNCTION_LINE  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);

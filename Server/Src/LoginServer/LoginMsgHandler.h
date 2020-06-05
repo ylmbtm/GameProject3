@@ -16,8 +16,9 @@ public:
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	//*********************消息处理定义开始******************************
+
 public:
+	//*********************消息处理定义开始******************************
 	BOOL OnMsgCheckVersionReq(NetPacket* pPacket);
 	BOOL OnMsgAccountRegReq(NetPacket* pPacket);
 	BOOL OnMsgAccountLoginReq(NetPacket* pPacket);

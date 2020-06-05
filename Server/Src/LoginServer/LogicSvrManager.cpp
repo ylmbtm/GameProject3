@@ -180,7 +180,6 @@ LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
 			if (pNode->m_dwServerID != 0)
 			{
 				return pNode;
-
 			}
 		}
 	}
@@ -415,7 +414,7 @@ BOOL LogicServerNode::CheckVersion( std::string strVersion )
 		return FALSE;
 	}
 
-	if ((nVersion < m_dwMinVersion) && (nVersion > m_dwMaxVersion))
+	if ((nVersion <= m_dwMinVersion) && (nVersion >= m_dwMaxVersion))
 	{
 		return FALSE;
 	}

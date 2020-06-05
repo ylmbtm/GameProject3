@@ -24,6 +24,7 @@ BOOL CLog::Start(std::string strPrefix, std::string strLogDir)
 		return FALSE;
 	}
 	m_strPrefix = strPrefix;
+	m_strLogDir = strLogDir;
 #ifdef WIN32
 	SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS);
 #endif

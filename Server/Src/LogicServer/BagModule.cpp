@@ -41,6 +41,11 @@ BOOL CBagModule::OnCreate(UINT64 u64RoleID)
 			continue;
 		}
 
+		if (m_mapBagData.size() >= 120)
+		{
+			return TRUE;
+		}
+
 		AddItem(itemInfo.dwItemID, 1);
 	}
 
@@ -88,6 +93,7 @@ BOOL CBagModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 		pObject->m_bBind = ItemData.bind();
 		pObject->m_ItemGuid = ItemData.itemguid();
 		pObject->m_ItemID = ItemData.itemid();
+		pObject->m_nCount = ItemData.count();
 		m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	}
 

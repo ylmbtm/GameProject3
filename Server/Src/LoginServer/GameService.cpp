@@ -51,6 +51,12 @@ BOOL CGameService::Init()
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("login_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
+	if (nPort <= 0)
+	{
+		CLog::GetInstancePtr()->LogError("配制文件login_svr_port配制错误!");
+		return FALSE;
+	}
+
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
@@ -199,7 +205,7 @@ BOOL CGameService::ConnectToWatchServer()
 	{
 		return TRUE;
 	}
-	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

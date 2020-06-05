@@ -5,6 +5,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
+#include "GameLogManager.h"
 
 
 CAccountMsgHandler::CAccountMsgHandler()
@@ -74,6 +75,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	{
 		Ack.set_retcode(MRC_SUCCESSED);
 		Ack.set_accountid(pAccount->m_ID);
+		CGameLogManager::GetInstancePtr()->LogAccountCreate(pAccount->m_ID, Req.reglog());
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
@@ -128,6 +130,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 			Ack.set_retcode(MRC_SUCCESSED);
 			Ack.set_accountid(pAccObj->m_ID);
 			Ack.set_lastsvrid(0);
+			CGameLogManager::GetInstancePtr()->LogAccountCreate(pAccObj->m_ID, Req.loginlog());
 		}
 	}
 	else

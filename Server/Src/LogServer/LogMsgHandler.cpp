@@ -4,6 +4,7 @@
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
+#include "../LogData/LogStruct.h"
 
 
 CLogMsgHandler::CLogMsgHandler()
@@ -78,21 +79,43 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 {
-	char* pData = pNetPacket->m_pDataBuffer->GetData();
-	UINT32 dwLogType = *(UINT32*)pData;
-	switch (dwLogType)
+	Log_BaseData* pData = (Log_BaseData*)pNetPacket->m_pDataBuffer->GetData();
+	CHAR szSql[1024] = {0};
+
+	switch (pData->m_LogType)
 	{
-		case 1:
-		//Log_AccountCreate* p = (Log_AccountCreate*)pData;
-		//p->GetLogText();
+		case ELT_ACCOUNT_CREATE:
+		{
+			Log_AccountCreate* p = (Log_AccountCreate*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
+		case ELT_ACCOUNT_LOGIN:
+		{
+			Log_AccountLogin* p = (Log_AccountLogin*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
+		case ELT_ROLE_CREATE:
+		{
+			Log_RoleCreate* p = (Log_RoleCreate*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
+		case ELT_ROLE_LOGIN:
+		{
+			Log_RoleLogin* p = (Log_RoleLogin*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
 		default:
 			break;
 	}
 
-	char* pSql = NULL;
-	if (m_DBConnection.execSQL(pSql) <= 0)
+	if (m_DBConnection.execSQL(szSql) <= 0)
 	{
-		CLog::GetInstancePtr()->LogError(pSql);
+		CLog::GetInstancePtr()->LogError("CLogMsgHandler::OnLogDataNtf Error :%s", m_DBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError(szSql);
 		if (!m_DBConnection.ping())
 		{
 			m_DBConnection.close();

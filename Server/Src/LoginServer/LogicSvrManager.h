@@ -41,9 +41,10 @@ struct LogicServerNode
 		m_uLastUpdate	= 0;
 		m_dwMinVersion	= 0;
 		m_dwMaxVersion  = 0;
-		m_dwMaxOnline   = 0;   //最大在线人数
-		m_dwCurOnline   = 0;   //当前最大人数
+		m_dwMaxOnline   = 0;    //最大在线人数
+		m_dwCurOnline   = 0;    //当前最大人数
 		m_dwTotalNum    = 0;    //总注册人数
+		m_dwCacheNum    = 0;    //当前缓存人数
 		m_eChangeStatus = EUS_NONE;
 	}
 
@@ -71,6 +72,7 @@ struct LogicServerNode
 	UINT32      m_dwMaxOnline;   //最大在线人数
 	UINT32      m_dwCurOnline;   //当前最大人数
 	UINT32      m_dwTotalNum;    //总注册人数
+	UINT32      m_dwCacheNum;    //当前缓存人数
 
 	EUpdateStatus       m_eChangeStatus;
 
