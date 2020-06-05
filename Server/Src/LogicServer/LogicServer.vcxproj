@@ -168,7 +168,6 @@
     <ClCompile Include="TaskModule.cpp" />
     <ClCompile Include="LogicMsgHandler.cpp" />
     <ClCompile Include="TeamCopyMgr.cpp" />
-    <ClCompile Include="WebCommandHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\StaticData\StaticData.h" />

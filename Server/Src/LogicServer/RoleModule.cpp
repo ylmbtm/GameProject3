@@ -384,3 +384,15 @@ UINT64 CRoleModule::GetLastLogoffTime()
 	return m_pRoleDataObject->m_uLogoffTime;
 }
 
+VOID CRoleModule::SetGroupMailTime(UINT64 uTime)
+{
+	m_pRoleDataObject->Lock();
+	m_pRoleDataObject->m_uGroupMailTime = uTime;
+	m_pRoleDataObject->Unlock();
+}
+
+UINT64 CRoleModule::GetGroupMailTime()
+{
+	return m_pRoleDataObject->m_uGroupMailTime;
+}
+

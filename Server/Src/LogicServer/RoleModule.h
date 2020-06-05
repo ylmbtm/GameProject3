@@ -51,6 +51,9 @@ public:
 
 	UINT64  GetLastLogoffTime();
 
+	VOID    SetGroupMailTime(UINT64 uTime);
+	UINT64  GetGroupMailTime();
+
 public:
 	UINT32  GetActorID();
 	INT32   GetLevel();

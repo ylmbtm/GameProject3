@@ -10,9 +10,9 @@ class CMailManager
 public:
 	static CMailManager* GetInstancePtr();
 
-	BOOL  SendGroupMail();
+	BOOL  SendGroupMail(UINT32 nGroupID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
 
-	BOOL  SendSingleMail(UINT64 uRoleID);
+	BOOL  SendSingleMail(UINT64 uRoleID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
 
 	BOOL  SendOffOperation(UINT64 uRoleID);
 
@@ -20,12 +20,13 @@ public:
 
 	BOOL  LoadGroupMailData(CppMySQL3DB& tDBConnection);
 
-	BOOL  LoadOffMailData(CppMySQL3DB& tDBConnection);
-
 	BOOL  ProcessRoleLogin(CPlayerObject* pPlayer);
+
+	MailDataObject* PickUpMailData(UINT64 uGuid);
+
 public:
 	std::map<UINT64, GroupMailDataObject*>  m_mapGroupMailData;
 
-	std::vector<OffMailDataObject*>    m_vtOffMailData;
+	std::map<UINT64, MailDataObject*> m_mapOffMailData;
 };
 #endif //__GROUP_MAIL_MANAGER_H__

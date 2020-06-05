@@ -105,12 +105,6 @@
     <ClCompile Include="..\StaticData\CppSQLite3.cpp">
       <Filter>StaticData</Filter>
     </ClCompile>
-    <ClCompile Include="LogManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WebCommandHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ActivityModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -283,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="..\StaticData\CppSQLite3.h">
       <Filter>StaticData</Filter>
-    </ClInclude>
-    <ClInclude Include="LogManager.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\StoreData.h">
       <Filter>ServerData</Filter>

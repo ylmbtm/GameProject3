@@ -5,6 +5,8 @@
 #include "../StaticData/StaticData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
+#include "MailManager.h"
+#include "RoleModule.h"
 
 CMailModule::CMailModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -55,10 +57,27 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	const DBMailData& MailData = Ack.maildata();
 	for(int i = 0; i < MailData.maillist_size(); i++)
 	{
-		MailDataObject* pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, FALSE);
+		const DBMailItem& tMailItem = MailData.maillist(i);
 
-
-		m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
+		MailDataObject* pObject = CMailManager::GetInstancePtr()->PickUpMailData(tMailItem.guid());
+		if (pObject == NULL)
+		{
+			pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, FALSE);
+			pObject->m_uRoleID = tMailItem.roleid();
+			pObject->m_uGuid = tMailItem.guid();
+			pObject->m_nGroupID = tMailItem.groupid();
+			pObject->m_uTime = tMailItem.time();
+			pObject->m_uSenderID = tMailItem.senderid();
+			strncpy(pObject->m_szSender, tMailItem.sender().c_str(), tMailItem.sender().size());
+			strncpy(pObject->m_szTitle, tMailItem.title().c_str(), tMailItem.title().size());
+			strncpy(pObject->m_szContent, tMailItem.content().c_str(), tMailItem.content().size());
+			memcpy((void*)&pObject->m_Items, (void*)tMailItem.items().c_str(), sizeof(StMailItem)*MAIL_ITEM_COUNT);
+			m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
+		}
+		else
+		{
+			m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
+		}
 	}
 
 	return TRUE;
@@ -109,7 +128,7 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 	return TRUE;
 }
 
-BOOL CMailModule::AddMail(std::string strSender, std::string strTitle, std::string strContent)
+BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems)
 {
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();
@@ -117,7 +136,19 @@ BOOL CMailModule::AddMail(std::string strSender, std::string strTitle, std::stri
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
+
+	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
+	{
+		if (vtItems.at(i).m_nItemID == 0)
+		{
+			break;
+		}
+
+		pMailObject->m_Items[i] = vtItems.at(i);
+	}
+
 	pMailObject->Unlock();
+
 	return AddMail(pMailObject);
 }
 
@@ -130,6 +161,37 @@ MailDataObject* CMailModule::GetMailByGuid(UINT64 uGuid)
 	}
 
 	return NULL;
+}
+
+BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
+{
+	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
+	pMailObject->Lock();
+	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
+	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pMailObject->m_uTime = CommonFunc::GetCurrTime();
+	pMailObject->m_nGroupID = pGroupMail->m_nGroupID;
+
+	for (int i = 0; i < MAIL_ITEM_COUNT; i++)
+	{
+		if (pGroupMail->m_Items[i].m_nItemID == 0)
+		{
+			break;
+		}
+
+		pMailObject->m_Items[i] = pGroupMail->m_Items[i];
+	}
+
+	pMailObject->Unlock();
+
+	AddMail(pMailObject);
+
+	CRoleModule* pRoleModule = (CRoleModule*)m_pOwnPlayer->GetModuleByType(MT_ROLE);
+	ERROR_RETURN_FALSE(pRoleModule != NULL);
+
+	pRoleModule->SetGroupMailTime(pGroupMail->m_uTime);
+
+	return TRUE;
 }
 
 BOOL CMailModule::NotifyChange()
