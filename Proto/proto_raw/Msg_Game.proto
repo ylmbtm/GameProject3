@@ -25,11 +25,27 @@ message CheckVersionAck {
     string    ClientVerion   = 2;
 }
 
+message AccountLog
+{
+    int32  Channel    = 1;   //渠道ID
+    string Version    = 2;   //版本ID
+    int32  AccountID  = 3;   //帐号ID
+    string Uuid       = 4;   //下载设备UUID
+    string Idfa       = 5;
+    string NetType    = 6;   //网络类型
+    string Imodel     = 7;   // 机型
+    string Imei       = 8;   // 手机MEI
+    string Resolution = 9;   // 分辨率(例如:800X600)
+    string PhoneCpu   = 10;  // 手机CPU
+    string MacAddr    = 11;  //下载设备MAC地址
+    int32  IpAddr     = 12;  //ip地址
+}  
+
 message AccountRegReq {
     string   AccountName = 1;
     string   Password    = 2;
     int32    Channel     = 3;
-    string   ClientVerion= 4;
+    AccountLog RegLog    = 4;
 }
 
 message AccountRegAck {

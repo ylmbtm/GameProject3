@@ -81,7 +81,7 @@ enum EShareData
 	ESD_TASK,
 	ESD_MOUNT,
 	ESD_MAIL,
-	ESD_OFFMAIL,   //离线邮件
+	ESD_OFFDATA,   //离线操作
 	ESD_GROUP_MAIL,
 	ESD_ACTIVITY,
 	ESD_COUNTER,
