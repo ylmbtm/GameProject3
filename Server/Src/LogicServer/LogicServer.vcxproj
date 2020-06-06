@@ -134,7 +134,9 @@
     <ClCompile Include="ActivityManager.cpp" />
     <ClCompile Include="ActivityModule.cpp" />
     <ClCompile Include="BagModule.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameLogManager.cpp" />
+    <ClCompile Include="WebCommandMgr.cpp" />
     <ClCompile Include="CopyModule.cpp" />
     <ClCompile Include="CounterModule.cpp" />
     <ClCompile Include="DataPool.cpp" />
@@ -204,7 +206,9 @@
     <ClInclude Include="ActivityManager.h" />
     <ClInclude Include="ActivityModule.h" />
     <ClInclude Include="BagModule.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameLogManager.h" />
+    <ClInclude Include="WebCommandMgr.h" />
     <ClInclude Include="CopyModule.h" />
     <ClInclude Include="CounterModule.h" />
     <ClInclude Include="DataPool.h" />

@@ -39,10 +39,10 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WebCommandHandler.cpp">
+    <ClCompile Include="LoginClientMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LoginClientMgr.cpp">
+    <ClCompile Include="WebCommandMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +66,9 @@
       <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="LoginClientMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebCommandMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

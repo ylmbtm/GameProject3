@@ -125,7 +125,7 @@ BOOL LogicSvrManager::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 	return TRUE;
 }
 
-BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwStatus, const std::string& strSvrName)
+BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, const std::string& strSvrName)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	ERROR_RETURN_FALSE(pNode != NULL);
@@ -135,6 +135,7 @@ BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnlin
 		pNode->m_dwMaxOnline = dwMaxOnline;
 		pNode->m_dwCurOnline = dwCurOnline;
 		pNode->m_dwTotalNum = dwTotal;
+		pNode->m_dwCacheNum = dwCacheNum;
 
 		if (pNode->m_eChangeStatus == EUS_NONE)
 		{
@@ -339,8 +340,8 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 				}
 
 				memset(szSql, 0, SQL_BUFF_LEN);
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", m_DBConnection.GetErrorMsg());
@@ -357,8 +358,8 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 				}
 
 				memset(szSql, 0, SQL_BUFF_LEN);
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
@@ -367,8 +368,8 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 
 			if (pTempNode->m_eChangeStatus == EUS_UPDATE)
 			{
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, 0, 0, 0);
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt, update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, 0, 0);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());

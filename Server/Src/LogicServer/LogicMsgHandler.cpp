@@ -455,33 +455,6 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-BOOL CLogicMsgHandler::ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& vtParam)
-{
-	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(u64ID);
-	ERROR_RETURN_TRUE(pPlayer != NULL);
-	ERROR_RETURN_TRUE(vtParam.size() >= 1);
-
-	if(std::strcmp(vtParam[0].c_str(), "@@additem") == 0)
-	{
-		ERROR_RETURN_TRUE(vtParam.size() >= 3);
-		CBagModule* pBag = (CBagModule*)pPlayer->GetModuleByType(MT_BAG);
-		ERROR_RETURN_TRUE(pBag != NULL);
-		pBag->AddItem(CommonConvert::StringToInt(vtParam[1].c_str()), CommonConvert::StringToInt(vtParam[2].c_str()));
-	}
-	else if(vtParam[0].compare("@@AddPartner") == 0)
-	{
-		CPartnerModule* pPartnerModule = (CPartnerModule*)pPlayer->GetModuleByType(MT_PARTNER);
-		ERROR_RETURN_TRUE(pPartnerModule != NULL);
-
-		for (int i = 0; i < 20; i++)
-		{
-			pPartnerModule->AddPartner(i + 1);
-		}
-	}
-
-	return TRUE;
-}
-
 BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 {
 	RoleReconnectReq Req;

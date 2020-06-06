@@ -5,6 +5,7 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "LoginClientMgr.h"
+#include "WebCommandMgr.h"
 CGameService::CGameService(void)
 {
 	m_dwAccountConnID	= 0;
@@ -63,6 +64,9 @@ BOOL CGameService::Init()
 		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
 	}
+
+	BOOL bRet = CWebCommandMgr::GetInstancePtr()->Init();
+	ERROR_RETURN_FALSE(bRet);
 
 	m_LoginMsgHandler.Init();
 
@@ -154,6 +158,11 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK, OnMsgWatchHeartBeatAck)
+	}
+
+	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
 	}
 
 	if (m_LoginMsgHandler.DispatchPacket(pNetPacket))

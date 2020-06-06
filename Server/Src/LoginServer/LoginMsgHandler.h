@@ -32,8 +32,6 @@ public:
 	BOOL OnMsgLogicUpdateReq(NetPacket* pPacket);
 	BOOL OnMsgSelectServerAck(NetPacket* pPacket);
 
-	BOOL OnMsgSealAccountAck(NetPacket* pPacket);
-	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 
 public:

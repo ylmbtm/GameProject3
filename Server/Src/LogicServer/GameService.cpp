@@ -19,6 +19,7 @@
 #include "MsgHandlerManager.h"
 #include "PacketHeader.h"
 #include "TeamCopyMgr.h"
+#include "WebCommandMgr.h"
 
 //#include "LuaManager.h"
 //#include "Lua_Script.h"
@@ -174,6 +175,9 @@ BOOL CGameService::Init()
 	ERROR_RETURN_FALSE(bRet);
 
 	bRet = CPayManager::GetInstancePtr()->Init();
+	ERROR_RETURN_FALSE(bRet);
+
+	bRet = CWebCommandMgr::GetInstancePtr()->Init();
 	ERROR_RETURN_FALSE(bRet);
 
 	bRet = m_LogicMsgHandler.Init(0);
@@ -372,6 +376,11 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
+	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
 	if (CMsgHandlerManager::GetInstancePtr()->FireMessage(pNetPacket->m_dwMsgID, pNetPacket))
 	{
 		return TRUE;

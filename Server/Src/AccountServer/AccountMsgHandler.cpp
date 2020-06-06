@@ -107,6 +107,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 			Ack.set_retcode(MRC_SUCCESSED);
 			Ack.set_lastsvrid(pAccObj->m_dwLastSvrID);
 			Ack.set_accountid(pAccObj->m_ID);
+			CGameLogManager::GetInstancePtr()->LogAccountLogin(pAccObj->m_ID, Req.loginlog());
 		}
 
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);

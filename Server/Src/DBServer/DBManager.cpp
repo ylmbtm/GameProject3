@@ -74,7 +74,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->set_carrerid(QueryRes.getIntField("carrerid", 0));
 		pData->set_level(QueryRes.getIntField("level", 0));
 		pData->set_exp(QueryRes.getInt64Field("exp", 0));
-		pData->set_accountid(QueryRes.getInt64Field("account_id", 0));
+		pData->set_accountid(QueryRes.getInt64Field("accountid", 0));
 		pData->set_citycopyid(QueryRes.getIntField("citycopyid", 0));
 		pData->add_action(QueryRes.getInt64Field("action1", 0));
 		pData->add_action(QueryRes.getInt64Field("action2", 0));

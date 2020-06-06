@@ -50,7 +50,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
+		static CDBStoredProcedure csp("REPLACE INTO player (id, accountid, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
 			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);
@@ -78,7 +78,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO player (id, account_id, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
+		static CDBStoredProcedure csp("REPLACE INTO player (id, accountid, name, carrerid,level, citycopyid,exp, langid, action1, action2, action3,action4, actime1, actime2, actime3,actime4, createtime, logontime, logofftime, grouptime) \
 		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uRoleID);
 		csp.set_uint64(1, m_uAccountID);

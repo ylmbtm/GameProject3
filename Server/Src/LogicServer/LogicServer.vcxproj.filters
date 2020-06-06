@@ -168,7 +168,13 @@
     <ClCompile Include="LoginCodeMgr.cpp">
       <Filter>LoginCode</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="GameLogManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebCommandMgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -368,7 +374,13 @@
     <ClInclude Include="LoginCodeMgr.h">
       <Filter>LoginCode</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="GameLogManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebCommandMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

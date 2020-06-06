@@ -67,20 +67,18 @@ enum MessageID {
     MSG_ROLE_LIST_REQ                = 200001;
     MSG_ROLE_LIST_ACK                = 200002;
 
-    MSG_ROLE_CREATE_REQ              = 200003;   //登录请法度
-    MSG_ROLE_CREATE_ACK              = 200004;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_CREATE_REQ              = 200003;   //创角请求
+    MSG_ROLE_CREATE_ACK              = 200004;   //创角请求返回
     
-    MSG_ROLE_DELETE_REQ              = 200005;   //登录请法度
-    MSG_ROLE_DELETE_ACK              = 200006;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_DELETE_REQ              = 200005;   //删角请求
+    MSG_ROLE_DELETE_ACK              = 200006;   //删角请求返回
     
-    MSG_ROLE_LOGIN_REQ               = 200007;   //登录请法度
-    MSG_ROLE_LOGIN_ACK               = 200008;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_LOGIN_REQ               = 200007;   //登录请求
+    MSG_ROLE_LOGIN_ACK               = 200008;   //登录请求返回
     
-    MSG_ROLE_LOGOUT_REQ              = 200009;   //登录请法度
-    MSG_ROLE_LOGOUT_ACK              = 200010;   //登录成功  返回基本模块的数据, 包括基本类的数据
-    
-    MSG_DATA_UPDATE                  = 200011;
-    
+    MSG_ROLE_LOGOUT_REQ              = 200009;   //登出请求
+    MSG_ROLE_LOGOUT_ACK              = 200010;   //登出请求返回
+
     MSG_NOTIFY_INTO_SCENE            = 200014;
 
     MSG_COPYINFO_REPORT_REQ          = 200016;

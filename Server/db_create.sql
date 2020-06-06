@@ -258,7 +258,7 @@ CREATE TABLE `pet`  (
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player`  (
   `id` bigint(20) NOT NULL,
-  `account_id` bigint(20) NULL DEFAULT NULL,
+  `accountid` bigint(20) NULL DEFAULT NULL,
   `name` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `carrerid` int(11) NULL DEFAULT NULL,
   `level` int(11) NULL DEFAULT NULL,
@@ -279,6 +279,7 @@ CREATE TABLE `player`  (
   `createtime` bigint(20) NULL DEFAULT NULL,
   `logontime` bigint(20) NULL DEFAULT NULL,
   `logofftime` bigint(20) NULL DEFAULT NULL,
+  `grouptime` bigint(20) NULL DEFAULT NULL,
   `guildid` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -323,86 +324,214 @@ use db_log;
 -- ----------------------------
 -- Table structure for accountcreate
 -- ----------------------------
-DROP TABLE IF EXISTS `accountcreate`;
-CREATE TABLE `accountcreate` (
-  `accountid` varchar(50) DEFAULT NULL COMMENT '帐号',
-  `channel` varchar(50) DEFAULT NULL COMMENT '平台ID',
-  `optime` datetime DEFAULT NULL COMMENT '创建帐号时间',
-  `model` varchar(50) DEFAULT NULL COMMENT '机型',
-  `mei` varchar(50) DEFAULT NULL,
-  `mac` varchar(50) DEFAULT NULL,
-  `ip` varchar(50) DEFAULT NULL,
-  `openid` varchar(50) DEFAULT NULL,
-  UNIQUE KEY `account_index` (`accountid`) USING BTREE,
-  KEY `operation_time_index` (`optime`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `account_create`;
+CREATE TABLE `account_create`  (
+  `accountid` bigint(22) NOT NULL COMMENT '帐号',
+  `version` int(11) NULL DEFAULT NULL,
+  `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
+  `optime` bigint(22) NOT NULL COMMENT '创建帐号时间',
+  `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '机型',
+  `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ip` bigint(20) NOT NULL,
+  `openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  UNIQUE INDEX `account_index`(`accountid`) USING BTREE,
+  INDEX `operation_time_index`(`optime`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for accountlogin
+-- Table structure for account_login
 -- ----------------------------
-DROP TABLE IF EXISTS `accountlogin`;
-CREATE TABLE `accountlogin` (
-  `account_id` bigint(20) NOT NULL COMMENT '帐号ID',
-  `channel` int(20) NOT NULL COMMENT '平台ID',
-  `version` char(20) NOT NULL COMMENT '版本ID',
-  `optime` datetime NOT NULL COMMENT '登出时间',
-  `login_ip` char(50) NOT NULL COMMENT '登入IP',
-  `mac_address` char(50) NOT NULL COMMENT '登入设备MAC地址',
-  `device_uuid` char(50) NOT NULL COMMENT '登入设备UUID',
-  `idfa` char(50) DEFAULT NULL,
-  `networktype` char(20) DEFAULT NULL,
-  `imei` varchar(50) DEFAULT NULL,
-  `imodel` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `account_login`;
+CREATE TABLE `account_login`  (
+  `accountid` bigint(20) NOT NULL COMMENT '帐号ID',
+  `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
+  `version` int(11) NULL DEFAULT NULL COMMENT '版本ID',
+  `optime` bigint(20) NOT NULL COMMENT '登出时间',
+  `ip` bigint(11) NOT NULL COMMENT '登入IP',
+  `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备MAC地址',
+  `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备UUID',
+  `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `nettype` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 use db_gm;
+-- ----------------------------
+-- Table structure for admin_config
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_config`;
+CREATE TABLE `admin_config`  (
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '配置名称',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置内容',
+  PRIMARY KEY (`name`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '配置信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for admin_log
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_log`;
+CREATE TABLE `admin_log`  (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '管理员名字',
+  `url` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `modulename` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '模块名',
+  `extramsg` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '附加信息',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `createtime` datetime(0) NOT NULL COMMENT '操作时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `name`(`username`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员操作日志表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for admin_role
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_role`;
+CREATE TABLE `admin_role`  (
+  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
+  `father_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '权限父ID',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `rank` int(10) NOT NULL DEFAULT 0 COMMENT '角色权限等级',
+  `permission` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色权限',
+  `createtime` int(10) NOT NULL COMMENT '角色创建时间',
+  `modifytime` int(10) NOT NULL COMMENT '角色修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of admin_role
+-- ----------------------------
+INSERT INTO `admin_role` VALUES ('43163187-f63f-409a-807c-7723d5919b62', '请选择', '超级管理员', 100, 'a:3:{s:9:\"allow_uri\";a:1:{i:0;s:0:\"\";}s:8:\"deny_uri\";a:1:{i:0;s:0:\"\";}s:5:\"admin\";a:16:{i:0;s:7:\"general\";s:7:\"general\";a:3:{i:0;s:4:\"main\";i:1;s:6:\"config\";s:6:\"config\";a:3:{i:0;s:5:\"index\";i:1;s:4:\"edit\";i:2;s:7:\"restore\";}}i:1;s:4:\"role\";s:4:\"role\";a:6:{i:0;s:4:\"role\";s:4:\"role\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:1;s:5:\"admin\";s:5:\"admin\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:2;s:3:\"log\";s:3:\"log\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:2;s:14:\"datastatistics\";i:3;s:4:\"area\";s:4:\"area\";a:4:{i:0;s:4:\"area\";s:4:\"area\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:1;s:8:\"realtime\";s:8:\"realtime\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:4;s:4:\"seal\";s:4:\"seal\";a:13:{i:0;s:15:\"sealaccountlist\";s:15:\"sealaccountlist\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:1;s:10:\"sealplayer\";s:10:\"sealplayer\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:2;s:8:\"sealchat\";s:8:\"sealchat\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:3;s:13:\"passwordreset\";i:4;s:9:\"flashmove\";s:9:\"flashmove\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:5;s:9:\"gmcommand\";s:9:\"gmcommand\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:6;s:13:\"pullrolelevel\";s:13:\"pullrolelevel\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:5;s:8:\"activity\";s:8:\"activity\";a:4:{i:0;s:12:\"activitytime\";s:12:\"activitytime\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:1;s:7:\"giftbag\";s:7:\"giftbag\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:6;s:4:\"mail\";s:4:\"mail\";a:4:{i:0;s:10:\"singlemail\";s:10:\"singlemail\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}i:1;s:9:\"groupmail\";s:9:\"groupmail\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:7;s:9:\"broadcast\";s:9:\"broadcast\";a:2:{i:0;s:15:\"broadcastmamage\";s:15:\"broadcastmamage\";a:4:{i:0;s:5:\"index\";i:1;s:3:\"add\";i:2;s:4:\"edit\";i:3;s:3:\"del\";}}i:8;s:6:\"notice\";}}', 1389364254, 1522668025);
+
+-- ----------------------------
+-- Table structure for admin_user
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_user`;
+CREATE TABLE `admin_user`  (
+  `id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `role_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0',
+  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+  `password` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `sex` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '性别',
+  `createtime` int(10) NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `logintime` int(10) NOT NULL DEFAULT 0 COMMENT '加入时间',
+  `loginfailure` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '登录失败次数',
+  `sessionid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `pagesize` int(10) UNSIGNED NOT NULL DEFAULT 20 COMMENT '分页大小',
+  `searchbar` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否显示搜索栏',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of admin_user
+-- ----------------------------
+INSERT INTO `admin_user` VALUES ('b21e146e-37f0-4d97-89f9-4686ea46b70f', '43163187-f63f-409a-807c-7723d5919b62', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0, 1419316797, 1572058131, 0, 'nbboa27pncmg3upna0egjjcme2', 20, 0);
+
 -- ----------------------------
 -- Table structure for review_client
 -- ----------------------------
 DROP TABLE IF EXISTS `review_client`;
-CREATE TABLE `review_client` (
+CREATE TABLE `review_client`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_version` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `client_version` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `client_ip` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sealaccount
+-- ----------------------------
+DROP TABLE IF EXISTS `seal_account`;
+CREATE TABLE `sealaccount`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountid` bigint(11) NULL DEFAULT NULL,
+  `accountname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `accounttime` bigint(20) NULL DEFAULT NULL,
+  `areaid` int(11) NULL DEFAULT NULL COMMENT '区号',
+  `rolename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名',
+  `sealendtime` bigint(20) NULL DEFAULT NULL COMMENT '封禁结束时间',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sealplayer
+-- ----------------------------
+DROP TABLE IF EXISTS `seal_player`;
+CREATE TABLE `sealplayer`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `areaid` int(11) NULL DEFAULT NULL COMMENT '区号',
+  `accountid` bigint(50) NULL DEFAULT NULL,
+  `accountname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `roleid` bigint(11) NULL DEFAULT NULL COMMENT '角色id',
+  `rolename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `rolelevel` int(11) NULL DEFAULT NULL,
+  `roletime` bigint(20) NULL DEFAULT NULL,
+  `sealtype` int(11) NULL DEFAULT NULL COMMENT '封号类型 1：禁登陆 2：禁聊天 3：禁交易 4：禁pvp',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `optime` datetime(0) NULL DEFAULT NULL,
+  `operator` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `sealtime` bigint(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for server_db
+-- ----------------------------
+DROP TABLE IF EXISTS `server_db`;
+CREATE TABLE `server_db`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `areanum` int(11) NULL DEFAULT NULL COMMENT '区号',
+  `areaname` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '区名',
+  `dbip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库ip',
+  `dbtype` int(11) NULL DEFAULT NULL COMMENT '数据库类型(0:database 1:dyn 2:type 3:log 4:gm 5:account )',
+  `dbname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '数据库名字',
+  `username` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `userpwd` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '户用密码',
+  `starttime` bigint(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for server_list
 -- ----------------------------
 DROP TABLE IF EXISTS `server_list`;
-CREATE TABLE `server_list` (
-  `id` int(11) NOT NULL ,
-  `name` varchar(255) NOT NULL ,
-  `ip` varchar(255) DEFAULT NULL ,
-  `port` int(11) DEFAULT '0',
-  `http_port` int(11) DEFAULT NULL,
-  `watch_port` int(11) DEFAULT NULL,
-  `opentime` bigint(20) DEFAULT '0' ,
-  `state` int(11) DEFAULT '0' ,
-  `flag` int(11) DEFAULT '0' ,
-  `min_version` varchar(255) DEFAULT '' ,
-  `max_version` varchar(255) DEFAULT '' ,
-  `check_chan` varchar(1024) DEFAULT NULL,
-  `check_ip` varchar(1024) DEFAULT NULL ,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE `server_list`  (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `port` int(11) NULL DEFAULT 0,
+  `http_port` int(11) NULL DEFAULT NULL,
+  `watch_port` int(11) NULL DEFAULT NULL,
+  `opentime` bigint(20) NULL DEFAULT 0,
+  `state` int(11) NULL DEFAULT 0,
+  `flag` int(11) NULL DEFAULT 0,
+  `min_version` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
+  `max_version` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
+  `check_chan` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `check_ip` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for server_status
 -- ----------------------------
 DROP TABLE IF EXISTS `server_status`;
-CREATE TABLE `server_status` (
+CREATE TABLE `server_status`  (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `curr_online` int(11) NULL DEFAULT NULL,
   `max_online` int(11) NULL DEFAULT 0,
   `total_cnt` int(11) NULL DEFAULT 0,
   `cache_cnt` int(11) NULL DEFAULT NULL COMMENT '缓存人数',
-  `update_time` bigint(11) DEFAULT '0',
-  `status` int(11) DEFAULT '0' COMMENT '',
-  `file_version` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  `update_time` bigint(11) NULL DEFAULT 0,
+  `status` int(11) NULL DEFAULT 0,
+  `file_version` int(11) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
 

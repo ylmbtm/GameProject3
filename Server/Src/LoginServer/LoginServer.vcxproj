@@ -123,7 +123,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WebCommandHandler.cpp" />
+    <ClCompile Include="WebCommandMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
@@ -133,6 +133,7 @@
     <ClInclude Include="LoginMsgHandler.h" />
     <ClInclude Include="LogicSvrManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WebCommandMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

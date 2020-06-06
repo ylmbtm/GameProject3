@@ -93,7 +93,7 @@ public:
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 
-	BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwStatus, const std::string& strSvrName);
+	BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, const std::string& strSvrName);
 
 	BOOL	IsReviewVersion(std::string strClientVersion);
 
