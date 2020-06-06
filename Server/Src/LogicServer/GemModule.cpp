@@ -113,7 +113,7 @@ UINT64 CGemModule::AddGem(UINT32 dwGemID)
 	GemDataObject* pObject = DataPool::CreateObject<GemDataObject>(ESD_GEM, TRUE);
 	pObject->Lock();
 	pObject->m_GemID = dwGemID;
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 0;
 	pObject->m_RefineExp = 0;

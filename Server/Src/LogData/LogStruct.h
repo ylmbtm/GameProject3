@@ -41,7 +41,7 @@ struct Log_AccountCreate : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into accountcreate(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
+		snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
 		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel);
 		return TRUE;
 	}
@@ -63,7 +63,7 @@ struct Log_AccountLogin : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into accountlogin(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
+		snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
 		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel);
 		return TRUE;
 	}
@@ -71,6 +71,11 @@ struct Log_AccountLogin : public Log_BaseData
 
 struct Log_RoleCreate : public Log_BaseData
 {
+	UINT64 m_uAccountID;
+	UINT32 m_dwAreaID;
+	CHAR   m_szRoleName[64];
+	CHAR   m_szIdfa[64]; //客户端idfa
+
 	Log_RoleCreate()
 	{
 		m_LogType = ELT_ROLE_CREATE;
@@ -78,13 +83,19 @@ struct Log_RoleCreate : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-
+		snprintf(pBuff, 2048, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld,%d, %d, %lld,'%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_uOpTime, m_szRoleName, m_szIdfa);
 		return TRUE;
 	}
 };
 
 struct Log_RoleLogin : public Log_BaseData
 {
+	UINT64 m_uAccountID;
+	UINT32 m_dwAreaID;
+	CHAR   m_szRoleName[64];
+	CHAR   m_szIdfa[64]; //客户端idfa
+
 	Log_RoleLogin()
 	{
 		m_LogType = ELT_ROLE_LOGIN;
@@ -92,10 +103,23 @@ struct Log_RoleLogin : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
+		snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %lld, '%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_uOpTime, m_szRoleName, m_szIdfa);
 		return TRUE;
 	}
 };
 
+struct Log_RoleExp : public Log_BaseData
+{
+	Log_RoleExp()
+	{
+		m_LogType = ELT_ROLE_EXP;
+	}
 
+	BOOL GetLogSql(char* pBuff)
+	{
+		return TRUE;
+	}
+};
 
 #endif //__LOG_STRUCT_H__

@@ -252,7 +252,7 @@ UINT64 CPartnerModule::AddPartner(UINT32 dwPartnerID)
 	PartnerDataObject* pObject = DataPool::CreateObject<PartnerDataObject>(ESD_PARTNER, TRUE);
 	pObject->Lock();
 	pObject->m_PartnerID = dwPartnerID;
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 1;
 	pObject->m_RefineExp = 0;

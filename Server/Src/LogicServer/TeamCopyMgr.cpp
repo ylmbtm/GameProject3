@@ -323,7 +323,7 @@ BOOL CRoomList::NotifyRoomChange(CRoomItem* pRoomItem)
 		CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
 
 		pPlayerInfo->set_actorid(pRoleModule->GetActorID());
-		pPlayerInfo->set_roleid(pPlayer->GetObjectID());
+		pPlayerInfo->set_roleid(pPlayer->GetRoleID());
 		pPlayerInfo->set_level(pRoleModule->GetLevel());
 		pPlayerInfo->set_name(pRoleModule->GetName());
 

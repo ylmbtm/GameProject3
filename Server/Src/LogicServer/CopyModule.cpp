@@ -133,7 +133,7 @@ BOOL CCopyModule::OnMainCopyResult(BattleResultNty* pNty, INT32 nIndex)
 	const ResultPlayer& pResultPlayer = pNty->playerlist(nIndex);
 
 	MainCopyResultNty ResultNty;
-	ResultNty.set_roleid(m_pOwnPlayer->GetObjectID());
+	ResultNty.set_roleid(m_pOwnPlayer->GetRoleID());
 	ResultNty.set_copyresult(pResultPlayer.result());
 	ResultNty.set_lasttime(pNty->lasttime());
 	ResultNty.set_starnum(2);

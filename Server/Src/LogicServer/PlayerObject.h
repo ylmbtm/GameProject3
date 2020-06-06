@@ -68,7 +68,7 @@ public:
 	UINT32			CheckCopyConditoin(UINT32 dwCopyID);
 
 public:
-	UINT64			GetObjectID();
+	UINT64			GetRoleID();
 	UINT32			GetCityCopyID();
 	UINT32			GetActorID();
 	CHAR*			GetName();

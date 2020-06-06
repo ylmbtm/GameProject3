@@ -173,7 +173,7 @@ BOOL CPlayerManager::OnUpdate(UINT64 uTick)
 			if (uMinLeaveTime > pRoleModule->m_pRoleDataObject->m_uLogoffTime)
 			{
 				uMinLeaveTime = pRoleModule->m_pRoleDataObject->m_uLogoffTime;
-				uReleaseRoleID = pTempObj->GetObjectID();
+				uReleaseRoleID = pTempObj->GetRoleID();
 			}
 		}
 	}

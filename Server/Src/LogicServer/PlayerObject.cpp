@@ -210,7 +210,7 @@ BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Mess
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata);
 }
 
 BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
@@ -221,7 +221,7 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata, dwLen);
 }
 
 BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata)
@@ -305,7 +305,7 @@ CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 	return m_MoudleList.at(dwModuleType);
 }
 
-UINT64 CPlayerObject::GetObjectID()
+UINT64 CPlayerObject::GetRoleID()
 {
 	return m_u64ID;
 }
@@ -376,7 +376,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
 BOOL CPlayerObject::SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue)
 {
 	ObjectChangeNotify Ntf;
-	Ntf.set_roleid(GetObjectID());
+	Ntf.set_roleid(GetRoleID());
 	Ntf.set_changetype(eChangeType);
 	Ntf.set_intvalue1(uIntValue1);
 	Ntf.set_intvalue2(uIntValue2);

@@ -49,8 +49,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ, OnMsgLogicSvrRegReq);
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_UPDATE_REQ,      OnMsgLogicUpdateReq);
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,     OnMsgSelectServerAck);
-			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,      OnMsgSealAccountAck);
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,    OnMsgWebCommandReq);
+
 	}
 
 	return FALSE;

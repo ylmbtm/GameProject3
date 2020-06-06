@@ -244,7 +244,7 @@ BOOL CBagModule::AddItem(UINT32 dwItemID, INT64 nCount)
 	pObject->m_ItemGuid = uItemGuid;
 	pObject->m_ItemID = dwItemID;
 	pObject->m_nCount = nTempCount;
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->Unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	AddChangeID(pObject->m_uGuid);
@@ -264,7 +264,7 @@ BOOL CBagModule::AddItem(UINT64 uItemGuid, UINT32 dwItemID, INT64 nCount)
 	pObject->m_ItemGuid = uItemGuid;
 	pObject->m_ItemID = dwItemID;
 	pObject->m_nCount = nCount;
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->Unlock();
 	m_mapBagData.insert(std::make_pair(pObject->m_uGuid, pObject));
 	AddChangeID(pObject->m_uGuid);
@@ -294,6 +294,7 @@ BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT64 nCount)
 		{
 			pTempObject->m_nCount = 0;
 			nLeftCount -= pTempObject->m_nCount;
+			AddRemoveID(pTempObject->m_uGuid);
 			pTempObject->Destroy();
 
 			itor = m_mapBagData.erase(itor);

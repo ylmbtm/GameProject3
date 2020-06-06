@@ -267,6 +267,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 			//表示明确己登录到其它的副本
 			pPlayer->SendLeaveScene(pPlayer->m_dwCopyGuid, pPlayer->m_dwCopySvrID);
 		}
+
 		pPlayer->SetConnectID(0, 0);
 		pPlayer->ClearCopyStatus();
 		pPlayer->OnLogout();
@@ -507,7 +508,7 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 
 	pPlayer->ClearCopyStatus();
 
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetObjectID(), pPlayer->GetCityCopyID());
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(pPlayer->GetRoleID(), pPlayer->GetCityCopyID());
 
 
 

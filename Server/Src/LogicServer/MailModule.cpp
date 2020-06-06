@@ -133,7 +133,7 @@ BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::st
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 
@@ -168,7 +168,7 @@ BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	pMailObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 	pMailObject->m_nGroupID = pGroupMail->m_nGroupID;
 

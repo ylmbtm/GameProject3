@@ -367,6 +367,7 @@ UINT32 CommonFunc::GetLastError()
 #endif
 }
 
+//s:10m:6:p:16
 HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
 {
 	HANDLE hShare = NULL;
@@ -416,6 +417,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 // 	return hShare;
 // }
 
+//s:10m:6:p:16
 HANDLE CommonFunc::OpenShareMemory(UINT32 dwModuleID, INT32 nPage)
 {
 	HANDLE hShare = NULL;

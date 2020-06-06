@@ -93,7 +93,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
 	{
 		CounterDataObject* pTempObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, TRUE);
 		pTempObject->m_uCounterID = uID;
-		pTempObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+		pTempObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 		pTempObject->m_uValue = 0;
 		pTempObject->m_dwIndex = dwIndex;
 		pTempObject->m_uTime = CommonFunc::GetCurrTime();
