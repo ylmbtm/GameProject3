@@ -2,8 +2,8 @@
 #define __COMMON_FUNCTION__
 
 #define GET_BIT(X,Y) (((X) >> (Y-1)) & 1)
-#define SET_BIT(X,Y) ((X) |= (1 << (Y)))
-#define CLR_BIT(X,Y) ((X) &= (~(1<<Y)))
+#define SET_BIT(X,Y) ((X) |= (1 << (Y-1)))
+#define CLR_BIT(X,Y) ((X) &= (~(1<<Y-1)))
 
 namespace CommonFunc
 {
@@ -70,6 +70,10 @@ INT32			Min(INT32 nValue1, INT32 nValue2);
 BOOL            IsAlreadyRun(std::string strSignName);
 
 BOOL            PrintColorText(CHAR* pSzText, INT32 nColor);
+
+BOOL            GetBitValue(UINT64 nValue, INT32 nPos);
+
+BOOL            SetBitValue(UINT64& nValue, INT32 nPos, BOOL bValue);
 }
 
 

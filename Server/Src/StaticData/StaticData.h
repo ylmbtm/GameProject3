@@ -181,8 +181,6 @@ public:
 	//=================================================================
 public:
 
-	CppSQLite3DB	m_DBConnection;
-
 	std::vector<DataFuncNode> m_vtDataFuncList;
 };
 

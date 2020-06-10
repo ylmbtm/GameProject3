@@ -639,3 +639,22 @@ BOOL CommonFunc::PrintColorText(CHAR* pSzText, INT32 nColor)
 	return TRUE;
 }
 
+BOOL CommonFunc::GetBitValue(UINT64 nValue, INT32 nPos)
+{
+	return ((nValue >> (nPos - 1)) & 1) > 0;
+}
+
+BOOL CommonFunc::SetBitValue(UINT64& nValue, INT32 nPos, BOOL bValue)
+{
+	if (bValue)
+	{
+		nValue |= 1 << (nPos - 1);
+	}
+	else
+	{
+		nValue &= ~(1 << (nPos - 1));
+	}
+
+	return TRUE;
+}
+

@@ -54,16 +54,17 @@ BOOL CStaticData::LoadConfigData(std::string strDbFile)
 {
 	try
 	{
-		m_DBConnection.open(strDbFile.c_str());
+		CppSQLite3DB	tDBConnection;
+		tDBConnection.open(strDbFile.c_str());
 		char szSql[SQL_BUFF_LEN] = { 0 };
 		for (std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
 		{
 			DataFuncNode dataNode = (*itor);
 			snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
-			CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
+			CppSQLite3Query Tabledatas = tDBConnection.execQuery(szSql);
 			(this->*dataNode.m_pDataFunc)(Tabledatas);
 		}
-		m_DBConnection.close();
+		tDBConnection.close();
 	}
 	catch(CppSQLite3Exception& e)
 	{
@@ -81,29 +82,29 @@ BOOL CStaticData::ReloadConfigData( std::string strTbName )
 {
 	try
 	{
-		m_DBConnection.open("Config.db");
+		CppSQLite3DB	tDBConnection;
+		tDBConnection.open("Config.db");
+		char szSql[SQL_BUFF_LEN] = { 0 };
+		for (std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
+		{
+			DataFuncNode dataNode = (*itor);
+			if (dataNode.m_strTbName != strTbName)
+			{
+				continue;
+			}
+
+			snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
+			CppSQLite3Query Tabledatas = tDBConnection.execQuery(szSql);
+			(this->*dataNode.m_pDataFunc)(Tabledatas);
+		}
+
+		tDBConnection.close();
 	}
 	catch(CppSQLite3Exception& e)
 	{
 		CLog::GetInstancePtr()->LogError("CConfigData::ReloadConfigData Failed!!!, Reason:%s", e.errorMessage());
 		return FALSE;
 	}
-
-	char szSql[SQL_BUFF_LEN]  = {0};
-	for(std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
-	{
-		DataFuncNode dataNode = (*itor);
-		if(dataNode.m_strTbName != strTbName)
-		{
-			continue;
-		}
-
-		snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
-		CppSQLite3Query Tabledatas = m_DBConnection.execQuery(szSql);
-		(this->*dataNode.m_pDataFunc)(Tabledatas);
-	}
-
-	m_DBConnection.close();
 
 	return TRUE;
 }
