@@ -1,7 +1,7 @@
 ﻿#ifndef __FRIEND_MODULE_H__
 #define __FRIEND_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/FriendData.h"
+#include "FriendData.h"
 struct FriendDataObject;
 class CFriendModule  : public CModuleBase
 {

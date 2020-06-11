@@ -7,7 +7,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "BagModule.h"
-#include "../ServerData/GemData.h"
+#include "GemData.h"
 #include "../ServerEngine/PacketHeader.h"
 
 CGemModule::CGemModule(CPlayerObject* pOwner): CModuleBase(pOwner)
