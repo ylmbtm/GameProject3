@@ -75,6 +75,8 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 			break;
 		case EWA_SERVER_CHNAGE:
 			OnGmServerChange(Params, pNetPacket->m_dwConnID);
+		case  EWA_REVIEW_CHANGE:
+			OnGmReviewChange(Params, pNetPacket->m_dwConnID);
 		default:
 			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
 			break;
@@ -118,4 +120,10 @@ void CWebCommandMgr::OnGmServerChange(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
+void CWebCommandMgr::OnGmReviewChange(HttpParameter& hParams, UINT32 nConnID)
+{
+	CGameService::GetInstancePtr()->m_LoginMsgHandler.m_LogicSvrMgr.ReloadReviewVersion();
+	SendWebResult(nConnID, EWR_SUCCESSED);
+	return;
+}
 

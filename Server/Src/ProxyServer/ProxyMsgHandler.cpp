@@ -43,13 +43,12 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_ACK,                OnMsgRoleLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGOUT_REQ,               OnMsgRoleLogoutReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_OTHER_LOGIN_NTY,          OnMsgKickoutNty);
+			PROCESS_MESSAGE_ITEM(MSG_REMOVE_CONNECT_NTY,            OnMsgRemoveConnectNty);
 
 		case MSG_ROLE_LIST_REQ:
 		case MSG_ROLE_CREATE_REQ:
 		case MSG_ROLE_DELETE_REQ:
 		case MSG_ROLE_LOGIN_REQ:
-
-
 		case MSG_ROLE_RECONNECT_REQ:
 		{
 			//因为此时逻辑服还没有对象，需要告诉逻辑服，当前的客户端连接ID
@@ -122,8 +121,11 @@ BOOL CProxyMsgHandler::OnCloseConnect(UINT32 nConnID)
 	//表示还没有收到通知进场景的消息(相当于没有进副本)
 	if (pPlayer->GetGameSvrID() == 0)
 	{
+
 		return TRUE;
 	}
+
+
 
 	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
 	ERROR_RETURN_TRUE(dwConnID != 0);
@@ -293,6 +295,17 @@ BOOL CProxyMsgHandler::OnMsgKickoutNty(NetPacket* pPacket)
 	{
 		pConn->SetConnectionData(0);
 	}
+
+	return TRUE;
+}
+
+BOOL CProxyMsgHandler::OnMsgRemoveConnectNty(NetPacket* pPacket)
+{
+	RemoveConnectNty Nty;
+	Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pPacketHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	CProxyPlayerMgr::GetInstancePtr()->RemoveByCharID(Nty.roleid());
 
 	return TRUE;
 }

@@ -28,6 +28,7 @@ public:
 	//*********************WebAction处理定义开始******************************
 	void OnGmSealAccount(HttpParameter& hParams, UINT32 nConnID);
 	void OnGmServerChange(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmReviewChange(HttpParameter& hParams, UINT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 };
 #endif

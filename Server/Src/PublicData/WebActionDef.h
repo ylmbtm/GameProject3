@@ -7,6 +7,7 @@ enum EWebAction
 	EWA_SEAL_ACCOUNT,           //账号的封禁与解封
 	EWA_SEAL_ROLE,              //封禁角色
 	EWA_SERVER_CHNAGE,          //服务器配制改变
+	EWA_REVIEW_CHANGE,          //评审信息改变
 	EWA_RELOAD_TABLE,           //重新加载配制表
 
 	EWA_SERVER_START,           //启动服务器

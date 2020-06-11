@@ -81,4 +81,8 @@ BOOL CProxyPlayerMgr::RemoveByCharID(UINT64 u64RoleID)
 	return Delete(u64RoleID);
 }
 
+CProxyPlayer* CProxyPlayerMgr::GetByConnID(UINT32 dwConnID)
+{
+	return NULL;
+}
 
