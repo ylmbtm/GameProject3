@@ -92,6 +92,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	switch (eWebAction)
 	{
 		case EWA_RELOAD_TABLE:
+			CGameSvrMgr::GetInstancePtr()->BroadMsgToAll(MSG_PHP_GM_COMMAND_REQ, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());
 			OnGmReloadTable(Params, pNetPacket->m_dwConnID);
 			break;
 		default:

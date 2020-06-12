@@ -141,6 +141,8 @@ BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 
 	CLoginClientMgr::GetInstancePtr()->OnCloseConnect(nConnID);
 
+	m_LoginMsgHandler.OnCloseConnect(nConnID);
+
 	return TRUE;
 }
 

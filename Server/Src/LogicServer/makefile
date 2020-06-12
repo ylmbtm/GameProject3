@@ -5,6 +5,7 @@ MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../PublicData \
 		-I../ServerData \
+		-I../StaticData \
 		-I../../Common \
 		-I../../Common/Mysql \
 		-I../../Common/Sqlite  \

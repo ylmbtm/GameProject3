@@ -18,6 +18,7 @@ public:
 	BOOL   Uninit();
 
 	BOOL   SendWebResult(UINT32 nConnID, EWebResult eResult);
+
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
