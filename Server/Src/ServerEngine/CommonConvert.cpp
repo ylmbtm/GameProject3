@@ -390,46 +390,53 @@ BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<s
 
 std::wstring CommonConvert::Utf8_To_Unicode( std::string strSrc )
 {
-	wchar_t wBuff[102400] = {0};
 #ifdef WIN32
+	wchar_t wBuff[102400] = { 0 };
 	MultiByteToWideChar(CP_UTF8, 0, strSrc.c_str(), -1, wBuff, 102400);
 	std::wstring strRet = wBuff;
 	return strRet;
 #else
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	return converter.from_bytes(strSrc.c_str());
 #endif
 }
 
 std::string CommonConvert::Unicode_To_Uft8( std::wstring wstrValue )
 {
-	CHAR sBuff[102400] = {0};
 #ifdef WIN32
+	CHAR sBuff[102400] = { 0 };
 	WideCharToMultiByte(CP_UTF8, 0, wstrValue.c_str(), -1, sBuff, 102400, NULL, NULL);
 	std::string strRet = sBuff;
 	return strRet;
 #else
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	return converter.to_bytes(wstrValue.c_str());
+
 #endif
 }
 
 std::wstring CommonConvert::Ansi_To_Unicode( std::string strSrc )
 {
 	wchar_t wBuff[102400] = {0};
-	CHAR sBuff[102400] = {0};
 #ifdef WIN32
 	MultiByteToWideChar(CP_ACP,  0, strSrc.c_str(), -1, wBuff, 102400);
 	std::wstring strRet = wBuff;
 	return strRet;
 #else
+	setlocale(LC_CTYPE, "chs");
+	std::mbstowcs(wBuff, strSrc.c_str(), 102400);
 #endif
 }
 
 std::string CommonConvert::Unicode_To_Ansi( std::wstring strValue )
 {
-	CHAR sBuff[102400] = {0};
+	CHAR sBuff[102400] = { 0 };
 #ifdef WIN32
 	WideCharToMultiByte(CP_ACP, 0, strValue.c_str(), -1, sBuff, 102400, NULL, NULL);
 	return std::string(sBuff);
 #else
-
+	setlocale(LC_CTYPE, "chs");
+	std::wcstombs(sBuff, strValue.c_str(), 102400);
 #endif
 }
 
@@ -443,6 +450,7 @@ std::string CommonConvert::Utf8_To_Ansi( std::string strSrc )
 	std::string strRet = sBuff;
 	return strRet;
 #else
+
 #endif
 }
 

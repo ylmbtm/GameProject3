@@ -56,6 +56,13 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
+BOOL CLoginMsgHandler::OnCloseConnect(UINT32 dwConnID)
+{
+	m_LogicSvrMgr.OnCloseConnect(dwConnID);
+
+	return TRUE;
+}
+
 BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 {
 	CheckVersionReq Req;
@@ -131,14 +138,14 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		//如果是评审包
 		if(m_LogicSvrMgr.IsReviewVersion(Req.clientversion()))
 		{
-			if(pTempNode->m_Statue != ESS_REVIEW)
+			if(pTempNode->m_ServerFlag != ESF_REVIEW)
 			{
 				continue;
 			}
 		}
 		else
 		{
-			if (pTempNode->m_Statue == ESS_REVIEW)
+			if (pTempNode->m_ServerFlag == ESF_REVIEW)
 			{
 				continue;
 			}
@@ -165,8 +172,8 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		ClientServerNode* pClientNode =  Ack.add_svrnode();
 		pClientNode->set_svrid(pTempNode->m_dwServerID);
 		pClientNode->set_svrname(pTempNode->m_strSvrName);
-		pClientNode->set_svrstate(pTempNode->m_Statue);
-		pClientNode->set_svrflag(pTempNode->m_Flag);
+		pClientNode->set_svrflag(pTempNode->m_ServerFlag);
+		pClientNode->set_cornermark(pTempNode->m_CornerMark);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
@@ -192,14 +199,19 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 
 	CLoginClientMgr::GetInstancePtr()->RemoveByConnID(nConnID);
 
-	UINT32 SvrConnID = m_LogicSvrMgr.GetLogicConnID(Req.serverid());
-	if (SvrConnID == 0)
+	LogicServerNode* pServerNode = m_LogicSvrMgr.GetLogicServerInfo(Req.serverid());
+	if (pServerNode == NULL || pServerNode->m_ServerStatus != ESS_SVR_ONLINE)
 	{
 		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用。", Req.serverid());
+		SelectServerAck Ack;
+		Ack.set_serveraddr("0.0.0.0");
+		Ack.set_serverport(0);
+		Ack.set_retcode(MRC_INVALID_SERVER_ID);
+		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pServerNode->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
 		return TRUE;
 	}
 
-	ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(SvrConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req));
+	ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pServerNode->m_dwConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req));
 
 	return TRUE;
 }

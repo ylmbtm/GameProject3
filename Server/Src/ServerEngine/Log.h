@@ -34,6 +34,8 @@ public:
 
 	void SetTitle(char* lpszFormat, ...);
 
+	void CheckAndCreate();
+
 protected:
 	std::mutex			m_WriteMutex;
 

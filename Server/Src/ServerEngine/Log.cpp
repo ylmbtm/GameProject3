@@ -93,6 +93,7 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 	fflush(m_pLogFile);
 	m_LogCount++;
 	CommonFunc::PrintColorText(szLog, Log_Warn);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -126,6 +127,7 @@ void CLog::LogError( char* lpszFormat, ... )
 	fflush(m_pLogFile);
 	m_LogCount++;
 	CommonFunc::PrintColorText(szLog, Log_Error);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -160,6 +162,7 @@ void CLog::LogInfo( char* lpszFormat, ... )
 	fflush(m_pLogFile);
 	m_LogCount++;
 	CommonFunc::PrintColorText(szLog, Log_Info);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -187,6 +190,36 @@ void CLog::SetTitle(char* lpszFormat, ...)
 
 	SetConsoleTitle(szLog);
 #endif
+	return;
+}
+
+void CLog::CheckAndCreate()
+{
+	//超过10M就新建一个文件
+	if (ftell(m_pLogFile) < 1024 * 1024 * 10)
+	{
+		return;
+	}
+
+	fclose(m_pLogFile);
+
+	m_pLogFile = NULL;
+
+	tm CurTime = CommonFunc::GetCurrTmTime();
+
+	CHAR szFileName[512];
+
+	snprintf(szFileName, 512, "%s/%s-%02d%02d%02d-%02d%02d%02d.log", m_strLogDir.c_str(), m_strPrefix.c_str(), CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec);
+
+	m_pLogFile = fopen(szFileName, "w+");
+
+	if (m_pLogFile == NULL)
+	{
+		return ;
+	}
+
+	m_LogCount = 0;
+
 	return;
 }
 
