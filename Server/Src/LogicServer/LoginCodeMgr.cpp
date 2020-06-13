@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "LoginCodeMgr.h"
 #include "RoleModule.h"
-#include "../ServerData/RoleData.h"
+#include "RoleData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "TimerManager.h"
 

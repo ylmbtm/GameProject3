@@ -3,10 +3,10 @@
 #include "GameService.h"
 #include "PacketHeader.h"
 
-#include "../ServerData/ServerDefine.h"
+#include "ServerDefine.h"
 #include "../StaticData/StaticStruct.h"
 #include "../StaticData/StaticData.h"
-#include "../ServerData/RoleData.h"
+#include "RoleData.h"
 
 #include "CopyModule.h"
 #include "BagModule.h"

@@ -1,7 +1,7 @@
 ﻿#ifndef __PET_MODULE_H__
 #define __PET_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/PetData.h"
+#include "PetData.h"
 
 struct PetDataObject;
 class CPetModule  : public CModuleBase

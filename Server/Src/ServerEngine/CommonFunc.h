@@ -33,6 +33,8 @@ time_t			YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32
 
 std::string     TimeToString(time_t tTime);
 
+time_t          DateStringToTime(std::string strDate);
+
 UINT64			GetTickCount();
 
 UINT32			GetCurThreadID();

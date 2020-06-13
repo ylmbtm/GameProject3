@@ -1,6 +1,6 @@
 ﻿#ifndef __GROUP_MAIL_MANAGER_H__
 #define __GROUP_MAIL_MANAGER_H__
-#include "../ServerData/MailData.h"
+#include "MailData.h"
 #include "DBInterface/CppMysql.h"
 class CPlayerObject;
 class CMailManager

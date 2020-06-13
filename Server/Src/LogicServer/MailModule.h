@@ -1,7 +1,7 @@
 ﻿#ifndef __MAIL_MODULE_H__
 #define __MAIL_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/MailData.h"
+#include "MailData.h"
 #include "../ServerData/ServerDefine.h"
 
 struct MailDataObject;

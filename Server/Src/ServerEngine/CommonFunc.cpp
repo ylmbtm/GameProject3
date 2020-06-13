@@ -94,12 +94,7 @@ UINT64 CommonFunc::GetWeekBeginTime()
 	time_t t;
 	t = time(0);
 	tm* t_tm = localtime(&t);
-	t_tm->tm_hour = 0;
-	t_tm->tm_min = 0;
-	t_tm->tm_sec = 0;
-	t_tm->tm_wday = 0;
-	t = mktime(t_tm);
-	return (UINT64)t;
+	return (UINT64)t - (t_tm->tm_wday == 0 ? 6 : t_tm->tm_wday - 1) * 86400 - t_tm->tm_hour * 3600 - t_tm->tm_min * 60 - t_tm->tm_sec;
 }
 
 time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
@@ -109,8 +104,8 @@ time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nH
 	tm* t_tm = localtime(&timer);
 
 	tm newtm;
-	newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear;
-	newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth;
+	newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear - 1900;
+	newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth - 1;
 	newtm.tm_mday = (nDay < 0) ? t_tm->tm_mday : nDay;
 	newtm.tm_hour = (nHour < 0) ? t_tm->tm_hour : nHour;
 	newtm.tm_min = (nMin < 0) ? t_tm->tm_min : nMin;
@@ -129,6 +124,30 @@ std::string CommonFunc::TimeToString(time_t tTime)
 	char szTime[128] = { 0 };
 	strftime(szTime, 128, "%Y-%m-%d %H:%M:%S", t_tm);
 	return std::string(szTime);
+}
+
+
+time_t CommonFunc::DateStringToTime(std::string strDate)
+{
+	if (strDate.size() < 14)
+	{
+		return 0;
+	}
+
+	INT32 nYear;
+	INT32 nMonth;
+	INT32 nDay;
+	INT32 nHour;
+	INT32 nMinute;
+	INT32 nSecond;
+
+	INT32 nRet = sscanf(strDate.c_str(), "%4d-%2d-%2d %2d:%2d:%2d", &nYear, &nMonth, &nDay, &nHour, &nMinute, &nSecond);
+	if (nRet < 6)
+	{
+		return 0;
+	}
+
+	return YearTimeToSec(nYear, nMonth, nDay, nHour, nMinute, nSecond);
 }
 
 UINT64 CommonFunc::GetTickCount()
