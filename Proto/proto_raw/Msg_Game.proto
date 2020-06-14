@@ -463,7 +463,7 @@ message LogicUpdateInfoReq {
 
 message LogicUpdateInfoAck {
     uint32    RetCode       = 1;
-	uint64    SvrOpenTime   = 2; //开服时间
+    uint64    SvrOpenTime   = 2; //开服时间
 }
 
 message WatchHeartBeatReq {

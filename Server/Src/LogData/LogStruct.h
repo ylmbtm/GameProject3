@@ -8,7 +8,10 @@ enum ELogType
 	ELT_ACCOUNT_LOGIN,
 	ELT_ROLE_CREATE,
 	ELT_ROLE_LOGIN,
-	ELT_ROLE_EXP
+	ELT_ROLE_EXP,
+	ELT_ROLE_DIAMOND,
+	ELT_ROLE_GOLD,
+	ELT_ROLE_LEVEL
 };
 
 //角色日志
@@ -109,11 +112,66 @@ struct Log_RoleLogin : public Log_BaseData
 	}
 };
 
+//经验获取
 struct Log_RoleExp : public Log_BaseData
 {
+	UINT64 m_uPreValue;
+	UINT64 m_uAfterValue;
+
 	Log_RoleExp()
 	{
 		m_LogType = ELT_ROLE_EXP;
+	}
+
+	BOOL GetLogSql(char* pBuff)
+	{
+		return TRUE;
+	}
+};
+
+//钻石获取(充值币)
+struct Log_RoleDiamond : public Log_BaseData
+{
+	UINT64 m_uPreValue;
+	UINT64 m_uAfterValue;
+
+	Log_RoleDiamond()
+	{
+		m_LogType = ELT_ROLE_DIAMOND;
+	}
+
+	BOOL GetLogSql(char* pBuff)
+	{
+		return TRUE;
+	}
+};
+
+//金币获取(游戏币)
+struct Log_RoleGold : public Log_BaseData
+{
+	UINT64 m_uPreValue;
+	UINT64 m_uAfterValue;
+
+	Log_RoleGold()
+	{
+		m_LogType = ELT_ROLE_GOLD;
+	}
+
+	BOOL GetLogSql(char* pBuff)
+	{
+		return TRUE;
+	}
+};
+
+//金币获取(游戏币)
+struct Log_RoleLevel : public Log_BaseData
+{
+	UINT64 m_uPreValue;
+	UINT64 m_uAfterValue;
+
+	Log_RoleLevel()
+	{
+		m_LogType = ELT_ROLE_LEVEL;
 	}
 
 	BOOL GetLogSql(char* pBuff)

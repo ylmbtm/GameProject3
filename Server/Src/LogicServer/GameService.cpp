@@ -381,7 +381,7 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	CLog::GetInstancePtr()->LogInfo("Receive Message : %d", pNetPacket->m_dwMsgID);
+	CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name(pNetPacket->m_dwMsgID).c_str());
 
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
@@ -489,8 +489,6 @@ BOOL CGameService::SendWatchHeartBeat()
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwWatchSvrConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
 	return TRUE;
 }
-
-
 
 BOOL CGameService::ConnectToWatchServer()
 {

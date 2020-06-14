@@ -64,7 +64,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogError("Web Action :%s,  Params:%s", strAction.c_str(), szMsgBuf);
+	CLog::GetInstancePtr()->LogInfo("Web Action :%s,  Params:%s", strAction.c_str(), szMsgBuf);
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 

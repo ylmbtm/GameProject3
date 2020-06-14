@@ -14,8 +14,8 @@
 #include "MonsterCreator.h"
 #include "RapidXml.h"
 #include "SceneXmlMgr.h"
-#include "../StaticData/StaticStruct.h"
-#include "../StaticData/StaticData.h"
+#include "StaticStruct.h"
+#include "StaticData.h"
 #include "GameObject/SkillObject.h"
 #include "GameObject/BulletObject.h"
 #include "../ServerData/ServerStruct.h"
@@ -125,7 +125,6 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_PLAYER_CHAGE_NTF,	    OnMsgObjectChangeNtf);
 			PROCESS_MESSAGE_ITEM(MSG_MOUNT_RIDING_REQ,      OnMsgMountRidingReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_REBORN_REQ,       OnMsgRoleRebornReq);
-
 	}
 
 	return FALSE;

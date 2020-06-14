@@ -84,8 +84,8 @@ enum MessageID {
     MSG_COPYINFO_REPORT_REQ          = 200016;
     MSG_MAIN_COPY_REQ                = 200017;
     MSG_MAIN_COPY_ACK                = 200018;
-    MSG_ABORT_SCENE_NTF              = 200019;//离开副本通知
-    MSG_XXX_XXXX_XXXX_1              = 200020;
+    MSG_ABORT_SCENE_NTF              = 200019;   //离开副本通知
+    MSG_CLIENT_LOG_REQ               = 200020;   //客户端日志请求
 
     MSG_BACK_TO_CITY_REQ             = 200021;
     MSG_BACK_TO_CITY_ACK             = 200022;
