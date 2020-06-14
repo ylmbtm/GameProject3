@@ -79,9 +79,9 @@ message ClientServerListReq {
 message ClientServerNode {
     int32    SvrID          = 1;
     string   SvrName        = 2;
-    int32    SvrState       = 3;
-    int32    SvrFlag        = 4;
-    int32    SvrOpenTime    = 5;
+    int32    SvrFlag        = 3; //服务器标记
+    int32    CornerMark     = 4; //服务器角标
+    int64    SvrOpenTime    = 5;
 }
 
 message ClientServerListAck {
@@ -191,6 +191,10 @@ message RoleReconnectAck {
     uint32    RetCode = 1;
 }
 
+message RemoveConnectNty {
+    uint64    RoleID = 1;
+}
+
 
 ///创建场景
 message CreateNewSceneReq{
@@ -216,7 +220,7 @@ message CreateNewSceneAck{
 ////
 message EnterSceneReq {
     uint64   RoleID      = 1;
-    int32    ServerID    = 2; //场景服ID
+    int32    ServerID    = 2;  //场景服ID
     int32    CopyGuid    = 3;  //副本实例ID
     int32    CopyID      = 4;  //副本类型ID
 }
@@ -436,7 +440,7 @@ message BroadMessageNotify {
 message LogicRegToLoginReq {
     int32    ServerID      = 1;
     string   ServerName    = 2;
-    string   ServerIp      = 3;
+    string   SvrInnerIp    = 3;
     int32    ServerPort    = 4;
     int32    HttpPort      = 5;
     int32    WatchPort     = 6;
@@ -448,7 +452,7 @@ message LogicRegToLoginAck {
 }
 
 message LogicUpdateInfoReq {
-    int32    ServerID      = 1;
+    int32     ServerID      = 1;
     string    ServerName   = 2;
     int32     MaxOnline    = 3;
     int32     CurOnline    = 4;
@@ -459,6 +463,7 @@ message LogicUpdateInfoReq {
 
 message LogicUpdateInfoAck {
     uint32    RetCode       = 1;
+	uint64    SvrOpenTime   = 2; //开服时间
 }
 
 message WatchHeartBeatReq {

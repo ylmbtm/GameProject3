@@ -46,7 +46,7 @@ enum MessageID {
     MSG_WATCH_HEART_BEAT_REQ         = 100024;
     MSG_WATCH_HEART_BEAT_ACK         = 100025;
 
-
+    MSG_REMOVE_CONNECT_NTY           = 100026;
     MSG_DISCONNECT_NTY               = 100032;    //断开连接
 
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;

@@ -25,8 +25,8 @@ CREATE TABLE `account` (
   `lastsvrid` int(11) NOT NULL DEFAULT '0' ,
   `channel` int(20) NOT NULL DEFAULT '0',
   `logincount` int(11) unsigned NOT NULL DEFAULT '0' ,
-  `create_time` int(11) NOT NULL DEFAULT '0',
-  `seal_end_time` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime(0) NOT NULL,
+  `seal_end_time` datetime(0) NOT NULL,
   `seal_describle` varchar(255) DEFAULT '' ,
   PRIMARY KEY (`id`),
   KEY `id` (`id`) USING BTREE,
@@ -442,10 +442,10 @@ CREATE TABLE `review_client`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for sealaccount
+-- Table structure for seal_account
 -- ----------------------------
 DROP TABLE IF EXISTS `seal_account`;
-CREATE TABLE `sealaccount`  (
+CREATE TABLE `seal_account`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `accountid` bigint(11) NULL DEFAULT NULL,
   `accountname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -461,7 +461,7 @@ CREATE TABLE `sealaccount`  (
 -- Table structure for sealplayer
 -- ----------------------------
 DROP TABLE IF EXISTS `seal_player`;
-CREATE TABLE `sealplayer`  (
+CREATE TABLE `seal_player`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `areaid` int(11) NULL DEFAULT NULL COMMENT '区号',
   `accountid` bigint(50) NULL DEFAULT NULL,
@@ -507,8 +507,8 @@ CREATE TABLE `server_list`  (
   `http_port` int(11) NULL DEFAULT NULL,
   `watch_port` int(11) NULL DEFAULT NULL,
   `opentime` bigint(20) NULL DEFAULT 0,
-  `state` int(11) NULL DEFAULT 0,
-  `flag` int(11) NULL DEFAULT 0,
+  `corner_mark` int(11) NULL DEFAULT 0,
+  `svr_flag` int(11) NULL DEFAULT 0,
   `min_version` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   `max_version` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   `check_chan` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

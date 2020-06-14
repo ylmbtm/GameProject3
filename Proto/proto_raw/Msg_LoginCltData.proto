@@ -132,6 +132,9 @@ message ActionItem {
     int64 Actime = 2;
 }
 
+message GuideItem{
+     int32 Id = 1;
+}
 
 message SkillChangeNty{
     repeated SkillItem ChangeList = 1;

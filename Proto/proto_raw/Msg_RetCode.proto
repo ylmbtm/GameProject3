@@ -22,7 +22,7 @@ enum MessageRetCode {
    MRC_INVALID_CARRERID  = 110;    //无效的职业ID
    MRC_INVALID_SKILL_ID  = 111;    //无效的技能ID
    MRC_INVALID_TARGET_ID = 112;    //无效的目标ID
-
+   MRC_INVALID_SERVER_ID = 113;    //无效的服务器ID
    //不足的条件
    MRC_NOT_ENOUGH_ACTOIN   = 200;    //行动力不足
    MRC_NOT_ENOUGH_MONEY    = 201;    //货币不足
