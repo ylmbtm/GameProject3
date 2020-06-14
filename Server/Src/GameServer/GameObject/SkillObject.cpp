@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "SkillObject.h"
 #include "SceneObject.h"
-#include "../StaticData/StaticStruct.h"
-#include "../StaticData/StaticData.h"
+#include "StaticStruct.h"
+#include "StaticData.h"
 #include "../Message/Game_Define.pb.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticStruct.h"
 #include "../Scene.h"
 #include "../Message/Msg_ID.pb.h"
 

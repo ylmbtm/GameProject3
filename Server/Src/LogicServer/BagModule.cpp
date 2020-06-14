@@ -1,13 +1,13 @@
 ﻿#include "stdafx.h"
 #include "BagModule.h"
 #include "DataPool.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticStruct.h"
 #include "GlobalDataMgr.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "EquipModule.h"
 #include "PlayerObject.h"
-#include "../ServerData/ServerDefine.h"
+#include "ServerDefine.h"
 #include "PetModule.h"
 #include "PartnerModule.h"
 #include "RoleModule.h"
@@ -296,14 +296,16 @@ BOOL CBagModule::RemoveItem(UINT32 dwItemID, INT64 nCount)
 			nLeftCount -= pTempObject->m_nCount;
 			AddRemoveID(pTempObject->m_uGuid);
 			pTempObject->Destroy();
-
 			itor = m_mapBagData.erase(itor);
 			continue;
 		}
 		else
 		{
+			pTempObject->Lock();
 			pTempObject->m_nCount -= nLeftCount;
+			pTempObject->Unlock();
 			nLeftCount = 0;
+			AddChangeID(pTempObject->m_uGuid);
 			return TRUE;
 		}
 

@@ -2,8 +2,8 @@
 #include "BuffObject.h"
 #include "../Message/Game_Define.pb.h"
 #include "TimerManager.h"
-#include "../StaticData/StaticData.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticData.h"
+#include "StaticStruct.h"
 #include "SceneObject.h"
 #include "LuaManager.h"
 

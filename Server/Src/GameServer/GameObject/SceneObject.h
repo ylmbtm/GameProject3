@@ -10,7 +10,7 @@
 #include "MapObject.h"
 #include "XMath.h"
 #include "../GameStruct.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticStruct.h"
 
 class CScene;
 class ResultPlayer;

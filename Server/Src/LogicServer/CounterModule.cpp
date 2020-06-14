@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
+#include "CounterID.h"
 #include "CounterModule.h"
 #include "PlayerObject.h"
 
@@ -86,6 +87,7 @@ BOOL CCounterModule::NotifyChange()
 
 CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
 {
+	ERROR_RETURN_FALSE(uID > 0);
 	UINT64 uKey = dwIndex;
 	uKey = uKey << 32 | uID;
 	auto itor = m_mapCounterData.find(uKey);
@@ -106,6 +108,7 @@ CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
 
 UINT64 CCounterModule::GetCounterValue(UINT32 uID, UINT32 dwIndex /*= 0*/)
 {
+	ERROR_RETURN_FALSE(uID > 0);
 	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex);
 	if (pTempObject == NULL)
 	{
@@ -117,6 +120,7 @@ UINT64 CCounterModule::GetCounterValue(UINT32 uID, UINT32 dwIndex /*= 0*/)
 
 BOOL CCounterModule::SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*= 0*/)
 {
+	ERROR_RETURN_FALSE(uID > 0);
 	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex);
 	if (pTempObject == NULL)
 	{
@@ -133,6 +137,7 @@ BOOL CCounterModule::SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*
 
 BOOL CCounterModule::AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*= 0*/)
 {
+	ERROR_RETURN_FALSE(uID > 0);
 	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex);
 	if (pTempObject == NULL)
 	{
@@ -143,6 +148,31 @@ BOOL CCounterModule::AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*
 	pTempObject->m_uValue += uValue;
 	pTempObject->m_uTime = CommonFunc::GetCurrTime();
 	pTempObject->Unlock();
+
+	return TRUE;
+}
+
+BOOL CCounterModule::GetCounterBitValue(UINT32 uID)
+{
+	ERROR_RETURN_FALSE(uID > 0); // uID必须大于0
+
+	CounterDataObject* pCounterObject = GetCounterData(uID / 64 + 1, 0);
+	ERROR_RETURN_FALSE(pCounterObject != NULL);
+
+	return CommonFunc::GetBitValue((UINT64)pCounterObject->m_uValue, uID % 64);
+}
+
+BOOL CCounterModule::SetCounterBitValue(UINT32 uID, BOOL bValue)
+{
+	ERROR_RETURN_FALSE(uID > 0); // uID必须大于0
+
+	CounterDataObject* pCounterObject = GetCounterData(uID / 64 + 1, 0);
+	ERROR_RETURN_FALSE(pCounterObject != NULL);
+	pCounterObject->Lock();
+	UINT64 uValue = pCounterObject->m_uValue;
+	CommonFunc::SetBitValue(uValue, uID % 64, bValue);
+	pCounterObject->m_uValue = uValue;
+	pCounterObject->Unlock();
 
 	return TRUE;
 }

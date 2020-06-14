@@ -6,8 +6,8 @@
 #include "RoleModule.h"
 #include "ModuleBase.h"
 #include "PlayerObject.h"
-#include "../StaticData/StaticData.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticData.h"
+#include "StaticStruct.h"
 #include "../Message/Msg_ID.pb.h"
 
 CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)

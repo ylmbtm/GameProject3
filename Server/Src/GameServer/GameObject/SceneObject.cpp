@@ -6,7 +6,7 @@
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "../Message/Game_Define.pb.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
