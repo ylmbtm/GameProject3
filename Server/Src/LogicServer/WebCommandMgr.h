@@ -27,6 +27,7 @@ public:
 public:
 	//*********************WebAction处理定义开始******************************
 	void OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmSealRole(HttpParameter& hParams, UINT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 
 };

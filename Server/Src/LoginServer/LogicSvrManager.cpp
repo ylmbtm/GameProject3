@@ -75,7 +75,7 @@ BOOL LogicSvrManager::Uninit()
 	return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName)
+BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName, const std::string& strInnderIp)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
@@ -87,9 +87,11 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		pNode->m_dwHttpPort = dwHttpPort;
 		pNode->m_dwWatchPort = dwWatchPort;
 		pNode->m_strSvrName = strSvrName;
+		pNode->m_strInnerAddr = strInnderIp;
 		pNode->m_eChangeStatus = EUS_NEW_REG;
 		pNode->m_ServerStatus = ESS_SVR_ONLINE;
 		insert(std::make_pair(dwServerID, pNode));
+		m_ArrChangedNode.push(pNode);
 	}
 	else
 	{
@@ -101,15 +103,15 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 		{
 			pNode->m_dwServerID = dwServerID;
 			pNode->m_strSvrName = strSvrName;
+			pNode->m_strInnerAddr = strInnderIp;
 			pNode->m_dwPort = dwPort;
 			pNode->m_dwHttpPort = dwHttpPort;
 			pNode->m_dwWatchPort = dwWatchPort;
 			pNode->m_ServerStatus = ESS_SVR_ONLINE;
 			pNode->m_eChangeStatus = EUS_RE_REG;
+			m_ArrChangedNode.push(pNode);
 		}
 	}
-
-	m_ArrChangedNode.push(pNode);
 
 	return TRUE;
 }
@@ -242,10 +244,17 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		pNode->m_strSvrName = QueryResult.getStringField("name");
 		pNode->m_ServerFlag = QueryResult.getIntField("svr_flag");
 		pNode->m_CornerMark = QueryResult.getIntField("corner_mark");
-		pNode->m_strIpAddr = QueryResult.getStringField("ip", "*");
+		pNode->m_strOuterAddr = QueryResult.getStringField("outer_ip", "*");
+		pNode->m_strInnerAddr = QueryResult.getStringField("inner_ip", "*");
 		pNode->m_dwPort = QueryResult.getIntField("port", 0);
+		pNode->m_uSvrOpenTime = QueryResult.getInt64Field("opentime");
+		if (pNode->m_strOuterAddr.empty() || pNode->m_strOuterAddr == "*")
+		{
+			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, serverid:%d has no ip address!", dwSvrID);
+			return FALSE;
+		}
 
-		if (pNode->m_strIpAddr.empty() || pNode->m_strIpAddr == "*")
+		if (pNode->m_strInnerAddr.empty() || pNode->m_strInnerAddr == "*")
 		{
 			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, serverid:%d has no ip address!", dwSvrID);
 			return FALSE;
@@ -348,8 +357,8 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 
 			if (pTempNode->m_eChangeStatus == EUS_NEW_REG)
 			{
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name, ip, port,http_port,watch_port,svr_flag, corner_mark,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s', %d, %d, %d, %d, %d, '%s','%s','%s','%s');",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, ESF_GOOD, 0, "1.0.0", "9.0.0", "*", "*");
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name, outer_ip,inner_ip, port,http_port,watch_port,svr_flag, corner_mark,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s','%s', %d, %d, %d, %d, %d, '%s','%s','%s','%s');",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, ESF_GOOD, 0, "1.0.0", "9.0.0", "*", "*");
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", m_DBConnection.GetErrorMsg());
@@ -367,8 +376,8 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 
 			if (pTempNode->m_eChangeStatus == EUS_RE_REG)
 			{
-				snprintf(szSql, SQL_BUFF_LEN, "update server_list set name = '%s', port = %d ,http_port = %d,watch_port = %d where id = %d;",
-				         pTempNode->m_strSvrName.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, pTempNode->m_dwServerID);
+				snprintf(szSql, SQL_BUFF_LEN, "update server_list set name = '%s', port = %d ,http_port = %d,watch_port = %d, inner_ip ='%s' where id = %d;",
+				         pTempNode->m_strSvrName.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, pTempNode->m_strInnerAddr.c_str(),  pTempNode->m_dwServerID);
 				if (m_DBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());

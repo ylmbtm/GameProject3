@@ -105,6 +105,18 @@ BOOL CGameSvrMgr::CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopy
 	return CreateScene(dwCopyID, CreateParam, 0, dwCopyType);
 }
 
+BOOL CGameSvrMgr::BroadMsgToAll(UINT32 dwMsgID, CHAR* pData, UINT32 nSize)
+{
+	for (std::map<UINT32, GameSvrInfo>::iterator itor = m_mapGameSvr.begin(); itor != m_mapGameSvr.end(); itor++)
+	{
+		GameSvrInfo& Info = itor->second;
+
+		ERROR_CONTINUE_EX(ServiceBase::GetInstancePtr()->SendMsgRawData(Info.m_dwConnID, dwMsgID, 0, 0, pData, nSize));
+	}
+
+	return TRUE;
+}
+
 VOID CGameSvrMgr::RegisterMessageHanler()
 {
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_GAME_REGTO_LOGIC_REQ, &CGameSvrMgr::OnMsgGameSvrRegister, this);
@@ -121,8 +133,7 @@ BOOL CGameSvrMgr::SendCreateSceneCmd( UINT32 dwServerID, UINT32 dwCopyID, UINT32
 	Req.set_createparam(CreateParam);
 	Req.set_copytype(dwCopyType);
 	Req.set_playernum(dwPlayerNum);
-	ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req));
-	return TRUE;
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetConnIDBySvrID(dwServerID), MSG_CREATE_SCENE_REQ, 0, 0, Req);
 }
 
 
@@ -179,7 +190,7 @@ BOOL CGameSvrMgr::SendPlayerToCopy(UINT64 u64ID, UINT32 dwServerID, UINT32 dwCop
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_TRANSFER_DATA_REQ, u64ID, dwCopyGuid, Req);
 
-	pPlayer->SetCopyStatus(dwCopyGuid, dwCopyID, dwServerID, FALSE);
+	ERROR_RETURN_FALSE(pPlayer->SetCopyStatus(dwCopyGuid, dwCopyID, dwServerID, FALSE));
 
 	return TRUE;
 }
@@ -253,7 +264,6 @@ BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	//
 	return TRUE;
 	for(int i = 0; i < Req.copylist_size(); i++)
 	{
@@ -262,7 +272,6 @@ BOOL CGameSvrMgr::OnMsgCopyReportReq(NetPacket* pNetPacket)
 
 		m_GuidToSvrID.insert(std::make_pair(item.copyguid(), item.serverid()));
 	}
-
 
 	return TRUE;
 }

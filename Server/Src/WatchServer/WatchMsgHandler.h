@@ -1,7 +1,6 @@
 ﻿#ifndef _WATCH_MSG_HANDLER_H_
 #define _WATCH_MSG_HANDLER_H_
 
-#include "../StaticData/StaticStruct.h"
 #include "RapidXml.h"
 #include "WebActionDef.h"
 #include "HttpParameter.h"

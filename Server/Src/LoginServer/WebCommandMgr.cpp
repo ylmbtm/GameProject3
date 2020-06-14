@@ -64,7 +64,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogError("GmCommand Event:%s", strAction.c_str());
+	CLog::GetInstancePtr()->LogError("Web Action :%s,  Params:%s", strAction.c_str(), szMsgBuf);
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 
@@ -75,8 +75,10 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 			break;
 		case EWA_SERVER_CHNAGE:
 			OnGmServerChange(Params, pNetPacket->m_dwConnID);
+			break;
 		case  EWA_REVIEW_CHANGE:
 			OnGmReviewChange(Params, pNetPacket->m_dwConnID);
+			break;
 		default:
 			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
 			break;
@@ -108,7 +110,7 @@ void CWebCommandMgr::OnGmSealAccount(HttpParameter& hParams, UINT32 nConnID)
 	Req.set_channel(hParams.GetIntValue("channel"));
 	Req.set_seal(hParams.GetIntValue("seal"));
 	Req.set_sealtime(hParams.GetIntValue("sealtime"));
-	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_SEAL_ACCOUNT_REQ, nConnID, 0, Req);
+	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_SEAL_ACCOUNT_REQ, 0, nConnID, Req);
 	return;
 }
 

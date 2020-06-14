@@ -54,6 +54,7 @@ struct LogicServerNode
 		m_dwCurOnline   = 0;    //当前最大人数
 		m_dwTotalNum    = 0;    //总注册人数
 		m_dwCacheNum    = 0;    //当前缓存人数
+		m_uSvrOpenTime  = 0;
 		m_eChangeStatus = EUS_NONE;
 		m_ServerStatus  = ESS_SVR_NONE;
 	}
@@ -73,8 +74,10 @@ struct LogicServerNode
 	UINT32		m_CornerMark;   //服务器角标
 	UINT32		m_dwMinVersion; //最小可见版本
 	UINT32		m_dwMaxVersion; //最大可见版本
+	UINT64      m_uSvrOpenTime; //开服时间
 	std::string m_strSvrName;   //服务器名字
-	std::string m_strIpAddr;    //服务器IP地址
+	std::string m_strOuterAddr;    //服务器的外网地址
+	std::string m_strInnerAddr; //服务器的内网地址
 	UINT64		m_uLastUpdate;  //服务器最后更新时间
 	std::set<UINT32> m_CheckIpList;	  //过滤的IP地址
 	std::set<INT32>  m_CheckChannelList; //可以看见的渠道
@@ -100,7 +103,7 @@ public:
 
 	BOOL	Uninit();
 
-	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName);
+	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, UINT32 dwWatchPort, const std::string& strSvrName, const std::string& strInnderIp);
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 

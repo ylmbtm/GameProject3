@@ -83,6 +83,8 @@ public:
 	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopyType);
 
 	VOID        RegisterMessageHanler();
+
+	BOOL        BroadMsgToAll(UINT32 dwMsgID, CHAR* pData, UINT32 nSize);
 private:
 	UINT32		GetServerIDByCopyGuid(UINT32 dwCopyGuid);
 
@@ -101,6 +103,7 @@ private:
 	BOOL        AddWaitItem(UINT64 uKey, UINT64 uID[], UINT32 dwCamp[], INT32 nNum);
 
 	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType);
+
 public:
 
 	//响应副本结果返回

@@ -9,11 +9,15 @@ enum EWebAction
 	EWA_SERVER_CHNAGE,          //服务器配制改变
 	EWA_REVIEW_CHANGE,          //评审信息改变
 	EWA_RELOAD_TABLE,           //重新加载配制表
-
+	EWA_SINGLE_MAIL,            //单发邮件
+	EWA_GROUP_MAIL,             //群发邮件
+	EWA_OPEN_SVR_TIME,          //修改开服时间
 	EWA_SERVER_START,           //启动服务器
 	EWA_SERVER_STOP,            //停止服务器
 	EWA_SERVER_UPDATE,          //更新服务器
 	EWA_SERVER_INFO,            //服务器信息
+	EWA_GM_COMMAND,             //执行GM指令
+	EWA_KICKOFF_PLAYER,         //踢玩家下线
 };
 
 

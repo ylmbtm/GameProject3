@@ -32,6 +32,8 @@ CGameService::CGameService(void)
 	m_dwCenterID	= 0;   //中心服的连接ID
 	m_dwWatchSvrConnID = 0;
 	m_dwWatchIndex	= 0;
+	m_uSvrOpenTime  = 0;
+	m_bRegSuccessed = FALSE;
 }
 
 CGameService::~CGameService(void)
@@ -58,14 +60,15 @@ UINT32 CGameService::GetLogSvrConnID()
 	return m_dwLogConnID;
 }
 
-BOOL CGameService::OnMsgRegToLoginAck(NetPacket* pNetPacket)
+VOID CGameService::RegisterMessageHanler()
 {
-	return TRUE;
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CGameService::OnMsgRegToLoginAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK, &CGameService::OnMsgUpdateInfoAck, this);
 }
 
-BOOL CGameService::OnMsgRegToCenterAck(NetPacket* pNetPacket)
+UINT64 CGameService::GetSvrOpenTime()
 {
-	return TRUE;
+	return m_uSvrOpenTime;
 }
 
 BOOL CGameService::Init()
@@ -183,6 +186,8 @@ BOOL CGameService::Init()
 	bRet = m_LogicMsgHandler.Init(0);
 	ERROR_RETURN_FALSE(bRet);
 
+	RegisterMessageHanler();
+
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
@@ -282,10 +287,10 @@ BOOL CGameService::RegisterToLoginSvr()
 	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
 	UINT32 dwHttpPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
 	UINT32 dwWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
-	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
+	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
-	Req.set_serverip(strIp);
+	Req.set_svrinnerip(strIp);
 	Req.set_servername(strSvrName);
 	Req.set_httpport(dwHttpPort);
 	Req.set_watchport(dwWatchPort);
@@ -376,6 +381,8 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
+	CLog::GetInstancePtr()->LogInfo("Receive Message : %d", pNetPacket->m_dwMsgID);
+
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;
@@ -387,7 +394,6 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	}
 
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
-
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
 	if (pPlayer == NULL)
 	{
@@ -431,9 +437,14 @@ BOOL CGameService::ReportServerStatus()
 		return TRUE;
 	}
 
+	if (!m_bRegSuccessed)
+	{
+		return TRUE;
+	}
+
 	static INT32 nCount = 30;
 	nCount++;
-	if (nCount < 10)
+	if (nCount < 60)
 	{
 		return TRUE;
 	}
@@ -492,5 +503,34 @@ BOOL CGameService::ConnectToWatchServer()
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwWatchSvrConnID = pConnection->GetConnectionID();
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgRegToLoginAck(NetPacket* pNetPacket)
+{
+	LogicRegToLoginAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	ERROR_RETURN_TRUE(Ack.retcode() == MRC_SUCCESSED);
+	//表示注册成功
+	m_bRegSuccessed = TRUE;
+
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgRegToCenterAck(NetPacket* pNetPacket)
+{
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgUpdateInfoAck(NetPacket* pNetPacket)
+{
+	LogicUpdateInfoAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(Ack.retcode() == 0);
+
+	m_uSvrOpenTime = Ack.svropentime();
 	return TRUE;
 }

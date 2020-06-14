@@ -149,7 +149,7 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogInfo("----收到GM 指令， Action:%s----", strAction.c_str());
+	CLog::GetInstancePtr()->LogError("Web Action :%s", strAction.c_str());
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 	switch (eWebAction)
@@ -159,10 +159,13 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 			break;
 		case EWA_SERVER_STOP:
 			OnGmServerStop(Params, pNetPacket->m_dwConnID);
+			break;
 		case EWA_SERVER_UPDATE:
 			OnGmServerUpdate(Params, pNetPacket->m_dwConnID);
+			break;
 		case EWA_SERVER_INFO:
 			OnGmServerInfo(Params, pNetPacket->m_dwConnID);
+			break;
 		default:
 			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
 			break;

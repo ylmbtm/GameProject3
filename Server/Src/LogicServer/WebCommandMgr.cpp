@@ -3,14 +3,15 @@
 #include "GameService.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "../Message/Msg_ID.pb.h"
-#include "../Message/Game_Define.pb.h"
 #include "PacketHeader.h"
 #include "PlayerManager.h"
 #include "MsgHandlerManager.h"
 #include "HttpParameter.h"
 #include "BagModule.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
+#include "../Message/Msg_ID.pb.h"
+#include "../Message/Game_Define.pb.h"
+#include "SimpleManager.h"
 
 CWebCommandMgr::CWebCommandMgr()
 {
@@ -86,7 +87,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogError("GmCommand Event:%s", strAction.c_str());
+	CLog::GetInstancePtr()->LogInfo("Web Action :%s", strAction.c_str());
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 	switch (eWebAction)
@@ -94,6 +95,9 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 		case EWA_RELOAD_TABLE:
 			CGameSvrMgr::GetInstancePtr()->BroadMsgToAll(MSG_PHP_GM_COMMAND_REQ, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());
 			OnGmReloadTable(Params, pNetPacket->m_dwConnID);
+			break;
+		case EWA_SEAL_ROLE:
+			OnGmSealRole(Params, pNetPacket->m_dwConnID);
 			break;
 		default:
 			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
@@ -112,6 +116,30 @@ void CWebCommandMgr::OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID)
 	CStaticData::GetInstancePtr()->ReloadConfigData(strName);
 
 	SendWebResult(nConnID, EWR_SUCCESSED);
+
+	return;
+}
+
+void CWebCommandMgr::OnGmSealRole(HttpParameter& hParams, UINT32 nConnID)
+{
+	ERROR_RETURN_NONE(nConnID != 0);
+
+	UINT64 uRoleID = hParams.GetLongValue("roleid");
+	std::string strRoleName = hParams.GetStrValue("rolename");
+	BOOL bSeal = hParams.GetIntValue("seal");
+	UINT64 uTime = hParams.GetLongValue("sealtime");
+
+	if (uRoleID <= 0)
+	{
+		uRoleID = CSimpleManager::GetInstancePtr()->GetRoleIDByName(strRoleName);
+	}
+
+	if (uRoleID <= 0)
+	{
+		SendWebResult(nConnID, EWR_FAILURE);
+		CLog::GetInstancePtr()->LogError("CWebCommandMgr::OnGmSealRole Invalid roleid and Invalid rolename");
+		return;
+	}
 
 	return;
 }
