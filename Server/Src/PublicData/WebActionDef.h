@@ -18,6 +18,7 @@ enum EWebAction
 	EWA_SERVER_INFO,            //服务器信息
 	EWA_GM_COMMAND,             //执行GM指令
 	EWA_KICKOFF_PLAYER,         //踢玩家下线
+	EWA_PAY_CALLBACK,           //充值回调通知
 };
 
 

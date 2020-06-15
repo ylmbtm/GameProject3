@@ -1272,6 +1272,33 @@ StBulletInfo* CStaticData::GetBulletInfo(UINT32 dwBulletID)
 	return NULL;
 }
 
+BOOL CStaticData::ReadChargeInfo(CppSQLite3Query& QueryData)
+{
+	m_mapChargeInfo.clear();
+
+	while (!QueryData.eof())
+	{
+		StChargeInfo stValue;
+		stValue.dwProductID = QueryData.getIntField("Id");
+		m_mapChargeInfo.insert(std::make_pair(stValue.dwProductID, stValue));
+		QueryData.nextRow();
+	}
+
+	return TRUE;
+}
+
+StChargeInfo* CStaticData::GetChargeInfo(UINT32 dwProductID)
+{
+	ERROR_RETURN_NULL(dwProductID != 0);
+	auto itor = m_mapChargeInfo.find(dwProductID);
+	if (itor != m_mapChargeInfo.end())
+	{
+		return &itor->second;
+	}
+
+	return NULL;
+}
+
 BOOL CStaticData::ReadStoreInfo(CppSQLite3Query& QueryData)
 {
 	m_mapStoreInfo.clear();

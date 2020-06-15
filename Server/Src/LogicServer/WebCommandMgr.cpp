@@ -12,6 +12,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "SimpleManager.h"
+#include "PayManager.h"
 
 CWebCommandMgr::CWebCommandMgr()
 {
@@ -99,6 +100,9 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 		case EWA_SEAL_ROLE:
 			OnGmSealRole(Params, pNetPacket->m_dwConnID);
 			break;
+		case EWA_PAY_CALLBACK:
+			SendWebResult(pNetPacket->m_dwConnID, EWR_SUCCESSED);
+			CPayManager::GetInstancePtr()->OnGmPayCallBack(Params, pNetPacket->m_dwConnID);
 		default:
 			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
 			break;

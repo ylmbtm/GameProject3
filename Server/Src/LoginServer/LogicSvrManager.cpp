@@ -250,13 +250,13 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		pNode->m_uSvrOpenTime = QueryResult.getInt64Field("opentime");
 		if (pNode->m_strOuterAddr.empty() || pNode->m_strOuterAddr == "*")
 		{
-			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, serverid:%d has no ip address!", dwSvrID);
+			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d need a domain name or outer ip address!", dwSvrID);
 			return FALSE;
 		}
 
 		if (pNode->m_strInnerAddr.empty() || pNode->m_strInnerAddr == "*")
 		{
-			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, serverid:%d has no ip address!", dwSvrID);
+			CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d has no inner ip address!", dwSvrID);
 			return FALSE;
 		}
 

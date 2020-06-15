@@ -178,6 +178,11 @@ public:
 	std::map<UINT32, StBulletInfo> m_mapBulletInfo;
 	BOOL ReadBulletInfo(CppSQLite3Query& QueryData);
 	StBulletInfo* GetBulletInfo(UINT32 dwBulletID);
+
+	//充值产品表
+	std::map<UINT32, StChargeInfo> m_mapChargeInfo;
+	BOOL ReadChargeInfo(CppSQLite3Query& QueryData);
+	StChargeInfo* GetChargeInfo(UINT32 dwBulletID);
 	//=================================================================
 public:
 

@@ -2,9 +2,12 @@
 #include "GameService.h"
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "HttpParameter.h"
+#include "CommonConvert.h"
+#include "WebActionDef.h"
 
 CGameService::CGameService(void)
 {
@@ -62,7 +65,6 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 	}
 
 	CStaticData::GetInstancePtr()->LoadConfigData("Config.db");
-
 
 	if(!m_SceneManager.Init(TRUE))
 	{
@@ -134,6 +136,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgRegToProxyAck)
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK,  OnMsgWatchHeartBeatAck)
+			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,    OnMsgWebCommandReq)
 	}
 
 	if (m_SceneManager.DispatchPacket(pNetPacket))
@@ -189,6 +192,7 @@ BOOL CGameService::ConnectToLogicSvr()
 		return TRUE;
 	}
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
+	ERROR_RETURN_FALSE(nLogicPort > 0);
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
@@ -204,6 +208,7 @@ BOOL CGameService::ConnectToProxySvr()
 		return TRUE;
 	}
 	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
+	ERROR_RETURN_FALSE(nProxyPort > 0);
 	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strProxyIp, nProxyPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
@@ -279,6 +284,33 @@ BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
+
+BOOL CGameService::OnMsgWebCommandReq(NetPacket* pNetPacket)
+{
+	CHAR szMsgBuf[1024] = { 0 };
+	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
+	HttpParameter Params;
+	Params.ParseStringToMap(szMsgBuf);
+	std::string strAction = Params.GetStrValue("Action");
+	CLog::GetInstancePtr()->LogInfo("Web Action :%s", strAction.c_str());
+
+	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
+	switch (eWebAction)
+	{
+		case EWA_RELOAD_TABLE:
+		{
+			std::string strName = Params.GetStrValue("TableName");
+			CStaticData::GetInstancePtr()->ReloadConfigData(strName);
+		}
+		break;
+	}
+
+	return TRUE;
+}
+
+
+
 BOOL CGameService::ConnectToWatchServer()
 {
 	if (m_dwWatchSvrConnID != 0)
@@ -286,6 +318,7 @@ BOOL CGameService::ConnectToWatchServer()
 		return TRUE;
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	ERROR_RETURN_FALSE(nWatchPort > 0);
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

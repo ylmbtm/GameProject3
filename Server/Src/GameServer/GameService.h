@@ -60,6 +60,7 @@ public:
 	BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
 	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
+	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 
