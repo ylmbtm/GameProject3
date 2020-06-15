@@ -2,7 +2,7 @@
 #include "Log.h"
 CLog::CLog(void)
 {
-	m_LogLevel = 0;
+	m_LogLevel = 4;
 }
 
 CLog::~CLog(void)

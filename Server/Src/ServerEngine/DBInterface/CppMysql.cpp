@@ -751,3 +751,35 @@ bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const c
 
 	return false;
 }
+
+int CppMySQL3DB::execSQLWithReconnect(const char* sql)
+{
+	int nRet = execSQL(sql);
+	if (nRet >= 0)
+	{
+		return nRet;
+	}
+
+	if (ping())
+	{
+		return execSQL(sql);
+	}
+
+	static int nCount = 0;
+
+	while (nCount < 3)
+	{
+		reconnect();
+
+		if (ping())
+		{
+			return execSQL(sql);
+		}
+
+		nCount++;
+
+		CommonFunc::Sleep(1000);
+	}
+
+	return -1;
+}

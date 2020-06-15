@@ -34,13 +34,13 @@ BOOL CConfigFile::Load( std::string strFileName )
 		CHAR* pChar = strchr(szBuff, '=');
 		if(pChar == NULL)
 		{
+			CLog::GetInstancePtr()->LogError("Config File Error: need symbol = in the line! [%s]", szBuff);
 			continue;
 		}
 
 		std::string strName;
 		strName.assign(szBuff, pChar - szBuff);
 		std::string strValue = pChar + 1;
-
 		CommonConvert::StringTrim(strName);
 		CommonConvert::StringTrim(strValue);
 
@@ -50,7 +50,6 @@ BOOL CConfigFile::Load( std::string strFileName )
 	while(!feof(pFile));
 
 	fclose(pFile);
-
 
 	return TRUE;
 }

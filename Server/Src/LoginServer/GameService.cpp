@@ -110,6 +110,7 @@ BOOL CGameService::ConnectToAccountSvr()
 		return TRUE;
 	}
 	UINT32 nAccountPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");
+	ERROR_RETURN_FALSE(nAccountPort > 0);
 	std::string strAccountIp = CConfigFile::GetInstancePtr()->GetStringValue("account_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strAccountIp, nAccountPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -217,6 +218,7 @@ BOOL CGameService::ConnectToWatchServer()
 		return TRUE;
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
+	ERROR_RETURN_FALSE(nWatchPort > 0);
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

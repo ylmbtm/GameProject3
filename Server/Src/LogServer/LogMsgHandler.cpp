@@ -71,13 +71,14 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF, OnLogDataNtf)
+			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF, OnMsgLogDataNtf)
+			PROCESS_MESSAGE_ITEM(MSG_CLIENT_LOG_REQ, OnMsgClientLogReq)
 	}
 
 	return FALSE;
 }
 
-BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
+BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
 {
 	Log_BaseData* pData = (Log_BaseData*)pNetPacket->m_pDataBuffer->GetData();
 	CHAR szSql[1024] = {0};
@@ -112,15 +113,10 @@ BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 			break;
 	}
 
-	if (m_DBConnection.execSQL(szSql) <= 0)
+	if (m_DBConnection.execSQLWithReconnect(szSql) <= 0)
 	{
 		CLog::GetInstancePtr()->LogError("CLogMsgHandler::OnLogDataNtf Error :%s", m_DBConnection.GetErrorMsg());
 		CLog::GetInstancePtr()->LogError(szSql);
-		if (!m_DBConnection.ping())
-		{
-			m_DBConnection.close();
-			m_DBConnection.reconnect();
-		}
 	}
 
 	m_nWriteCount += 1;
@@ -132,6 +128,12 @@ BOOL CLogMsgHandler::OnLogDataNtf(NetPacket* pNetPacket)
 		m_DBConnection.startTransaction();
 		m_nWriteCount = 0;
 	}
+
+	return TRUE;
+}
+
+BOOL CLogMsgHandler::OnMsgClientLogReq(NetPacket* pNetPacket)
+{
 
 	return TRUE;
 }

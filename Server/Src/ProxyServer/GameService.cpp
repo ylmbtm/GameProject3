@@ -135,6 +135,7 @@ BOOL CGameService::ConnectToLogicSvr()
 		return TRUE;
 	}
 	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
+	ERROR_RETURN_FALSE(nLogicPort > 0);
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
@@ -204,6 +205,7 @@ BOOL CGameService::ConnectToWatchServer()
 		return TRUE;
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
+	ERROR_RETURN_FALSE(nWatchPort > 0);
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

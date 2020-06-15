@@ -228,6 +228,7 @@ BOOL CGameService::ConnectToLogServer()
 		return TRUE;
 	}
 	UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetRealNetPort("log_svr_port");
+	ERROR_RETURN_FALSE(nLogPort > 0);
 	std::string strLogIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strLogIp, nLogPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -243,6 +244,7 @@ BOOL CGameService::ConnectToLoginSvr()
 		return TRUE;
 	}
 	UINT32 nLoginPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
+	ERROR_RETURN_FALSE(nLoginPort > 0);
 	std::string strLoginIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strLoginIp, nLoginPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -257,6 +259,7 @@ BOOL CGameService::ConnectToDBSvr()
 		return TRUE;
 	}
 	UINT32 nDBPort = CConfigFile::GetInstancePtr()->GetRealNetPort("db_svr_port");
+	ERROR_RETURN_FALSE(nDBPort > 0);
 	std::string strDBIp = CConfigFile::GetInstancePtr()->GetStringValue("db_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strDBIp, nDBPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -272,6 +275,7 @@ BOOL CGameService::ConnectToCenterSvr()
 		return TRUE;
 	}
 	UINT32 nCenterPort = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_port");
+	ERROR_RETURN_FALSE(nCenterPort > 0);
 	std::string strCenterIp = CConfigFile::GetInstancePtr()->GetStringValue("center_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strCenterIp, nCenterPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
@@ -381,7 +385,7 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name(pNetPacket->m_dwMsgID).c_str());
+	CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name((MessageID)pNetPacket->m_dwMsgID).c_str());
 
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
@@ -497,6 +501,7 @@ BOOL CGameService::ConnectToWatchServer()
 		return TRUE;
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
+	ERROR_RETURN_FALSE(nWatchPort > 0);
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);

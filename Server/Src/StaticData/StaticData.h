@@ -1,8 +1,8 @@
 ﻿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
 #include "CppSQLite3.h"
-#include "../StaticData/StaticStruct.h"
-#include "../StaticData/SkillStruct.h"
+#include "StaticStruct.h"
+#include "SkillStruct.h"
 class CStaticData;
 
 typedef BOOL(CStaticData::*DataFunc)(CppSQLite3Query& QueryData);

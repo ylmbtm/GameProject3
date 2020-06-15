@@ -44,8 +44,8 @@ struct Log_AccountCreate : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
-		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel);
+		snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s', '%s')",
+		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
 		return TRUE;
 	}
 };

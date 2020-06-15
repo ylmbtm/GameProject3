@@ -141,6 +141,9 @@ public:
 
 	bool  setAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName);
 
+	/* 执行非返回结果查询 */
+	int execSQLWithReconnect(const char* sql);
+
 private:
 	CppMySQL3DB(const CppMySQL3DB& db);
 	CppMySQL3DB& operator=(const CppMySQL3DB& db);
