@@ -16,6 +16,7 @@
 #include "PartnerModule.h"
 #include "MsgHandlerManager.h"
 #include "LoginCodeMgr.h"
+#include "GameLogManager.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -204,6 +205,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_roleid(u64RoleID);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID,  MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+
 	return TRUE;
 }
 

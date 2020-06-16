@@ -33,6 +33,7 @@ public:
 
 	VOID	RegisterMessageHanler();
 
+	INT64   GetProperty(ERoleProperty ePropertyID);
 public:
 	//扣除行动力， 如果返回成功，就是扣除成功， 如果返回失败，就是行动力不足
 	BOOL    CostAction(UINT32 dwActionID, INT32 nActionNum);
@@ -57,9 +58,10 @@ public:
 public:
 	UINT32  GetActorID();
 	INT32   GetLevel();
+	INT32   GetVipLevel();
 	CHAR*	GetName();
-
 	UINT32	GetCarrerID();
+	UINT64  GetRoleID();
 public:
 	UINT32           m_dwActorID;
 

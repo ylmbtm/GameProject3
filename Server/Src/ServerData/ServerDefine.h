@@ -114,4 +114,11 @@ enum EGuildPos
 	EGP_VICELEADER  = 2,
 };
 
+enum ERoleProperty
+{
+	ERP_ID = 1,
+	ERP_LEVEL,
+	ERP_VIPLEVEL,
+};
+
 #endif //__SERVER_STRUCT_H__

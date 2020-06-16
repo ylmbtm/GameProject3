@@ -33,6 +33,7 @@ public:
 
 	virtual BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
+	virtual INT64 GetProperty(ERoleProperty ePropertyID);
 public:
 	BOOL AddChangeID(UINT64 uID);
 

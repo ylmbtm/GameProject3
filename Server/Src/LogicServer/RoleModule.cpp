@@ -177,6 +177,21 @@ VOID CRoleModule::RegisterMessageHanler()
 {
 }
 
+INT64 CRoleModule::GetProperty(ERoleProperty ePropertyID)
+{
+	switch (ePropertyID)
+	{
+		case ERP_LEVEL:
+			return GetLevel();
+		case ERP_VIPLEVEL:
+			return GetVipLevel();
+		default:
+			break;
+	}
+
+	return 0;
+}
+
 BOOL CRoleModule::CostAction(UINT32 dwActionID, INT32 nActionNum)
 {
 	if ((dwActionID <= 0) || (dwActionID >= ACTION_NUM))
@@ -335,6 +350,11 @@ INT32 CRoleModule::GetLevel()
 	return m_pRoleDataObject->m_Level;
 }
 
+INT32 CRoleModule::GetVipLevel()
+{
+	return m_pRoleDataObject->m_VipLvl;
+}
+
 CHAR* CRoleModule::GetName()
 {
 	return m_pRoleDataObject->m_szName;
@@ -343,6 +363,11 @@ CHAR* CRoleModule::GetName()
 UINT32 CRoleModule::GetCarrerID()
 {
 	return m_pRoleDataObject->m_CarrerID;
+}
+
+UINT64 CRoleModule::GetRoleID()
+{
+	return m_pRoleDataObject->m_uRoleID;
 }
 
 UINT64 CRoleModule::AddExp( INT32 nExp )

@@ -345,6 +345,25 @@ UINT32 CPlayerObject::GetCarrerID()
 	return pModule->GetCarrerID();
 }
 
+INT64 CPlayerObject::GetProperty(ERoleProperty ePropertyID)
+{
+	INT32 nModuleID = ePropertyID / 100;
+
+	if (nModuleID < MT_ROLE || nModuleID >= MT_END)
+	{
+		CLog::GetInstancePtr()->LogError("CPlayerObject::GetProperty Error Inavlie PropertyID:%d", ePropertyID);
+		return 0;
+	}
+
+	CModuleBase* pModule = GetModuleByType(nModuleID);
+	if (pModule == NULL)
+	{
+		return 0;
+	}
+
+	return pModule->GetProperty(ePropertyID);
+}
+
 UINT64 CPlayerObject::GetRoomID()
 {
 	return m_uRoomID;
