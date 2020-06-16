@@ -19,7 +19,7 @@ CGameLogManager* CGameLogManager::GetInstancePtr()
 	return &_LogManager;
 }
 
-BOOL CGameLogManager::LogAccountCreate(UINT64 uAccountID, const AccountLog& Log)
+BOOL CGameLogManager::LogAccountCreate(UINT64 uAccountID, std::string strAccountName, const AccountLog& Log)
 {
 	Log_AccountCreate log;
 	log.m_uID = uAccountID;
@@ -31,13 +31,14 @@ BOOL CGameLogManager::LogAccountCreate(UINT64 uAccountID, const AccountLog& Log)
 	strncpy(log.m_szModel, Log.imei().c_str(), sizeof(log.m_szModel));
 	strncpy(log.m_szIdfa, Log.imei().c_str(), sizeof(log.m_szIdfa));
 	strncpy(log.m_szUuid, Log.imei().c_str(), sizeof(log.m_szUuid));
+	strncpy(log.m_szOpenID, strAccountName.c_str(), sizeof(log.m_szOpenID));
 
 	WriteGameLog(log);
 
 	return TRUE;
 }
 
-BOOL CGameLogManager::LogAccountLogin(UINT64 uAccountID, const AccountLog& Log)
+BOOL CGameLogManager::LogAccountLogin(UINT64 uAccountID, std::string strAccountName, const AccountLog& Log)
 {
 	Log_AccountLogin log;
 	log.m_uID = uAccountID;

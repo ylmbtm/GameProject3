@@ -25,8 +25,8 @@ public:
 
 
 public:
-	BOOL LogAccountCreate(UINT64 uAccountID, const AccountLog& Log);
-	BOOL LogAccountLogin(UINT64 uAccountID, const AccountLog& Log);
+	BOOL LogAccountCreate(UINT64 uAccountID, std::string strAccountName,  const AccountLog& Log);
+	BOOL LogAccountLogin(UINT64 uAccountID, std::string strAccountName, const AccountLog& Log);
 };
 
 #endif //__GAME_LOG_MANAGER_H__

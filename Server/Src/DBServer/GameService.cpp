@@ -175,6 +175,7 @@ BOOL CGameService::ConnectToWatchServer()
 		return TRUE;
 	}
 	UINT32 nWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
+	ERROR_RETURN_FALSE(nWatchPort > 0);
 	std::string strWatchIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strWatchIp, nWatchPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
