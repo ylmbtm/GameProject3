@@ -95,7 +95,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket )
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(nConnID);
 	ERROR_RETURN_TRUE(pConnection != 0);
 
-	Req.mutable_reglog()->set_ipaddr(pConnection->GetIpAddr(FALSE));
+	Req.mutable_reglog()->set_ipaddr(pConnection->GetIpAddr());
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
 	return TRUE;
@@ -113,7 +113,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginReq(NetPacket* pPacket)
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(nConnID);
 	ERROR_RETURN_TRUE(pConnection != 0);
 
-	Req.mutable_loginlog()->set_ipaddr(pConnection->GetIpAddr(FALSE));
+	Req.mutable_loginlog()->set_ipaddr(pConnection->GetIpAddr());
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_LOGIN_REQ, 0, nConnID, Req);
 

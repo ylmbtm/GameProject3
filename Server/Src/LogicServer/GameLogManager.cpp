@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameLogManager.h"
+#include "CommonSocket.h"
 #include "../LogData/LogStruct.h"
 #include "PlayerObject.h"
 

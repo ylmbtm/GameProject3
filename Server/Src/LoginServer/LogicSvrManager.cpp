@@ -96,6 +96,7 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 	else
 	{
 		pNode->m_dwConnID = dwConnID;
+		pNode->m_ServerStatus = ESS_SVR_ONLINE;
 		if ((pNode->m_dwPort != dwPort) ||
 		        (pNode->m_dwHttpPort != dwHttpPort) ||
 		        (pNode->m_dwWatchPort != dwWatchPort) ||
@@ -107,7 +108,6 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 			pNode->m_dwPort = dwPort;
 			pNode->m_dwHttpPort = dwHttpPort;
 			pNode->m_dwWatchPort = dwWatchPort;
-			pNode->m_ServerStatus = ESS_SVR_ONLINE;
 			pNode->m_eChangeStatus = EUS_RE_REG;
 			m_ArrChangedNode.push(pNode);
 		}
@@ -220,6 +220,11 @@ BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
 
 BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 {
+	if (!m_DBConnection.ping())
+	{
+		m_DBConnection.reconnect();
+	}
+
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 	if (dwServerID == 0)
 	{
@@ -318,6 +323,11 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 
 BOOL LogicSvrManager::ReloadReviewVersion()
 {
+	if (!m_DBConnection.ping())
+	{
+		m_DBConnection.reconnect();
+	}
+
 	m_setReviewVersion.clear();
 	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from review_client");
 	while(!QueryResult.eof())
@@ -348,11 +358,18 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 			continue;
 		}
 
+
+
 		while (m_ArrChangedNode.pop(pTempNode) && (pTempNode != NULL))
 		{
 			if (pTempNode->m_eChangeStatus == EUS_NONE)
 			{
 				continue;
+			}
+
+			if (!m_DBConnection.ping())
+			{
+				m_DBConnection.reconnect();
 			}
 
 			if (pTempNode->m_eChangeStatus == EUS_NEW_REG)

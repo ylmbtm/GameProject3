@@ -2,6 +2,7 @@
 #include "LogMsgHandler.h"
 #include "GameService.h"
 #include "PacketHeader.h"
+#include "CommonSocket.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../LogData/LogStruct.h"

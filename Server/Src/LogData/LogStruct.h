@@ -44,8 +44,8 @@ struct Log_AccountCreate : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s', '%s')",
-		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
+		snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s','%s','%s', '%s', '%s')",
+		         m_uID, m_dwChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
 		return TRUE;
 	}
 };
@@ -66,8 +66,9 @@ struct Log_AccountLogin : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, %lld, %u,'%s', '%s','%s', '%s')",
-		         m_uID, m_dwChannel, m_dwVersion, m_uOpTime, m_dwIpAddr, m_szUuid, m_szIdfa, m_szImei, m_szModel);
+
+		snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s')",
+		         m_uID, m_dwChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel);
 		return TRUE;
 	}
 };
@@ -86,8 +87,8 @@ struct Log_RoleCreate : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld,%d, %d, %lld,'%s', '%s')",
-		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_uOpTime, m_szRoleName, m_szIdfa);
+		snprintf(pBuff, 2048, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s','%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
 		return TRUE;
 	}
 };
@@ -106,8 +107,8 @@ struct Log_RoleLogin : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %lld, '%s', '%s')",
-		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_uOpTime, m_szRoleName, m_szIdfa);
+		snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s', '%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
 		return TRUE;
 	}
 };

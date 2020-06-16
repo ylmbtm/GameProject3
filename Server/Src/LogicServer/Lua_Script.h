@@ -1,6 +1,6 @@
 /*
 ** Lua binding: LuaScript
-** Generated automatically by tolua++-1.0.93-lua53 on Thu Apr  4 16:49:00 2019.
+** Generated automatically by tolua++-1.0.93-lua53 on Wed Jun  3 13:15:21 2020.
 */
 
 #ifndef __cplusplus

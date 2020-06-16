@@ -34,7 +34,6 @@ BOOL CConfigFile::Load( std::string strFileName )
 		CHAR* pChar = strchr(szBuff, '=');
 		if(pChar == NULL)
 		{
-			CLog::GetInstancePtr()->LogError("Config File Error: need symbol = in the line! [%s]", szBuff);
 			continue;
 		}
 

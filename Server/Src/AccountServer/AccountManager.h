@@ -53,8 +53,6 @@ public:
 
 	ArrayLockFreeQueue<CAccountObject*>		m_ArrChangedAccount;
 
-	CppMySQL3DB 		m_DBConnection;
-
 	BOOL				m_IsRun;
 
 	std::thread*  		m_pThread;
