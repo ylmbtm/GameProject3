@@ -7,7 +7,7 @@ CWatcherClient::CWatcherClient(void)
 {
 	m_dwWatchSvrConnID	= 0;
 	m_dwWatchIndex		= 0;
-	m_dwLastHeartTime   = 0;
+	m_uLastHeartTime   = 0;
 }
 
 CWatcherClient::~CWatcherClient(void)
@@ -50,17 +50,17 @@ BOOL CWatcherClient::OnCloseConnect(UINT32 nConnID)
 
 BOOL CWatcherClient::OnSecondTimer()
 {
-	if (m_dwWatchSvrConnID != 0 && m_dwLastHeartTime != 0)
+	if (m_dwWatchSvrConnID != 0 && m_uLastHeartTime != 0)
 	{
 		INT64 nCurTick = CommonFunc::GetTickCount();
 
-		if (nCurTick - m_dwLastHeartTime > 2000)
+		if (nCurTick - m_uLastHeartTime > 2000)
 		{
 			ServiceBase::GetInstancePtr()->CloseConnect(m_dwWatchSvrConnID);
 
 			m_dwWatchSvrConnID = 0;
 
-			m_dwLastHeartTime = 0;
+			m_uLastHeartTime = 0;
 
 			return TRUE;
 		}
@@ -110,6 +110,14 @@ BOOL CWatcherClient::SendWatchHeartBeat()
 		return TRUE;
 	}
 
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(m_dwWatchSvrConnID);
+	ERROR_RETURN_FALSE(pConnection != NULL);
+
+	if (!pConnection->IsConnectionOK())
+	{
+		return TRUE;
+	}
+
 	static int nSecond = 15;
 	nSecond++;
 	if (nSecond < 5)
@@ -123,7 +131,7 @@ BOOL CWatcherClient::SendWatchHeartBeat()
 	Req.set_data(m_dwWatchIndex);
 	Req.set_processid(CommonFunc::GetCurProcessID());
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwWatchSvrConnID, MSG_WATCH_HEART_BEAT_REQ, 0, 0, Req);
-	m_dwLastHeartTime = CommonFunc::GetTickCount();
+	m_uLastHeartTime = CommonFunc::GetTickCount();
 	return TRUE;
 }
 
@@ -132,6 +140,6 @@ BOOL CWatcherClient::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
 	WatchHeartBeatAck Ack;
 	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
-	m_dwLastHeartTime = 0;
+	m_uLastHeartTime = 0;
 	return TRUE;
 }

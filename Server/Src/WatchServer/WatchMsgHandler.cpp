@@ -80,7 +80,7 @@ BOOL CWatchMsgHandler::OnSecondTimer()
 		}
 	}
 
-	CLog::GetInstancePtr()->LogError("----监视:%s， 总进程数:%d, 活跃进程数:%d---", m_bStartWatch ? "[开]" : "[关]", m_vtProcess.size(), nCount);
+	CLog::GetInstancePtr()->LogInfo("----监视:%s， 总进程数:%d, 活跃进程数:%d---", m_bStartWatch ? "[开]" : "[关]", m_vtProcess.size(), nCount);
 
 	return TRUE;
 }
@@ -224,8 +224,10 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 	if (serverInfo.ProscessStatus == EPS_Stop)
 	{
 		StartProcess(serverInfo, nIndex);
+		return TRUE;
 	}
-	else if (serverInfo.ProscessStatus == EPS_Starting)
+
+	if (serverInfo.ProscessStatus == EPS_Starting)
 	{
 		//如果响应超时，表示服务器己经停止响应或不存在
 		if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 3000))
@@ -233,8 +235,11 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 			//先杀死
 			KillProcess(serverInfo);
 		}
+
+		return TRUE;
 	}
-	else if (serverInfo.ProscessStatus == EPS_Connected)
+
+	if (serverInfo.ProscessStatus == EPS_Connected)
 	{
 		//如果响应超时，表示服务器己经停止响应或不存在
 		if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000))
@@ -242,8 +247,11 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 			//先杀死
 			KillProcess(serverInfo);
 		}
+
+		return TRUE;
 	}
-	else if (serverInfo.ProscessStatus == EPS_Checking)
+
+	if (serverInfo.ProscessStatus == EPS_Checking)
 	{
 		if (serverInfo.LastHeartTick == 0)
 		{
@@ -256,8 +264,11 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 			serverInfo.ProscessStatus = EPS_Stop;
 			serverInfo.LastHeartTick = uCurrentTick;
 		}
+
+		return TRUE;
 	}
-	else if (serverInfo.ProscessStatus == EPS_Stoping)
+
+	if (serverInfo.ProscessStatus == EPS_Stoping)
 	{
 		//如果2秒还没有连上我，就是表示不存在
 		if (uCurrentTick - serverInfo.LastHeartTick > 2000)
@@ -265,6 +276,8 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 			serverInfo.ProscessStatus = EPS_Stop;
 			serverInfo.LastHeartTick = uCurrentTick;
 		}
+
+		return TRUE;
 	}
 
 	return TRUE;

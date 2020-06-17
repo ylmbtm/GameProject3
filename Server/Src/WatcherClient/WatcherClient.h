@@ -26,7 +26,7 @@ public:
 
 	UINT32					m_dwWatchSvrConnID;
 	UINT32					m_dwWatchIndex;
-	UINT64                  m_dwLastHeartTime;
+	UINT64                  m_uLastHeartTime;
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);

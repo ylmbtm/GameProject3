@@ -74,7 +74,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->LogError("---------服务器开始启动--------");
+	CLog::GetInstancePtr()->LogInfo("---------服务器开始启动--------");
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
@@ -321,6 +321,8 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
 		RegisterToCenterSvr();
 	}
 
+	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
+
 	return TRUE;
 }
 
@@ -377,6 +379,12 @@ BOOL CGameService::OnSecondTimer()
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
 	CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name((MessageID)pNetPacket->m_dwMsgID).c_str());
+
+	if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
 
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{

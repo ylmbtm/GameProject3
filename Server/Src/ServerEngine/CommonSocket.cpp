@@ -144,12 +144,12 @@ std::string CommonSocket::GetLocalIP()
 
 void   CommonSocket::ShutDownSend(SOCKET hSocket)
 {
-	shutdown(hSocket, 0);
+	shutdown(hSocket, 1);
 }
 
 void   CommonSocket::ShutDownRecv(SOCKET hSocket)
 {
-	shutdown(hSocket, 1);
+	shutdown(hSocket, 0);
 }
 
 
