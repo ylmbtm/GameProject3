@@ -330,11 +330,11 @@ CREATE TABLE `account_create`  (
   `accountid` bigint(22) NOT NULL COMMENT '帐号',
   `version` int(11) NULL DEFAULT NULL,
   `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
-  `optime` bigint(22) NOT NULL COMMENT '创建帐号时间',
+  `optime` datetime(0) NOT NULL COMMENT '创建帐号时间',
   `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '机型',
   `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ip` bigint(20) NOT NULL,
+  `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -350,14 +350,57 @@ CREATE TABLE `account_login`  (
   `accountid` bigint(20) NOT NULL COMMENT '帐号ID',
   `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
   `version` int(11) NULL DEFAULT NULL COMMENT '版本ID',
-  `optime` bigint(20) NOT NULL COMMENT '登出时间',
-  `ip` bigint(11) NOT NULL COMMENT '登入IP',
+  `optime` datetime(0) NOT NULL COMMENT '登出时间',
+  `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登入IP',
   `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备MAC地址',
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备UUID',
   `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `nettype` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for role_create
+-- ----------------------------
+DROP TABLE IF EXISTS `role_create`;
+CREATE TABLE `role_create`  (
+  `roleid` bigint(22) NOT NULL,
+  `accountid` bigint(22) NOT NULL COMMENT '帐号',
+  `areaid` int(11) NULL DEFAULT NULL,
+  `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
+  `optime` datetime(0) NOT NULL COMMENT '创建帐号时间',
+  `rolename` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '机型',
+  `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  UNIQUE INDEX `account_index`(`accountid`) USING BTREE,
+  INDEX `operation_time_index`(`optime`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for role_login
+-- ----------------------------
+DROP TABLE IF EXISTS `role_login`;
+CREATE TABLE `role_login`  (
+  `roleid` bigint(20) NOT NULL,
+  `accountid` bigint(20) NOT NULL COMMENT '帐号ID',
+  `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
+  `version` int(11) NULL DEFAULT NULL COMMENT '版本ID',
+  `optime` datetime(0) NOT NULL COMMENT '登出时间',
+  `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登入IP',
+  `rolename` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `mac` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备MAC地址',
+  `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登入设备UUID',
+  `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `networktype` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`roleid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 use db_gm;

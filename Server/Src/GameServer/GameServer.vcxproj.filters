@@ -108,6 +108,9 @@
     <ClCompile Include="SceneLogic\WinCondition.cpp">
       <Filter>Scenelogic</Filter>
     </ClCompile>
+    <ClCompile Include="..\WatcherClient\WatcherClient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="SceneLogic\SceneLogic_Base.h">
       <Filter>Scenelogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WatcherClient\WatcherClient.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

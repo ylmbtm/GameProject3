@@ -108,30 +108,11 @@ BOOL CGameService::Uninit()
 	return TRUE;
 }
 
-// BOOL CGameService::SendHttpRequest(std::string host, INT32 nPort, std::string strData)
-// {
-// 	ServiceBase::GetInstancePtr()->ConnectTo(host, nPort);
-//
-//
-// }
-
-// BOOL WINAPI HandlerCloseEvent(DWORD dwCtrlType)
-// {
-// 	if (dwCtrlType == CTRL_CLOSE_EVENT)
-// 	{
-// 		CGameService::GetInstancePtr()->Uninit();
-// 	}
-// 	return FALSE;
-// }
-// SetConsoleCtrlHandler(HandlerCloseEvent, TRUE);
-
 BOOL CGameService::Run()
 {
 	while(TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();
-
-		m_WatchMsgHandler.OnUpdate(CommonFunc::GetTickCount());
 
 		CommonFunc::Sleep(1);
 	}

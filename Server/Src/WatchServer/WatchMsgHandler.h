@@ -7,9 +7,11 @@
 
 enum EProcessStatus
 {
-	EPS_Stop,  //停止状态
-	EPS_Starting,//启动中
-	EPS_Connected, //己连接
+	EPS_Stop,       //停止状态
+	EPS_Stoping,    //正在停止中
+	EPS_Starting,   //启动中
+	EPS_Connected,  //己连接
+	EPS_Checking,   //检索中
 };
 
 struct ServerProcessInfo
@@ -37,8 +39,6 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		OnUpdate(UINT64 uTick);
-
 	BOOL		OnNewConnect(UINT32 nConnID);
 
 	BOOL		OnCloseConnect(UINT32 nConnID);
@@ -59,7 +59,7 @@ public:
 	//*********************WebAction处理定义开始******************************
 
 protected:
-	BOOL CheckProcessStatus(UINT64 uTick, UINT32 nIndex);
+	BOOL CheckProcessStatus(UINT32 nIndex);
 
 	BOOL StartProcess(ServerProcessInfo& processData, INT32 nIndex);
 
@@ -82,11 +82,10 @@ protected:
 	BOOL CanStopServer();
 
 	BOOL SendWebResult(UINT32 nConnID, EWebResult eResult);
+
 private:
 
 	std::vector<ServerProcessInfo> m_vtProcess;
-
-	UINT64 m_uLaskTick;
 
 	BOOL m_bStartWatch;
 };
