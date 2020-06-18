@@ -106,7 +106,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	while(TRUE)
+	while (CWatcherClient::GetInstancePtr()->IsRun())
 	{
 		ServiceBase::GetInstancePtr()->Update();
 
@@ -116,9 +116,3 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
-BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
-{
-	GmStopServerReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	return TRUE;
-}

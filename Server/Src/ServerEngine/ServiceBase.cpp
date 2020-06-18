@@ -136,6 +136,17 @@ CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 	return CNetManager::GetInstancePtr()->ConnectTo_Async(strIpAddr, sPort);
 }
 
+BOOL ServiceBase::CloseConnect(UINT32 nConnID)
+{
+	CConnection* pConnection = GetConnectionByID(nConnID);
+
+	ERROR_RETURN_FALSE(pConnection != NULL);
+
+	pConnection->Close();
+
+	return TRUE;
+}
+
 BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
 {
 	m_QueueLock.Lock();

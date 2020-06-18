@@ -62,6 +62,18 @@ BOOL CWatchMsgHandler::OnSecondTimer()
 {
 	if (!m_bStartWatch)
 	{
+		INT32 nCount = 0;
+		for (INT32 nIndex = 0; nIndex < m_vtProcess.size(); nIndex++)
+		{
+			ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
+			if (serverInfo.ProscessStatus == EPS_Connected)
+			{
+				nCount++;
+			}
+		}
+
+		CLog::GetInstancePtr()->LogInfo("----监视:%s， 总进程数:%d, 活跃进程数:%d---", m_bStartWatch ? "[开]" : "[关]", m_vtProcess.size(), nCount);
+
 		return TRUE;
 	}
 
@@ -180,13 +192,8 @@ void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, UINT32 nConnID)
 		for (INT32 i = 0; i < m_vtProcess.size(); i++)
 		{
 			ServerProcessInfo& serverData = m_vtProcess[i];
-			if (CommonFunc::KillProcess(serverData.ProcessID))
-			{
-				serverData.ProscessStatus = EPS_Stop;
-				serverData.LastHeartTick = CommonFunc::GetTickCount();
-				serverData.ProcessID = 0;
-				serverData.ConnID = 0;
-			}
+
+			KillProcessByMsg(serverData);
 		}
 	}
 
@@ -328,6 +335,23 @@ BOOL CWatchMsgHandler::KillProcess(ServerProcessInfo& processData)
 			processData.ConnID = 0;
 		}
 	}
+	return TRUE;
+}
+
+BOOL CWatchMsgHandler::KillProcessByMsg(ServerProcessInfo& processData)
+{
+	if (processData.ProscessStatus != EPS_Connected)
+	{
+		return FALSE;
+	}
+
+	GmStopServerReq Req;
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(processData.ConnID, MSG_GM_SHUTDOWN_SVR_REQ, 0, 0, Req);
+	processData.ProscessStatus = EPS_Stoping;
+	processData.LastHeartTick = CommonFunc::GetTickCount();
+	processData.ProcessID = 0;
+	processData.ConnID = 0;
+
 	return TRUE;
 }
 

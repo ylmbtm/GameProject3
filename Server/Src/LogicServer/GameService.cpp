@@ -197,7 +197,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	while(TRUE)
+	while (CWatcherClient::GetInstancePtr()->IsRun())
 	{
 		ServiceBase::GetInstancePtr()->Update();
 
@@ -384,7 +384,6 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	{
 		return TRUE;
 	}
-
 
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{

@@ -29,7 +29,6 @@ public:
 	CCenterMsgHandler		m_CenterMsgHandler;
 
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

@@ -5,9 +5,10 @@
 #include "../Message/Msg_ID.pb.h"
 CWatcherClient::CWatcherClient(void)
 {
-	m_dwWatchSvrConnID	= 0;
-	m_dwWatchIndex		= 0;
-	m_uLastHeartTime   = 0;
+	m_dwWatchSvrConnID  = 0;
+	m_dwWatchIndex      = 0;
+	m_uLastHeartTime    = 0;
+	m_bRun              = TRUE;
 }
 
 CWatcherClient::~CWatcherClient(void)
@@ -26,6 +27,11 @@ BOOL CWatcherClient::SetWatchIndex(UINT32 nIndex)
 	m_dwWatchIndex = nIndex;
 
 	return TRUE;
+}
+
+BOOL CWatcherClient::IsRun()
+{
+	return m_bRun;
 }
 
 BOOL CWatcherClient::OnNewConnect(UINT32 nConnID)
@@ -76,6 +82,7 @@ BOOL CWatcherClient::DispatchPacket(NetPacket* pNetPacket)
 	switch(pNetPacket->m_dwMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_WATCH_HEART_BEAT_ACK, OnMsgWatchHeartBeatAck)
+			PROCESS_MESSAGE_ITEM(MSG_GM_SHUTDOWN_SVR_REQ, OnMsgGmStopServerReq)
 	}
 
 	return FALSE;
@@ -143,3 +150,14 @@ BOOL CWatcherClient::OnMsgWatchHeartBeatAck(NetPacket* pNetPacket)
 	m_uLastHeartTime = 0;
 	return TRUE;
 }
+
+BOOL CWatcherClient::OnMsgGmStopServerReq(NetPacket* pNetPacket)
+{
+	GmStopServerReq Req;
+	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+
+	m_bRun = FALSE;
+
+	return TRUE;
+}
+

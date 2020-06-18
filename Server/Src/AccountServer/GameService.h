@@ -38,7 +38,6 @@ public:
 	CAccountMsgHandler		m_AccountMsgHandler;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

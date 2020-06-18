@@ -110,7 +110,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	while(TRUE)
+	while (TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();
 

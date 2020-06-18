@@ -52,6 +52,9 @@ enum MessageID {
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;
     
     MSG_SET_LAST_SERVER_NTY          = 100034;
+	
+    MSG_GM_SHUTDOWN_SVR_REQ          = 100035;
+    MSG_GM_SHUTDOWN_SVR_ACK          = 100036;
     
     MSG_UDP_CONNECT_REQ              = 100037;
     MSG_UDP_CONNECT_ACK              = 100038;

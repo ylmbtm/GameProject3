@@ -22,7 +22,7 @@ BOOL    CommonSocket::SetSocketBlock(SOCKET hSocket, BOOL bBlock)
 	ioctlsocket(hSocket, FIONBIO, &iMode);
 #else
 	int flags = fcntl(hSocket, F_GETFL, 0);
-	fcntl(hSocket, F_SETFL, bBlock ? (flags | O_NONBLOCK) : (flags & (~O_NONBLOCK)));
+	fcntl(hSocket, F_SETFL, bBlock ? (flags & (~O_NONBLOCK)) : (flags | O_NONBLOCK));
 #endif
 
 	return TRUE;

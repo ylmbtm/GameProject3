@@ -37,7 +37,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->LogError("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
+	CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
 
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
@@ -146,7 +146,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-	while(TRUE)
+	while(CWatcherClient::GetInstancePtr()->IsRun())
 	{
 		ServiceBase::GetInstancePtr()->Update();
 
@@ -197,7 +197,7 @@ BOOL CGameService::ConnectToProxySvr()
 	{
 		return TRUE;
 	}
-	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetIntValue("proxy_svr_port");
+	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
 	ERROR_RETURN_FALSE(nProxyPort > 0);
 	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strProxyIp, nProxyPort);
@@ -238,17 +238,6 @@ BOOL CGameService::OnMsgRegToProxyAck(NetPacket* pNetPacket)
 
 	return TRUE;
 }
-
-
-
-
-BOOL CGameService::OnMsgGmStopServerReq(NetPacket* pNetPacket)
-{
-	GmStopServerReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	return TRUE;
-}
-
 
 BOOL CGameService::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {

@@ -67,6 +67,8 @@ protected:
 
 	BOOL KillProcess(ServerProcessInfo& processData);
 
+	BOOL KillProcessByMsg(ServerProcessInfo& processData);
+
 	BOOL KillAllProcess();
 
 	BOOL LoadProcessList();

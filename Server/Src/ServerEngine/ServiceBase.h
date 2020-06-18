@@ -26,6 +26,8 @@ public:
 
 	CConnection*	ConnectTo(std::string strIpAddr, UINT16 sPort);
 
+	BOOL            CloseConnect(UINT32 nConnID);
+
 	template<typename T>
 	BOOL			SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
 
