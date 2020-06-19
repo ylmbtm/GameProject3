@@ -386,6 +386,24 @@ UINT32 CommonFunc::GetLastError()
 #endif
 }
 
+std::string CommonFunc::GetLastErrorStr(INT32 nError)
+{
+	std::string strErrorText;
+#ifdef WIN32
+	LPVOID lpMsgBuf;
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, nError,
+	              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+
+	strErrorText = (LPTSTR)lpMsgBuf;
+
+	LocalFree(lpMsgBuf);
+#else
+	strErrorText = strerror(nError);
+#endif
+
+	return strErrorText;
+}
+
 //s:10m:6:p:16
 HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
 {
@@ -412,6 +430,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 	return hShare;
 }
 
+//下面是用路径来创建建共享内存，可惜linux有缺陷
 // HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 // {
 // 	HANDLE hShare = NULL;

@@ -49,6 +49,8 @@ INT32           GetRandNum(INT32 nType);
 
 UINT32			GetLastError();
 
+std::string     GetLastErrorStr(INT32 nError);
+
 // HANDLE       CreateShareMemory(std::string strName, INT32 nSize);
 //
 // HANDLE		OpenShareMemory(std::string strName);

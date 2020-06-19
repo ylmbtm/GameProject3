@@ -48,6 +48,11 @@ T* CreateObject(EShareData nIndex, BOOL bNewBlock = TRUE)
 
 	T* pTmp = static_cast<T*>(pShareBase->NewObject(bNewBlock));
 
+	if (pTmp == NULL)
+	{
+		CLog::GetInstancePtr()->LogError("CreateObject Error, Reason:%s", CommonFunc::GetLastErrorStr(CommonFunc::GetLastError()).c_str());
+	}
+
 	return pTmp;
 }
 }

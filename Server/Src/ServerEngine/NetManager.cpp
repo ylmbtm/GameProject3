@@ -53,7 +53,7 @@ BOOL CNetManager::WorkThread_Listen()
 		SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
 		if(hClientSocket == INVALID_SOCKET)
 		{
-			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+			CLog::GetInstancePtr()->LogError("accept 错误 原因:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 			return FALSE;
 		}
 		CommonSocket::SetSocketBlock(hClientSocket, FALSE);
@@ -95,7 +95,7 @@ BOOL CNetManager::StartNetListen(UINT16 nPortNum)
 	m_hListenSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
 	if(m_hListenSocket == INVALID_SOCKET)
 	{
-		CLog::GetInstancePtr()->LogError("创建监听套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("创建监听套接字失败原因:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
@@ -105,19 +105,19 @@ BOOL CNetManager::StartNetListen(UINT16 nPortNum)
 
 	if(!CommonSocket::BindSocket(m_hListenSocket, (sockaddr*)&SvrAddr, sizeof(SvrAddr)))
 	{
-		CLog::GetInstancePtr()->LogError("邦定套接字失败原因:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("邦定套接字失败原因:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
 	if(!CommonSocket::ListenSocket(m_hListenSocket, 20))
 	{
-		CLog::GetInstancePtr()->LogError("监听线程套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("监听线程套接字失败:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
 	if (!WaitConnect())
 	{
-		CLog::GetInstancePtr()->LogError("等待接受连接失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("等待接受连接失败:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 
@@ -409,7 +409,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 		nFd = epoll_wait(m_hCompletePort, vtEvents, 512, 500);
 		if (nFd == -1)
 		{
-			CLog::GetInstancePtr()->LogError("epoll_wait失败 原因:%s", CommonSocket::GetLastErrorStr(errno).c_str());
+			CLog::GetInstancePtr()->LogError("epoll_wait失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
 			continue;
 		}
 
@@ -427,7 +427,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					{
 						if (errno != EAGAIN && errno != EINTR)
 						{
-							CLog::GetInstancePtr()->LogError("接受新连接失败 原因:%s", CommonSocket::GetLastErrorStr(errno).c_str());
+							CLog::GetInstancePtr()->LogError("接受新连接失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
 						}
 
 						break;
@@ -512,7 +512,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					EpollEvent.events = EPOLLIN | EPOLLET;
 					if(0 != epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent))
 					{
-						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonSocket::GetLastErrorStr(errno).c_str());
+						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
 					}
 				}
 			}
@@ -542,7 +542,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					EpollEvent.events = EPOLLIN | EPOLLET;
 					if (0 != epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent))
 					{
-						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonSocket::GetLastErrorStr(errno).c_str());
+						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
 					}
 				}
 			}
@@ -751,7 +751,7 @@ BOOL CNetManager::WaitConnect()
 #ifdef WIN32
 	if (NULL == CreateIoCompletionPort((HANDLE)m_hListenSocket, m_hCompletePort, (ULONG_PTR)NULL, 0))
 	{
-		CLog::GetInstancePtr()->LogError("WaitConnect邦定Listen套接字失败:%s!", CommonSocket::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+		CLog::GetInstancePtr()->LogError("WaitConnect邦定Listen套接字失败:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 		return FALSE;
 	}
 	m_IoOverlapAccept.Reset();

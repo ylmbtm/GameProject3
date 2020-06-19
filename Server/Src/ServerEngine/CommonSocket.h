@@ -45,8 +45,6 @@ void		CloseSocket(SOCKET hSocket);
 //取本机IP地址
 std::string GetLocalIP();
 
-std::string GetLastErrorStr(INT32 nError);
-
 UINT32		IpAddrStrToInt(CHAR* pszIpAddr);
 
 UINT32		IpAddrStrToInt(const CHAR* pszIpAddr);

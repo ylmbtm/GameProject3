@@ -231,24 +231,6 @@ BOOL CommonSocket::IsSocketValid(SOCKET hSocket)
 	return TRUE;
 }
 
-std::string  CommonSocket::GetLastErrorStr(INT32 nError)
-{
-	std::string strErrorText;
-#ifdef WIN32
-	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, nError,
-	              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, NULL);
-
-	strErrorText = (LPTSTR)lpMsgBuf;
-
-	LocalFree(lpMsgBuf);
-#else
-	strErrorText = strerror(nError);
-#endif
-
-	return strErrorText;
-}
-
 UINT32  CommonSocket::IpAddrStrToInt(CHAR* pszIpAddr)
 {
 	sockaddr_in SvrAddr;

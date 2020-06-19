@@ -181,7 +181,7 @@ BOOL CGameService::ConnectToLogicSvr()
 	{
 		return TRUE;
 	}
-	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_port");
+	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
 	ERROR_RETURN_FALSE(nLogicPort > 0);
 	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
