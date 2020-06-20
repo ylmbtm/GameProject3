@@ -184,37 +184,30 @@ BOOL CAccountObjectMgr::SaveAccountChange()
 
 		CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
-		if(m_ArrChangedAccount.size())
+		if (m_ArrChangedAccount.size())
+		{
+			if (!tDBConnection.ping())
+			{
+				if (!tDBConnection.reconnect())
+				{
+					CommonFunc::Sleep(1000);
+					continue;
+				}
+			}
 
-			while(m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
+			while (m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
 			{
 				snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid1, lastsvrid2, channel, create_time, seal_end_time) values('%lld','%s','%s','%d','%d', '%d', '%s','%s')",
 				         pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwLastSvrID[0], pAccount->m_dwLastSvrID[1], pAccount->m_dwChannel, CommonFunc::TimeToString(pAccount->m_uCreateTime).c_str(), CommonFunc::TimeToString(pAccount->m_uSealTime).c_str());
 
-				if(tDBConnection.execSQL(szSql) > 0)
+				if (tDBConnection.execSQL(szSql) > 0)
 				{
 					continue;
 				}
 
-				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, DB Lose Connection!");
-
-				int nTimes = 0;
-				while (!tDBConnection.reconnect())
-				{
-					nTimes++;
-					if (nTimes > 3)
-					{
-						break;
-					}
-					CommonFunc::Sleep(1000);
-				}
-
-				if(tDBConnection.execSQL(szSql) < 0)
-				{
-					CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed, execSQL Error! Sql:%s", szSql);
-				}
+				CLog::GetInstancePtr()->LogError("CAccountMsgHandler::SaveAccountChange Failed! Reason: %s", tDBConnection.GetErrorMsg());
 			}
-
+		}
 		CommonFunc::Sleep(10);
 	}
 

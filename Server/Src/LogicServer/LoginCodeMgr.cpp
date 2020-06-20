@@ -22,7 +22,14 @@ CLoginCodeManager* CLoginCodeManager::GetInstancePtr()
 
 INT32 CLoginCodeManager::CreateLoginCode(UINT64 uAccountID)
 {
-	CLoginCodeItem* pLoginCode = InsertAlloc(uAccountID);
+	CLoginCodeItem* pLoginCode = GetByKey(uAccountID);
+	if (pLoginCode == NULL)
+	{
+		pLoginCode = InsertAlloc(uAccountID);
+	}
+
+	ERROR_RETURN_VALUE(pLoginCode != 0, 0);
+
 	pLoginCode->uAccountID = uAccountID;
 	pLoginCode->nCode = rand();
 	pLoginCode->uEndTime = CommonFunc::GetCurrTime() + 3;

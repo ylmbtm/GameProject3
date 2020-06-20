@@ -290,6 +290,11 @@ void CppMySQLQuery::nextRow()
 	_row = mysql_fetch_row(m_MysqlRes);
 }
 
+bool CppMySQLQuery::hasResult()
+{
+	return m_MysqlRes != NULL;
+}
+
 const unsigned char* CppMySQLQuery::getBlobField(int nField, int& nLen)
 {
 	const unsigned char* pData = (const unsigned char*)getStringField(nField);

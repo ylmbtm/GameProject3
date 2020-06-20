@@ -49,7 +49,10 @@ public:
 	bool fieldIsNull(const char* szField);
 
 	bool eof();
+
 	void nextRow();
+
+	bool hasResult();
 
 private:
 	void freeRes();
