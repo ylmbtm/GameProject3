@@ -44,7 +44,7 @@ BOOL LogicSvrManager::Init()
 
 	m_IsRun = TRUE;
 
-	m_pThread = new std::thread(&LogicSvrManager::SaveLogicServerInfo, this);
+	m_pThread = new std::thread(&LogicSvrManager::SaveLogicServerThread, this);
 
 	ERROR_RETURN_FALSE(m_pThread != NULL);
 
@@ -222,7 +222,11 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 {
 	if (!m_DBConnection.ping())
 	{
-		m_DBConnection.reconnect();
+		if (m_DBConnection.reconnect())
+		{
+			CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error Connect to DB Failed");
+			return FALSE;
+		}
 	}
 
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
@@ -325,7 +329,11 @@ BOOL LogicSvrManager::ReloadReviewVersion()
 {
 	if (!m_DBConnection.ping())
 	{
-		m_DBConnection.reconnect();
+		if (m_DBConnection.reconnect())
+		{
+			CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error Connect to DB Failed");
+			return FALSE;
+		}
 	}
 
 	m_setReviewVersion.clear();
@@ -344,7 +352,7 @@ BOOL LogicSvrManager::ReloadReviewVersion()
 }
 
 
-BOOL LogicSvrManager::SaveLogicServerInfo()
+BOOL LogicSvrManager::SaveLogicServerThread()
 {
 	LogicServerNode* pTempNode = NULL;
 
@@ -358,18 +366,20 @@ BOOL LogicSvrManager::SaveLogicServerInfo()
 			continue;
 		}
 
-
+		if (!m_DBConnection.ping())
+		{
+			if (!m_DBConnection.reconnect())
+			{
+				CommonFunc::Sleep(1000);
+				continue;
+			}
+		}
 
 		while (m_ArrChangedNode.pop(pTempNode) && (pTempNode != NULL))
 		{
 			if (pTempNode->m_eChangeStatus == EUS_NONE)
 			{
 				continue;
-			}
-
-			if (!m_DBConnection.ping())
-			{
-				m_DBConnection.reconnect();
 			}
 
 			if (pTempNode->m_eChangeStatus == EUS_NEW_REG)

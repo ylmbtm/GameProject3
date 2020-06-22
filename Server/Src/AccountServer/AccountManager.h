@@ -39,7 +39,7 @@ public:
 
 	CAccountObject*		GetAccountObject(const std::string& name, UINT32 dwChannel);
 
-	BOOL				SaveAccountChange();
+	BOOL				SaveAccountThread();
 
 	BOOL				Init();
 

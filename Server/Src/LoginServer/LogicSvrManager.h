@@ -115,7 +115,7 @@ public:
 
 	BOOL	ReloadReviewVersion();
 
-	BOOL    SaveLogicServerInfo();
+	BOOL    SaveLogicServerThread();
 
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 

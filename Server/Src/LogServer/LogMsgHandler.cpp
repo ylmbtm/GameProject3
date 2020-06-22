@@ -58,9 +58,18 @@ BOOL CLogMsgHandler::OnUpdate(UINT64 uTick)
 
 	if (uTick - m_nLastWriteTime > 1000)
 	{
-		m_DBConnection.commit();
+		if (!m_DBConnection.commit())
+		{
+			CLog::GetInstancePtr()->LogError("CLogMsgHandler::commit Error :%s", m_DBConnection.GetErrorMsg());
+		}
+
 		m_DBConnection.ping();
-		m_DBConnection.startTransaction();
+
+		if (!m_DBConnection.startTransaction())
+		{
+			CLog::GetInstancePtr()->LogError("CLogMsgHandler::commit Error :%s", m_DBConnection.GetErrorMsg());
+		}
+
 		m_nLastWriteTime = uTick;
 		m_nWriteCount = 0;
 	}
@@ -124,9 +133,18 @@ BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
 
 	if (m_nWriteCount > 1000)
 	{
-		m_DBConnection.commit();
+		if (!m_DBConnection.commit())
+		{
+			CLog::GetInstancePtr()->LogError("CLogMsgHandler::commit Error :%s", m_DBConnection.GetErrorMsg());
+		}
+
 		m_DBConnection.ping();
-		m_DBConnection.startTransaction();
+
+		if (!m_DBConnection.startTransaction())
+		{
+			CLog::GetInstancePtr()->LogError("CLogMsgHandler::commit Error :%s", m_DBConnection.GetErrorMsg());
+		}
+
 		m_nWriteCount = 0;
 	}
 

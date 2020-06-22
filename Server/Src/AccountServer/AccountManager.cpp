@@ -162,7 +162,7 @@ CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 u64ID, const CHAR* pS
 	return pObj;
 }
 
-BOOL CAccountObjectMgr::SaveAccountChange()
+BOOL CAccountObjectMgr::SaveAccountThread()
 {
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
@@ -220,7 +220,7 @@ BOOL CAccountObjectMgr::Init()
 
 	m_IsRun = TRUE;
 
-	m_pThread = new std::thread(&CAccountObjectMgr::SaveAccountChange, this);
+	m_pThread = new std::thread(&CAccountObjectMgr::SaveAccountThread, this);
 
 	ERROR_RETURN_FALSE(m_pThread != NULL);
 
