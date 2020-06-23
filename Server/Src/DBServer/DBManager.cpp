@@ -86,7 +86,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		pData->add_actime(QueryRes.getInt64Field("actime4", 0));
 		pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
 		pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
-		pData->set_logofftime(QueryRes.getIntField("logofftime", 0));
+		pData->set_logofftime(QueryRes.getInt64Field("logofftime", 0));
 	}
 
 	return TRUE;

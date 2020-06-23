@@ -38,7 +38,11 @@ BOOL CDBWriterManager::Init()
 
 	for (int i = ESD_ROLE; i < ESD_END; i++)
 	{
-		ERROR_RETURN_FALSE(m_vtDataWriters[i] != NULL);
+		if (m_vtDataWriters[i] == NULL)
+		{
+			CLog::GetInstancePtr()->LogError("DBMoule ERROR: %d", i);
+			return FALSE;
+		}
 	}
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
@@ -98,7 +102,11 @@ void CDBWriterManager::DBWriteThread()
 	{
 		if (!m_DBConnection.Ping())
 		{
-			m_DBConnection.Reconnect();
+			if (!m_DBConnection.Reconnect())
+			{
+				CommonFunc::Sleep(1000);
+				continue;
+			}
 		}
 
 		WriteDataToDB();

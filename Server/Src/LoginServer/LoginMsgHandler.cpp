@@ -48,7 +48,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_ACK,       OnMsgAccountRegAck);
 			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_ACK,     OnMsgAccountLoginAck);
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ, OnMsgLogicSvrRegReq);
-			PROCESS_MESSAGE_ITEM(MSG_LOGIC_UPDATE_REQ,      OnMsgLogicUpdateReq);
+			PROCESS_MESSAGE_ITEMEX(MSG_LOGIC_UPDATE_REQ,    OnMsgLogicUpdateReq);
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,     OnMsgSelectServerAck);
 
 	}
@@ -175,6 +175,7 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		pClientNode->set_svrflag(pTempNode->m_ServerFlag);
 		pClientNode->set_cornermark(pTempNode->m_CornerMark);
 		pClientNode->set_svropentime(pTempNode->m_uSvrOpenTime);
+        pClientNode->set_svrstatus(pTempNode->m_ServerStatus == ESS_SVR_ONLINE);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
@@ -203,12 +204,12 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 	LogicServerNode* pServerNode = m_LogicSvrMgr.GetLogicServerInfo(Req.serverid());
 	if (pServerNode == NULL || pServerNode->m_ServerStatus != ESS_SVR_ONLINE)
 	{
-		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用。", Req.serverid());
+		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用", Req.serverid());
 		SelectServerAck Ack;
 		Ack.set_serveraddr("0.0.0.0");
 		Ack.set_serverport(0);
 		Ack.set_retcode(MRC_INVALID_SERVER_ID);
-		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pServerNode->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
+		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
 		return TRUE;
 	}
 

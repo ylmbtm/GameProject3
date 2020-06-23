@@ -47,6 +47,8 @@ public:
 
 	BOOL				IsRun();
 
+	BOOL                CheckAccountName(const std::string& strName);
+
 public:
 
 	std::map<std::string, CAccountObject*>	m_mapNameObj;

@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "AccountManager.h"
+#include <regex>
 
 CAccountObjectMgr::CAccountObjectMgr()
 {
@@ -134,6 +135,12 @@ BOOL CAccountObjectMgr::SetLastServer(UINT64 uAccountID, INT32 ServerID)
 
 	CAccountObject* pAccObj = GetAccountObjectByID(uAccountID);
 	ERROR_RETURN_FALSE(pAccObj != NULL);
+
+	if (pAccObj->m_dwLastSvrID[0] == ServerID)
+	{
+		return TRUE;
+	}
+
 	pAccObj->m_dwLastSvrID[1] = pAccObj->m_dwLastSvrID[0];
 	pAccObj->m_dwLastSvrID[0] = ServerID;
 	m_ArrChangedAccount.push(pAccObj);
@@ -245,6 +252,21 @@ BOOL CAccountObjectMgr::Uninit()
 BOOL CAccountObjectMgr::IsRun()
 {
 	return m_IsRun;
+}
+
+BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName)
+{
+	if (strName.size() < 6)
+	{
+		return FALSE;
+	}
+
+	if (!std::regex_match(strName.c_str(), std::regex("([a-zA-Z0-9]+)")))
+	{
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, UINT32 dwChannel )

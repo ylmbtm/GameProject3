@@ -57,10 +57,17 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 
 	AccountRegAck Ack;
 
+	if(!m_AccountManager.CheckAccountName(Req.accountname()))
+	{
+		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
+
 	CAccountObject* pAccount = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 	if(pAccount != NULL)
 	{
-		Ack.set_retcode(MRC_ACCOUNT_EXIST);
+		Ack.set_retcode(MRC_ACCOUNT_NAME_EXIST);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -92,6 +99,14 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	AccountLoginAck Ack;
+
+	if (!m_AccountManager.CheckAccountName(Req.accountname()))
+	{
+		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
+
 	CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
 	if(pAccObj != NULL)
 	{
@@ -136,7 +151,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	}
 	else
 	{
-		Ack.set_retcode(MRC_INVALID_ACCNAME);
+		Ack.set_retcode(MRC_ACCOUNT_NAME_NOT_EXIST);
 		Ack.set_lastsvrid(0);
 		Ack.set_accountid(0);
 	}

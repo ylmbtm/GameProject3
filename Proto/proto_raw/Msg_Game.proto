@@ -28,17 +28,14 @@ message CheckVersionAck {
 message AccountLog
 {
     int32  Channel    = 1;   //渠道ID
-    string Version    = 2;   //版本ID
-    int32  AccountID  = 3;   //帐号ID
-    string Uuid       = 4;   //下载设备UUID
-    string Idfa       = 5;
-    string NetType    = 6;   //网络类型
-    string Imodel     = 7;   // 机型
-    string Imei       = 8;   // 手机MEI
-    string Resolution = 9;   // 分辨率(例如:800X600)
-    string PhoneCpu   = 10;  // 手机CPU
-    string MacAddr    = 11;  //下载设备MAC地址
-    int32  IpAddr     = 12;  //ip地址
+    string Version    = 2;   //版本
+    uint64 AccountID  = 3;   //帐号
+    string Uuid       = 4;   //设备UUID
+    string Idfa       = 5;   //idfa
+    string Imodel     = 6;   //机型
+    string Imei       = 7;   //手机MEI
+    string MacAddr    = 8;   //设备MAC地址
+    int32  IpAddr     = 9;   //ip地址
 }  
 
 message AccountRegReq {
@@ -82,6 +79,7 @@ message ClientServerNode {
     int32    SvrFlag        = 3; //服务器标记
     int32    CornerMark     = 4; //服务器角标
     int64    SvrOpenTime    = 5;
+    int32    SvrStatus      = 6; //1:表示服务器在线，0:表示不在线
 }
 
 message ClientServerListAck {
