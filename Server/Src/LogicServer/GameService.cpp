@@ -378,7 +378,10 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name((MessageID)pNetPacket->m_dwMsgID).c_str());
+	if (pNetPacket->m_dwMsgID != MSG_LOGIC_UPDATE_ACK)
+	{
+		CLog::GetInstancePtr()->LogInfo("Receive Message:[%s]", MessageID_Name((MessageID)pNetPacket->m_dwMsgID).c_str());
+	}
 
 	if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{

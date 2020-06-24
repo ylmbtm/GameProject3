@@ -695,4 +695,3 @@ BOOL CommonFunc::SetBitValue(UINT64& nValue, INT32 nPos, BOOL bValue)
 
 	return TRUE;
 }
-

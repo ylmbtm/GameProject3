@@ -175,7 +175,7 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		pClientNode->set_svrflag(pTempNode->m_ServerFlag);
 		pClientNode->set_cornermark(pTempNode->m_CornerMark);
 		pClientNode->set_svropentime(pTempNode->m_uSvrOpenTime);
-        pClientNode->set_svrstatus(pTempNode->m_ServerStatus == ESS_SVR_ONLINE);
+		pClientNode->set_svrstatus(pTempNode->m_ServerStatus == ESS_SVR_ONLINE);
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);

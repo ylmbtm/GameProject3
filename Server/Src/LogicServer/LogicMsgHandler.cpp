@@ -176,7 +176,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 
 	if (CSimpleManager::GetInstancePtr()->CheckNameExist(Req.name()))
 	{
-		Ack.set_retcode(MRC_NAME_EXIST);
+		Ack.set_retcode(MRC_ROLE_NAME_EXIST);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}

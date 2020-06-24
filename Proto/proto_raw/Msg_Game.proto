@@ -193,7 +193,6 @@ message RemoveConnectNty {
     uint64    RoleID = 1;
 }
 
-
 ///创建场景
 message CreateNewSceneReq{
     int32    CopyID        = 1;
@@ -201,8 +200,6 @@ message CreateNewSceneReq{
     int32    PlayerNum     = 3;
     uint64   CreateParam   = 4;
 }
-
-
 
 ///创建场景
 message CreateNewSceneAck{
@@ -246,9 +243,6 @@ message EnterSceneAck {
     repeated int32 Equips   = 19; //武器
     repeated SkillItem Skills  = 20;//技能
 }
-
-
-
 
 message BackToCityReq {
     uint32    Param = 1;

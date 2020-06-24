@@ -115,6 +115,11 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 			OnGmGroupMail(Params, pNetPacket->m_dwConnID);
 		}
 		break;
+		case EWA_GM_COMMAND:           //后台发的GM指令
+		{
+			OnGmCommand(Params, pNetPacket->m_dwConnID);
+		}
+		break;
 		case EWA_PAY_CALLBACK:
 		{
 			SendWebResult(pNetPacket->m_dwConnID, EWR_SUCCESSED);
@@ -224,6 +229,35 @@ void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID)
 	std::vector<StMailItem> vtItems = { {nItem[0], nItemNum[0] }, {nItem[1], nItemNum[1]}, {nItem[2], nItemNum[2]}, {nItem[3], nItemNum[3]} };
 
 	CMailManager::GetInstancePtr()->SendGroupMail(nGroupID, "GM", strTitle, strContent, vtItems);
+	return;
+}
+
+void CWebCommandMgr::OnGmCommand(HttpParameter& hParams, UINT32 nConnID)
+{
+	std::string strRoleName = hParams.GetStrValue("role_name");
+
+	std::string strCmd = hParams.GetStrValue("gm_command");
+
+	std::vector<std::string>  vtString;
+
+	CommonConvert::SpliteString(strCmd, "%20", vtString);
+
+	CPlayerObject* pPlayer = NULL;
+
+	if (strRoleName != "@@")
+	{
+		UINT64 uRoleID = CSimpleManager::GetInstancePtr()->GetRoleIDByName(strRoleName);
+		if (uRoleID == 0)
+		{
+			SendWebResult(nConnID, EWR_FAILURE);
+			return;
+		}
+
+		pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uRoleID);
+	}
+
+	CWebCommandMgr::GetInstancePtr()->FireGMFunc(pPlayer, vtString);
+
 	return;
 }
 
