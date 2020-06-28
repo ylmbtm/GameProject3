@@ -72,8 +72,7 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(17, m_uLogonTime);
 		csp.set_int64(18, m_uLogoffTime);
 		csp.set_int64(19, m_uGroupMailTime);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -100,17 +99,14 @@ struct RoleDataObject : public ShareObject
 		csp.set_int64(17, m_uLogonTime);
 		csp.set_int64(18, m_uLogoffTime);
 		csp.set_int64(19, m_uGroupMailTime);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("update player set delete = 1 where id = ?");
 		csp.set_uint64(0, m_uRoleID);
-		pDB->Execute(&csp);
-
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 

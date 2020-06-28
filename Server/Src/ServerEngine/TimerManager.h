@@ -188,7 +188,7 @@ public:
 
 	VOID UpdateTimer();
 
-	VOID OnTimerEvent( TimeEvent* pEvent );
+	BOOL OnTimerEvent( TimeEvent* pEvent );
 
 	BOOL InitTimer();
 

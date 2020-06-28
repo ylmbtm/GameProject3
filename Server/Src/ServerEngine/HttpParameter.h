@@ -30,8 +30,6 @@ public:
 
 	bool		SetKeyValue(const std::string& strKey, FLOAT floatValue);
 
-
-
 protected:
 	std::map<std::string, std::string> m_ParameterMap;
 };

@@ -24,8 +24,7 @@ struct TaskDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_TaskStatus);
 		csp.set_uint32(3, m_nProgress);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -35,8 +34,7 @@ struct TaskDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_TaskStatus);
 		csp.set_uint32(3, m_nProgress);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
