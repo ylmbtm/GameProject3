@@ -388,6 +388,7 @@ BOOL CommonConvert::SpliteString(std::string strSrc,  char cDelim, std::vector<s
 	return TRUE;
 }
 
+/*
 std::wstring CommonConvert::Utf8_To_Unicode( std::string strSrc )
 {
 #ifdef WIN32
@@ -530,6 +531,7 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	}
 	return TRUE;
 }
+*/
 
 UINT32 CommonConvert::VersionToInt(const std::string& strVersion )
 {

@@ -34,19 +34,19 @@ BOOL  StringToBox(char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bott
 //浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
 std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
 
-std::wstring Utf8_To_Unicode(std::string strValue);
-
-std::string  Unicode_To_Uft8(std::wstring wstrValue);
-
-std::wstring Ansi_To_Unicode(std::string strValue);
-
-std::string Unicode_To_Ansi(std::wstring strValue);
-
-std::string Utf8_To_Ansi(std::string strValue);
-
-std::string Ansi_To_Uft8(std::string wstrValue);
-
-BOOL IsTextUTF8(const char* str, UINT32 length);
+// std::wstring Utf8_To_Unicode(std::string strValue);
+//
+// std::string  Unicode_To_Uft8(std::wstring wstrValue);
+//
+// std::wstring Ansi_To_Unicode(std::string strValue);
+//
+// std::string Unicode_To_Ansi(std::wstring strValue);
+//
+// std::string Utf8_To_Ansi(std::string strValue);
+//
+// std::string Ansi_To_Uft8(std::string wstrValue);
+//
+// BOOL IsTextUTF8(const char* str, UINT32 length);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
 

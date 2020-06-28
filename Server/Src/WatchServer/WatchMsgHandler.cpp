@@ -228,63 +228,60 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 
 	ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
 
-	if (serverInfo.ProscessStatus == EPS_Stop)
+	switch (serverInfo.ProscessStatus)
 	{
-		StartProcess(serverInfo, nIndex);
-		return TRUE;
-	}
-
-	if (serverInfo.ProscessStatus == EPS_Starting)
-	{
-		//如果响应超时，表示服务器己经停止响应或不存在
-		if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 3000))
+		case EPS_Stop:
 		{
-			//先杀死
-			KillProcess(serverInfo);
+			StartProcess(serverInfo, nIndex);
 		}
-
-		return TRUE;
-	}
-
-	if (serverInfo.ProscessStatus == EPS_Connected)
-	{
-		//如果响应超时，表示服务器己经停止响应或不存在
-		if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000))
+		break;
+		case EPS_Starting:
 		{
-			//先杀死
-			KillProcess(serverInfo);
+			//如果响应超时，表示服务器己经停止响应或不存在
+			if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 3000))
+			{
+				//先杀死
+				KillProcess(serverInfo);
+			}
 		}
-
-		return TRUE;
-	}
-
-	if (serverInfo.ProscessStatus == EPS_Checking)
-	{
-		if (serverInfo.LastHeartTick == 0)
+		break;
+		case EPS_Connected:
 		{
-			serverInfo.LastHeartTick = uCurrentTick;
+			//如果响应超时，表示服务器己经停止响应或不存在
+			if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000))
+			{
+				//先杀死
+				KillProcess(serverInfo);
+			}
 		}
-
-		//如果3秒还没有连上我，就是表示不存在
-		if (uCurrentTick - serverInfo.LastHeartTick > 2000)
+		break;
+		case EPS_Checking:
 		{
-			serverInfo.ProscessStatus = EPS_Stop;
-			serverInfo.LastHeartTick = uCurrentTick;
+			if (serverInfo.LastHeartTick == 0)
+			{
+				serverInfo.LastHeartTick = uCurrentTick;
+			}
+
+			//如果3秒还没有连上我，就是表示不存在
+			if (uCurrentTick - serverInfo.LastHeartTick > 2000)
+			{
+				serverInfo.ProscessStatus = EPS_Stop;
+				serverInfo.LastHeartTick = uCurrentTick;
+			}
 		}
-
-		return TRUE;
-	}
-
-	if (serverInfo.ProscessStatus == EPS_Stoping)
-	{
-		//如果2秒还没有连上我，就是表示不存在
-		if (uCurrentTick - serverInfo.LastHeartTick > 2000)
+		break;
+		case EPS_Stoping:
 		{
-			serverInfo.ProscessStatus = EPS_Stop;
-			serverInfo.LastHeartTick = uCurrentTick;
+			//如果2秒还没有连上我，就是表示不存在
+			if (uCurrentTick - serverInfo.LastHeartTick > 2000)
+			{
+				serverInfo.ProscessStatus = EPS_Stop;
+				serverInfo.LastHeartTick = uCurrentTick;
+			}
 		}
-
-		return TRUE;
+		break;
+		default:
+			break;
 	}
 
 	return TRUE;

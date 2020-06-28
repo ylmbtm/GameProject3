@@ -256,7 +256,6 @@ void CWebCommandMgr::OnGmCommand(HttpParameter& hParams, UINT32 nConnID)
 		pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uRoleID);
 	}
 
-	CWebCommandMgr::GetInstancePtr()->FireGMFunc(pPlayer, vtString);
 
 	return;
 }
