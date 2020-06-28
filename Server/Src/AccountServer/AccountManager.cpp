@@ -73,10 +73,11 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strNam
 	CAccountObject* pObj = InsertAlloc(m_u64MaxID);
 	ERROR_RETURN_NULL(pObj != NULL);
 
-	pObj->m_strName			= strName;
-	pObj->m_strPassword		= strPwd;
-	pObj->m_ID				= m_u64MaxID;
-	pObj->m_dwChannel		= dwChannel;
+	pObj->m_strName         = strName;
+	pObj->m_strPassword     = strPwd;
+	pObj->m_ID              = m_u64MaxID;
+	pObj->m_dwChannel       = dwChannel;
+	pObj->m_nLoginCount     = 1;
 	pObj->m_uCreateTime		= CommonFunc::GetCurrTime();
 
 	if (m_bCrossChannel)

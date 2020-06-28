@@ -6,13 +6,14 @@
 
 struct CAccountObject
 {
-	UINT64		m_ID = 0;
+	UINT64      m_ID = 0;
 	std::string m_strName;
 	std::string m_strPassword;
 	UINT32      m_dwLastSvrID[2] = {0};
 	UINT32      m_dwChannel = 0;	//渠道ID
-	UINT64		m_uSealTime = 0;    //封禁结束时间
+	UINT64      m_uSealTime = 0;    //封禁结束时间
 	UINT64      m_uCreateTime = 0;  //创建时间
+	INT32       m_nLoginCount = 0;
 };
 
 

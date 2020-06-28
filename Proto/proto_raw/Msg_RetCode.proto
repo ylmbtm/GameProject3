@@ -4,8 +4,8 @@ enum MessageRetCode {
    MRC_SUCCESSED        = 0;    //成功
    MRC_UNKNOW_ERROR     = 1;    //未知错误
    MRC_DISCONNECT       = 2;    //连接断开
-   MRC_ACCOUNT_SEALED   = 3;    //账号被封禁
-   MRC_BAD_CLIENT_VER	= 4;    //客户端版本号不正确
+   
+   
 
    //无效的。。。。。。
    MRC_INVALID_ACCNAME   = 100;    //无效的账名
@@ -22,6 +22,7 @@ enum MessageRetCode {
    MRC_INVALID_SKILL_ID  = 111;    //无效的技能ID
    MRC_INVALID_TARGET_ID = 112;    //无效的目标ID
    MRC_INVALID_SERVER_ID = 113;    //无效的服务器ID
+   MRC_INVALID_GIFT_CODE = 114;    //无效的礼包码
    
    
    
@@ -39,10 +40,14 @@ enum MessageRetCode {
    MRC_ACCOUNT_NAME_NOT_EXIST= 301;    //账号名不存在
    MRC_ACCOUNT_NAME_ERR_FMT  = 302;    //账号名不符合要求
    MRC_ROLE_NAME_EXIST       = 303;    //角色名己存在
-    
+   MRC_ACCOUNT_SEALED        = 304;    //账号被封禁
+   MRC_BAD_CLIENT_VER        = 305;    //客户端版本号不正确
+   MRC_ILLEGAL_LOGIN_REQ     = 306;    //非法的登陆请求
+   MRC_GIFT_CODE_USED        = 307;    //礼包码己使用
+   MRC_KICKOUT_BY_OTHER      = 308;    //被其它人挤出
    //技能
-   MRC_SKILL_CD_ERROR         = 304;    //技能未冷却    
-   MRC_SKILL_DEAD_OBJ         = 305;    //对象己经死亡
+   MRC_SKILL_CD_ERROR        = 309;    //技能未冷却    
+   MRC_SKILL_DEAD_OBJ        = 310;    //对象己经死亡
     
 }
 

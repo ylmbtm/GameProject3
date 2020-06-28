@@ -9,7 +9,7 @@ typedef std::set<KeyType> DFANodeSet;
 class DFANode
 {
 public:
-	DFANode(KeyType key);
+	DFANode(KeyType key = 0);
 
 	~DFANode();
 
