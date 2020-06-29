@@ -56,7 +56,6 @@ VOID CGameService::RegisterMessageHanler()
 {
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CGameService::OnMsgRegToLoginAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK, &CGameService::OnMsgUpdateInfoAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_WATCH_HEART_BEAT_ACK, &CGameService::OnMsgUpdateInfoAck, this);
 
 }
 

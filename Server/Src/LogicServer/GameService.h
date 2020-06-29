@@ -49,8 +49,6 @@ public:
 
 	BOOL		ReportServerStatus();
 
-	BOOL		SetWatchIndex(UINT32 nIndex);
-
 	UINT32      GetLogSvrConnID();
 
 	VOID        RegisterMessageHanler();

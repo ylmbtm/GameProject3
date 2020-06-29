@@ -76,7 +76,7 @@ BOOL CConnection::DoReceive()
 		int nError = CommonSocket::GetSocketLastError();
 		if(nError != ERROR_IO_PENDING )
 		{
-			CLog::GetInstancePtr()->LogError("关闭连接，因为接收数据发生错误:%s!", CommonSocket::GetLastErrorStr(nError).c_str());
+			CLog::GetInstancePtr()->LogError("关闭连接，因为接收数据发生错误:%s!", CommonFunc::GetLastErrorStr(nError).c_str());
 
 			return FALSE;
 		}
