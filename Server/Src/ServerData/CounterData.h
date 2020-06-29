@@ -25,26 +25,24 @@ struct CounterDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO counter (id, roleid, index, time, value) VALUES(?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO counter (id, roleid, cindex, time, value) VALUES(?,?,?,?,?);");
 		csp.set_uint32(0, m_uCounterID);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_dwIndex);
 		csp.set_uint64(3, m_uTime);
 		csp.set_int64(4, m_uValue);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO counter (id, roleid, index, time, value) VALUES(?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO counter (id, roleid, cindex, time, value) VALUES(?,?,?,?,?);");
 		csp.set_uint32(0, m_uCounterID);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_dwIndex);
 		csp.set_uint64(3, m_uTime);
 		csp.set_int64(4, m_uValue);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
@@ -53,8 +51,7 @@ struct CounterDataObject : public ShareObject
 		csp.set_uint32(0, m_uCounterID);
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint32(2, m_dwIndex);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 

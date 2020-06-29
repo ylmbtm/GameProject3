@@ -42,8 +42,7 @@ struct GroupMailDataObject : public ShareObject
 		csp.set_uint32(4, m_dwMailType);
 		csp.set_uint32(5, m_dwChannel);
 		csp.set_tinyblob(6, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -57,16 +56,14 @@ struct GroupMailDataObject : public ShareObject
 		csp.set_uint32(4, m_dwMailType);
 		csp.set_uint32(5, m_dwChannel);
 		csp.set_tinyblob(6, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("delete from groupmail where id = ?;");
 		csp.set_uint64(0, m_uGuid);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 
@@ -94,7 +91,7 @@ struct MailDataObject : public ShareObject
 	CHAR   m_szSender[ROLE_NAME_LEN];		//发送者名字
 	CHAR   m_szTitle[MAIL_TITLE_LEN];		//邮件标题
 	CHAR   m_szContent[MAIL_CONTNET_LEN];	//邮件内容
-	StMailItem m_Items[MAIL_ITEM_COUNT];		//道具列表
+	StMailItem m_Items[MAIL_ITEM_COUNT];	//道具列表
 
 
 	BOOL Create(IDBInterface* pDB)
@@ -109,8 +106,7 @@ struct MailDataObject : public ShareObject
 		csp.set_string(5, m_szContent, strlen(m_szContent));
 		csp.set_uint64(6, m_uTime);
 		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -125,16 +121,14 @@ struct MailDataObject : public ShareObject
 		csp.set_string(5, m_szContent, strlen(m_szContent));
 		csp.set_uint64(6, m_uTime);
 		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("delete from mail where id = ?;");
 		csp.set_uint64(0, m_uGuid);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 

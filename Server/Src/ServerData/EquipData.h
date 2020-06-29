@@ -39,8 +39,7 @@ struct EquipDataObject : public ShareObject
 		csp.set_int32(4, m_StrengthLvl);
 		csp.set_int32(5, m_RefineLevel);
 		csp.set_int32(6, m_StarLevel);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -54,17 +53,14 @@ struct EquipDataObject : public ShareObject
 		csp.set_int32(4, m_StrengthLvl);
 		csp.set_int32(5, m_RefineLevel);
 		csp.set_int32(6, m_StarLevel);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("delete from equip where guid = ?");
 		csp.set_uint64(0, m_uGuid);
-		pDB->Execute(&csp);
-
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 
