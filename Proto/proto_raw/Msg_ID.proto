@@ -20,8 +20,8 @@ enum MessageID {
     MSG_DB_EXE_SQL_REQ               = 100007;    //执行Sql语句请求
     MSG_DB_EXE_SQL_ACK               = 100008;    //执行Sql语句请求返回
     
-    MSG_SERVER_LIST_REQ              = 100009;     //服务器列表请求
-    MSG_SERVER_LIST_ACK              = 100010;   //服务器列表的返回
+    MSG_SERVER_LIST_REQ              = 100009;    //服务器列表请求
+    MSG_SERVER_LIST_ACK              = 100010;    //服务器列表的返回
     
     MSG_SELECT_SERVER_REQ            = 100011;    //选择服务器请求
     MSG_SELECT_SERVER_ACK            = 100012;    //选择服务器请求返回
@@ -52,7 +52,7 @@ enum MessageID {
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;
     
     MSG_SET_LAST_SERVER_NTY          = 100034;
-	
+    
     MSG_GM_SHUTDOWN_SVR_REQ          = 100035;
     MSG_GM_SHUTDOWN_SVR_ACK          = 100036;
     
@@ -61,6 +61,9 @@ enum MessageID {
 
     MSG_SEAL_ACCOUNT_REQ             = 100039;   //封号请求
     MSG_SEAL_ACCOUNT_ACK             = 100040;   //封号请求返回
+    
+    MSG_DB_WRITE_ERROR_NTY           = 100041;   //DB写错误通知
+    
     MSG_NORMAL_MSGID_END             = 199999;
     
     //============================================================================================

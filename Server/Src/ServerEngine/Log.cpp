@@ -64,9 +64,9 @@ BOOL CLog::Close()
 	return TRUE;
 }
 
-void CLog::LogWarnning( char* lpszFormat, ... )
+void CLog::LogWarn( char* lpszFormat, ... )
 {
-	if(m_LogLevel < Log_Info)
+	if(m_LogLevel < Log_Warn)
 	{
 		return ;
 	}

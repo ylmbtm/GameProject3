@@ -125,3 +125,4 @@ bool HttpParameter::SetKeyValue(const std::string& strKey, FLOAT floatValue)
 	m_ParameterMap.insert(std::make_pair(strKey, CommonConvert::FloatToString(floatValue)));
 	return true;
 }
+

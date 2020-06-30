@@ -599,6 +599,9 @@ bool CppMySQL3DB::startTransaction()
 		return true;
 	}
 
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
+
 	return false;
 }
 
@@ -609,6 +612,9 @@ bool CppMySQL3DB::commit()
 	{
 		return true;
 	}
+
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
 
 	return false;
 }
