@@ -317,6 +317,11 @@ BOOL CDBConnection::Query( std::string sql )
 
 BOOL CDBConnection::Ping()
 {
+	if (m_pMySql == NULL)
+	{
+		return FALSE;
+	}
+
 	if (mysql_ping(m_pMySql) == 0)
 	{
 		return TRUE;
