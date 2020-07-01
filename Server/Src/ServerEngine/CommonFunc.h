@@ -23,6 +23,8 @@ BOOL			IsSameDay(UINT64 uTime);
 
 UINT64			GetCurrTime(); //获取当前的秒数
 
+UINT64			GetCurMsTime(); //获取当前的毫秒数
+
 tm				GetCurrTmTime();
 
 UINT64			GetDayBeginTime(); //获取当天起点的秒数

@@ -85,7 +85,7 @@ BOOL CCounterModule::NotifyChange()
 }
 
 
-CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
+CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex, BOOL bCreate)
 {
 	ERROR_RETURN_FALSE(uID > 0);
 	UINT64 uKey = dwIndex;
@@ -93,14 +93,19 @@ CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex)
 	auto itor = m_mapCounterData.find(uKey);
 	if(itor == m_mapCounterData.end())
 	{
-		CounterDataObject* pTempObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, TRUE);
-		pTempObject->m_uCounterID = uID;
-		pTempObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
-		pTempObject->m_uValue = 0;
-		pTempObject->m_dwIndex = dwIndex;
-		pTempObject->m_uTime = CommonFunc::GetCurrTime();
-		m_mapCounterData.insert(std::make_pair(uKey, pTempObject));
-		return pTempObject;
+		if (bCreate)
+		{
+			CounterDataObject* pTempObject = DataPool::CreateObject<CounterDataObject>(ESD_COUNTER, TRUE);
+			pTempObject->m_uCounterID = uID;
+			pTempObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
+			pTempObject->m_uValue = 0;
+			pTempObject->m_dwIndex = dwIndex;
+			pTempObject->m_uTime = CommonFunc::GetCurrTime();
+			m_mapCounterData.insert(std::make_pair(uKey, pTempObject));
+			return pTempObject;
+		}
+
+		return NULL;
 	}
 
 	return itor->second;
@@ -121,11 +126,8 @@ UINT64 CCounterModule::GetCounterValue(UINT32 uID, UINT32 dwIndex /*= 0*/)
 BOOL CCounterModule::SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*= 0*/)
 {
 	ERROR_RETURN_FALSE(uID > 0);
-	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex);
-	if (pTempObject == NULL)
-	{
-		return FALSE;
-	}
+	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex, TRUE);
+	ERROR_RETURN_FALSE(pTempObject != NULL);
 
 	pTempObject->Lock();
 	pTempObject->m_uValue = uValue;
@@ -138,11 +140,8 @@ BOOL CCounterModule::SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*
 BOOL CCounterModule::AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex /*= 0*/)
 {
 	ERROR_RETURN_FALSE(uID > 0);
-	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex);
-	if (pTempObject == NULL)
-	{
-		return FALSE;
-	}
+	CounterDataObject* pTempObject = GetCounterData(uID, dwIndex, TRUE);
+	ERROR_RETURN_FALSE(pTempObject != NULL);
 
 	pTempObject->Lock();
 	pTempObject->m_uValue += uValue;
@@ -157,7 +156,10 @@ BOOL CCounterModule::GetCounterBitValue(UINT32 uID)
 	ERROR_RETURN_FALSE(uID > 0); // uID必须大于0
 
 	CounterDataObject* pCounterObject = GetCounterData(uID / 64 + 1, 0);
-	ERROR_RETURN_FALSE(pCounterObject != NULL);
+	if (pCounterObject == NULL)
+	{
+		return FALSE;
+	}
 
 	return CommonFunc::GetBitValue((UINT64)pCounterObject->m_uValue, uID % 64);
 }
@@ -166,7 +168,7 @@ BOOL CCounterModule::SetCounterBitValue(UINT32 uID, BOOL bValue)
 {
 	ERROR_RETURN_FALSE(uID > 0); // uID必须大于0
 
-	CounterDataObject* pCounterObject = GetCounterData(uID / 64 + 1, 0);
+	CounterDataObject* pCounterObject = GetCounterData(uID / 64 + 1, 0, TRUE);
 	ERROR_RETURN_FALSE(pCounterObject != NULL);
 	pCounterObject->Lock();
 	UINT64 uValue = pCounterObject->m_uValue;

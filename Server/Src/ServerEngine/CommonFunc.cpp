@@ -66,6 +66,13 @@ UINT64 CommonFunc::GetCurrTime()
 	return (UINT64)t;
 }
 
+UINT64 CommonFunc::GetCurMsTime()
+{
+	auto time_now = std::chrono::system_clock::now();
+	auto duration_in_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_now.time_since_epoch());
+	return duration_in_ms.count();
+}
+
 tm CommonFunc::GetCurrTmTime()
 {
 	time_t rawtime;
@@ -126,7 +133,6 @@ std::string CommonFunc::TimeToString(time_t tTime)
 	return std::string(szTime);
 }
 
-
 time_t CommonFunc::DateStringToTime(std::string strDate)
 {
 	if (strDate.size() < 14)
@@ -155,7 +161,7 @@ UINT64 CommonFunc::GetTickCount()
 #ifdef WIN32
 	return ::GetTickCount64();
 #else
-	UINT64 uTickCount = 0;;
+	UINT64 uTickCount = 0;
 	struct timespec on;
 	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
@@ -686,11 +692,11 @@ BOOL CommonFunc::SetBitValue(UINT64& nValue, INT32 nPos, BOOL bValue)
 {
 	if (bValue)
 	{
-		nValue |= 1 << (nPos - 1);
+		nValue |= (UINT64)1 << (nPos - 1);
 	}
 	else
 	{
-		nValue &= ~(1 << (nPos - 1));
+		nValue &= ~((UINT64)1 << (nPos - 1));
 	}
 
 	return TRUE;

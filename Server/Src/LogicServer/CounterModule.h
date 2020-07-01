@@ -29,7 +29,7 @@ public:
 
 	BOOL NotifyChange();
 
-	CounterDataObject* GetCounterData(UINT32 uID, UINT32 dwIndex);
+	CounterDataObject* GetCounterData(UINT32 uID, UINT32 dwIndex, BOOL bCreate = FALSE);
 
 	UINT64 GetCounterValue(UINT32 uID, UINT32 dwIndex = 0);
 
