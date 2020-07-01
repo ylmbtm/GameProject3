@@ -95,6 +95,7 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 {
 	if (dwConnID <= 0)
 	{
+		CLog::GetInstancePtr()->LogWarn("SendMsgProtoBuf Error dwConnID is Zero MessageID:%d", dwMsgID);
 		return FALSE;
 	}
 

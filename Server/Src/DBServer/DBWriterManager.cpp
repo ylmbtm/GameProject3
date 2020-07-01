@@ -40,10 +40,11 @@ BOOL CDBWriterManager::Init()
 	{
 		if (m_vtDataWriters[i] == NULL)
 		{
-			CLog::GetInstancePtr()->LogError("DBMoule ERROR: %d", i);
+			CLog::GetInstancePtr()->LogError("CDBWriterManager::Init Error: ModuleID:[%d] Is NULL!", i);
 			return FALSE;
 		}
 	}
+
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
@@ -70,15 +71,18 @@ BOOL CDBWriterManager::Uninit()
 
 BOOL CDBWriterManager::WriteDataToDB()
 {
+	BOOL bHasWrite = FALSE;
 	for (int i = ESD_ROLE; i < ESD_END; i++)
 	{
-		if (m_vtDataWriters[i] != NULL)
+		ERROR_TO_CONTINUE(m_vtDataWriters[i] != NULL);
+
+		if (m_vtDataWriters[i]->SaveModifyToDB(&m_DBConnection))
 		{
-			m_vtDataWriters[i]->SaveModifyToDB(&m_DBConnection);
+			bHasWrite = TRUE;
 		}
 	}
 
-	return TRUE;
+	return bHasWrite;
 }
 
 BOOL CDBWriterManager::IsStop()

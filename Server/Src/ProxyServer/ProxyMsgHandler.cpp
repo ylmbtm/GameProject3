@@ -257,7 +257,15 @@ BOOL CProxyMsgHandler::OnMsgRoleLoginAck(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pPacketHeader != NULL);
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
 	ERROR_RETURN_TRUE(pConnection != NULL);
+
+	if (pPacketHeader->u64TargetID == 0)
+	{
+		RelayToConnect(pPacketHeader->dwUserData, pPacket->m_pDataBuffer);
+		return TRUE;
+	}
+
 	pConnection->SetConnectionData(pPacketHeader->u64TargetID);
+
 	RelayToConnect(pPacketHeader->dwUserData, pPacket->m_pDataBuffer);
 
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pPacketHeader->u64TargetID);
