@@ -37,15 +37,11 @@
 #include <google/protobuf/compiler/objectivec/objectivec_field.h>
 #include <google/protobuf/compiler/objectivec/objectivec_helpers.h>
 #include <google/protobuf/compiler/objectivec/objectivec_oneof.h>
-#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/io/printer.h>
 
 namespace google {
 namespace protobuf {
-
-namespace io {
-class Printer;  // printer.h
-}  // namespace io
-
 namespace compiler {
 namespace objectivec {
 
@@ -59,11 +55,15 @@ class MessageGenerator {
                    const Options& options);
   ~MessageGenerator();
 
+  MessageGenerator(const MessageGenerator&) = delete;
+  MessageGenerator& operator=(const MessageGenerator&) = delete;
+
   void GenerateStaticVariablesInitialization(io::Printer* printer);
   void GenerateEnumHeader(io::Printer* printer);
   void GenerateMessageHeader(io::Printer* printer);
   void GenerateSource(io::Printer* printer);
   void GenerateExtensionRegistrationSource(io::Printer* printer);
+  void DetermineObjectiveCClassDefinitions(std::set<string>* fwd_decls);
   void DetermineForwardDeclarations(std::set<string>* fwd_decls);
 
   // Checks if the message or a nested message includes a oneof definition.
@@ -86,15 +86,15 @@ class MessageGenerator {
   FieldGeneratorMap field_generators_;
   const string class_name_;
   const string deprecated_attribute_;
-  vector<ExtensionGenerator*> extension_generators_;
-  vector<EnumGenerator*> enum_generators_;
-  vector<MessageGenerator*> nested_message_generators_;
-  vector<OneofGenerator*> oneof_generators_;
-
-  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageGenerator);
+  std::vector<std::unique_ptr<ExtensionGenerator>> extension_generators_;
+  std::vector<std::unique_ptr<EnumGenerator>> enum_generators_;
+  std::vector<std::unique_ptr<MessageGenerator>> nested_message_generators_;
+  std::vector<std::unique_ptr<OneofGenerator>> oneof_generators_;
 };
+
 }  // namespace objectivec
 }  // namespace compiler
 }  // namespace protobuf
 }  // namespace google
+
 #endif  // GOOGLE_PROTOBUF_COMPILER_OBJECTIVEC_MESSAGE_H__
