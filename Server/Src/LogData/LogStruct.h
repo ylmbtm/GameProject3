@@ -18,25 +18,27 @@ enum ELogType
 //角色日志
 struct Log_BaseData
 {
-	ELogType    m_LogType;  //日志类型
-	UINT64		m_uID;	    //角色ID或账号ID
-	UINT64 		m_uOpTime;  //日志发生时间
-	UINT32      m_dwChannel;//渠道
+	ELogType    m_LogType   = ELT_LOG_TYPE_NONE; //日志类型
+	UINT64		m_uID       = 0;	//角色ID或账号ID
+	UINT64 		m_uOpTime   = 0;  //日志发生时间
+	UINT32      m_dwChannel = 0;//渠道
+	UINT32      m_dwAreaID  = 0; //区服ID
 
 	//以下两条仅角色日志有效
-	UINT32      m_nLeve;    //角色等级
-	UINT32      m_nVipLevel;//角色VIP等级
+	UINT32      m_nLeve     = 0;    //角色等级
+	UINT32      m_nVipLevel = 0;//角色VIP等级
+	UINT32      m_nAddWay   = 0;  //
 };
 
 struct Log_AccountCreate : public Log_BaseData
 {
-	UINT32      m_dwVersion;   //客户端版本号
-	UINT32      m_dwIpAddr;    //登录IP
-	CHAR        m_szIdfa[64];  //客户端idfa
-	CHAR        m_szImei[64];  //手机的MEI
-	CHAR        m_szModel[20]; //手机的机型
-	CHAR        m_szUuid[50];  //手机的uuid;
-	CHAR        m_szOpenID[32];//第三方平台ID
+	UINT32      m_dwVersion     = 0;   //客户端版本号
+	UINT32      m_dwIpAddr      = 0;    //登录IP
+	CHAR        m_szIdfa[64]    = { 0 };  //客户端idfa
+	CHAR        m_szImei[64]    = { 0 };  //手机的MEI
+	CHAR        m_szModel[20]   = { 0 }; //手机的机型
+	CHAR        m_szUuid[50]    = { 0 };  //手机的uuid;
+	CHAR        m_szOpenID[32]  = { 0 };//第三方平台ID
 
 	Log_AccountCreate()
 	{
@@ -53,13 +55,13 @@ struct Log_AccountCreate : public Log_BaseData
 
 struct Log_AccountLogin : public Log_BaseData
 {
-	UINT32      m_dwVersion;  //客户端版本号
-	UINT32      m_dwIpAddr;   //登录IP
-	CHAR        m_szIdfa[64]; //客户端idfa
-	CHAR        m_szImei[64]; //手机的MEI
-	CHAR        m_szModel[20];//手机的机型
-	CHAR        m_szUuid[50]; //手机的uuid;
-
+	UINT32      m_dwVersion = 0;  //客户端版本号
+	UINT32      m_dwIpAddr = 0;   //登录IP
+	CHAR        m_szIdfa[64] = { 0 }; //客户端idfa
+	CHAR        m_szImei[64] = { 0 }; //手机的MEI
+	CHAR        m_szModel[20] = { 0 };//手机的机型
+	CHAR        m_szUuid[50] = { 0 }; //手机的uuid;
+	CHAR        m_szOpenID[32] = { 0 };//第三方平台ID
 	Log_AccountLogin()
 	{
 		m_LogType = ELT_ACCOUNT_LOGIN;
@@ -68,18 +70,17 @@ struct Log_AccountLogin : public Log_BaseData
 	BOOL GetLogSql(char* pBuff)
 	{
 
-		snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s')",
-		         m_uID, m_dwChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel);
+		snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s', '%s')",
+		         m_uID, m_dwChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
 		return TRUE;
 	}
 };
 
 struct Log_RoleCreate : public Log_BaseData
 {
-	UINT64 m_uAccountID;
-	UINT32 m_dwAreaID;
-	CHAR   m_szRoleName[64];
-	CHAR   m_szIdfa[64]; //客户端idfa
+	UINT64 m_uAccountID = 0;
+	CHAR   m_szRoleName[64] = { 0 };
+	CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
 	Log_RoleCreate()
 	{
@@ -96,10 +97,9 @@ struct Log_RoleCreate : public Log_BaseData
 
 struct Log_RoleLogin : public Log_BaseData
 {
-	UINT64 m_uAccountID;
-	UINT32 m_dwAreaID;
-	CHAR   m_szRoleName[64];
-	CHAR   m_szIdfa[64]; //客户端idfa
+	UINT64 m_uAccountID = 0;
+	CHAR   m_szRoleName[64] = { 0 };
+	CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
 	Log_RoleLogin()
 	{
@@ -108,8 +108,8 @@ struct Log_RoleLogin : public Log_BaseData
 
 	BOOL GetLogSql(char* pBuff)
 	{
-		snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s', '%s', '%s')",
-		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
+		snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, level, viplevel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %d, %d, '%s', '%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_nLeve, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
 		return TRUE;
 	}
 };
