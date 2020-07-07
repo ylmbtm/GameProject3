@@ -17,7 +17,7 @@
 #include <deque>
 #include <mutex>
 #include <thread>
-#include <locale>
+//#include <locale>
 //#include <codecvt>
 #include "Platform.h"
 #include "Log.h"

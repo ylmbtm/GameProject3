@@ -2,7 +2,6 @@
 #define __COUNTER_MODULE_H__
 #include "ModuleBase.h"
 #include "CounterData.h"
-struct CounterDataObject;
 class CCounterModule  : public CModuleBase
 {
 public:

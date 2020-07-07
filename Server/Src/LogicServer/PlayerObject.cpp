@@ -297,7 +297,6 @@ BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 	return TRUE;
 }
 
-
 CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 {
 	ERROR_RETURN_NULL(dwModuleType < (UINT32)m_MoudleList.size());
@@ -316,6 +315,14 @@ UINT32 CPlayerObject::GetCityCopyID()
 	ERROR_RETURN_FALSE(pModule != NULL);
 	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
 	return pModule->m_pRoleDataObject->m_CityCopyID;
+}
+
+UINT64 CPlayerObject::GetAccountID()
+{
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_FALSE(pModule != NULL);
+	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
+	return pModule->m_pRoleDataObject->m_uAccountID;
 }
 
 UINT32 CPlayerObject::GetActorID()

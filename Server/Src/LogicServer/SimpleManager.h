@@ -1,5 +1,6 @@
 ﻿#ifndef __SIMPLE_MANAGER_H__
 #define __SIMPLE_MANAGER_H__
+
 #include "DBInterface/CppMysql.h"
 struct CSimpleInfo
 {

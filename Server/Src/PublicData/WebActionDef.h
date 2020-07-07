@@ -19,6 +19,7 @@ enum EWebAction
 	EWA_GM_COMMAND,             //执行GM指令
 	EWA_KICKOFF_PLAYER,         //踢玩家下线
 	EWA_PAY_CALLBACK,           //充值回调通知
+	EWA_DELTE_MAIL,             //删除邮件
 };
 
 

@@ -65,7 +65,7 @@ BOOL CCounterModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		pObject->m_uRoleID = CounterItem.roleid();
 		pObject->m_dwIndex = CounterItem.index();
 		pObject->m_uTime = CounterItem.time();
-		pObject->m_uCounterID = (INT32)CounterItem.counterid();
+		pObject->m_uCounterID = CounterItem.counterid();
 		pObject->m_uValue = CounterItem.value();
 		UINT64 uKey = pObject->m_dwIndex;
 		uKey = uKey << 32 | pObject->m_uCounterID;
