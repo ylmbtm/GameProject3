@@ -65,9 +65,11 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 			pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, FALSE);
 			pObject->m_uRoleID = tMailItem.roleid();
 			pObject->m_uGuid = tMailItem.guid();
-			pObject->m_nGroupID = tMailItem.groupid();
+			pObject->m_uGroupGuid = tMailItem.groupid();
 			pObject->m_uTime = tMailItem.time();
 			pObject->m_uSenderID = tMailItem.senderid();
+			pObject->m_dwMailType = tMailItem.mailtype();
+			pObject->m_dwStatus = tMailItem.status();
 			strncpy(pObject->m_szSender, tMailItem.sender().c_str(), tMailItem.sender().size());
 			strncpy(pObject->m_szTitle, tMailItem.title().c_str(), tMailItem.title().size());
 			strncpy(pObject->m_szContent, tMailItem.content().c_str(), tMailItem.content().size());
@@ -128,6 +130,28 @@ BOOL CMailModule::DeleteMail(UINT64 uGuid)
 	return TRUE;
 }
 
+BOOL CMailModule::DeleteMailByGroupID(UINT64 uGuid)
+{
+	for (auto itor = m_mapMailData.begin(); itor != m_mapMailData.end(); itor++)
+	{
+		MailDataObject* pObject = itor->second;
+		ERROR_TO_CONTINUE(pObject != NULL);
+
+		if (pObject->m_uGroupGuid == uGuid)
+		{
+			pObject->Destroy();
+
+			m_mapMailData.erase(itor);
+
+			AddRemoveID(uGuid);
+
+			return TRUE;
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems)
 {
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
@@ -135,6 +159,8 @@ BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::st
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
+	strncpy(pMailObject->m_szTitle, strTitle.c_str(), strTitle.size());
+	strncpy(pMailObject->m_szContent, strContent.c_str(), strContent.size());
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 
 	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
@@ -170,7 +196,9 @@ BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
-	pMailObject->m_nGroupID = pGroupMail->m_nGroupID;
+	pMailObject->m_uGroupGuid = pGroupMail->m_uGuid;
+	strncpy(pMailObject->m_szTitle, pGroupMail->m_szTitle, MAIL_TITLE_LEN);
+	strncpy(pMailObject->m_szContent, pGroupMail->m_szContent, MAIL_CONTENT_LEN);
 
 	for (int i = 0; i < MAIL_ITEM_COUNT; i++)
 	{

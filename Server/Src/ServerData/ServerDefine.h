@@ -29,7 +29,7 @@
 #define SQL_BUFF_LEN		1024
 
 //邮件
-#define MAIL_CONTNET_LEN	2048
+#define MAIL_CONTENT_LEN	2048
 #define MAIL_TITLE_LEN		255
 #define MAIL_ITEM_COUNT		10
 

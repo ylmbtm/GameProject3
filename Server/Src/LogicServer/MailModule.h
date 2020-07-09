@@ -35,6 +35,8 @@ public:
 
 	BOOL DeleteMail(UINT64 uGuid);
 
+	BOOL DeleteMailByGroupID(UINT64 uGuid);
+
 	BOOL AddMail(std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems);
 
 	MailDataObject* GetMailByGuid(UINT64 uGuid);

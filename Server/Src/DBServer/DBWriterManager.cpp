@@ -8,7 +8,7 @@ CDBWriterManager::CDBWriterManager()
 
 CDBWriterManager::~CDBWriterManager()
 {
-
+	m_Stop = FALSE;
 }
 
 BOOL CDBWriterManager::Init()
@@ -97,12 +97,7 @@ void CDBWriterManager::DBWriteThread()
 		return ;
 	}
 
-	if (!m_DBConnection.Reconnect())
-	{
-		return ;
-	}
-
-	while (!IsStop())
+	while (TRUE)
 	{
 		if (!m_DBConnection.Ping())
 		{
@@ -113,10 +108,16 @@ void CDBWriterManager::DBWriteThread()
 			}
 		}
 
-		WriteDataToDB();
+		BOOL bHasWrite = WriteDataToDB();
+		if (!bHasWrite && IsStop())
+		{
+			break;
+		}
 
 		CommonFunc::Sleep(60000); //休息10秒
 	}
+
+	m_DBConnection.Uninit();
 
 	Uninit();
 
