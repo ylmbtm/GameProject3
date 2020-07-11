@@ -14,6 +14,7 @@
 #include "SimpleManager.h"
 #include "PayManager.h"
 #include "MailManager.h"
+#include "MailModule.h"
 
 CWebCommandMgr::CWebCommandMgr()
 {
@@ -80,7 +81,6 @@ BOOL CLogicMsgHandler::ProcessGMCommand(UINT64 u64ID, std::vector<std::string>& 
 	return TRUE;
 }
 
-
 BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
@@ -115,6 +115,11 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 			OnGmGroupMail(Params, pNetPacket->m_dwConnID);
 		}
 		break;
+		case EWA_DELTE_MAIL:           //删除邮件
+		{
+			OnGmDeleteMail(Params, pNetPacket->m_dwConnID);
+		}
+		break;
 		case EWA_GM_COMMAND:           //后台发的GM指令
 		{
 			OnGmCommand(Params, pNetPacket->m_dwConnID);
@@ -142,7 +147,14 @@ void CWebCommandMgr::OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID)
 
 	std::string strName = hParams.GetStrValue("TableName");
 
-	CStaticData::GetInstancePtr()->ReloadConfigData(strName);
+	std::vector<std::string> vtTbNames;
+
+	CommonConvert::SpliteString(strName, '|', vtTbNames);
+
+	for (int i = 0; i < vtTbNames.size(); i++)
+	{
+		CStaticData::GetInstancePtr()->ReloadConfigData(vtTbNames.at(i));
+	}
 
 	SendWebResult(nConnID, EWR_SUCCESSED);
 
@@ -177,28 +189,43 @@ void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
-	UINT64 uRoleID = hParams.GetLongValue("roleid");
-	std::string strRoleName = hParams.GetStrValue("rolename");
-	std::string strTitle = hParams.GetStrValue("title");
-	std::string strContent = hParams.GetStrValue("content");
+	UINT64 uRoleID = hParams.GetLongValue("receiver_id");
+	std::string strRoleName = hParams.GetStrValue("reciver_name");
+	std::string strTitle = hParams.GetStrValue("mail_title");
+	std::string strContent = hParams.GetStrValue("mail_content");
 	INT32 strLanguage = hParams.GetIntValue("language");
 
-	UINT32 nItem[4] = { 0 };
-	nItem[0] = hParams.GetIntValue("itemid1");
-	nItem[1] = hParams.GetIntValue("itemid2");
-	nItem[2] = hParams.GetIntValue("itemid3");
-	nItem[3] = hParams.GetIntValue("itemid4");
+	std::vector<StMailItem> vtItems;
+	INT32 nItem[2] = {0};
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid1").c_str(), nItem, 2);
+	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
 
-	UINT32 nItemNum[4] = { 0 };
-	nItemNum[0] = hParams.GetIntValue("itemid1");
-	nItemNum[1] = hParams.GetIntValue("itemid2");
-	nItemNum[2] = hParams.GetIntValue("itemid3");
-	nItemNum[3] = hParams.GetIntValue("itemid4");
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid2").c_str(), nItem, 2);
+	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
 
-	std::vector<StMailItem> vtItems = { {nItem[0], nItemNum[0] }, {nItem[1], nItemNum[1]}, {nItem[2], nItemNum[2]}, {nItem[3], nItemNum[3]} };
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid3").c_str(), nItem, 2);
+	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid4").c_str(), nItem, 2);
+	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+
+	if (uRoleID == 0)
+	{
+		uRoleID = CSimpleManager::GetInstancePtr()->GetRoleIDByName(strRoleName);
+	}
+	else
+	{
+		CSimpleInfo* pSimpleInfo = CSimpleManager::GetInstancePtr()->GetSimpleInfoByID(uRoleID);
+		if (pSimpleInfo == NULL)
+		{
+			uRoleID = CSimpleManager::GetInstancePtr()->GetRoleIDByName(strRoleName);
+		}
+	}
 
 	CMailManager::GetInstancePtr()->SendSingleMail(uRoleID, "GM", strTitle, strContent, vtItems);
-
 
 	return;
 }
@@ -209,26 +236,52 @@ void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID)
 	SendWebResult(nConnID, EWR_SUCCESSED);
 	UINT64 uRoleID = hParams.GetLongValue("roleid");
 	std::string strRoleName = hParams.GetStrValue("rolename");
-	std::string strTitle = hParams.GetStrValue("title");
-	std::string strContent = hParams.GetStrValue("content");
+	std::string strTitle = hParams.GetStrValue("mail_title");
+	std::string strContent = hParams.GetStrValue("mail_content");
 	INT32 strLanguage = hParams.GetIntValue("language");
-	INT32 nGroupID = hParams.GetIntValue("groupid");
 
 	UINT32 nItem[4] = { 0 };
-	nItem[0] = hParams.GetIntValue("itemid1");
-	nItem[1] = hParams.GetIntValue("itemid2");
-	nItem[2] = hParams.GetIntValue("itemid3");
-	nItem[3] = hParams.GetIntValue("itemid4");
+	nItem[0] = hParams.GetIntValue("item0");
+	nItem[1] = hParams.GetIntValue("item1");
+	nItem[2] = hParams.GetIntValue("item2");
+	nItem[3] = hParams.GetIntValue("item3");
 
 	UINT32 nItemNum[4] = { 0 };
-	nItemNum[0] = hParams.GetIntValue("itemid1");
-	nItemNum[1] = hParams.GetIntValue("itemid2");
-	nItemNum[2] = hParams.GetIntValue("itemid3");
-	nItemNum[3] = hParams.GetIntValue("itemid4");
+	nItemNum[0] = hParams.GetIntValue("amount0");
+	nItemNum[1] = hParams.GetIntValue("amount1");
+	nItemNum[2] = hParams.GetIntValue("amount2");
+	nItemNum[3] = hParams.GetIntValue("amount3");
 
 	std::vector<StMailItem> vtItems = { {nItem[0], nItemNum[0] }, {nItem[1], nItemNum[1]}, {nItem[2], nItemNum[2]}, {nItem[3], nItemNum[3]} };
 
-	CMailManager::GetInstancePtr()->SendGroupMail(nGroupID, "GM", strTitle, strContent, vtItems);
+	CMailManager::GetInstancePtr()->SendGroupMail("GM", strTitle, strContent, vtItems);
+	return;
+}
+
+void CWebCommandMgr::OnGmDeleteMail(HttpParameter& hParams, UINT32 nConnID)
+{
+	ERROR_RETURN_NONE(nConnID != 0);
+	SendWebResult(nConnID, EWR_SUCCESSED);
+	UINT64 uRoleID = hParams.GetLongValue("roleid");
+	UINT32 nMailType = hParams.GetIntValue("mailtype");
+	UINT64 uMailGuid = hParams.GetLongValue("mailguid");
+
+	if (nMailType == 1) //群发邮件
+	{
+		//先删除群邮件表里的
+		CMailManager::GetInstancePtr()->DeleteGroupMail(uMailGuid);
+	}
+	else  if (nMailType == 2) //单人邮件
+	{
+		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uRoleID);
+		ERROR_RETURN_NONE(pPlayer != NULL);
+
+		CMailModule* pMailModule = (CMailModule*)pPlayer->GetModuleByType(MT_MAIL);
+		ERROR_RETURN_NONE(pMailModule != NULL);
+
+		pMailModule->DeleteMail(uMailGuid);
+	}
+
 	return;
 }
 

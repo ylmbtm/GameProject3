@@ -30,6 +30,7 @@ public:
 	void OnGmSealRole(HttpParameter& hParams, UINT32 nConnID);
 	void OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID); //单发邮件
 	void OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID);  //群发邮件
+	void OnGmDeleteMail(HttpParameter& hParams, UINT32 nConnID); //删除邮件
 	void OnGmCommand(HttpParameter& hParams, UINT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 

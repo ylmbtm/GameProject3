@@ -22,6 +22,22 @@ CPayManager* CPayManager::GetInstancePtr()
 
 BOOL CPayManager::Init()
 {
+	RegisterMessageHanler();
+
+	return TRUE;
+}
+
+BOOL CPayManager::Uninit()
+{
+	return TRUE;
+}
+
+VOID CPayManager::RegisterMessageHanler()
+{
+}
+
+BOOL CPayManager::Update()
+{
 	return TRUE;
 }
 
@@ -34,7 +50,7 @@ void CPayManager::OnGmPayCallBack(HttpParameter& hParams, UINT32 nConnID)
 	UINT64 uFinishTime = hParams.GetLongValue("finishtime");
 	INT32 nMoney = hParams.GetIntValue("money");
 
-	if (m_setFinishedPay.find(strOrderID) != m_setFinishedPay.end())
+	if (m_setFinishedOrder.find(strOrderID) != m_setFinishedOrder.end())
 	{
 		CLog::GetInstancePtr()->LogError("CPayManager::OnGmPayCallBack Error! Duplicated strOrderID:%s", strOrderID.c_str());
 		return;

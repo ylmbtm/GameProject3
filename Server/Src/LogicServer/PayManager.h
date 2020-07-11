@@ -13,9 +13,17 @@ public:
 public:
 	BOOL Init();
 
+	BOOL Uninit();
+
 	void OnGmPayCallBack(HttpParameter& hParams, UINT32 nConnID);
 
-	std::set<std::string> m_setFinishedPay;  //己完成支付的订单
+	std::set<std::string> m_setFinishedOrder;  //己完成支付的订单
+
+	std::set<std::string> m_setCreatedOrder;
+
+	VOID RegisterMessageHanler();
+
+	BOOL Update();
 };
 
 #endif //__PAY_MANAGER_H__

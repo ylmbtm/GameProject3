@@ -51,7 +51,6 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 		case MSG_ROLE_LOGIN_REQ:
 		case MSG_ROLE_RECONNECT_REQ:
 		{
-			//因为此时逻辑服还没有对象，需要告诉逻辑服，当前的客户端连接ID
 			pPacketHeader->dwUserData = pNetPacket->m_dwConnID;
 			RelayToLogicServer(pNetPacket->m_pDataBuffer);
 		}
@@ -118,7 +117,6 @@ BOOL CProxyMsgHandler::OnCloseConnect(UINT32 nConnID)
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	//表示还没有收到通知进场景的消息(相当于没有进副本)
 	if (pPlayer->GetGameSvrID() == 0)
 	{
 

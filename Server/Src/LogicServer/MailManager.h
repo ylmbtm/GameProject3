@@ -10,11 +10,13 @@ class CMailManager
 public:
 	static CMailManager* GetInstancePtr();
 
-	BOOL  SendGroupMail(UINT32 nGroupID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
+	BOOL  SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
 
 	BOOL  SendSingleMail(UINT64 uRoleID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
 
 	BOOL  SendOffOperation(UINT64 uRoleID);
+
+	BOOL  DeleteGroupMail(UINT64 uGuid);
 
 	BOOL  LoadData(CppMySQL3DB& tDBConnection);
 
