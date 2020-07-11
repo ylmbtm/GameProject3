@@ -5,6 +5,7 @@
 #include "GameService.h"
 #include "CrashReport.h"
 #include "CommandLine.h"
+#include "WatcherClient.h"
 
 int main(int argc, char* argv[])
 {
@@ -13,7 +14,7 @@ int main(int argc, char* argv[])
 	CCommandLine cmdLine(argc, argv);
 
 	//设置被监视索引，用于和监控程通信
-	CGameService::GetInstancePtr()->SetWatchIndex(cmdLine.GetIntValue("windex"));
+	CWatcherClient::GetInstancePtr()->SetWatchIndex(cmdLine.GetIntValue("windex"));
 
 	if (!CGameService::GetInstancePtr()->Init())
 	{

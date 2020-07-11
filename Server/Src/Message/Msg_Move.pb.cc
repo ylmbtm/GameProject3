@@ -510,6 +510,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillCastAck, retcode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillCastAck, objectguid_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::SkillResultItem, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -693,25 +694,25 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::SkillCastReq)},
   { 16, -1, sizeof(::SkillCastAck)},
-  { 22, -1, sizeof(::SkillResultItem)},
-  { 36, -1, sizeof(::SkillResultNtf)},
-  { 42, -1, sizeof(::ObjectActionReq)},
-  { 48, -1, sizeof(::ObjectActionNty)},
-  { 54, -1, sizeof(::ActionReqItem)},
-  { 65, -1, sizeof(::ObjectActionAck)},
-  { 71, -1, sizeof(::ActionNtyItem)},
-  { 94, -1, sizeof(::NewItem)},
-  { 122, -1, sizeof(::ObjectNewNty)},
-  { 128, -1, sizeof(::ObjectRemoveNty)},
-  { 134, -1, sizeof(::BulletItem)},
-  { 151, -1, sizeof(::BulletNewNtf)},
-  { 157, -1, sizeof(::HeartBeatReq)},
-  { 163, -1, sizeof(::HeartBeatAck)},
-  { 170, -1, sizeof(::ObjectDieNotify)},
-  { 176, -1, sizeof(::Msg_RidingMountReq)},
-  { 182, -1, sizeof(::Msg_RidingMountAck)},
-  { 188, -1, sizeof(::Msg_RoleRebornReq)},
-  { 195, -1, sizeof(::Msg_RoleRebornAck)},
+  { 23, -1, sizeof(::SkillResultItem)},
+  { 37, -1, sizeof(::SkillResultNtf)},
+  { 43, -1, sizeof(::ObjectActionReq)},
+  { 49, -1, sizeof(::ObjectActionNty)},
+  { 55, -1, sizeof(::ActionReqItem)},
+  { 66, -1, sizeof(::ObjectActionAck)},
+  { 72, -1, sizeof(::ActionNtyItem)},
+  { 95, -1, sizeof(::NewItem)},
+  { 123, -1, sizeof(::ObjectNewNty)},
+  { 129, -1, sizeof(::ObjectRemoveNty)},
+  { 135, -1, sizeof(::BulletItem)},
+  { 152, -1, sizeof(::BulletNewNtf)},
+  { 158, -1, sizeof(::HeartBeatReq)},
+  { 164, -1, sizeof(::HeartBeatAck)},
+  { 171, -1, sizeof(::ObjectDieNotify)},
+  { 177, -1, sizeof(::Msg_RidingMountReq)},
+  { 183, -1, sizeof(::Msg_RidingMountAck)},
+  { 189, -1, sizeof(::Msg_RoleRebornReq)},
+  { 196, -1, sizeof(::Msg_RoleRebornAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -766,56 +767,57 @@ void AddDescriptorsImpl() {
       "HostZ\030\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\022\017\n\007TargetX\030\007"
       " \001(\002\022\017\n\007TargetY\030\010 \001(\002\022\017\n\007TargetZ\030\t \001(\002\022\020"
       "\n\010TargetFt\030\n \001(\002\022\025\n\rTargetObjects\030\013 \003(\004\""
-      "\037\n\014SkillCastAck\022\017\n\007RetCode\030\001 \001(\r\"\242\001\n\017Ski"
-      "llResultItem\022\022\n\nObjectGuid\030\001 \001(\004\022\017\n\007Skil"
-      "lID\030\002 \001(\005\022\020\n\010ActionID\030\003 \001(\005\022\014\n\004OrgX\030\004 \001("
-      "\002\022\014\n\004OrgY\030\005 \001(\002\022\014\n\004OrgZ\030\006 \001(\002\022\r\n\005OrgFt\030\007"
-      " \001(\002\022\020\n\010HpChange\030\010 \001(\005\022\r\n\005bCrit\030\t \001(\010\"4\n"
-      "\016SkillResultNtf\022\"\n\010ItemList\030\001 \003(\0132\020.Skil"
-      "lResultItem\"5\n\017ObjectActionReq\022\"\n\nAction"
-      "List\030\001 \003(\0132\016.ActionReqItem\"5\n\017ObjectActi"
-      "onNty\022\"\n\nActionList\030\001 \003(\0132\016.ActionNtyIte"
-      "m\"r\n\rActionReqItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020"
-      "\n\010ActionID\030\002 \001(\005\022\r\n\005HostX\030\003 \001(\002\022\r\n\005HostY"
-      "\030\004 \001(\002\022\r\n\005HostZ\030\005 \001(\002\022\016\n\006HostFt\030\006 \001(\002\"5\n"
-      "\017ObjectActionAck\022\"\n\nActionList\030\001 \003(\0132\016.A"
-      "ctionReqItem\"\261\002\n\rActionNtyItem\022\022\n\nObject"
-      "Guid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\014\n\004Camp\030\003 \001"
-      "(\005\022\024\n\014ObjectStatus\030\004 \001(\005\022\r\n\005Speed\030\005 \001(\005\022"
-      "\r\n\005HostX\030\006 \001(\002\022\r\n\005HostY\030\007 \001(\002\022\r\n\005HostZ\030\010"
-      " \001(\002\022\016\n\006HostFt\030\t \001(\002\022\017\n\007ActorID\030\n \001(\005\022\017\n"
-      "\007MountID\030\013 \001(\005\022\r\n\005Level\030\014 \001(\005\022\023\n\013Control"
-      "erID\030\r \001(\004\022\n\n\002Hp\030\016 \001(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n\005Hp"
-      "Max\030\020 \001(\005\022\r\n\005MpMax\030\021 \001(\005\022\016\n\006Equips\030\022 \003(\005"
-      "\"\372\002\n\007NewItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020\n\010Acti"
-      "onID\030\002 \001(\005\022\017\n\007ObjType\030\003 \001(\005\022\024\n\014ObjectSta"
-      "tus\030\004 \001(\005\022\017\n\007ActorID\030\005 \001(\005\022\017\n\007MountID\030\006 "
-      "\001(\005\022\014\n\004Camp\030\007 \001(\005\022\014\n\004Name\030\010 \001(\t\022\r\n\005Level"
-      "\030\t \001(\005\022\r\n\005Speed\030\n \001(\005\022\020\n\010HostGuid\030\013 \001(\004\022"
-      "\023\n\013ControlerID\030\014 \001(\004\022\020\n\010SummonID\030\r \001(\004\022\t"
-      "\n\001X\030\016 \001(\002\022\t\n\001Y\030\017 \001(\002\022\t\n\001Z\030\020 \001(\002\022\n\n\002Ft\030\021 "
-      "\001(\002\022\n\n\002Hp\030\022 \001(\005\022\n\n\002Mp\030\023 \001(\005\022\r\n\005HpMax\030\024 \001"
-      "(\005\022\r\n\005MpMax\030\025 \001(\005\022\016\n\006Equips\030\026 \003(\005\022\032\n\006Ski"
-      "lls\030\027 \003(\0132\n.SkillItem\")\n\014ObjectNewNty\022\031\n"
-      "\007NewList\030\001 \003(\0132\010.NewItem\"%\n\017ObjectRemove"
-      "Nty\022\022\n\nRemoveList\030\001 \003(\004\"\317\001\n\nBulletItem\022\022"
-      "\n\nObjectGuid\030\001 \001(\004\022\022\n\nTargetGuid\030\002 \001(\004\022\022"
-      "\n\nCasterGuid\030\003 \001(\004\022\020\n\010BulletID\030\004 \001(\005\022\t\n\001"
-      "X\030\005 \001(\002\022\t\n\001Y\030\006 \001(\002\022\t\n\001Z\030\007 \001(\002\022\r\n\005Angle\030\010"
-      " \001(\002\022\r\n\005Speed\030\t \001(\002\022\020\n\010AccSpeed\030\n \001(\002\022\020\n"
-      "\010LifeTime\030\013 \001(\002\022\020\n\010LeftTime\030\014 \001(\002\"-\n\014Bul"
-      "letNewNtf\022\035\n\010ItemList\030\001 \003(\0132\013.BulletItem"
-      "\"!\n\014HeartBeatReq\022\021\n\tTimeStamp\030\001 \001(\r\"5\n\014H"
-      "eartBeatAck\022\021\n\tTimeStamp\030\001 \001(\r\022\022\n\nServer"
-      "Time\030\002 \001(\r\"%\n\017ObjectDieNotify\022\022\n\nObjectG"
-      "uid\030\001 \001(\004\"(\n\022Msg_RidingMountReq\022\022\n\nObjec"
-      "tGuid\030\001 \001(\004\"%\n\022Msg_RidingMountAck\022\017\n\007Ret"
-      "Code\030\001 \001(\r\";\n\021Msg_RoleRebornReq\022\022\n\nObjec"
-      "tGuid\030\001 \001(\004\022\022\n\nRebornType\030\002 \001(\005\"$\n\021Msg_R"
-      "oleRebornAck\022\017\n\007RetCode\030\001 \001(\rb\006proto3"
+      "3\n\014SkillCastAck\022\017\n\007RetCode\030\001 \001(\r\022\022\n\nObje"
+      "ctGuid\030\002 \001(\004\"\242\001\n\017SkillResultItem\022\022\n\nObje"
+      "ctGuid\030\001 \001(\004\022\017\n\007SkillID\030\002 \001(\005\022\020\n\010ActionI"
+      "D\030\003 \001(\005\022\014\n\004OrgX\030\004 \001(\002\022\014\n\004OrgY\030\005 \001(\002\022\014\n\004O"
+      "rgZ\030\006 \001(\002\022\r\n\005OrgFt\030\007 \001(\002\022\020\n\010HpChange\030\010 \001"
+      "(\005\022\r\n\005bCrit\030\t \001(\010\"4\n\016SkillResultNtf\022\"\n\010I"
+      "temList\030\001 \003(\0132\020.SkillResultItem\"5\n\017Objec"
+      "tActionReq\022\"\n\nActionList\030\001 \003(\0132\016.ActionR"
+      "eqItem\"5\n\017ObjectActionNty\022\"\n\nActionList\030"
+      "\001 \003(\0132\016.ActionNtyItem\"r\n\rActionReqItem\022\022"
+      "\n\nObjectGuid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\r\n\005"
+      "HostX\030\003 \001(\002\022\r\n\005HostY\030\004 \001(\002\022\r\n\005HostZ\030\005 \001("
+      "\002\022\016\n\006HostFt\030\006 \001(\002\"5\n\017ObjectActionAck\022\"\n\n"
+      "ActionList\030\001 \003(\0132\016.ActionReqItem\"\261\002\n\rAct"
+      "ionNtyItem\022\022\n\nObjectGuid\030\001 \001(\004\022\020\n\010Action"
+      "ID\030\002 \001(\005\022\014\n\004Camp\030\003 \001(\005\022\024\n\014ObjectStatus\030\004"
+      " \001(\005\022\r\n\005Speed\030\005 \001(\005\022\r\n\005HostX\030\006 \001(\002\022\r\n\005Ho"
+      "stY\030\007 \001(\002\022\r\n\005HostZ\030\010 \001(\002\022\016\n\006HostFt\030\t \001(\002"
+      "\022\017\n\007ActorID\030\n \001(\005\022\017\n\007MountID\030\013 \001(\005\022\r\n\005Le"
+      "vel\030\014 \001(\005\022\023\n\013ControlerID\030\r \001(\004\022\n\n\002Hp\030\016 \001"
+      "(\005\022\n\n\002Mp\030\017 \001(\005\022\r\n\005HpMax\030\020 \001(\005\022\r\n\005MpMax\030\021"
+      " \001(\005\022\016\n\006Equips\030\022 \003(\005\"\372\002\n\007NewItem\022\022\n\nObje"
+      "ctGuid\030\001 \001(\004\022\020\n\010ActionID\030\002 \001(\005\022\017\n\007ObjTyp"
+      "e\030\003 \001(\005\022\024\n\014ObjectStatus\030\004 \001(\005\022\017\n\007ActorID"
+      "\030\005 \001(\005\022\017\n\007MountID\030\006 \001(\005\022\014\n\004Camp\030\007 \001(\005\022\014\n"
+      "\004Name\030\010 \001(\t\022\r\n\005Level\030\t \001(\005\022\r\n\005Speed\030\n \001("
+      "\005\022\020\n\010HostGuid\030\013 \001(\004\022\023\n\013ControlerID\030\014 \001(\004"
+      "\022\020\n\010SummonID\030\r \001(\004\022\t\n\001X\030\016 \001(\002\022\t\n\001Y\030\017 \001(\002"
+      "\022\t\n\001Z\030\020 \001(\002\022\n\n\002Ft\030\021 \001(\002\022\n\n\002Hp\030\022 \001(\005\022\n\n\002M"
+      "p\030\023 \001(\005\022\r\n\005HpMax\030\024 \001(\005\022\r\n\005MpMax\030\025 \001(\005\022\016\n"
+      "\006Equips\030\026 \003(\005\022\032\n\006Skills\030\027 \003(\0132\n.SkillIte"
+      "m\")\n\014ObjectNewNty\022\031\n\007NewList\030\001 \003(\0132\010.New"
+      "Item\"%\n\017ObjectRemoveNty\022\022\n\nRemoveList\030\001 "
+      "\003(\004\"\317\001\n\nBulletItem\022\022\n\nObjectGuid\030\001 \001(\004\022\022"
+      "\n\nTargetGuid\030\002 \001(\004\022\022\n\nCasterGuid\030\003 \001(\004\022\020"
+      "\n\010BulletID\030\004 \001(\005\022\t\n\001X\030\005 \001(\002\022\t\n\001Y\030\006 \001(\002\022\t"
+      "\n\001Z\030\007 \001(\002\022\r\n\005Angle\030\010 \001(\002\022\r\n\005Speed\030\t \001(\002\022"
+      "\020\n\010AccSpeed\030\n \001(\002\022\020\n\010LifeTime\030\013 \001(\002\022\020\n\010L"
+      "eftTime\030\014 \001(\002\"-\n\014BulletNewNtf\022\035\n\010ItemLis"
+      "t\030\001 \003(\0132\013.BulletItem\"!\n\014HeartBeatReq\022\021\n\t"
+      "TimeStamp\030\001 \001(\r\"5\n\014HeartBeatAck\022\021\n\tTimeS"
+      "tamp\030\001 \001(\r\022\022\n\nServerTime\030\002 \001(\r\"%\n\017Object"
+      "DieNotify\022\022\n\nObjectGuid\030\001 \001(\004\"(\n\022Msg_Rid"
+      "ingMountReq\022\022\n\nObjectGuid\030\001 \001(\004\"%\n\022Msg_R"
+      "idingMountAck\022\017\n\007RetCode\030\001 \001(\r\";\n\021Msg_Ro"
+      "leRebornReq\022\022\n\nObjectGuid\030\001 \001(\004\022\022\n\nRebor"
+      "nType\030\002 \001(\005\"$\n\021Msg_RoleRebornAck\022\017\n\007RetC"
+      "ode\030\001 \001(\rb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2117);
+      descriptor, 2137);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_Move.proto", &protobuf_RegisterTypes);
   ::protobuf_Msg_5fGame_2eproto::AddDescriptors();
@@ -1455,6 +1457,7 @@ void SkillCastAck::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SkillCastAck::kRetCodeFieldNumber;
+const int SkillCastAck::kObjectGuidFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SkillCastAck::SkillCastAck()
@@ -1470,12 +1473,16 @@ SkillCastAck::SkillCastAck(const SkillCastAck& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  retcode_ = from.retcode_;
+  ::memcpy(&objectguid_, &from.objectguid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&retcode_) -
+    reinterpret_cast<char*>(&objectguid_)) + sizeof(retcode_));
   // @@protoc_insertion_point(copy_constructor:SkillCastAck)
 }
 
 void SkillCastAck::SharedCtor() {
-  retcode_ = 0u;
+  ::memset(&objectguid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&retcode_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(retcode_));
   _cached_size_ = 0;
 }
 
@@ -1516,7 +1523,9 @@ void SkillCastAck::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  retcode_ = 0u;
+  ::memset(&objectguid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&retcode_) -
+      reinterpret_cast<char*>(&objectguid_)) + sizeof(retcode_));
   _internal_metadata_.Clear();
 }
 
@@ -1538,6 +1547,20 @@ bool SkillCastAck::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &retcode_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint64 ObjectGuid = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &objectguid_)));
         } else {
           goto handle_unusual;
         }
@@ -1575,6 +1598,11 @@ void SkillCastAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->retcode(), output);
   }
 
+  // uint64 ObjectGuid = 2;
+  if (this->objectguid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->objectguid(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1594,6 +1622,11 @@ void SkillCastAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->retcode(), target);
   }
 
+  // uint64 ObjectGuid = 2;
+  if (this->objectguid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->objectguid(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -1611,6 +1644,13 @@ size_t SkillCastAck::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // uint64 ObjectGuid = 2;
+  if (this->objectguid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->objectguid());
+  }
+
   // uint32 RetCode = 1;
   if (this->retcode() != 0) {
     total_size += 1 +
@@ -1647,6 +1687,9 @@ void SkillCastAck::MergeFrom(const SkillCastAck& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.objectguid() != 0) {
+    set_objectguid(from.objectguid());
+  }
   if (from.retcode() != 0) {
     set_retcode(from.retcode());
   }
@@ -1676,6 +1719,7 @@ void SkillCastAck::Swap(SkillCastAck* other) {
 }
 void SkillCastAck::InternalSwap(SkillCastAck* other) {
   using std::swap;
+  swap(objectguid_, other->objectguid_);
   swap(retcode_, other->retcode_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

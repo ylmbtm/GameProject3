@@ -73,6 +73,14 @@ struct StActorSkillInfo
 	INT32   Specials[5] = { 0 };
 };
 
+struct StChargeInfo
+{
+	StChargeInfo()
+	{
+	}
+	UINT32  dwProductID = 0;
+};
+
 struct StCarrerInfo
 {
 	StCarrerInfo()

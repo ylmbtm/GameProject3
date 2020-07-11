@@ -39,12 +39,8 @@ public:
 	BOOL OnMsgMainCopyReq(NetPacket* pNetPacket);
 	BOOL OnMsgAbortSceneNtf(NetPacket* pNetPacket);
 	BOOL OnMsgBackToCityReq(NetPacket* pNetPacket);
-	BOOL OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
 	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
-	BOOL OnMsgTestAddItemReq(NetPacket* pNetPacket);
-	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

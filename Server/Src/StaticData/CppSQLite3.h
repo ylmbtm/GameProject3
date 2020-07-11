@@ -51,9 +51,15 @@ public:
 
 	virtual ~CppSQLite3Exception();
 
-	const int errorCode() { return mnErrCode; }
+	const int errorCode()
+	{
+		return mnErrCode;
+	}
 
-	const char* errorMessage() { return mpszErrMess; }
+	const char* errorMessage()
+	{
+		return mpszErrMess;
+	}
 
 	static const char* errorCodeAsString(int nErrCode);
 
@@ -74,7 +80,10 @@ public:
 
 	const char* format(const char* szFormat, ...);
 
-	operator const char* () { return mpBuf; }
+	operator const char* ()
+	{
+		return mpBuf;
+	}
 
 	void clear();
 
@@ -304,14 +313,34 @@ public:
 
 	sqlite_int64 lastRowId();
 
-	void interrupt() { sqlite3_interrupt(mpDB); }
+	bool startTransaction();
+
+	bool commit();
+
+
+	void interrupt()
+	{
+		sqlite3_interrupt(mpDB);
+	}
 
 	void setBusyTimeout(int nMillisecs);
 
-	static const char* SQLiteVersion() { return SQLITE_VERSION; }
-	static const char* SQLiteHeaderVersion() { return SQLITE_VERSION; }
-	static const char* SQLiteLibraryVersion() { return sqlite3_libversion(); }
-	static int SQLiteLibraryVersionNumber() { return sqlite3_libversion_number(); }
+	static const char* SQLiteVersion()
+	{
+		return SQLITE_VERSION;
+	}
+	static const char* SQLiteHeaderVersion()
+	{
+		return SQLITE_VERSION;
+	}
+	static const char* SQLiteLibraryVersion()
+	{
+		return sqlite3_libversion();
+	}
+	static int SQLiteLibraryVersionNumber()
+	{
+		return sqlite3_libversion_number();
+	}
 
 	bool IsAutoCommitOn();
 

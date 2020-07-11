@@ -134,6 +134,15 @@ BOOL CPetModule::ToTransferData(TransferDataItem* pTransItem)
 		pPetData->add_propertys(pActorInfo->Propertys[i]);
 	}
 
+	StActorSkillInfo* pActorSkillInfo = CStaticData::GetInstancePtr()->GetActorSkillInfo(pPetInfo->dwActorID);
+	ERROR_RETURN_FALSE(pActorSkillInfo != NULL);
+
+	SkillItem* pSkillItem = pPetData->add_skills();
+	pSkillItem->set_keypos(1);
+	pSkillItem->set_level(1);
+	pSkillItem->set_skillid(pActorSkillInfo->NormalID);
+
+
 	return TRUE;
 }
 
@@ -210,7 +219,7 @@ UINT64 CPetModule::AddPet(UINT32 dwPetID)
 	PetDataObject* pObject = DataPool::CreateObject<PetDataObject>(ESD_PET, TRUE);
 	pObject->Lock();
 	pObject->m_PetID = dwPetID;
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 1;
 	pObject->m_RefineExp = 0;

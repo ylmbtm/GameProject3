@@ -72,7 +72,7 @@ void exceptionalStack(int signal)
 	time(&nowtime);
 	pid_t pid = getpid();
 	char cmd[256];
-	sprintf(cmd, "gstack %d > core_%s_log_%d.core", pid, g_AppName.c_str(), nowtime);
+	snprintf(cmd, 256, "gstack %d > core_%s_log_%d.core", pid, g_AppName.c_str(), nowtime);
 	system(cmd);
 	exit(-1);
 }

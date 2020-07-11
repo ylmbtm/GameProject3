@@ -86,8 +86,7 @@ struct ActivityDataObject : public ShareObject
 		csp.set_uint64(3, m_uJoinTime);
 		csp.set_int32(4, m_dwDataLen);
 		csp.set_blob(5, m_Data.m_Bytes, m_dwDataLen);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -100,8 +99,7 @@ struct ActivityDataObject : public ShareObject
 		csp.set_uint64(3, m_uJoinTime);
 		csp.set_int32(4, m_dwDataLen);
 		csp.set_blob(5, m_Data.m_Bytes, m_dwDataLen);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)

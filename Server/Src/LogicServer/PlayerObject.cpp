@@ -18,11 +18,10 @@
 #include "SkillModule.h"
 #include "MailModule.h"
 #include "FriendModule.h"
-#include "../ServerData/ServerDefine.h"
-#include "../ServerData/RoleData.h"
+#include "ServerDefine.h"
+#include "RoleData.h"
 #include "../StaticData/StaticData.h"
-#include "../ServerData/CopyData.h"
-#include "../GameServer/GameService.h"
+#include "CopyData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "MailManager.h"
@@ -114,6 +113,16 @@ BOOL CPlayerObject::OnLogin()
 
 	m_uRoomID = 0;
 
+	ERROR_RETURN_FALSE(m_u64ID != 0);
+
+	CMailManager::GetInstancePtr()->ProcessRoleLogin(this);
+
+	CalcFightDataInfo();
+
+	SendRoleLoginAck();
+
+	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
+
 	return TRUE;
 }
 
@@ -201,7 +210,7 @@ BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Mess
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata);
 }
 
 BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
@@ -212,7 +221,7 @@ BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwL
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectID(), m_dwClientConnID, pdata, dwLen);
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata, dwLen);
 }
 
 BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata)
@@ -226,20 +235,6 @@ BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Messa
 	}
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
-}
-
-BOOL CPlayerObject::OnAllModuleOK()
-{
-	ERROR_RETURN_FALSE(m_u64ID != 0);
-
-	CMailManager::GetInstancePtr()->ProcessRoleLogin(this);
-
-	CalcFightDataInfo();
-
-	SendRoleLoginAck();
-
-	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
-	return TRUE;
 }
 
 UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)
@@ -302,7 +297,6 @@ BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 	return TRUE;
 }
 
-
 CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 {
 	ERROR_RETURN_NULL(dwModuleType < (UINT32)m_MoudleList.size());
@@ -310,7 +304,7 @@ CModuleBase* CPlayerObject::GetModuleByType(UINT32 dwModuleType)
 	return m_MoudleList.at(dwModuleType);
 }
 
-UINT64 CPlayerObject::GetObjectID()
+UINT64 CPlayerObject::GetRoleID()
 {
 	return m_u64ID;
 }
@@ -321,6 +315,14 @@ UINT32 CPlayerObject::GetCityCopyID()
 	ERROR_RETURN_FALSE(pModule != NULL);
 	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
 	return pModule->m_pRoleDataObject->m_CityCopyID;
+}
+
+UINT64 CPlayerObject::GetAccountID()
+{
+	CRoleModule* pModule = (CRoleModule*)GetModuleByType(MT_ROLE);
+	ERROR_RETURN_FALSE(pModule != NULL);
+	ERROR_RETURN_FALSE(pModule->m_pRoleDataObject != NULL);
+	return pModule->m_pRoleDataObject->m_uAccountID;
 }
 
 UINT32 CPlayerObject::GetActorID()
@@ -348,6 +350,25 @@ UINT32 CPlayerObject::GetCarrerID()
 	ERROR_RETURN_VALUE(pModule != NULL, 0);
 
 	return pModule->GetCarrerID();
+}
+
+INT64 CPlayerObject::GetProperty(ERoleProperty ePropertyID)
+{
+	INT32 nModuleID = ePropertyID / 100;
+
+	if (nModuleID < MT_ROLE || nModuleID >= MT_END)
+	{
+		CLog::GetInstancePtr()->LogError("CPlayerObject::GetProperty Error Inavlie PropertyID:%d", ePropertyID);
+		return 0;
+	}
+
+	CModuleBase* pModule = GetModuleByType(nModuleID);
+	if (pModule == NULL)
+	{
+		return 0;
+	}
+
+	return pModule->GetProperty(ePropertyID);
 }
 
 UINT64 CPlayerObject::GetRoomID()
@@ -381,7 +402,7 @@ BOOL CPlayerObject::SendRoleLoginAck()
 BOOL CPlayerObject::SendPlayerChange(EChangeType eChangeType, UINT64 uIntValue1, UINT64 uIntValue2, std::string strValue)
 {
 	ObjectChangeNotify Ntf;
-	Ntf.set_roleid(GetObjectID());
+	Ntf.set_roleid(GetRoleID());
 	Ntf.set_changetype(eChangeType);
 	Ntf.set_intvalue1(uIntValue1);
 	Ntf.set_intvalue2(uIntValue2);

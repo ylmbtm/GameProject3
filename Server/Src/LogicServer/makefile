@@ -3,6 +3,10 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
+		-I../PublicData \
+		-I../ServerData \
+		-I../StaticData \
+		-I../WatcherClient \
 		-I../../Common \
 		-I../../Common/Mysql \
 		-I../../Common/Sqlite  \
@@ -24,6 +28,7 @@ TARGET=LogicServer
 
 SRCS=$(wildcard *.cpp)
 SRCS:=$(SRCS) $(wildcard ../StaticData/*.cpp)
+SRCS:=$(SRCS) $(wildcard ../WatcherClient/*.cpp)
 SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)

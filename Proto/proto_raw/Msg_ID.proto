@@ -20,8 +20,8 @@ enum MessageID {
     MSG_DB_EXE_SQL_REQ               = 100007;    //执行Sql语句请求
     MSG_DB_EXE_SQL_ACK               = 100008;    //执行Sql语句请求返回
     
-    MSG_SERVER_LIST_REQ              = 100009;     //服务器列表请求
-    MSG_SERVER_LIST_ACK              = 100010;   //服务器列表的返回
+    MSG_SERVER_LIST_REQ              = 100009;    //服务器列表请求
+    MSG_SERVER_LIST_ACK              = 100010;    //服务器列表的返回
     
     MSG_SELECT_SERVER_REQ            = 100011;    //选择服务器请求
     MSG_SELECT_SERVER_ACK            = 100012;    //选择服务器请求返回
@@ -46,30 +46,24 @@ enum MessageID {
     MSG_WATCH_HEART_BEAT_REQ         = 100024;
     MSG_WATCH_HEART_BEAT_ACK         = 100025;
 
-    MSG_WATCH_UPDATE_SVR_REQ         = 100026;
-    MSG_WATCH_UPDATE_SVR_ACK         = 100027;
-
-    MSG_WATCH_START_SVR_REQ          = 100028;
-    MSG_WATCH_START_SVR_ACK          = 100029;
-
-    MSG_WATCH_STOP_SVR_REQ           = 100030;
-    MSG_WATCH_STOP_SVR_ACK           = 100031;
-
+    MSG_REMOVE_CONNECT_NTY           = 100026;
     MSG_DISCONNECT_NTY               = 100032;    //断开连接
 
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;
     
     MSG_SET_LAST_SERVER_NTY          = 100034;
     
-    MSG_GM_STOP_SERVER_REQ           = 100035;
-    MSG_GM_STOP_SERVER_ACK           = 100036;
-	
+    MSG_GM_SHUTDOWN_SVR_REQ          = 100035;
+    MSG_GM_SHUTDOWN_SVR_ACK          = 100036;
+    
     MSG_UDP_CONNECT_REQ              = 100037;
     MSG_UDP_CONNECT_ACK              = 100038;
 
     MSG_SEAL_ACCOUNT_REQ             = 100039;   //封号请求
     MSG_SEAL_ACCOUNT_ACK             = 100040;   //封号请求返回
-	
+    
+    MSG_DB_WRITE_ERROR_NTY           = 100041;   //DB写错误通知
+    
     MSG_NORMAL_MSGID_END             = 199999;
     
     //============================================================================================
@@ -79,27 +73,25 @@ enum MessageID {
     MSG_ROLE_LIST_REQ                = 200001;
     MSG_ROLE_LIST_ACK                = 200002;
 
-    MSG_ROLE_CREATE_REQ              = 200003;   //登录请法度
-    MSG_ROLE_CREATE_ACK              = 200004;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_CREATE_REQ              = 200003;   //创角请求
+    MSG_ROLE_CREATE_ACK              = 200004;   //创角请求返回
     
-    MSG_ROLE_DELETE_REQ              = 200005;   //登录请法度
-    MSG_ROLE_DELETE_ACK              = 200006;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_DELETE_REQ              = 200005;   //删角请求
+    MSG_ROLE_DELETE_ACK              = 200006;   //删角请求返回
     
-    MSG_ROLE_LOGIN_REQ               = 200007;   //登录请法度
-    MSG_ROLE_LOGIN_ACK               = 200008;   //登录成功  返回基本模块的数据, 包括基本类的数据
+    MSG_ROLE_LOGIN_REQ               = 200007;   //登录请求
+    MSG_ROLE_LOGIN_ACK               = 200008;   //登录请求返回
     
-    MSG_ROLE_LOGOUT_REQ              = 200009;   //登录请法度
-    MSG_ROLE_LOGOUT_ACK              = 200010;   //登录成功  返回基本模块的数据, 包括基本类的数据
-    
-    MSG_DATA_UPDATE                  = 200011;
-    
+    MSG_ROLE_LOGOUT_REQ              = 200009;   //登出请求
+    MSG_ROLE_LOGOUT_ACK              = 200010;   //登出请求返回
+
     MSG_NOTIFY_INTO_SCENE            = 200014;
 
     MSG_COPYINFO_REPORT_REQ          = 200016;
     MSG_MAIN_COPY_REQ                = 200017;
     MSG_MAIN_COPY_ACK                = 200018;
-    MSG_ABORT_SCENE_NTF              = 200019;//离开副本通知
-    MSG_XXX_XXXX_XXXX_1              = 200020;
+    MSG_ABORT_SCENE_NTF              = 200019;   //离开副本通知
+    MSG_CLIENT_LOG_REQ               = 200020;   //客户端日志请求
 
     MSG_BACK_TO_CITY_REQ             = 200021;
     MSG_BACK_TO_CITY_ACK             = 200022;

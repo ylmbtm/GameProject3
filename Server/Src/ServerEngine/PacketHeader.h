@@ -4,8 +4,7 @@
 #pragma  pack(push)
 #pragma  pack(1)
 
-#define CLIENT_CODE 0x88
-#define SERVER_CODE 0x99
+#define CODE_VALUE 0x88
 
 struct PacketHeader
 {

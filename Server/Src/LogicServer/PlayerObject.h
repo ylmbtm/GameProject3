@@ -63,18 +63,18 @@ public:
 	BOOL			CreateAllModule();
 	BOOL			DestroyAllModule();
 	CModuleBase*	GetModuleByType(UINT32 dwModuleType);
-	BOOL			OnAllModuleOK();
 
 public:
 	UINT32			CheckCopyConditoin(UINT32 dwCopyID);
 
 public:
-	UINT64			GetObjectID();
+	UINT64			GetRoleID();
+	UINT64          GetAccountID();
 	UINT32			GetCityCopyID();
 	UINT32			GetActorID();
 	CHAR*			GetName();
 	UINT32			GetCarrerID();
-
+	INT64           GetProperty(ERoleProperty ePropertyID);
 	//////////////////////////////////////////////////////////////////////////
 	//当前的多人排队情况
 
@@ -91,7 +91,6 @@ public:
 
 	INT32       m_Propertys[PROPERTY_NUM];
 
-	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 	//背包方法
@@ -121,12 +120,5 @@ public:
 	//*********************消息处理定义结束******************************
 };
 
-template <class T>
-T* GetModuleByType(CPlayerObject* pPlayer, EMouduleType mType)
-{
-	T* pModule = (T*)pPlayer->GetModuleByType(mType);
-
-	return pModule;
-}
 
 #endif //__WS_PLAYER_OBJECT_H__

@@ -55,6 +55,8 @@ public:
 	void	HandWritedata(const boost::system::error_code& error, size_t len);
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
+
+	UINT32  GetIpAddr(BOOL bHost);
 public:
 	boost::asio::ip::tcp::socket m_hSocket;
 
@@ -64,8 +66,6 @@ public:
 	UINT64                      m_u64ConnData;
 
 	IDataHandler*				m_pDataHandler;
-
-	UINT32						m_dwIpAddr;
 
 	UINT32						m_dwDataLen;
 	CHAR						m_pRecvBuf[RECV_BUF_SIZE];

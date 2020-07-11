@@ -122,9 +122,6 @@
     <ClInclude Include="ConfigFile.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="EventFuncManager.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="TimerManager.h">
       <Filter>Common</Filter>
     </ClInclude>

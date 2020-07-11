@@ -29,7 +29,7 @@
 #define SQL_BUFF_LEN		1024
 
 //邮件
-#define MAIL_CONTNET_LEN	2048
+#define MAIL_CONTENT_LEN	2048
 #define MAIL_TITLE_LEN		255
 #define MAIL_ITEM_COUNT		10
 
@@ -81,7 +81,7 @@ enum EShareData
 	ESD_TASK,
 	ESD_MOUNT,
 	ESD_MAIL,
-	ESD_OFFMAIL,   //离线邮件
+	ESD_OFFDATA,   //离线操作
 	ESD_GROUP_MAIL,
 	ESD_ACTIVITY,
 	ESD_COUNTER,
@@ -112,6 +112,13 @@ enum EGuildPos
 	EGP_MEMBER		= 0,
 	EGP_LEADER		= 1,
 	EGP_VICELEADER  = 2,
+};
+
+enum ERoleProperty
+{
+	ERP_ID = 1,
+	ERP_LEVEL,
+	ERP_VIPLEVEL,
 };
 
 #endif //__SERVER_STRUCT_H__

@@ -27,7 +27,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	CLog::GetInstancePtr()->LogError("---------服务器开始启动--------");
+	CLog::GetInstancePtr()->LogInfo("---------服务器开始启动--------");
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
 		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
@@ -36,7 +36,7 @@ BOOL CGameService::Init()
 
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("watch_log_level"));
 
-	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
+	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
@@ -75,10 +75,6 @@ BOOL CGameService::OnSecondTimer()
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	//switch(pNetPacket->m_dwMsgID)
-	//{
-	//}
-
 	if (m_WatchMsgHandler.DispatchPacket(pNetPacket))
 	{
 		return TRUE;
@@ -112,30 +108,11 @@ BOOL CGameService::Uninit()
 	return TRUE;
 }
 
-// BOOL CGameService::SendHttpRequest(std::string host, INT32 nPort, std::string strData)
-// {
-// 	ServiceBase::GetInstancePtr()->ConnectTo(host, nPort);
-//
-//
-// }
-
-// BOOL WINAPI HandlerCloseEvent(DWORD dwCtrlType)
-// {
-// 	if (dwCtrlType == CTRL_CLOSE_EVENT)
-// 	{
-// 		CGameService::GetInstancePtr()->Uninit();
-// 	}
-// 	return FALSE;
-// }
-// SetConsoleCtrlHandler(HandlerCloseEvent, TRUE);
-
 BOOL CGameService::Run()
 {
-	while(TRUE)
+	while (TRUE)
 	{
 		ServiceBase::GetInstancePtr()->Update();
-
-		m_WatchMsgHandler.OnUpdate(CommonFunc::GetTickCount());
 
 		CommonFunc::Sleep(1);
 	}

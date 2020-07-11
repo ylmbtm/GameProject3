@@ -31,8 +31,7 @@ struct GuildDataObject : public ShareObject
 		csp.set_int32(2, m_Level);
 		csp.set_string(3, m_szNotice, strlen(m_szNotice));
 		csp.set_uint64(4, m_uCreateTime);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -44,16 +43,14 @@ struct GuildDataObject : public ShareObject
 		csp.set_int32(2, m_Level);
 		csp.set_string(3, m_szNotice, strlen(m_szNotice));
 		csp.set_uint64(4, m_uCreateTime);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("delete from guild where id = ?");
 		csp.set_uint64(0, m_uGuid);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 
@@ -78,8 +75,7 @@ struct MemberDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_uJoinTime);
 		csp.set_int32(3, m_Pos);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -90,9 +86,7 @@ struct MemberDataObject : public ShareObject
 		csp.set_uint64(1, m_uRoleID);
 		csp.set_uint64(2, m_uJoinTime);
 		csp.set_int32(3, m_Pos);
-		pDB->Execute(&csp);
-
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
@@ -100,8 +94,7 @@ struct MemberDataObject : public ShareObject
 		static CDBStoredProcedure csp("delete from guild_member where guildid = ? and roleid = ?");
 		csp.set_uint64(0, m_uGuildID);
 		csp.set_uint64(1, m_uRoleID);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 

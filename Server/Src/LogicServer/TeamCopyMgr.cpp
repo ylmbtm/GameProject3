@@ -3,10 +3,10 @@
 #include "GameService.h"
 #include "PacketHeader.h"
 
-#include "../ServerData/ServerDefine.h"
+#include "ServerDefine.h"
 #include "../StaticData/StaticStruct.h"
 #include "../StaticData/StaticData.h"
-#include "../ServerData/RoleData.h"
+#include "RoleData.h"
 
 #include "CopyModule.h"
 #include "BagModule.h"
@@ -323,7 +323,7 @@ BOOL CRoomList::NotifyRoomChange(CRoomItem* pRoomItem)
 		CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
 
 		pPlayerInfo->set_actorid(pRoleModule->GetActorID());
-		pPlayerInfo->set_roleid(pPlayer->GetObjectID());
+		pPlayerInfo->set_roleid(pPlayer->GetRoleID());
 		pPlayerInfo->set_level(pRoleModule->GetLevel());
 		pPlayerInfo->set_name(pRoleModule->GetName());
 

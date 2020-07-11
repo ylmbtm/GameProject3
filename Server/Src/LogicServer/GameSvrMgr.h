@@ -83,10 +83,14 @@ public:
 	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwCopyType);
 
 	VOID        RegisterMessageHanler();
+
+	BOOL        BroadMsgToAll(UINT32 dwMsgID, CHAR* pData, UINT32 nSize);
 private:
 	UINT32		GetServerIDByCopyGuid(UINT32 dwCopyGuid);
 
 	UINT32		GetBestGameServerID();
+
+	GameSvrInfo* GetGameSvrInfo(UINT32 dwSvrID);
 
 	BOOL		SendCreateSceneCmd(UINT32 dwServerID, UINT32 dwCopyID, UINT32 dwCopyType, UINT64 CreateParam, UINT32 dwPlayerNum);
 
@@ -99,6 +103,7 @@ private:
 	BOOL        AddWaitItem(UINT64 uKey, UINT64 uID[], UINT32 dwCamp[], INT32 nNum);
 
 	BOOL		CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType);
+
 public:
 
 	//响应副本结果返回
@@ -115,13 +120,13 @@ public:
 	BOOL	OnMsgBattleResultNty(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 public:
-	std::map<UINT32, GameSvrInfo> m_mapGameSvr; //服务器ID-->副本服务器信息
+	std::map<UINT32, GameSvrInfo>   m_mapGameSvr; //服务器ID-->副本服务器信息
 
-	std::map<UINT32, CityInfo> m_mapCity;
+	std::map<UINT32, CityInfo>      m_mapCity;
 
-	std::map<UINT32, UINT32> m_GuidToSvrID;    //副本guid->副本服务器ID
+	std::map<UINT32, UINT32>        m_GuidToSvrID;    //副本guid->副本服务器ID
 
-	CWaitCopyList               m_WaitCopyList;
+	CWaitCopyList                   m_WaitCopyList;
 };
 
 #endif

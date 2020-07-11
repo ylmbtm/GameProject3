@@ -25,19 +25,10 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
-	BOOL		SetWatchIndex(UINT32 nIndex);
 public:
-	UINT32					m_dwWatchSvrConnID;
-	UINT32					m_dwWatchIndex;
 	CCenterMsgHandler		m_CenterMsgHandler;
 
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

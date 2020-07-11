@@ -30,23 +30,13 @@ public:
 
 	BOOL		ConnectToLogicSvr();
 
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
-	BOOL		SetWatchIndex(UINT32 nIndex);
 public:
 	//处理普通的网络连接
 	CProxyMsgHandler	m_ProxyMsgHandler;
 
 	UINT32				m_dwLogicConnID;
-
-	UINT32				m_dwWatchSvrConnID;
-	UINT32				m_dwWatchIndex;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

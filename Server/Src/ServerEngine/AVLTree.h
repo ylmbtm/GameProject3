@@ -125,7 +125,7 @@ TValue* AVLTree<TKey, TValue>::InsertAlloc( TKey Key )
 		if(!InsertInner(m_pRoot, pNode))
 		{
 			FreeNode(pNode);
-			ASSERT(FALSE);
+			//表示插入失败，这个key在树中己经存在
 			return NULL;
 		}
 	}

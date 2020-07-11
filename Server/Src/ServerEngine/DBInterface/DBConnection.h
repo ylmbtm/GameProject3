@@ -22,7 +22,7 @@ public:
 
 	BOOL	Uninit();
 
-	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort,char const* szCharSet = "utf8");
+	BOOL	SetConnectParam(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet = "utf8");
 
 	BOOL	Connect(char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet = "utf8");
 

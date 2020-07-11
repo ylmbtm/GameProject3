@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "CommonFunc.h"
 
 UINT32 CommonFunc::GetProcessorNum()
@@ -66,6 +66,13 @@ UINT64 CommonFunc::GetCurrTime()
 	return (UINT64)t;
 }
 
+UINT64 CommonFunc::GetCurMsTime()
+{
+	auto time_now = std::chrono::system_clock::now();
+	auto duration_in_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_now.time_since_epoch());
+	return duration_in_ms.count();
+}
+
 tm CommonFunc::GetCurrTmTime()
 {
 	time_t rawtime;
@@ -94,12 +101,7 @@ UINT64 CommonFunc::GetWeekBeginTime()
 	time_t t;
 	t = time(0);
 	tm* t_tm = localtime(&t);
-	t_tm->tm_hour = 0;
-	t_tm->tm_min = 0;
-	t_tm->tm_sec = 0;
-	t_tm->tm_wday = 0;
-	t = mktime(t_tm);
-	return (UINT64)t;
+	return (UINT64)t - (t_tm->tm_wday == 0 ? 6 : t_tm->tm_wday - 1) * 86400 - t_tm->tm_hour * 3600 - t_tm->tm_min * 60 - t_tm->tm_sec;
 }
 
 time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
@@ -109,8 +111,8 @@ time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nH
 	tm* t_tm = localtime(&timer);
 
 	tm newtm;
-	newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear;
-	newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth;
+	newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear - 1900;
+	newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth - 1;
 	newtm.tm_mday = (nDay < 0) ? t_tm->tm_mday : nDay;
 	newtm.tm_hour = (nHour < 0) ? t_tm->tm_hour : nHour;
 	newtm.tm_min = (nMin < 0) ? t_tm->tm_min : nMin;
@@ -131,12 +133,35 @@ std::string CommonFunc::TimeToString(time_t tTime)
 	return std::string(szTime);
 }
 
+time_t CommonFunc::DateStringToTime(std::string strDate)
+{
+	if (strDate.size() < 14)
+	{
+		return 0;
+	}
+
+	INT32 nYear;
+	INT32 nMonth;
+	INT32 nDay;
+	INT32 nHour;
+	INT32 nMinute;
+	INT32 nSecond;
+
+	INT32 nRet = sscanf(strDate.c_str(), "%4d-%2d-%2d %2d:%2d:%2d", &nYear, &nMonth, &nDay, &nHour, &nMinute, &nSecond);
+	if (nRet < 6)
+	{
+		return 0;
+	}
+
+	return YearTimeToSec(nYear, nMonth, nDay, nHour, nMinute, nSecond);
+}
+
 UINT64 CommonFunc::GetTickCount()
 {
 #ifdef WIN32
 	return ::GetTickCount64();
 #else
-	UINT64 uTickCount = 0;;
+	UINT64 uTickCount = 0;
 	struct timespec on;
 	if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
 	{
@@ -367,6 +392,25 @@ UINT32 CommonFunc::GetLastError()
 #endif
 }
 
+std::string CommonFunc::GetLastErrorStr(INT32 nError)
+{
+	std::string strErrorText;
+#ifdef WIN32
+	LPVOID lpMsgBuf;
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, nError,
+	              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+
+	strErrorText = (LPTSTR)lpMsgBuf;
+
+	LocalFree(lpMsgBuf);
+#else
+	strErrorText = strerror(nError);
+#endif
+
+	return strErrorText;
+}
+
+//s:10m:6:p:16
 HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
 {
 	HANDLE hShare = NULL;
@@ -392,6 +436,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 	return hShare;
 }
 
+//下面是用路径来创建建共享内存，可惜linux有缺陷
 // HANDLE CommonFunc::CreateShareMemory(std::string strName, INT32 nSize)
 // {
 // 	HANDLE hShare = NULL;
@@ -416,6 +461,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 // 	return hShare;
 // }
 
+//s:10m:6:p:16
 HANDLE CommonFunc::OpenShareMemory(UINT32 dwModuleID, INT32 nPage)
 {
 	HANDLE hShare = NULL;
@@ -573,4 +619,85 @@ BOOL CommonFunc::IsAlreadyRun(std::string strSignName)
 
 	return FALSE;
 #endif
+}
+
+BOOL CommonFunc::PrintColorText(CHAR* pSzText, INT32 nColor)
+{
+	//nColor 0:默认 1:红; 2:黄; 3; 绿
+#ifdef WIN32
+	switch (nColor)
+	{
+		case 1:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		case 2:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		case 3:
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+			printf(pSzText);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		}
+		break;
+		default:
+		{
+			printf(pSzText);
+		}
+		break;
+	}
+#else
+	switch (nColor)
+	{
+		case 1:
+		{
+			printf("\033[1;31;40m%s\033[0m", pSzText);
+		}
+		break;
+		case 2:
+		{
+			printf("\033[1;33;40m%s\033[0m", pSzText);
+		}
+		break;
+		case 3:
+		{
+			printf("\033[1;32;40m%s\033[0m", pSzText);
+		}
+		break;
+		default:
+		{
+			printf(pSzText);
+		}
+		break;
+	}
+#endif
+
+	return TRUE;
+}
+
+BOOL CommonFunc::GetBitValue(UINT64 nValue, INT32 nPos)
+{
+	return ((nValue >> (nPos - 1)) & 1) > 0;
+}
+
+BOOL CommonFunc::SetBitValue(UINT64& nValue, INT32 nPos, BOOL bValue)
+{
+	if (bValue)
+	{
+		nValue |= (UINT64)1 << (nPos - 1);
+	}
+	else
+	{
+		nValue &= ~((UINT64)1 << (nPos - 1));
+	}
+
+	return TRUE;
 }

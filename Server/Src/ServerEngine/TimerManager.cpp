@@ -79,12 +79,13 @@ VOID TimerManager::UpdateTimer()
 	TimeEvent* pCurEvent = m_pUsedHead;
 	while(pCurEvent != NULL)
 	{
+        BOOL bRet = TRUE;
 		if(m_dwCurTime >= pCurEvent->m_dwFireTime)
 		{
 			//避免每次启动服务器，之前的定时器都执行一遍
 			if(m_dwInitTime <= pCurEvent->m_dwFireTime)
 			{
-				OnTimerEvent(pCurEvent);
+                bRet = OnTimerEvent(pCurEvent);
 			}
 
 			pCurEvent->m_dwRepeateTimes -= 1;
@@ -99,7 +100,7 @@ VOID TimerManager::UpdateTimer()
 			}
 		}
 
-		if(pCurEvent->m_dwRepeateTimes <= 0)
+		if(pCurEvent->m_dwRepeateTimes <= 0 || !bRet)
 		{
 			//首先从己用中删除
 			if (pCurEvent == m_pUsedHead)
@@ -141,16 +142,18 @@ VOID TimerManager::UpdateTimer()
 	}
 }
 
-VOID TimerManager::OnTimerEvent(TimeEvent* pEvent)
+BOOL TimerManager::OnTimerEvent(TimeEvent* pEvent)
 {
 	if(pEvent == NULL)
 	{
-		return ;
+		return FALSE;
 	}
 
-	(*pEvent->m_pTimerFuncSlot)(pEvent->m_dwData);
+	BOOL bRet = (*pEvent->m_pTimerFuncSlot)(pEvent->m_dwData);
 
-	return ;
+	//如要定时器返回FALSE, 表示需要被删除
+
+	return bRet;
 }
 
 BOOL TimerManager::InitTimer()

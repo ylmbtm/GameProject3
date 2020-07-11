@@ -180,6 +180,14 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 {
 	if (dwStatus == 0)
 	{
+		struct sockaddr_in ClientAddr;
+
+		socklen_t namelen = sizeof(ClientAddr);
+
+		uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr*)&ClientAddr, &namelen);
+
+		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
+
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
@@ -252,7 +260,7 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 	ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
 	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	pHeader->CheckCode = 0x88;
+	pHeader->CheckCode = CODE_VALUE;
 	pHeader->dwUserData = dwUserData;
 	pHeader->u64TargetID = u64TargetID;
 	pHeader->dwSize = dwLen + sizeof(PacketHeader);

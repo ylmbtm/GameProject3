@@ -66,28 +66,30 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
-	if(!QueryRes.eof())
+	if (QueryRes.eof())
 	{
-		DBRoleData* pData = Ack.mutable_roledata();
-		pData->set_roleid(QueryRes.getInt64Field("id", 0));
-		pData->set_name(QueryRes.getStringField("name"));
-		pData->set_carrerid(QueryRes.getIntField("carrerid", 0));
-		pData->set_level(QueryRes.getIntField("level", 0));
-		pData->set_exp(QueryRes.getInt64Field("exp", 0));
-		pData->set_accountid(QueryRes.getInt64Field("account_id", 0));
-		pData->set_citycopyid(QueryRes.getIntField("citycopyid", 0));
-		pData->add_action(QueryRes.getInt64Field("action1", 0));
-		pData->add_action(QueryRes.getInt64Field("action2", 0));
-		pData->add_action(QueryRes.getInt64Field("action3", 0));
-		pData->add_action(QueryRes.getInt64Field("action4", 0));
-		pData->add_actime(QueryRes.getInt64Field("actime1", 0));
-		pData->add_actime(QueryRes.getInt64Field("actime2", 0));
-		pData->add_actime(QueryRes.getInt64Field("actime3", 0));
-		pData->add_actime(QueryRes.getInt64Field("actime4", 0));
-		pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
-		pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
-		pData->set_logofftime(QueryRes.getIntField("logofftime", 0));
+		return FALSE;
 	}
+
+	DBRoleData* pData = Ack.mutable_roledata();
+	pData->set_roleid(QueryRes.getInt64Field("id", 0));
+	pData->set_name(QueryRes.getStringField("name"));
+	pData->set_carrerid(QueryRes.getIntField("carrerid", 0));
+	pData->set_level(QueryRes.getIntField("level", 0));
+	pData->set_exp(QueryRes.getInt64Field("exp", 0));
+	pData->set_accountid(QueryRes.getInt64Field("accountid", 0));
+	pData->set_citycopyid(QueryRes.getIntField("citycopyid", 0));
+	pData->add_action(QueryRes.getInt64Field("action1", 0));
+	pData->add_action(QueryRes.getInt64Field("action2", 0));
+	pData->add_action(QueryRes.getInt64Field("action3", 0));
+	pData->add_action(QueryRes.getInt64Field("action4", 0));
+	pData->add_actime(QueryRes.getInt64Field("actime1", 0));
+	pData->add_actime(QueryRes.getInt64Field("actime2", 0));
+	pData->add_actime(QueryRes.getInt64Field("actime3", 0));
+	pData->add_actime(QueryRes.getInt64Field("actime4", 0));
+	pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
+	pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
+	pData->set_logofftime(QueryRes.getInt64Field("logofftime", 0));
 
 	return TRUE;
 }
@@ -365,11 +367,58 @@ BOOL CDBManager::GetActivtyData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from mail where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBMailData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_maildata();
+		}
+
+		DBMailItem* pItem = pData->add_maillist();
+		pItem->set_sender(QueryRes.getStringField("sendername", 0));
+		pItem->set_senderid(QueryRes.getInt64Field("sendid", 0));
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_time(QueryRes.getInt64Field("mail_time", 0));
+		pItem->set_title(QueryRes.getStringField("title", 0));
+		pItem->set_content(QueryRes.getStringField("content", 0));
+		INT32 nLen = 0;
+		const unsigned char* pData = QueryRes.getBlobField("data", nLen);
+		pItem->set_items(pData, nLen);
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 
 BOOL CDBManager::GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+
+	snprintf(szSql, SQL_BUFF_LEN, "select * from counter where roleid = %lld", u64ID);
+
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBCounterData* pData = NULL;
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_counterdata();
+		}
+		DBCounterItem* pItem = pData->add_counterlist();
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_counterid(QueryRes.getIntField("id", 0));
+		pItem->set_index(QueryRes.getIntField("cindex", 0));
+		pItem->set_value(QueryRes.getInt64Field("value", 0));
+		pItem->set_time(QueryRes.getInt64Field("time", 0));
+
+		QueryRes.nextRow();
+	}
+
 	return TRUE;
 }
 

@@ -1,7 +1,7 @@
 ﻿#ifndef __SKILL_OBJECT_H__
 #define __SKILL_OBJECT_H__
 
-#include "../StaticData/SkillStruct.h"
+#include "SkillStruct.h"
 #include "XMath.h"
 #include "BulletObject.h"
 class CSceneObject;

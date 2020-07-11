@@ -1,5 +1,6 @@
 ﻿#ifndef __SIMPLE_MANAGER_H__
 #define __SIMPLE_MANAGER_H__
+
 #include "DBInterface/CppMysql.h"
 struct CSimpleInfo
 {
@@ -15,7 +16,6 @@ struct CSimpleInfo
 		m_uLogoffTime	= 0;
 		m_uLogonTime	= 0;
 		m_uCreateTime	= 0;
-		m_bOnline		= FALSE;
 		m_strName		= "";
 	}
 	UINT64	m_uRoleID;
@@ -28,7 +28,6 @@ struct CSimpleInfo
 	UINT64	m_uLogoffTime;
 	UINT64	m_uLogonTime;
 	UINT64	m_uCreateTime;
-	BOOL	m_bOnline;
 	std::string m_strName;
 };
 
@@ -72,10 +71,6 @@ public:
 	UINT64	GetGuildID(UINT64 u64ID);
 
 	UINT32  GetTotalCount();
-
-	UINT32  GetOnline();
-
-	BOOL	SetOnline(UINT64 u64ID, BOOL bOnline);
 
 	BOOL	GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64>& vtRoleIDs);
 

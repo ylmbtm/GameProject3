@@ -136,7 +136,6 @@
     <ClInclude Include="DBInterface\DBRecordSet.h" />
     <ClInclude Include="DBInterface\DBStoredProc.h" />
     <ClInclude Include="DFA.h" />
-    <ClInclude Include="EventFuncManager.h" />
     <ClInclude Include="HttpParameter.h" />
     <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="LockFreeQueueImpl.h" />

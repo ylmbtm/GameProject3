@@ -21,6 +21,8 @@ public:
 
 	DOUBLE GetDoubleValue( std::string VarName);
 
+	INT32  GetRealNetPort(std::string VarName);
+
 private:
 	std::map<std::string, std::string> m_Values;
 };

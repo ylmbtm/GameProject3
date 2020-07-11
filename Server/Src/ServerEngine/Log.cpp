@@ -1,9 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Log.h"
-
 CLog::CLog(void)
 {
-	m_LogLevel = 0;
+	m_LogLevel = 4;
 }
 
 CLog::~CLog(void)
@@ -25,6 +24,7 @@ BOOL CLog::Start(std::string strPrefix, std::string strLogDir)
 		return FALSE;
 	}
 	m_strPrefix = strPrefix;
+	m_strLogDir = strLogDir;
 #ifdef WIN32
 	SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_EXTENDED_FLAGS);
 #endif
@@ -64,9 +64,9 @@ BOOL CLog::Close()
 	return TRUE;
 }
 
-void CLog::LogWarnning( char* lpszFormat, ... )
+void CLog::LogWarn( char* lpszFormat, ... )
 {
-	if(m_LogLevel < Log_Info)
+	if(m_LogLevel < Log_Warn)
 	{
 		return ;
 	}
@@ -83,15 +83,17 @@ void CLog::LogWarnning( char* lpszFormat, ... )
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 31, 512 - 31,  lpszFormat, argList);
+	vsnprintf(szLog + 28, 512 - 28,  lpszFormat, argList);
 	va_end( argList );
 
 	strncat(szLog, "\n", 10);
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Warn);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -122,8 +124,10 @@ void CLog::LogError( char* lpszFormat, ... )
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Error);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -155,8 +159,10 @@ void CLog::LogInfo( char* lpszFormat, ... )
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
+	fflush(m_pLogFile);
 	m_LogCount++;
-	printf(szLog);
+	CommonFunc::PrintColorText(szLog, Log_Info);
+	CheckAndCreate();
 	m_WriteMutex.unlock();
 
 	return ;
@@ -187,12 +193,33 @@ void CLog::SetTitle(char* lpszFormat, ...)
 	return;
 }
 
-void CLog::Flush()
+void CLog::CheckAndCreate()
 {
-	if (m_LogCount > 0)
+	//超过10M就新建一个文件
+	if (ftell(m_pLogFile) < 1024 * 1024 * 10)
 	{
-		fflush(m_pLogFile);
-
-		m_LogCount = 0;
+		return;
 	}
+
+	fclose(m_pLogFile);
+
+	m_pLogFile = NULL;
+
+	tm CurTime = CommonFunc::GetCurrTmTime();
+
+	CHAR szFileName[512];
+
+	snprintf(szFileName, 512, "%s/%s-%02d%02d%02d-%02d%02d%02d.log", m_strLogDir.c_str(), m_strPrefix.c_str(), CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec);
+
+	m_pLogFile = fopen(szFileName, "w+");
+
+	if (m_pLogFile == NULL)
+	{
+		return ;
+	}
+
+	m_LogCount = 0;
+
+	return;
 }
+

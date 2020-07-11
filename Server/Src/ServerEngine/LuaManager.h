@@ -29,6 +29,8 @@ public:
 
 	BOOL	LoadScriptFile(std::vector<std::string>& vtScriptList);
 
+	BOOL    DoLuaScript(std::string strLuaScript);
+
 	BOOL	CallLuaFunction(std::string strFuncName, char* pStrParamSig, ...);
 
 	BOOL	CallLuaTableFunc(std::string strTableName, std::string strFuncName, char* pStrParamSig, ...);

@@ -22,7 +22,7 @@ BOOL    CommonSocket::SetSocketBlock(SOCKET hSocket, BOOL bBlock)
 	ioctlsocket(hSocket, FIONBIO, &iMode);
 #else
 	int flags = fcntl(hSocket, F_GETFL, 0);
-	fcntl(hSocket, F_SETFL, bBlock ? (flags | O_NONBLOCK) : (flags & (~O_NONBLOCK)));
+	fcntl(hSocket, F_SETFL, bBlock ? (flags & (~O_NONBLOCK)) : (flags | O_NONBLOCK));
 #endif
 
 	return TRUE;
@@ -64,6 +64,16 @@ std::string CommonSocket::GetRemoteIP(SOCKET hSocket)
 	inet_ntop(AF_INET, &_sockAddr.sin_addr, szIpBuffer, 100);
 
 	return std::string(szIpBuffer);
+}
+
+UINT32 CommonSocket::HostToNet(UINT32 nValue)
+{
+	return htonl(nValue);
+}
+
+UINT32 CommonSocket::NetToHost(UINT32 nValue)
+{
+	return ntohl(nValue);
 }
 
 BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
@@ -134,12 +144,12 @@ std::string CommonSocket::GetLocalIP()
 
 void   CommonSocket::ShutDownSend(SOCKET hSocket)
 {
-	shutdown(hSocket, 0);
+	shutdown(hSocket, 1);
 }
 
 void   CommonSocket::ShutDownRecv(SOCKET hSocket)
 {
-	shutdown(hSocket, 1);
+	shutdown(hSocket, 0);
 }
 
 
@@ -219,24 +229,6 @@ BOOL CommonSocket::IsSocketValid(SOCKET hSocket)
 	}
 
 	return TRUE;
-}
-
-std::string  CommonSocket::GetLastErrorStr(INT32 nError)
-{
-	std::string strErrorText;
-#ifdef WIN32
-	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, nError,
-	              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, NULL);
-
-	strErrorText = (LPTSTR)lpMsgBuf;
-
-	LocalFree(lpMsgBuf);
-#else
-	strErrorText = strerror(nError);
-#endif
-
-	return strErrorText;
 }
 
 UINT32  CommonSocket::IpAddrStrToInt(CHAR* pszIpAddr)
@@ -322,6 +314,27 @@ BOOL CommonSocket::GetSocketAddress(SOCKET hSocket, CHAR* pDataBuffer, sockaddr_
 
 	pAddrClient = pClient;
 	pAddrLocal = pLocal;
+
+	return TRUE;
+}
+
+BOOL CommonSocket::DisconnectEx(SOCKET hSocket, LPOVERLAPPED lpOverlapped, BOOL bReuse)
+{
+	static  LPFN_DISCONNECTEX lpfnDisconnectEx = NULL;
+	if (lpfnDisconnectEx == NULL)
+	{
+		DWORD dwBytes;
+		GUID GuidAddressEx = WSAID_DISCONNECTEX;
+		if (SOCKET_ERROR == WSAIoctl(hSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
+		                             &GuidAddressEx, sizeof(GuidAddressEx),
+		                             &lpfnDisconnectEx, sizeof(lpfnDisconnectEx),
+		                             &dwBytes, NULL, NULL))
+		{
+			return FALSE;
+		}
+	}
+
+	lpfnDisconnectEx(hSocket, lpOverlapped, bReuse ? TF_REUSE_SOCKET : 0, 0);
 
 	return TRUE;
 }

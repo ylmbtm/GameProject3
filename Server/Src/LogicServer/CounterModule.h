@@ -1,8 +1,7 @@
 ﻿#ifndef __COUNTER_MODULE_H__
 #define __COUNTER_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/CounterData.h"
-struct CounterDataObject;
+#include "CounterData.h"
 class CCounterModule  : public CModuleBase
 {
 public:
@@ -29,13 +28,17 @@ public:
 
 	BOOL NotifyChange();
 
-	CounterDataObject* GetCounterData(UINT32 uID, UINT32 dwIndex);
+	CounterDataObject* GetCounterData(UINT32 uID, UINT32 dwIndex, BOOL bCreate = FALSE);
 
 	UINT64 GetCounterValue(UINT32 uID, UINT32 dwIndex = 0);
 
 	BOOL   SetCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex = 0);
 
 	BOOL   AddCounterValue(UINT32 uID, INT64 uValue, UINT32 dwIndex = 0);
+
+	BOOL   GetCounterBitValue(UINT32 uID);
+
+	BOOL   SetCounterBitValue(UINT32 uID, BOOL bValue);
 
 public:
 	//*********************消息处理定义开始******************************

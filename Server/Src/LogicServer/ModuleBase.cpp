@@ -17,6 +17,11 @@ BOOL CModuleBase::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROP
 	return TRUE;
 }
 
+INT64 CModuleBase::GetProperty(ERoleProperty ePropertyID)
+{
+	return 0;
+}
+
 BOOL CModuleBase::AddChangeID(UINT64 uID)
 {
 	m_setChange.insert(uID);

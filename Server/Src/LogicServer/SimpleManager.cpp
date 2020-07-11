@@ -191,19 +191,6 @@ UINT32 CSimpleManager::GetTotalCount()
 	return (UINT32)m_mapID2Simple.size();
 }
 
-UINT32 CSimpleManager::GetOnline()
-{
-	return 0;
-}
-
-BOOL CSimpleManager::SetOnline(UINT64 u64ID, BOOL bOnline)
-{
-	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
-	ERROR_RETURN_FALSE(pInfo != NULL);
-	pInfo->m_bOnline = bOnline;
-	return TRUE;
-}
-
 BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64>& vtRoleIDs)
 {
 	for (auto itor = m_mapID2Simple.begin(); itor != m_mapID2Simple.end(); ++itor)

@@ -38,6 +38,7 @@ public:
 	BOOL		OnMsgRoleLoginAck(NetPacket* pPacket);
 	BOOL		OnMsgRoleLogoutReq(NetPacket* pPacket);
 	BOOL		OnMsgKickoutNty(NetPacket* pPacket);
+	BOOL		OnMsgRemoveConnectNty(NetPacket* pPacket);
 public:
 	std::map<UINT32, UINT32> m_mapSvrIDtoConnID;
 

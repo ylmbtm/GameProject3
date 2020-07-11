@@ -6,8 +6,8 @@
 #include "RoleModule.h"
 #include "ModuleBase.h"
 #include "PlayerObject.h"
-#include "../StaticData/StaticData.h"
-#include "../StaticData/StaticStruct.h"
+#include "StaticData.h"
+#include "StaticStruct.h"
 #include "../Message/Msg_ID.pb.h"
 
 CCopyModule::CCopyModule(CPlayerObject* pOwner): CModuleBase(pOwner)
@@ -133,7 +133,7 @@ BOOL CCopyModule::OnMainCopyResult(BattleResultNty* pNty, INT32 nIndex)
 	const ResultPlayer& pResultPlayer = pNty->playerlist(nIndex);
 
 	MainCopyResultNty ResultNty;
-	ResultNty.set_roleid(m_pOwnPlayer->GetObjectID());
+	ResultNty.set_roleid(m_pOwnPlayer->GetRoleID());
 	ResultNty.set_copyresult(pResultPlayer.result());
 	ResultNty.set_lasttime(pNty->lasttime());
 	ResultNty.set_starnum(2);

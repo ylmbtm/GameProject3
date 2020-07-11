@@ -350,7 +350,7 @@ public:
 					pdata->Update(pdb);
 					hasOprate = true;
 					writetimes++;
-					continue;
+					pBlock->m_afterTime = time(NULL);
 				}
 				m_MemoryPool->DestoryObject(pdata);
 				releasetime++;

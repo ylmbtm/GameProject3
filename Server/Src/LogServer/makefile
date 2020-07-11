@@ -3,6 +3,7 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
+		-I../WatcherClient \
 		-I../../Common \
 		-I../../Common/Mysql
 					 
@@ -20,7 +21,7 @@ MY_LIB=-L../Debug \
 TARGET=LogServer
 
 SRCS=$(wildcard *.cpp)
-#SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
+SRCS:=$(SRCS) $(wildcard ../WatcherClient/*.cpp)
 SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)

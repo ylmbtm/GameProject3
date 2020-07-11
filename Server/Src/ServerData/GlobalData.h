@@ -22,9 +22,7 @@ struct GlobalDataObject : public ShareObject
 		csp.set_uint32(0, m_dwServerID);
 		csp.set_uint64(1, m_u64Guid);
 		csp.set_uint32(2, m_dwMaxOnline);
-		pDB->Execute(&csp);
-
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -33,15 +31,14 @@ struct GlobalDataObject : public ShareObject
 		csp.set_uint32(0, m_dwServerID);
 		csp.set_uint64(1, m_u64Guid);
 		csp.set_uint32(2, m_dwMaxOnline);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		//static CDBStoredProcedure csp("delete from globaldata where serverid = ?;");
 		//csp.set_uint32(0, m_dwServerID);
-		//pDB->Execute(&csp);
+		//return pDB->Execute(&csp);
 
 		return TRUE;
 	}

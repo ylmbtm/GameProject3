@@ -95,6 +95,7 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 {
 	if (dwConnID <= 0)
 	{
+		CLog::GetInstancePtr()->LogWarn("SendMsgProtoBuf Error dwConnID is Zero MessageID:%d", dwMsgID);
 		return FALSE;
 	}
 
@@ -134,6 +135,17 @@ CConnection* ServiceBase::ConnectTo( std::string strIpAddr, UINT16 sPort )
 	ERROR_RETURN_NULL(!strIpAddr.empty() && sPort > 0);
 
 	return CNetManager::GetInstancePtr()->ConnectTo_Async(strIpAddr, sPort);
+}
+
+BOOL ServiceBase::CloseConnect(UINT32 nConnID)
+{
+	CConnection* pConnection = GetConnectionByID(nConnID);
+
+	ERROR_RETURN_FALSE(pConnection != NULL);
+
+	pConnection->Close();
+
+	return TRUE;
 }
 
 BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
@@ -213,8 +225,6 @@ BOOL ServiceBase::Update()
 	}
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
-
-	CLog::GetInstancePtr()->Flush();
 
 	return TRUE;
 }

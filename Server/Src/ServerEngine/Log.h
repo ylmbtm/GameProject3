@@ -5,7 +5,7 @@ enum LogLevel
 {
 	Log_All,
 	Log_Error,
-	Log_Warnning,
+	Log_Warn,
 	Log_Info,
 	Log_None
 };
@@ -24,7 +24,7 @@ public:
 
 	BOOL Close();
 
-	void LogWarnning(char* lpszFormat, ...);
+	void LogWarn(char* lpszFormat, ...);
 
 	void LogError(char* lpszFormat, ...);
 
@@ -34,7 +34,7 @@ public:
 
 	void SetTitle(char* lpszFormat, ...);
 
-	void Flush();
+	void CheckAndCreate();
 
 protected:
 	std::mutex			m_WriteMutex;
@@ -45,13 +45,14 @@ protected:
 
 	INT32				m_LogLevel;
 
-	std::string         m_strPrefix;
+	std::string			m_strPrefix;
+	std::string			m_strLogDir;
 };
 
 #define LOG_FUNCTION_LINE  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);
 
 #define ERROR_RETURN_TRUE(P) \
-    if(P == FALSE)\
+    if((P) == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
         return TRUE;	\
@@ -59,42 +60,42 @@ protected:
 
 
 #define ERROR_RETURN_FALSE(P) \
-    if(P == FALSE)\
+    if((P) == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
         return FALSE;	\
     }
 
 #define ERROR_RETURN_NULL(P) \
-	if(P == FALSE)\
+	if((P) == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
 	return NULL;	\
 }
 
 #define ERROR_RETURN_NONE(P) \
-	if(P == FALSE)\
+	if((P) == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
 	return ;	\
 }
 
 #define ERROR_RETURN_VALUE(P, V) \
-	if(P == FALSE)\
+	if((P) == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
 	return V;	\
 }
 
 #define ERROR_CONTINUE_EX(P) \
-    if(P == FALSE)\
+    if((P) == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
     continue; \
 }
 
 #define ERROR_TO_CONTINUE(P) \
-    if(P == FALSE)\
+    if((P) == FALSE)\
 {\
 	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
     continue; \

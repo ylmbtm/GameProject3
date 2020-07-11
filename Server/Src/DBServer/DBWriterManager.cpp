@@ -8,7 +8,7 @@ CDBWriterManager::CDBWriterManager()
 
 CDBWriterManager::~CDBWriterManager()
 {
-
+	m_Stop = FALSE;
 }
 
 BOOL CDBWriterManager::Init()
@@ -28,7 +28,7 @@ BOOL CDBWriterManager::Init()
 	m_vtDataWriters[ESD_TASK]           = new DataWriter<TaskDataObject>(ESD_TASK, 1024);
 	m_vtDataWriters[ESD_MOUNT]          = new DataWriter<MountDataObject>(ESD_MOUNT, 1024);
 	m_vtDataWriters[ESD_MAIL]           = new DataWriter<MailDataObject>(ESD_MAIL, 1024);
-	m_vtDataWriters[ESD_OFFMAIL]        = new DataWriter<OffMailDataObject>(ESD_OFFMAIL, 1024);
+	m_vtDataWriters[ESD_OFFDATA]        = new DataWriter<OffDataObject>(ESD_OFFDATA, 1024);
 	m_vtDataWriters[ESD_GROUP_MAIL]     = new DataWriter<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
 	m_vtDataWriters[ESD_ACTIVITY]       = new DataWriter<ActivityDataObject>(ESD_ACTIVITY, 1024);
 	m_vtDataWriters[ESD_COUNTER]        = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
@@ -38,8 +38,13 @@ BOOL CDBWriterManager::Init()
 
 	for (int i = ESD_ROLE; i < ESD_END; i++)
 	{
-		ERROR_RETURN_FALSE(m_vtDataWriters[i] != NULL);
+		if (m_vtDataWriters[i] == NULL)
+		{
+			CLog::GetInstancePtr()->LogError("CDBWriterManager::Init Error: ModuleID:[%d] Is NULL!", i);
+			return FALSE;
+		}
 	}
+
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
 	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
@@ -66,15 +71,18 @@ BOOL CDBWriterManager::Uninit()
 
 BOOL CDBWriterManager::WriteDataToDB()
 {
+	BOOL bHasWrite = FALSE;
 	for (int i = ESD_ROLE; i < ESD_END; i++)
 	{
-		if (m_vtDataWriters[i] != NULL)
+		ERROR_TO_CONTINUE(m_vtDataWriters[i] != NULL);
+
+		if (m_vtDataWriters[i]->SaveModifyToDB(&m_DBConnection))
 		{
-			m_vtDataWriters[i]->SaveModifyToDB(&m_DBConnection);
+			bHasWrite = TRUE;
 		}
 	}
 
-	return TRUE;
+	return bHasWrite;
 }
 
 BOOL CDBWriterManager::IsStop()
@@ -89,22 +97,27 @@ void CDBWriterManager::DBWriteThread()
 		return ;
 	}
 
-	if (!m_DBConnection.Reconnect())
-	{
-		return ;
-	}
-
-	while (!IsStop())
+	while (TRUE)
 	{
 		if (!m_DBConnection.Ping())
 		{
-			m_DBConnection.Reconnect();
+			if (!m_DBConnection.Reconnect())
+			{
+				CommonFunc::Sleep(1000);
+				continue;
+			}
 		}
 
-		WriteDataToDB();
+		BOOL bHasWrite = WriteDataToDB();
+		if (!bHasWrite && IsStop())
+		{
+			break;
+		}
 
 		CommonFunc::Sleep(60000); //休息10秒
 	}
+
+	m_DBConnection.Uninit();
 
 	Uninit();
 

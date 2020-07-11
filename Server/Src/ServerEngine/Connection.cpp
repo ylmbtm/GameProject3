@@ -76,7 +76,7 @@ BOOL CConnection::DoReceive()
 		int nError = CommonSocket::GetSocketLastError();
 		if(nError != ERROR_IO_PENDING )
 		{
-			CLog::GetInstancePtr()->LogError("关闭连接，因为接收数据发生错误:%s!", CommonSocket::GetLastErrorStr(nError).c_str());
+			CLog::GetInstancePtr()->LogError("关闭连接，因为接收数据发生错误:%s!", CommonFunc::GetLastErrorStr(nError).c_str());
 
 			return FALSE;
 		}
@@ -103,7 +103,7 @@ BOOL CConnection::DoReceive()
 			}
 			else
 			{
-				CLog::GetInstancePtr()->LogError("读失败， 可能连接己断开 原因:%s!!", CommonSocket::GetLastErrorStr(nErr).c_str());
+				CLog::GetInstancePtr()->LogError("读失败， 可能连接己断开 原因:%s!!", CommonFunc::GetLastErrorStr(nErr).c_str());
 
 				return FALSE;
 			}
@@ -399,7 +399,7 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 	3.包的序号
 	*/
 	PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
-	if (pHeader->CheckCode != 0x88)
+	if (pHeader->CheckCode != CODE_VALUE)
 	{
 		return FALSE;
 	}
@@ -430,6 +430,16 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 	}*/
 
 	return TRUE;
+}
+
+UINT32 CConnection::GetIpAddr(BOOL bHost)
+{
+	if (bHost)
+	{
+		return m_dwIpAddr;
+	}
+
+	return CommonSocket::HostToNet(m_dwIpAddr);
 }
 
 #ifdef WIN32
@@ -515,7 +525,7 @@ BOOL CConnection::DoSend()
 		if(errCode != ERROR_IO_PENDING)
 		{
 			Close();
-			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonSocket::GetLastErrorStr(errCode).c_str());
+			CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonFunc::GetLastErrorStr(errCode).c_str());
 		}
 	}
 

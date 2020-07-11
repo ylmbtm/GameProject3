@@ -30,22 +30,12 @@ public:
 	BOOL        SendCmdToAccountConnection(UINT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
 	BOOL		ConnectToAccountSvr();
-
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
-	BOOL		SetWatchIndex(UINT32 nIndex);
 public:
 	CLoginMsgHandler	m_LoginMsgHandler;
 	UINT32              m_dwAccountConnID;
-	UINT32				m_dwWatchSvrConnID;
-	UINT32				m_dwWatchIndex;
 
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

@@ -49,7 +49,10 @@ public:
 	bool fieldIsNull(const char* szField);
 
 	bool eof();
+
 	void nextRow();
+
+	bool hasResult();
 
 private:
 	void freeRes();
@@ -140,6 +143,9 @@ public:
 	INT64 getAutoIncrementID(const char* szTableName, const char* szDBName);
 
 	bool  setAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName);
+
+	/* 执行非返回结果查询 */
+	int execSQLWithReconnect(const char* sql);
 
 private:
 	CppMySQL3DB(const CppMySQL3DB& db);

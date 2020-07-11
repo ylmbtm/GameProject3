@@ -2870,17 +2870,105 @@ class DBMailItem : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
+  // string Sender = 6;
+  void clear_sender();
+  static const int kSenderFieldNumber = 6;
+  const ::std::string& sender() const;
+  void set_sender(const ::std::string& value);
+  #if LANG_CXX11
+  void set_sender(::std::string&& value);
+  #endif
+  void set_sender(const char* value);
+  void set_sender(const char* value, size_t size);
+  ::std::string* mutable_sender();
+  ::std::string* release_sender();
+  void set_allocated_sender(::std::string* sender);
+
+  // string Title = 7;
+  void clear_title();
+  static const int kTitleFieldNumber = 7;
+  const ::std::string& title() const;
+  void set_title(const ::std::string& value);
+  #if LANG_CXX11
+  void set_title(::std::string&& value);
+  #endif
+  void set_title(const char* value);
+  void set_title(const char* value, size_t size);
+  ::std::string* mutable_title();
+  ::std::string* release_title();
+  void set_allocated_title(::std::string* title);
+
+  // string Content = 8;
+  void clear_content();
+  static const int kContentFieldNumber = 8;
+  const ::std::string& content() const;
+  void set_content(const ::std::string& value);
+  #if LANG_CXX11
+  void set_content(::std::string&& value);
+  #endif
+  void set_content(const char* value);
+  void set_content(const char* value, size_t size);
+  ::std::string* mutable_content();
+  ::std::string* release_content();
+  void set_allocated_content(::std::string* content);
+
+  // bytes Items = 9;
+  void clear_items();
+  static const int kItemsFieldNumber = 9;
+  const ::std::string& items() const;
+  void set_items(const ::std::string& value);
+  #if LANG_CXX11
+  void set_items(::std::string&& value);
+  #endif
+  void set_items(const char* value);
+  void set_items(const void* value, size_t size);
+  ::std::string* mutable_items();
+  ::std::string* release_items();
+  void set_allocated_items(::std::string* items);
+
   // uint64 RoleID = 1;
   void clear_roleid();
   static const int kRoleIDFieldNumber = 1;
   ::google::protobuf::uint64 roleid() const;
   void set_roleid(::google::protobuf::uint64 value);
 
+  // uint64 Guid = 2;
+  void clear_guid();
+  static const int kGuidFieldNumber = 2;
+  ::google::protobuf::uint64 guid() const;
+  void set_guid(::google::protobuf::uint64 value);
+
+  // uint64 Time = 4;
+  void clear_time();
+  static const int kTimeFieldNumber = 4;
+  ::google::protobuf::uint64 time() const;
+  void set_time(::google::protobuf::uint64 value);
+
+  // uint64 SenderID = 5;
+  void clear_senderid();
+  static const int kSenderIDFieldNumber = 5;
+  ::google::protobuf::uint64 senderid() const;
+  void set_senderid(::google::protobuf::uint64 value);
+
+  // int32 GroupID = 3;
+  void clear_groupid();
+  static const int kGroupIDFieldNumber = 3;
+  ::google::protobuf::int32 groupid() const;
+  void set_groupid(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:DBMailItem)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr sender_;
+  ::google::protobuf::internal::ArenaStringPtr title_;
+  ::google::protobuf::internal::ArenaStringPtr content_;
+  ::google::protobuf::internal::ArenaStringPtr items_;
   ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::uint64 guid_;
+  ::google::protobuf::uint64 time_;
+  ::google::protobuf::uint64 senderid_;
+  ::google::protobuf::int32 groupid_;
   mutable int _cached_size_;
   friend struct ::protobuf_Msg_5fLoginDBData_2eproto::TableStruct;
   friend void ::protobuf_Msg_5fLoginDBData_2eproto::InitDefaultsDBMailItemImpl();
@@ -5562,6 +5650,274 @@ inline void DBMailItem::set_roleid(::google::protobuf::uint64 value) {
   
   roleid_ = value;
   // @@protoc_insertion_point(field_set:DBMailItem.RoleID)
+}
+
+// uint64 Guid = 2;
+inline void DBMailItem::clear_guid() {
+  guid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBMailItem::guid() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Guid)
+  return guid_;
+}
+inline void DBMailItem::set_guid(::google::protobuf::uint64 value) {
+  
+  guid_ = value;
+  // @@protoc_insertion_point(field_set:DBMailItem.Guid)
+}
+
+// int32 GroupID = 3;
+inline void DBMailItem::clear_groupid() {
+  groupid_ = 0;
+}
+inline ::google::protobuf::int32 DBMailItem::groupid() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.GroupID)
+  return groupid_;
+}
+inline void DBMailItem::set_groupid(::google::protobuf::int32 value) {
+  
+  groupid_ = value;
+  // @@protoc_insertion_point(field_set:DBMailItem.GroupID)
+}
+
+// uint64 Time = 4;
+inline void DBMailItem::clear_time() {
+  time_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBMailItem::time() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Time)
+  return time_;
+}
+inline void DBMailItem::set_time(::google::protobuf::uint64 value) {
+  
+  time_ = value;
+  // @@protoc_insertion_point(field_set:DBMailItem.Time)
+}
+
+// uint64 SenderID = 5;
+inline void DBMailItem::clear_senderid() {
+  senderid_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 DBMailItem::senderid() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.SenderID)
+  return senderid_;
+}
+inline void DBMailItem::set_senderid(::google::protobuf::uint64 value) {
+  
+  senderid_ = value;
+  // @@protoc_insertion_point(field_set:DBMailItem.SenderID)
+}
+
+// string Sender = 6;
+inline void DBMailItem::clear_sender() {
+  sender_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& DBMailItem::sender() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Sender)
+  return sender_.GetNoArena();
+}
+inline void DBMailItem::set_sender(const ::std::string& value) {
+  
+  sender_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DBMailItem.Sender)
+}
+#if LANG_CXX11
+inline void DBMailItem::set_sender(::std::string&& value) {
+  
+  sender_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:DBMailItem.Sender)
+}
+#endif
+inline void DBMailItem::set_sender(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  sender_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DBMailItem.Sender)
+}
+inline void DBMailItem::set_sender(const char* value, size_t size) {
+  
+  sender_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DBMailItem.Sender)
+}
+inline ::std::string* DBMailItem::mutable_sender() {
+  
+  // @@protoc_insertion_point(field_mutable:DBMailItem.Sender)
+  return sender_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* DBMailItem::release_sender() {
+  // @@protoc_insertion_point(field_release:DBMailItem.Sender)
+  
+  return sender_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void DBMailItem::set_allocated_sender(::std::string* sender) {
+  if (sender != NULL) {
+    
+  } else {
+    
+  }
+  sender_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), sender);
+  // @@protoc_insertion_point(field_set_allocated:DBMailItem.Sender)
+}
+
+// string Title = 7;
+inline void DBMailItem::clear_title() {
+  title_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& DBMailItem::title() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Title)
+  return title_.GetNoArena();
+}
+inline void DBMailItem::set_title(const ::std::string& value) {
+  
+  title_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DBMailItem.Title)
+}
+#if LANG_CXX11
+inline void DBMailItem::set_title(::std::string&& value) {
+  
+  title_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:DBMailItem.Title)
+}
+#endif
+inline void DBMailItem::set_title(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  title_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DBMailItem.Title)
+}
+inline void DBMailItem::set_title(const char* value, size_t size) {
+  
+  title_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DBMailItem.Title)
+}
+inline ::std::string* DBMailItem::mutable_title() {
+  
+  // @@protoc_insertion_point(field_mutable:DBMailItem.Title)
+  return title_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* DBMailItem::release_title() {
+  // @@protoc_insertion_point(field_release:DBMailItem.Title)
+  
+  return title_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void DBMailItem::set_allocated_title(::std::string* title) {
+  if (title != NULL) {
+    
+  } else {
+    
+  }
+  title_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), title);
+  // @@protoc_insertion_point(field_set_allocated:DBMailItem.Title)
+}
+
+// string Content = 8;
+inline void DBMailItem::clear_content() {
+  content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& DBMailItem::content() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Content)
+  return content_.GetNoArena();
+}
+inline void DBMailItem::set_content(const ::std::string& value) {
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DBMailItem.Content)
+}
+#if LANG_CXX11
+inline void DBMailItem::set_content(::std::string&& value) {
+  
+  content_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:DBMailItem.Content)
+}
+#endif
+inline void DBMailItem::set_content(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DBMailItem.Content)
+}
+inline void DBMailItem::set_content(const char* value, size_t size) {
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DBMailItem.Content)
+}
+inline ::std::string* DBMailItem::mutable_content() {
+  
+  // @@protoc_insertion_point(field_mutable:DBMailItem.Content)
+  return content_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* DBMailItem::release_content() {
+  // @@protoc_insertion_point(field_release:DBMailItem.Content)
+  
+  return content_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void DBMailItem::set_allocated_content(::std::string* content) {
+  if (content != NULL) {
+    
+  } else {
+    
+  }
+  content_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), content);
+  // @@protoc_insertion_point(field_set_allocated:DBMailItem.Content)
+}
+
+// bytes Items = 9;
+inline void DBMailItem::clear_items() {
+  items_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& DBMailItem::items() const {
+  // @@protoc_insertion_point(field_get:DBMailItem.Items)
+  return items_.GetNoArena();
+}
+inline void DBMailItem::set_items(const ::std::string& value) {
+  
+  items_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DBMailItem.Items)
+}
+#if LANG_CXX11
+inline void DBMailItem::set_items(::std::string&& value) {
+  
+  items_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:DBMailItem.Items)
+}
+#endif
+inline void DBMailItem::set_items(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  items_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DBMailItem.Items)
+}
+inline void DBMailItem::set_items(const void* value, size_t size) {
+  
+  items_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DBMailItem.Items)
+}
+inline ::std::string* DBMailItem::mutable_items() {
+  
+  // @@protoc_insertion_point(field_mutable:DBMailItem.Items)
+  return items_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* DBMailItem::release_items() {
+  // @@protoc_insertion_point(field_release:DBMailItem.Items)
+  
+  return items_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void DBMailItem::set_allocated_items(::std::string* items) {
+  if (items != NULL) {
+    
+  } else {
+    
+  }
+  items_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), items);
+  // @@protoc_insertion_point(field_set_allocated:DBMailItem.Items)
 }
 
 // -------------------------------------------------------------------

@@ -32,8 +32,7 @@ struct BagDataObject : public ShareObject
 		csp.set_int32(3,  m_ItemID);
 		csp.set_int64(4,  m_nCount);
 		csp.set_int32(5,  m_nStatus);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
@@ -46,17 +45,14 @@ struct BagDataObject : public ShareObject
 		csp.set_int32(3, m_ItemID);
 		csp.set_int64(4, m_nCount);
 		csp.set_int32(5, m_nStatus);
-		pDB->Execute(&csp);
-
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 
 	BOOL Delete(IDBInterface* pDB)
 	{
 		static CDBStoredProcedure csp("delete from bag where guid = ?");
 		csp.set_uint64(0, m_uGuid);
-		pDB->Execute(&csp);
-		return TRUE;
+		return pDB->Execute(&csp);
 	}
 };
 

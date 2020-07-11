@@ -883,6 +883,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, roleid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, guid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, groupid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, time_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, senderid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, sender_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, title_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, content_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailItem, items_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::DBMailData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -981,14 +989,14 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 177, -1, sizeof(::DBTaskItem)},
   { 186, -1, sizeof(::DBTaskData)},
   { 192, -1, sizeof(::DBMailItem)},
-  { 198, -1, sizeof(::DBMailData)},
-  { 204, -1, sizeof(::DBActivityItem)},
-  { 215, -1, sizeof(::DBActivityData)},
-  { 221, -1, sizeof(::DBCounterItem)},
-  { 233, -1, sizeof(::DBCounterData)},
-  { 239, -1, sizeof(::DBFriendItem)},
-  { 246, -1, sizeof(::DBFriendData)},
-  { 252, -1, sizeof(::DBRoleLoginAck)},
+  { 206, -1, sizeof(::DBMailData)},
+  { 212, -1, sizeof(::DBActivityItem)},
+  { 223, -1, sizeof(::DBActivityData)},
+  { 229, -1, sizeof(::DBCounterItem)},
+  { 241, -1, sizeof(::DBCounterData)},
+  { 247, -1, sizeof(::DBFriendItem)},
+  { 254, -1, sizeof(::DBFriendData)},
+  { 260, -1, sizeof(::DBRoleLoginAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -1096,36 +1104,40 @@ void AddDescriptorsImpl() {
       "\0132\016.DBPartnerItem\"N\n\nDBTaskItem\022\016\n\006RoleI"
       "D\030\001 \001(\004\022\016\n\006TaskID\030\002 \001(\r\022\016\n\006Status\030\003 \001(\005\022"
       "\020\n\010Progress\030\004 \001(\005\"+\n\nDBTaskData\022\035\n\010TaskL"
-      "ist\030\001 \003(\0132\013.DBTaskItem\"\034\n\nDBMailItem\022\016\n\006"
-      "RoleID\030\001 \001(\004\"+\n\nDBMailData\022\035\n\010MailList\030\001"
-      " \003(\0132\013.DBMailItem\"{\n\016DBActivityItem\022\016\n\006R"
-      "oleID\030\001 \001(\004\022\022\n\nActivityID\030\002 \001(\r\022\024\n\014Activ"
-      "ityType\030\003 \001(\r\022\020\n\010JoinTime\030\004 \001(\r\022\017\n\007DataL"
-      "en\030\005 \001(\r\022\014\n\004Data\030\006 \001(\014\"7\n\016DBActivityData"
-      "\022%\n\014ActivityList\030\001 \003(\0132\017.DBActivityItem\""
-      "~\n\rDBCounterItem\022\016\n\006RoleID\030\001 \001(\004\022\021\n\tCoun"
-      "terID\030\002 \001(\004\022\r\n\005Index\030\003 \001(\r\022\r\n\005Value\030\004 \001("
-      "\r\022\014\n\004Time\030\005 \001(\r\022\016\n\006Param1\030\006 \001(\r\022\016\n\006Param"
-      "2\030\007 \001(\r\"4\n\rDBCounterData\022#\n\013CounterList\030"
-      "\001 \003(\0132\016.DBCounterItem\"0\n\014DBFriendItem\022\016\n"
-      "\006RoleID\030\001 \001(\004\022\020\n\010FriendID\030\002 \001(\004\"1\n\014DBFri"
-      "endData\022!\n\nFriendList\030\001 \003(\0132\r.DBFriendIt"
-      "em\"\373\003\n\016DBRoleLoginAck\022\017\n\007RetCode\030\001 \001(\r\022\016"
-      "\n\006RoleID\030\002 \001(\004\022\035\n\010RoleData\030\003 \001(\0132\013.DBRol"
-      "eData\022\033\n\007BagData\030\004 \001(\0132\n.DBBagData\022\035\n\010Co"
-      "pyData\030\005 \001(\0132\013.DBCopyData\022\037\n\tEquipData\030\006"
-      " \001(\0132\014.DBEquipData\022\033\n\007GemData\030\007 \001(\0132\n.DB"
-      "GemData\022\033\n\007PetData\030\010 \001(\0132\n.DBPetData\022#\n\013"
-      "PartnerData\030\t \001(\0132\016.DBPartnerData\022\035\n\010Tas"
-      "kData\030\n \001(\0132\013.DBTaskData\022\035\n\010MailData\030\013 \001"
-      "(\0132\013.DBMailData\022\037\n\tMountData\030\014 \001(\0132\014.DBM"
-      "ountData\022%\n\014ActivityData\030\r \001(\0132\017.DBActiv"
-      "ityData\022#\n\013CounterData\030\016 \001(\0132\016.DBCounter"
-      "Data\022!\n\nFriendData\030\017 \001(\0132\r.DBFriendData\022"
-      "\037\n\tSkillData\030\020 \001(\0132\014.DBSkillDatab\006proto3"
+      "ist\030\001 \003(\0132\013.DBTaskItem\"\232\001\n\nDBMailItem\022\016\n"
+      "\006RoleID\030\001 \001(\004\022\014\n\004Guid\030\002 \001(\004\022\017\n\007GroupID\030\003"
+      " \001(\005\022\014\n\004Time\030\004 \001(\004\022\020\n\010SenderID\030\005 \001(\004\022\016\n\006"
+      "Sender\030\006 \001(\t\022\r\n\005Title\030\007 \001(\t\022\017\n\007Content\030\010"
+      " \001(\t\022\r\n\005Items\030\t \001(\014\"+\n\nDBMailData\022\035\n\010Mai"
+      "lList\030\001 \003(\0132\013.DBMailItem\"{\n\016DBActivityIt"
+      "em\022\016\n\006RoleID\030\001 \001(\004\022\022\n\nActivityID\030\002 \001(\r\022\024"
+      "\n\014ActivityType\030\003 \001(\r\022\020\n\010JoinTime\030\004 \001(\r\022\017"
+      "\n\007DataLen\030\005 \001(\r\022\014\n\004Data\030\006 \001(\014\"7\n\016DBActiv"
+      "ityData\022%\n\014ActivityList\030\001 \003(\0132\017.DBActivi"
+      "tyItem\"~\n\rDBCounterItem\022\016\n\006RoleID\030\001 \001(\004\022"
+      "\021\n\tCounterID\030\002 \001(\004\022\r\n\005Index\030\003 \001(\r\022\r\n\005Val"
+      "ue\030\004 \001(\r\022\014\n\004Time\030\005 \001(\r\022\016\n\006Param1\030\006 \001(\r\022\016"
+      "\n\006Param2\030\007 \001(\r\"4\n\rDBCounterData\022#\n\013Count"
+      "erList\030\001 \003(\0132\016.DBCounterItem\"0\n\014DBFriend"
+      "Item\022\016\n\006RoleID\030\001 \001(\004\022\020\n\010FriendID\030\002 \001(\004\"1"
+      "\n\014DBFriendData\022!\n\nFriendList\030\001 \003(\0132\r.DBF"
+      "riendItem\"\373\003\n\016DBRoleLoginAck\022\017\n\007RetCode\030"
+      "\001 \001(\r\022\016\n\006RoleID\030\002 \001(\004\022\035\n\010RoleData\030\003 \001(\0132"
+      "\013.DBRoleData\022\033\n\007BagData\030\004 \001(\0132\n.DBBagDat"
+      "a\022\035\n\010CopyData\030\005 \001(\0132\013.DBCopyData\022\037\n\tEqui"
+      "pData\030\006 \001(\0132\014.DBEquipData\022\033\n\007GemData\030\007 \001"
+      "(\0132\n.DBGemData\022\033\n\007PetData\030\010 \001(\0132\n.DBPetD"
+      "ata\022#\n\013PartnerData\030\t \001(\0132\016.DBPartnerData"
+      "\022\035\n\010TaskData\030\n \001(\0132\013.DBTaskData\022\035\n\010MailD"
+      "ata\030\013 \001(\0132\013.DBMailData\022\037\n\tMountData\030\014 \001("
+      "\0132\014.DBMountData\022%\n\014ActivityData\030\r \001(\0132\017."
+      "DBActivityData\022#\n\013CounterData\030\016 \001(\0132\016.DB"
+      "CounterData\022!\n\nFriendData\030\017 \001(\0132\r.DBFrie"
+      "ndData\022\037\n\tSkillData\030\020 \001(\0132\014.DBSkillDatab"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 3120);
+      descriptor, 3247);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Msg_LoginDBData.proto", &protobuf_RegisterTypes);
 }
@@ -8680,6 +8692,14 @@ void DBMailItem::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int DBMailItem::kRoleIDFieldNumber;
+const int DBMailItem::kGuidFieldNumber;
+const int DBMailItem::kGroupIDFieldNumber;
+const int DBMailItem::kTimeFieldNumber;
+const int DBMailItem::kSenderIDFieldNumber;
+const int DBMailItem::kSenderFieldNumber;
+const int DBMailItem::kTitleFieldNumber;
+const int DBMailItem::kContentFieldNumber;
+const int DBMailItem::kItemsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DBMailItem::DBMailItem()
@@ -8695,12 +8715,36 @@ DBMailItem::DBMailItem(const DBMailItem& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  roleid_ = from.roleid_;
+  sender_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.sender().size() > 0) {
+    sender_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sender_);
+  }
+  title_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.title().size() > 0) {
+    title_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.title_);
+  }
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.content().size() > 0) {
+    content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+  }
+  items_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.items().size() > 0) {
+    items_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.items_);
+  }
+  ::memcpy(&roleid_, &from.roleid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&groupid_) -
+    reinterpret_cast<char*>(&roleid_)) + sizeof(groupid_));
   // @@protoc_insertion_point(copy_constructor:DBMailItem)
 }
 
 void DBMailItem::SharedCtor() {
-  roleid_ = GOOGLE_ULONGLONG(0);
+  sender_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  title_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  items_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&roleid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&groupid_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(groupid_));
   _cached_size_ = 0;
 }
 
@@ -8710,6 +8754,10 @@ DBMailItem::~DBMailItem() {
 }
 
 void DBMailItem::SharedDtor() {
+  sender_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  title_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  items_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void DBMailItem::SetCachedSize(int size) const {
@@ -8741,7 +8789,13 @@ void DBMailItem::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  roleid_ = GOOGLE_ULONGLONG(0);
+  sender_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  title_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  items_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&roleid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&groupid_) -
+      reinterpret_cast<char*>(&roleid_)) + sizeof(groupid_));
   _internal_metadata_.Clear();
 }
 
@@ -8763,6 +8817,122 @@ bool DBMailItem::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
                  input, &roleid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint64 Guid = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &guid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 GroupID = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &groupid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint64 Time = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &time_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint64 SenderID = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &senderid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string Sender = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sender()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->sender().data(), static_cast<int>(this->sender().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DBMailItem.Sender"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string Title = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_title()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->title().data(), static_cast<int>(this->title().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DBMailItem.Title"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string Content = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_content()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->content().data(), static_cast<int>(this->content().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DBMailItem.Content"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bytes Items = 9;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_items()));
         } else {
           goto handle_unusual;
         }
@@ -8800,6 +8970,62 @@ void DBMailItem::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->roleid(), output);
   }
 
+  // uint64 Guid = 2;
+  if (this->guid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->guid(), output);
+  }
+
+  // int32 GroupID = 3;
+  if (this->groupid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->groupid(), output);
+  }
+
+  // uint64 Time = 4;
+  if (this->time() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(4, this->time(), output);
+  }
+
+  // uint64 SenderID = 5;
+  if (this->senderid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(5, this->senderid(), output);
+  }
+
+  // string Sender = 6;
+  if (this->sender().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->sender().data(), static_cast<int>(this->sender().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Sender");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->sender(), output);
+  }
+
+  // string Title = 7;
+  if (this->title().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->title().data(), static_cast<int>(this->title().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Title");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->title(), output);
+  }
+
+  // string Content = 8;
+  if (this->content().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->content().data(), static_cast<int>(this->content().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Content");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      8, this->content(), output);
+  }
+
+  // bytes Items = 9;
+  if (this->items().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      9, this->items(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -8819,6 +9045,66 @@ void DBMailItem::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->roleid(), target);
   }
 
+  // uint64 Guid = 2;
+  if (this->guid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->guid(), target);
+  }
+
+  // int32 GroupID = 3;
+  if (this->groupid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->groupid(), target);
+  }
+
+  // uint64 Time = 4;
+  if (this->time() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(4, this->time(), target);
+  }
+
+  // uint64 SenderID = 5;
+  if (this->senderid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(5, this->senderid(), target);
+  }
+
+  // string Sender = 6;
+  if (this->sender().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->sender().data(), static_cast<int>(this->sender().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Sender");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->sender(), target);
+  }
+
+  // string Title = 7;
+  if (this->title().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->title().data(), static_cast<int>(this->title().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Title");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->title(), target);
+  }
+
+  // string Content = 8;
+  if (this->content().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->content().data(), static_cast<int>(this->content().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DBMailItem.Content");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        8, this->content(), target);
+  }
+
+  // bytes Items = 9;
+  if (this->items().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        9, this->items(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -8836,11 +9122,67 @@ size_t DBMailItem::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // string Sender = 6;
+  if (this->sender().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sender());
+  }
+
+  // string Title = 7;
+  if (this->title().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->title());
+  }
+
+  // string Content = 8;
+  if (this->content().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->content());
+  }
+
+  // bytes Items = 9;
+  if (this->items().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->items());
+  }
+
   // uint64 RoleID = 1;
   if (this->roleid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->roleid());
+  }
+
+  // uint64 Guid = 2;
+  if (this->guid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->guid());
+  }
+
+  // uint64 Time = 4;
+  if (this->time() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->time());
+  }
+
+  // uint64 SenderID = 5;
+  if (this->senderid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->senderid());
+  }
+
+  // int32 GroupID = 3;
+  if (this->groupid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->groupid());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -8872,8 +9214,36 @@ void DBMailItem::MergeFrom(const DBMailItem& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.sender().size() > 0) {
+
+    sender_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sender_);
+  }
+  if (from.title().size() > 0) {
+
+    title_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.title_);
+  }
+  if (from.content().size() > 0) {
+
+    content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+  }
+  if (from.items().size() > 0) {
+
+    items_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.items_);
+  }
   if (from.roleid() != 0) {
     set_roleid(from.roleid());
+  }
+  if (from.guid() != 0) {
+    set_guid(from.guid());
+  }
+  if (from.time() != 0) {
+    set_time(from.time());
+  }
+  if (from.senderid() != 0) {
+    set_senderid(from.senderid());
+  }
+  if (from.groupid() != 0) {
+    set_groupid(from.groupid());
   }
 }
 
@@ -8901,7 +9271,15 @@ void DBMailItem::Swap(DBMailItem* other) {
 }
 void DBMailItem::InternalSwap(DBMailItem* other) {
   using std::swap;
+  sender_.Swap(&other->sender_);
+  title_.Swap(&other->title_);
+  content_.Swap(&other->content_);
+  items_.Swap(&other->items_);
   swap(roleid_, other->roleid_);
+  swap(guid_, other->guid_);
+  swap(time_, other->time_);
+  swap(senderid_, other->senderid_);
+  swap(groupid_, other->groupid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

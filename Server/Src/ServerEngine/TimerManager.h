@@ -15,8 +15,6 @@ public:
 	}
 };
 
-
-
 template<typename T>
 class CTimerSlot : public CTimerSlotBase
 {
@@ -166,7 +164,7 @@ public:
 
 		pNewEvent->m_dwData = dwData;
 
-		pNewEvent->m_dwFireTime = CommonFunc::GetDayBeginTime() + dwSec;
+		pNewEvent->m_dwFireTime = CommonFunc::GetCurrTime() + dwSec;
 		pNewEvent->m_dwSec = dwSec;
 		pNewEvent->m_dwType = 2;
 
@@ -190,7 +188,7 @@ public:
 
 	VOID UpdateTimer();
 
-	VOID OnTimerEvent( TimeEvent* pEvent );
+	BOOL OnTimerEvent( TimeEvent* pEvent );
 
 	BOOL InitTimer();
 

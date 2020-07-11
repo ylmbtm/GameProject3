@@ -105,15 +105,6 @@
     <ClCompile Include="..\StaticData\CppSQLite3.cpp">
       <Filter>StaticData</Filter>
     </ClCompile>
-    <ClCompile Include="LogManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GmCommand.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WebCommandHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ActivityModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -176,6 +167,18 @@
     </ClCompile>
     <ClCompile Include="LoginCodeMgr.cpp">
       <Filter>LoginCode</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebCommandMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WatcherClient\WatcherClient.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,17 +290,11 @@
     <ClInclude Include="..\StaticData\CppSQLite3.h">
       <Filter>StaticData</Filter>
     </ClInclude>
-    <ClInclude Include="LogManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerData\StoreData.h">
       <Filter>ServerData</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\GemData.h">
       <Filter>ServerData</Filter>
-    </ClInclude>
-    <ClInclude Include="GmCommand.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerData\TaskData.h">
       <Filter>ServerData</Filter>
@@ -379,6 +376,18 @@
     </ClInclude>
     <ClInclude Include="LoginCodeMgr.h">
       <Filter>LoginCode</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebCommandMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WatcherClient\WatcherClient.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

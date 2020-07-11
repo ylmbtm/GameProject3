@@ -31,21 +31,13 @@ public:
 
 	BOOL	    ConnectToLogServer();
 
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
-	BOOL		SetWatchIndex(UINT32 nIndex);
+	UINT32		GetLogSvrConnID();
 public:
-	CAccountMsgHandler		m_AccountMsgHandler;
 	UINT32					m_dwLogSvrConnID;
 
-	UINT32					m_dwWatchSvrConnID;
-	UINT32					m_dwWatchIndex;
+	CAccountMsgHandler		m_AccountMsgHandler;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

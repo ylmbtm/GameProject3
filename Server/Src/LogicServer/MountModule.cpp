@@ -111,7 +111,7 @@ UINT64 CMountModule::AddMount(UINT32 dwMountID)
 {
 	MountDataObject* pObject = DataPool::CreateObject<MountDataObject>(ESD_MOUNT, TRUE);
 	pObject->Lock();
-	pObject->m_uRoleID = m_pOwnPlayer->GetObjectID();
+	pObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pObject->m_MountID = dwMountID;
 	pObject->m_uGuid   = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pObject->m_StrengthLvl = 0;

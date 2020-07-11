@@ -290,6 +290,11 @@ void CppMySQLQuery::nextRow()
 	_row = mysql_fetch_row(m_MysqlRes);
 }
 
+bool CppMySQLQuery::hasResult()
+{
+	return m_MysqlRes != NULL;
+}
+
 const unsigned char* CppMySQLQuery::getBlobField(int nField, int& nLen)
 {
 	const unsigned char* pData = (const unsigned char*)getStringField(nField);
@@ -463,8 +468,9 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet != 0)
 	{
-		int nError = mysql_errno(m_pMySqlDB);
-		if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
+		if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
 		{
 			reconnect();
 			nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -488,8 +494,9 @@ int CppMySQL3DB::execSQL(const char* sql)
 		return (int)mysql_affected_rows(m_pMySqlDB) ;
 	}
 
-	int nError = mysql_errno(m_pMySqlDB);
-	if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
+	if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
 	{
 		reconnect();
 		nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -592,6 +599,9 @@ bool CppMySQL3DB::startTransaction()
 		return true;
 	}
 
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
+
 	return false;
 }
 
@@ -602,6 +612,9 @@ bool CppMySQL3DB::commit()
 	{
 		return true;
 	}
+
+	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_strError = mysql_error(m_pMySqlDB);
 
 	return false;
 }
@@ -748,4 +761,36 @@ bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const c
 	}
 
 	return false;
+}
+
+int CppMySQL3DB::execSQLWithReconnect(const char* sql)
+{
+	int nRet = execSQL(sql);
+	if (nRet >= 0)
+	{
+		return nRet;
+	}
+
+	if (ping())
+	{
+		return execSQL(sql);
+	}
+
+	static int nCount = 0;
+
+	while (nCount < 3)
+	{
+		reconnect();
+
+		if (ping())
+		{
+			return execSQL(sql);
+		}
+
+		nCount++;
+
+		CommonFunc::Sleep(1000);
+	}
+
+	return -1;
 }

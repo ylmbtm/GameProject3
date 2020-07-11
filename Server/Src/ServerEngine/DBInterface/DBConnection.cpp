@@ -121,7 +121,7 @@ void CDBConnection::Close( void )
 
 BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 {
-	ERROR_RETURN_FALSE((NULL != m_pMySql) && (pDBStoredProcedure != NULL));
+	ERROR_RETURN_FALSE((NULL != m_pMySql) && (pDBStoredProcedure != NULL) && (pDBStoredProcedure->m_pMybind != NULL));
 
 	MYSQL_STMT* pMySqlStmt = mysql_stmt_init(m_pMySql);
 	if(pMySqlStmt == NULL)
@@ -156,23 +156,12 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		return FALSE;
 	}
 
-	if(pDBStoredProcedure->m_pMybind != NULL)
+	if (0 != mysql_stmt_bind_param(pMySqlStmt, pDBStoredProcedure->m_pMybind))
 	{
-		if ( 0 != mysql_stmt_bind_param( pMySqlStmt, pDBStoredProcedure->m_pMybind ) )
-		{
-			m_nErrno = mysql_errno( m_pMySql );
-			m_strError = mysql_error( m_pMySql );
-			mysql_stmt_close( pMySqlStmt );
-			pMySqlStmt = NULL;
-			CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
-			return FALSE;
-		}
-	}
-
-	if(pMySqlStmt == NULL)
-	{
-		m_nErrno = mysql_errno( m_pMySql );
-		m_strError = mysql_error( m_pMySql );
+		m_nErrno = mysql_errno(m_pMySql);
+		m_strError = mysql_error(m_pMySql);
+		mysql_stmt_close(pMySqlStmt);
+		pMySqlStmt = NULL;
 		return FALSE;
 	}
 
@@ -328,6 +317,11 @@ BOOL CDBConnection::Query( std::string sql )
 
 BOOL CDBConnection::Ping()
 {
+	if (m_pMySql == NULL)
+	{
+		return FALSE;
+	}
+
 	if (mysql_ping(m_pMySql) == 0)
 	{
 		return TRUE;

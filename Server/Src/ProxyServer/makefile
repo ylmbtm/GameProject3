@@ -3,6 +3,7 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
+		-I../WatcherClient \
 		-I../../Common 
 
 					 
@@ -18,7 +19,7 @@ MY_LIB=-L../Debug \
 TARGET=ProxyServer
 
 SRCS=$(wildcard *.cpp)
-#SRCS:=$(SRCS) $(wildcard ../Message/*.cc)
+SRCS:=$(SRCS) $(wildcard ../WatcherClient/*.cpp)
 SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)

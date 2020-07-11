@@ -14,8 +14,8 @@
 #include "MonsterCreator.h"
 #include "RapidXml.h"
 #include "SceneXmlMgr.h"
-#include "../StaticData/StaticStruct.h"
-#include "../StaticData/StaticData.h"
+#include "StaticStruct.h"
+#include "StaticData.h"
 #include "GameObject/SkillObject.h"
 #include "GameObject/BulletObject.h"
 #include "../ServerData/ServerStruct.h"
@@ -125,7 +125,6 @@ BOOL CScene::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_PLAYER_CHAGE_NTF,	    OnMsgObjectChangeNtf);
 			PROCESS_MESSAGE_ITEM(MSG_MOUNT_RIDING_REQ,      OnMsgMountRidingReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_REBORN_REQ,       OnMsgRoleRebornReq);
-
 	}
 
 	return FALSE;
@@ -222,6 +221,7 @@ BOOL CScene::OnMsgSkillCastReq(NetPacket* pNetPacket)
 	if (dwRetCode != MRC_SUCCESSED)
 	{
 		SkillCastAck Ack;
+		Ack.set_objectguid(Req.objectguid());
 		Ack.set_retcode(dwRetCode);
 
 		if (pSceneObj->IsRobot())
@@ -477,12 +477,26 @@ BOOL CScene::OnMsgLeaveSceneReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	CSceneObject* pSceneObject = GetPlayer(Req.roleid());
-	ERROR_RETURN_TRUE(pSceneObject != NULL);
+	CSceneObject* pPlayer = GetPlayer(Req.roleid());
+	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	BroadRemoveObject(pSceneObject);
+	BroadRemoveObject(pPlayer);
 
-	DeletePlayer(pSceneObject->GetObjectGUID());
+	DeletePlayer(pPlayer->GetObjectGUID());
+
+	CSceneObject* pPet = GetSceneObject(pPlayer->m_uPetGuid);
+	if (pPet != NULL)
+	{
+		BroadRemoveObject(pPet);
+		DeleteMonster(pPlayer->m_uPetGuid);
+	}
+
+	CSceneObject* pPartner = GetSceneObject(pPlayer->m_uPartnerGuid);
+	if (pPartner != NULL)
+	{
+		BroadRemoveObject(pPartner);
+		DeleteMonster(pPlayer->m_uPartnerGuid);
+	}
 
 	return TRUE;
 }
@@ -1043,11 +1057,6 @@ BOOL CScene::RemoveDeadObject()
 BOOL CScene::UpdateAiController(UINT64 uFilterID)
 {
 	UINT64 u64ControllerID = SelectController(uFilterID);
-	if(u64ControllerID == 0)
-	{
-		return FALSE;
-	}
-
 	for(std::map<UINT64, CSceneObject*>::iterator itor = m_mapPlayer.begin(); itor != m_mapPlayer.end(); itor++)
 	{
 		CSceneObject* pOther = itor->second;
@@ -1060,9 +1069,9 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 
 		if(pOther->IsRobot())
 		{
-			if(pOther->m_uControlerID == uFilterID)
+			if(pOther->GetControllerID() == uFilterID)
 			{
-				pOther->m_uControlerID = u64ControllerID;
+				pOther->SetControllerID(u64ControllerID);
 			}
 		}
 	}
@@ -1072,9 +1081,9 @@ BOOL CScene::UpdateAiController(UINT64 uFilterID)
 		CSceneObject* pOther = itor->second;
 		ERROR_RETURN_FALSE(pOther != NULL);
 
-		if(pOther->m_uControlerID == uFilterID)
+		if(pOther->GetControllerID() == uFilterID)
 		{
-			pOther->m_uControlerID = u64ControllerID;
+			pOther->SetControllerID(u64ControllerID);
 		}
 	}
 
@@ -1549,6 +1558,7 @@ CSceneObject* CScene::CreatePet(const TransPetData& petData, UINT64 uHostID, UIN
 	CSceneObject* pHostObject = GetPlayer(uHostID);
 	ERROR_RETURN_NULL(pHostObject != NULL);
 
+	pHostObject->m_uPetGuid = petData.petguid();
 	pObject->SetPos(pHostObject->m_Pos.m_x + 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z - 1);
 	m_pSceneLogic->OnObjectCreate(pObject);
 
@@ -1586,6 +1596,7 @@ CSceneObject* CScene::CreatePartner(const TransPartnerData& partnerData, UINT64 
 	CSceneObject* pHostObject = GetPlayer(uHostID);
 	ERROR_RETURN_NULL(pHostObject != NULL);
 
+	pHostObject->m_uPartnerGuid = partnerData.partnerguid();
 	pObject->SetPos(pHostObject->m_Pos.m_x - 1, pHostObject->m_Pos.m_y, pHostObject->m_Pos.m_z + 1);
 
 	m_pSceneLogic->OnObjectCreate(pObject);

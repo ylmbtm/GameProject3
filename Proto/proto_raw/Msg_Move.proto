@@ -20,7 +20,8 @@ message SkillCastReq
 //请求释放技能返回(如要释放是允许则没有这个返回)
 message SkillCastAck
 {    
-    uint32    RetCode = 1;  //是否释放成功, 失败原因。
+    uint32    RetCode = 1;  //是否释放成功, 失败原因
+    uint64    ObjectGuid = 2; //释放技能的对象
 }
 
 //技能释放结果

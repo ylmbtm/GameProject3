@@ -45,8 +45,6 @@ void		CloseSocket(SOCKET hSocket);
 //取本机IP地址
 std::string GetLocalIP();
 
-std::string GetLastErrorStr(INT32 nError);
-
 UINT32		IpAddrStrToInt(CHAR* pszIpAddr);
 
 UINT32		IpAddrStrToInt(const CHAR* pszIpAddr);
@@ -57,12 +55,18 @@ BOOL		SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize);
 
 std::string GetRemoteIP(SOCKET hSocket);
 
+UINT32      HostToNet(UINT32 nValue);
+
+UINT32      NetToHost(UINT32 nValue);
+
 #ifdef WIN32
 BOOL		ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
 
 BOOL		AcceptSocketEx(SOCKET hListenSocket, SOCKET hAcceptSocket, CHAR* pBuff, LPOVERLAPPED lpOverlapped);
 
 BOOL        GetSocketAddress(SOCKET hSocket, CHAR* pDataBuffer, sockaddr_in*& pAddrClient, sockaddr_in*& pAddrLocal);
+
+BOOL        DisconnectEx(SOCKET hSocket, LPOVERLAPPED lpOverlapped, BOOL bReuse);
 #endif
 }
 

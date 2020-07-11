@@ -1,8 +1,8 @@
 ﻿#ifndef __EQUIPMENT_MODULE_H__
 #define __EQUIPMENT_MODULE_H__
 #include "ModuleBase.h"
-#include "../ServerData/EquipData.h"
-#include "../ServerData/ServerDefine.h"
+#include "EquipData.h"
+#include "ServerDefine.h"
 #include "../Message/Game_Define.pb.h"
 struct EquipDataObject;
 class CEquipModule  : public CModuleBase

@@ -6,7 +6,7 @@
 #include "../Message/Msg_Move.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "../Message/Game_Define.pb.h"
 
 CSceneObject::CSceneObject(UINT64 uGuid, CScene* pScene)
@@ -126,6 +126,17 @@ UINT32 CSceneObject::GetObjType()
 UINT32 CSceneObject::GetCamp()
 {
 	return m_dwCamp;
+}
+
+UINT64 CSceneObject::GetControllerID()
+{
+	return m_uControlerID;
+}
+
+VOID CSceneObject::SetControllerID(UINT64 uID)
+{
+	m_uControlerID = uID;
+	m_ChangeFlag.bControl = 1;
 }
 
 BOOL CSceneObject::IsConnected()
@@ -312,6 +323,8 @@ BOOL CSceneObject::Reset()
 	m_uHostGuid         = 0;
 	m_uControlerID      = 0;
 	m_uSummonerID       = 0;
+	m_uPetGuid          = 0;
+	m_uPartnerGuid      = 0;
 
 	memset(m_Equips, 0, sizeof(m_Equips));
 
@@ -507,6 +520,15 @@ ECopyResult CSceneObject::GetBattleResult()
 
 BOOL CSceneObject::UpdatePosition(UINT64 uTick)
 {
+	if(m_dwActionID == AT_RUN)
+	{
+
+	}
+
+	if (m_dwActionID == AT_WALK)
+	{
+
+	}
 
 
 	return TRUE;

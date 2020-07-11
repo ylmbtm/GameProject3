@@ -3,6 +3,10 @@ CC_INCLUDE=-I/usr/include
 	 
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
+		-I../PublicData \
+		-I../ServerData \
+		-I../StaticData \
+		-I../WatcherClient \
 		-I../../Common \
 		-I../../Common/Sqlite \
 		-I../../Common/Lua
@@ -23,7 +27,7 @@ SRCS=$(wildcard ./*.cpp)
 SRCS:=$(SRCS) $(wildcard ./GameObject/*.cpp)
 SRCS:=$(SRCS) $(wildcard ./SceneLogic/*.cpp)
 SRCS:=$(SRCS) $(wildcard ../StaticData/*.cpp)
-
+SRCS:=$(SRCS) $(wildcard ../WatcherClient/*.cpp)
 SRCS2=$(wildcard ../Message/*.cc)
 
 OBJS=$(SRCS:.cpp=.o)

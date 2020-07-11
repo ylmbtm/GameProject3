@@ -1,8 +1,8 @@
 ﻿#ifndef __TYPE_DATA_PARSER_H__
 #define __TYPE_DATA_PARSER_H__
 #include "CppSQLite3.h"
-#include "../StaticData/StaticStruct.h"
-#include "../StaticData/SkillStruct.h"
+#include "StaticStruct.h"
+#include "SkillStruct.h"
 class CStaticData;
 
 typedef BOOL(CStaticData::*DataFunc)(CppSQLite3Query& QueryData);
@@ -178,10 +178,13 @@ public:
 	std::map<UINT32, StBulletInfo> m_mapBulletInfo;
 	BOOL ReadBulletInfo(CppSQLite3Query& QueryData);
 	StBulletInfo* GetBulletInfo(UINT32 dwBulletID);
+
+	//充值产品表
+	std::map<UINT32, StChargeInfo> m_mapChargeInfo;
+	BOOL ReadChargeInfo(CppSQLite3Query& QueryData);
+	StChargeInfo* GetChargeInfo(UINT32 dwBulletID);
 	//=================================================================
 public:
-
-	CppSQLite3DB	m_DBConnection;
 
 	std::vector<DataFuncNode> m_vtDataFuncList;
 };

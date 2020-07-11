@@ -37,7 +37,7 @@ BOOL CDataPool::InitDataPool()
 	m_vtDataObjectPools[ESD_TASK]           = new SharedMemory<TaskDataObject>(ESD_TASK, 1024);
 	m_vtDataObjectPools[ESD_MOUNT]          = new SharedMemory<MountDataObject>(ESD_MOUNT, 1024);
 	m_vtDataObjectPools[ESD_MAIL]           = new SharedMemory<MailDataObject>(ESD_MAIL, 1024);
-	m_vtDataObjectPools[ESD_OFFMAIL]        = new SharedMemory<OffMailDataObject>(ESD_OFFMAIL, 1024);
+	m_vtDataObjectPools[ESD_OFFDATA]        = new SharedMemory<OffDataObject>(ESD_OFFDATA, 1024);
 	m_vtDataObjectPools[ESD_GROUP_MAIL]     = new SharedMemory<GroupMailDataObject>(ESD_GROUP_MAIL, 1024);
 	m_vtDataObjectPools[ESD_ACTIVITY]       = new SharedMemory<ActivityDataObject>(ESD_ACTIVITY, 1024);
 	m_vtDataObjectPools[ESD_COUNTER]        = new SharedMemory<CounterDataObject>(ESD_COUNTER, 1024);

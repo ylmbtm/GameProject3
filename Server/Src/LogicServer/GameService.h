@@ -35,10 +35,6 @@ public:
 
 	BOOL		ConnectToCenterSvr();
 
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
 	BOOL		RegisterToLoginSvr();
 
 	BOOL		RegisterToCenterSvr();
@@ -53,7 +49,11 @@ public:
 
 	BOOL		ReportServerStatus();
 
-	BOOL		SetWatchIndex(UINT32 nIndex);
+	UINT32      GetLogSvrConnID();
+
+	VOID        RegisterMessageHanler();
+
+	UINT64      GetSvrOpenTime();
 public:
 	CLogicMsgHandler m_LogicMsgHandler;
 
@@ -61,12 +61,13 @@ public:
 	UINT32			m_dwLoginConnID;
 	UINT32			m_dwDBConnID;
 	UINT32          m_dwCenterID;   //中心服的连接ID
-	UINT32			m_dwWatchSvrConnID;
-	UINT32			m_dwWatchIndex;
+	UINT64          m_uSvrOpenTime;
+	BOOL            m_bRegSuccessed;
 public:
 	//*********************消息处理定义开始******************************
 	BOOL        OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL        OnMsgRegToCenterAck(NetPacket* pNetPacket);
+	BOOL        OnMsgUpdateInfoAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 
