@@ -2,6 +2,7 @@
 #include "GameLogManager.h"
 #include "CommonSocket.h"
 #include "../LogData/LogStruct.h"
+#include "../Message/Msg_Account.pb.h"
 
 CGameLogManager::CGameLogManager()
 {

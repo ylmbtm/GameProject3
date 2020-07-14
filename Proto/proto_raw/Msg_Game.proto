@@ -14,80 +14,6 @@ message GmStopServerAck {
     uint32    RetCode       = 1;
 }
 
-
-message CheckVersionReq {
-    string   ClientVerion   = 1;
-    int32    Channel        = 2;
-}
-
-message CheckVersionAck {
-    uint32    RetCode        = 1;
-    string    ClientVerion   = 2;
-}
-
-message AccountLog
-{
-    int32  Channel    = 1;   //渠道ID
-    string Version    = 2;   //版本
-    uint64 AccountID  = 3;   //帐号
-    string Uuid       = 4;   //设备UUID
-    string Idfa       = 5;   //idfa
-    string Imodel     = 6;   //机型
-    string Imei       = 7;   //手机MEI
-    string MacAddr    = 8;   //设备MAC地址
-    int32  IpAddr     = 9;   //ip地址
-}  
-
-message AccountRegReq {
-    string   AccountName = 1;
-    string   Password    = 2;
-    int32    Channel     = 3;
-    AccountLog RegLog    = 4;
-}
-
-message AccountRegAck {
-    uint32    RetCode      = 1;
-    uint64    AccountID    = 2; //账号ID
-}
-
-message AccountLoginReq {
-    string    AccountName    = 1;
-    string    Password       = 2;
-    int32     Channel        = 3;
-    uint32    FromChannel    = 4;
-    AccountLog LoginLog      = 5;
-}
-
-message AccountLoginAck {
-    uint32    RetCode        = 1;
-    uint64    AccountID      = 2;
-    int32     LastSvrID      = 3;  //上次登录SvrID
-    string    LastSvrName    = 4;
-}
-
-
-message ClientServerListReq {
-    uint64    AccountID      = 1;
-    int32     Channel        = 2; //渠道包
-    string    ClientVersion  = 3; //客户端版本号
-}
-
-
-message ClientServerNode {
-    int32    SvrID          = 1;
-    string   SvrName        = 2;
-    int32    SvrFlag        = 3; //服务器标记
-    int32    CornerMark     = 4; //服务器角标
-    int64    SvrOpenTime    = 5;
-    int32    SvrStatus      = 6; //1:表示服务器在线，0:表示不在线
-}
-
-message ClientServerListAck {
-    uint32    RetCode    = 1;
-    repeated ClientServerNode SvrNode    = 2;
-}
-
-
 message SvrRegToSvrReq {
     int32     ServerID      = 1;
     string    ServerName    = 2;
@@ -99,76 +25,6 @@ message SvrRegToSvrReq {
 message SvrRegToSvrAck {
     uint32    RetCode       = 1;
     string    NewSvrName    = 2;
-}
-
-message SelectServerReq {
-    uint64    AccountID   = 1;
-    int32     ServerID    = 2;
-}
-
-message SelectServerAck {
-    uint32   RetCode     = 1;
-    uint64   AccountID   = 2;
-    int32    ServerID    = 3;
-    string   ServerAddr  = 4;
-    int32    ServerPort  = 5;
-    int32    LoginCode   = 6;
-}
-
-message RoleItem {
-    uint64    RoleID  = 1;
-    string    Name    = 2;
-    int32     Carrer  = 3;
-    int32     Level   = 4;
-}
-
-message RoleListReq {
-    uint64   AccountID    = 1;
-    int32    LoginCode    = 2;
-}
-
-message RoleListAck {
-    uint32    RetCode            = 1;
-    uint64    AccountID          = 2;
-    repeated  RoleItem RoleList  = 3;
-}
-
-message RoleCreateReq {
-    uint64   AccountID    = 1;
-    string   Name         = 2;
-    int32    Carrer       = 3;
-    int32    Channel      = 4;
-}
-
-message RoleCreateAck {
-    uint32    RetCode      = 1;
-    uint64    AccountID    = 2;
-    uint64    RoleID       = 3;
-    string    Name         = 4;
-    int32     Carrer       = 5;
-}
-
-message RoleDeleteReq {
-    uint64    AccountID    = 1;
-    uint64    RoleID       = 2;
-}
-
-message RoleDeleteAck {
-    uint32    RetCode = 1;
-}
-
-message RoleLoginReq {
-    uint64    AccountID    = 1;
-    uint64    RoleID       = 2;
-    int32     LoginCode    = 3;
-}
-
-message RoleLogoutReq {
-    uint64    AccountID = 1;
-}
-
-message RoleLogoutAck {
-    uint32    RetCode = 1;
 }
 
 message RoleDisconnectReq {
@@ -399,25 +255,6 @@ message ChatMessageNty {
     string    Content        = 6;
 }
 
-message SealAccountReq {
-    string    AccountName  = 1;
-    uint64    AccountID    = 2;
-    int32     Channel      = 3;
-    int32     SealTime     = 4;
-    bool      Seal         = 5;
-}
-
-message SealAccountAck {
-    uint32    RetCode        = 1;
-    string    AccountName    = 2;
-    uint64    AccountID      = 3; //账号ID
-}
-
-message SetLastServerNty {
-    uint64    AccountID    = 1;
-    int32     ServerID      = 2;
-}
-
 message CommonReq {
     uint32    Param1    = 1;
 }
@@ -447,13 +284,14 @@ message LogicRegToLoginAck {
 }
 
 message LogicUpdateInfoReq {
-    int32     ServerID      = 1;
+    int32     ServerID     = 1;
     string    ServerName   = 2;
     int32     MaxOnline    = 3;
     int32     CurOnline    = 4;
     int32     TotalNum     = 5;
     int32     CacheNum     = 6;
     int32     Status       = 7;
+    int32     DbErrCnt     = 8; //数据库写失败次数
 }
 
 message LogicUpdateInfoAck {

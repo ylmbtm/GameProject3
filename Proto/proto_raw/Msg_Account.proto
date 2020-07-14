@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+message CheckVersionReq {
+    string   ClientVerion   = 1;  //客户端版本号 xxx.xxx.xxx
+    int32    Channel        = 2;  //渠道ID  
+}
+
+message CheckVersionAck {
+    uint32    RetCode        = 1;
+    string    ClientVerion   = 2;
+}
+
+message AccountLog
+{
+    int32  Channel    = 1;   //渠道ID
+    string Version    = 2;   //版本
+    uint64 AccountID  = 3;   //帐号
+    string Uuid       = 4;   //设备UUID
+    string Idfa       = 5;   //idfa
+    string Imodel     = 6;   //机型
+    string Imei       = 7;   //手机MEI
+    int32  IpAddr     = 8;   //ip地址
+}  
+
+message AccountRegReq {
+    string   AccountName = 1;
+    string   Password    = 2;
+    int32    Channel     = 3;
+    AccountLog RegLog    = 4;
+}
+
+message AccountRegAck {
+    uint32    RetCode      = 1;
+    uint64    AccountID    = 2; //账号ID
+}
+
+message AccountLoginReq {
+    string    AccountName    = 1;
+    string    Password       = 2;
+    int32     Channel        = 3;
+    uint32    FromChannel    = 4;
+    AccountLog LoginLog      = 5;
+}
+
+message AccountLoginAck {
+    uint32    RetCode        = 1;
+    uint64    AccountID      = 2;
+    int32     LastSvrID      = 3;  //上次登录SvrID
+    string    LastSvrName    = 4;
+}
+
+message ClientServerListReq {
+    uint64    AccountID      = 1;
+    int32     Channel        = 2; //渠道包
+    string    ClientVersion  = 3; //客户端版本号
+}
+
+message ClientServerNode {
+    int32    SvrID          = 1;
+    string   SvrName        = 2;
+    int32    SvrFlag        = 3; //服务器标记
+    int32    CornerMark     = 4; //服务器角标
+    int64    SvrOpenTime    = 5;
+    int32    SvrStatus      = 6; //1:表示服务器在线，0:表示不在线
+}
+
+message ClientServerListAck {
+    uint32    RetCode    = 1;
+    repeated ClientServerNode SvrNode    = 2;
+}
+
+message SelectServerReq {
+    uint64    AccountID   = 1;
+    int32     ServerID    = 2;
+}
+
+message SelectServerAck {
+    uint32   RetCode     = 1;
+    uint64   AccountID   = 2;
+    int32    ServerID    = 3;
+    string   ServerAddr  = 4; //区服地址
+    int32    ServerPort  = 5; //区服端口
+    int32    LoginCode   = 6; //登录验证码，客户端需要用此码连接游戏服
+}
+
+message SealAccountReq {
+    string    AccountName  = 1;
+    uint64    AccountID    = 2;
+    int32     Channel      = 3;
+    int32     SealTime     = 4;
+    bool      Seal         = 5;
+}
+
+message SealAccountAck {
+    uint32    RetCode        = 1;
+    string    AccountName    = 2;
+    uint64    AccountID      = 3; //账号ID
+}
+
+message SetLastServerNty {
+    uint64    AccountID    = 1;
+    int32     ServerID      = 2;
+}
