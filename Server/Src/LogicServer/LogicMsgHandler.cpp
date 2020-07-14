@@ -17,6 +17,8 @@
 #include "MsgHandlerManager.h"
 #include "LoginCodeMgr.h"
 #include "GameLogManager.h"
+#include "../Message/Msg_Role.pb.h"
+#include "../Message/Msg_Account.pb.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {

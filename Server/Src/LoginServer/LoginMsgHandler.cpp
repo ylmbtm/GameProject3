@@ -1,13 +1,14 @@
 ﻿#include "stdafx.h"
-#include "../Message/Msg_ID.pb.h"
 #include "LoginMsgHandler.h"
 #include "GameService.h"
 #include "PacketHeader.h"
-#include "../Message/Msg_RetCode.pb.h"
-#include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
 #include "LoginClientMgr.h"
 #include "WebCommandMgr.h"
+#include "../Message/Msg_Account.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Msg_Game.pb.h"
+#include "../Message/Msg_ID.pb.h"
 
 CLoginMsgHandler::CLoginMsgHandler()
 {
@@ -282,7 +283,7 @@ BOOL CLoginMsgHandler::OnMsgLogicUpdateReq(NetPacket* pPacket)
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
 	ERROR_RETURN_TRUE(Req.serverid() > 0);
-	m_LogicSvrMgr.UpdateLogicServerInfo(Req.serverid(), Req.maxonline(), Req.curonline(), Req.totalnum(), Req.cachenum(), Req.status(), Req.servername());
+	m_LogicSvrMgr.UpdateLogicServerInfo(Req.serverid(), Req.maxonline(), Req.curonline(), Req.totalnum(), Req.cachenum(), Req.status(), Req.dberrcnt(), Req.servername());
 
 	LogicServerNode* pServerNode = m_LogicSvrMgr.GetLogicServerInfo(Req.serverid());
 	ERROR_RETURN_TRUE(pServerNode != NULL);

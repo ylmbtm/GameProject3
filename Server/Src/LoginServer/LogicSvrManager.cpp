@@ -20,18 +20,6 @@ LogicSvrManager::~LogicSvrManager(void)
 
 BOOL LogicSvrManager::Init()
 {
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
-
-	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
-	{
-		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", m_DBConnection.GetErrorMsg());
-		return FALSE;
-	}
-
 	if(!ReloadServerList())
 	{
 		return FALSE;
@@ -70,8 +58,6 @@ BOOL LogicSvrManager::Uninit()
 
 	clear();
 
-	m_DBConnection.close();
-
 	return TRUE;
 }
 
@@ -96,10 +82,10 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 	else
 	{
 		pNode->m_dwConnID = dwConnID;
-		pNode->m_ServerStatus = ESS_SVR_ONLINE;
 		if ((pNode->m_dwPort != dwPort) ||
 		        (pNode->m_dwHttpPort != dwHttpPort) ||
 		        (pNode->m_dwWatchPort != dwWatchPort) ||
+		        (pNode->m_ServerStatus != ESS_SVR_ONLINE) ||
 		        (pNode->m_strSvrName != strSvrName))
 		{
 			pNode->m_dwServerID = dwServerID;
@@ -109,6 +95,7 @@ BOOL LogicSvrManager::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, UI
 			pNode->m_dwHttpPort = dwHttpPort;
 			pNode->m_dwWatchPort = dwWatchPort;
 			pNode->m_eChangeStatus = EUS_RE_REG;
+			pNode->m_ServerStatus = ESS_SVR_ONLINE;
 			m_ArrChangedNode.push(pNode);
 		}
 	}
@@ -129,17 +116,18 @@ BOOL LogicSvrManager::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 	return TRUE;
 }
 
-BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, const std::string& strSvrName)
+BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, UINT32 dwErrorCount, const std::string& strSvrName)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	ERROR_RETURN_FALSE(pNode != NULL);
 
-	if ((pNode->m_dwMaxOnline != dwMaxOnline) || (pNode->m_dwCurOnline != dwCurOnline) || (pNode->m_dwTotalNum != dwTotal))
+	if ((pNode->m_dwMaxOnline != dwMaxOnline) || (pNode->m_dwCurOnline != dwCurOnline) || (pNode->m_dwTotalNum != dwTotal) || (pNode->m_dwCacheNum != dwCacheNum) || (pNode->m_dwErrorCnt != dwErrorCount))
 	{
 		pNode->m_dwMaxOnline = dwMaxOnline;
 		pNode->m_dwCurOnline = dwCurOnline;
-		pNode->m_dwTotalNum = dwTotal;
-		pNode->m_dwCacheNum = dwCacheNum;
+		pNode->m_dwTotalNum  = dwTotal;
+		pNode->m_dwCacheNum  = dwCacheNum;
+		pNode->m_dwErrorCnt = dwErrorCount;
 		pNode->m_ServerStatus = ESS_SVR_ONLINE;
 		if (pNode->m_eChangeStatus == EUS_NONE)
 		{
@@ -183,6 +171,7 @@ BOOL LogicSvrManager::OnCloseConnect(UINT32 dwConnID)
 		{
 			pNode->m_ServerStatus = ESS_SVR_OFFLINE;
 			pNode->m_eChangeStatus = EUS_UPDATE;
+			m_ArrChangedNode.push(pNode);
 		}
 	}
 
@@ -220,13 +209,17 @@ BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
 
 BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 {
-	if (!m_DBConnection.ping())
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
+
+	CppMySQL3DB tDBConnection;
+	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		if (m_DBConnection.reconnect())
-		{
-			CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error Connect to DB Failed");
-			return FALSE;
-		}
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		return FALSE;
 	}
 
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
@@ -239,7 +232,7 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		snprintf(szSql, SQL_BUFF_LEN, "select * from server_list where id = %d", dwServerID);
 	}
 
-	CppMySQLQuery QueryResult = m_DBConnection.querySQL(szSql);
+	CppMySQLQuery QueryResult = tDBConnection.querySQL(szSql);
 	while(!QueryResult.eof())
 	{
 		UINT32 dwSvrID = QueryResult.getIntField("id");
@@ -248,6 +241,7 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		{
 			pNode = new LogicServerNode();
 			pNode->m_dwServerID = dwSvrID;
+			pNode->m_ServerStatus = ESS_SVR_OFFLINE;
 			insert(std::make_pair(dwSvrID, pNode));
 		}
 		pNode->m_strSvrName = QueryResult.getStringField("name");
@@ -327,17 +321,21 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 
 BOOL LogicSvrManager::ReloadReviewVersion()
 {
-	if (!m_DBConnection.ping())
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
+
+	CppMySQL3DB tDBConnection;
+	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		if (m_DBConnection.reconnect())
-		{
-			CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error Connect to DB Failed");
-			return FALSE;
-		}
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		return FALSE;
 	}
 
 	m_setReviewVersion.clear();
-	CppMySQLQuery QueryResult = m_DBConnection.querySQL("select * from review_client");
+	CppMySQLQuery QueryResult = tDBConnection.querySQL("select * from review_client");
 	while(!QueryResult.eof())
 	{
 		UINT32 dwID = QueryResult.getIntField("id");
@@ -354,6 +352,19 @@ BOOL LogicSvrManager::ReloadReviewVersion()
 
 BOOL LogicSvrManager::SaveLogicServerThread()
 {
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
+	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
+
+	CppMySQL3DB tDBConnection;
+	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		return FALSE;
+	}
+
 	LogicServerNode* pTempNode = NULL;
 
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
@@ -366,9 +377,9 @@ BOOL LogicSvrManager::SaveLogicServerThread()
 			continue;
 		}
 
-		if (!m_DBConnection.ping())
+		if (!tDBConnection.ping())
 		{
-			if (!m_DBConnection.reconnect())
+			if (!tDBConnection.reconnect())
 			{
 				CommonFunc::Sleep(1000);
 				continue;
@@ -386,18 +397,18 @@ BOOL LogicSvrManager::SaveLogicServerThread()
 			{
 				snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name, outer_ip,inner_ip, port,http_port,watch_port,svr_flag, corner_mark,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s','%s', %d, %d, %d, %d, %d, '%s','%s','%s','%s');",
 				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, ESF_GOOD, 0, "1.0.0", "9.0.0", "*", "*");
-				if (m_DBConnection.execSQL(szSql) < 0)
+				if (tDBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", m_DBConnection.GetErrorMsg());
+					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", tDBConnection.GetErrorMsg());
 					return FALSE;
 				}
 
 				memset(szSql, 0, SQL_BUFF_LEN);
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, pTempNode->m_ServerStatus, 0);
-				if (m_DBConnection.execSQL(szSql) < 0)
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,dberr_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, unix_timestamp(now()), %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, pTempNode->m_dwErrorCnt, pTempNode->m_ServerStatus, 0);
+				if (tDBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", m_DBConnection.GetErrorMsg());
+					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", tDBConnection.GetErrorMsg());
 				}
 			}
 
@@ -405,27 +416,27 @@ BOOL LogicSvrManager::SaveLogicServerThread()
 			{
 				snprintf(szSql, SQL_BUFF_LEN, "update server_list set name = '%s', port = %d ,http_port = %d,watch_port = %d, inner_ip ='%s' where id = %d;",
 				         pTempNode->m_strSvrName.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, pTempNode->m_strInnerAddr.c_str(),  pTempNode->m_dwServerID);
-				if (m_DBConnection.execSQL(szSql) < 0)
+				if (tDBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
+					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", tDBConnection.GetErrorMsg());
 				}
 
 				memset(szSql, 0, SQL_BUFF_LEN);
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, pTempNode->m_ServerStatus, 0);
-				if (m_DBConnection.execSQL(szSql) < 0)
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,dberr_cnt,update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, unix_timestamp(now()), %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, pTempNode->m_dwErrorCnt, pTempNode->m_ServerStatus, 0);
+				if (tDBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
+					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", tDBConnection.GetErrorMsg());
 				}
 			}
 
 			if (pTempNode->m_eChangeStatus == EUS_UPDATE)
 			{
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt, update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, %d,%d);",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, 0, pTempNode->m_ServerStatus, 0);
-				if (m_DBConnection.execSQL(szSql) < 0)
+				snprintf(szSql, SQL_BUFF_LEN, "replace into server_status(id, name, curr_online, max_online,total_cnt,cache_cnt,dberr_cnt, update_time,status, file_version) values(%d, '%s', %d, %d, %d, %d, %d, unix_timestamp(now()), %d,%d);",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), pTempNode->m_dwCurOnline, pTempNode->m_dwMaxOnline, pTempNode->m_dwTotalNum, pTempNode->m_dwCacheNum, pTempNode->m_dwErrorCnt, pTempNode->m_ServerStatus, 0);
+				if (tDBConnection.execSQL(szSql) < 0)
 				{
-					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", m_DBConnection.GetErrorMsg());
+					CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", tDBConnection.GetErrorMsg());
 				}
 			}
 
