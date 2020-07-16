@@ -110,6 +110,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_ID.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\WatcherClient\WatcherClient.cpp" />
     <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="AccountMsgHandler.cpp" />
@@ -124,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="..\Message\Msg_Account.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
+    <ClInclude Include="..\Message\Msg_ID.pb.h" />
     <ClInclude Include="..\WatcherClient\WatcherClient.h" />
     <ClInclude Include="AccountManager.h" />
     <ClInclude Include="AccountMsgHandler.h" />

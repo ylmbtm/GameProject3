@@ -39,7 +39,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
-	snprintf(szSql, SQL_BUFF_LEN, "select * from player where account_id = %lld", u64AccountID);
+	snprintf(szSql, SQL_BUFF_LEN, "select * from player where accountid = %lld", u64AccountID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 

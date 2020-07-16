@@ -1,10 +1,9 @@
 ﻿#ifndef __GAME_LOG_MANAGER_H__
 #define __GAME_LOG_MANAGER_H__
 
-#include "../Message/Msg_Game.pb.h"
+#include "../Message/Msg_Account.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "GameService.h"
-#include "../Message/Msg_Account.pb.h"
 class CGameLogManager
 {
 public:

@@ -26,7 +26,7 @@ BOOL CSimpleManager::LoadData(CppMySQL3DB& tDBConnection)
 	{
 		CSimpleInfo* pInfo	= new CSimpleInfo();
 		pInfo->m_uRoleID	= QueryResult.getInt64Field("id");
-		pInfo->m_uAccountID = QueryResult.getInt64Field("account_id");
+		pInfo->m_uAccountID = QueryResult.getInt64Field("accountid");
 		pInfo->m_strName	= QueryResult.getStringField("name");
 		pInfo->m_dwCarrerID	= QueryResult.getIntField("carrerid");
 		pInfo->m_uCreateTime = QueryResult.getInt64Field("createtime");

@@ -6,7 +6,6 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "GameLogManager.h"
-#include "../Message/Msg_Account.pb.h"
 
 
 CAccountMsgHandler::CAccountMsgHandler()
