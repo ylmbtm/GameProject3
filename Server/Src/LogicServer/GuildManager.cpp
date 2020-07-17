@@ -79,6 +79,7 @@ CGuild* CGuildManager::CreateGuild(UINT64 uRoleID, std::string& strName, INT32 n
 	pGuild->m_pGuildData->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	strncpy(pGuild->m_pGuildData->m_szName, strName.c_str(), CommonFunc::Min(GUILD_NAME_LEN, (INT32)strName.size()));
 	pGuild->m_pGuildData->Unlock();
+	m_mapGulidData.insert(std::make_pair(pGuild->m_pGuildData->m_uGuid, pGuild));
 
 	MemberDataObject* pMemberObj = DataPool::CreateObject<MemberDataObject>(ESD_GUILD_MEMBER, TRUE);
 	pMemberObj->Lock();

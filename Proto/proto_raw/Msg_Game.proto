@@ -445,4 +445,7 @@ message MsgGetRandomNameAck {
     string Name = 1;
 }
 
+message Msg_DbErrorCountNty{
+    uint32  ErrorCount = 1;
+}
 
