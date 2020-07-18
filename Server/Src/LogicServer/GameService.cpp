@@ -32,6 +32,7 @@ CGameService::CGameService(void)
 	m_dwDBConnID	= 0;
 	m_dwCenterID	= 0;   //中心服的连接ID
 	m_uSvrOpenTime  = 0;
+	m_dwDbErrorCount = 0;
 	m_bRegSuccessed = FALSE;
 }
 
@@ -56,6 +57,7 @@ VOID CGameService::RegisterMessageHanler()
 {
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CGameService::OnMsgRegToLoginAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK, &CGameService::OnMsgUpdateInfoAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DB_WRITE_ERROR_NTY, &CGameService::OnMsgDBWriteErrorNty, this);
 
 }
 
@@ -188,6 +190,7 @@ BOOL CGameService::Init()
 
 BOOL CGameService::Uninit()
 {
+	m_LogicMsgHandler.Uninit();
 	CDataPool::GetInstancePtr()->ReleaseDataPool();
 	ServiceBase::GetInstancePtr()->StopNetwork();
 	google::protobuf::ShutdownProtobufLibrary();
@@ -463,11 +466,12 @@ BOOL CGameService::ReportServerStatus()
 	LogicUpdateInfoReq Req;
 
 	Req.set_maxonline(CGlobalDataManager::GetInstancePtr()->GetMaxOnline()); //最大在线人数
-	Req.set_curonline(CPlayerManager::GetInstancePtr()->GetOnlineCount());
-	Req.set_totalnum(CSimpleManager::GetInstancePtr()->GetTotalCount());
-	Req.set_cachenum(CPlayerManager::GetInstancePtr()->GetCount());
-	Req.set_serverid(CConfigFile::GetInstancePtr()->GetIntValue("areaid"));
-	Req.set_servername(CConfigFile::GetInstancePtr()->GetStringValue("areaname"));
+	Req.set_curonline(CPlayerManager::GetInstancePtr()->GetOnlineCount());   //当前在线人数
+	Req.set_totalnum(CSimpleManager::GetInstancePtr()->GetTotalCount());     //总注册人数
+	Req.set_cachenum(CPlayerManager::GetInstancePtr()->GetCount());          //当前缓存人数
+	Req.set_serverid(CConfigFile::GetInstancePtr()->GetIntValue("areaid"));  //区服ID
+	Req.set_servername(CConfigFile::GetInstancePtr()->GetStringValue("areaname")); //区服名字
+	Req.set_dberrcnt(m_dwDbErrorCount);                                      //db写错误数
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_UPDATE_REQ, 0, 0, Req);
 
@@ -499,6 +503,26 @@ BOOL CGameService::OnMsgUpdateInfoAck(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(Ack.retcode() == 0);
 
+	if (m_uSvrOpenTime == Ack.svropentime())
+	{
+		return TRUE;
+	}
+
 	m_uSvrOpenTime = Ack.svropentime();
+
+	//这里处理开服时间发生改变有事件
+
+
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgDBWriteErrorNty(NetPacket* pNetPacket)
+{
+	Msg_DbErrorCountNty Nty;
+	Nty.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+
+	m_dwDbErrorCount = Nty.errorcount();
+
 	return TRUE;
 }

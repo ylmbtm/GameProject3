@@ -58,8 +58,8 @@ message ClientServerListReq {
 message ClientServerNode {
     int32    SvrID          = 1;
     string   SvrName        = 2;
-    int32    SvrFlag        = 3; //服务器标记
-    int32    CornerMark     = 4; //服务器角标
+    int32    SvrFlag        = 3; //服务器标记 0:未知, 1:流畅,2:拥挤,3:维护,4:关闭,5:评审 
+    int32    CornerMark     = 4; //服务器角标 0:无, 1:新服,2:推荐
     int64    SvrOpenTime    = 5;
     int32    SvrStatus      = 6; //1:表示服务器在线，0:表示不在线
 }

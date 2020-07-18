@@ -62,12 +62,14 @@ public:
 	UINT32			m_dwDBConnID;
 	UINT32          m_dwCenterID;   //中心服的连接ID
 	UINT64          m_uSvrOpenTime;
+	UINT32          m_dwDbErrorCount;
 	BOOL            m_bRegSuccessed;
 public:
 	//*********************消息处理定义开始******************************
 	BOOL        OnMsgRegToLoginAck(NetPacket* pNetPacket);
 	BOOL        OnMsgRegToCenterAck(NetPacket* pNetPacket);
 	BOOL        OnMsgUpdateInfoAck(NetPacket* pNetPacket);
+	BOOL        OnMsgDBWriteErrorNty(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

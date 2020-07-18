@@ -39,6 +39,7 @@ message RoleDisconnectAck {
 
 message RoleReconnectReq {
     uint64    RoleID = 1;
+    uint64    AccountID = 2;
 }
 
 message RoleReconnectAck {

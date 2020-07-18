@@ -4,11 +4,13 @@
 CDBWriterManager::CDBWriterManager()
 {
 	m_Stop = FALSE;
+	m_nCurErrorCount = 0;
 }
 
 CDBWriterManager::~CDBWriterManager()
 {
 	m_Stop = FALSE;
+	m_nCurErrorCount = 0;
 }
 
 BOOL CDBWriterManager::Init()
@@ -72,6 +74,7 @@ BOOL CDBWriterManager::Uninit()
 BOOL CDBWriterManager::WriteDataToDB()
 {
 	BOOL bHasWrite = FALSE;
+	UINT32 nErrorCount = 0;
 	for (int i = ESD_ROLE; i < ESD_END; i++)
 	{
 		ERROR_TO_CONTINUE(m_vtDataWriters[i] != NULL);
@@ -82,12 +85,30 @@ BOOL CDBWriterManager::WriteDataToDB()
 		}
 	}
 
+	m_nCurErrorCount = nErrorCount;
+
 	return bHasWrite;
 }
 
 BOOL CDBWriterManager::IsStop()
 {
 	return m_Stop;
+}
+
+BOOL CDBWriterManager::Update()
+{
+	static UINT32 nLastErrorCount = 0;
+
+	if (nLastErrorCount != m_nCurErrorCount)
+	{
+		nLastErrorCount = m_nCurErrorCount;
+
+// 		Msg_DbErrorCountNty Nty;
+// 		Nty.set_errorcount(m_nCurErrorCount);
+// 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DB_WRITE_ERROR_NTY, 0, 0, Nty);
+	}
+
+	return TRUE;
 }
 
 void CDBWriterManager::DBWriteThread()
