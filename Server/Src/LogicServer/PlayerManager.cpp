@@ -187,3 +187,22 @@ BOOL CPlayerManager::OnUpdate(UINT64 uTick)
 	return TRUE;
 }
 
+BOOL CPlayerManager::ReleaseAll()
+{
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	CPlayerObject* pPlayer = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pPlayer = pNode->GetValue();
+		ERROR_TO_CONTINUE(pPlayer != NULL);
+
+		pPlayer->Uninit();
+	}
+
+	Clear();
+
+	return TRUE;
+}
+

@@ -27,6 +27,8 @@ public:
 	BOOL                ZeroTimer(UINT32 nParam);
 
 	BOOL                OnUpdate(UINT64 uTick);
+
+	BOOL                ReleaseAll();
 public:
 
 };
