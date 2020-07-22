@@ -289,6 +289,29 @@ BOOL CommonFunc::IsSameDay(UINT64 uTime)
 
 }
 
+INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
+{
+	time_t t = uTimeSrc;
+	tm t_tmSrc = *localtime(&t);
+	UINT64 SrcWeekBegin = (UINT64)t - (t_tmSrc.tm_wday == 0 ? 6 : t_tmSrc.tm_wday - 1) * 86400 - t_tmSrc.tm_hour * 3600 - t_tmSrc.tm_min * 60 - t_tmSrc.tm_sec;
+
+	t = uTimeDest;
+	tm t_tmDest = *localtime(&t);
+	UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
+
+	return uTimeSrc > uTimeDest ? (INT32)((SrcWeekBegin - SrcWeekDest) / (86400 * 7)) : (INT32)((SrcWeekDest - SrcWeekBegin) / (86400 * 7));
+}
+
+INT32 CommonFunc::DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest)
+{
+	if (uTimeSrc > uTimeDest)
+	{
+		return (INT32)((uTimeSrc - _timezone) / 86400 - (uTimeDest - _timezone) / 86400);
+	}
+
+	return (INT32)((uTimeDest - _timezone) / 86400 - (uTimeSrc - _timezone) / 86400);
+}
+
 UINT32 CommonFunc::GetCurThreadID()
 {
 	UINT32 dwThreadID = 0;

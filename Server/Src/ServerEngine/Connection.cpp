@@ -207,6 +207,7 @@ BOOL CConnection::ExtractBuffer()
 		//在这里对包头进行检查, 如果不合法就要返回FALSE;
 		if (!CheckHeader(m_pBufPos))
 		{
+			CLog::GetInstancePtr()->LogError("ExtractBuffer Error， 验证包头序号失败!!");
 			return FALSE;
 		}
 
@@ -414,20 +415,17 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 		return FALSE;
 	}
 
-	/*if(m_nCheckNo == 0)
+	if(m_nCheckNo == 0)
 	{
-	m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+		m_nCheckNo = pHeader->dwPacketNo - (pHeader->dwMsgID ^ pHeader->dwSize);
+		return TRUE;
 	}
-	else
+
+	if(pHeader->dwPacketNo == (pHeader->dwMsgID ^ pHeader->dwSize) + m_nCheckNo)
 	{
-	if(pHeader->dwPacketNo == pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-	{
-	m_nCheckNo += 1;
+		m_nCheckNo += 1;
+		return TRUE;
 	}
-	else
-	{
-	return FALSE;
-	}*/
 
 	return TRUE;
 }

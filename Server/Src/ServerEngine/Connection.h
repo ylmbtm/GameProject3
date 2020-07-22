@@ -74,9 +74,9 @@ public:
 	UINT32  GetIpAddr(BOOL bHost = TRUE);
 
 public:
-	SOCKET						m_hSocket;
+	SOCKET                      m_hSocket;
 
-	BOOL						m_bConnected;
+	BOOL                        m_bConnected;
 
 	NetIoOperatorData			m_IoOverlapRecv;
 
