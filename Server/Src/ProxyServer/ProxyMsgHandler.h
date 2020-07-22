@@ -29,8 +29,9 @@ public:
 	UINT32      GetGameSvrConnID(UINT32 dwSvrID);
 
 	BOOL		IsServerConnID(UINT32 dwConnID);
-	//*********************消息处理定义开始******************************
+
 public:
+	//*********************消息处理定义开始******************************
 	BOOL		OnMsgGameSvrRegister(NetPacket* pPacket);
 	BOOL		OnMsgNotifyIntoSceneNtf(NetPacket* pPacket);
 	BOOL		OnMsgEnterSceneReq(NetPacket* pPacket);
@@ -39,6 +40,10 @@ public:
 	BOOL		OnMsgRoleLogoutReq(NetPacket* pPacket);
 	BOOL		OnMsgKickoutNty(NetPacket* pPacket);
 	BOOL		OnMsgRemoveConnectNty(NetPacket* pPacket);
+	BOOL		OnMsgRelayToLogic(NetPacket* pPacket);
+	BOOL		OnMsgReconnectReq(NetPacket* pPacket);
+	BOOL		OnMsgReconnectAck(NetPacket* pPacket);
+	//*********************消息处理定义结束******************************
 public:
 	std::map<UINT32, UINT32> m_mapSvrIDtoConnID;
 
