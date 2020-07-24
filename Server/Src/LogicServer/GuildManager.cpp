@@ -3,6 +3,7 @@
 #include "GameService.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
+#include "../Message/Game_Define.pb.h"
 
 CGuildManager::CGuildManager()
 {
