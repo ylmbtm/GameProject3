@@ -467,6 +467,7 @@ std::string CommonConvert::Ansi_To_Uft8( std::string strSrc )
 #else
 #endif
 }
+*/
 
 BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 {
@@ -531,7 +532,7 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	}
 	return TRUE;
 }
-*/
+
 
 UINT32 CommonConvert::VersionToInt(const std::string& strVersion )
 {

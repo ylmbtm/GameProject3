@@ -46,7 +46,7 @@ std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FAL
 //
 // std::string Ansi_To_Uft8(std::string wstrValue);
 //
-// BOOL IsTextUTF8(const char* str, UINT32 length);
+BOOL IsTextUTF8(const char* str, UINT32 length);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
 
