@@ -32,7 +32,6 @@ void On_Async_Event(uv_async_t* handle)
 void On_Connection(uv_connect_t* req, int status)
 {
 	CConnection* pConnection = (CConnection*)req->data;
-
 	if (status == 0)
 	{
 		//成功
@@ -51,7 +50,6 @@ void On_RecvConnection(uv_stream_t* pServer, int status)
 {
 	if (status < 0)
 	{
-		//失败
 		return;
 	}
 
@@ -156,7 +154,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 	iret = uv_tcp_init(m_pMainLoop, pConnection->GetSocket());
 	pConnection->GetSocket()->data = pConnection;
 	pConnection->m_ConnectReq.data = pConnection;
-
+	pConnection->SetDataHandler(m_pBufferHandler);
 	iret = uv_tcp_connect(&pConnection->m_ConnectReq, pConnection->GetSocket(), (const sockaddr*)&bind_addr, On_Connection);
 	if (iret)
 	{
@@ -189,6 +187,8 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
 
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+
+		pConnection->SetDataHandler(m_pBufferHandler);
 
 		pConnection->DoReceive();
 	}

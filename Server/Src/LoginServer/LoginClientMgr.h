@@ -6,8 +6,8 @@
 enum EClientStatue
 {
 	ECS_NONE            = 0,   //未知
-	ECS_VER_CHECKED     = 1,  //己验证版本
-	ECS_PSD_CHECKED     = 2,//账号密码验证通过
+	ECS_VER_CHECKED     = 1,   //己验证版本
+	ECS_PSD_CHECKED     = 2,   //账号密码验证通过
 };
 
 class  CLoginClient
