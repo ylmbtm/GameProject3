@@ -45,10 +45,12 @@ enum MessageRetCode {
    MRC_ILLEGAL_LOGIN_REQ     = 306;    //非法的登陆请求
    MRC_GIFT_CODE_USED        = 307;    //礼包码己使用
    MRC_KICKOUT_BY_OTHER      = 308;    //被其它人挤出
+  
    //技能
    MRC_SKILL_CD_ERROR        = 309;    //技能未冷却    
    MRC_SKILL_DEAD_OBJ        = 310;    //对象己经死亡
    MRC_INCRRECT_PASSWORD     = 311;
+   MRC_NAME_MUST_UTF8       = 312;   //名字必须是utf8编码
     
 }
 

@@ -96,7 +96,14 @@ message MountChangeNty{
 }
 
 message MailItem {
-    uint64 Guid = 1;
+    uint64 Guid      = 1;
+    int32  MailType  = 2;   //邮件类型
+    int32  Status    = 3;   //邮件状态
+    string Title     = 4;   //邮件标题
+    string Content   = 5;   //邮件内容
+    string Sender    = 6;   //发送者
+    repeated int32 ItemID   = 8;   //邮件道具ID
+    repeated int32 ItemNum   = 9;   //邮件道具Num
 }
 
 message MailChangeNty{

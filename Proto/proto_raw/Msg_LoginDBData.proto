@@ -165,8 +165,8 @@ message DBMailItem {
     uint32   MailType  = 7;
     uint32   Status    = 8;
     string   Title     = 9;   //邮件标题
-    string   Content   = 10;   //邮件内容
-    bytes    Items     = 11;   //邮件物品
+    string   Content   = 10;  //邮件内容
+    bytes    Items     = 11;  //邮件物品
 }
 
 message DBMailData {
