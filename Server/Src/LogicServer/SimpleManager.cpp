@@ -232,7 +232,12 @@ BOOL CSimpleManager::AddSimpleInfo(CSimpleInfo* pInfo)
 
 	m_mapID2Simple.insert(std::make_pair(pInfo->m_uRoleID, pInfo));
 
-	m_mapName2ID.insert(std::make_pair(pInfo->m_strName, pInfo->m_uRoleID));
+	auto ret = m_mapName2ID.insert(std::make_pair(pInfo->m_strName, pInfo->m_uRoleID));
+
+	if (!ret.second)
+	{
+		CLog::GetInstancePtr()->LogError("CSimpleManager::AddSimpleInfo Error Role Name :%s already exist!", pInfo->m_strName.c_str());
+	}
 
 	return TRUE;
 }

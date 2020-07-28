@@ -51,6 +51,8 @@ public:
 	UINT64  AddExp(INT32 nExp);
 
 	UINT64  GetLastLogoffTime();
+	BOOL    SetLastLogoffTime(UINT64 uTime);
+	UINT64  GetLastLogonTime();
 
 	VOID    SetGroupMailTime(UINT64 uTime);
 	UINT64  GetGroupMailTime();
