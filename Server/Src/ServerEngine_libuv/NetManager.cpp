@@ -6,32 +6,32 @@
 #include "Log.h"
 #include "PacketHeader.h"
 #include "DataBuffer.h"
+#include "ServiceBase.h"
 
-
-void _Run_Loop(void* arg)
+void _Run_Loop(void *arg)
 {
 
-	CNetManager* pNetManager = (CNetManager*)arg;
+	CNetManager *pNetManager = (CNetManager *)arg;
 
 	pNetManager->RunLoop();
 
 	return;
 }
 
-void On_Async_Event(uv_async_t* handle)
+void On_Async_Event(uv_async_t *handle)
 {
-	CConnection* pConnection = (CConnection*)handle->data;
+	CConnection *pConnection = (CConnection *)handle->data;
 
 	pConnection->DoSend();
 
-	uv_close((uv_handle_t*)&pConnection->m_AsyncReq, NULL);
+	uv_close((uv_handle_t *)&pConnection->m_AsyncReq, NULL);
 
 	return;
 }
 
-void On_Connection(uv_connect_t* req, int status)
+void On_Connection(uv_connect_t *req, int status)
 {
-	CConnection* pConnection = (CConnection*)req->data;
+	CConnection *pConnection = (CConnection *)req->data;
 
 	if (status == 0)
 	{
@@ -47,7 +47,7 @@ void On_Connection(uv_connect_t* req, int status)
 	return;
 }
 
-void On_RecvConnection(uv_stream_t* pServer, int status)
+void On_RecvConnection(uv_stream_t *pServer, int status)
 {
 	if (status < 0)
 	{
@@ -55,14 +55,14 @@ void On_RecvConnection(uv_stream_t* pServer, int status)
 		return;
 	}
 
-	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	CConnection *pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	ERROR_RETURN_NONE(pConnection != NULL);
 
-	CNetManager* pNetManager = CNetManager::GetInstancePtr();
+	CNetManager *pNetManager = CNetManager::GetInstancePtr();
 
 	uv_tcp_init(pNetManager->m_pMainLoop, pConnection->GetSocket());
 
-	if (uv_accept(pServer, (uv_stream_t*)pConnection->GetSocket()) == 0)
+	if (uv_accept(pServer, (uv_stream_t *)pConnection->GetSocket()) == 0)
 	{
 		pNetManager->HandleAccept(pConnection, 0);
 	}
@@ -74,17 +74,16 @@ void On_RecvConnection(uv_stream_t* pServer, int status)
 	return;
 }
 
-
 CNetManager::CNetManager(void)
 {
-	m_pBufferHandler	= NULL;
+	m_pBufferHandler = NULL;
 }
 
 CNetManager::~CNetManager(void)
 {
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp)
+BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler *pBufferHandler, std::string &strListenIp)
 {
 	ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
@@ -105,9 +104,9 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 	uv_ip4_addr(strListenIp.c_str(), nPortNum, &addr);
 
-	uv_tcp_bind(&m_ListenSocket, (const struct sockaddr*)&addr, 0);
+	uv_tcp_bind(&m_ListenSocket, (const struct sockaddr *)&addr, 0);
 
-	int nRetCode = uv_listen((uv_stream_t*)&m_ListenSocket, 20, On_RecvConnection);
+	int nRetCode = uv_listen((uv_stream_t *)&m_ListenSocket, 20, On_RecvConnection);
 	if (nRetCode)
 	{
 		return FALSE;
@@ -120,7 +119,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferH
 
 BOOL CNetManager::Stop()
 {
-	uv_close((uv_handle_t*)&m_ListenSocket, NULL);
+	uv_close((uv_handle_t *)&m_ListenSocket, NULL);
 
 	uv_stop(m_pMainLoop);
 	uv_loop_close(m_pMainLoop);
@@ -133,12 +132,12 @@ BOOL CNetManager::Stop()
 	return TRUE;
 }
 
-CConnection* CNetManager::ConnectTo_Sync(std::string strIpAddr, UINT16 sPort)
+CConnection *CNetManager::ConnectTo_Sync(std::string strIpAddr, UINT16 sPort)
 {
 	return NULL;
 }
 
-CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
+CConnection *CNetManager::ConnectTo_Async(std::string strIpAddr, UINT16 sPort)
 {
 	struct sockaddr_in bind_addr;
 	int iret = uv_ip4_addr(strIpAddr.c_str(), sPort, &bind_addr);
@@ -147,7 +146,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 		return NULL;
 	}
 
-	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	CConnection *pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
 	if (pConnection == NULL)
 	{
 		return NULL;
@@ -157,7 +156,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 	pConnection->GetSocket()->data = pConnection;
 	pConnection->m_ConnectReq.data = pConnection;
 
-	iret = uv_tcp_connect(&pConnection->m_ConnectReq, pConnection->GetSocket(), (const sockaddr*)&bind_addr, On_Connection);
+	iret = uv_tcp_connect(&pConnection->m_ConnectReq, pConnection->GetSocket(), (const sockaddr *)&bind_addr, On_Connection);
 	if (iret)
 	{
 		pConnection->Close();
@@ -166,17 +165,16 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 	return pConnection;
 }
 
-
-void CNetManager::HandleConnect(CConnection* pConnection, INT32 dwStatus)
+void CNetManager::HandleConnect(CConnection *pConnection, INT32 dwStatus)
 {
 	m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 	pConnection->DoReceive();
 
-	return ;
+	return;
 }
 
-void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
+void CNetManager::HandleAccept(CConnection *pConnection, INT32 dwStatus)
 {
 	if (dwStatus == 0)
 	{
@@ -184,9 +182,10 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 
 		socklen_t namelen = sizeof(ClientAddr);
 
-		uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr*)&ClientAddr, &namelen);
+		uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr *)&ClientAddr, &namelen);
 
 		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
+		pConnection->SetDataHandler(ServiceBase::GetInstancePtr());
 
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -201,7 +200,6 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 	return;
 }
 
-
 void CNetManager::RunLoop()
 {
 	uv_run(m_pMainLoop, UV_RUN_DEFAULT);
@@ -209,11 +207,11 @@ void CNetManager::RunLoop()
 	return;
 }
 
-BOOL	CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
+BOOL CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer *pBuffer)
 {
 	ERROR_RETURN_FALSE(dwConnID != 0);
 	ERROR_RETURN_FALSE(pBuffer != 0);
-	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+	CConnection *pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
 	if (pConn == NULL)
 	{
 		//表示连接己经失败断开了，这个连接ID不可用了。
@@ -235,15 +233,14 @@ BOOL	CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
 	return FALSE;
 }
 
-
-BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
+BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char *pData, UINT32 dwLen)
 {
 	if (dwConnID <= 0)
 	{
 		return FALSE;
 	}
 
-	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+	CConnection *pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
 	if (pConn == NULL)
 	{
 		//表示连接己经失败断开了，这个连接ID不可用了。
@@ -256,10 +253,10 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 		return FALSE;
 	}
 
-	IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+	IDataBuffer *pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
 	ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
-	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+	PacketHeader *pHeader = (PacketHeader *)pDataBuffer->GetBuffer();
 	pHeader->CheckCode = CODE_VALUE;
 	pHeader->dwUserData = dwUserData;
 	pHeader->u64TargetID = u64TargetID;
@@ -280,8 +277,7 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 	return FALSE;
 }
 
-
-BOOL CNetManager::PostSendOperation(CConnection* pConnection)
+BOOL CNetManager::PostSendOperation(CConnection *pConnection)
 {
 	ERROR_RETURN_FALSE(pConnection != NULL);
 
@@ -289,7 +285,7 @@ BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 	{
 		uv_async_init(m_pMainLoop, &pConnection->m_AsyncReq, On_Async_Event);
 
-		uv_handle_set_data((uv_handle_t*)&pConnection->m_AsyncReq, (void*)pConnection);
+		uv_handle_set_data((uv_handle_t *)&pConnection->m_AsyncReq, (void *)pConnection);
 
 		uv_async_send(&pConnection->m_AsyncReq);
 	}
