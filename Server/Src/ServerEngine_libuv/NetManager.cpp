@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "PacketHeader.h"
 #include "DataBuffer.h"
+#include "ServiceBase.h"
 
 
 void _Run_Loop(void* arg)
@@ -187,6 +188,7 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 		uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr*)&ClientAddr, &namelen);
 
 		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
+		pConnection->SetDataHandler(ServiceBase::GetInstancePtr());
 
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
