@@ -101,6 +101,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	AccountLoginAck Ack;
+	Ack.set_review(Req.review());
 
 	if (!m_AccountManager.CheckAccountName(Req.accountname()) && !Req.fromchannel())
 	{
@@ -137,7 +138,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
-	if (Req.fromchannel() != 1)
+	if (!Req.fromchannel())
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_NOT_EXIST);
 		Ack.set_lastsvrid(0);

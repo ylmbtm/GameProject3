@@ -25,6 +25,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "MailManager.h"
+#include "GameLogManager.h"
 
 
 
@@ -101,6 +102,11 @@ BOOL CPlayerObject::OnLogin()
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	ERROR_RETURN_VALUE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
 
+	if (pRoleModule->GetLastLogoffTime() < pRoleModule->GetLastLogonTime())
+	{
+		pRoleModule->SetLastLogoffTime(pRoleModule->GetLastLogonTime() + 5);
+	}
+
 	if (!CommonFunc::IsSameDay(pRoleModule->GetLastLogoffTime()))
 	{
 		for (int i = MT_ROLE; i < MT_END; i++)
@@ -122,6 +128,8 @@ BOOL CPlayerObject::OnLogin()
 	SendRoleLoginAck();
 
 	CGameSvrMgr::GetInstancePtr()->SendPlayerToMainCity(m_u64ID, GetCityCopyID());
+
+	CGameLogManager::GetInstancePtr()->LogRoleLogin(this);
 
 	return TRUE;
 }
@@ -499,6 +507,12 @@ BOOL CPlayerObject::IsOnline()
 	}
 
 	return m_IsOnline;
+}
+
+BOOL CPlayerObject::SetOnline(BOOL bOnline)
+{
+	m_IsOnline = TRUE;
+	return TRUE;
 }
 
 BOOL CPlayerObject::NotifyChange()

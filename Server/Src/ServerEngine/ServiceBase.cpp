@@ -116,6 +116,7 @@ BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targ
 	}
 
 	m_dwSendNum++;
+
 	return CNetManager::GetInstancePtr()->SendMessageData(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
 }
 
@@ -150,6 +151,7 @@ BOOL ServiceBase::CloseConnect(UINT32 nConnID)
 
 BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
 {
+	ERROR_RETURN_FALSE(nConnID != 0);
 	m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, NULL, CLOSE_CONNECTION));
 	m_QueueLock.Unlock();
@@ -158,6 +160,7 @@ BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
 
 BOOL ServiceBase::OnNewConnect(UINT32 nConnID)
 {
+	ERROR_RETURN_FALSE(nConnID != 0);
 	m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, NULL, NEW_CONNECTION));
 	m_QueueLock.Unlock();
@@ -177,7 +180,7 @@ BOOL ServiceBase::Update()
 		m_dwLastTick = CommonFunc::GetTickCount();
 	}
 
-	CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
+	//CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
 
 	m_QueueLock.Lock();
 	std::swap(m_pRecvDataQueue, m_pDispathQueue);

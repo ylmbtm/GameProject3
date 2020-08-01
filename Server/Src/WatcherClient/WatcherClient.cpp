@@ -6,7 +6,7 @@
 CWatcherClient::CWatcherClient(void)
 {
 	m_dwWatchSvrConnID  = 0;
-	m_dwWatchIndex      = 0;
+	m_dwWatchIndex      = 0xFFFFFFFF;
 	m_uLastHeartTime    = 0;
 	m_bRun              = TRUE;
 }
@@ -56,6 +56,11 @@ BOOL CWatcherClient::OnCloseConnect(UINT32 nConnID)
 
 BOOL CWatcherClient::OnSecondTimer()
 {
+	if (m_dwWatchIndex == 0xFFFFFFFF)
+	{
+		return TRUE;
+	}
+
 	if (m_dwWatchSvrConnID != 0 && m_uLastHeartTime != 0)
 	{
 		INT64 nCurTick = CommonFunc::GetTickCount();
@@ -91,6 +96,11 @@ BOOL CWatcherClient::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CWatcherClient::ConnectToWatchServer()
 {
+	if (m_dwWatchIndex == 0xFFFFFFFF)
+	{
+		return TRUE;
+	}
+
 	if (m_dwWatchSvrConnID != 0)
 	{
 		return TRUE;

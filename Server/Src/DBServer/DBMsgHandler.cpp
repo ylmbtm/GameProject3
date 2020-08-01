@@ -5,6 +5,7 @@
 #include "DataBuffer.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
+#include "../Message/Msg_Role.pb.h"
 
 CDBMsgHandler::CDBMsgHandler()
 {

@@ -35,15 +35,16 @@ CMailManager* CMailManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CMailManager::SendGroupMail(UINT32 nGroupID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems)
+BOOL CMailManager::SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems)
 {
 	GroupMailDataObject* pGroupMailObject = DataPool::CreateObject<GroupMailDataObject>(ESD_GROUP_MAIL, TRUE);
 	pGroupMailObject->Lock();
 	pGroupMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	pGroupMailObject->m_nGroupID = nGroupID;
 	//pGroupMailObject->m_dwMailType;					 //邮件类型
-	//pGroupMailObject->m_dwChannel;						 //目标渠道
+	//pGroupMailObject->m_dwChannel;					 //目标渠道
 	pGroupMailObject->m_uTime = CommonFunc::GetCurrTime();
+	strncpy(pGroupMailObject->m_szTitle, strTitle.c_str(), CommonFunc::Min(MAIL_TITLE_LEN, (INT32)strTitle.size()));
+	strncpy(pGroupMailObject->m_szContent, strContent.c_str(), CommonFunc::Min(MAIL_CONTENT_LEN, (INT32)strContent.size()));
 
 	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
 	{
@@ -101,6 +102,8 @@ BOOL CMailManager::SendSingleMail(UINT64 uRoleID, std::string strSender, std::st
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = uRoleID;
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
+	strncpy(pMailObject->m_szTitle, strTitle.c_str(), CommonFunc::Min(MAIL_TITLE_LEN, (INT32)strTitle.size()));
+	strncpy(pMailObject->m_szContent, strContent.c_str(), CommonFunc::Min(MAIL_CONTENT_LEN, (INT32)strContent.size()));
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 
 	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
@@ -125,6 +128,38 @@ BOOL CMailManager::SendOffOperation(UINT64 uRoleID)
 	return TRUE;
 }
 
+BOOL CMailManager::DeleteGroupMail(UINT64 uGuid)
+{
+	auto itor = m_mapGroupMailData.find(uGuid);
+	if (itor == m_mapGroupMailData.end())
+	{
+		return FALSE;
+	}
+
+	GroupMailDataObject* pObject = itor->second;
+
+	pObject->Destroy();
+
+	m_mapGroupMailData.erase(itor);
+
+	CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+	ERROR_RETURN_FALSE(pNode != NULL);
+
+	CPlayerObject* pTempObj = NULL;
+	for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+	{
+		pTempObj = pNode->GetValue();
+		ERROR_TO_CONTINUE(pTempObj != NULL);
+
+		CMailModule* pMailModule = (CMailModule*)pTempObj->GetModuleByType(MT_MAIL);
+		ERROR_TO_CONTINUE(pMailModule != NULL);
+
+		pMailModule->DeleteMailByGroupID(uGuid);
+	}
+
+	return TRUE;
+}
+
 BOOL CMailManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 	BOOL bRet = LoadGroupMailData(tDBConnection);
@@ -146,7 +181,7 @@ BOOL CMailManager::ProcessRoleLogin(CPlayerObject* pPlayer)
 	for (auto itor = m_mapGroupMailData.begin(); itor != m_mapGroupMailData.end(); ++itor)
 	{
 		GroupMailDataObject* pGroupMailObject = itor->second;
-		ERROR_RETURN_FALSE(pGroupMailObject == NULL);
+		ERROR_RETURN_FALSE(pGroupMailObject != NULL);
 
 		if (pGroupMailObject->m_uTime > pRoleModule->GetGroupMailTime())
 		{

@@ -227,7 +227,7 @@ void CDBStoredProcedure::set_string(int idx_, char const* str_, size_t size)
 		pBind->buffer = realloc(pBind->buffer, size);
 	}
 
-	strncpy((char*)pBind->buffer, str_, size);
+	memcpy((char*)pBind->buffer, str_, size);
 	pBind->buffer_length = (unsigned long)size;
 	pBind->buffer_type = MYSQL_TYPE_STRING;
 	pBind->is_unsigned = 0;

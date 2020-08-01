@@ -35,6 +35,8 @@ public:
 
 	BOOL IsStop();
 
+	BOOL Update();
+
 	void DBWriteThread();
 public:
 	std::vector<DataWriterBase*> m_vtDataWriters;
@@ -42,6 +44,7 @@ public:
 	BOOL			m_Stop;
 	std::thread*	m_pWorkThread;
 	CDBConnection   m_DBConnection;
+	UINT32          m_nCurErrorCount;
 };
 
 #endif //_DB_WRITER_MANAGER_H_

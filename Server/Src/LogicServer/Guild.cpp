@@ -3,7 +3,7 @@
 #include "Guild.h"
 #include "GameService.h"
 #include "DataPool.h"
-
+#include "../Message/Game_Define.pb.h"
 
 CGuild::CGuild()
 {

@@ -39,7 +39,7 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 {
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 
-	snprintf(szSql, SQL_BUFF_LEN, "select * from player where account_id = %lld", u64AccountID);
+	snprintf(szSql, SQL_BUFF_LEN, "select * from player where accountid = %lld", u64AccountID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
 
@@ -90,7 +90,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 	pData->set_createtime(QueryRes.getInt64Field("createtime", 0));
 	pData->set_logontime(QueryRes.getInt64Field("logontime", 0));
 	pData->set_logofftime(QueryRes.getInt64Field("logofftime", 0));
-
+	pData->set_guildid(QueryRes.getInt64Field("guildid", 0));
 	return TRUE;
 }
 

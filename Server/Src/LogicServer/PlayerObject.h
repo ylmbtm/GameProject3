@@ -45,6 +45,8 @@ public:
 
 	BOOL		IsOnline();
 
+	BOOL        SetOnline(BOOL bOnline);
+
 	BOOL		NotifyChange();
 
 public:

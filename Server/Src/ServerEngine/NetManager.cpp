@@ -351,7 +351,11 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 {
 	ERROR_RETURN_NULL(hSocket != INVALID_SOCKET && hSocket != 0);
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	ERROR_RETURN_NULL(pConnection != NULL);
+	if (pConnection == NULL)
+	{
+		CommonSocket::CloseSocket(hSocket);
+		return FALSE;
+	}
 	pConnection->SetSocket(hSocket);
 	pConnection->SetDataHandler(m_pBufferHandler);
 	if(NULL == CreateIoCompletionPort((HANDLE)hSocket, m_hCompletePort, (ULONG_PTR)pConnection, 0))
@@ -375,6 +379,11 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 	ERROR_RETURN_NULL(hSocket != INVALID_SOCKET && hSocket != 0);
 
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
+	if (pConnection == NULL)
+	{
+		CommonSocket::CloseSocket(hSocket);
+		return NULL;
+	}
 
 	pConnection->SetSocket(hSocket);
 

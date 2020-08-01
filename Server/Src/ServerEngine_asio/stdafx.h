@@ -7,7 +7,6 @@
 #define __STDAFX_H__
 
 #include <stdio.h>
-
 #include <map>
 #include <vector>
 #include <string>
@@ -19,10 +18,10 @@
 #include <mutex>
 
 #include "Platform.h"
-
 #include "Log.h"
 #include "CommonFunc.h"
 #include "CommonConvert.h"
+#include "SpinLock.h"
 
 #endif
 

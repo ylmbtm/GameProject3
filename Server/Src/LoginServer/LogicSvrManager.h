@@ -29,11 +29,10 @@ enum EUpdateStatus
 
 enum EServerStatus
 {
-	ESS_SVR_NONE        = 0, //无
-	ESS_SVR_ONLINE      = 1, //正常
-	ESS_SVR_OFFLINE     = 2, //掉线
-	ESS_SVR_STARTING    = 3, //启动中
-	ESS_SVR_UPDATING    = 4, //更新中
+	ESS_SVR_OFFLINE     = 0, //掉线
+	ESS_SVR_ONLINE      = 1, //在线
+	ESS_SVR_STARTING    = 2, //启动中
+	ESS_SVR_UPDATING    = 3, //更新中
 };
 
 struct LogicServerNode
@@ -55,8 +54,9 @@ struct LogicServerNode
 		m_dwTotalNum    = 0;    //总注册人数
 		m_dwCacheNum    = 0;    //当前缓存人数
 		m_uSvrOpenTime  = 0;
+		m_dwErrorCnt    = 0;
 		m_eChangeStatus = EUS_NONE;
-		m_ServerStatus  = ESS_SVR_NONE;
+		m_ServerStatus  = ESS_SVR_OFFLINE;
 	}
 
 	BOOL CheckIP(UINT32 dwIPaddr);
@@ -87,6 +87,7 @@ struct LogicServerNode
 	UINT32      m_dwCurOnline;   //当前最大人数
 	UINT32      m_dwTotalNum;    //总注册人数
 	UINT32      m_dwCacheNum;    //当前缓存人数
+	UINT32      m_dwErrorCnt;    //数据库写失败次数
 
 	EUpdateStatus       m_eChangeStatus;
 
@@ -107,7 +108,7 @@ public:
 
 	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
 
-	BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, const std::string& strSvrName);
+	BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, UINT32 dwErrorCount, const std::string& strSvrName);
 
 	BOOL	IsReviewVersion(std::string strClientVersion);
 
@@ -128,8 +129,6 @@ public:
 	UINT32 m_dwRecommendSvrID;
 
 	std::set<std::string> m_setReviewVersion;
-
-	CppMySQL3DB 		m_DBConnection;
 
 	BOOL				m_IsRun;
 

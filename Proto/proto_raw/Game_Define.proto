@@ -102,7 +102,6 @@ enum EFunctionType{
     FUNC_END_ID = 150; //!功能ID结束标记
 }
 
-
 enum EAttrID{
     EA_HP            = 0;  //生命值
     EA_MP            = 1;  //魔法值
@@ -177,3 +176,21 @@ enum ECopyResult
 	ECR_DRAW    = 3;    //平局
 };
 
+enum EGuildPos
+{
+	EGP_MEMBER		= 0;
+	EGP_LEADER		= 1;
+	EGP_VICELEADER  = 2;
+}
+
+enum EMailType
+{
+	EMT_BEGIN		= 0;   //无效值
+	EMT_CUSTOM		= 1;   //自定义的邮件
+}
+
+enum EMailStatus
+{
+	EMS_NEWMAIL		= 0;   //新邮件
+	EMS_RECEIVED	= 1;   //奖励己领取
+}

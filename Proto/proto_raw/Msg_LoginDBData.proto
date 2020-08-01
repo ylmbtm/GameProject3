@@ -2,21 +2,22 @@ syntax = "proto3";
 
 message DBRoleData {
     uint64      AccountID    = 1;
-    uint64      RoleID        = 2;
-    int32       CarrerID    = 3;
+    uint64      RoleID       = 2;
+    int32       CarrerID     = 3;
     int32       Level        = 4;
-    int64       Exp            = 5;
-    string      Name        = 6;
-    int32       LangID        = 7;
+    int64       Exp          = 5;
+    string      Name         = 6;
+    int32       LangID       = 7;
     int32       VipLvl        = 8;
-    int32       VipExp        = 9;
-    int64       FightValue    = 10;
-    int32       CityCopyID    = 11;
-    repeated    int64 Action= 12;
-    repeated    int64 Actime= 13;
-    uint64      CreateTime    = 14;
+    int32       VipExp       = 9;
+    int64       FightValue   = 10;
+    int32       CityCopyID   = 11;
+    repeated    int64 Action = 12;
+    repeated    int64 Actime = 13;
+    uint64      CreateTime   = 14;
     uint64      LogonTime    = 15;
-    uint64      LogoffTime    = 16;
+    uint64      LogoffTime   = 16;
+    uint64      GuildID      = 17;
 }
 
 message DBBagItem {
@@ -164,8 +165,8 @@ message DBMailItem {
     uint32   MailType  = 7;
     uint32   Status    = 8;
     string   Title     = 9;   //邮件标题
-    string   Content   = 10;   //邮件内容
-    bytes    Items     = 11;   //邮件物品
+    string   Content   = 10;  //邮件内容
+    bytes    Items     = 11;  //邮件物品
 }
 
 message DBMailData {

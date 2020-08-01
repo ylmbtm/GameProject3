@@ -101,6 +101,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Message\Msg_Account.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Role.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\StaticData\StaticData.cpp" />
     <ClCompile Include="..\StaticData\CppSQLite3.cpp" />
     <ClCompile Include="..\Message\Game_Define.pb.cc">
@@ -174,6 +182,8 @@
     <ClCompile Include="TeamCopyMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Message\Msg_Account.pb.h" />
+    <ClInclude Include="..\Message\Msg_Role.pb.h" />
     <ClInclude Include="..\StaticData\StaticData.h" />
     <ClInclude Include="..\StaticData\ConfigDefine.h" />
     <ClInclude Include="..\StaticData\StaticStruct.h" />

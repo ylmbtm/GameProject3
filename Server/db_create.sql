@@ -99,10 +99,10 @@ DROP TABLE IF EXISTS `counter`;
 CREATE TABLE `counter`  (
   `id` int(11) NOT NULL,
   `roleid` bigint(20) NOT NULL,
-  `index` int(11) NOT NULL,
+  `cindex` int(11) NOT NULL,
   `time` bigint(20) NULL DEFAULT NULL,
   `value` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`, `roleid`, `index`) USING BTREE
+  PRIMARY KEY (`id`, `roleid`, `cindex`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -180,7 +180,10 @@ CREATE TABLE `guild_member`  (
 DROP TABLE IF EXISTS `mail`;
 CREATE TABLE `mail`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `groupid` bigint(20) NULL DEFAULT NULL COMMENT '群邮件的guid',
   `roleid` bigint(20) NOT NULL,
+  `mailtype` int(11) NULL DEFAULT NULL COMMENT '邮件类型',
+  `mailstatus` int(255) NULL DEFAULT NULL COMMENT '邮件状态',
   `senderid` bigint(20) NOT NULL,
   `sendername` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `mail_time` bigint(20) NOT NULL,
@@ -197,10 +200,11 @@ DROP TABLE IF EXISTS `mail_group`;
 CREATE TABLE `mail_group`  (
   `id` bigint(20) NOT NULL,
   `mail_time` bigint(20) NOT NULL,
-  `mail_type` int(11) NULL DEFAULT NULL,
+  `mailtype` int(11) NULL DEFAULT NULL,
   `channel` int(11) NULL DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `sender` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `itemdata` tinyblob NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -277,6 +281,7 @@ CREATE TABLE `player`  (
   `actime3` bigint(20) NULL DEFAULT NULL,
   `actime4` bigint(20) NULL DEFAULT NULL,
   `fightvalue` bigint(20) NULL DEFAULT NULL,
+  `isdelete` int(11) NOT NULL DEFAULT 0 COMMENT '删除标志',
   `createtime` bigint(20) NULL DEFAULT NULL,
   `logontime` bigint(20) NULL DEFAULT NULL,
   `logofftime` bigint(20) NULL DEFAULT NULL,

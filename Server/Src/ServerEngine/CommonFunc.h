@@ -21,6 +21,10 @@ BOOL			GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::strin
 
 BOOL			IsSameDay(UINT64 uTime);
 
+INT32           DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest);
+
+INT32           DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest);
+
 UINT64			GetCurrTime(); //获取当前的秒数
 
 UINT64			GetCurMsTime(); //获取当前的毫秒数

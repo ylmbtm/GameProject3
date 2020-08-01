@@ -32,6 +32,8 @@ BOOL CRoleModule::OnCreate(UINT64 u64RoleID)
 	m_pRoleDataObject->m_CityCopyID = pInfo->dwBornCity;
 
 	m_pRoleDataObject->m_uCreateTime = CommonFunc::GetCurrTime();
+	m_pRoleDataObject->m_uLogonTime = m_pRoleDataObject->m_uCreateTime;
+	m_pRoleDataObject->m_uLogoffTime = m_pRoleDataObject->m_uLogonTime;
 
 	m_pRoleDataObject->Unlock();
 
@@ -91,6 +93,10 @@ BOOL CRoleModule::OnLogout()
 
 BOOL CRoleModule::OnNewDay()
 {
+	m_pRoleDataObject->Lock();
+	m_pRoleDataObject->m_uLogoffTime = CommonFunc::GetCurrTime() + 1;
+	m_pRoleDataObject->Unlock();
+
 	return TRUE;
 }
 
@@ -105,10 +111,11 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->m_CarrerID = Ack.roledata().carrerid();
 	m_pRoleDataObject->m_Level = Ack.roledata().level();
 	m_pRoleDataObject->m_Exp = Ack.roledata().exp();
-	m_pRoleDataObject->m_VipLvl = Ack.roledata().viplvl();
-	m_pRoleDataObject->m_VipExp = Ack.roledata().vipexp();
+	m_pRoleDataObject->m_nVipLvl = Ack.roledata().viplvl();
+	m_pRoleDataObject->m_nVipExp = Ack.roledata().vipexp();
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
 	m_pRoleDataObject->m_CityCopyID = Ack.roledata().citycopyid();
+	m_pRoleDataObject->m_uGuildID = Ack.roledata().guildid();
 	m_pRoleDataObject->m_uCreateTime = Ack.roledata().createtime();
 	m_pRoleDataObject->m_uLogonTime = Ack.roledata().logontime();
 	m_pRoleDataObject->m_uLogoffTime = Ack.roledata().logofftime();
@@ -150,8 +157,8 @@ BOOL CRoleModule::SaveToClientLoginData(RoleLoginAck& Ack)
 	Ack.set_carrer(m_pRoleDataObject->m_CarrerID);
 	Ack.set_fightvalue(m_pRoleDataObject->m_u64Fight);
 	Ack.set_exp(m_pRoleDataObject->m_Exp);
-	Ack.set_viplvl(m_pRoleDataObject->m_VipLvl);
-	Ack.set_vipexp(m_pRoleDataObject->m_VipExp);
+	Ack.set_viplvl(m_pRoleDataObject->m_nVipLvl);
+	Ack.set_vipexp(m_pRoleDataObject->m_nVipExp);
 	for(int i = 0; i < ACTION_NUM; i++)
 	{
 		ActionItem* pItem = Ack.add_actionlist();
@@ -352,7 +359,7 @@ INT32 CRoleModule::GetLevel()
 
 INT32 CRoleModule::GetVipLevel()
 {
-	return m_pRoleDataObject->m_VipLvl;
+	return m_pRoleDataObject->m_nVipLvl;
 }
 
 CHAR* CRoleModule::GetName()
@@ -404,9 +411,25 @@ UINT64 CRoleModule::AddExp( INT32 nExp )
 
 UINT64 CRoleModule::GetLastLogoffTime()
 {
-	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
+	ERROR_RETURN_VALUE(m_pRoleDataObject != NULL, 0);
 
 	return m_pRoleDataObject->m_uLogoffTime;
+}
+
+BOOL CRoleModule::SetLastLogoffTime(UINT64 uTime)
+{
+	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
+
+	m_pRoleDataObject->m_uLogoffTime = uTime;
+
+	return TRUE;
+}
+
+UINT64 CRoleModule::GetLastLogonTime()
+{
+	ERROR_RETURN_VALUE(m_pRoleDataObject != NULL, 0);
+
+	return m_pRoleDataObject->m_uLogonTime;
 }
 
 VOID CRoleModule::SetGroupMailTime(UINT64 uTime)

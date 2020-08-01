@@ -3,6 +3,7 @@
 #include "../Message/Msg_LoginDBData.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "DBInterface/CppMysql.h"
+#include "../Message/Msg_Role.pb.h"
 
 class CDBManager
 {

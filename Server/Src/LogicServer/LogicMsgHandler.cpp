@@ -17,6 +17,8 @@
 #include "MsgHandlerManager.h"
 #include "LoginCodeMgr.h"
 #include "GameLogManager.h"
+#include "../Message/Msg_Role.pb.h"
+#include "../Message/Msg_Account.pb.h"
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -37,6 +39,8 @@ BOOL CLogicMsgHandler::Init(UINT32 dwReserved)
 
 BOOL CLogicMsgHandler::Uninit()
 {
+	CPlayerManager::GetInstancePtr()->ReleaseAll();
+
 	return TRUE;
 }
 
@@ -204,6 +208,8 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	CRoleModule* pRoleModule = (CRoleModule*)pPlayer->GetModuleByType(MT_ROLE);
 	pRoleModule->InitBaseData(u64RoleID, Req.name(), Req.carrer(), Req.accountid(), Req.channel());
 	pPlayer->OnCreate(u64RoleID);
+
+	CGameLogManager::GetInstancePtr()->LogRoleCreate(pPlayer);
 
 	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_roleid(u64RoleID);
@@ -485,6 +491,8 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
+
+	RoleReconnectAck Ack;
 	if(pPlayer == NULL)
 	{
 		//重连失败，请重新登录

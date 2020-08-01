@@ -73,8 +73,11 @@ BOOL CNetManager::Stop()
 BOOL CNetManager::WaitForConnect()
 {
 	CConnection* pConnection = CConnectionMgr::GetInstancePtr()->CreateConnection();
-	ERROR_RETURN_FALSE(pConnection != NULL);
-
+	if (pConnection == NULL)
+	{
+		return FALSE;
+	}
+	pConnection->SetDataHandler(m_pBufferHandler);
 	m_pAcceptor->async_accept(pConnection->GetSocket(), boost::bind(&CNetManager::HandleAccept, this,  pConnection, boost::asio::placeholders::error));
 
 	return TRUE;
@@ -82,8 +85,6 @@ BOOL CNetManager::WaitForConnect()
 
 CConnection* CNetManager::ConnectTo_Sync(std::string strIpAddr, UINT16 sPort)
 {
-
-
 	return NULL;
 }
 
@@ -103,7 +104,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 	boost::asio::ip::tcp::resolver resolver(m_IoService);
 	boost::asio::ip::tcp::resolver::query query(strIpAddr, CommonConvert::IntToString(sPort));
 	boost::asio::ip::tcp::resolver::iterator enditor = resolver.resolve(query);
-
+	pConnection->SetDataHandler(m_pBufferHandler);
 	boost::asio::async_connect(pConnection->GetSocket(), enditor, boost::bind(&CNetManager::HandleConnect, this, pConnection, boost::asio::placeholders::error));
 
 	return pConnection;
@@ -133,14 +134,14 @@ void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::er
 		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
-
-		WaitForConnect();
 	}
 	else
 	{
 		pConnection->Close();
 		//这里是监听出错，需要处理．
 	}
+
+	WaitForConnect();
 
 	return ;
 }

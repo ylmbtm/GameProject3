@@ -107,13 +107,6 @@ enum EActivtyType
 	ACT_DISCOUNT_SALE = 5,
 };
 
-enum EGuildPos
-{
-	EGP_MEMBER		= 0,
-	EGP_LEADER		= 1,
-	EGP_VICELEADER  = 2,
-};
-
 enum ERoleProperty
 {
 	ERP_ID = 1,
