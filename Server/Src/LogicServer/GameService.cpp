@@ -451,7 +451,7 @@ BOOL CGameService::ReportServerStatus()
 
 	static INT32 nCount = 30;
 	nCount++;
-	if (nCount < 60)
+	if (nCount < 59)
 	{
 		return TRUE;
 	}

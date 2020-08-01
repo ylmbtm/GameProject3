@@ -38,8 +38,9 @@ message AccountLoginReq {
     string    AccountName    = 1;
     string    Password       = 2;
     int32     Channel        = 3;
-    uint32    FromChannel    = 4;
-    AccountLog LoginLog      = 5;
+    bool      FromChannel    = 4;
+    bool      Review         = 5; 
+    AccountLog LoginLog      = 6;
 }
 
 message AccountLoginAck {
@@ -47,12 +48,15 @@ message AccountLoginAck {
     uint64    AccountID      = 2;
     int32     LastSvrID      = 3;  //上次登录SvrID
     string    LastSvrName    = 4;
+    bool      Review         = 5; 
+    int32     Channel        = 6;
 }
 
 message ClientServerListReq {
     uint64    AccountID      = 1;
     int32     Channel        = 2; //渠道包
-    string    ClientVersion  = 3; //客户端版本号
+    string    Version        = 3; //客户端版本号
+    bool      Review         = 4; 
 }
 
 message ClientServerNode {

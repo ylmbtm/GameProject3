@@ -304,12 +304,21 @@ INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
 
 INT32 CommonFunc::DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest)
 {
+#ifdef WIN32
 	if (uTimeSrc > uTimeDest)
 	{
 		return (INT32)((uTimeSrc - _timezone) / 86400 - (uTimeDest - _timezone) / 86400);
 	}
 
 	return (INT32)((uTimeDest - _timezone) / 86400 - (uTimeSrc - _timezone) / 86400);
+#else
+	if (uTimeSrc > uTimeDest)
+	{
+		return (INT32)((uTimeSrc - timezone) / 86400 - (uTimeDest - timezone) / 86400);
+	}
+
+	return (INT32)((uTimeDest - timezone) / 86400 - (uTimeSrc - timezone) / 86400);
+#endif
 }
 
 UINT32 CommonFunc::GetCurThreadID()

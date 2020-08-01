@@ -84,7 +84,6 @@ BOOL CCounterModule::NotifyChange()
 	return TRUE;
 }
 
-
 CounterDataObject* CCounterModule::GetCounterData(UINT32 uID, UINT32 dwIndex, BOOL bCreate)
 {
 	ERROR_RETURN_FALSE(uID > 0);
