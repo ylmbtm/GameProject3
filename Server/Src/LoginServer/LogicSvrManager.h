@@ -17,6 +17,7 @@ enum ECornerMark
 {
 	ECM_NONE = 0,//无
 	ECM_NEW = 1, //新服
+	ECM_SURGEST = 2,//推荐
 };
 
 enum EUpdateStatus
@@ -110,25 +111,17 @@ public:
 
 	BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, UINT32 dwErrorCount, const std::string& strSvrName);
 
-	BOOL	IsReviewVersion(std::string strClientVersion);
-
 	BOOL	ReloadServerList(UINT32 dwServerID = 0);
-
-	BOOL	ReloadReviewVersion();
 
 	BOOL    SaveLogicServerThread();
 
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 
-	LogicServerNode* GetRecommendServerInfo();
+	LogicServerNode* GetSuggestServer(BOOL bReview, UINT32 dwChannel, UINT32 dwIpaddr);
 
 	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
 
 	BOOL    OnCloseConnect(UINT32 dwConnID);
-public:
-	UINT32 m_dwRecommendSvrID;
-
-	std::set<std::string> m_setReviewVersion;
 
 	BOOL				m_IsRun;
 

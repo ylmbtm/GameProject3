@@ -2,30 +2,19 @@
 #include "LogicSvrManager.h"
 #include "CommonSocket.h"
 
-
-
 LogicSvrManager::LogicSvrManager(void)
 {
-	m_dwRecommendSvrID = 0;
-
 	m_IsRun = FALSE;
 }
 
 LogicSvrManager::~LogicSvrManager(void)
 {
 	m_IsRun = FALSE;
-
-	m_setReviewVersion.clear();
 }
 
 BOOL LogicSvrManager::Init()
 {
 	if(!ReloadServerList())
-	{
-		return FALSE;
-	}
-
-	if(!ReloadReviewVersion())
 	{
 		return FALSE;
 	}
@@ -178,33 +167,61 @@ BOOL LogicSvrManager::OnCloseConnect(UINT32 dwConnID)
 	return TRUE;
 }
 
-LogicServerNode* LogicSvrManager::GetRecommendServerInfo()
+LogicServerNode* LogicSvrManager::GetSuggestServer(BOOL bReview, UINT32 dwChannel, UINT32 dwIpaddr)
 {
-	LogicServerNode* pNode = GetLogicServerInfo(m_dwRecommendSvrID);
-	if(pNode == NULL)
+	LogicServerNode* pMaxAvalible = NULL;
+	LogicServerNode* pMaxSuggest  = NULL;
+
+	for(auto itor = begin(); itor != end(); itor++)
 	{
-		for(auto itor = begin(); itor != end(); itor++)
+		LogicServerNode* pNode = itor->second;
+		if (pNode->m_ServerStatus != ESS_SVR_ONLINE)
 		{
-			LogicServerNode* pNode = itor->second;
-			if (pNode->m_dwServerID != 0)
+			continue;
+		}
+
+		if (bReview)
+		{
+			if (pNode->m_ServerFlag != ESF_REVIEW)
 			{
-				return pNode;
+				continue;
 			}
+		}
+		else
+		{
+			if (pNode->m_ServerFlag != ESF_GOOD && pNode->m_ServerFlag != ESF_NONE)
+			{
+				continue;
+			}
+
+			if (!pNode->CheckChannel(dwChannel))
+			{
+				continue;
+			}
+		}
+
+		if (pMaxAvalible == NULL || pMaxAvalible->m_dwServerID < pNode->m_dwServerID)
+		{
+			pMaxAvalible = pNode;
+		}
+
+		if (pNode->m_CornerMark != ECM_SURGEST)
+		{
+			continue;
+		}
+
+		if (pMaxSuggest == NULL || pMaxSuggest->m_dwServerID == pNode->m_dwServerID)
+		{
+			pMaxSuggest = pNode;
 		}
 	}
 
-	return pNode;
-}
-
-BOOL LogicSvrManager::IsReviewVersion(std::string strPackageName)
-{
-	if(m_setReviewVersion.find(strPackageName) == m_setReviewVersion.end())
+	if (pMaxSuggest != NULL)
 	{
-		return FALSE;
+		return pMaxSuggest;
 	}
 
-	return TRUE;
-
+	return pMaxAvalible;
 }
 
 BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
@@ -318,37 +335,6 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 
 	return TRUE;
 }
-
-BOOL LogicSvrManager::ReloadReviewVersion()
-{
-	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
-	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
-	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
-	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
-
-	CppMySQL3DB tDBConnection;
-	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
-	{
-		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
-		return FALSE;
-	}
-
-	m_setReviewVersion.clear();
-	CppMySQLQuery QueryResult = tDBConnection.querySQL("select * from review_client");
-	while(!QueryResult.eof())
-	{
-		UINT32 dwID = QueryResult.getIntField("id");
-		std::string strVersion = QueryResult.getStringField("client_version");
-
-		m_setReviewVersion.insert(strVersion);
-
-		QueryResult.nextRow();
-	}
-
-	return TRUE;
-}
-
 
 BOOL LogicSvrManager::SaveLogicServerThread()
 {

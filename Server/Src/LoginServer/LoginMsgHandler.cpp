@@ -99,6 +99,7 @@ BOOL CLoginMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket )
 	Req.mutable_reglog()->set_ipaddr(pConnection->GetIpAddr());
 
 	CGameService::GetInstancePtr()->SendCmdToAccountConnection(MSG_ACCOUNT_REG_REQ, 0, nConnID, Req);
+
 	return TRUE;
 }
 
@@ -129,15 +130,18 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 
 	CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_dwConnID);
 	ERROR_RETURN_TRUE(pConn != NULL);
-	UINT32 dwIpAddr = pConn->m_dwIpAddr;
+	UINT32 dwIpAddr = pConn->GetIpAddr();
 
 	ClientServerListAck Ack;
+
+	//是否是评审服包
+	BOOL bReviewClient = Req.review();
 
 	for(auto itor = m_LogicSvrMgr.begin(); itor != m_LogicSvrMgr.end(); itor++)
 	{
 		LogicServerNode* pTempNode = itor->second;
 		//如果是评审包
-		if(m_LogicSvrMgr.IsReviewVersion(Req.clientversion()))
+		if(bReviewClient)
 		{
 			if(pTempNode->m_ServerFlag != ESF_REVIEW)
 			{
@@ -146,28 +150,28 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		}
 		else
 		{
-			if (pTempNode->m_ServerFlag == ESF_REVIEW)
+			if (pTempNode->m_ServerFlag == ESF_REVIEW || pTempNode->m_ServerFlag == ESF_SHUTDOWN)
 			{
 				continue;
 			}
-		}
 
-		if(!pTempNode->CheckIP(dwIpAddr))
-		{
-			//需要检测IP
-			continue;
-		}
+			if (!pTempNode->CheckIP(dwIpAddr))
+			{
+				//需要检测IP
+				continue;
+			}
 
-		if(!pTempNode->CheckChannel(Req.channel()))
-		{
-			//需要检测渠道
-			continue;
-		}
+			if (!pTempNode->CheckChannel(Req.channel()))
+			{
+				//需要检测渠道
+				continue;
+			}
 
-		if(!pTempNode->CheckVersion(Req.clientversion()))
-		{
-			//需要检测版本
-			continue;
+			if (!pTempNode->CheckVersion(Req.version()))
+			{
+				//需要检测版本
+				continue;
+			}
 		}
 
 		ClientServerNode* pClientNode =  Ack.add_svrnode();
@@ -247,7 +251,7 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket* pPacket )
 	LogicServerNode* pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.lastsvrid());
 	if(pNode == NULL)
 	{
-		pNode = m_LogicSvrMgr.GetRecommendServerInfo();
+		pNode = m_LogicSvrMgr.GetSuggestServer(Ack.review(), Ack.channel(), 0);
 	}
 
 	if(pNode == NULL)
