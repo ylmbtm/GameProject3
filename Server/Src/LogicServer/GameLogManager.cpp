@@ -28,6 +28,7 @@ BOOL CGameLogManager::LogRoleCreate(CPlayerObject* pPlayer)
 	log.m_uID = pPlayer->GetRoleID();
 	log.m_uAccountID = pPlayer->GetAccountID();
 	strncpy(log.m_szRoleName, pPlayer->GetName(), 63);
+	log.m_dwAreaID = CGameService::GetInstancePtr()->GetServerID();
 	log.m_uOpTime = CommonFunc::GetCurrTime();
 	log.m_dwChannel = 1;
 	log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));

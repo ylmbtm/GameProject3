@@ -35,16 +35,18 @@ BOOL CGlobalDataManager::LoadData(CppMySQL3DB& tDBConnection)
 		dwMaxOnline = QueryResult.getIntField("maxonline");
 	}
 
-	if(dwMaxGuid == 0)
+	if(dwMaxGuid <= 0)
 	{
 		dwMaxGuid  =  CGameService::GetInstancePtr()->GetServerID();
 		dwMaxGuid = (dwMaxGuid << 48) + 1;
 	}
 	dwMaxGuid += 100;
 	m_pGlobalDataObject = DataPool::CreateObject<GlobalDataObject>(ESD_GLOBAL, FALSE);
+	m_pGlobalDataObject->Lock();
 	m_pGlobalDataObject->m_dwServerID = CGameService::GetInstancePtr()->GetServerID();
 	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;
 	m_pGlobalDataObject->m_dwMaxOnline = dwMaxOnline;
+	m_pGlobalDataObject->Unlock();
 
 	return TRUE;
 }

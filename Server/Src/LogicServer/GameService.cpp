@@ -474,8 +474,6 @@ BOOL CGameService::ReportServerStatus()
 	Req.set_dberrcnt(m_dwDbErrorCount);                                      //db写错误数
 
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_UPDATE_REQ, 0, 0, Req);
-
-	return TRUE;
 }
 
 BOOL CGameService::OnMsgRegToLoginAck(NetPacket* pNetPacket)

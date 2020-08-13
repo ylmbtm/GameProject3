@@ -27,7 +27,6 @@ public:
 
 public:
 	BOOL LogRoleCreate(CPlayerObject* pPlayer);
-
 	BOOL LogRoleLogin(CPlayerObject* pPlayer);
 };
 
