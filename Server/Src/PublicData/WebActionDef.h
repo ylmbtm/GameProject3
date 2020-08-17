@@ -20,6 +20,7 @@ enum EWebAction
 	EWA_KICKOFF_PLAYER,         //踢玩家下线
 	EWA_PAY_CALLBACK,           //充值回调通知
 	EWA_DELTE_MAIL,             //删除邮件
+	EWA_NOTICE_POPUP,           //游戏弹窗公告
 };
 
 

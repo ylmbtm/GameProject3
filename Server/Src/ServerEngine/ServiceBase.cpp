@@ -54,7 +54,7 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 
 	m_pPacketDispatcher = pDispather;
 
-	if (!CNetManager::GetInstancePtr()->Start(nPortNum, nMaxConn, this))
+	if (!CNetManager::GetInstancePtr()->Start(nPortNum, nMaxConn, this, strListenIp))
 	{
 		CLog::GetInstancePtr()->LogError("启动网络层失败!");
 		return FALSE;

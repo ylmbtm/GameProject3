@@ -280,7 +280,7 @@ BOOL CProxyMsgHandler::OnMsgRoleLogoutReq(NetPacket* pPacket)
 
 	RelayToLogicServer(pPacket->m_pDataBuffer);
 
-	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_dwConnID);
 	ERROR_RETURN_TRUE(pConnection != NULL);
 	pConnection->SetConnectionData(0);
 	return TRUE;

@@ -76,6 +76,20 @@ UINT32 CommonSocket::NetToHost(UINT32 nValue)
 	return ntohl(nValue);
 }
 
+VOID CommonSocket::IgnoreSignal()
+{
+#ifdef WIN32
+
+#else
+	struct sigaction sig;
+	sigemptyset(&sig.sa_mask);
+	sig.sa_flags = 0;
+	sig.sa_handler = SIG_IGN;
+	sigaction(SIGPIPE, &sig, 0);
+	sigaction(SIGHUP, &sig, 0);
+#endif
+}
+
 BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
 	int bOn = 1;
@@ -97,6 +111,8 @@ BOOL   CommonSocket::InitNetwork()
 	{
 		return FALSE;
 	}
+#else
+	IgnoreSignal();
 #endif
 	return TRUE;
 }

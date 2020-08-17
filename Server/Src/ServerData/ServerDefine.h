@@ -112,6 +112,8 @@ enum ERoleProperty
 	ERP_ID = 1,
 	ERP_LEVEL,
 	ERP_VIPLEVEL,
+	ERP_EXP,
+	ERP_CHANNEL,
 };
 
 #endif //__SERVER_STRUCT_H__

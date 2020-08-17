@@ -15,10 +15,8 @@ BOOL		SetSocketNoDelay(SOCKET hSocket);
 
 BOOL		SetSocketKeepAlive( SOCKET hSocket, int nKeepInterval, int nKeepCount, int nKeepIdle );
 
-//初始化网络
 BOOL		InitNetwork();
 
-//反初始化网络
 BOOL		UninitNetwork();
 
 SOCKET		CreateSocket( int af = AF_INET, int type = SOCK_STREAM, int protocol = 0);
@@ -33,16 +31,12 @@ INT32		GetSocketLastError();
 
 BOOL		IsSocketValid(SOCKET hSocket);
 
-//关闭套接字发送
 void		ShutDownSend(SOCKET hSocket);
 
-//关闭套接字接收
 void		ShutDownRecv(SOCKET hSocket);
 
-//关闭套接字
 void		CloseSocket(SOCKET hSocket);
 
-//取本机IP地址
 std::string GetLocalIP();
 
 UINT32		IpAddrStrToInt(CHAR* pszIpAddr);
@@ -58,6 +52,8 @@ std::string GetRemoteIP(SOCKET hSocket);
 UINT32      HostToNet(UINT32 nValue);
 
 UINT32      NetToHost(UINT32 nValue);
+
+VOID        IgnoreSignal();
 
 #ifdef WIN32
 BOOL		ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
