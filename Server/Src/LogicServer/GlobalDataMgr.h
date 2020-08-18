@@ -15,6 +15,7 @@ public:
 	UINT64 MakeNewGuid();
 
 	VOID   SetMaxOnline(INT32 nNum);
+
 	UINT32 GetMaxOnline();
 
 	BOOL   SetDataChange();

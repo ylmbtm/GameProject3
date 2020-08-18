@@ -123,36 +123,79 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 {
 	ERROR_RETURN_FALSE((NULL != m_pMySql) && (pDBStoredProcedure != NULL) && (pDBStoredProcedure->m_pMybind != NULL));
 
-	MYSQL_STMT* pMySqlStmt = mysql_stmt_init(m_pMySql);
-	if(pMySqlStmt == NULL)
+	static CDBStoredProcedure* pLastProcedure = NULL;
+	static MYSQL_STMT* pLastStmt = NULL;
+
+	if (pLastProcedure != NULL && pLastStmt != NULL)
 	{
-		m_nErrno = mysql_errno( m_pMySql );
-		m_strError = mysql_error( m_pMySql );
-		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+		//如果是同一个存储需求，则直接用上一次的预处理
+		if (pLastProcedure == pDBStoredProcedure)
+		{
+			if (0 == mysql_stmt_execute(pLastStmt))
+			{
+				return TRUE;
+			}
+
+			m_nErrno = mysql_errno(m_pMySql);
+			m_strError = mysql_error(m_pMySql);
+
+			CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, StmtErrNo:%d, StmtErrStr:%s",
+			                                 m_nErrno, m_strError.c_str(),
+			                                 mysql_stmt_errno(pLastStmt),
+			                                 mysql_stmt_error(pLastStmt));
+
+			CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+
+			mysql_stmt_close(pLastStmt);
+			pLastStmt = NULL;
+			pLastProcedure = NULL;
+			return FALSE;
+		}
+		else
+		{
+			if (pLastStmt != NULL)
+			{
+				mysql_stmt_close(pLastStmt);
+				pLastStmt = NULL;
+			}
+
+			pLastProcedure = NULL;
+		}
+	}
+
+
+	MYSQL_STMT* pMySqlStmt = mysql_stmt_init(m_pMySql);
+	if (pMySqlStmt == NULL)
+	{
+		m_nErrno = mysql_errno(m_pMySql);
+		m_strError = mysql_error(m_pMySql);
+		CLog::GetInstancePtr()->LogError("ExecuteWrite2 Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+		CLog::GetInstancePtr()->LogError("ExecuteWrite2 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
 		return FALSE;
 	}
 
-	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
+	if (0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
 	{
-		m_nErrno = mysql_errno( m_pMySql );
-		m_strError = mysql_error( m_pMySql );
-		mysql_stmt_close( pMySqlStmt );
+		m_nErrno = mysql_errno(m_pMySql);
+		m_strError = mysql_error(m_pMySql);
+		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
-		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
-
+		CLog::GetInstancePtr()->LogError("ExecuteWrite3 Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+		CLog::GetInstancePtr()->LogError("ExecuteWrite3 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
 		return FALSE;
 	}
 
 	my_bool _bl = 1;
-	mysql_stmt_attr_set( pMySqlStmt, STMT_ATTR_UPDATE_MAX_LENGTH, &_bl );
+	mysql_stmt_attr_set(pMySqlStmt, STMT_ATTR_UPDATE_MAX_LENGTH, &_bl);
 
-	if(mysql_stmt_param_count( pMySqlStmt ) != pDBStoredProcedure->m_nCount)
+	if (mysql_stmt_param_count(pMySqlStmt) != pDBStoredProcedure->m_nCount)
 	{
-		m_nErrno = mysql_errno( m_pMySql );
-		m_strError = mysql_error( m_pMySql );
-		mysql_stmt_close( pMySqlStmt );
+		m_nErrno = mysql_errno(m_pMySql);
+		m_strError = mysql_error(m_pMySql);
+		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
-		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_param_count], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+		CLog::GetInstancePtr()->LogError("ExecuteWrite4 Failed [mysql_stmt_param_count], ParamCount not equal ProcedureCount!");
+		CLog::GetInstancePtr()->LogError("ExecuteWrite4 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
 		return FALSE;
 	}
 
@@ -160,68 +203,151 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno(m_pMySql);
 		m_strError = mysql_error(m_pMySql);
+		CLog::GetInstancePtr()->LogError("ExecuteWrite5 Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+		CLog::GetInstancePtr()->LogError("ExecuteWrite5 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
 		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
 		return FALSE;
 	}
 
-	if (0 != mysql_stmt_execute( pMySqlStmt ))
+	if (0 != mysql_stmt_execute(pMySqlStmt))
 	{
-		m_nErrno = mysql_errno( m_pMySql );
-		m_strError = mysql_error( m_pMySql );
-		mysql_stmt_close( pMySqlStmt );
-		pMySqlStmt = NULL;
-		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+		m_nErrno = mysql_errno(m_pMySql);
+		m_strError = mysql_error(m_pMySql);
+
+
+		CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, StmtErrNo:%d, StmtErrStr:%s",
+		                                 m_nErrno, m_strError.c_str(),
+		                                 mysql_stmt_errno(pMySqlStmt),
+		                                 mysql_stmt_error(pMySqlStmt));
+
+		CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+
+		//mysql_stmt_close(pMySqlStmt);
+		//pMySqlStmt = NULL;
 		return FALSE;
 	}
 
-	// 检查是否有结果集
-	MYSQL_RES* pMySqlResult = mysql_stmt_result_metadata( pMySqlStmt );
-	if(pMySqlResult == NULL)
-	{
-		mysql_stmt_close( pMySqlStmt );
-		pMySqlStmt = NULL;
-		return TRUE;
-	}
-
-	unsigned int server_status = m_pMySql->server_status;
-
-	if ( server_status & SERVER_PS_OUT_PARAMS )
-	{
-		mysql_stmt_store_result( pMySqlStmt );
-		pDBStoredProcedure->m_DBRecordSet.InitRecordSet(pMySqlStmt, pMySqlResult);
-	}
-	else
-	{
-		//zm :走到这里来，是不应该的， 更新存储过程最多可能带参数，不允许返回结果集
-		mysql_stmt_store_result( pMySqlStmt );
-		mysql_free_result( pMySqlResult );
-		mysql_stmt_free_result( pMySqlStmt );
-
-		while ( 0 == mysql_stmt_next_result( pMySqlStmt ) )
-		{
-			pMySqlResult = mysql_stmt_result_metadata( pMySqlStmt );
-			if ( NULL != pMySqlResult )
-			{
-				server_status = m_pMySql->server_status;
-				mysql_stmt_store_result( pMySqlStmt );
-				mysql_free_result( pMySqlResult );
-				mysql_stmt_free_result( pMySqlStmt );
-				if ( server_status & SERVER_PS_OUT_PARAMS )
-				{
-					//此调用存储存在返回参数值，请检查sql语句和存储过程实现!
-					break;
-				}
-				else
-				{
-					//执行查询操作不应该返回任何结果集，请检查sql语句和存储过程实现!
-				}
-			}
-		}
-	}
+	pLastProcedure = pDBStoredProcedure;
+	pLastStmt = pMySqlStmt;
 
 	return TRUE;
 }
+
+// BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
+// {
+// 	ERROR_RETURN_FALSE((NULL != m_pMySql) && (pDBStoredProcedure != NULL));
+//
+// 	MYSQL_STMT* pMySqlStmt = mysql_stmt_init(m_pMySql);
+// 	if(pMySqlStmt == NULL)
+// 	{
+// 		m_nErrno = mysql_errno( m_pMySql );
+// 		m_strError = mysql_error( m_pMySql );
+// 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+// 		return FALSE;
+// 	}
+//
+// 	if(0 != mysql_stmt_prepare(pMySqlStmt, pDBStoredProcedure->m_strSql.c_str(), (unsigned long)pDBStoredProcedure->m_strSql.size()))
+// 	{
+// 		m_nErrno = mysql_errno( m_pMySql );
+// 		m_strError = mysql_error( m_pMySql );
+// 		mysql_stmt_close( pMySqlStmt );
+// 		pMySqlStmt = NULL;
+// 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+//
+// 		return FALSE;
+// 	}
+//
+// 	my_bool _bl = 1;
+// 	mysql_stmt_attr_set( pMySqlStmt, STMT_ATTR_UPDATE_MAX_LENGTH, &_bl );
+//
+// 	if(mysql_stmt_param_count( pMySqlStmt ) != pDBStoredProcedure->m_nCount)
+// 	{
+// 		m_nErrno = mysql_errno( m_pMySql );
+// 		m_strError = mysql_error( m_pMySql );
+// 		mysql_stmt_close( pMySqlStmt );
+// 		pMySqlStmt = NULL;
+// 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_param_count], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+// 		return FALSE;
+// 	}
+//
+// 	if(pDBStoredProcedure->m_pMybind != NULL)
+// 	{
+// 		if ( 0 != mysql_stmt_bind_param( pMySqlStmt, pDBStoredProcedure->m_pMybind ) )
+// 		{
+// 			m_nErrno = mysql_errno( m_pMySql );
+// 			m_strError = mysql_error( m_pMySql );
+// 			mysql_stmt_close( pMySqlStmt );
+// 			pMySqlStmt = NULL;
+// 			CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+// 			return FALSE;
+// 		}
+// 	}
+//
+// 	if(pMySqlStmt == NULL)
+// 	{
+// 		m_nErrno = mysql_errno( m_pMySql );
+// 		m_strError = mysql_error( m_pMySql );
+// 		return FALSE;
+// 	}
+//
+// 	if (0 != mysql_stmt_execute( pMySqlStmt ))
+// 	{
+// 		m_nErrno = mysql_errno( m_pMySql );
+// 		m_strError = mysql_error( m_pMySql );
+// 		mysql_stmt_close( pMySqlStmt );
+// 		pMySqlStmt = NULL;
+// 		CLog::GetInstancePtr()->LogError("CDBConnection::Execute Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, Sql:%s", m_nErrno, m_strError.c_str(), pDBStoredProcedure->m_strSql.c_str());
+// 		return FALSE;
+// 	}
+//
+// 	// 检查是否有结果集
+// 	MYSQL_RES* pMySqlResult = mysql_stmt_result_metadata( pMySqlStmt );
+// 	if(pMySqlResult == NULL)
+// 	{
+// 		mysql_stmt_close( pMySqlStmt );
+// 		pMySqlStmt = NULL;
+// 		return TRUE;
+// 	}
+//
+// 	unsigned int server_status = m_pMySql->server_status;
+//
+// 	if ( server_status & SERVER_PS_OUT_PARAMS )
+// 	{
+// 		mysql_stmt_store_result( pMySqlStmt );
+// 		pDBStoredProcedure->m_DBRecordSet.InitRecordSet(pMySqlStmt, pMySqlResult);
+// 	}
+// 	else
+// 	{
+// 		//zm :走到这里来，是不应该的， 更新存储过程最多可能带参数，不允许返回结果集
+// 		mysql_stmt_store_result( pMySqlStmt );
+// 		mysql_free_result( pMySqlResult );
+// 		mysql_stmt_free_result( pMySqlStmt );
+//
+// 		while ( 0 == mysql_stmt_next_result( pMySqlStmt ) )
+// 		{
+// 			pMySqlResult = mysql_stmt_result_metadata( pMySqlStmt );
+// 			if ( NULL != pMySqlResult )
+// 			{
+// 				server_status = m_pMySql->server_status;
+// 				mysql_stmt_store_result( pMySqlStmt );
+// 				mysql_free_result( pMySqlResult );
+// 				mysql_stmt_free_result( pMySqlStmt );
+// 				if ( server_status & SERVER_PS_OUT_PARAMS )
+// 				{
+// 					//此调用存储存在返回参数值，请检查sql语句和存储过程实现!
+// 					break;
+// 				}
+// 				else
+// 				{
+// 					//执行查询操作不应该返回任何结果集，请检查sql语句和存储过程实现!
+// 				}
+// 			}
+// 		}
+// 	}
+//
+// 	return TRUE;
+// }
 
 // query.
 BOOL CDBConnection::Query(CDBStoredProcedure* pDBStoredProcedure)

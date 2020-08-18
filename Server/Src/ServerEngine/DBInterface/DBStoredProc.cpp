@@ -36,6 +36,7 @@ CDBStoredProcedure::~CDBStoredProcedure( void )
 // set bool value.
 void CDBStoredProcedure::set_bool( int idx_, bool bval_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -52,6 +53,7 @@ void CDBStoredProcedure::set_bool( int idx_, bool bval_ )
 // set int8 value.
 void CDBStoredProcedure::set_int8(int idx_, int8 i8_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -68,6 +70,7 @@ void CDBStoredProcedure::set_int8(int idx_, int8 i8_ )
 // set uint8 value.
 void CDBStoredProcedure::set_uint8(int idx_, uint8 ui8_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -84,6 +87,7 @@ void CDBStoredProcedure::set_uint8(int idx_, uint8 ui8_ )
 // set int16 value.
 void CDBStoredProcedure::set_int16(int idx_, int16 i16_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -100,6 +104,7 @@ void CDBStoredProcedure::set_int16(int idx_, int16 i16_ )
 // set uint16 value.
 void CDBStoredProcedure::set_uint16(int idx_, uint16 ui16_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -116,6 +121,7 @@ void CDBStoredProcedure::set_uint16(int idx_, uint16 ui16_ )
 // set int32 value.
 void CDBStoredProcedure::set_int32(int idx_, int32 i32_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -132,6 +138,7 @@ void CDBStoredProcedure::set_int32(int idx_, int32 i32_ )
 // set uint32 value.
 void CDBStoredProcedure::set_uint32(int idx_, uint32 ui32_)
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -148,6 +155,7 @@ void CDBStoredProcedure::set_uint32(int idx_, uint32 ui32_)
 // set int64 value.
 void CDBStoredProcedure::set_int64(int idx_, int64 i64_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -164,6 +172,7 @@ void CDBStoredProcedure::set_int64(int idx_, int64 i64_ )
 // set uint64 value.
 void CDBStoredProcedure::set_uint64(int idx_, uint64 ui64_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -180,6 +189,7 @@ void CDBStoredProcedure::set_uint64(int idx_, uint64 ui64_ )
 // set float value.
 void CDBStoredProcedure::set_float(int idx_, float fval_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -196,6 +206,7 @@ void CDBStoredProcedure::set_float(int idx_, float fval_ )
 // set double value.
 void CDBStoredProcedure::set_double(int idx_, double dval_ )
 {
+	ERROR_RETURN_NONE(idx_ < m_nCount);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if(pBind->buffer == NULL)
 	{
@@ -212,23 +223,19 @@ void CDBStoredProcedure::set_double(int idx_, double dval_ )
 // set string.
 void CDBStoredProcedure::set_string(int idx_, char const* str_, size_t size)
 {
-	if ( NULL == str_ )
-	{
-		return ;
-	}
-
+	ERROR_RETURN_NONE(NULL != str_);
+	ERROR_RETURN_NONE(idx_ < m_nCount);
+	ERROR_RETURN_NONE(size < 2048);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
-	if(pBind->buffer == NULL)
+	if (pBind->buffer == NULL)
 	{
-		pBind->buffer = malloc(size);
-	}
-	else if(size > pBind->buffer_length)
-	{
-		pBind->buffer = realloc(pBind->buffer, size);
+		pBind->buffer = malloc(2048);
 	}
 
-	memcpy((char*)pBind->buffer, str_, size);
+	memset(pBind->buffer, 0, 2048);
+
 	pBind->buffer_length = (unsigned long)size;
+	memcpy((char*)pBind->buffer, str_, size);
 	pBind->buffer_type = MYSQL_TYPE_STRING;
 	pBind->is_unsigned = 0;
 	pBind->is_null_value = 0;
@@ -236,23 +243,18 @@ void CDBStoredProcedure::set_string(int idx_, char const* str_, size_t size)
 
 void CDBStoredProcedure::set_tinyblob(int idx_, void const* ptr_, size_t size)
 {
-	if (NULL == ptr_)
-	{
-		return;
-	}
-
+	ERROR_RETURN_NONE(NULL != ptr_);
+	ERROR_RETURN_NONE(idx_ < m_nCount);
+	ERROR_RETURN_NONE(size < 255);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if (pBind->buffer == NULL)
 	{
-		pBind->buffer = malloc(size);
-	}
-	else if (size > pBind->buffer_length)
-	{
-		pBind->buffer = realloc(pBind->buffer, size);
+		pBind->buffer = malloc(255);
 	}
 
-	memcpy((char*)pBind->buffer, ptr_, size);
+	memset(pBind->buffer, 0, 255);
 	pBind->buffer_length = (unsigned long)size;
+	memcpy((char*)pBind->buffer, ptr_, size);
 	pBind->buffer_type = MYSQL_TYPE_TINY_BLOB;
 	pBind->is_unsigned = 0;
 	pBind->is_null_value = 0;
@@ -261,23 +263,18 @@ void CDBStoredProcedure::set_tinyblob(int idx_, void const* ptr_, size_t size)
 // set blob.
 void CDBStoredProcedure::set_blob(int idx_, void const* ptr_, size_t size)
 {
-	if (NULL == ptr_)
-	{
-		return;
-	}
-
+	ERROR_RETURN_NONE(NULL != ptr_);
+	ERROR_RETURN_NONE(idx_ < m_nCount);
+	ERROR_RETURN_NONE(size < 65 * 1024);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if (pBind->buffer == NULL)
 	{
-		pBind->buffer = malloc(size);
-	}
-	else if (size > pBind->buffer_length)
-	{
-		pBind->buffer = realloc(pBind->buffer, size);
+		pBind->buffer = malloc(65 * 1024);
 	}
 
-	memcpy((char*)pBind->buffer, ptr_, size);
+	memset(pBind->buffer, 0, 65 * 1024);
 	pBind->buffer_length = (unsigned long)size;
+	memcpy((char*)pBind->buffer, ptr_, size);
 	pBind->buffer_type = MYSQL_TYPE_BLOB;
 	pBind->is_unsigned = 0;
 	pBind->is_null_value = 0;
@@ -285,23 +282,19 @@ void CDBStoredProcedure::set_blob(int idx_, void const* ptr_, size_t size)
 
 void CDBStoredProcedure::set_medium_blob(int idx_, void const* ptr_, size_t size)
 {
-	if (NULL == ptr_)
-	{
-		return;
-	}
-
+	ERROR_RETURN_NONE(NULL != ptr_);
+	ERROR_RETURN_NONE(idx_ < m_nCount);
+	ERROR_RETURN_NONE(size < 1024 * 1024);
 	MYSQL_BIND* pBind = &m_pMybind[idx_];
 	if (pBind->buffer == NULL)
 	{
-		pBind->buffer = malloc(size);
-	}
-	else if (size > pBind->buffer_length)
-	{
-		pBind->buffer = realloc(pBind->buffer, size);
+		pBind->buffer = malloc(1024 * 1024);
 	}
 
-	memcpy((char*)pBind->buffer, ptr_, size);
+
+	memset(pBind->buffer, 0, 1024 * 1024);
 	pBind->buffer_length = (unsigned long)size;
+	memcpy((char*)pBind->buffer, ptr_, size);
 	pBind->buffer_type = MYSQL_TYPE_MEDIUM_BLOB;
 	pBind->is_unsigned = 0;
 	pBind->is_null_value = 0;

@@ -32,7 +32,7 @@ gitee地址: https://gitee.com/ylmbtm/GameProject3
 #### 文档与教程
 1.群友 Binaryhobart(450282550) 提供的视频搭建教程 [教程地址](https://www.bilibili.com/video/BV1k5411s7Vf?from=search&seid=3304544258866101487)
 
-#### 体验客户端效果(加群可以获取全部客户端代码及资源)
+#### 体验客户端效果(群文件中有全部客户端代码及资源)
 
 ![login1](https://github.com/ylmbtm/resource/blob/master/01.png)
 ![login2](https://github.com/ylmbtm/resource/blob/master/02.png)
