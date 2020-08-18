@@ -99,13 +99,13 @@ public:
 	UINT32						m_pCurBufferSize;
 	UINT32						m_nCheckNo;
 
+	volatile BOOL				m_IsSending;
+
 	CConnection*                m_pNext;
 
 	UINT64						m_LastRecvTick;
 
 	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
-
-	BOOL				        m_IsSending;
 
 	//LINUX下专用， 用于发了一半的包
 	IDataBuffer*				m_pSendingBuffer;

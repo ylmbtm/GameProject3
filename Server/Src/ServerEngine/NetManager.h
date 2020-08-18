@@ -16,7 +16,7 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler);
+	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr);
 
 	BOOL	Stop();
 
@@ -28,7 +28,7 @@ public:
 
 	BOOL	UninitNetwork();
 
-	BOOL	StartNetListen(UINT16 nPortNum);
+	BOOL	StartNetListen(UINT16 nPortNum, std::string strIpAddr);
 
 	BOOL	StopListen();
 
@@ -67,37 +67,6 @@ public:
 
 	IDataHandler*		m_pBufferHandler;
 	std::vector<std::thread*> m_vtEventThread;
-
-#ifndef WIN32
-
-	static void SignalHandler(int nValue)
-	{
-		return;
-	}
-
-	BOOL  ClearSignal()
-	{
-		m_NewAct.sa_handler = CNetManager::SignalHandler;
-
-		sigemptyset(&m_NewAct.sa_mask); //清空此信号集
-
-		m_NewAct.sa_flags = 0;
-
-		sigaction(SIGPIPE, &m_NewAct, &m_OldAct);
-
-		return TRUE;
-	}
-
-	BOOL RestoreSignal()
-	{
-		sigaction(SIGPIPE, &m_OldAct, NULL); //恢复成原始状态
-
-		return TRUE;
-	}
-
-	struct sigaction m_NewAct, m_OldAct;
-
-#endif
 
 };
 
