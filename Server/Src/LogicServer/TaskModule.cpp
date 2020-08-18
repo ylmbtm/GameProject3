@@ -57,12 +57,10 @@ BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 	{
 		const DBTaskItem& TaskItem = TaskData.tasklist(i);
 		TaskDataObject* pObject = DataPool::CreateObject<TaskDataObject>(ESD_TASK, FALSE);
-		pObject->Lock();
 		pObject->m_nProgress = TaskItem.progress();
 		pObject->m_uRoleID = TaskItem.roleid();
 		pObject->m_uTaskID = TaskItem.taskid();
 		pObject->m_TaskStatus = TaskItem.status();
-		pObject->Unlock();
 
 		if(pObject->m_TaskStatus == ETS_COMMIT)
 		{

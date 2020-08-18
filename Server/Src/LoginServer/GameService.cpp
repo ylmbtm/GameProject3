@@ -56,10 +56,9 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	BOOL bRet = CWebCommandMgr::GetInstancePtr()->Init();
-	ERROR_RETURN_FALSE(bRet);
+	ERROR_RETURN_FALSE(CWebCommandMgr::GetInstancePtr()->Init());
 
-	m_LoginMsgHandler.Init();
+	ERROR_RETURN_FALSE(m_LoginMsgHandler.Init());
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 

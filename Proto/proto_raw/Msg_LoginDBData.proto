@@ -18,6 +18,7 @@ message DBRoleData {
     uint64      LogonTime    = 15;
     uint64      LogoffTime   = 16;
     uint64      GuildID      = 17;
+    int32       Channel      = 18;
 }
 
 message DBBagItem {

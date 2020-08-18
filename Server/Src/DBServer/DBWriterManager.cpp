@@ -83,6 +83,8 @@ BOOL CDBWriterManager::WriteDataToDB()
 		{
 			bHasWrite = TRUE;
 		}
+
+		nErrorCount += m_vtDataWriters[i]->GetErrorCount();
 	}
 
 	m_nCurErrorCount = nErrorCount;
@@ -103,9 +105,9 @@ BOOL CDBWriterManager::Update()
 	{
 		nLastErrorCount = m_nCurErrorCount;
 
-// 		Msg_DbErrorCountNty Nty;
-// 		Nty.set_errorcount(m_nCurErrorCount);
-// 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DB_WRITE_ERROR_NTY, 0, 0, Nty);
+		//Msg_DbErrorCountNty Nty;
+		//Nty.set_errorcount(m_nCurErrorCount);
+		//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DB_WRITE_ERROR_NTY, 0, 0, Nty);
 	}
 
 	return TRUE;

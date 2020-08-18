@@ -54,7 +54,7 @@ BOOL CGameService::Init()
 
 	m_DBMsgHandler.Init(0);
 
-	m_DBWriterManger.Init();
+	ERROR_RETURN_FALSE(m_DBWriterManger.Init());
 
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
@@ -99,6 +99,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
+	m_DBWriterManger.Uninit();
 	ServiceBase::GetInstancePtr()->StopNetwork();
 	google::protobuf::ShutdownProtobufLibrary();
 	return TRUE;

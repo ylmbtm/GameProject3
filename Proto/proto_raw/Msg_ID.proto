@@ -85,8 +85,9 @@ enum MessageID {
     MSG_ROLE_LOGOUT_REQ              = 200009;   //登出请求
     MSG_ROLE_LOGOUT_ACK              = 200010;   //登出请求返回
 
+    MSG_RECV_GIFTCODE_REQ            = 200011; //领取礼包码请求
+    MSG_RECV_GIFTCODE_ACK            = 200012; //领取礼包码返回
     MSG_NOTIFY_INTO_SCENE            = 200014;
-
     MSG_COPYINFO_REPORT_REQ          = 200016;
     MSG_MAIN_COPY_REQ                = 200017;
     MSG_MAIN_COPY_ACK                = 200018;
@@ -171,6 +172,8 @@ enum MessageID {
     MSG_START_ROOM_ACK               = 200080;
     
     MSG_BROAD_ROOM_NOTIFY            = 200081;
+    MSG_CREATE_PAYMENT_REQ           = 200082;
+    MSG_CREATE_PAYMENT_ACK           = 200083;
     
     MSG_TEST_ADD_ITEM                = 299998;
     MSG_LOGICSVR_MSGID_END           = 299999;

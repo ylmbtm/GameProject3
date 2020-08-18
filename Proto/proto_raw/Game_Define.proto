@@ -145,7 +145,7 @@ enum EChatChannel{
     CHL_WORLD       = 1;//世界聊天
     CHL_PRIVATE     = 2;//私聊
     CHL_GUILD       = 3;//公会
-    CHL_GM          = 4;//GM命令
+    CHL_ROLLTIP     = 4;//跑马灯
 }
 
 enum EEquipPos{
