@@ -2,7 +2,7 @@
 #define _NET_MANAGER_H_
 #include "IBufferHandler.h"
 #include "Connection.h"
-////////////////////////////////////////////////
+
 class CNetManager
 {
 	CNetManager(void);
@@ -20,11 +20,10 @@ public:
 
 	BOOL	Stop();
 
-	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+	BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
 	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
 
-public:
 	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
 	CConnection*	ConnectTo_Async(std::string strIpAddr, UINT16 sPort);

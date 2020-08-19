@@ -247,15 +247,17 @@ BOOL CConnection::Reset()
 
 	m_pBufPos   = m_pRecvBuf;
 
-	m_nCheckNo = 0;
 
-	m_IsSending	= FALSE;
-
-	if (m_pCurRecvBuffer != NULL)
+	if(m_pCurRecvBuffer != NULL)
 	{
 		m_pCurRecvBuffer->Release();
 		m_pCurRecvBuffer = NULL;
 	}
+
+
+	m_nCheckNo = 0;
+
+	m_IsSending	= FALSE;
 
 	IDataBuffer* pBuff = NULL;
 	while(m_SendBuffList.pop(pBuff))
@@ -294,22 +296,19 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 		return FALSE;
 	}
 
-	/*if(m_nCheckNo == 0)
+	if(m_nCheckNo == 0)
 	{
-	m_nCheckNo = pHeader->dwPacketNo - pHeader->wCommandID^pHeader->dwSize;
+		m_nCheckNo = pHeader->dwPacketNo - (pHeader->dwMsgID ^ pHeader->dwSize) + 1;
+		return TRUE;
 	}
-	else
-	{
-	if(pHeader->dwPacketNo = pHeader->wCommandID^pHeader->dwSize+m_nCheckNo)
-	{
-	m_nCheckNo += 1;
-	}
-	else
-	{
-	return FALSE;
-	}*/
 
-	return TRUE;
+	if(pHeader->dwPacketNo == (pHeader->dwMsgID ^ pHeader->dwSize) + m_nCheckNo)
+	{
+		m_nCheckNo += 1;
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 UINT32 CConnection::GetIpAddr(BOOL bHost)
