@@ -28,6 +28,8 @@ public:
 public:
 	BOOL LogRoleCreate(CPlayerObject* pPlayer);
 	BOOL LogRoleLogin(CPlayerObject* pPlayer);
+	BOOL LogRoleLogout(CPlayerObject* pPlayer);
+	BOOL LogRoleChat(CPlayerObject* pPlayer, INT32 nChatChl, std::string strContent, UINT64 uTargetID, std::string strTargetName);
 };
 
 #endif //__GAME_LOG_MANAGER_H__

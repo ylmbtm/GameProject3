@@ -13,7 +13,8 @@ enum ELogType
 	ELT_ROLE_EXP,
 	ELT_ROLE_DIAMOND,
 	ELT_ROLE_GOLD,
-	ELT_ROLE_LEVEL
+	ELT_ROLE_LEVEL,
+	ELT_ROLE_CHAT, //聊天
 };
 
 //角色日志
@@ -115,6 +116,25 @@ struct Log_RoleLogin : public Log_BaseData
 	}
 };
 
+struct Log_RoleLogout : public Log_BaseData
+{
+	UINT64 m_uAccountID = 0;
+	CHAR   m_szRoleName[64] = { 0 };
+	CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
+
+	Log_RoleLogout()
+	{
+		m_LogType = ELT_ROLE_LOGOUT;
+	}
+
+	BOOL GetLogSql(char* pBuff)
+	{
+		snprintf(pBuff, 2048, "insert into role_logout(roleid, accountid, areaid, channel, level, viplevel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %d, %d, '%s', '%s', '%s')",
+		         m_uID, m_uAccountID, m_dwAreaID, m_dwChannel, m_nLeve, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
+		return TRUE;
+	}
+};
+
 //经验获取
 struct Log_RoleExp : public Log_BaseData
 {
@@ -166,6 +186,31 @@ struct Log_RoleGold : public Log_BaseData
 	}
 };
 
+//聊天日志
+struct Log_RoleChat : public Log_BaseData
+{
+	CHAR   m_szText[256] = { 0 };
+	CHAR   m_szSrcName[64] = { 0 };
+	CHAR   m_szTargetName[64] = { 0 };
+	UINT64 m_uTargetID = 0;
+	UINT32 m_nTargetVip = 0;
+	INT32  m_nChatChl = 0;
+
+	Log_RoleChat()
+	{
+		m_LogType = ELT_ROLE_CHAT;
+	}
+
+	BOOL GetLogSql(char* pBuff)
+	{
+		//CHAR szTemp[512] = { 0 };
+		//mysql_escape_string(szTemp, m_szText, strlen(m_szText));
+
+		snprintf(pBuff, 2048, "insert into role_chat(roleid,rolename, areaid, channel, optime, level, viplevel, chatchl, text, targetid, targetvip, targetname) values(%lld, '%s', %d ,%d, '%s', %d, %d,%d, '%s', %lld, %ld, '%s')",
+		         m_uID, m_szSrcName, m_dwAreaID, m_dwChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_nLeve, m_nVipLevel, m_nChatChl, m_szText, m_uTargetID, m_nTargetVip, m_szTargetName);
+		return TRUE;
+	}
+};
 //金币获取(游戏币)
 struct Log_RoleLevel : public Log_BaseData
 {
