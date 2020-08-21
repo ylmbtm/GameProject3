@@ -76,6 +76,7 @@ message ClientServerListAck {
 message SelectServerReq {
     uint64    AccountID   = 1;
     int32     ServerID    = 2;
+    bool      CheckRole   = 3;  //是否必须有角色
 }
 
 message SelectServerAck {

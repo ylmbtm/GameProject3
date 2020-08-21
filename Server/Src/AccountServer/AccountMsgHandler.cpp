@@ -59,7 +59,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 
 	AccountRegAck Ack;
 
-	if(!m_AccountManager.CheckAccountName(Req.accountname()))
+	if(!m_AccountManager.CheckAccountName(Req.accountname(), false))
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
@@ -103,7 +103,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	AccountLoginAck Ack;
 	Ack.set_review(Req.review());
 
-	if (!m_AccountManager.CheckAccountName(Req.accountname()) && !Req.fromchannel())
+	if (!m_AccountManager.CheckAccountName(Req.accountname(), Req.fromchannel()))
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);

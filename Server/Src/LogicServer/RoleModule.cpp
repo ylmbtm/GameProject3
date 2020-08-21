@@ -51,6 +51,7 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCar
 	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)Name.size()));
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
+	m_pRoleDataObject->m_nChannel = dwChannel;
 	m_pRoleDataObject->Unlock();
 
 	StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
@@ -119,7 +120,8 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->m_uCreateTime = Ack.roledata().createtime();
 	m_pRoleDataObject->m_uLogonTime = Ack.roledata().logontime();
 	m_pRoleDataObject->m_uLogoffTime = Ack.roledata().logofftime();
-
+	m_pRoleDataObject->m_nChannel = Ack.roledata().channel();
+	
 	if(m_pRoleDataObject->m_CityCopyID == 0)
 	{
 		StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
@@ -192,6 +194,8 @@ INT64 CRoleModule::GetProperty(ERoleProperty ePropertyID)
 			return GetLevel();
 		case ERP_VIPLEVEL:
 			return GetVipLevel();
+		case ERP_CHANNEL:
+			return m_pRoleDataObject->m_nChannel;
 		default:
 			break;
 	}

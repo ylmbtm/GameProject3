@@ -36,6 +36,7 @@ class CConnection
 public:
 	CConnection();
 	virtual ~CConnection();
+
 public:
 	BOOL	HandleRecvEvent(UINT32 dwBytes);
 

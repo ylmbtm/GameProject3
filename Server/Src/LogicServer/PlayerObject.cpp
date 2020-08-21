@@ -20,7 +20,7 @@
 #include "FriendModule.h"
 #include "ServerDefine.h"
 #include "RoleData.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "CopyData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"

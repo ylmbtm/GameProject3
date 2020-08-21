@@ -119,13 +119,25 @@ BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
 			p->GetLogSql(szSql);
 		}
 		break;
+		case ELT_ROLE_LOGOUT:
+		{
+			Log_RoleLogout* p = (Log_RoleLogout*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
+		case ELT_ROLE_CHAT:
+		{
+			Log_RoleChat* p = (Log_RoleChat*)pData;
+			p->GetLogSql(szSql);
+		}
+		break;
 		default:
 			break;
 	}
 
 	if (m_DBConnection.execSQLWithReconnect(szSql) <= 0)
 	{
-		CLog::GetInstancePtr()->LogError("CLogMsgHandler::OnLogDataNtf Error :%s", m_DBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("CLogMsgHandler::OnLogDataNtf m_LogType :%d, Error :%s", pData->m_LogType,  m_DBConnection.GetErrorMsg());
 		CLog::GetInstancePtr()->LogError(szSql);
 	}
 

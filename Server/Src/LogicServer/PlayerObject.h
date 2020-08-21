@@ -15,9 +15,8 @@ public:
 
 	~CPlayerObject();
 
-	//  初始化玩家对象
 	BOOL		Init(UINT64 u64ID);
-	//  反初始化玩家对家
+
 	BOOL		Uninit();
 
 	BOOL		OnCreate(UINT64 u64RoleID);

@@ -49,8 +49,21 @@ enum MessageRetCode {
    //技能
    MRC_SKILL_CD_ERROR        = 309;    //技能未冷却    
    MRC_SKILL_DEAD_OBJ        = 310;    //对象己经死亡
-   MRC_INCRRECT_PASSWORD     = 311;
-   MRC_NAME_MUST_UTF8       = 312;   //名字必须是utf8编码
-    
+
+   MRC_INCRRECT_PASSWORD      = 311;
+   MRC_NAME_MUST_UTF8         = 312;   //名字必须是utf8编码
+   MRC_SERVER_NOT_OPENTIME    = 313;   //还没有到开服时间
+   MRC_DUPLICATED_ORDER_ID    = 314;   //重复创建订单
+   MRC_CONNECT_NO_RECON       = 315;   //没有角色，不允许重连请重登
+   MRC_SERVER_NOT_AVAILABLE   = 316;   //服务器不可用
+   MRC_SERVER_MAINTAIN        = 317;   //服务器维护中
+   MRC_SERVER_NO_NEW_ROLE     = 318;   //不允许创建新角色
+   
+      //礼包码
+   MRC_GIFTCODE_AREADY_USED   = 500;    //礼包码己使用
+   MRC_GIFTCODE_INVALIDE_CODE = 501;    //无效的礼包码
+   MRC_GIFTCODE_UNASSIGNED    = 502;    //礼包码未分配
+   MRC_GIFTCODE_WRONG_CHANNEL = 503;    //错误的渠道
+   MRC_GIFTCODE_WRONG_AREA    = 504;    //错误的区服
 }
 

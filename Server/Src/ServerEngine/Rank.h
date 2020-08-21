@@ -199,7 +199,7 @@ public:
 private:
 	static BOOL RankItemCompare(TRankItem<TID, TValue> a, TRankItem<TID, TValue> b)
 	{
-		return a.RankValue < b.RankValue;
+		return a.RankValue > b.RankValue;
 	}
 
 	BOOL SearchInsert2(TID RankID, TValue RankValue, INT32& nOrgIndex, INT32& nTargetIndex)

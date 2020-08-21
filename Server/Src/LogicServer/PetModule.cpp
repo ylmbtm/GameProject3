@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
+#include "PlayerObject.h"
 #include "PetModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "PlayerObject.h"
-#include "../Message/Msg_ID.pb.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "PacketHeader.h"
+#include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 
 CPetModule::CPetModule(CPlayerObject* pOwner): CModuleBase(pOwner)

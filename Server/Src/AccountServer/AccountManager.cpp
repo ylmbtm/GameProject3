@@ -259,11 +259,21 @@ BOOL CAccountObjectMgr::IsRun()
 	return m_IsRun;
 }
 
-BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName)
+BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName, bool bFromChannel)
 {
 	if (strName.size() < 6)
 	{
 		return FALSE;
+	}
+
+	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" "))
+	{
+		return FALSE;
+	}
+
+	if (bFromChannel)
+	{
+		return TRUE;
 	}
 
 	if (!std::regex_match(strName.c_str(), std::regex("([a-zA-Z0-9]+)")))

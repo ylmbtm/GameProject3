@@ -48,7 +48,7 @@ public:
 
 	BOOL				IsRun();
 
-	BOOL                CheckAccountName(const std::string& strName);
+	BOOL                CheckAccountName(const std::string& strName, bool bFromChannel);
 
 public:
 
