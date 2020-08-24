@@ -25,10 +25,12 @@ struct GroupMailDataObject : public ShareObject
 		memset(m_szTitle, 0, sizeof(CHAR) * MAIL_TITLE_LEN);
 		memset(m_szContent, 0, sizeof(CHAR) * MAIL_CONTENT_LEN);
 		memset(m_Items, 0, sizeof(StMailItem) * MAIL_ITEM_COUNT);
+		memset(m_szSender, 0, sizeof(CHAR) * ROLE_NAME_LEN);
 	}
 	UINT64 m_uGuid;							//邮件ID
 	CHAR   m_szTitle[MAIL_TITLE_LEN];		//邮件标题
 	CHAR   m_szContent[MAIL_CONTENT_LEN];	//邮件内容
+	CHAR   m_szSender[ROLE_NAME_LEN];		//发送者名字
 	UINT64 m_uTime;							//邮件时间
 	UINT32 m_dwMailType;					//邮件类型
 	UINT32 m_dwChannel;						//目标渠道
@@ -36,29 +38,31 @@ struct GroupMailDataObject : public ShareObject
 
 	BOOL Create(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO mail_group (id, title, content, mail_time, mailtype, channel, itemdata) \
-			VALUES(?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO mail_group (id, title, content,sender, mail_time, mailtype, channel, itemdata) \
+			VALUES(?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_string(1, m_szTitle, strlen(m_szTitle));
 		csp.set_string(2, m_szContent, strlen(m_szContent));
-		csp.set_uint64(3, m_uTime);
-		csp.set_uint32(4, m_dwMailType);
-		csp.set_uint32(5, m_dwChannel);
-		csp.set_tinyblob(6, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
+		csp.set_string(3, m_szSender, strlen(m_szSender));
+		csp.set_uint64(4, m_uTime);
+		csp.set_uint32(5, m_dwMailType);
+		csp.set_uint32(6, m_dwChannel);
+		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
 		return pDB->Execute(&csp);
 	}
 
 	BOOL Update(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("REPLACE INTO mail_group (id, title, content, mail_time, mailtype, channel, itemdata) \
-			VALUES(?,?,?,?,?,?,?);");
+		static CDBStoredProcedure csp("REPLACE INTO mail_group (id, title, content,sender,  mail_time, mailtype, channel, itemdata) \
+			VALUES(?,?,?,?,?,?,?,?);");
 		csp.set_uint64(0, m_uGuid);
 		csp.set_string(1, m_szTitle, strlen(m_szTitle));
 		csp.set_string(2, m_szContent, strlen(m_szContent));
-		csp.set_uint64(3, m_uTime);
-		csp.set_uint32(4, m_dwMailType);
-		csp.set_uint32(5, m_dwChannel);
-		csp.set_tinyblob(6, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
+		csp.set_string(3, m_szSender, strlen(m_szSender));
+		csp.set_uint64(4, m_uTime);
+		csp.set_uint32(5, m_dwMailType);
+		csp.set_uint32(6, m_dwChannel);
+		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
 		return pDB->Execute(&csp);
 	}
 

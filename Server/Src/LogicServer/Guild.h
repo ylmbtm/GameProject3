@@ -16,12 +16,13 @@ public:
 
 	UINT64 GetGuildID();
 
-public:
 	MemberDataObject* GetGuildMember(UINT64 uID);
 
 	MemberDataObject* GetLeader();
 
 	MemberDataObject* AddGuildMember(UINT64 uRoleID);
+
+	BOOL BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
 
 public:
 

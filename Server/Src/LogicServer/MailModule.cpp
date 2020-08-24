@@ -2,7 +2,7 @@
 #include "MailModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "MailManager.h"
@@ -152,7 +152,7 @@ BOOL CMailModule::DeleteMailByGroupID(UINT64 uGuid)
 	return TRUE;
 }
 
-BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems)
+BOOL CMailModule::AddMail(EMailType eMailType, std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems)
 {
 	MailDataObject* pMailObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 	pMailObject->Lock();
@@ -161,6 +161,7 @@ BOOL CMailModule::AddMail(std::string& strSender, std::string& strTitle, std::st
 	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 	strncpy(pMailObject->m_szTitle, strTitle.c_str(), strTitle.size());
 	strncpy(pMailObject->m_szContent, strContent.c_str(), strContent.size());
+	pMailObject->m_dwMailType = eMailType;
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 
 	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
@@ -199,7 +200,7 @@ BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
 	pMailObject->m_uGroupGuid = pGroupMail->m_uGuid;
 	strncpy(pMailObject->m_szTitle, pGroupMail->m_szTitle, MAIL_TITLE_LEN);
 	strncpy(pMailObject->m_szContent, pGroupMail->m_szContent, MAIL_CONTENT_LEN);
-
+	strncpy(pMailObject->m_szSender, pGroupMail->m_szSender, ROLE_NAME_LEN);
 	for (int i = 0; i < MAIL_ITEM_COUNT; i++)
 	{
 		if (pGroupMail->m_Items[i].m_nItemID == 0)
@@ -234,8 +235,24 @@ BOOL CMailModule::NotifyChange()
 	{
 		MailDataObject* pObject = GetMailByGuid(*itor);
 		ERROR_CONTINUE_EX(pObject != NULL);
-
 		MailItem* pItem = Nty.add_changelist();
+		pItem->set_guid(pObject->m_uGuid);
+		pItem->set_mailtype(pObject->m_dwMailType);
+		pItem->set_status(pObject->m_dwStatus);
+		pItem->set_title(pObject->m_szTitle);
+		pItem->set_content(pObject->m_szContent);
+		pItem->set_sender(pObject->m_szSender);
+
+		for (UINT32 i = 0; i < MAIL_ITEM_COUNT; i++)
+		{
+			if (pObject->m_Items[i].m_nItemID <= 0)
+			{
+				break;
+			}
+
+			pItem->add_itemid(pObject->m_Items[i].m_nItemID);
+			pItem->add_itemnum(pObject->m_Items[i].m_nItemNum);
+		}
 	}
 
 	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)

@@ -189,6 +189,7 @@ void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
+	std::string strSenderName = hParams.GetStrValue("sender");
 	UINT64 uRoleID = hParams.GetLongValue("receiver_id");
 	std::string strRoleName = hParams.GetStrValue("reciver_name");
 	std::string strTitle = hParams.GetStrValue("mail_title");
@@ -198,19 +199,31 @@ void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
 	std::vector<StMailItem> vtItems;
 	INT32 nItem[2] = {0};
 	CommonConvert::StringToVector(hParams.GetStrValue("itemid1").c_str(), nItem, 2);
-	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
 	memset(nItem, 0, sizeof(nItem));
 	CommonConvert::StringToVector(hParams.GetStrValue("itemid2").c_str(), nItem, 2);
-	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
 	memset(nItem, 0, sizeof(nItem));
 	CommonConvert::StringToVector(hParams.GetStrValue("itemid3").c_str(), nItem, 2);
-	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
 	memset(nItem, 0, sizeof(nItem));
 	CommonConvert::StringToVector(hParams.GetStrValue("itemid4").c_str(), nItem, 2);
-	vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
 	if (uRoleID == 0)
 	{
@@ -225,7 +238,7 @@ void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
 		}
 	}
 
-	CMailManager::GetInstancePtr()->SendSingleMail(uRoleID, "GM", strTitle, strContent, vtItems);
+	CMailManager::GetInstancePtr()->SendSingleMail(uRoleID, EMT_CUSTOM, strContent, vtItems, strSenderName, strTitle);
 
 	return;
 }
@@ -234,27 +247,44 @@ void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
-	UINT64 uRoleID = hParams.GetLongValue("roleid");
-	std::string strRoleName = hParams.GetStrValue("rolename");
+	std::string strSenderName = hParams.GetStrValue("sender");
 	std::string strTitle = hParams.GetStrValue("mail_title");
 	std::string strContent = hParams.GetStrValue("mail_content");
 	INT32 strLanguage = hParams.GetIntValue("language");
+	INT32 nRecvGroup = hParams.GetIntValue("reciver_group"); //1:全部玩家; 2:在线玩家
 
-	UINT32 nItem[4] = { 0 };
-	nItem[0] = hParams.GetIntValue("item0");
-	nItem[1] = hParams.GetIntValue("item1");
-	nItem[2] = hParams.GetIntValue("item2");
-	nItem[3] = hParams.GetIntValue("item3");
 
-	UINT32 nItemNum[4] = { 0 };
-	nItemNum[0] = hParams.GetIntValue("amount0");
-	nItemNum[1] = hParams.GetIntValue("amount1");
-	nItemNum[2] = hParams.GetIntValue("amount2");
-	nItemNum[3] = hParams.GetIntValue("amount3");
+	std::vector<StMailItem> vtItems;
+	INT32 nItem[2] = { 0 };
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid1").c_str(), nItem, 2);
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
-	std::vector<StMailItem> vtItems = { {nItem[0], nItemNum[0] }, {nItem[1], nItemNum[1]}, {nItem[2], nItemNum[2]}, {nItem[3], nItemNum[3]} };
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid2").c_str(), nItem, 2);
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
 
-	CMailManager::GetInstancePtr()->SendGroupMail("GM", strTitle, strContent, vtItems);
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid3").c_str(), nItem, 2);
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
+
+	memset(nItem, 0, sizeof(nItem));
+	CommonConvert::StringToVector(hParams.GetStrValue("itemid4").c_str(), nItem, 2);
+	if (nItem[0] != 0)
+	{
+		vtItems.push_back(StMailItem(nItem[0], nItem[1]));
+	}
+
+	CMailManager::GetInstancePtr()->SendGroupMail(strSenderName, strTitle, strContent, vtItems, nRecvGroup);
+
 	return;
 }
 

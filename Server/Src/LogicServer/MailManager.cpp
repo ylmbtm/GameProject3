@@ -35,16 +35,42 @@ CMailManager* CMailManager::GetInstancePtr()
 	return &_StaticMgr;
 }
 
-BOOL CMailManager::SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems)
+BOOL CMailManager::SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems, INT32 nRecvGroup)
 {
+	if (nRecvGroup == 2)
+	{
+		CPlayerManager::TNodeTypePtr pNode = CPlayerManager::GetInstancePtr()->MoveFirst();
+		ERROR_RETURN_FALSE(pNode != NULL);
+
+		CPlayerObject* pTempObj = NULL;
+		for (; pNode != NULL; pNode = CPlayerManager::GetInstancePtr()->MoveNext(pNode))
+		{
+			pTempObj = pNode->GetValue();
+			ERROR_RETURN_FALSE(pTempObj != NULL);
+
+			if (!pTempObj->IsOnline())
+			{
+				continue;
+			}
+
+			CMailModule* pMailModule = (CMailModule*)pTempObj->GetModuleByType(MT_MAIL);
+			ERROR_RETURN_FALSE(pMailModule != NULL);
+
+			pMailModule->AddMail(EMT_CUSTOM, strSender, strTitle, strContent, vtItems);
+		}
+
+		return TRUE;
+	}
+
 	GroupMailDataObject* pGroupMailObject = DataPool::CreateObject<GroupMailDataObject>(ESD_GROUP_MAIL, TRUE);
 	pGroupMailObject->Lock();
 	pGroupMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
-	//pGroupMailObject->m_dwMailType;					 //邮件类型
+	pGroupMailObject->m_dwMailType = EMT_CUSTOM;					 //邮件类型
 	//pGroupMailObject->m_dwChannel;					 //目标渠道
 	pGroupMailObject->m_uTime = CommonFunc::GetCurrTime();
 	strncpy(pGroupMailObject->m_szTitle, strTitle.c_str(), CommonFunc::Min(MAIL_TITLE_LEN, (INT32)strTitle.size()));
 	strncpy(pGroupMailObject->m_szContent, strContent.c_str(), CommonFunc::Min(MAIL_CONTENT_LEN, (INT32)strContent.size()));
+	strncpy(pGroupMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
 
 	for (int i = 0; i < vtItems.size() && i < MAIL_ITEM_COUNT; i++)
 	{
@@ -83,7 +109,7 @@ BOOL CMailManager::SendGroupMail(std::string strSender, std::string strTitle, st
 	return TRUE;
 }
 
-BOOL CMailManager::SendSingleMail(UINT64 uRoleID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems)
+BOOL CMailManager::SendSingleMail(UINT64 uRoleID, EMailType eMailType, std::string strContent, std::vector<StMailItem>& vtItems, std::string strSender, std::string strTitle )
 {
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(uRoleID);
 	if (pPlayer != NULL) //玩家在线，直接发给玩家数据
@@ -91,7 +117,7 @@ BOOL CMailManager::SendSingleMail(UINT64 uRoleID, std::string strSender, std::st
 		CMailModule* pMailModule = (CMailModule*)pPlayer->GetModuleByType(MT_MAIL);
 		ERROR_RETURN_FALSE(pMailModule != NULL);
 
-		pMailModule->AddMail(strSender, strTitle, strContent, vtItems);
+		pMailModule->AddMail(eMailType, strSender, strTitle, strContent, vtItems);
 		return TRUE;
 	}
 
@@ -101,6 +127,7 @@ BOOL CMailManager::SendSingleMail(UINT64 uRoleID, std::string strSender, std::st
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = uRoleID;
+	pMailObject->m_dwMailType = eMailType;
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 	strncpy(pMailObject->m_szTitle, strTitle.c_str(), CommonFunc::Min(MAIL_TITLE_LEN, (INT32)strTitle.size()));
 	strncpy(pMailObject->m_szContent, strContent.c_str(), CommonFunc::Min(MAIL_CONTENT_LEN, (INT32)strContent.size()));
@@ -170,6 +197,27 @@ BOOL CMailManager::LoadData(CppMySQL3DB& tDBConnection)
 
 BOOL CMailManager::LoadGroupMailData(CppMySQL3DB& tDBConnection)
 {
+	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM mail_group");
+	while (!QueryResult.eof())
+	{
+		GroupMailDataObject* pGroupMail = DataPool::CreateObject<GroupMailDataObject>(ESD_GROUP_MAIL, FALSE);
+		pGroupMail->m_dwMailType = EMT_CUSTOM;					 //邮件类型
+		pGroupMail->m_dwChannel = QueryResult.getIntField("channel");
+		pGroupMail->m_uGuid = QueryResult.getInt64Field("id");
+		pGroupMail->m_uTime = QueryResult.getInt64Field("mail_time");
+		strncpy(pGroupMail->m_szTitle, QueryResult.getStringField("title"),   MAIL_TITLE_LEN);
+		strncpy(pGroupMail->m_szContent, QueryResult.getStringField("content"), MAIL_CONTENT_LEN);
+		strncpy(pGroupMail->m_szSender, QueryResult.getStringField("sender"),  ROLE_NAME_LEN);
+
+		INT32 nLen = 0;
+		const unsigned char* pData = QueryResult.getBlobField("itemdata", nLen);
+		memcpy((void*)&pGroupMail->m_Items, (void*)pData, nLen);
+
+		m_mapGroupMailData.insert(std::make_pair(pGroupMail->m_uGuid, pGroupMail));
+
+		QueryResult.nextRow();
+	}
+
 	return TRUE;
 }
 

@@ -17,6 +17,8 @@ CGuild::~CGuild()
 	{
 		m_pGuildData->Release();
 	}
+
+	m_pGuildData = NULL;
 }
 
 BOOL CGuild::Init()
@@ -94,4 +96,25 @@ MemberDataObject* CGuild::AddGuildMember(UINT64 uRoleID)
 	m_mapMemberData.insert(std::make_pair(uRoleID, pMemberObject));
 
 	return pMemberObject;
+}
+
+BOOL CGuild::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+{
+	for (auto itor = m_mapMemberData.begin(); itor != m_mapMemberData.end(); itor++)
+	{
+		MemberDataObject* pMemberObject = itor->second;
+		ERROR_TO_CONTINUE(pMemberObject != NULL);
+
+		CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pMemberObject->m_uRoleID);
+		ERROR_TO_CONTINUE(pPlayer != NULL);
+
+		if (!pPlayer->IsOnline())
+		{
+			continue;
+		}
+
+		pPlayer->SendMsgProtoBuf(dwMsgID, pdata);
+	}
+
+	return TRUE;
 }

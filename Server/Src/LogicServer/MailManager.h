@@ -2,6 +2,7 @@
 #define __GROUP_MAIL_MANAGER_H__
 #include "MailData.h"
 #include "DBInterface/CppMysql.h"
+#include "../Message/Game_Define.pb.h"
 class CPlayerObject;
 class CMailManager
 {
@@ -10,9 +11,9 @@ class CMailManager
 public:
 	static CMailManager* GetInstancePtr();
 
-	BOOL  SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
+	BOOL  SendGroupMail(std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems, INT32 nRecvGroup);
 
-	BOOL  SendSingleMail(UINT64 uRoleID, std::string strSender, std::string strTitle, std::string strContent, std::vector<StMailItem>& vtItems);
+	BOOL  SendSingleMail(UINT64 uRoleID, EMailType eMailType, std::string strContent, std::vector<StMailItem>& vtItems, std::string strSender = "", std::string strTitle = "");
 
 	BOOL  SendOffOperation(UINT64 uRoleID);
 
