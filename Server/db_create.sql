@@ -145,6 +145,7 @@ CREATE TABLE `globaldata`  (
   `serverid` int(11) NOT NULL,
   `maxguid` bigint(20) NULL DEFAULT NULL,
   `maxonline` int(11) NULL DEFAULT NULL,
+  `extradata` tinyblob NULL,
   PRIMARY KEY (`serverid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -363,6 +364,25 @@ CREATE TABLE `account_login`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for role_chat
+-- ----------------------------
+DROP TABLE IF EXISTS `role_chat`;
+CREATE TABLE `role_chat`  (
+  `roleid` bigint(20) NULL DEFAULT NULL,
+  `level` int(11) NULL DEFAULT NULL,
+  `rolename` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `viplevel` int(11) NULL DEFAULT NULL,
+  `areaid` int(11) NULL DEFAULT NULL,
+  `channel` int(11) NULL DEFAULT NULL,
+  `text` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `optime` datetime(0) NULL DEFAULT NULL,
+  `targetid` bigint(20) NULL DEFAULT NULL,
+  `targetvip` int(11) NULL DEFAULT NULL,
+  `targetname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `chatchl` int(11) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for role_create
 -- ----------------------------
 DROP TABLE IF EXISTS `role_create`;
@@ -398,6 +418,25 @@ CREATE TABLE `role_login`  (
   `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for role_logout
+-- ----------------------------
+DROP TABLE IF EXISTS `role_logout`;
+CREATE TABLE `role_logout`  (
+  `roleid` bigint(20) NOT NULL,
+  `accountid` bigint(20) NOT NULL COMMENT '帐号ID',
+  `channel` int(11) NULL DEFAULT NULL COMMENT '平台ID',
+  `level` int(11) NULL DEFAULT NULL COMMENT '等级',
+  `viplevel` int(11) NULL DEFAULT NULL COMMENT 'vip等级',
+  `optime` datetime(0) NOT NULL COMMENT '登出时间',
+  `areaid` int(11) NULL DEFAULT NULL COMMENT '区服ID',
+  `rolename` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `createtime` datetime(0) NULL DEFAULT NULL,
+  `idfa` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imei` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `imodel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 use db_gm;
 -- ----------------------------

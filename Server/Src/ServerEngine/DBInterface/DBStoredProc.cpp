@@ -272,7 +272,7 @@ void CDBStoredProcedure::set_blob(int idx_, void const* ptr_, size_t size)
 		pBind->buffer = malloc(65 * 1024);
 	}
 
-	memset(pBind->buffer, 0, 65 * 1024);
+	memset(pBind->buffer, 0, (int)65 * 1024);
 	pBind->buffer_length = (unsigned long)size;
 	memcpy((char*)pBind->buffer, ptr_, size);
 	pBind->buffer_type = MYSQL_TYPE_BLOB;

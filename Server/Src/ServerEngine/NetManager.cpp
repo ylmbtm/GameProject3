@@ -425,7 +425,12 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 		nFd = epoll_wait(m_hCompletePort, vtEvents, 512, 500);
 		if (nFd == -1)
 		{
-			CLog::GetInstancePtr()->LogError("epoll_wait失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
+			if (errno != EINTR)
+			{
+				CLog::GetInstancePtr()->LogError("epoll_wait失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
+				return -1;
+			}
+
 			continue;
 		}
 
