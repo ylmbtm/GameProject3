@@ -77,6 +77,11 @@ BOOL CRoleModule::OnLogin()
 	{
 		UpdateAction(i + 1);
 	}
+	
+	if (m_pRoleDataObject->m_uLogoffTime < m_pRoleDataObject->m_uLogonTime)
+	{
+		m_pRoleDataObject->m_uLogoffTime = m_pRoleDataObject->m_uLogonTime + 3;
+	}
 
 	m_pRoleDataObject->m_uLogonTime = CommonFunc::GetCurrTime();
 	m_pRoleDataObject->Unlock();

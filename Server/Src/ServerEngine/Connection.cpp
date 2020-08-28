@@ -210,8 +210,6 @@ BOOL CConnection::ExtractBuffer()
 			//return FALSE;
 		}
 
-		ERROR_RETURN_FALSE(pHeader->dwSize != 0);
-
 		UINT32 dwPacketSize = pHeader->dwSize;
 
 		//////////////////////////////////////////////////////////////////////////
@@ -409,6 +407,12 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 		return FALSE;
 	}
 
+	if (pHeader->dwSize <= 0)
+	{
+		CLog::GetInstancePtr()->LogError("验证-失败 pHeader->dwSize <= 0, pHeader->dwMsgID:%d", pHeader->dwSize, pHeader->dwMsgID);
+		return FALSE;
+	}
+
 	if (pHeader->dwMsgID > 4999999)
 	{
 		return FALSE;
@@ -513,7 +517,7 @@ BOOL CConnection::DoSend()
 	{
 		if(dwSendBytes < DataBuf.len)
 		{
-			CLog::GetInstancePtr()->LogError("发送线程:直接发送功数据send:%d--Len:%d!", dwSendBytes, DataBuf.len);
+			CLog::GetInstancePtr()->LogError("发送线程:直接发送数据成功send:%d--Len:%d!", dwSendBytes, DataBuf.len);
 		}
 	}
 	else if( nRet == -1 ) //发送出错

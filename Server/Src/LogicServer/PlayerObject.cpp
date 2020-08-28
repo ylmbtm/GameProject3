@@ -102,11 +102,6 @@ BOOL CPlayerObject::OnLogin()
 	CRoleModule* pRoleModule = (CRoleModule*)GetModuleByType(MT_ROLE);
 	ERROR_RETURN_VALUE(pRoleModule != NULL, MRC_UNKNOW_ERROR);
 
-	if (pRoleModule->GetLastLogoffTime() < pRoleModule->GetLastLogonTime())
-	{
-		pRoleModule->SetLastLogoffTime(pRoleModule->GetLastLogonTime() + 5);
-	}
-
 	if (!CommonFunc::IsSameDay(pRoleModule->GetLastLogoffTime()))
 	{
 		for (int i = MT_ROLE; i < MT_END; i++)

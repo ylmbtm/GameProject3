@@ -21,6 +21,8 @@ BOOL			GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::strin
 
 BOOL			IsSameDay(UINT64 uTime);
 
+BOOL            IsSameWeek(UINT64 uTime);
+
 INT32           DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest);
 
 INT32           DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest);

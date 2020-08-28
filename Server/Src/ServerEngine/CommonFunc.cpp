@@ -289,6 +289,19 @@ BOOL CommonFunc::IsSameDay(UINT64 uTime)
 
 }
 
+BOOL CommonFunc::IsSameWeek(UINT64 uTime)
+{
+	time_t t = GetCurrTime();
+	tm t_tmSrc = *localtime(&t);
+	UINT64 SrcWeekBegin = (UINT64)t - (t_tmSrc.tm_wday == 0 ? 6 : t_tmSrc.tm_wday - 1) * 86400 - t_tmSrc.tm_hour * 3600 - t_tmSrc.tm_min * 60 - t_tmSrc.tm_sec;
+
+	t = uTime;
+	tm t_tmDest = *localtime(&t);
+	UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
+
+	return (SrcWeekBegin - SrcWeekDest) / (86400 * 7) <= 0;
+}
+
 INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
 {
 	time_t t = uTimeSrc;
