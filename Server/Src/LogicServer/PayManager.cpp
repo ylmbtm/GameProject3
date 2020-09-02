@@ -5,7 +5,6 @@
 
 CPayManager::CPayManager()
 {
-
 }
 
 CPayManager::~CPayManager()

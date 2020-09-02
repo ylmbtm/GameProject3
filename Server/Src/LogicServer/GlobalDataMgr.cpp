@@ -22,8 +22,9 @@ CGlobalDataManager* CGlobalDataManager::GetInstancePtr()
 
 BOOL CGlobalDataManager::LoadData(CppMySQL3DB& tDBConnection)
 {
-	UINT64 dwMaxGuid = 0;
-	UINT32 dwMaxOnline = 0;
+	m_pGlobalDataObject = DataPool::CreateObject<GlobalDataObject>(ESD_GLOBAL, FALSE);
+	m_pGlobalDataObject->Lock();
+	m_pGlobalDataObject->m_dwServerID = CGameService::GetInstancePtr()->GetServerID();
 
 	CHAR szSql[SQL_BUFF_LEN] = { 0 };
 	snprintf(szSql, SQL_BUFF_LEN, "select * from globaldata where serverid = %d", CGameService::GetInstancePtr()->GetServerID());
@@ -31,21 +32,21 @@ BOOL CGlobalDataManager::LoadData(CppMySQL3DB& tDBConnection)
 	CppMySQLQuery QueryResult = tDBConnection.querySQL(szSql);
 	if(!QueryResult.eof())
 	{
-		dwMaxGuid = QueryResult.getInt64Field("maxguid");
-		dwMaxOnline = QueryResult.getIntField("maxonline");
+		m_pGlobalDataObject->m_u64Guid = QueryResult.getInt64Field("maxguid");
+		m_pGlobalDataObject->m_dwMaxOnline = QueryResult.getIntField("maxonline");
+		int nLen = 0;
+		const unsigned char* pData = QueryResult.getBlobField("exdata", nLen);
+		memcpy((void*)&m_pGlobalDataObject->m_exData, (void*)pData, nLen);
 	}
 
-	if(dwMaxGuid <= 0)
+	if(m_pGlobalDataObject->m_u64Guid <= 0)
 	{
-		dwMaxGuid  =  CGameService::GetInstancePtr()->GetServerID();
-		dwMaxGuid = (dwMaxGuid << 48) + 1;
+		m_pGlobalDataObject->m_u64Guid =  CGameService::GetInstancePtr()->GetServerID();
+		m_pGlobalDataObject->m_u64Guid = (m_pGlobalDataObject->m_u64Guid << 48) + 1;
 	}
-	dwMaxGuid += 100;
-	m_pGlobalDataObject = DataPool::CreateObject<GlobalDataObject>(ESD_GLOBAL, FALSE);
-	m_pGlobalDataObject->Lock();
-	m_pGlobalDataObject->m_dwServerID = CGameService::GetInstancePtr()->GetServerID();
-	m_pGlobalDataObject->m_u64Guid	  = dwMaxGuid;
-	m_pGlobalDataObject->m_dwMaxOnline = dwMaxOnline;
+
+	m_pGlobalDataObject->m_u64Guid += 100;
+
 	m_pGlobalDataObject->Unlock();
 
 	return TRUE;
@@ -72,12 +73,22 @@ UINT32 CGlobalDataManager::GetMaxOnline()
 	return m_pGlobalDataObject->m_dwMaxOnline;
 }
 
-BOOL CGlobalDataManager::SetDataChange()
+BOOL CGlobalDataManager::SetExData(INT32 nIndex, INT32 dwData)
 {
-	///m_pGlobalDataObject->Lock();
-	//memset(m_pGlobalDataObject->m_CustomData, 0, len);
-	//SvrRegToSvrReq Req;
-	//Req.SerializePartialToArray(m_pGlobalDataObject->m_CustomData, Req.ByteSize());
-	//m_pGlobalDataObject->Unlock();
+	ERROR_RETURN_FALSE(nIndex > 0);
+	ERROR_RETURN_FALSE(nIndex < MAX_EXTRA_INDEX);
+
+	m_pGlobalDataObject->Lock();
+	m_pGlobalDataObject->m_exData[nIndex - 1] = dwData;
+	m_pGlobalDataObject->Unlock();
+
 	return TRUE;
+}
+
+INT32 CGlobalDataManager::GetExData(INT32 nIndex)
+{
+	ERROR_RETURN_VALUE(nIndex > 0, 0);
+	ERROR_RETURN_VALUE(nIndex < MAX_EXTRA_INDEX, 0);
+
+	return m_pGlobalDataObject->m_exData[nIndex - 1];
 }

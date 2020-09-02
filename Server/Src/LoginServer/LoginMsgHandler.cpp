@@ -218,6 +218,39 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
+	if (pServerNode->m_ServerFlag == ESF_MAINTAIN)
+	{
+		CLog::GetInstancePtr()->LogError("服务器:%d 维护中", Req.serverid());
+		SelectServerAck Ack;
+		Ack.set_serveraddr("0.0.0.0");
+		Ack.set_serverport(0);
+		Ack.set_retcode(MRC_SERVER_MAINTAIN);
+		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
+		return TRUE;
+	}
+
+	if (pServerNode->m_ServerStatus != ESS_SVR_ONLINE)
+	{
+		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d 不在线", Req.serverid());
+		SelectServerAck Ack;
+		Ack.set_serveraddr("0.0.0.0");
+		Ack.set_serverport(0);
+		Ack.set_retcode(MRC_SERVER_NOT_AVAILABLE);
+		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
+		return TRUE;
+	}
+
+	if (pServerNode->m_uSvrOpenTime > CommonFunc::GetCurrTime())
+	{
+		SelectServerAck Ack;
+		Ack.set_serveraddr("0.0.0.0");
+		Ack.set_serverport(0);
+		Ack.set_retcode(MRC_SERVER_NOT_OPENTIME);
+		ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, MSG_SELECT_SERVER_ACK, 0, 0, Ack));
+		return TRUE;
+	}
+
+	Req.set_checkrole(pServerNode->m_ServerFlag == ESF_BUSY);
 	ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pServerNode->m_dwConnID, MSG_SELECT_SERVER_REQ, 0, nConnID, Req));
 
 	return TRUE;
@@ -236,8 +269,6 @@ BOOL CLoginMsgHandler::OnMsgAccountRegAck( NetPacket* pPacket )
 
 	return TRUE;
 }
-
-
 
 BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket* pPacket )
 {
@@ -305,15 +336,18 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket* pPacket)
 	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nConnID = pPacket->m_dwConnID;
-	ERROR_RETURN_TRUE(nConnID != 0);
+	if (Ack.retcode() != MRC_SUCCESSED)
+	{
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, pHeader->u64TargetID, 0, Ack);
+		return TRUE;
+	}
 
 	LogicServerNode* pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.serverid());
 	ERROR_RETURN_TRUE(pNode != NULL);
 	Ack.set_serveraddr(pNode->m_strOuterAddr);
 	Ack.set_serverport(pNode->m_dwPort);
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pHeader->dwUserData, MSG_SELECT_SERVER_ACK, pHeader->u64TargetID, 0, Ack);
 
 	SetLastServerNty Nty;
 	Nty.set_accountid(Ack.accountid());

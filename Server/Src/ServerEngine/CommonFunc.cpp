@@ -668,7 +668,6 @@ BOOL CommonFunc::IsAlreadyRun(std::string strSignName)
 
 BOOL CommonFunc::PrintColorText(CHAR* pSzText, INT32 nColor)
 {
-	//nColor 0:默认 1:红; 2:黄; 3; 绿
 #ifdef WIN32
 	switch (nColor)
 	{
