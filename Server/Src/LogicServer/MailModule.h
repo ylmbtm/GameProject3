@@ -46,9 +46,6 @@ public:
 	BOOL NotifyChange();
 public:
 	std::map<UINT64, MailDataObject*> m_mapMailData;
-
-	std::set<UINT64> m_setChange;
-	std::set<UINT64> m_setRemove;
 };
 
 #endif //__MAIL_MODULE_H__

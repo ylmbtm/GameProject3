@@ -56,11 +56,14 @@ BOOL CNetManager::Stop()
 
 	m_pAcceptor = NULL;
 
-	m_pWorkThread->join();
+	if (m_pWorkThread != NULL)
+	{
+		m_pWorkThread->join();
 
-	delete m_pWorkThread;
+		delete m_pWorkThread;
 
-	m_pWorkThread = NULL;
+		m_pWorkThread = NULL;
+	}
 
 	CConnectionMgr::GetInstancePtr()->CloseAllConnection();
 

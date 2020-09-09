@@ -241,11 +241,14 @@ BOOL CAccountObjectMgr::Uninit()
 {
 	m_IsRun = FALSE;
 
-	m_pThread->join();
+	if (m_pThread != NULL)
+	{
+		m_pThread->join();
 
-	delete m_pThread;
+		delete m_pThread;
 
-	m_pThread = NULL;
+		m_pThread = NULL;
+	}
 
 	m_mapNameObj.clear();
 
