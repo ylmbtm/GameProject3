@@ -53,6 +53,7 @@ protected:
 	UINT32								m_dwRecvNum;
 	UINT32								m_dwSendNum;
 	UINT32								m_dwFps;
+	UINT32                              m_dwLastMsgID;
 };
 
 

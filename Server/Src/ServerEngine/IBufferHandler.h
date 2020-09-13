@@ -5,8 +5,6 @@ struct NetPacket;
 class IDataBuffer
 {
 public:
-	virtual INT32	GetRef() = 0;
-
 	virtual BOOL	AddRef() = 0;
 
 	virtual BOOL	Release() = 0;

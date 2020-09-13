@@ -34,6 +34,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("WatchServer" + CConfigFile::GetInstancePtr()->GetIntValue("areaid")))
+	{
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("watch_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");

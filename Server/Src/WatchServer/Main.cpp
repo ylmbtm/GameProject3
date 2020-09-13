@@ -10,12 +10,10 @@ int main(int argc, char* argv[])
 {
 	SetCrashReport("WatchServer");
 
-	if (!CGameService::GetInstancePtr()->Init())
+	if (CGameService::GetInstancePtr()->Init())
 	{
-		return 0;
+		CGameService::GetInstancePtr()->Run();
 	}
-
-	CGameService::GetInstancePtr()->Run();
 
 	CGameService::GetInstancePtr()->Uninit();
 

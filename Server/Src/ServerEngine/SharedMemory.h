@@ -326,14 +326,14 @@ public:
 			///其次回调新建
 			if (pBlock->m_bNewBlock)
 			{
-				pBlock->m_beforeTime = time(NULL);
+				pBlock->m_beforeTime = time(0);
 				if (!pdata->Create(pdb))
 				{
 					m_nErrorCount++;
 					continue;
 				}
 				pBlock->m_bNewBlock = false;
-				pBlock->m_afterTime = time(NULL);
+				pBlock->m_afterTime = time(0);
 				hasOprate = true;
 				nCreateCount++;
 				continue;
@@ -359,7 +359,7 @@ public:
 
 			if (bNeedSave)
 			{
-				pBlock->m_beforeTime = time(NULL);
+				pBlock->m_beforeTime = time(0);
 				if (!pdata->Update(pdb))
 				{
 					m_nErrorCount++;
@@ -367,7 +367,7 @@ public:
 				}
 				hasOprate = true;
 				nUpdateCount++;
-				pBlock->m_afterTime = time(NULL);
+				pBlock->m_afterTime = time(0);
 				continue;
 			}
 
@@ -376,7 +376,7 @@ public:
 				///释放的时候执行一次保存...如果上次没有保存成功或者，释放前修改了就再保存一次
 				if ((lastMotifyTime > 0) && (afterTime < beforeTime || lastMotifyTime > beforeTime))
 				{
-					pBlock->m_beforeTime = time(NULL);
+					pBlock->m_beforeTime = time(0);
 					if (!pdata->Update(pdb))
 					{
 						m_nErrorCount++;
@@ -384,7 +384,7 @@ public:
 					}
 					hasOprate = true;
 					nUpdateCount++;
-					pBlock->m_afterTime = time(NULL);
+					pBlock->m_afterTime = time(0);
 				}
 				m_MemoryPool->DestoryObject(pdata);
 				nRealseCount++;

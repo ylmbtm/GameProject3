@@ -23,12 +23,12 @@ public:
 
 	virtual ~CDataBuffer(void)
 	{
-
-	}
-
-	INT32 GetRef()
-	{
-		return m_dwRefCount;
+		m_nDataLen = 0;
+		m_nBufSize = SIZE;
+		m_dwRefCount = 0;
+		m_pPrev = NULL;
+		m_pNext = NULL;
+		m_pManager = NULL;
 	}
 
 	BOOL AddRef()
@@ -41,9 +41,9 @@ public:
 
 	BOOL Release()
 	{
-		ERROR_RETURN_FALSE(m_pManager != NULL);
+		assert(m_pManager != NULL);
 
-		ERROR_RETURN_FALSE(m_pManager->ReleaseDataBuff(this));
+		m_pManager->ReleaseDataBuff(this);
 
 		return TRUE;
 	}
@@ -156,7 +156,7 @@ public:
 			pDataBuffer->m_pPrev = NULL;
 		}
 
-		ERROR_RETURN_NULL(pDataBuffer->m_dwRefCount == 0);
+		assert(pDataBuffer->m_dwRefCount == 0);
 
 		pDataBuffer->m_dwRefCount = 1;
 
@@ -179,19 +179,21 @@ public:
 
 	BOOL ReleaseDataBuff(CDataBuffer<SIZE>* pBuff)
 	{
+		assert(pBuff != NULL);
 		if (pBuff == NULL)
 		{
 			return FALSE;
 		}
 
-		m_BuffMutex.lock();
-		pBuff->m_dwRefCount--;
-		if (pBuff->m_dwRefCount < 0)
+		assert(pBuff->m_dwRefCount > 0);
+		if (pBuff->m_dwRefCount <= 0)
 		{
 			return FALSE;
 		}
+		std::lock_guard<std::mutex> lock(m_BuffMutex);
+		pBuff->m_dwRefCount--;
 
-		if (pBuff->m_dwRefCount == 0)
+		if (pBuff->m_dwRefCount <= 0)
 		{
 			pBuff->m_nDataLen = 0;
 			//首先从己用中删除
@@ -206,7 +208,7 @@ public:
 			}
 			else
 			{
-				ERROR_RETURN_FALSE(pBuff->m_pPrev != NULL);
+				assert(pBuff->m_pPrev != NULL);
 				pBuff->m_pPrev->m_pNext = pBuff->m_pNext;
 				if (pBuff->m_pNext != NULL)
 				{
@@ -232,9 +234,6 @@ public:
 			}
 			m_dwBufferCount--;
 		}
-
-		m_BuffMutex.unlock();
-
 		return TRUE;
 	}
 
@@ -321,19 +320,19 @@ public:
 public:
 	IDataBuffer* AllocDataBuff(int nSize);
 
-	CBufferManager<64>     m_BufferManager64B;		//管理64B的内存池，
-	CBufferManager<128>    m_BufferManager128B;		//管理128B的内存池，
-	CBufferManager<256>    m_BufferManager256B;		//管理256B的内存池，
-	CBufferManager<512>    m_BufferManager512B;		//管理512B的内存池，
-	CBufferManager<1024>   m_BufferManager1K;		//管理1k的内存池，
-	CBufferManager<2048>   m_BufferManager2K;		//管理2k的内存池，
-	CBufferManager<4096>   m_BufferManager4K;		//管理4k的内存池，
-	CBufferManager<8192>   m_BufferManager8K;		//管理8k的内存池，
-	CBufferManager<16384>  m_BufferManager16K;		//管理16k的内存池，
-	CBufferManager<32768>  m_BufferManager32K;		//管理32k的内存池，
-	CBufferManager<65536>  m_BufferManager64K;		//管理64k的内存池，
+	CBufferManager<64>     m_BufferManager64B;		//管理<=64B的内存池，
+	CBufferManager<128>    m_BufferManager128B;		//管理<=128B的内存池，
+	CBufferManager<256>    m_BufferManager256B;		//管理<=256B的内存池，
+	CBufferManager<512>    m_BufferManager512B;		//管理<=512B的内存池，
+	CBufferManager<1024>   m_BufferManager1K;		//管理<=1k的内存池，
+	CBufferManager<2048>   m_BufferManager2K;		//管理<=2k的内存池，
+	CBufferManager<4096>   m_BufferManager4K;		//管理<=4k的内存池，
+	CBufferManager<8192>   m_BufferManager8K;		//管理<=8k的内存池，
+	CBufferManager<16384>  m_BufferManager16K;		//管理<=16k的内存池，
+	CBufferManager<32768>  m_BufferManager32K;		//管理<=32k的内存池，
+	CBufferManager<65536>  m_BufferManager64K;		//管理<=64k的内存池，
 
-	CBufferManager<10 * 1024 * 1014> m_BufferManagerAny;		//管理10M的内存, 并不用池管理, 直接申请, 直接释放.
+	CBufferManager<10 * 1024 * 1014> m_BufferManagerAny;		//管理<=10M的内存, 并不用池管理, 直接申请, 直接释放.
 };
 
 #endif
