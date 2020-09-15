@@ -4,10 +4,7 @@
 
 enum ECounterID
 {
-	CID_RESERVED1 = 1, //保留为bit用
-	CID_RESERVED2 = 2,//保留为bit用
-	CID_RESERVED3 = 3,//保留为bit用
-	CID_RESERVED4 = 4,//保留为bit用
+	CID_COMMON_BIT = 1, //保留为bit用
 
 
 

@@ -61,7 +61,7 @@ FLOAT  CommonConvert::StringToFloat(char* pStr)
 	return (FLOAT)atof(pStr);
 }
 
-DOUBLE CommonConvert::StringToDouble(char* pStr)
+DOUBLE CommonConvert::StringToDouble(const char* pStr)
 {
 	if (pStr == NULL)
 	{
@@ -528,7 +528,7 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	}
 	if (bAllAscii) //如果全部都是ASCII, 说明不是UTF-8
 	{
-		return FALSE;
+		return TRUE;
 	}
 	return TRUE;
 }

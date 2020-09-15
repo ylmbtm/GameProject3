@@ -20,7 +20,7 @@ BOOL ShareObject::IsLock() const
 
 void ShareObject::Unlock()
 {
-	m_UpdateTime = time(NULL);
+	m_UpdateTime = time(0);
 	m_Status = SMS_USE;
 }
 
@@ -72,7 +72,7 @@ BOOL ShareObject::IsUse() const
 void ShareObject::Reset()
 {
 	m_Status = SMS_NONE;
-	m_UpdateTime = time(NULL);
+	m_UpdateTime = time(0);
 }
 
 /******************************************************************

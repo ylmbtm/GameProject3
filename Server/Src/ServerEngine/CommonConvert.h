@@ -15,7 +15,7 @@ FLOAT StringToFloat(char* pStr);
 
 FLOAT StringToFloat(const char* pStr);
 
-DOUBLE StringToDouble(char* pStr);
+DOUBLE StringToDouble(const char* pStr);
 
 std::string DoubleToString(DOUBLE dValue);
 

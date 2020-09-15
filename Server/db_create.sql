@@ -530,7 +530,6 @@ CREATE TABLE `gm_command`  (
 DROP TABLE IF EXISTS `mail_data`;
 CREATE TABLE `mail_data`  (
   `autoid` int(6) NOT NULL AUTO_INCREMENT COMMENT '标识ID',
-  `platform` int(6) NULL DEFAULT NULL,
   `area_host` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '区号',
   `type` int(1) NULL DEFAULT NULL COMMENT '0为单发，1为群发',
   `reciver_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '玩家名称',
@@ -544,7 +543,7 @@ CREATE TABLE `mail_data`  (
   `reciver_group` int(1) NULL DEFAULT NULL COMMENT '0为区所有玩家，1为工会',
   `group_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '团队名称',
   `insert_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `receiver_id` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `receiver_id` bigint(20) NULL DEFAULT 0,
   `reason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sendmanager` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `language` int(11) NOT NULL DEFAULT 0,
@@ -559,7 +558,6 @@ CREATE TABLE `mail_data`  (
 DROP TABLE IF EXISTS `mail_data_backup`;
 CREATE TABLE `mail_data_backup`  (
   `autoid` int(6) NOT NULL AUTO_INCREMENT COMMENT '标识ID',
-  `platform` int(6) NULL DEFAULT NULL,
   `area_host` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '区号',
   `type` int(1) NULL DEFAULT NULL COMMENT '0为单发，1为群发',
   `reciver_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '玩家名称',
@@ -573,7 +571,7 @@ CREATE TABLE `mail_data_backup`  (
   `reciver_group` int(1) NULL DEFAULT NULL COMMENT '0为区所有玩家，1为工会',
   `group_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '团队名称',
   `insert_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `receiver_id` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `receiver_id` bigint(20) NULL DEFAULT NULL,
   `reason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sendmanager` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `language` int(11) NOT NULL DEFAULT 0,
@@ -617,11 +615,9 @@ CREATE TABLE `seal_player`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `areaid` int(11) NULL DEFAULT NULL COMMENT '区号',
   `accountid` bigint(50) NULL DEFAULT NULL,
-  `accountname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `roleid` bigint(11) NULL DEFAULT NULL COMMENT '角色id',
   `rolename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `rolelevel` int(11) NULL DEFAULT NULL,
-  `roletime` bigint(20) NULL DEFAULT NULL,
   `sealtype` int(11) NULL DEFAULT NULL COMMENT '封号类型 1：禁登陆 2：禁聊天 3：禁交易 4：禁pvp',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   `optime` datetime(0) NULL DEFAULT NULL,
@@ -680,6 +676,7 @@ CREATE TABLE `server_status`  (
   `max_online` int(11) NULL DEFAULT 0,
   `total_cnt` int(11) NULL DEFAULT 0,
   `cache_cnt` int(11) NULL DEFAULT NULL COMMENT '缓存人数',
+  `dberr_cnt` int(11) NULL DEFAULT NULL COMMENT '数据库写失败次数',
   `update_time` bigint(11) NULL DEFAULT 0,
   `status` int(11) NULL DEFAULT 0,
   `file_version` int(11) NULL DEFAULT 0,

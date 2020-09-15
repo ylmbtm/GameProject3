@@ -176,11 +176,12 @@ TreeNode<TKey, TValue>* AVLTree<TKey, TValue>::AllocNode()
 	TNodeTypePtr pValidNode = m_pFreeHead;
 
 	m_pFreeHead = m_pFreeHead->m_pRight;
+	if (m_pFreeHead != NULL)
+	{
+		m_pFreeHead->m_pLeft = NULL;
+	}
 
 	pValidNode = new(pValidNode)TNodeType();
-
-	m_pFreeHead->m_pLeft = NULL;
-
 	pValidNode->m_nHeight = 0;
 	pValidNode->m_pLeft   = NULL;
 	pValidNode->m_pRight  = NULL;
@@ -191,10 +192,19 @@ TreeNode<TKey, TValue>* AVLTree<TKey, TValue>::AllocNode()
 template<typename TKey, typename TValue>
 void AVLTree<TKey, TValue>::FreeNode(TNodeTypePtr pNode)
 {
-	pNode->m_pRight = m_pFreeHead;
-	m_pFreeHead->m_pLeft = pNode;
-	m_pFreeHead = pNode;
-	m_pFreeHead->m_pLeft = NULL;
+	if (m_pFreeHead == NULL)
+	{
+		m_pFreeHead = pNode;
+		m_pFreeHead->m_pLeft = NULL;
+		m_pFreeHead->m_pRight = NULL;
+	}
+	else
+	{
+		pNode->m_pRight = m_pFreeHead;
+		m_pFreeHead->m_pLeft = pNode;
+		m_pFreeHead = pNode;
+		m_pFreeHead->m_pLeft = NULL;
+	}
 
 	return ;
 }

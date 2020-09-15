@@ -455,7 +455,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 	HANDLE hShare = NULL;
 #ifdef WIN32
 	CHAR szMemName[128] = {0};
-	snprintf(szMemName, 128, "SM_%d", dwModuleID << 16 | nPage);
+	snprintf(szMemName, 128, "SM_%d", (dwModuleID << 16) | nPage);
 	hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, szMemName);
 	if (hShare != NULL)
 	{
@@ -466,7 +466,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 		}
 	}
 #else
-	hShare = shmget(dwModuleID << 16 | nPage, nSize, 0666 | IPC_CREAT | IPC_EXCL);
+	hShare = shmget((dwModuleID << 16) | nPage, nSize, 0666 | IPC_CREAT | IPC_EXCL);
 	if (hShare == -1)
 	{
 		hShare = NULL;
