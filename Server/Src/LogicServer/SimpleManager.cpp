@@ -179,6 +179,26 @@ BOOL CSimpleManager::CheckNameExist(std::string strName)
 	return FALSE;
 }
 
+BOOL CSimpleManager::CheckNameFormat(std::string strName)
+{
+	if (strName.size() > (ROLE_NAME_LEN - 30))
+	{
+		return FALSE;
+	}
+
+	if (strName.size() < 4)
+	{
+		return FALSE;
+	}
+
+	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\"))
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 UINT64 CSimpleManager::GetGuildID( UINT64 u64ID )
 {
 	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);

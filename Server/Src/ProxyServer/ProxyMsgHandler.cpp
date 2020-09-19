@@ -113,17 +113,14 @@ BOOL CProxyMsgHandler::OnCloseConnect(UINT32 nConnID)
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pConn->GetConnectionData());
 	ERROR_RETURN_TRUE(pPlayer != NULL);
 
-	if (pPlayer->GetGameSvrID() == 0)
+	if (pPlayer->GetGameSvrID() != 0)
 	{
-
-		return TRUE;
+		UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
+		ERROR_RETURN_TRUE(dwConnID != 0);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyGuid(), Req);
 	}
 
-
-
-	UINT32 dwConnID = GetGameSvrConnID(pPlayer->GetGameSvrID());
-	ERROR_RETURN_TRUE(dwConnID != 0);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, MSG_DISCONNECT_NTY, pPlayer->GetCharID(), pPlayer->GetCopyGuid(),  Req);
+	pPlayer->SetConnID(0);
 	return TRUE;
 }
 
@@ -296,6 +293,7 @@ BOOL CProxyMsgHandler::OnMsgKickoutNty(NetPacket* pPacket)
 	if (pConn != NULL)
 	{
 		pConn->SetConnectionData(0);
+		ServiceBase::GetInstancePtr()->CloseConnect(pPacketHeader->dwUserData);
 	}
 
 	return TRUE;

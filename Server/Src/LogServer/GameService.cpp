@@ -37,6 +37,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("LogServer" + CConfigFile::GetInstancePtr()->GetIntValue("areaid")))
+	{
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("log_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("log_svr_port");

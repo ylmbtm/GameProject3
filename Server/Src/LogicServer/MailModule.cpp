@@ -62,7 +62,7 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 		MailDataObject* pObject = CMailManager::GetInstancePtr()->PickUpMailData(tMailItem.guid());
 		if (pObject == NULL)
 		{
-			pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, FALSE);
+			pObject = DataPool::CreateObject<MailDataObject>(ESD_MAIL, TRUE);
 			pObject->m_uRoleID = tMailItem.roleid();
 			pObject->m_uGuid = tMailItem.guid();
 			pObject->m_uGroupGuid = tMailItem.groupid();
@@ -158,7 +158,7 @@ BOOL CMailModule::AddMail(EMailType eMailType, std::string& strSender, std::stri
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
-	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size()));
+	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size() + 1));
 	strncpy(pMailObject->m_szTitle, strTitle.c_str(), strTitle.size());
 	strncpy(pMailObject->m_szContent, strContent.c_str(), strContent.size());
 	pMailObject->m_dwMailType = eMailType;
@@ -198,6 +198,7 @@ BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 	pMailObject->m_uGroupGuid = pGroupMail->m_uGuid;
+	pMailObject->m_dwMailType = pGroupMail->m_dwMailType;
 	strncpy(pMailObject->m_szTitle, pGroupMail->m_szTitle, MAIL_TITLE_LEN);
 	strncpy(pMailObject->m_szContent, pGroupMail->m_szContent, MAIL_CONTENT_LEN);
 	strncpy(pMailObject->m_szSender, pGroupMail->m_szSender, ROLE_NAME_LEN);

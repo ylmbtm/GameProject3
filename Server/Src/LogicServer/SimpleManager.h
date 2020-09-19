@@ -68,6 +68,8 @@ public:
 
 	BOOL	CheckNameExist(std::string strName);
 
+	BOOL    CheckNameFormat(std::string strName);
+
 	UINT64	GetGuildID(UINT64 u64ID);
 
 	UINT32  GetTotalCount();
