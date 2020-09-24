@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommonConvert.h"
 
-
 INT32 CommonConvert::StringToInt(char* pStr)
 {
 	if(pStr == NULL)
@@ -598,5 +597,27 @@ BOOL CommonConvert::StringTrim(std::string& strValue)
 		strValue.erase(0, strValue.find_first_not_of((" \n\r\t")));
 		strValue.erase(strValue.find_last_not_of((" \n\r\t")) + 1);
 	}
+	return TRUE;
+}
+
+BOOL CommonConvert::StrCopy(char* pszDest, const char* pszSrc, INT32 nLen)
+{
+	if (pszDest == NULL || pszSrc == NULL)
+	{
+		return FALSE;
+	}
+
+	if (nLen <= 0)
+	{
+		return FALSE;
+	}
+
+	std::strncpy(pszDest, pszSrc, nLen - 1);
+
+	if (strlen(pszSrc) >= nLen)
+	{
+		return FALSE;
+	}
+
 	return TRUE;
 }

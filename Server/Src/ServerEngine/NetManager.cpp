@@ -57,7 +57,7 @@ BOOL CNetManager::WorkThread_Listen()
 			return FALSE;
 		}
 		CommonSocket::SetSocketBlock(hClientSocket, FALSE);
-		CommonSocket::SetSocketNoDelay(hClientSocket);
+		//CommonSocket::SetSocketNoDelay(hClientSocket);
 		CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 		if(pConnection != NULL)
 		{
@@ -173,19 +173,24 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 		bRetValue = GetQueuedCompletionStatus(m_hCompletePort, &dwNumOfByte, &CompleteKey, &lpOverlapped, dwWaitTime);
 		if(!bRetValue)
 		{
-			if(lpOverlapped == NULL)
+			if (lpOverlapped == NULL)
 			{
-				if(ERROR_ABANDONED_WAIT_0 == CommonSocket::GetSocketLastError())
+				if (ERROR_ABANDONED_WAIT_0 == CommonSocket::GetSocketLastError())
 				{
 					CLog::GetInstancePtr()->LogError("完成端口被外部关闭!");
 					return FALSE;
 				}
 
-				if(CommonSocket::GetSocketLastError() == WAIT_TIMEOUT)
+				if (CommonSocket::GetSocketLastError() == WAIT_TIMEOUT)
 				{
 					continue;
 				}
 			}
+			//else
+			//{
+			//	NetIoOperatorData* pIoPeratorData = (NetIoOperatorData*)lpOverlapped;
+			//	CLog::GetInstancePtr()->LogError(" GetQueuedCmpletionStatus Error: %d-%d-%s", pIoPeratorData->dwOpType, CommonFunc::GetLastError(), CommonFunc::GetLastErrorStr(CommonFunc::GetLastError()).c_str());
+			//}
 		}
 
 		NetIoOperatorData* pIoPeratorData = (NetIoOperatorData*)lpOverlapped;
@@ -322,7 +327,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 
 				CommonSocket::SetSocketBlock(m_hCurAcceptSocket, FALSE);
-				CommonSocket::SetSocketNoDelay(m_hCurAcceptSocket);
+				//CommonSocket::SetSocketNoDelay(m_hCurAcceptSocket);
 				CConnection* pConnection = AssociateCompletePort(m_hCurAcceptSocket, FALSE);
 				if (pConnection != NULL)
 				{
@@ -455,7 +460,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					}
 
 					CommonSocket::SetSocketBlock(hClientSocket, FALSE);
-					CommonSocket::SetSocketNoDelay(hClientSocket);
+					//CommonSocket::SetSocketNoDelay(hClientSocket);
 					CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 					if (pConnection != NULL)
 					{
@@ -673,7 +678,7 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 
 	CommonSocket::SetSocketBlock(hSocket, TRUE);
 
-	CommonSocket::SetSocketNoDelay(hSocket);
+	//CommonSocket::SetSocketNoDelay(hSocket);
 
 	if(!CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort))
 	{
@@ -714,7 +719,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
 	CommonSocket::SetSocketBlock(hSocket, FALSE);
 
-	CommonSocket::SetSocketNoDelay(hSocket);
+	//CommonSocket::SetSocketNoDelay(hSocket);
 
 #ifdef WIN32
 	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);

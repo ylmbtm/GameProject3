@@ -637,9 +637,31 @@ BOOL CommonFunc::IsProcessExist(UINT64 dwPid)
 	return TRUE;
 }
 
-INT32 CommonFunc::Min(INT32 nValue1, INT32 nValue2)
+UINT32 CommonFunc::GetProcessID(std::string strProcName)
 {
-	return (nValue1 < nValue2) ? nValue1 : nValue2;
+#ifdef WIN32
+	UINT32 dwProcID = 0;
+	HANDLE Snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	PROCESSENTRY32 stProcessEntry;
+	stProcessEntry.dwSize = sizeof(PROCESSENTRY32);
+	BOOL bRet = Process32First(Snapshot, &stProcessEntry);
+	while (bRet)
+	{
+		if(stricmp(strProcName.c_str(), stProcessEntry.szExeFile) == 0)
+		{
+			dwProcID = stProcessEntry.th32ProcessID;
+			break;
+		}
+
+		bRet = Process32Next(Snapshot, &stProcessEntry);
+	}
+
+	CloseHandle(Snapshot);
+
+	return dwProcID;
+#else
+	return 0;
+#endif
 }
 
 BOOL CommonFunc::IsAlreadyRun(std::string strSignName)

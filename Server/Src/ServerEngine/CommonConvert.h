@@ -66,6 +66,8 @@ BOOL HasSymbol(const char* pStr, const char* pszSymbol);
 
 BOOL StringTrim(std::string& strValue);
 
+BOOL StrCopy(char* pszDest, const char* pszSrc, INT32 nLen);
+
 }
 
 

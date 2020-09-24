@@ -401,6 +401,14 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		goto EXT;
 	}
 
+	//unsigned int timeout = 2;
+	//if (0 != mysql_options(m_pMySqlDB, MYSQL_OPT_CONNECT_TIMEOUT, (const char*)&timeout))
+	//{
+	//	m_nErrno = mysql_errno(m_pMySqlDB);
+	//	m_strError = mysql_error(m_pMySqlDB);
+	//	goto EXT;
+	//}
+
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
 	if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, client_flag) )
 	{
@@ -506,7 +514,6 @@ int CppMySQL3DB::execSQL(const char* sql)
 			return (int)mysql_affected_rows(m_pMySqlDB);
 		}
 	}
-
 
 	return -1;
 }

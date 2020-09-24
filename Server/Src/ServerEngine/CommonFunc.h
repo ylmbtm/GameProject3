@@ -79,7 +79,7 @@ BOOL			KillProcess(UINT64 dwPid);
 
 BOOL            IsProcessExist(UINT64 dwPid);
 
-INT32			Min(INT32 nValue1, INT32 nValue2);
+UINT32          GetProcessID(std::string strProcName);
 
 BOOL            IsAlreadyRun(std::string strSignName);
 
