@@ -268,6 +268,7 @@ public:
 		}
 
 		m_nErrorCount = 0;
+		UINT64 uTickStart = CommonFunc::GetTickCount();
 
 		INT32 nCreateCount = 0, nUpdateCount = 0, nDeleteCount = 0, nRealseCount = 0;
 		BOOL hasOprate = false;
@@ -391,9 +392,10 @@ public:
 			}
 		}
 
+		UINT64 uTickEnd = CommonFunc::GetTickCount();
 		if(nCreateCount > 0 || nCreateCount > 0 || nUpdateCount > 0 || nDeleteCount > 0 || nRealseCount > 0 || m_nErrorCount > 0)
 		{
-			CLog::GetInstancePtr()->LogInfo("ModuleID:[%02d]--Create:[%d]--Update:[%d]--Delete:[%d]--Release:[%d]--Error:[%d]", m_nModuleID, nCreateCount, nUpdateCount, nDeleteCount, nRealseCount, m_nErrorCount);
+			CLog::GetInstancePtr()->LogInfo("ModuleID:[%02d]--Create:[%d]--Update:[%d]--Delete:[%d]--Release:[%d]--Error:[%d]--Time:[%d]", m_nModuleID, nCreateCount, nUpdateCount, nDeleteCount, nRealseCount, m_nErrorCount, uTickEnd - uTickStart);
 		}
 
 		return hasOprate;

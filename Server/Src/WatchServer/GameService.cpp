@@ -34,7 +34,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	if (CommonFunc::IsAlreadyRun("WatchServer" + CConfigFile::GetInstancePtr()->GetIntValue("areaid")))
+	if (CommonFunc::IsAlreadyRun("WatchServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
 	{
 		return FALSE;
 	}

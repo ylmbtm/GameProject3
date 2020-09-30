@@ -179,8 +179,6 @@ BOOL ServiceBase::Update()
 		m_dwLastTick = CommonFunc::GetTickCount();
 	}
 
-	//CConnectionMgr::GetInstancePtr()->CheckConntionAvalible();
-
 	m_QueueLock.Lock();
 	std::swap(m_pRecvDataQueue, m_pDispathQueue);
 	m_QueueLock.Unlock();

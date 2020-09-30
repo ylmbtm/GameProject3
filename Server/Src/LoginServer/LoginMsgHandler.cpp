@@ -309,6 +309,11 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 	LogicRegToLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+
+	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_dwConnID);
+	ERROR_RETURN_TRUE(pConnection != NULL);
+	pConnection->SetConnectionData(1);
+
 	return TRUE;
 }
 
