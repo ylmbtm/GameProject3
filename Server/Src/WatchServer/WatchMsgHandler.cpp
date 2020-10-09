@@ -125,6 +125,7 @@ BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
 	ServerProcessInfo& serverData = m_vtProcess[index - 1];
 	serverData.ProcessID = Req.processid();
 	serverData.LastHeartTick = CommonFunc::GetTickCount();
+
 	if (serverData.ProscessStatus == EPS_Starting || serverData.ProscessStatus == EPS_Checking)
 	{
 		serverData.ProscessStatus = EPS_Connected;
@@ -379,6 +380,7 @@ BOOL CWatchMsgHandler::LoadProcessList()
 		{
 			continue;
 		}
+
 		ServerData.Params = std::string(pObjectNode->first_attribute("Params")->value());
 		ServerData.BootUpParameter = "start " + ServerData.serverName + " " + ServerData.Params;
 		ServerData.KillAll = CommonConvert::StringToInt(pObjectNode->first_attribute("KillAll")->value());

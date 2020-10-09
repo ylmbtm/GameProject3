@@ -36,6 +36,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("DBServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
+	{
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("db_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("db_svr_port");
@@ -99,9 +104,12 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
-	m_DBWriterManger.Uninit();
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_DBWriterManger.Uninit();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
 	return TRUE;
 }
 

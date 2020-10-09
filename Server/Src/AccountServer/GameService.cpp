@@ -43,6 +43,11 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("AccountServer"))
+	{
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("account_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("account_svr_port");

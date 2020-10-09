@@ -45,6 +45,13 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 		return FALSE;
 	}
 
+	CHAR szSignName[128] = { 0 };
+	snprintf(szSignName, 128, "GameServer%d_%d", dwServerID, dwPort);
+	if (CommonFunc::IsAlreadyRun(szSignName))
+	{
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("game_log_level"));
 
 	m_dwServerID = dwServerID;
@@ -140,7 +147,11 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_SceneManager.Uninit();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
 	return TRUE;
 }
 

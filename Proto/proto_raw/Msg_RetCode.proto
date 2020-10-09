@@ -33,7 +33,8 @@ enum MessageRetCode {
    MRC_NOT_ENOUGH_TIMES    = 203;    //次数不足
    MRC_NOT_ENOUGH_LEVEL    = 204;    //等级不足
    MRC_NOT_ENOUGH_VIPLV    = 205;    //vip等级不足
-   
+   MRC_ERROR_SEAL_ROLE     = 206;   //角色己被封禁
+   MRC_NAME_ERROR_FMT      = 207;   //名字不符合要求
    
    //其它
    MRC_ACCOUNT_NAME_EXIST    = 300;    //账号名己存在

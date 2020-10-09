@@ -20,6 +20,7 @@
 #include "Mstcpip.h"
 #include <time.h>
 #include <stdarg.h>
+#include <TlHelp32.h>
 #pragma  comment(lib,"ws2_32")
 #pragma  comment(lib, "Mswsock")
 
