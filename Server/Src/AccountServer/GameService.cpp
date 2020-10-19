@@ -45,6 +45,7 @@ BOOL CGameService::Init()
 
 	if (CommonFunc::IsAlreadyRun("AccountServer"))
 	{
+		CLog::GetInstancePtr()->LogError("AccountServer己经在运行!");
 		return FALSE;
 	}
 
@@ -119,6 +120,7 @@ BOOL CGameService::Uninit()
 	ServiceBase::GetInstancePtr()->StopNetwork();
 
 	google::protobuf::ShutdownProtobufLibrary();
+
 	return TRUE;
 }
 

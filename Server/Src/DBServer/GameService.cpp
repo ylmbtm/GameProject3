@@ -38,6 +38,7 @@ BOOL CGameService::Init()
 
 	if (CommonFunc::IsAlreadyRun("DBServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
 	{
+		CLog::GetInstancePtr()->LogError("DBServer己经在运行!");
 		return FALSE;
 	}
 

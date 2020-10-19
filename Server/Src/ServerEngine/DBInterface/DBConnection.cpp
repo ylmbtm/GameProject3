@@ -144,7 +144,18 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 			                                 mysql_stmt_errno(pLastStmt),
 			                                 mysql_stmt_error(pLastStmt));
 
-			CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+			if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONGLONG)
+			{
+				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+			}
+			else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
+			{
+				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+			}
+			else
+			{
+				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+			}
 
 			mysql_stmt_close(pLastStmt);
 			pLastStmt = NULL;
@@ -221,10 +232,25 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		                                 mysql_stmt_errno(pMySqlStmt),
 		                                 mysql_stmt_error(pMySqlStmt));
 
-		CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+		if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONGLONG)
+		{
+			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+		}
+		else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
+		{
+			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+		}
+		else
+		{
+			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+		}
 
-		//mysql_stmt_close(pMySqlStmt);
-		//pMySqlStmt = NULL;
+
+
+		mysql_stmt_close(pMySqlStmt);
+		pMySqlStmt = NULL;
+		pLastProcedure = NULL;
+		pLastStmt = NULL;
 		return FALSE;
 	}
 
@@ -463,7 +489,16 @@ int CDBConnection::GetError( void ) const
 
 BOOL CDBConnection::Execute( std::string sql )
 {
-	return TRUE;
+	int nRet = mysql_real_query(m_pMySql, sql.c_str(), sql.size());
+	if (nRet == 0)
+	{
+		return TRUE;
+	}
+
+	m_nErrno = mysql_errno(m_pMySql);
+	m_strError = mysql_error(m_pMySql);
+
+	return FALSE;
 }
 
 BOOL CDBConnection::SetConnectParam( char const* szHost, char const* szUser, char const* szPwd, char const* szDb, int nPort, char const* szCharSet)

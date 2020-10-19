@@ -38,9 +38,9 @@ struct Log_AccountCreate : public Log_BaseData
 	UINT32      m_dwIpAddr      = 0;    //登录IP
 	CHAR        m_szIdfa[64]    = { 0 };  //客户端idfa
 	CHAR        m_szImei[64]    = { 0 };  //手机的MEI
-	CHAR        m_szModel[20]   = { 0 }; //手机的机型
-	CHAR        m_szUuid[50]    = { 0 };  //手机的uuid;
-	CHAR        m_szOpenID[32]  = { 0 };//第三方平台ID
+	CHAR        m_szModel[64]   = { 0 }; //手机的机型
+	CHAR        m_szUuid[64]    = { 0 };  //手机的uuid;
+	CHAR        m_szOpenID[64]  = { 0 };//第三方平台ID
 
 	Log_AccountCreate()
 	{
@@ -61,9 +61,9 @@ struct Log_AccountLogin : public Log_BaseData
 	UINT32      m_dwIpAddr = 0;   //登录IP
 	CHAR        m_szIdfa[64] = { 0 }; //客户端idfa
 	CHAR        m_szImei[64] = { 0 }; //手机的MEI
-	CHAR        m_szModel[20] = { 0 };//手机的机型
-	CHAR        m_szUuid[50] = { 0 }; //手机的uuid;
-	CHAR        m_szOpenID[32] = { 0 };//第三方平台ID
+	CHAR        m_szModel[64] = { 0 };//手机的机型
+	CHAR        m_szUuid[64] = { 0 }; //手机的uuid;
+	CHAR        m_szOpenID[64] = { 0 };//第三方平台ID
 	Log_AccountLogin()
 	{
 		m_LogType = ELT_ACCOUNT_LOGIN;

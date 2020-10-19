@@ -28,7 +28,7 @@ BOOL CGameLogManager::LogRoleCreate(CPlayerObject* pPlayer)
 	Log_RoleCreate log;
 	log.m_uID = pPlayer->GetRoleID();
 	log.m_uAccountID = pPlayer->GetAccountID();
-	strncpy(log.m_szRoleName, pPlayer->GetName(), 63);
+	CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
 	log.m_dwAreaID = CGameService::GetInstancePtr()->GetServerID();
 	log.m_uOpTime = CommonFunc::GetCurrTime();
 	log.m_dwChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
@@ -46,7 +46,7 @@ BOOL CGameLogManager::LogRoleLogin(CPlayerObject* pPlayer)
 
 	log.m_uID = pPlayer->GetRoleID();
 	log.m_uAccountID = pPlayer->GetAccountID();
-	strncpy(log.m_szRoleName, pPlayer->GetName(), 63);
+	CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
 	log.m_dwAreaID = CGameService::GetInstancePtr()->GetServerID();
 	log.m_uOpTime = CommonFunc::GetCurrTime();
 	log.m_dwChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
@@ -65,7 +65,7 @@ BOOL CGameLogManager::LogRoleLogout(CPlayerObject* pPlayer)
 
 	log.m_uID = pPlayer->GetRoleID();
 	log.m_uAccountID = pPlayer->GetAccountID();
-	strncpy(log.m_szRoleName, pPlayer->GetName(), 63);
+	CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
 	log.m_dwAreaID = CGameService::GetInstancePtr()->GetServerID();
 	log.m_uOpTime = CommonFunc::GetCurrTime();
 	log.m_dwChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
@@ -95,9 +95,9 @@ BOOL CGameLogManager::LogRoleChat(CPlayerObject* pPlayer, INT32 nChatChl, std::s
 	log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
 	log.m_nVipLevel = (UINT32)(pPlayer->GetProperty(ERP_VIPLEVEL));
 	log.m_nChatChl = nChatChl;
-	strncpy(log.m_szText, strContent.c_str(), CommonFunc::Min(strContent.size(), 256));
-	strncpy(log.m_szTargetName, strTargetName.c_str(), CommonFunc::Min(strTargetName.size(), 64));
-	strncpy(log.m_szSrcName, pPlayer->GetName(),  64);
+	CommonConvert::StrCopy(log.m_szText, strContent.c_str(), 256);
+	CommonConvert::StrCopy(log.m_szTargetName, strTargetName.c_str(), sizeof(log.m_szTargetName));
+	CommonConvert::StrCopy(log.m_szSrcName, pPlayer->GetName(), sizeof(log.m_szSrcName));
 
 	log.m_uTargetID = uTargetID;
 	WriteGameLog(log);
