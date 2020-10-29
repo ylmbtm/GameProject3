@@ -61,6 +61,11 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 				}
 				else //这是客户端发过来的消息
 				{
+					//CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pNetPacket->m_dwConnID);
+					//ERROR_RETURN_TRUE(pConnection !=  NULL);
+
+					//pConnection->GetConnectionData();
+
 					RelayToLogicServer(pNetPacket->m_pDataBuffer);
 				}
 			}
@@ -121,6 +126,7 @@ BOOL CProxyMsgHandler::OnCloseConnect(UINT32 nConnID)
 	}
 
 	pPlayer->SetConnID(0);
+
 	return TRUE;
 }
 
@@ -327,14 +333,20 @@ BOOL CProxyMsgHandler::OnMsgReconnectReq(NetPacket* pPacket)
 	ERROR_RETURN_FALSE(pPacketHeader != NULL);
 
 	CProxyPlayer* pPlayer = CProxyPlayerMgr::GetInstancePtr()->GetByCharID(pPacketHeader->u64TargetID);
-	if (pPlayer != NULL)
+	if (pPlayer != NULL && pPlayer->GetConnID() != 0)
 	{
 		ERROR_RETURN_FALSE(pPlayer->GetConnID() != pPacket->m_dwConnID);
+
 		CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPlayer->GetConnID());
 		if (pConn != NULL)
 		{
 			CLog::GetInstancePtr()->LogError("CProxyMsgHandler::OnMsgReconnectReq Error orgin connect alreay exist:%d", pPlayer->GetConnID());
 			pConn->SetConnectionData(0);
+			ServiceBase::GetInstancePtr()->CloseConnect(pPlayer->GetConnID());
+		}
+		else
+		{
+			CLog::GetInstancePtr()->LogError("CProxyMsgHandler::OnMsgReconnectReq Error orgin connect alreay removed:%d", pPlayer->GetConnID());
 		}
 	}
 

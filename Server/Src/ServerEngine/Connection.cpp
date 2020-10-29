@@ -192,6 +192,7 @@ BOOL CConnection::ExtractBuffer()
 				m_dwDataLen -= m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
 				m_pBufPos += m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
 				m_pCurRecvBuffer->SetTotalLenth(m_pCurBufferSize);
+				m_LastRecvTick = CommonFunc::GetTickCount();
 				m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, GetConnectionID());
 				m_pCurRecvBuffer = NULL;
 			}
@@ -229,6 +230,8 @@ BOOL CConnection::ExtractBuffer()
 			m_pBufPos += dwPacketSize;
 
 			pDataBuffer->SetTotalLenth(dwPacketSize);
+
+			m_LastRecvTick = CommonFunc::GetTickCount();
 
 			m_pDataHandler->OnDataHandle(pDataBuffer, GetConnectionID());
 		}
@@ -304,7 +307,6 @@ BOOL CConnection::HandleRecvEvent(UINT32 dwBytes)
 		return FALSE;
 	}
 #endif
-	m_LastRecvTick = CommonFunc::GetTickCount();
 	return TRUE;
 }
 
@@ -363,6 +365,7 @@ BOOL CConnection::Reset()
 
 	m_pBufPos   = m_pRecvBuf;
 
+	m_LastRecvTick = 0;
 	if(m_pCurRecvBuffer != NULL)
 	{
 		m_pCurRecvBuffer->Release();
@@ -767,15 +770,15 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 
 	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{
-		CConnection* pTemp = m_vtConnList.at(i);
-		if(!pTemp->IsConnectionOK())
+		CConnection* pConnection = m_vtConnList.at(i);
+		if(!pConnection->IsConnectionOK())
 		{
 			continue;
 		}
 
-		if(curTick > (pTemp->m_LastRecvTick + 30000))
+		if(curTick > (pConnection->m_LastRecvTick + 30000))
 		{
-			pTemp->Close();
+			pConnection->Close();
 		}
 	}
 

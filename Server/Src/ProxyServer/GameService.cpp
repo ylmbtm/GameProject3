@@ -38,6 +38,12 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("ProxyServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
+	{
+		CLog::GetInstancePtr()->LogError("ProxyServer己经在运行!");
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("proxy_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
@@ -125,6 +131,7 @@ BOOL CGameService::ConnectToLogicSvr()
 	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
 	ERROR_RETURN_FALSE(pConn != NULL);
 	m_dwLogicConnID = pConn->GetConnectionID();
+	pConn->SetConnectionData(1);
 	return TRUE;
 }
 

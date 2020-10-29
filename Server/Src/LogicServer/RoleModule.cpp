@@ -48,7 +48,7 @@ BOOL CRoleModule::InitBaseData( UINT64 u64RoleID, std::string Name, UINT32 dwCar
 	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = u64RoleID;
 	m_pRoleDataObject->m_uAccountID = u64AccountID;
-	strncpy(m_pRoleDataObject->m_szName, Name.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)Name.size()));
+	CommonConvert::StrCopy(m_pRoleDataObject->m_szName, Name.c_str(), ROLE_NAME_LEN);
 	m_pRoleDataObject->m_nLangID = 0;
 	m_pRoleDataObject->m_CarrerID = dwCarrerID;
 	m_pRoleDataObject->m_nChannel = dwChannel;
@@ -112,7 +112,7 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uRoleID = Ack.roledata().roleid();
 	m_pRoleDataObject->m_uAccountID = Ack.roledata().accountid();
-	strncpy(m_pRoleDataObject->m_szName, Ack.roledata().name().c_str(), Ack.roledata().name().size());
+	CommonConvert::StrCopy(m_pRoleDataObject->m_szName, Ack.roledata().name().c_str(), ROLE_NAME_LEN);
 	m_pRoleDataObject->m_nLangID = Ack.roledata().langid();
 	m_pRoleDataObject->m_CarrerID = Ack.roledata().carrerid();
 	m_pRoleDataObject->m_Level = Ack.roledata().level();
