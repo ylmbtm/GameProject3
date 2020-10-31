@@ -12,7 +12,7 @@ struct CSimpleInfo
 		m_dwCarrerID	= 0;
 		m_dwLevel		= 0;
 		m_dwVipLevel	= 0;
-		m_dwFightValue	= 0;
+		m_uFightValue	= 0;
 		m_uLogoffTime	= 0;
 		m_uLogonTime	= 0;
 		m_uCreateTime	= 0;
@@ -24,7 +24,7 @@ struct CSimpleInfo
 	UINT32	m_dwCarrerID;
 	UINT32	m_dwLevel;
 	UINT32	m_dwVipLevel;
-	UINT32	m_dwFightValue;
+	UINT64	m_uFightValue;
 	UINT64	m_uLogoffTime;
 	UINT64	m_uLogonTime;
 	UINT64	m_uCreateTime;
@@ -56,11 +56,11 @@ public:
 	BOOL	SetLogonTime(UINT64 u64ID, UINT64 dwTime);
 	BOOL	SetLogoffTime(UINT64 u64ID, UINT64 dwTime);
 
-	UINT32	GetFightValue(UINT64 u64ID);
+	UINT64	GetFightValue(UINT64 u64ID);
 
-	BOOL	SetFightValue(UINT64 u64ID, UINT32 dwFight, UINT32 dwLevel);
+	BOOL	SetFightValue(UINT64 u64ID, UINT64 uFight, UINT32 dwLevel);
 
-	BOOL	SetPlayerName(UINT64 u64ID, std::string strName);
+	BOOL	SetName(UINT64 u64ID, std::string strName);
 
 	BOOL	SetVipLevel(UINT64 u64ID, UINT32 dwVipLvl);
 

@@ -70,9 +70,9 @@ BOOL CMailModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 			pObject->m_uSenderID = tMailItem.senderid();
 			pObject->m_dwMailType = tMailItem.mailtype();
 			pObject->m_dwStatus = tMailItem.status();
-			strncpy(pObject->m_szSender, tMailItem.sender().c_str(), tMailItem.sender().size());
-			strncpy(pObject->m_szTitle, tMailItem.title().c_str(), tMailItem.title().size());
-			strncpy(pObject->m_szContent, tMailItem.content().c_str(), tMailItem.content().size());
+			CommonConvert::StrCopy(pObject->m_szSender, tMailItem.sender().c_str(), ROLE_NAME_LEN);
+			CommonConvert::StrCopy(pObject->m_szTitle, tMailItem.title().c_str(), MAIL_TITLE_LEN);
+			CommonConvert::StrCopy(pObject->m_szContent, tMailItem.content().c_str(), MAIL_CONTENT_LEN);
 			memcpy((void*)&pObject->m_Items, (void*)tMailItem.items().c_str(), sizeof(StMailItem)*MAIL_ITEM_COUNT);
 			m_mapMailData.insert(std::make_pair(pObject->m_uGuid, pObject));
 		}
@@ -158,9 +158,9 @@ BOOL CMailModule::AddMail(EMailType eMailType, std::string& strSender, std::stri
 	pMailObject->Lock();
 	pMailObject->m_uGuid = CGlobalDataManager::GetInstancePtr()->MakeNewGuid();
 	pMailObject->m_uRoleID = m_pOwnPlayer->GetRoleID();
-	strncpy(pMailObject->m_szSender, strSender.c_str(), CommonFunc::Min(ROLE_NAME_LEN, (INT32)strSender.size() + 1));
-	strncpy(pMailObject->m_szTitle, strTitle.c_str(), strTitle.size());
-	strncpy(pMailObject->m_szContent, strContent.c_str(), strContent.size());
+	CommonConvert::StrCopy(pMailObject->m_szSender, strSender.c_str(), ROLE_NAME_LEN);
+	CommonConvert::StrCopy(pMailObject->m_szTitle, strTitle.c_str(), MAIL_TITLE_LEN);
+	CommonConvert::StrCopy(pMailObject->m_szContent, strContent.c_str(), MAIL_CONTENT_LEN);
 	pMailObject->m_dwMailType = eMailType;
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 
@@ -199,9 +199,9 @@ BOOL CMailModule::ReceiveGroupMail(GroupMailDataObject* pGroupMail)
 	pMailObject->m_uTime = CommonFunc::GetCurrTime();
 	pMailObject->m_uGroupGuid = pGroupMail->m_uGuid;
 	pMailObject->m_dwMailType = pGroupMail->m_dwMailType;
-	strncpy(pMailObject->m_szTitle, pGroupMail->m_szTitle, MAIL_TITLE_LEN);
-	strncpy(pMailObject->m_szContent, pGroupMail->m_szContent, MAIL_CONTENT_LEN);
-	strncpy(pMailObject->m_szSender, pGroupMail->m_szSender, ROLE_NAME_LEN);
+	CommonConvert::StrCopy(pMailObject->m_szTitle, pGroupMail->m_szTitle, MAIL_TITLE_LEN);
+	CommonConvert::StrCopy(pMailObject->m_szContent, pGroupMail->m_szContent, MAIL_CONTENT_LEN);
+	CommonConvert::StrCopy(pMailObject->m_szSender, pGroupMail->m_szSender, ROLE_NAME_LEN);
 	for (int i = 0; i < MAIL_ITEM_COUNT; i++)
 	{
 		if (pGroupMail->m_Items[i].m_nItemID == 0)

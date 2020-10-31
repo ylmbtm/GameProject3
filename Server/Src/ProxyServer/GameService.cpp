@@ -138,6 +138,9 @@ BOOL CGameService::ConnectToLogicSvr()
 BOOL CGameService::Uninit()
 {
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_ProxyMsgHandler.Uninit();
+
 	google::protobuf::ShutdownProtobufLibrary();
 
 	return TRUE;

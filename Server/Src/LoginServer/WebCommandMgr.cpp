@@ -60,7 +60,7 @@ BOOL CWebCommandMgr::DispatchPacket(NetPacket* pNetPacket)
 BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
-	CommonConvert::StrCopy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth()+1);
+	CommonConvert::StrCopy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth() + 1);
 
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
