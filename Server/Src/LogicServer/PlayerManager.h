@@ -31,6 +31,7 @@ public:
 	BOOL                ReleaseAll();
 public:
 
+	UINT32              m_dwMaxCacheNum;
 };
 
 #endif //__WS_PLAYER_OBJECT_H__

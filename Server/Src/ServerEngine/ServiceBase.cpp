@@ -200,15 +200,8 @@ BOOL ServiceBase::Update()
 			}
 			else
 			{
-				//try
-				//{
 				m_dwLastMsgID = item.m_dwMsgID;
 				m_pPacketDispatcher->DispatchPacket(&item);
-				//}
-				//catch (std::exception& e)
-				//{
-				//	CLog::GetInstancePtr()->LogError("DispatchPacket Message Error %s, MessageID:%d", e.what(), item.m_dwMsgID);
-				//}
 
 				item.m_pDataBuffer->Release();
 
