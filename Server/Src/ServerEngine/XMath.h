@@ -1,5 +1,8 @@
 ﻿#ifndef __X_MATH_H_
 #define __X_MATH_H_
+
+#include <math.h>
+
 #include "CommonConvert.h"
 
 #define PI			3.1415926f
