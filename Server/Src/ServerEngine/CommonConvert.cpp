@@ -612,7 +612,7 @@ BOOL CommonConvert::StrCopy(char* pszDest, const char* pszSrc, INT32 nLen)
 		return FALSE;
 	}
 
-	std::strncpy(pszDest, pszSrc, nLen - 1);
+	strncpy(pszDest, pszSrc, nLen - 1);
 
 	if (strlen(pszSrc) >= nLen)
 	{
