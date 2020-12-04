@@ -22,6 +22,8 @@ enum EWebAction
 	EWA_DELTE_MAIL,             //删除邮件
 	EWA_NOTICE_POPUP,           //游戏弹窗公告
 	EWA_ACTIVITY_CHANGE,        //活动控制更新
+	EWA_DELETE_ROLE,            //删除角色
+	EWA_REMOVE_ITEM,            //删除角色道具
 };
 
 

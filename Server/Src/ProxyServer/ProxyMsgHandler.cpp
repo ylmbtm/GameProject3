@@ -61,10 +61,13 @@ BOOL CProxyMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 				}
 				else //这是客户端发过来的消息
 				{
-					//CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pNetPacket->m_dwConnID);
-					//ERROR_RETURN_TRUE(pConnection !=  NULL);
+					CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pNetPacket->m_dwConnID);
+					ERROR_RETURN_TRUE(pConnection !=  NULL);
 
-					//pConnection->GetConnectionData();
+					if (pConnection->GetConnectionData() != pPacketHeader->u64TargetID)
+					{
+						return TRUE;
+					}
 
 					RelayToLogicServer(pNetPacket->m_pDataBuffer);
 				}

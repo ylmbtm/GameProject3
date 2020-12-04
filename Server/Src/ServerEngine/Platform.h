@@ -9,7 +9,6 @@
 #define OS_PLATFORM_LINUX
 #endif
 
-
 #ifdef OS_PLATFORM_WINDOWS
 #include <io.h>
 #include <direct.h>

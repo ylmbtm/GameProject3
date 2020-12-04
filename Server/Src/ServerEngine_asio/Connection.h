@@ -56,12 +56,16 @@ public:
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
 
-	UINT32  GetIpAddr(BOOL bHost);
+	UINT32  GetIpAddr(BOOL bHost = TRUE);
+
+	VOID    EnableCheck(BOOL bCheck);
 public:
 	boost::asio::ip::tcp::socket m_hSocket;
 
 	BOOL						m_bConnected;
 
+
+	BOOL                        m_bPacketNoCheck;
 	UINT32                      m_dwConnID;
 	UINT64                      m_u64ConnData;
 
@@ -113,7 +117,7 @@ public:
 
 	BOOL		    DestroyAllConnection();
 
-	BOOL			CheckConntionAvalible();
+	BOOL			CheckConntionAvalible(INT32 nInterval);
 
 public:
 

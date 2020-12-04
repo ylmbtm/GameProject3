@@ -739,6 +739,16 @@ BOOL CConnectionMgr::CloseAllConnection()
 	for(size_t i = 0; i < m_vtConnList.size(); i++)
 	{
 		pConn = m_vtConnList.at(i);
+		if (!pConn->IsConnectionOK())
+		{
+			continue;
+		}
+
+		if (pConn->m_hSocket == INVALID_SOCKET)
+		{
+			continue;
+		}
+
 		pConn->Close();
 	}
 

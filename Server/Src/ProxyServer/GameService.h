@@ -35,6 +35,7 @@ public:
 	CProxyMsgHandler	m_ProxyMsgHandler;
 
 	UINT32				m_dwLogicConnID;
+	BOOL                m_bLogicConnect;
 public:
 	//*********************消息处理定义开始******************************
 	//*********************消息处理定义结束******************************

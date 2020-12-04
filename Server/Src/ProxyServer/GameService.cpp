@@ -8,10 +8,13 @@
 CGameService::CGameService(void)
 {
 	m_dwLogicConnID		= 0;
+	m_bLogicConnect = FALSE;
 }
 
 CGameService::~CGameService(void)
 {
+	m_dwLogicConnID = 0;
+	m_bLogicConnect = FALSE;
 }
 
 CGameService* CGameService::GetInstancePtr()
@@ -69,6 +72,10 @@ BOOL CGameService::Init()
 
 BOOL CGameService::OnNewConnect(UINT32 nConnID)
 {
+	if (nConnID == m_dwLogicConnID)
+	{
+		m_bLogicConnect = TRUE;
+	}
 	m_ProxyMsgHandler.OnNewConnect(nConnID);
 
 	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);

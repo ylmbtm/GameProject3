@@ -317,8 +317,8 @@ BOOL CConnection::Reset()
 	m_dwIpAddr  = 0;
 
 	m_pBufPos   = m_pRecvBuf;
-	
-	if (m_pCurRecvBuffer != NULL)
+
+	if(m_pCurRecvBuffer != NULL)
 	{
 		m_pCurRecvBuffer->Release();
 		m_pCurRecvBuffer = NULL;
@@ -616,22 +616,33 @@ BOOL CConnectionMgr::DestroyAllConnection()
 	return TRUE;
 }
 
-BOOL CConnectionMgr::CheckConntionAvalible()
+BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
 {
 	return TRUE;
 	UINT64 curTick = CommonFunc::GetTickCount();
 
 	for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
 	{
-		CConnection* pTemp = m_vtConnList.at(i);
-		if(!pTemp->IsConnectionOK())
+		CConnection* pConnection = m_vtConnList.at(i);
+		if(!pConnection->IsConnectionOK())
 		{
 			continue;
 		}
 
-		if(curTick > (pTemp->m_LastRecvTick + 30000))
+		if (pConnection->GetConnectionData() == 1)
 		{
-			pTemp->Close();
+			continue;
+		}
+
+		if (pConnection->m_LastRecvTick <= 0)
+		{
+			continue;
+		}
+
+		if(curTick > (pConnection->m_LastRecvTick + nInterval * 1000))
+		{
+			CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 超时主动断开连接 ConnID:%d", pConnection->GetConnectionID());
+			pConnection->Close();
 		}
 	}
 

@@ -52,7 +52,9 @@ public:
 
 	BOOL	CheckHeader(CHAR* m_pPacket);
 
-	UINT32  GetIpAddr(BOOL bHost);
+	UINT32  GetIpAddr(BOOL bHost = TRUE);
+
+	VOID    EnableCheck(BOOL bCheck);
 public:
 	uv_tcp_t					m_hSocket;
 	uv_connect_t				m_ConnectReq;
@@ -117,7 +119,7 @@ public:
 
 	BOOL		    DestroyAllConnection();
 
-	BOOL			CheckConntionAvalible();
+	BOOL			CheckConntionAvalible(INT32 nInterval);
 
 public:
 

@@ -23,6 +23,7 @@
 #include "CommonConvert.h"
 #include "SpinLock.h"
 
+#define HAVE_RINT 1
 #endif
 
 
