@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "Msg_Game.proto";
+import "Msg_Base.proto";
 
 message BagItem {
     uint64   Guid        = 1;

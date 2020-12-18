@@ -66,7 +66,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;4244;</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -87,7 +88,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;4800;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4800;4244;</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -101,6 +103,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Message\Msg_Account.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Base.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -118,6 +124,7 @@
     </ClCompile>
     <ClCompile Include="..\WatcherClient\WatcherClient.cpp" />
     <ClCompile Include="GameService.cpp" />
+    <ClCompile Include="GiftCodeManager.cpp" />
     <ClCompile Include="LoginClientMgr.cpp" />
     <ClCompile Include="LoginMsgHandler.cpp" />
     <ClCompile Include="LogicSvrManager.cpp" />
@@ -132,10 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Message\Msg_Account.pb.h" />
+    <ClInclude Include="..\Message\Msg_Base.pb.h" />
     <ClInclude Include="..\Message\Msg_Game.pb.h" />
     <ClInclude Include="..\Message\Msg_ID.pb.h" />
     <ClInclude Include="..\WatcherClient\WatcherClient.h" />
     <ClInclude Include="GameService.h" />
+    <ClInclude Include="GiftCodeManager.h" />
     <ClInclude Include="LoginClientMgr.h" />
     <ClInclude Include="LoginMsgHandler.h" />
     <ClInclude Include="LogicSvrManager.h" />

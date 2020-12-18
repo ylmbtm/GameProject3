@@ -70,8 +70,6 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
 
 BOOL ServiceBase::StopNetwork()
 {
-	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
-
 	CNetManager::GetInstancePtr()->Stop();
 
 	return TRUE;

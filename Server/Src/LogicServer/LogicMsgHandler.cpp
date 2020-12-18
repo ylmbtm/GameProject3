@@ -349,8 +349,6 @@ BOOL CLogicMsgHandler::OnMsgRoleLogoutReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-
-
 BOOL CLogicMsgHandler::OnMsgRoleDisconnect(NetPacket* pNetPacket)
 {
 	RoleDisconnectReq Req;
@@ -458,7 +456,7 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	//Ack.set_retcode(xxx);
 	//pPlayer->SendMsgProtoBuf(MSG_CHAT_MESSAGE_ACK, Ack);
 
-	switch(Req.channel())
+	switch(Req.chatchl())
 	{
 		case CHL_WORLD:
 		{

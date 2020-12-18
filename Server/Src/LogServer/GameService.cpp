@@ -39,6 +39,7 @@ BOOL CGameService::Init()
 
 	if (CommonFunc::IsAlreadyRun("LogServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
 	{
+		CLog::GetInstancePtr()->LogError("LogServer己经在运行!");
 		return FALSE;
 	}
 
@@ -102,8 +103,14 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+
 	return TRUE;
 }
 

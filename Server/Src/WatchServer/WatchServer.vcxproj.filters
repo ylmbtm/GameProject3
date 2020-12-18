@@ -33,6 +33,12 @@
     <ClCompile Include="..\Message\Msg_Game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\Message\Msg_ID.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Message\Msg_Base.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameService.h">
@@ -43,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="WatchMsgHandler.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_ID.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Game.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Message\Msg_Base.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

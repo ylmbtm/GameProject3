@@ -1,10 +1,5 @@
 ﻿syntax = "proto3";
-
-message SkillItem {
-    uint32 SkillID = 1;
-    int32  Level = 2;
-    int32  KeyPos = 3;   //强化等级
-}
+import "Msg_Base.proto";
 
 message GmStopServerReq {
     uint32    Data        	= 1;
@@ -237,10 +232,9 @@ message ChatMessageReq {
     string    SrcName        = 1;
     uint64    SrcID          = 2;
     uint64    TargetID       = 3; //目标ID
-    int32     Channel        = 4; //聊天频道
+    int32     ChatChl        = 4; //聊天频道; 
     uint64    GuildID        = 5; //公会ID
     string    Content        = 6;
-	
 }
 
 message ChatMessageAck {
@@ -250,10 +244,12 @@ message ChatMessageAck {
 message ChatMessageNty {
     string    SrcName        = 1;
     uint64    SrcID          = 2;
-    uint64    TargetID       = 3; //目标ID
-    int32     Channel        = 4;
-    uint64    GuildID        = 5;
-    string    Content        = 6;
+    int32     SrcLevel       = 3;
+    uint64    TargetID       = 4; //目标ID
+    int32     ChatChl        = 5;
+    uint64    GuildID        = 6;
+    uint64    TimeStamp      = 7;
+    string    Content        = 8;
 }
 
 message CommonReq {
@@ -282,6 +278,16 @@ message LogicRegToLoginReq {
 message LogicRegToLoginAck {
     uint32    RetCode       = 1;
     string    NewSvrName    = 2;
+}
+
+message LogicRegToDbSvrReq {
+    int32    ServerID      = 1;
+    string   ServerName    = 2;
+	uint32   ProcessID     = 3;
+}
+
+message LogicRegToDbSvrAck {
+    uint32    RetCode       = 1;
 }
 
 message LogicUpdateInfoReq {
@@ -318,6 +324,21 @@ message SetupEquipReq {
 
 message SetupEquipAck {
     uint32    RetCode    = 1;
+}
+
+message Msg_GiftCodeReq{
+    uint64  RoleID     = 1;
+    string  GiftCode   = 2;
+    uint32  Channel    = 3;
+    uint64  AccountID  = 4;
+    int32   AreaID     = 5;
+    
+}
+
+message Msg_GiftCodeAck{
+    uint32   RetCode = 1;
+    uint64   RoleID  = 2;
+    repeated ItemData items = 3;
 }
 
 message UnsetEquipReq {

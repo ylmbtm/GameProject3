@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message CreatePaymentReq
+{
+	string OrderID    = 1;  //订单ID
+	int32  Platform   = 2;  //平台 1:安卓，2:ios
+	int32  Channel    = 3;  //渠道
+	uint64 RoleID     = 4;  //角色ID
+	int32  ServerID   = 5;  //区服ID
+	uint64 AccountID  = 6;  //账号ID
+	int32  ProductID  = 7;  //档位ID
+	int32  BuyID      = 8; //购买的游戏内的商品ID
+	int32  ProxyID    = 9;  //不需要客户端传
+	int32  ClientID   = 10;  //不需要客户端传
+}
+
+message CreatePaymentAck
+{
+	uint32    RetCode = 1;
+	string    OrderID = 2;
+}

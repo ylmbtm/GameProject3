@@ -162,7 +162,11 @@ BOOL LogicSvrManager::OnCloseConnect(UINT32 dwConnID)
 		if (pNode->m_dwConnID == dwConnID)
 		{
 			pNode->m_ServerStatus = ESS_SVR_OFFLINE;
-			pNode->m_eChangeStatus = EUS_UPDATE;
+			if (pNode->m_eChangeStatus == EUS_NONE)
+			{
+				pNode->m_eChangeStatus = EUS_UPDATE;
+			}
+
 			m_ArrChangedNode.push(pNode);
 		}
 	}
@@ -384,8 +388,8 @@ BOOL LogicSvrManager::SaveLogicServerThread()
 
 			if (pTempNode->m_eChangeStatus == EUS_NEW_REG)
 			{
-				snprintf(szSql, SQL_BUFF_LEN, "replace into server_list(id, name, outer_ip,inner_ip, port,http_port,watch_port,svr_flag, corner_mark,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s','%s', %d, %d, %d, %d, %d, '%s','%s','%s','%s');",
-				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, ESF_GOOD, 0, "1.0.0", "9.0.0", "*", "*");
+				snprintf(szSql, SQL_BUFF_LEN, "insert into server_list(id, name, outer_ip,inner_ip, port,http_port,watch_port,svr_flag, corner_mark,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s','%s', %d, %d, %d, %d, %d, '%s','%s','%s','%s');",
+				         pTempNode->m_dwServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_dwPort, pTempNode->m_dwHttpPort, pTempNode->m_dwWatchPort, pTempNode->m_ServerFlag, 0, "1.0.0", "9.0.0", "*", "*");
 				if (tDBConnection.execSQL(szSql) < 0)
 				{
 					CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", tDBConnection.GetErrorMsg());

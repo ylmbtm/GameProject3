@@ -51,6 +51,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_LOGIN_REQ, OnMsgLogicSvrRegReq);
 			PROCESS_MESSAGE_ITEMEX(MSG_LOGIC_UPDATE_REQ,    OnMsgLogicUpdateReq);
 			PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,     OnMsgSelectServerAck);
+			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,      OnMsgSealAccountAck);
 
 	}
 
@@ -180,7 +181,15 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 		pClientNode->set_svrflag(pTempNode->m_ServerFlag);
 		pClientNode->set_cornermark(pTempNode->m_CornerMark);
 		pClientNode->set_svropentime(pTempNode->m_uSvrOpenTime);
-		pClientNode->set_svrstatus(pTempNode->m_ServerStatus == ESS_SVR_ONLINE);
+		pClientNode->set_svrstatus(pTempNode->m_ServerStatus);
+
+		if (pTempNode->m_ServerStatus != ESS_SVR_ONLINE)
+		{
+			if (pTempNode->m_ServerFlag >= ESF_GOOD && pTempNode->m_ServerFlag <= ESF_FULL)
+			{
+				pClientNode->set_svrflag(ESF_MAINTAIN);
+			}
+		}
 	}
 
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SERVER_LIST_ACK, 0, 0, Ack);
@@ -362,3 +371,32 @@ BOOL CLoginMsgHandler::OnMsgSelectServerAck(NetPacket* pPacket)
 	return TRUE;
 }
 
+BOOL CLoginMsgHandler::OnMsgSealAccountAck(NetPacket* pPacket)
+{
+	SealAccountAck Ack;
+	Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+	UINT32 nConnID = pHeader->dwUserData;
+	ERROR_RETURN_TRUE(nConnID != 0);
+
+	std::string strResult = CommonConvert::IntToString((INT64)EWR_SUCCESSED);
+
+	ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (UINT32)strResult.size());
+
+
+	if (Ack.retcode() != MRC_SUCCESSED)
+	{
+		return TRUE;
+	}
+
+	if (Ack.accountid() > 0)
+	{
+		SealAccountNtf Ntf;
+		Ntf.set_accountid(Ack.accountid());
+		UINT32 dwLogicConnID = m_LogicSvrMgr.GetLogicConnID(Ack.serverid());
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwLogicConnID, MSG_SEAL_ACCOUNT_NTY, 0, 0, Ntf);
+	}
+
+	return TRUE;
+}

@@ -8,9 +8,10 @@ enum EStatusFlag
 	ESF_NONE		= 0,//未知
 	ESF_GOOD		= 1,//流畅
 	ESF_BUSY		= 2,//拥挤
-	ESF_MAINTAIN	= 3,//维护
-	ESF_SHUTDOWN	= 4,//关闭
-	ESF_REVIEW		= 5,//评审
+	ESF_FULL        = 3,//爆满
+	ESF_MAINTAIN	= 4,//维护
+	ESF_SHUTDOWN	= 5,//关闭
+	ESF_REVIEW		= 6,//评审
 };
 
 enum ECornerMark

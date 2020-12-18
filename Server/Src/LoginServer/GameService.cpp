@@ -7,6 +7,7 @@
 #include "LoginClientMgr.h"
 #include "WebCommandMgr.h"
 #include "WatcherClient.h"
+#include "GiftCodeManager.h"
 CGameService::CGameService(void)
 {
 	m_dwAccountConnID	= 0;
@@ -40,6 +41,12 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	if (CommonFunc::IsAlreadyRun("LoginServer"))
+	{
+		CLog::GetInstancePtr()->LogError("LoginServer己经在运行!");
+		return FALSE;
+	}
+
 	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("login_log_level"));
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_port");
@@ -60,6 +67,8 @@ BOOL CGameService::Init()
 
 	ERROR_RETURN_FALSE(m_LoginMsgHandler.Init());
 
+	ERROR_RETURN_FALSE(GiftCodeManager::GetInstancePtr()->Init());
+
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
 	return TRUE;
@@ -68,8 +77,16 @@ BOOL CGameService::Init()
 
 BOOL CGameService::Uninit()
 {
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_LoginMsgHandler.Uninit();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+
 	return TRUE;
 }
 
@@ -78,6 +95,8 @@ BOOL CGameService::Run()
 	while (CWatcherClient::GetInstancePtr()->IsRun())
 	{
 		ServiceBase::GetInstancePtr()->Update();
+
+		GiftCodeManager::GetInstancePtr()->Update();
 
 		CommonFunc::Sleep(1);
 	}
@@ -105,6 +124,7 @@ BOOL CGameService::ConnectToAccountSvr()
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strAccountIp, nAccountPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
 	m_dwAccountConnID = pConnection->GetConnectionID();
+	pConnection->SetConnectionData(1);
 	return TRUE;
 }
 
@@ -148,6 +168,11 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	}
 
 	if (CWebCommandMgr::GetInstancePtr()->DispatchPacket(pNetPacket))
+	{
+		return TRUE;
+	}
+
+	if (GiftCodeManager::GetInstancePtr()->DispatchPacket(pNetPacket))
 	{
 		return TRUE;
 	}

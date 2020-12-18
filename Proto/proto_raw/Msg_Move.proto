@@ -1,6 +1,5 @@
 syntax = "proto3";
-import "Msg_Game.proto";
-
+import "Msg_Base.proto";
 //请求释放技能
 message SkillCastReq
 {    

@@ -59,6 +59,9 @@ enum MessageRetCode {
    MRC_SERVER_NOT_AVAILABLE   = 316;   //服务器不可用
    MRC_SERVER_MAINTAIN        = 317;   //服务器维护中
    MRC_SERVER_NO_NEW_ROLE     = 318;   //不允许创建新角色
+   MRC_SEAL_ROLE              = 319;   //角色己被封
+   MRC_SEAL_ACCOUNT           = 320;   //账号己被封
+   MRC_DELETE_ROLE            = 321;   //角色被删除
    
       //礼包码
    MRC_GIFTCODE_AREADY_USED   = 500;    //礼包码己使用

@@ -59,14 +59,18 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 
 	AccountRegAck Ack;
 
-	if(!m_AccountManager.CheckAccountName(Req.accountname(), false))
+	std::string strAccountName = Req.accountname();
+
+	if(!m_AccountManager.CheckAccountName(strAccountName, false))
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
-	CAccountObject* pAccount = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
+	CommonConvert::StringTrim(strAccountName);
+
+	CAccountObject* pAccount = m_AccountManager.GetAccountObject(strAccountName, Req.channel());
 	if(pAccount != NULL)
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_EXIST);
@@ -74,7 +78,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
-	pAccount = m_AccountManager.CreateAccountObject(Req.accountname(), Req.password(), Req.channel());
+	pAccount = m_AccountManager.CreateAccountObject(strAccountName, Req.password(), Req.channel());
 	if(pAccount == NULL)
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
@@ -103,14 +107,18 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	AccountLoginAck Ack;
 	Ack.set_review(Req.review());
 
-	if (!m_AccountManager.CheckAccountName(Req.accountname(), Req.fromchannel()))
+	std::string strAccountName = Req.accountname();
+
+	if (!m_AccountManager.CheckAccountName(strAccountName, Req.fromchannel()))
 	{
 		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
-	CAccountObject* pAccObj = m_AccountManager.GetAccountObject(Req.accountname(), Req.channel());
+	CommonConvert::StringTrim(strAccountName);
+
+	CAccountObject* pAccObj = m_AccountManager.GetAccountObject(strAccountName, Req.channel());
 	if(pAccObj != NULL)
 	{
 		ERROR_RETURN_FALSE(pAccObj->m_ID != 0);
@@ -150,7 +158,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	UINT64 u64ID = 0;
 	UINT32 dwChannel = 0;
 	std::string strPwd;
-	pAccObj = m_AccountManager.CreateAccountObject(Req.accountname(), Req.password(), Req.channel());
+	pAccObj = m_AccountManager.CreateAccountObject(strAccountName, Req.password(), Req.channel());
 	if (pAccObj == NULL)
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
@@ -179,10 +187,17 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
 	SealAccountAck Ack;
-
-	if (m_AccountManager.SealAccount(Req.accountid(), Req.accountname(), Req.channel(), Req.seal(), Req.sealtime()))
+	UINT64 uAccountID = Req.accountid();
+	UINT32 dwLastSvrID = 0;
+	if (m_AccountManager.SealAccount(uAccountID, Req.accountname(), Req.channel(), Req.seal(), Req.sealtime(), dwLastSvrID))
 	{
 		Ack.set_retcode(MRC_SUCCESSED);
+
+		if (Req.seal())
+		{
+			Ack.set_accountid(uAccountID);
+			Ack.set_serverid(dwLastSvrID);
+		}
 	}
 	else
 	{

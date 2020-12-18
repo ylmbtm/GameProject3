@@ -1,5 +1,5 @@
 ﻿syntax = "proto3";
-
+import "Msg_Base.proto";
 message ResultObject{
     uint64 ObjectID = 1;
     int32  ActorID = 2;
@@ -38,11 +38,6 @@ message MainCopyReq {
 
 message MainCopyAck {
     uint32   RetCode = 1;
-}
-
-message ItemData {
-    int32   ItemID = 1;
-    int32   ItemNum = 2;
 }
 
 message MainCopyResultNty {

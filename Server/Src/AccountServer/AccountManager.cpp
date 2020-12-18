@@ -99,7 +99,7 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
 	return Delete(AccountID);
 }
 
-BOOL CAccountObjectMgr::SealAccount(UINT64 uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime)
+BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime, UINT32& dwLastSvrID)
 {
 	CAccountObject* pAccObj = NULL;
 	if (uAccountID == 0)
@@ -113,12 +113,15 @@ BOOL CAccountObjectMgr::SealAccount(UINT64 uAccountID, const std::string& strNam
 
 	if (pAccObj == NULL)
 	{
+		CLog::GetInstancePtr()->LogError("CAccountObjectMgr::SealAccount Error Cannot find account uAccountID:%lld, strName:%s", uAccountID, strName.c_str());
 		return FALSE;
 	}
 
 	if (bSeal)
 	{
 		pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + dwSealTime;
+		uAccountID = pAccObj->m_ID;
+		dwLastSvrID = pAccObj->m_dwLastSvrID[0];
 	}
 	else
 	{
@@ -264,12 +267,12 @@ BOOL CAccountObjectMgr::IsRun()
 
 BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName, bool bFromChannel)
 {
-	if (strName.size() < 6)
+	if (strName.size() < 1)
 	{
 		return FALSE;
 	}
 
-	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\"))
+	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\\r\n"))
 	{
 		return FALSE;
 	}

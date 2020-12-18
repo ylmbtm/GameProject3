@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message ItemData {
+    int32   ItemID = 1;
+    int32   ItemNum = 2;
+}
+
+message SkillItem {
+    uint32 SkillID = 1;
+    int32  Level = 2;
+    int32  KeyPos = 3;   //强化等级
+}
+

@@ -21,7 +21,7 @@ public:
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
-	BOOL OnMsgSealAccountAck(NetPacket* pPacket);
+
 	//*********************消息处理定义结束******************************
 
 public:

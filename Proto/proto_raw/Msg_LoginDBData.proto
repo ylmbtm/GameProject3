@@ -205,7 +205,7 @@ message DBCounterData {
 
 message DBFriendItem {
     uint64    RoleID        = 1;        //角色ID
-    uint64    FriendID    = 2;        //好友ID
+    uint64    FriendID      = 2;        //好友ID
 }
 
 message DBFriendData {

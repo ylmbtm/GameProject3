@@ -47,8 +47,6 @@ public:
 
 	BOOL            CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID);
 
-	BOOL            SetClientStatue(UINT32 dwConnID, EClientStatue eStatue);
-
 	BOOL            OnCloseConnect(UINT32 dwConnID);
 };
 

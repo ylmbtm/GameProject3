@@ -47,8 +47,13 @@ enum MessageID {
     MSG_WATCH_HEART_BEAT_ACK         = 100025;
 
     MSG_REMOVE_CONNECT_NTY           = 100026;
-    MSG_DISCONNECT_NTY               = 100032;    //断开连接
-
+    MSG_DISCONNECT_NTY               = 100027;    //断开连接
+    
+    MSG_NETWORK_STATUS_NTY           = 100028;    //客户端专用网络状态通知
+    
+    MSG_LOGIC_REGTO_DBSVR_REQ        = 100031;    //逻辑服注册到db服请求
+    MSG_LOGIC_REGTO_DBSVR_ACK        = 100032;    //逻辑服注册到db服返回
+    
     MSG_ROLE_DATA_CHANGE_NTY         = 100033;
     
     MSG_SET_LAST_SERVER_NTY          = 100034;
@@ -63,6 +68,8 @@ enum MessageID {
     MSG_SEAL_ACCOUNT_ACK             = 100040;   //封号请求返回
     
     MSG_DB_WRITE_ERROR_NTY           = 100041;   //DB写错误通知
+    
+    MSG_SEAL_ACCOUNT_NTY             = 100042;   //封账号通知
     
     MSG_NORMAL_MSGID_END             = 199999;
     
