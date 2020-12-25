@@ -17,6 +17,7 @@ struct CSimpleInfo
 		m_uLogonTime	= 0;
 		m_uCreateTime	= 0;
 		m_strName		= "";
+		m_IsDelete = FALSE;
 	}
 	UINT64	m_uRoleID;
 	UINT64	m_uAccountID;
@@ -29,6 +30,7 @@ struct CSimpleInfo
 	UINT64	m_uLogonTime;
 	UINT64	m_uCreateTime;
 	std::string m_strName;
+	BOOL    m_IsDelete; //是否被删除
 };
 
 class CSimpleManager
@@ -65,6 +67,8 @@ public:
 	BOOL	SetVipLevel(UINT64 u64ID, UINT32 dwVipLvl);
 
 	BOOL	SetGuildID(UINT64 u64ID, UINT64 guildid);
+
+	BOOL	SetRoleDelete(UINT64 u64ID, BOOL bDelete);
 
 	BOOL	CheckNameExist(std::string strName);
 

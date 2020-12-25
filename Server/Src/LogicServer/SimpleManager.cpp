@@ -181,6 +181,16 @@ BOOL CSimpleManager::SetGuildID( UINT64 u64ID, UINT64 guildid )
 	return TRUE;
 }
 
+BOOL CSimpleManager::SetRoleDelete(UINT64 u64ID, BOOL bDelete)
+{
+	CSimpleInfo* pInfo = GetSimpleInfoByID(u64ID);
+	ERROR_RETURN_FALSE(pInfo != NULL);
+
+	pInfo->m_IsDelete = bDelete;
+
+	return TRUE;
+}
+
 BOOL CSimpleManager::CheckNameExist(std::string strName)
 {
 	auto itor = m_mapName2ID.find(strName);

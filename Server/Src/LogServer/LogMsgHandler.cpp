@@ -81,8 +81,7 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
 	switch(pNetPacket->m_dwMsgID)
 	{
-			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF, OnMsgLogDataNtf)
-			PROCESS_MESSAGE_ITEM(MSG_CLIENT_LOG_REQ, OnMsgClientLogReq)
+			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF,          OnMsgLogDataNtf)
 	}
 
 	return FALSE;
@@ -159,12 +158,6 @@ BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
 
 		m_nWriteCount = 0;
 	}
-
-	return TRUE;
-}
-
-BOOL CLogMsgHandler::OnMsgClientLogReq(NetPacket* pNetPacket)
-{
 
 	return TRUE;
 }
