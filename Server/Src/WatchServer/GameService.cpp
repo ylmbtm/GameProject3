@@ -109,11 +109,16 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
 
 	m_WatchMsgHandler.Uninit();
 
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+
 	return TRUE;
 }
 

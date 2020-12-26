@@ -27,6 +27,7 @@ public:
 	BOOL OnMsgRoleLoginReq(NetPacket* pPacket);
 	BOOL OnMsgRoleDeleteReq(NetPacket* pPacket);
 	BOOL OnMsgExeSqlReq(NetPacket* pPacket);
+	BOOL OnMsgLogicSvrRegReq(NetPacket* pPacket);
 	//*********************消息处理定义结束******************************
 
 public:

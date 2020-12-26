@@ -82,6 +82,7 @@ BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_DELETE_REQ,       OnMsgRoleDeleteReq);
 			PROCESS_MESSAGE_ITEM(MSG_DB_EXE_SQL_REQ,		OnMsgExeSqlReq);
+			PROCESS_MESSAGE_ITEM(MSG_LOGIC_REGTO_DBSVR_REQ, OnMsgLogicSvrRegReq);
 	}
 
 	return FALSE;
@@ -151,7 +152,25 @@ BOOL CDBMsgHandler::OnMsgRoleDeleteReq(NetPacket* pPacket)
 
 BOOL CDBMsgHandler::OnMsgExeSqlReq(NetPacket* pPacket)
 {
+
+
+
 	return TRUE;
 }
 
+BOOL CDBMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
+{
+	LogicRegToDbSvrReq Req;
+	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+
+	CGameService::GetInstancePtr()->SetLogicProcessID(Req.processid());
+
+	CGameService::GetInstancePtr()->SetLogicConnID(pPacket->m_dwConnID);
+
+	LogicRegToDbSvrAck Ack;
+	Ack.set_retcode(MRC_SUCCESSED);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_DBSVR_ACK, 0, 0, Ack);
+
+	return TRUE;
+}
 

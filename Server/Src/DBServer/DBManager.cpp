@@ -425,6 +425,22 @@ BOOL CDBManager::GetCounterData(UINT64 u64ID, DBRoleLoginAck& Ack)
 
 BOOL CDBManager::GetFriendData(UINT64 u64ID, DBRoleLoginAck& Ack)
 {
+	CHAR szSql[SQL_BUFF_LEN] = { 0 };
+	snprintf(szSql, SQL_BUFF_LEN, "select * from relationship where roleid = %lld", u64ID);
+	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+	DBFriendData* pData = NULL;
+
+	while (!QueryRes.eof())
+	{
+		if (pData == NULL)
+		{
+			pData = Ack.mutable_frienddata();
+		}
+		auto pItem = pData->add_friendlist();
+		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_friendid(QueryRes.getInt64Field("other_id", 0));
+		QueryRes.nextRow();
+	}
 	return TRUE;
 }
 

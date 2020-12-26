@@ -54,8 +54,6 @@ enum MessageID {
     MSG_LOGIC_REGTO_DBSVR_REQ        = 100031;    //逻辑服注册到db服请求
     MSG_LOGIC_REGTO_DBSVR_ACK        = 100032;    //逻辑服注册到db服返回
     
-    MSG_ROLE_DATA_CHANGE_NTY         = 100033;
-    
     MSG_SET_LAST_SERVER_NTY          = 100034;
     
     MSG_GM_SHUTDOWN_SVR_REQ          = 100035;
