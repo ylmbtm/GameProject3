@@ -6,8 +6,6 @@
 #ifndef __STDAFX_H__
 #define __STDAFX_H__
 
-#include <stdio.h>
-
 #include "ServerEngine.h"
 #include "../ServerData/ServerDefine.h"
 #endif

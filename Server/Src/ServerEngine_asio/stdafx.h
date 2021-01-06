@@ -6,7 +6,6 @@
 #ifndef __STDAFX_H__
 #define __STDAFX_H__
 
-#include <stdio.h>
 #include <map>
 #include <vector>
 #include <string>

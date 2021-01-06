@@ -6,8 +6,6 @@
 #ifndef __STDAFX__
 #define __STDAFX__
 
-#include <stdio.h>
-
 #define HAVE_RINT 1
 
 #define MAX_SQL_LEN   260

@@ -4,7 +4,6 @@
 #pragma warning(disable: 4996)
 #include <windows.h>
 
-#include <stdio.h>
 #include <Dbghelp.h>
 
 #include "crashReport.h"
