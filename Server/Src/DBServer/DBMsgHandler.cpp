@@ -163,10 +163,6 @@ BOOL CDBMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 	LogicRegToDbSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 
-	CGameService::GetInstancePtr()->SetLogicProcessID(Req.processid());
-
-	CGameService::GetInstancePtr()->SetLogicConnID(pPacket->m_dwConnID);
-
 	LogicRegToDbSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_DBSVR_ACK, 0, 0, Ack);
