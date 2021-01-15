@@ -187,24 +187,19 @@ LogicServerNode* LogicSvrManager::GetSuggestServer(BOOL bReview, UINT32 dwChanne
 			continue;
 		}
 
-		if (bReview)
+		if (bReview && pNode->m_ServerFlag != ESF_REVIEW)
 		{
-			if (pNode->m_ServerFlag != ESF_REVIEW)
-			{
-				continue;
-			}
+			continue;
 		}
-		else
-		{
-			if (pNode->m_ServerFlag != ESF_GOOD && pNode->m_ServerFlag != ESF_NONE)
-			{
-				continue;
-			}
 
-			if (!pNode->CheckChannel(dwChannel))
-			{
-				continue;
-			}
+		if (pNode->m_ServerFlag != ESF_GOOD && pNode->m_ServerFlag != ESF_NONE)
+		{
+			continue;
+		}
+
+		if (!pNode->CheckChannel(dwChannel))
+		{
+			continue;
 		}
 
 		if (pMaxAvalible == NULL || pMaxAvalible->m_dwServerID < pNode->m_dwServerID)
@@ -217,7 +212,7 @@ LogicServerNode* LogicSvrManager::GetSuggestServer(BOOL bReview, UINT32 dwChanne
 			continue;
 		}
 
-		if (pMaxSuggest == NULL || pMaxSuggest->m_dwServerID == pNode->m_dwServerID)
+		if (pMaxSuggest == NULL || pMaxSuggest->m_dwServerID < pNode->m_dwServerID)
 		{
 			pMaxSuggest = pNode;
 		}
@@ -242,7 +237,7 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 	CppMySQL3DB tDBConnection;
 	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
-		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
 		return FALSE;
 	}
 
@@ -318,7 +313,11 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 			CommonConvert::SpliteString(strCheckChannel, ";", vtValue);
 			for(int i = 0; i < vtValue.size(); i++)
 			{
-				pNode->m_CheckChannelList.insert(CommonConvert::StringToInt(vtValue[i].c_str()));
+				INT32 nTemp = CommonConvert::StringToInt(vtValue[i].c_str());
+				if (nTemp > 0)
+				{
+					pNode->m_CheckChannelList.insert(nTemp);
+				}
 			}
 		}
 
@@ -333,7 +332,11 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 			CommonConvert::SpliteString(strCheckIp,  ";", vtValue);
 			for(int i = 0; i < vtValue.size(); i++)
 			{
-				pNode->m_CheckIpList.insert(CommonSocket::IpAddrStrToInt(vtValue[i].c_str()));
+				INT32 nTemp = CommonSocket::IpAddrStrToInt(vtValue[i].c_str());
+				if (nTemp > 0)
+				{
+					pNode->m_CheckIpList.insert(nTemp);
+				}
 			}
 		}
 
@@ -446,7 +449,12 @@ BOOL LogicServerNode::CheckIP( UINT32 dwIPaddr )
 		return TRUE;
 	}
 
-	return TRUE;
+	if (m_CheckIpList.find(dwIPaddr) != m_CheckIpList.end())
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL LogicServerNode::CheckChannel( UINT32 dwChannel )
@@ -456,7 +464,12 @@ BOOL LogicServerNode::CheckChannel( UINT32 dwChannel )
 		return TRUE;
 	}
 
-	return TRUE;
+	if (m_CheckChannelList.find(dwChannel) != m_CheckChannelList.end())
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 BOOL LogicServerNode::CheckVersion( std::string strVersion )

@@ -144,7 +144,7 @@ BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
 BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {
 	CHAR szMsgBuf[1024] = { 0 };
-	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth()+1);
+	CommonConvert::StrCopy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth() + 1);
 
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);

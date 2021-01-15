@@ -2,7 +2,7 @@
 #define _CONNECTION_H_
 
 #include "IBufferHandler.h"
-#include "../ServerEngine/LockFreeQueue.h"
+#include "ReaderWriterQueue.h"
 
 #define RECV_BUF_SIZE               8192
 
@@ -76,7 +76,7 @@ public:
 	CHAR*						m_pBufPos;
 
 	IDataBuffer*				m_pCurRecvBuffer;
-	UINT32						m_pCurBufferSize;
+	UINT32						m_nCurBufferSize;
 	UINT32						m_nCheckNo;
 
 	volatile BOOL				m_IsSending;
@@ -85,7 +85,7 @@ public:
 
 	UINT64						m_LastRecvTick;
 
-	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
+	moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 
 	IDataBuffer*				m_pSendingBuffer;
 

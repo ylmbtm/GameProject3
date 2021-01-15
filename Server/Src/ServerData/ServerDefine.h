@@ -21,6 +21,9 @@
 #define GUILD_NOTICE_LEN	1024
 #define GUILD_MAX_APPLY_NUM 50
 
+//订单
+#define PAY_ORDERID_LEN    128
+
 //语言数
 #define MAX_LANGUAGE_NUM	15
 

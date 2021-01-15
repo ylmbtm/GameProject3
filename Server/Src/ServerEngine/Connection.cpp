@@ -178,7 +178,7 @@ BOOL CConnection::ExtractBuffer()
 	{
 		if(m_pCurRecvBuffer != NULL)
 		{
-			if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_pCurBufferSize)
+			if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_nCurBufferSize)
 			{
 				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
 				m_pBufPos = m_pRecvBuf;
@@ -188,10 +188,10 @@ BOOL CConnection::ExtractBuffer()
 			}
 			else
 			{
-				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth());
-				m_dwDataLen -= m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
-				m_pBufPos += m_pCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
-				m_pCurRecvBuffer->SetTotalLenth(m_pCurBufferSize);
+				memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth());
+				m_dwDataLen -= m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
+				m_pBufPos += m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
+				m_pCurRecvBuffer->SetTotalLenth(m_nCurBufferSize);
 				m_LastRecvTick = CommonFunc::GetTickCount();
 				m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, GetConnectionID());
 				m_pCurRecvBuffer = NULL;
@@ -244,7 +244,7 @@ BOOL CConnection::ExtractBuffer()
 			m_dwDataLen = 0;
 			m_pBufPos = m_pRecvBuf;
 			m_pCurRecvBuffer = pDataBuffer;
-			m_pCurBufferSize = dwPacketSize;
+			m_nCurBufferSize = dwPacketSize;
 		}
 	}
 
@@ -378,7 +378,7 @@ BOOL CConnection::Reset()
 	m_IsSending	= FALSE;
 
 	IDataBuffer* pBuff = NULL;
-	while(m_SendBuffList.pop(pBuff))
+	while(m_SendBuffList.try_dequeue(pBuff))
 	{
 		pBuff->Release();
 	}
@@ -389,7 +389,7 @@ BOOL CConnection::Reset()
 
 BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 {
-	return m_SendBuffList.push(pBuff);
+	return m_SendBuffList.enqueue(pBuff);
 }
 
 BOOL CConnection::CheckHeader(CHAR* m_pPacket)
@@ -462,19 +462,13 @@ BOOL CConnection::DoSend()
 	int nCurPos = 0;
 
 	IDataBuffer* pBuffer = NULL;
-	while(m_SendBuffList.pop(pBuffer))
+	while(m_SendBuffList.try_dequeue(pBuffer))
 	{
 		nSendSize += pBuffer->GetTotalLenth();
 
 		if(pFirstBuff == NULL && pSendingBuffer == NULL)
 		{
 			pFirstBuff = pBuffer;
-
-			if(nSendSize >= RECV_BUF_SIZE)
-			{
-				pSendingBuffer = pBuffer;
-				break;
-			}
 
 			pBuffer = NULL;
 		}
@@ -495,11 +489,21 @@ BOOL CConnection::DoSend()
 			nCurPos += pBuffer->GetTotalLenth();
 			pBuffer->Release();
 			pBuffer = NULL;
-			if(nSendSize >= RECV_BUF_SIZE)
-			{
-				break;
-			}
 		}
+
+		IDataBuffer** pPeekBuff = m_SendBuffList.peek();
+		if (pPeekBuff == NULL)
+		{
+			break;
+		}
+
+		pBuffer = *pPeekBuff;
+		if (nSendSize + pBuffer->GetTotalLenth() >= RECV_BUF_SIZE)
+		{
+			break;
+		}
+
+		pBuffer = NULL;
 	}
 
 	if(pSendingBuffer == NULL)
@@ -589,7 +593,7 @@ BOOL CConnection::DoSend()
 	}
 
 	IDataBuffer* pBuffer = NULL;
-	while(m_SendBuffList.pop(pBuffer))
+	while(m_SendBuffList.try_dequeue(pBuffer))
 	{
 		if (pBuffer == NULL)
 		{
@@ -786,8 +790,18 @@ BOOL CConnectionMgr::CheckConntionAvalible()
 			continue;
 		}
 
+		if (pConnection->GetConnectionData() == 1)
+		{
+			continue;
+		}
+
+		if (pConnection->m_LastRecvTick <= 0)
+		{
+			continue;
+		}
 		if(curTick > (pConnection->m_LastRecvTick + 30000))
 		{
+			CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 超时主动断开连接 ConnID:%d", pConnection->GetConnectionID());
 			pConnection->Close();
 		}
 	}

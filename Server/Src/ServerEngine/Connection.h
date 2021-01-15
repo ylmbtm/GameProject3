@@ -2,7 +2,7 @@
 #define _CONNECTION_H_
 
 #include "IBufferHandler.h"
-#include "LockFreeQueue.h"
+#include "ReaderWriterQueue.h"
 
 #define  NET_OP_RECV				1
 #define  NET_OP_SEND				2
@@ -97,7 +97,7 @@ public:
 	CHAR*						m_pBufPos;
 
 	IDataBuffer*				m_pCurRecvBuffer;
-	UINT32						m_pCurBufferSize;
+	UINT32						m_nCurBufferSize;
 	UINT32						m_nCheckNo;
 
 	volatile BOOL				m_IsSending;
@@ -106,7 +106,7 @@ public:
 
 	UINT64						m_LastRecvTick;
 
-	ArrayLockFreeQueue < IDataBuffer* > m_SendBuffList;
+	moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 
 	//LINUX下专用， 用于发了一半的包
 	IDataBuffer*				m_pSendingBuffer;
