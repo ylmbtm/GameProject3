@@ -278,6 +278,7 @@ message LogicRegToLoginReq {
 message LogicRegToLoginAck {
     uint32    RetCode       = 1;
     string    NewSvrName    = 2;
+    uint64    SvrOpenTime   = 3; //开服时间
 }
 
 message LogicRegToDbSvrReq {

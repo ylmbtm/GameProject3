@@ -79,7 +79,7 @@ public:
 
 	BOOL                        m_bConnected;
 
-	NetIoOperatorData			m_IoOverlapRecv;
+	NetIoOperatorData           m_IoOverlapRecv;
 
 	NetIoOperatorData			m_IoOverlapSend;
 

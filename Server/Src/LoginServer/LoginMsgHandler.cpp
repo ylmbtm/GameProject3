@@ -80,7 +80,7 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 	{
 		Ack.set_retcode(MRC_BAD_CLIENT_VER);
 	}
-
+	Ack.set_clientverion("1.0.1");
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
 	return TRUE;
 }
@@ -317,6 +317,13 @@ BOOL CLoginMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 	m_LogicSvrMgr.RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.serverport(), Req.httpport(), Req.watchport(), Req.servername(), Req.svrinnerip());
 	LogicRegToLoginAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
+
+	LogicServerNode* pServerNode = m_LogicSvrMgr.GetLogicServerInfo(Req.serverid());
+	if (pServerNode != NULL)
+	{
+		Ack.set_svropentime(pServerNode->m_uSvrOpenTime);
+	}
+
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
 
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_dwConnID);
