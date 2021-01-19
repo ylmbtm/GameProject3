@@ -34,6 +34,12 @@ BOOL CWatcherClient::IsRun()
 	return m_bRun;
 }
 
+BOOL CWatcherClient::StopServer()
+{
+	m_bRun = FALSE;
+
+	return TRUE;
+}
 BOOL CWatcherClient::OnNewConnect(UINT32 nConnID)
 {
 	if (nConnID == m_dwWatchSvrConnID)

@@ -664,6 +664,32 @@ UINT32 CommonFunc::GetProcessID(std::string strProcName)
 #endif
 }
 
+BOOL CommonFunc::CreateProcess(std::string strProcName, std::string strCommandLine)
+{
+#ifdef WIN32
+	STARTUPINFO stStartUpInfo;
+	memset(&stStartUpInfo, 0, sizeof(stStartUpInfo));
+	stStartUpInfo.cb = sizeof(stStartUpInfo);
+
+	PROCESS_INFORMATION stProcessInfo;
+	memset(&stProcessInfo, 0, sizeof(stProcessInfo));
+
+	if (!CreateProcess(strProcName.c_str(), (LPSTR)strCommandLine.c_str(), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &stStartUpInfo, &stProcessInfo))
+	{
+		return FALSE;
+	}
+#else
+	std::string strExe = "./" + strProcName;
+	if (execl(strExe.c_str(), strProcName.c_str(), strCommandLine.c_str(), (char*)0) < 0)
+	{
+		return FALSE;
+	}
+
+#endif
+
+	return TRUE;
+}
+
 BOOL CommonFunc::IsAlreadyRun(std::string strSignName)
 {
 #ifdef WIN32

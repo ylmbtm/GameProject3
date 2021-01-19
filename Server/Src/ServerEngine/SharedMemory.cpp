@@ -112,8 +112,7 @@ BOOL SharedMemoryBase::NewPage()
 //----------------------------------------------
 void SharedMemoryBase::InitPage(shareMemoryPage& rPage)
 {
-	UINT32 size = 0;
-	size = m_nCountperPage * m_rawblockSize;
+	UINT32 size = m_nCountperPage * m_rawblockSize;
 	char* pdata = rPage.m_pdata;
 	memset(pdata, 0, size);
 
@@ -252,6 +251,7 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, UINT32 rawblockSize,
 			m_nPageCount++;
 			m_nCount += m_nCountperPage;
 			InitPage(firstpage);
+
 			m_ShareMemoryPageMapping.push_back(firstpage);
 		}
 

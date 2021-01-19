@@ -78,6 +78,7 @@ BOOL CPlayerObject::OnCreate(UINT64 u64RoleID)
 		ERROR_RETURN_FALSE(pBase != NULL);
 		pBase->OnCreate(u64RoleID);
 	}
+
 	return TRUE;
 }
 
@@ -209,7 +210,7 @@ BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Mess
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		CLog::GetInstancePtr()->LogWarn("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
 		return FALSE;
 	}
 

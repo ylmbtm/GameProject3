@@ -26,6 +26,8 @@ public:
 
 	BOOL        IsRun();
 
+	BOOL        StopServer();
+
 	UINT32					m_dwWatchSvrConnID;
 	UINT32					m_dwWatchIndex;
 	UINT64                  m_uLastHeartTime;

@@ -81,6 +81,8 @@ BOOL            IsProcessExist(UINT64 dwPid);
 
 UINT32          GetProcessID(std::string strProcName);
 
+BOOL            CreateProcess(std::string strProcName, std::string strCommandLine);
+
 BOOL            IsAlreadyRun(std::string strSignName);
 
 BOOL            PrintColorText(CHAR* pSzText, INT32 nColor);

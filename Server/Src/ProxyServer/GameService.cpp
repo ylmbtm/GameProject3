@@ -76,6 +76,7 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
 	{
 		m_bLogicConnect = TRUE;
 	}
+
 	m_ProxyMsgHandler.OnNewConnect(nConnID);
 
 	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);

@@ -274,7 +274,6 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 		break;
 		case EPS_Stoping:
 		{
-			//如果2秒还没有连上我，就是表示不存在
 			if (uCurrentTick - serverInfo.LastHeartTick > 2000)
 			{
 				serverInfo.ProscessStatus = EPS_Stop;

@@ -42,9 +42,6 @@
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\ServerEngine\CommonWorkThread.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\ServerEngine\ConfigFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -95,9 +92,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="EventFuncManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerEngine\LockFreeQueue.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -107,25 +101,7 @@
     <ClInclude Include="..\ServerEngine\TimerManager.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerEngine\AstarFinder.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonConvert.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonFunc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\CommonSocket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\ConfigFile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerEngine\CrashReport.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\DataBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\DBInterface\CppMysql.h">
@@ -134,29 +110,50 @@
     <ClInclude Include="..\ServerEngine\DBInterface\DBConnection.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerEngine\DBInterface\DBInterface.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\DBInterface\DBRecordSet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\DBInterface\DBStoredProc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ServerEngine\Log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\ServerEngine\LuaManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\Platform.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\ServerEngine\AstarFinder.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\CommonConvert.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\CommonFunc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\CommonSocket.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\ConfigFile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\DataBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFuncManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\DBInterface\DBStoredProc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\DBInterface\DBRecordSet.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\DBInterface\DBInterface.h">
+      <Filter>Common</Filter>
+    </ClInclude>
     <ClInclude Include="..\ServerEngine\SharedMemory.h">
-      <Filter>头文件</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\ServerEngine\XMath.h">
-      <Filter>头文件</Filter>
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\Log.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
