@@ -18,6 +18,8 @@
 #include "FriendData.h"
 #include "GemData.h"
 #include "SkillData.h"
+#include "PayData.h"
+#include "SealData.h"
 
 class CDataPool
 {

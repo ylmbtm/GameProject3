@@ -2,7 +2,7 @@
 #include "GameService.h"
 
 #include "DataPool.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_Game.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
@@ -21,6 +21,7 @@
 #include "TeamCopyMgr.h"
 #include "WebCommandMgr.h"
 #include "WatcherClient.h"
+#include "SealManager.h"
 
 //#include "LuaManager.h"
 //#include "Lua_Script.h"
@@ -58,7 +59,7 @@ VOID CGameService::RegisterMessageHanler()
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CGameService::OnMsgRegToLoginAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK, &CGameService::OnMsgUpdateInfoAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DB_WRITE_ERROR_NTY, &CGameService::OnMsgDBWriteErrorNty, this);
-
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_DBSVR_ACK, &CGameService::OnMsgRegToDBSvrAck, this);
 }
 
 UINT64 CGameService::GetSvrOpenTime()
@@ -80,6 +81,12 @@ BOOL CGameService::Init()
 	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
 	{
 		CLog::GetInstancePtr()->LogError("加载 servercfg.ini文件失败!");
+		return FALSE;
+	}
+
+	if (CommonFunc::IsAlreadyRun("LogicServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
+	{
+		CLog::GetInstancePtr()->LogError("LogicServer己经在运行!");
 		return FALSE;
 	}
 
@@ -172,7 +179,10 @@ BOOL CGameService::Init()
 	bRet = CTeamCopyMgr::GetInstancePtr()->Init();
 	ERROR_RETURN_FALSE(bRet);
 
-	bRet = CPayManager::GetInstancePtr()->Init();
+	bRet = CPayManager::GetInstancePtr()->LoadData(tDBConnection);
+	ERROR_RETURN_FALSE(bRet);
+
+	bRet = CSealManager::GetInstancePtr()->LoadData(tDBConnection);
 	ERROR_RETURN_FALSE(bRet);
 
 	bRet = CWebCommandMgr::GetInstancePtr()->Init();
@@ -190,10 +200,18 @@ BOOL CGameService::Init()
 
 BOOL CGameService::Uninit()
 {
-	m_LogicMsgHandler.Uninit();
-	CDataPool::GetInstancePtr()->ReleaseDataPool();
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_LogicMsgHandler.Uninit();
+
+	CDataPool::GetInstancePtr()->ReleaseDataPool();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+
 	return TRUE;
 }
 
@@ -297,6 +315,17 @@ BOOL CGameService::RegisterToLoginSvr()
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 
+BOOL CGameService::RegisterToDBSvr()
+{
+	LogicRegToDbSvrReq Req;
+	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
+	Req.set_serverid(dwServerID);
+	Req.set_servername(strSvrName);
+	Req.set_processid(CommonFunc::GetCurProcessID());
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwDBConnID, MSG_LOGIC_REGTO_DBSVR_REQ, 0, 0, Req);
+}
+
 BOOL CGameService::RegisterToCenterSvr()
 {
 	SvrRegToSvrReq Req;
@@ -316,11 +345,22 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
 	if(nConnID == m_dwLoginConnID)
 	{
 		RegisterToLoginSvr();
+
+		return TRUE;
 	}
 
 	if(nConnID == m_dwCenterID)
 	{
 		RegisterToCenterSvr();
+
+		return TRUE;
+	}
+
+	if (nConnID == m_dwDBConnID)
+	{
+		RegisterToDBSvr();
+
+		return TRUE;
 	}
 
 	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
@@ -522,5 +562,10 @@ BOOL CGameService::OnMsgDBWriteErrorNty(NetPacket* pNetPacket)
 
 	m_dwDbErrorCount = Nty.errorcount();
 
+	return TRUE;
+}
+
+BOOL CGameService::OnMsgRegToDBSvrAck(NetPacket* pNetPacket)
+{
 	return TRUE;
 }

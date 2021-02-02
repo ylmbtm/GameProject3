@@ -37,6 +37,8 @@ public:
 
 	BOOL		RegisterToLoginSvr();
 
+	BOOL		RegisterToDBSvr();
+	
 	BOOL		RegisterToCenterSvr();
 
 	UINT32      GetDBConnID();
@@ -70,6 +72,7 @@ public:
 	BOOL        OnMsgRegToCenterAck(NetPacket* pNetPacket);
 	BOOL        OnMsgUpdateInfoAck(NetPacket* pNetPacket);
 	BOOL        OnMsgDBWriteErrorNty(NetPacket* pNetPacket);
+	BOOL        OnMsgRegToDBSvrAck(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

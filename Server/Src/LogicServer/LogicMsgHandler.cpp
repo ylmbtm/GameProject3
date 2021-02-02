@@ -6,19 +6,21 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Game_Define.pb.h"
+#include "../Message/Msg_Role.pb.h"
+#include "../Message/Msg_Account.pb.h"
 #include "RoleModule.h"
 #include "SimpleManager.h"
 #include "ServerDefine.h"
 #include "GlobalDataMgr.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "BagModule.h"
 #include "RoleData.h"
 #include "PartnerModule.h"
 #include "MsgHandlerManager.h"
 #include "LoginCodeMgr.h"
 #include "GameLogManager.h"
-#include "../Message/Msg_Role.pb.h"
-#include "../Message/Msg_Account.pb.h"
+#include "SealManager.h"
+
 
 CLogicMsgHandler::CLogicMsgHandler()
 {
@@ -72,6 +74,7 @@ VOID CLogicMsgHandler::RegisterMessageHanler()
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BACK_TO_CITY_REQ, &CLogicMsgHandler::OnMsgBackToCityReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SEAL_ACCOUNT_NTY, &CLogicMsgHandler::OnMsgSealAccountNtf, this);
 }
 
 BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
@@ -81,11 +84,13 @@ BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	ERROR_RETURN_TRUE(Req.accountid() != 0);
+
 	SelectServerAck Ack;
-	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
-	Ack.set_logincode(CLoginCodeManager::GetInstancePtr()->CreateLoginCode(Req.accountid()));
 	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_accountid(Req.accountid());
+	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+	Ack.set_logincode(CLoginCodeManager::GetInstancePtr()->CreateLoginCode(Req.accountid()));
+
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
 }
 
@@ -260,7 +265,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 	if (pSimpleInfo == NULL || pSimpleInfo->m_uAccountID != Req.accountid())
 	{
 		RoleLoginAck Ack;
-		Ack.set_retcode(MRC_INVALID_ROLEID); //无效的角色ID
+		Ack.set_retcode(MRC_INVALID_ROLEID);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -295,6 +300,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 
 	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
 	pPlayer->OnLogin();
+
 	return TRUE;
 }
 
@@ -438,11 +444,14 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->u64TargetID != 0);
 
-	BOOL bEnableGm = CStaticData::GetInstancePtr()->GetConstantValue("Enable_Gm");
+	BOOL bEnableGm = CConfigFile::GetInstancePtr()->GetIntValue("enable_gm");
 	if(bEnableGm && (Req.content().size() > 2) && (Req.content().at(0) == '@') && (Req.content().at(1) == '@'))
 	{
 		std::vector<std::string> vtParam;
 		CommonConvert::SpliteString(Req.content(), " ", vtParam);
+
+		CLog::GetInstancePtr()->LogInfo("GM Command : %s", Req.content().c_str());
+
 		ProcessGMCommand(pHeader->u64TargetID, vtParam);
 		return TRUE;
 	}
@@ -482,6 +491,11 @@ BOOL CLogicMsgHandler::OnMsgChatMessageReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
+BOOL CLogicMsgHandler::OnMsgSealAccountNtf(NetPacket* pNetPacket)
+{
+	return TRUE;
+}
+
 BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 {
 	RoleReconnectReq Req;
@@ -505,6 +519,8 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 		//由于副本己经被退出， 所以此时应该将玩家放到主城
 		CLog::GetInstancePtr()->LogError("OnMsgReconnectReq 断开消都还没有收到， 重连的消息就到了");
 	}
+
+	pPlayer->SetOnline(TRUE);
 
 	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
 

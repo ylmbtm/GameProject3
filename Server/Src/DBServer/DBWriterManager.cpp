@@ -15,6 +15,8 @@ CDBWriterManager::~CDBWriterManager()
 
 BOOL CDBWriterManager::Init()
 {
+	UINT32 nAreaID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+	ERROR_RETURN_FALSE(nAreaID > 0);
 	m_vtDataWriters.assign(ESD_END, NULL);
 	m_vtDataWriters[ESD_ROLE]           = new DataWriter<RoleDataObject>(ESD_ROLE, 1024);
 	m_vtDataWriters[ESD_GLOBAL]         = new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
@@ -36,9 +38,10 @@ BOOL CDBWriterManager::Init()
 	m_vtDataWriters[ESD_COUNTER]        = new DataWriter<CounterDataObject>(ESD_COUNTER, 1024);
 	m_vtDataWriters[ESD_FRIEND]         = new DataWriter<FriendDataObject>(ESD_FRIEND, 1024);
 	m_vtDataWriters[ESD_SKILL]          = new DataWriter<SkillDataObject>(ESD_SKILL, 1024);
+	m_vtDataWriters[ESD_PAYMENT]        = new DataWriter<PayDataObject>(ESD_PAYMENT, 1024);
+	m_vtDataWriters[ESD_SEAL_ROLE]      = new DataWriter<SealDataObject>(ESD_SEAL_ROLE, 1024);
 
-
-	for (int i = ESD_ROLE; i < ESD_END; i++)
+	for (int i = ESD_BEGIN + 1; i < ESD_END; i++)
 	{
 		if (m_vtDataWriters[i] == NULL)
 		{
@@ -81,7 +84,7 @@ BOOL CDBWriterManager::WriteDataToDB()
 {
 	BOOL bHasWrite = FALSE;
 	UINT32 nErrorCount = 0;
-	for (int i = ESD_ROLE; i < ESD_END; i++)
+	for (int i = ESD_BEGIN + 1; i < ESD_END; i++)
 	{
 		ERROR_TO_CONTINUE(m_vtDataWriters[i] != NULL);
 
@@ -107,14 +110,18 @@ BOOL CDBWriterManager::Update()
 {
 	static UINT32 nLastErrorCount = 0;
 
-	if (nLastErrorCount != m_nCurErrorCount)
+	if (nLastErrorCount == m_nCurErrorCount)
 	{
-		nLastErrorCount = m_nCurErrorCount;
-
-		//Msg_DbErrorCountNty Nty;
-		//Nty.set_errorcount(m_nCurErrorCount);
-		//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DB_WRITE_ERROR_NTY, 0, 0, Nty);
+		return TRUE;
 	}
+
+	nLastErrorCount = m_nCurErrorCount;
+
+	//Msg_DbErrorCountNty Nty;
+
+	//Nty.set_errorcount(m_nCurErrorCount);
+
+	//ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_DB_WRITE_ERROR_NTY, 0, 0, Nty);
 
 	return TRUE;
 }
@@ -147,8 +154,6 @@ void CDBWriterManager::DBWriteThread()
 	}
 
 	m_DBConnection.Uninit();
-
-	Uninit();
 
 	return ;
 }

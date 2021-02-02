@@ -41,6 +41,7 @@ public:
 	BOOL OnMsgBackToCityReq(NetPacket* pNetPacket);
 	BOOL OnMsgChatMessageReq(NetPacket* pNetPacket);
 	BOOL OnMsgReconnectReq(NetPacket* pNetPacket);
+	BOOL OnMsgSealAccountNtf(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

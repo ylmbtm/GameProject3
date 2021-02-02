@@ -382,14 +382,19 @@ BOOL CDBManager::GetMailData(UINT64 u64ID, DBRoleLoginAck& Ack)
 		}
 
 		DBMailItem* pItem = pData->add_maillist();
+		pItem->set_guid(QueryRes.getInt64Field("id", 0));
 		pItem->set_sender(QueryRes.getStringField("sendername", 0));
-		pItem->set_senderid(QueryRes.getInt64Field("sendid", 0));
+		pItem->set_senderid(QueryRes.getInt64Field("senderid", 0));
 		pItem->set_roleid(QueryRes.getInt64Field("roleid", 0));
+		pItem->set_groupid(QueryRes.getInt64Field("groupid", 0));
 		pItem->set_time(QueryRes.getInt64Field("mail_time", 0));
 		pItem->set_title(QueryRes.getStringField("title", 0));
 		pItem->set_content(QueryRes.getStringField("content", 0));
+		pItem->set_mailtype(QueryRes.getIntField("mailtype", 0));
+		pItem->set_status(QueryRes.getIntField("mailstatus", 0));
+
 		INT32 nLen = 0;
-		const unsigned char* pData = QueryRes.getBlobField("data", nLen);
+		const unsigned char* pData = QueryRes.getBlobField("itemdata", nLen);
 		pItem->set_items(pData, nLen);
 		QueryRes.nextRow();
 	}

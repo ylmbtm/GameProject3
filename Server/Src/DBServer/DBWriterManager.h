@@ -17,6 +17,8 @@
 #include "FriendData.h"
 #include "GemData.h"
 #include "SkillData.h"
+#include "PayData.h"
+#include "SealData.h"
 #include "DBInterface/DBConnection.h"
 
 class CDBWriterManager

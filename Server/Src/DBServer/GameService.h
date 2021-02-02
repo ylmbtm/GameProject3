@@ -30,11 +30,24 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
+	BOOL        SetLogicConnID(UINT32 dwConnID);
+
+	UINT32      GetLogicConnID();
+
+	BOOL        SetLogicProcessID(UINT32 dwProcesssID);
+
+	UINT32      GetLogicProcessID();
+
+	BOOL        CheckLogicServer();
+
 public:
 	CDBMsgHandler		m_DBMsgHandler;
 
 	CDBWriterManager    m_DBWriterManger;
 
+	UINT32              m_dwLogicConnID;
+
+	UINT32              m_dwLogicProcessID;
 public:
 	//*********************消息处理定义开始******************************
 	//*********************消息处理定义结束******************************

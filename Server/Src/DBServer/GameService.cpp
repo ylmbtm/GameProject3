@@ -6,10 +6,14 @@
 #include "WatcherClient.h"
 CGameService::CGameService(void)
 {
+	m_dwLogicConnID = 0;
+	m_dwLogicProcessID = 0;
 }
 
 CGameService::~CGameService(void)
 {
+	m_dwLogicConnID = 0;
+	m_dwLogicProcessID = 0;
 }
 
 CGameService* CGameService::GetInstancePtr()
@@ -85,6 +89,8 @@ BOOL CGameService::OnSecondTimer()
 {
 	CWatcherClient::GetInstancePtr()->OnSecondTimer();
 
+	CheckLogicServer();
+
 	return TRUE;
 }
 
@@ -103,13 +109,58 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	return FALSE;
 }
 
+BOOL CGameService::SetLogicConnID(UINT32 dwConnID)
+{
+	m_dwLogicConnID = dwConnID;
+
+	return TRUE;
+}
+
+UINT32 CGameService::GetLogicConnID()
+{
+	return m_dwLogicConnID;
+}
+
+BOOL CGameService::SetLogicProcessID(UINT32 dwProcesssID)
+{
+	m_dwLogicProcessID = dwProcesssID;
+
+	return TRUE;
+}
+
+UINT32 CGameService::GetLogicProcessID()
+{
+	return m_dwLogicProcessID;
+}
+
+BOOL CGameService::CheckLogicServer()
+{
+	if (m_dwLogicProcessID <= 0)
+	{
+		return TRUE;
+	}
+
+	if (CommonFunc::IsProcessExist(m_dwLogicProcessID))
+	{
+		return TRUE;
+	}
+
+	CWatcherClient::GetInstancePtr()->StopServer();
+
+	return TRUE;
+}
+
 BOOL CGameService::Uninit()
 {
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
 
 	m_DBWriterManger.Uninit();
 
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
 
 	return TRUE;
 }
