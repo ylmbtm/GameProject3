@@ -47,6 +47,8 @@ public:
 	std::thread*	m_pWorkThread;
 	CDBConnection   m_DBConnection;
 	UINT32          m_nCurErrorCount;
+	UINT32          m_dwSaveTime;
+	UINT32          m_dwSharePageSize;
 };
 
 #endif //_DB_WRITER_MANAGER_H_

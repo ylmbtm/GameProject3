@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "StaticData.h"
 #include "RapidXml.h"
+#include "ConfigFile.h"
+//#include "DBInterface/CppMysql.h"
 
 CStaticData::CStaticData()
 {
@@ -52,6 +54,8 @@ BOOL CStaticData::InitDataReader()
 
 BOOL CStaticData::LoadConfigData(std::string strDbFile)
 {
+#define  SQLITE_TYPE 1
+#ifdef SQLITE_TYPE
 	try
 	{
 		CppSQLite3DB	tDBConnection;
@@ -71,8 +75,29 @@ BOOL CStaticData::LoadConfigData(std::string strDbFile)
 		CLog::GetInstancePtr()->LogError("CConfigData::LoadConfigData Failed!!!, Reason:%s", e.errorMessage());
 		return FALSE;
 	}
+#else
+	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_type_svr_ip");
+	INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_type_svr_port");
+	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_type_svr_user");
+	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_type_svr_pwd");
+	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_type_svr_db_name");
 
-
+	CppMySQL3DB tDBConnection;
+	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
+	{
+		CLog::GetInstancePtr()->LogError("Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		return FALSE;
+	}
+	char szSql[SQL_BUFF_LEN] = { 0 };
+	for (std::vector<DataFuncNode>::iterator itor = m_vtDataFuncList.begin(); itor != m_vtDataFuncList.end(); itor++)
+	{
+		DataFuncNode dataNode = (*itor);
+		snprintf(szSql, SQL_BUFF_LEN, "select * from %s;", dataNode.m_strTbName.c_str());
+		CppMySQLQuery Tabledatas = tDBConnection.querySQL(szSql);
+		(this->*dataNode.m_pDataFunc)(Tabledatas);
+	}
+	tDBConnection.close();
+#endif
 	ReadSkillEvent();
 
 	return TRUE;

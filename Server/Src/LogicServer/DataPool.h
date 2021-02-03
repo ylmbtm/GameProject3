@@ -39,6 +39,7 @@ public:
 
 protected:
 	std::vector<SharedMemoryBase*>		m_vtDataObjectPools;
+	UINT32          m_dwSharePageSize;
 };
 
 namespace DataPool

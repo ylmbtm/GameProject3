@@ -250,7 +250,7 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 		case EPS_Connected:
 		{
 			//如果响应超时，表示服务器己经停止响应或不存在
-			if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000))
+			if ((((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000)) || (!CommonFunc::IsProcessExist(serverInfo.ProcessID)))
 			{
 				//先杀死
 				KillProcess(serverInfo);
@@ -274,7 +274,7 @@ BOOL CWatchMsgHandler::CheckProcessStatus(UINT32 nIndex)
 		break;
 		case EPS_Stoping:
 		{
-			if (uCurrentTick - serverInfo.LastHeartTick > 2000)
+			if ((uCurrentTick - serverInfo.LastHeartTick > 2000) || (!CommonFunc::IsProcessExist(serverInfo.ProcessID)))
 			{
 				serverInfo.ProscessStatus = EPS_Stop;
 				serverInfo.LastHeartTick = uCurrentTick;
@@ -294,11 +294,11 @@ BOOL CWatchMsgHandler::StartProcess(ServerProcessInfo& processData, INT32 nIndex
 
 	processData.LastHeartTick = CommonFunc::GetTickCount();
 
-	std::string strRunString = processData.BootUpParameter;
+	std::string strRunString = processData.Params;
 
 	strRunString += " windex=" + CommonConvert::IntToString(nIndex + 1);
 
-	if (system(strRunString.c_str()) != 0)
+	if (!CommonFunc::CreateProcess(processData.serverName.c_str(), (LPSTR)strRunString.c_str()))
 	{
 		CLog::GetInstancePtr()->LogError("----重新启动失败 :%s 失败！！！！----", processData.BootUpParameter.c_str());
 	}
