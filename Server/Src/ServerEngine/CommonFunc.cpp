@@ -449,7 +449,7 @@ std::string CommonFunc::GetLastErrorStr(INT32 nError)
 	return strErrorText;
 }
 
-//s:10m:6:p:16
+//s:8m:8:p:16
 HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
 {
 	HANDLE hShare = NULL;

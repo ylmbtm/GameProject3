@@ -185,6 +185,16 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				{
 					continue;
 				}
+
+				if (CommonSocket::GetSocketLastError() == ERROR_OPERATION_ABORTED)
+				{
+					return FALSE;
+				}
+
+				//if (CommonSocket::GetSocketLastError() == ERROR_NETNAME_DELETED)
+				//{
+				//  //客户端关闭的一种情况
+				//}
 			}
 			//else
 			//{
@@ -322,7 +332,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				sockaddr_in* addrClient = NULL, *addrLocal = NULL;
 				if (!CommonSocket::GetSocketAddress(m_hListenSocket, m_AddressBuf, addrClient, addrLocal))
 				{
-					CLog::GetInstancePtr()->LogError("接受新连接失败 原因:GetSocketAddress 返回FALSE!");
+					CLog::GetInstancePtr()->LogError("接受新连接失败 原因:GetSocketAddress FALSE Reason:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
 					break;
 				}
 

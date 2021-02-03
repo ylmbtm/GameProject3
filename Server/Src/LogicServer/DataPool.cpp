@@ -5,7 +5,11 @@
 
 CDataPool::CDataPool()
 {
-
+	m_dwSharePageSize = CConfigFile::GetInstancePtr()->GetIntValue("share_page_size");
+	if (m_dwSharePageSize <= 1)
+	{
+		m_dwSharePageSize = 1024;
+	}
 }
 
 CDataPool::~CDataPool()

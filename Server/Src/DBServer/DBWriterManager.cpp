@@ -5,18 +5,33 @@ CDBWriterManager::CDBWriterManager()
 {
 	m_Stop = FALSE;
 	m_nCurErrorCount = 0;
+	m_dwSaveTime = 30;
 }
 
 CDBWriterManager::~CDBWriterManager()
 {
 	m_Stop = FALSE;
 	m_nCurErrorCount = 0;
+	m_dwSaveTime = 30;
 }
 
 BOOL CDBWriterManager::Init()
 {
+	m_dwSharePageSize = CConfigFile::GetInstancePtr()->GetIntValue("share_page_size");
+	if (m_dwSharePageSize <= 1)
+	{
+		m_dwSharePageSize = 1024;
+	}
+	
+	m_dwSaveTime = CConfigFile::GetInstancePtr()->GetIntValue("db_save_time");
+	if (m_dwSaveTime <= 0)
+	{
+		m_dwSaveTime = 30;
+	}
+
 	UINT32 nAreaID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	ERROR_RETURN_FALSE(nAreaID > 0);
+
 	m_vtDataWriters.assign(ESD_END, NULL);
 	m_vtDataWriters[ESD_ROLE]           = new DataWriter<RoleDataObject>(ESD_ROLE, 1024);
 	m_vtDataWriters[ESD_GLOBAL]         = new DataWriter<GlobalDataObject>(ESD_GLOBAL, 1024);
@@ -55,7 +70,7 @@ BOOL CDBWriterManager::Init()
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
-
+	
 	m_DBConnection.SetConnectParam(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort);
 
 	m_pWorkThread = new std::thread(&CDBWriterManager::DBWriteThread, this);

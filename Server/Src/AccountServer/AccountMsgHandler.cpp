@@ -63,7 +63,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 
 	if(!m_AccountManager.CheckAccountName(strAccountName, false))
 	{
-		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
+		Ack.set_retcode(MRC_ACCOUNT_NAME_FMT_ERR);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_REG_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -111,7 +111,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 
 	if (!m_AccountManager.CheckAccountName(strAccountName, Req.fromchannel()))
 	{
-		Ack.set_retcode(MRC_ACCOUNT_NAME_ERR_FMT);
+		Ack.set_retcode(MRC_ACCOUNT_NAME_FMT_ERR);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ACCOUNT_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
@@ -130,7 +130,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 		}
 		else if(Req.password() != pAccObj->m_strPassword)
 		{
-			Ack.set_retcode(MRC_INCRRECT_PASSWORD);
+			Ack.set_retcode(MRC_ACCOUNT_WRONG_PASSWORD);
 			Ack.set_lastsvrid(0);
 			Ack.set_accountid(0);
 		}

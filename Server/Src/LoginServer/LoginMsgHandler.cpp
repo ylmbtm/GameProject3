@@ -78,7 +78,7 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 	Ack.set_retcode(MRC_SUCCESSED);
 	if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, pPacket->m_dwMsgID))
 	{
-		Ack.set_retcode(MRC_BAD_CLIENT_VER);
+		Ack.set_retcode(MRC_ACCOUNT_WRONG_VERSION);
 	}
 	Ack.set_clientverion("1.0.1");
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
