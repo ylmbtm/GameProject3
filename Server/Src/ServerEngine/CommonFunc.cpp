@@ -81,9 +81,13 @@ tm CommonFunc::GetCurrTmTime()
 	return _tm_time;
 }
 
-UINT64 CommonFunc::GetDayBeginTime()
+UINT64 CommonFunc::GetDayBeginTime(UINT64 uTime)
 {
-	time_t t = (time_t)GetCurrTime();
+	if (uTime == 0)
+	{
+		uTime = GetCurrTime();
+	}
+	time_t t = (time_t)uTime;
 	tm* t_tm = localtime(&t);
 	t_tm->tm_hour = 0;
 	t_tm->tm_min = 0;
@@ -92,11 +96,36 @@ UINT64 CommonFunc::GetDayBeginTime()
 	return (UINT64)t;
 }
 
-UINT64 CommonFunc::GetWeekBeginTime()
+UINT64 CommonFunc::GetWeekBeginTime(UINT64 uTime)
 {
-	time_t t = (time_t)GetCurrTime();
+	if (uTime == 0)
+	{
+		uTime = GetCurrTime();
+	}
+
+	time_t t = (time_t)uTime;
 	tm* t_tm = localtime(&t);
 	return (UINT64)t - (t_tm->tm_wday == 0 ? 6 : t_tm->tm_wday - 1) * 86400 - t_tm->tm_hour * 3600 - t_tm->tm_min * 60 - t_tm->tm_sec;
+}
+
+
+UINT64 CommonFunc::GetMonthBeginTime(UINT64 uTime)
+{
+	if (uTime == 0)
+	{
+		uTime = GetCurrTime();
+	}
+	time_t t = (time_t)uTime;
+	tm* t_tm = localtime(&t);
+	tm newtm;
+	newtm.tm_year = t_tm->tm_year;
+	newtm.tm_mon = t_tm->tm_mon;
+	newtm.tm_mday = 1;
+	newtm.tm_hour = 0;
+	newtm.tm_min = 0;
+	newtm.tm_sec = 0;
+
+	return mktime(&newtm);
 }
 
 time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
@@ -294,6 +323,17 @@ BOOL CommonFunc::IsSameWeek(UINT64 uTime)
 	UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
 
 	return (SrcWeekBegin - SrcWeekDest) / (86400 * 7) <= 0;
+}
+
+BOOL CommonFunc::IsSameMonth(UINT64 uTime)
+{
+	time_t t = uTime;
+	tm t_tmSrc = *localtime(&t);
+
+	time_t t_mon = GetCurrTime();
+	tm t_tmDest = *localtime(&t_mon);
+
+	return (t_tmSrc.tm_mon == t_tmDest.tm_mon);
 }
 
 INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
