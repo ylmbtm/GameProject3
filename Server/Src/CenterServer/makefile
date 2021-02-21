@@ -4,11 +4,14 @@ CC_INCLUDE=-I/usr/include
 MY_INCLUDE=-I$(PWD) \
 		-I../ServerEngine \
 		-I../WatcherClient \
-		-I../../Common 
+		-I../../Common \
+		-I../../Common/Mysql 
 					 
 CC_LIB=-L/usr/lib \
 	-L/lib \
-	-lpthread -lprotobuf
+	-L/usr/lib64/mysql \
+	-L/usr/lib/mysql \
+	-lpthread -lprotobuf -lmysqlclient
 			 
 MY_LIB=-L../Debug \
 	-L../Linux \

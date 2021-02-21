@@ -67,17 +67,15 @@ std::string     GetLastErrorStr(INT32 nError);
 //
 // HANDLE       OpenShareMemory(std::string strName);
 
-HANDLE          CreateShareMemory(UINT32 dwModuleID, UINT32 dwAreaID, INT32 nPage, INT32 nSize);
+HANDLE          CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize);
 
-HANDLE          OpenShareMemory(UINT32 dwModuleID, UINT32 dwAreaID, INT32 nPage);
+HANDLE          OpenShareMemory(UINT32 dwModuleID, INT32 nPage);
 
 CHAR*           GetShareMemory(HANDLE hShm);
 
 BOOL            ReleaseShareMemory(CHAR* pMem);
 
 BOOL            CloseShareMemory(HANDLE hShm);
-
-BOOL            ClearShareMemory(UINT32 dwAreaID);
 
 BOOL            DbgTrace(char* format, ...);
 
