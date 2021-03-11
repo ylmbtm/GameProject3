@@ -1,8 +1,7 @@
 ﻿#ifndef __BATTLE_RESULT_H__
 #define __BATTLE_RESULT_H__
-
-#include "XMath.h"
 #include "../../ServerData/ServerStruct.h"
+#include "CommonMath.h"
 
 class CWinCondition
 {

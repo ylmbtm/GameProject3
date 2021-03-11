@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
+#include "CommonMath.h"
 #include "BulletObject.h"
 #include "SceneObject.h"
-#include "XMath.h"
 #include "../Scene.h"
 
 CBulletObject::CBulletObject(UINT64 uGuid, StBulletInfo* pBulletInfo, CSkillObject* pSkillObject, Vector3D startPos)

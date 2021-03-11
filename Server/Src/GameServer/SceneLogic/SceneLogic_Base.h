@@ -3,8 +3,8 @@
 
 #include "RapidXml.h"
 #include "../Message/Game_Define.pb.h"
-#include "XMath.h"
 #include "WinCondition.h"
+#include "CommonMath.h"
 
 class CScene;
 class CSceneObject;

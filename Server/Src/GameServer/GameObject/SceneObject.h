@@ -8,7 +8,7 @@
 #include "Position.h"
 #include "SkillObject.h"
 #include "MapObject.h"
-#include "XMath.h"
+#include "CommonMath.h"
 #include "../GameStruct.h"
 #include "StaticStruct.h"
 

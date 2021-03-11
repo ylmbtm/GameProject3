@@ -1,9 +1,6 @@
 ﻿#ifndef _GAME_MONSTER_CREATOR_H_
 #define _GAME_MONSTER_CREATOR_H_
 
-#include "RapidXml.h"
-#include "XMath.h"
-
 class CScene;
 class CSceneObject;
 class MonsterData

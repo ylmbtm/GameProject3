@@ -91,6 +91,7 @@
     <ClCompile Include="..\ServerEngine\AstarFinder.cpp" />
     <ClCompile Include="..\ServerEngine\CommonConvert.cpp" />
     <ClCompile Include="..\ServerEngine\CommonFunc.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonMath.cpp" />
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp" />
     <ClCompile Include="..\ServerEngine\ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="..\ServerEngine\AstarFinder.h" />
     <ClInclude Include="..\ServerEngine\CommonConvert.h" />
     <ClInclude Include="..\ServerEngine\CommonFunc.h" />
+    <ClInclude Include="..\ServerEngine\CommonMath.h" />
     <ClInclude Include="..\ServerEngine\CommonSocket.h" />
     <ClInclude Include="..\ServerEngine\ConfigFile.h" />
     <ClInclude Include="Connection.h" />
@@ -139,7 +141,6 @@
     <ClInclude Include="..\ServerEngine\SharedMemory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\ServerEngine\TimerManager.h" />
-    <ClInclude Include="..\ServerEngine\XMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

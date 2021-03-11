@@ -87,6 +87,12 @@
     <ClCompile Include="LuaManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CommonMath.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Md5.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -158,9 +164,6 @@
     <ClInclude Include="Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="XMath.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="DFA.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -183,6 +186,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="MemObjectPool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMath.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Md5.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

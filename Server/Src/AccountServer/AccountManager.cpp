@@ -272,7 +272,7 @@ BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName, bool bFromC
 		return FALSE;
 	}
 
-	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\\r\n"))
+	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\\r\n%%"))
 	{
 		return FALSE;
 	}

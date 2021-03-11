@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "CommonMath.h"
 #include "WinCondition.h"
 
 

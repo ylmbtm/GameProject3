@@ -2,7 +2,7 @@
 #define __SKILL_OBJECT_H__
 
 #include "SkillStruct.h"
-#include "XMath.h"
+#include "CommonMath.h"
 #include "BulletObject.h"
 class CSceneObject;
 
