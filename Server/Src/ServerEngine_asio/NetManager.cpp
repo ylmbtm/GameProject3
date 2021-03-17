@@ -161,7 +161,7 @@ BOOL	CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
 	}
 	if (!pConn->IsConnectionOK())
 	{
-		CLog::GetInstancePtr()->LogError("CNetManager::SendMsgBufByConnID FAILED, 连接己断开");
+		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", dwConnID);
 		return FALSE;
 	}
 
@@ -192,7 +192,7 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
 
 	if (!pConn->IsConnectionOK())
 	{
-		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageByConnID FAILED, 连接己断开");
+		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, dwConnID:%d", dwMsgID, dwConnID);
 		return FALSE;
 	}
 

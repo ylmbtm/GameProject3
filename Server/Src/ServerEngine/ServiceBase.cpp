@@ -172,7 +172,7 @@ CConnection* ServiceBase::GetConnectionByID( UINT32 dwConnID )
 
 BOOL ServiceBase::Update()
 {
-	if(m_dwLastTick == 0)
+	if (m_dwLastTick == 0)
 	{
 		m_dwLastTick = CommonFunc::GetTickCount();
 	}
