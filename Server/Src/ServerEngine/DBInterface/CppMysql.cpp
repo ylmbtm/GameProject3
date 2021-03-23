@@ -394,12 +394,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		goto EXT;
 	}
 
-	if (0 != mysql_options(m_pMySqlDB, MYSQL_SET_CHARSET_NAME, charSetName))
-	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
-		m_strError = mysql_error(m_pMySqlDB);
-		goto EXT;
-	}
+
 
 	//unsigned int timeout = 2;
 	//if (0 != mysql_options(m_pMySqlDB, MYSQL_OPT_CONNECT_TIMEOUT, (const char*)&timeout))
@@ -411,6 +406,13 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
 	if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, client_flag) )
+	{
+		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_strError = mysql_error(m_pMySqlDB);
+		goto EXT;
+	}
+
+	if (0 != mysql_set_character_set(m_pMySqlDB, charSetName))
 	{
 		m_nErrno = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
@@ -434,6 +436,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		m_pMySqlDB = NULL;
 		goto EXT;
 	}
+
 	ret = true;
 EXT:
 	//初始化mysql结构失败
@@ -565,12 +568,6 @@ bool CppMySQL3DB::reconnect()
 		return false;
 	}
 
-	if (0 != mysql_options(m_pMySqlDB, MYSQL_SET_CHARSET_NAME, m_strCharSet.c_str()))
-	{
-		close();
-		return false;
-	}
-
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
 	if (NULL == mysql_real_connect(m_pMySqlDB, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0))
 	{
@@ -579,6 +576,13 @@ bool CppMySQL3DB::reconnect()
 		close();
 		return false;
 	}
+
+	if (0 != mysql_set_character_set(m_pMySqlDB, m_strCharSet.c_str()))
+	{
+		close();
+		return false;
+	}
+
 	//选择制定的数据库失败
 	//0表示成功，非0值表示出现错误。
 	if (mysql_select_db(m_pMySqlDB, m_strDB.c_str()) != 0)
