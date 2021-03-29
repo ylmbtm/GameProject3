@@ -298,7 +298,7 @@ BOOL CWatchMsgHandler::StartProcess(ServerProcessInfo& processData, INT32 nIndex
 
 	strRunString += " windex=" + CommonConvert::IntToString(nIndex + 1);
 
-	if (!CommonFunc::CreateProcess(processData.serverName.c_str(), (LPSTR)strRunString.c_str()))
+	if (!CommonFunc::CreateProcess(processData.serverName.c_str(), strRunString))
 	{
 		CLog::GetInstancePtr()->LogError("----重新启动失败 :%s 失败！！！！----", processData.BootUpParameter.c_str());
 	}
