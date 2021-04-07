@@ -25,7 +25,7 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL        SendCmdToDBConnection(IDataBuffer* pBuffer);
+	BOOL        SendCmdToDBConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
 	BOOL	    ConnectToLogServer();
 
@@ -38,7 +38,7 @@ public:
 	BOOL		RegisterToLoginSvr();
 
 	BOOL		RegisterToDBSvr();
-	
+
 	BOOL		RegisterToCenterSvr();
 
 	UINT32      GetDBConnID();
@@ -47,7 +47,7 @@ public:
 
 	UINT32      GetServerID();
 
-	UINT32      GetCenterID();
+	UINT32      GetCenterConnID();
 
 	BOOL		ReportServerStatus();
 
@@ -62,7 +62,7 @@ public:
 	UINT32			m_dwLogConnID;
 	UINT32			m_dwLoginConnID;
 	UINT32			m_dwDBConnID;
-	UINT32          m_dwCenterID;   //中心服的连接ID
+	UINT32          m_dwCenterConnID;   //中心服的连接ID
 	UINT64          m_uSvrOpenTime;
 	UINT32          m_dwDbErrorCount;
 	BOOL            m_bRegSuccessed;

@@ -28,18 +28,24 @@
 
 CGameService::CGameService(void)
 {
-	m_dwLogConnID	= 0;
-	m_dwLoginConnID = 0;
-	m_dwDBConnID	= 0;
-	m_dwCenterID	= 0;   //中心服的连接ID
-	m_uSvrOpenTime  = 0;
+	m_dwLogConnID    = 0;
+	m_dwLoginConnID  = 0;
+	m_dwDBConnID     = 0;
+	m_dwCenterConnID = 0;   //中心服的连接ID
+	m_uSvrOpenTime   = 0;
 	m_dwDbErrorCount = 0;
-	m_bRegSuccessed = FALSE;
+	m_bRegSuccessed  = FALSE;
 }
 
 CGameService::~CGameService(void)
 {
-
+	m_dwLogConnID   = 0;
+	m_dwLoginConnID = 0;
+	m_dwDBConnID    = 0;
+	m_dwCenterConnID  = 0;   //中心服的连接ID
+	m_uSvrOpenTime  = 0;
+	m_dwDbErrorCount = 0;
+	m_bRegSuccessed = FALSE;
 }
 
 CGameService* CGameService::GetInstancePtr()
@@ -57,8 +63,9 @@ UINT32 CGameService::GetLogSvrConnID()
 VOID CGameService::RegisterMessageHanler()
 {
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_LOGIN_ACK, &CGameService::OnMsgRegToLoginAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK, &CGameService::OnMsgUpdateInfoAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DB_WRITE_ERROR_NTY, &CGameService::OnMsgDBWriteErrorNty, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_UPDATE_ACK,      &CGameService::OnMsgUpdateInfoAck, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DB_WRITE_ERROR_NTY,    &CGameService::OnMsgDBWriteErrorNty, this);
+	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_CENTER_ACK, &CGameService::OnMsgRegToCenterAck, this);
 	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_LOGIC_REGTO_DBSVR_ACK, &CGameService::OnMsgRegToDBSvrAck, this);
 }
 
@@ -99,8 +106,10 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
+	std::string strListenIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
+
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("logic_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
+	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this, strListenIp))
 	{
 		CLog::GetInstancePtr()->LogError("启动服务失败!");
 		return FALSE;
@@ -229,9 +238,11 @@ BOOL CGameService::Run()
 	return TRUE;
 }
 
-BOOL CGameService::SendCmdToDBConnection(IDataBuffer* pBuffer)
+BOOL CGameService::SendCmdToDBConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
 {
-	return ServiceBase::GetInstancePtr()->SendMsgBuffer(CGameService::GetInstancePtr()->GetDBConnID(), pBuffer);
+	ERROR_RETURN_FALSE(m_dwDBConnID != 0);
+	ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwDBConnID, dwMsgID, u64TargetID, dwUserData, pdata));
+	return TRUE;
 }
 
 
@@ -284,7 +295,7 @@ BOOL CGameService::ConnectToDBSvr()
 
 BOOL CGameService::ConnectToCenterSvr()
 {
-	if (m_dwCenterID != 0)
+	if (m_dwCenterConnID != 0)
 	{
 		return TRUE;
 	}
@@ -293,7 +304,7 @@ BOOL CGameService::ConnectToCenterSvr()
 	std::string strCenterIp = CConfigFile::GetInstancePtr()->GetStringValue("center_svr_ip");
 	CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strCenterIp, nCenterPort);
 	ERROR_RETURN_FALSE(pConnection != NULL);
-	m_dwCenterID = pConnection->GetConnectionID();
+	m_dwCenterConnID = pConnection->GetConnectionID();
 	return TRUE;
 }
 
@@ -331,13 +342,13 @@ BOOL CGameService::RegisterToCenterSvr()
 	SvrRegToSvrReq Req;
 	UINT32 dwServerID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
-	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
+	UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
 	std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
 	Req.set_serverid(dwServerID);
 	Req.set_serverport(dwPort);
 	Req.set_serverip(strIp);
 	Req.set_servername(strSvrName);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterID, MSG_LOGIC_REGTO_CENTER_REQ, 0, 0, Req);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwCenterConnID, MSG_LOGIC_REGTO_CENTER_REQ, 0, 0, Req);
 }
 
 BOOL CGameService::OnNewConnect(UINT32 nConnID)
@@ -349,7 +360,7 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
 		return TRUE;
 	}
 
-	if(nConnID == m_dwCenterID)
+	if(nConnID == m_dwCenterConnID)
 	{
 		RegisterToCenterSvr();
 
@@ -388,9 +399,9 @@ BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 		return TRUE;
 	}
 
-	if(m_dwCenterID == nConnID)
+	if(m_dwCenterConnID == nConnID)
 	{
-		m_dwCenterID = 0;
+		m_dwCenterConnID = 0;
 		return TRUE;
 	}
 
@@ -444,7 +455,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pHeader->u64TargetID);
 	if (pPlayer == NULL)
 	{
-		CLog::GetInstancePtr()->LogError("CGameService::DispatchPacket Error Invalid u64TargetID:%d, MessageID:%d", pHeader->u64TargetID, pNetPacket->m_dwMsgID);
+		CLog::GetInstancePtr()->LogError("CGameService::DispatchPacket Error Invalid u64TargetID:%lld, MessageID:%d", pHeader->u64TargetID, pNetPacket->m_dwMsgID);
 		return TRUE;
 	}
 
@@ -472,9 +483,9 @@ UINT32 CGameService::GetServerID()
 	return CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 }
 
-UINT32 CGameService::GetCenterID()
+UINT32 CGameService::GetCenterConnID()
 {
-	return m_dwCenterID;
+	return m_dwCenterConnID;
 }
 
 BOOL CGameService::ReportServerStatus()
@@ -526,11 +537,19 @@ BOOL CGameService::OnMsgRegToLoginAck(NetPacket* pNetPacket)
 	//表示注册成功
 	m_bRegSuccessed = TRUE;
 
+	m_uSvrOpenTime = Ack.svropentime();
+
+	CLog::GetInstancePtr()->LogError("---------开服时间:%s--------", CommonFunc::TimeToString(m_uSvrOpenTime).c_str());
+
 	return TRUE;
 }
 
 BOOL CGameService::OnMsgRegToCenterAck(NetPacket* pNetPacket)
 {
+	SvrRegToSvrAck Ack;
+	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+	ERROR_RETURN_TRUE(Ack.retcode() == MRC_SUCCESSED);
 	return TRUE;
 }
 
@@ -549,7 +568,7 @@ BOOL CGameService::OnMsgUpdateInfoAck(NetPacket* pNetPacket)
 	m_uSvrOpenTime = Ack.svropentime();
 
 	//这里处理开服时间发生改变有事件
-
+	CLog::GetInstancePtr()->LogError("---------开服时间:%s--------", CommonFunc::TimeToString(m_uSvrOpenTime).c_str());
 
 	return TRUE;
 }
