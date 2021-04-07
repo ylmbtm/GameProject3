@@ -237,12 +237,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					{
 						if(!pConnection->HandleRecvEvent(dwNumOfByte))
 						{
-							//收数据失败，基本就是连接己断开
-							if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
-							{
-								CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV4, 但连接己经被关闭重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
-								break;
-							}
 							pConnection->Close();
 						}
 					}

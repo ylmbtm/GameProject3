@@ -75,6 +75,9 @@
     <ClCompile Include="..\ServerEngine\TimerManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\ServerEngine\CommonMath.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -149,10 +152,10 @@
     <ClInclude Include="..\ServerEngine\SharedMemory.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerEngine\XMath.h">
+    <ClInclude Include="..\ServerEngine\Log.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\ServerEngine\Log.h">
+    <ClInclude Include="..\ServerEngine\CommonMath.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

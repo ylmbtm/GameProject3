@@ -240,7 +240,7 @@ BOOL CLogicMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 	}
 	else
 	{
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(), MSG_ROLE_DELETE_REQ, 0, 0, Req);
+		CGameService::GetInstancePtr()->SendCmdToDBConnection(MSG_ROLE_DELETE_REQ, 0, 0, Req);
 	}
 
 	RoleDeleteAck Ack;
@@ -273,8 +273,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	if(pPlayer == NULL)
 	{
-		ERROR_RETURN_TRUE(CGameService::GetInstancePtr()->GetDBConnID() != 0);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(), MSG_ROLE_LOGIN_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+		CGameService::GetInstancePtr()->SendCmdToDBConnection(MSG_ROLE_LOGIN_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
 		return TRUE;
 	}
 

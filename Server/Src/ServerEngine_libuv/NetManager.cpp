@@ -186,9 +186,9 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 dwStatus)
 
 		pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
 
-		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
-
 		pConnection->SetDataHandler(m_pBufferHandler);
+
+		m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 		pConnection->DoReceive();
 	}
