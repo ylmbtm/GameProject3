@@ -407,14 +407,14 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
 	if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, client_flag) )
 	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_nErrNo = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
 		goto EXT;
 	}
 
 	if (0 != mysql_set_character_set(m_pMySqlDB, charSetName))
 	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_nErrNo = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
 		goto EXT;
 	}
@@ -430,13 +430,12 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 	//0表示成功，非0值表示出现错误。
 	if ( mysql_select_db( m_pMySqlDB, db ) != 0 )
 	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_nErrNo = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
 		mysql_close(m_pMySqlDB);
 		m_pMySqlDB = NULL;
 		goto EXT;
 	}
-
 	ret = true;
 EXT:
 	//初始化mysql结构失败
@@ -479,9 +478,9 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet != 0)
 	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_nErrNo = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
-		if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
+		if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
 		{
 			reconnect();
 			nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -505,9 +504,9 @@ int CppMySQL3DB::execSQL(const char* sql)
 		return (int)mysql_affected_rows(m_pMySqlDB) ;
 	}
 
-	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_nErrNo = mysql_errno(m_pMySqlDB);
 	m_strError = mysql_error(m_pMySqlDB);
-	if (m_nErrno == CR_SERVER_GONE_ERROR || m_nErrno == CR_SERVER_LOST)
+	if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
 	{
 		reconnect();
 		nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -571,7 +570,7 @@ bool CppMySQL3DB::reconnect()
 	//如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
 	if (NULL == mysql_real_connect(m_pMySqlDB, m_strHost.c_str(), m_strUser.c_str(), m_strPwd.c_str(), m_strDB.c_str(), m_nPort, NULL, 0))
 	{
-		m_nErrno = mysql_errno(m_pMySqlDB);
+		m_nErrNo = mysql_errno(m_pMySqlDB);
 		m_strError = mysql_error(m_pMySqlDB);
 		close();
 		return false;
@@ -605,7 +604,7 @@ bool CppMySQL3DB::startTransaction()
 		return true;
 	}
 
-	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_nErrNo = mysql_errno(m_pMySqlDB);
 	m_strError = mysql_error(m_pMySqlDB);
 
 	return false;
@@ -619,7 +618,7 @@ bool CppMySQL3DB::commit()
 		return true;
 	}
 
-	m_nErrno = mysql_errno(m_pMySqlDB);
+	m_nErrNo = mysql_errno(m_pMySqlDB);
 	m_strError = mysql_error(m_pMySqlDB);
 
 	return false;
@@ -663,6 +662,11 @@ const char* CppMySQL3DB::GetServerInfo()
 const char* CppMySQL3DB::GetErrorMsg()
 {
 	return m_strError.c_str();
+}
+
+int CppMySQL3DB::GetErrorNo()
+{
+	return m_nErrNo;
 }
 
 /*主要功能:得到服务器版本信息*/

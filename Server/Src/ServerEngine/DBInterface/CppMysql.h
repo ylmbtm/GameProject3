@@ -125,6 +125,8 @@ public:
 
 	const char* GetErrorMsg();
 
+	int         GetErrorNo();
+
 	/*主要功能:得到服务器版本信息*/
 	const unsigned long  GetDBVersion();
 
@@ -156,7 +158,7 @@ private:
 	MYSQL* m_pMySqlDB;
 	CppMySQLQuery m_dbQuery;
 
-	int          m_nErrno;
+	int          m_nErrNo;
 	std::string  m_strError;
 
 
