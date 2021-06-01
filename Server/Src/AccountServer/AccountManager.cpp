@@ -30,6 +30,7 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
 	if(!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("LoadCacheAccount Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("LoadCacheAccount Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
@@ -185,10 +186,11 @@ BOOL CAccountObjectMgr::SaveAccountThread()
 	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("SaveAccountChange Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("SaveAccountChange Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
-	while(IsRun())
+	while(TRUE)
 	{
 		CAccountObject* pAccount = NULL;
 
@@ -196,6 +198,11 @@ BOOL CAccountObjectMgr::SaveAccountThread()
 
 		if (m_ArrChangedAccount.size() <= 0)
 		{
+			if (!IsRun())
+			{
+				return TRUE;
+			}
+
 			CommonFunc::Sleep(100);
 			continue;
 		}

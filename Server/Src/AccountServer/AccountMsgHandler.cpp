@@ -20,7 +20,10 @@ CAccountMsgHandler::~CAccountMsgHandler()
 
 BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
-	m_AccountManager.Init();
+	if (!m_AccountManager.Init())
+	{
+		return FALSE;
+	}
 
 	return TRUE;
 }
