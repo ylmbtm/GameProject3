@@ -45,11 +45,12 @@ struct RoleDataObject : public ShareObject
 	UINT64      m_uLogoffTime;          //离线时间
 	UINT64      m_uGroupMailTime;       //群邮件接收时间
 	UINT64      m_uGuildID;             //公会ID
-
+	UINT32      m_nOnlineTime;          //在线时长
 	//签到数据
 	INT32		m_nSignNum;             //签到天数
 	UINT32		m_nSignDay;             //最新的签到时间
 	UINT32		m_RecvAction;           //领取体力标记
+
 
 	BOOL Create(IDBInterface* pDB)
 	{
@@ -115,7 +116,7 @@ struct RoleDataObject : public ShareObject
 
 	BOOL Delete(IDBInterface* pDB)
 	{
-		static CDBStoredProcedure csp("update player set delete = 1 where id = ?");
+		static CDBStoredProcedure csp("update player set isdelete = 1 where id = ?");
 		csp.set_uint64(0, m_uRoleID);
 		return pDB->Execute(&csp);
 	}

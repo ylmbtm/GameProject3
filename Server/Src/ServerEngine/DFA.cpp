@@ -129,6 +129,7 @@ BOOL DFANode::HasKeyWord(const KeyType* pdata, int len, BOOL bReturn/* = true*/)
 			else if (s_maxlen != 0)
 			{
 				s_length = s_maxlen;
+				m_start = currentPos;
 				return TRUE;
 			}
 

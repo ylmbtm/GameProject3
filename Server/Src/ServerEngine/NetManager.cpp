@@ -323,6 +323,11 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					break;
 				}
 
+                if (!bRetValue  && CommonSocket::GetSocketLastError() == ERROR_OPERATION_ABORTED)
+                {
+                    return FALSE;
+                }
+
 				sockaddr_in* addrClient = NULL, *addrLocal = NULL;
 				if (!CommonSocket::GetSocketAddress(m_hListenSocket, m_AddressBuf, addrClient, addrLocal))
 				{
@@ -555,7 +560,9 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 				}
 
-				UINT32 nRet = pConnection->DoSend();
+                pConnection->m_IsSending = TRUE;
+                UINT32 nRet = pConnection->DoSend();
+                pConnection->m_IsSending = FALSE;
 				if (nRet == E_SEND_ERROR)
 				{
 					EventDelete(pConnection);
@@ -563,7 +570,10 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 				else if (nRet == E_SEND_UNDONE)
 				{
-					PostSendOperation(pConnection);
+                    struct epoll_event EpollEvent;
+                    EpollEvent.data.ptr = pConnection;
+                    EpollEvent.events = EPOLLOUT | EPOLLET | EPOLLIN;
+                    epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
 				}
 				else if (nRet == E_SEND_SUCCESS)
 				{
@@ -589,7 +599,7 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 	delEpv.data.ptr = pConnection;
 	if (-1 == epoll_ctl(m_hCompletePort, EPOLL_CTL_DEL, pConnection->GetSocket(), &delEpv))
 	{
-		CLog::GetInstancePtr()->LogError("---epoll_ctl----epoll_ctl------失败------!");
+        CLog::GetInstancePtr()->LogError("---EventDelete::epoll_ctl 失败 原因:%s!", CommonFunc::GetLastErrorStr(errno).c_str());
 		return FALSE;
 	}
 
@@ -869,10 +879,16 @@ BOOL CNetManager::CloseEventThread()
 
 	for(std::vector<std::thread*>::iterator itor = m_vtEventThread.begin(); itor != m_vtEventThread.end(); ++itor)
 	{
-		(*itor)->join();
+        std::thread* pThread = *itor;
+        if (pThread == NULL)
+        {
+            continue;
+        }
 
-		delete (*itor);
-	}
+        pThread->join();
+
+        delete pThread;
+    }
 
 	m_vtEventThread.clear();
 

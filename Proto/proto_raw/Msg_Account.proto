@@ -50,6 +50,7 @@ message AccountLoginAck {
     string    LastSvrName    = 4;
     bool      Review         = 5; 
     int32     Channel        = 6;
+    int32     IpAddr         = 7;   //ip地址
 }
 
 message ClientServerListReq {

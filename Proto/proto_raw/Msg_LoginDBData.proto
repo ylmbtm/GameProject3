@@ -19,6 +19,7 @@ message DBRoleData {
     uint64      LogoffTime   = 16;
     uint64      GuildID      = 17;
     int32       Channel      = 18;
+    uint32      OnlineTime    = 19;
 }
 
 message DBBagItem {
@@ -211,8 +212,6 @@ message DBFriendItem {
 message DBFriendData {
     repeated DBFriendItem FriendList = 1;
 }
-
-
 
 message DBRoleLoginAck {
     uint32              RetCode     = 1;
