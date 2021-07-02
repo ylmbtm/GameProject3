@@ -46,7 +46,8 @@ public:
 
 	VOID    SetConnectionID(UINT32 dwConnID);
 
-	VOID	SetConnectionData(UINT64 dwData);
+    VOID    SetConnectionData(UINT64 uData);
+    BOOL    Shutdown();
 
 	BOOL	Close();
 
@@ -70,7 +71,9 @@ public:
 
 	BOOL    DoSend();
 
-	BOOL	CheckHeader(CHAR* m_pPacket);
+    BOOL    CheckHeader(CHAR* pNetPacket);
+
+    BOOL    UpdateCheckNo(CHAR* pNetPacket);
 
 	UINT32  GetIpAddr(BOOL bHost = TRUE);
 
@@ -78,6 +81,7 @@ public:
 	SOCKET                      m_hSocket;
 
 	BOOL                        m_bConnected;
+	BOOL                        m_bPacketNoCheck;
 
 	NetIoOperatorData           m_IoOverlapRecv;
 
@@ -86,7 +90,7 @@ public:
 	NetIoOperatorData			m_IoOverLapPost;
 
 	UINT32                      m_dwConnID;
-	UINT64                      m_u64ConnData;
+    UINT64                      m_uConnData;
 
 	IDataHandler*				m_pDataHandler;
 
@@ -129,9 +133,8 @@ public:
 
 	CConnection*    CreateConnection();
 
-	BOOL		    DeleteConnection(CConnection* pConnection);
 
-	BOOL            DeleteConnection(UINT32 nConnID);
+    BOOL            DeleteConnection(UINT32 dwConnID);
 
 	CConnection*    GetConnectionByID(UINT32 dwConnID);
 

@@ -658,15 +658,15 @@ BOOL CNetManager::Stop()
 {
 	StopListen();
 
-	CloseEventThread();
-
 	CConnectionMgr::GetInstancePtr()->CloseAllConnection();
 
-	DestroyCompletePort();
+    CloseEventThread();
 
-	UninitNetwork();
+    DestroyCompletePort();
 
-	CConnectionMgr::GetInstancePtr()->DestroyAllConnection();
+    CConnectionMgr::GetInstancePtr()->DestroyAllConnection();
+
+    UninitNetwork();
 
 	return TRUE;
 }

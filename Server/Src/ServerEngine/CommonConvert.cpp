@@ -250,6 +250,10 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
 		return TRUE;
 	}
 
+    if (strSrc.size() <= 0)
+    {
+        return TRUE;
+    }
 	std::string::iterator subStart, subEnd;
 	subStart = strSrc.begin();
 	while (true)
