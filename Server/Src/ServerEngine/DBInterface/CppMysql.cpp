@@ -290,11 +290,6 @@ void CppMySQLQuery::nextRow()
 	_row = mysql_fetch_row(m_MysqlRes);
 }
 
-bool CppMySQLQuery::hasResult()
-{
-	return m_MysqlRes != NULL;
-}
-
 const unsigned char* CppMySQLQuery::getBlobField(int nField, int& nLen)
 {
 	const unsigned char* pData = (const unsigned char*)getStringField(nField);
@@ -394,8 +389,6 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
 		goto EXT;
 	}
 
-
-
 	//unsigned int timeout = 2;
 	//if (0 != mysql_options(m_pMySqlDB, MYSQL_OPT_CONNECT_TIMEOUT, (const char*)&timeout))
 	//{
@@ -475,6 +468,7 @@ MYSQL* CppMySQL3DB::getMysql()
 /* 处理返回多行的查询，返回影响的行数 */
 CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 {
+	m_nErrNo = 0;
 	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet != 0)
 	{
@@ -486,8 +480,7 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 			nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 		}
 	}
-
-	if (0 == nRet)
+	else
 	{
 		m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
 	}
@@ -497,6 +490,7 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
 /* 执行非返回结果查询 */
 int CppMySQL3DB::execSQL(const char* sql)
 {
+	m_nErrNo = 0;
 	int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
 	if (nRet == 0)
 	{
@@ -599,6 +593,7 @@ bool CppMySQL3DB::reconnect()
 /* 主要功能:开始事务 */
 bool CppMySQL3DB::startTransaction()
 {
+	m_nErrNo = 0;
 	if(!mysql_real_query(m_pMySqlDB, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION") ))
 	{
 		return true;
@@ -613,6 +608,7 @@ bool CppMySQL3DB::startTransaction()
 /* 主要功能:提交事务 */
 bool CppMySQL3DB::commit()
 {
+	m_nErrNo = 0;
 	if(!mysql_real_query( m_pMySqlDB, "COMMIT", (unsigned long)strlen("COMMIT") ) )
 	{
 		return true;

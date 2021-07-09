@@ -101,4 +101,6 @@ protected:
     continue; \
 }
 
+#define PARSE_FROM_PACKET(TYPE, VALUE)   TYPE VALUE; \
+ERROR_RETURN_TRUE(VALUE.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth()));
 #endif

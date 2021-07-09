@@ -13,9 +13,19 @@
 #pragma comment( lib, "DbgHelp" )
 
 
+void NewInvalidParamHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved)
+{
+    throw 1;
+}
+void NewPureCallHandler(void)
+{
+    throw 1;
+}
 LPTOP_LEVEL_EXCEPTION_FILTER g_preFilter;
 
 std::string g_AppName;
+_invalid_parameter_handler g_preInvalidParamHandler;
+_purecall_handler g_prePureHandler;
 
 
 long   __stdcall  CrashCallBack(_EXCEPTION_POINTERS* pExInfo)
@@ -46,6 +56,8 @@ void  SetCrashReport(std::string strAppName)
 {
 	g_AppName = strAppName;
 	g_preFilter = SetUnhandledExceptionFilter(CrashCallBack);
+    g_preInvalidParamHandler = _set_invalid_parameter_handler(NewInvalidParamHandler);
+    g_prePureHandler = _set_purecall_handler(NewPureCallHandler);
 }
 
 void UnSetCrashReport()
@@ -78,6 +90,7 @@ void exceptionalStack(int signal)
 
 void  SetCrashReport(std::string strAppName)
 {
+    return;
 	g_AppName = strAppName;
 	/*捕获异常信息 start*/
 	signal(SIGABRT, &exceptionalStack); //异常终止(abort)

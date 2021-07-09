@@ -52,8 +52,6 @@ public:
 
 	void nextRow();
 
-	bool hasResult();
-
 private:
 	void freeRes();
 
