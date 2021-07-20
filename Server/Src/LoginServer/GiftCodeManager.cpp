@@ -61,6 +61,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
 	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("GiftCodeManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+        CLog::GetInstancePtr()->LogError("GiftCodeManager::Init Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
@@ -108,7 +109,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
 			std::string strNowTime = CommonFunc::TimeToString(CommonFunc::GetCurrTime());
 			snprintf(szSql, SQL_BUFF_LEN, "select * from giftcode_base where giftcode ='%s' and '%s' > starttime and '%s' < endtime", pTmpNode->m_strCode.c_str(), strNowTime.c_str(), strNowTime.c_str());
 			CppMySQLQuery codeResult = tDBConnection.querySQL(szSql);
-			if (!codeResult.hasResult())
+            if (tDBConnection.GetErrorNo() != 0)
 			{
 				CLog::GetInstancePtr()->LogError("GiftCodeManager::get gift code failure Error :%s", tDBConnection.GetErrorMsg());
 				pTmpNode->m_dwResult = MRC_GIFTCODE_INVALIDE_CODE;
@@ -152,43 +153,107 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
 				continue;
 			}
 
-			if (nUseNum >= nTotalNum)
-			{
-				pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
-				m_ArrFinishNode.push(pTmpNode);
-				continue;
-			}
+            if (nUseType == 1)  //表示只能一人使用
+            {
+                if (uRoleID > 0)
+                {
+                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
 
-			if (nUseType == 1)  //表示只能一人使用
-			{
-				if (uRoleID > 0)
-				{
-					pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
-					m_ArrFinishNode.push(pTmpNode);
-					continue;
-				}
+                snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set roleid=%lld, usenum = 1 where giftcode ='%s'", pTmpNode->m_uRoleID, pTmpNode->m_strCode.c_str());
+                if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+            }
+            else if (nUseType == 2)  //表示可以多人使用
+            {
+                if (nUseNum >= nTotalNum)
+                {
+                    pTmpNode->m_dwResult = MRC_GIFTCODE_NO_MORE;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
 
-				snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set roleid=%lld, usenum = 1 where giftcode ='%s'", pTmpNode->m_uRoleID, pTmpNode->m_strCode.c_str());
-				tDBConnection.execSQL(szSql);
-			}
-			else if (nUseType == 2)  //表示可以多人使用
-			{
-				snprintf(szSql, SQL_BUFF_LEN, "select * from giftcode_used where giftcode ='%s' and roleid = %lld", pTmpNode->m_strCode.c_str(), pTmpNode->m_uRoleID);
-				CppMySQLQuery usedResult = tDBConnection.querySQL(szSql);
-				if (usedResult.hasResult() && usedResult.numRow() > 0)
-				{
-					pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
-					m_ArrFinishNode.push(pTmpNode);
-					continue;
-				}
+                snprintf(szSql, SQL_BUFF_LEN, "select * from giftcode_used where giftcode ='%s' and roleid = %lld", pTmpNode->m_strCode.c_str(), pTmpNode->m_uRoleID);
+                CppMySQLQuery usedResult = tDBConnection.querySQL(szSql);
+                if (tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
 
-				snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime) values(%lld, %lld, %d, '%s', '%s')", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_dwAreaID,
-				         pTmpNode->m_strCode.c_str(), CommonFunc::TimeToString(CommonFunc::GetCurrTime()).c_str());
-				tDBConnection.execSQL(szSql);
+                if (usedResult.numRow() > 0)
+                {
+                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
 
-				snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set usenum = usenum +1 where giftcode ='%s'", pTmpNode->m_strCode.c_str());
-				tDBConnection.execSQL(szSql);
-			}
+                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_dwAreaID,
+                         pTmpNode->m_strCode.c_str(), CommonFunc::GetCurrTime(), nAwardID);
+                if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+
+                snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set usenum = usenum +1 where giftcode ='%s'", pTmpNode->m_strCode.c_str());
+                if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+            }
+            else if (nUseType == 3)  //表示可以多人使用
+            {
+                if (uRoleID > 0)
+                {
+                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+
+                snprintf(szSql, SQL_BUFF_LEN, "select * from giftcode_used where awardid = %d and roleid = %lld", nAwardID, pTmpNode->m_uRoleID);
+                CppMySQLQuery usedResult = tDBConnection.querySQL(szSql);
+                if (tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+
+                if (usedResult.numRow() > 0)
+                {
+                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+
+                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_dwAreaID,
+                         pTmpNode->m_strCode.c_str(), CommonFunc::GetCurrTime(), nAwardID);
+                if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+
+                snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set roleid=%lld, usenum = 1 where giftcode ='%s'", pTmpNode->m_uRoleID, pTmpNode->m_strCode.c_str());
+                if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
+                {
+                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    m_ArrFinishNode.push(pTmpNode);
+                    continue;
+                }
+            }
 #endif
 
 			std::map<UINT32, AwardNode>::iterator itor = mapAwardList.find(nAwardID);

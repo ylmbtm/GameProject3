@@ -63,5 +63,6 @@ enum MessageRetCode {
    MRC_GIFTCODE_UNASSIGNED    = 502;    //礼包码未分配
    MRC_GIFTCODE_WRONG_CHANNEL = 503;    //错误的渠道
    MRC_GIFTCODE_WRONG_AREA    = 504;    //错误的区服
+   MRC_GIFTCODE_NO_MORE       = 505;    //己被领完了
 }
 
