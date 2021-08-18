@@ -3,10 +3,7 @@ Game Engine Frame
 跨平台的多进程游戏服务器框架，网络层分别使用SocketApi, Boost Asio, Libuv三种方式实现， 
 框架内使用共享内存，无锁队列，对象池，内存池来提高服务器性能。
 
-还有一个不断完善的Unity3D客户端，游戏包含大量完整资源，坐骑，宠物，伙伴，装备, 这些均可上阵和穿戴, 并可进入副本战斗，多人玩法也己实现，持续开发中。
-gitee地址: https://gitee.com/ylmbtm/GameProject3
-
-交流QQ群 : 45139128
+还有一个不断完善的Unity3D客户端，游戏包含大量完整资源，坐骑，宠物，伙伴，装备, 这些均可上阵和穿戴, 并可进入副本战斗，多人玩法也己实现，持续开发中(完整资源在群文件中)。
 
  #### 服务器部署启动说明
  ##### 1.编译
@@ -32,9 +29,16 @@ gitee地址: https://gitee.com/ylmbtm/GameProject3
 #### 文档与教程
 1.群友 Binaryhobart(450282550) 提供的视频搭建教程 [教程地址](https://www.bilibili.com/video/BV1k5411s7Vf?from=search&seid=3304544258866101487)
 
-#### 体验客户端效果(群文件中有全部客户端代码及资源)
+gitee地址: https://gitee.com/ylmbtm/GameProject3
 
+交流QQ群 : 871115813
+公众号:![public1](https://github.com/ylmbtm/resource/blob/master/20210818175029.png)
+
+
+#### 体验客户端效果(群文件中有全部客户端代码及资源)
 ![login1](https://github.com/ylmbtm/resource/blob/master/01.png)
 ![login2](https://github.com/ylmbtm/resource/blob/master/02.png)
 ![login3](https://github.com/ylmbtm/resource/blob/master/03.png)
 ![login4](https://github.com/ylmbtm/resource/blob/master/04.png)
+
+

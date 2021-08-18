@@ -41,6 +41,8 @@ public:
 
 	BOOL			Update();
 
+	BOOL            WaitOneFrame(UINT32 nFrams);
+
 protected:
 	IPacketDispatcher*					m_pPacketDispatcher;
 

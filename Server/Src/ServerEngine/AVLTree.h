@@ -517,22 +517,22 @@ bool AVLTree<TKey, TValue>::InsertInner(TNodeTypePtr& pParentNode, TNodeTypePtr 
 template<typename TKey, typename TValue>
 TreeNode<TKey, TValue>* AVLTree<TKey, TValue>::FindInner(TNodeTypePtr pNode, TKey Key)
 {
-	if(pNode == NULL) //如果节点为空说明没找到,返回NULL
-	{
-		return NULL;
-	}
-	if(pNode->m_Key > Key)//如果x小于节点的值,就继续在节点的左子树中查找x
-	{
-		return FindInner(pNode->m_pLeft, Key);
-	}
-	else if(pNode->m_Key < Key) //如果x大于节点的值,就继续在节点的左子树中查找x
-	{
-		return FindInner(pNode->m_pRight, Key);
-	}
-	else
-	{
-		return pNode;
-	}
+    if(pNode == NULL) //如果节点为空说明没找到,返回NULL
+    {
+        return NULL;
+    }
+
+    if(pNode->m_Key > Key)//如果x小于节点的值,就继续在节点的左子树中查找x
+    {
+        return FindInner(pNode->m_pLeft, Key);
+    }
+
+    if(pNode->m_Key < Key) //如果x大于节点的值,就继续在节点的左子树中查找x
+    {
+        return FindInner(pNode->m_pRight, Key);
+    }
+
+    return pNode;
 }
 //查找接口
 template<typename TKey, typename TValue>

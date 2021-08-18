@@ -343,7 +343,7 @@ BOOL CProxyMsgHandler::OnMsgReconnectReq(NetPacket* pPacket)
 		CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPlayer->GetConnID());
 		if (pConn != NULL)
 		{
-			CLog::GetInstancePtr()->LogError("CProxyMsgHandler::OnMsgReconnectReq Error orgin connect alreay exist:%d", pPlayer->GetConnID());
+            CLog::GetInstancePtr()->LogError("CProxyMsgHandler::OnMsgReconnectReq Error orgin connect alreay exist  OrgConnID:%d, NewConnID:%d", pPlayer->GetConnID(), pPacket->m_dwConnID);
 			pConn->SetConnectionData(0);
 		}
 		else

@@ -109,7 +109,8 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 
 	AccountLoginAck Ack;
 	Ack.set_review(Req.review());
-
+    Ack.set_channel(Req.channel());
+    Ack.set_ipaddr(Req.loginlog().ipaddr());
 	std::string strAccountName = Req.accountname();
 
 	if (!m_AccountManager.CheckAccountName(strAccountName, Req.fromchannel()))

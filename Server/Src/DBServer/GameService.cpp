@@ -62,7 +62,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	m_DBMsgHandler.Init(0);
+	ERROR_RETURN_FALSE(m_DBMsgHandler.Init(0));
 
 	ERROR_RETURN_FALSE(m_DBWriterManger.Init());
 

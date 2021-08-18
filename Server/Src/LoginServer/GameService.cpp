@@ -140,6 +140,7 @@ BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 	if(nConnID == m_dwAccountConnID)
 	{
 		m_dwAccountConnID = 0;
+		CLog::GetInstancePtr()->LogError("CGameService::OnCloseConnect Disconnect From Account Server.");
 	}
 
 	CLoginClientMgr::GetInstancePtr()->OnCloseConnect(nConnID);

@@ -3,7 +3,7 @@ project(AccountServer)
 SET(PROJECT_ROOT_PATH ".")
 add_definitions(-std=c++11)
 add_definitions(-w)
-include_directories(./ ../ServerEngine ../Lua ../ServerEngine/DBInterface ../ServerData ../../Common/Mysql ../../Common/protobuf/src ../Message ../LogData ../PublicData ../WatcherClient)
+include_directories(./ ../ServerEngine ../../Common/Lua ../ServerEngine/DBInterface ../ServerData ../../Common/Mysql ../../Common/protobuf/src ../Message ../LogData ../PublicData ../WatcherClient)
 link_directories(../../Common/lib /usr/lib64/mysql)	
 
 

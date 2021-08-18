@@ -157,8 +157,8 @@ BOOL ServiceBase::OnCloseConnect(UINT32 nConnID)
 
 BOOL ServiceBase::OnNewConnect(UINT32 nConnID)
 {
-	ERROR_RETURN_FALSE(nConnID != 0);
-	m_QueueLock.Lock();
+    ERROR_RETURN_FALSE(nConnID != 0);
+    m_QueueLock.Lock();
 	m_pRecvDataQueue->emplace_back(NetPacket(nConnID, NULL, NEW_CONNECTION));
 	m_QueueLock.Unlock();
 	return TRUE;
@@ -224,6 +224,26 @@ BOOL ServiceBase::Update()
 	}
 
 	TimerManager::GetInstancePtr()->UpdateTimer();
+
+	return TRUE;
+}
+
+BOOL ServiceBase::WaitOneFrame(UINT32 nFrams)
+{
+	if (nFrams < 1)
+	{
+		nFrams = 1;
+	}
+
+	static UINT64 uNextTick = CommonFunc::GetTickCount();
+	UINT64 uCurTick = CommonFunc::GetTickCount();
+
+	if (uNextTick > uCurTick)
+	{
+		CommonFunc::Sleep(uNextTick - uCurTick);
+	}
+
+	uNextTick = uNextTick + 1000 / nFrams;
 
 	return TRUE;
 }

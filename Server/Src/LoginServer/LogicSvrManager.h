@@ -78,7 +78,7 @@ struct LogicServerNode
 	UINT32		m_dwMaxVersion; //最大可见版本
 	UINT64      m_uSvrOpenTime; //开服时间
 	std::string m_strSvrName;   //服务器名字
-	std::string m_strOuterAddr;    //服务器的外网地址
+	std::string m_strOuterAddr; //服务器的外网地址
 	std::string m_strInnerAddr; //服务器的内网地址
 	UINT64		m_uLastUpdate;  //服务器最后更新时间
 	std::set<UINT32> m_CheckIpList;	  //过滤的IP地址
