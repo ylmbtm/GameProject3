@@ -163,7 +163,7 @@ BOOL CGameService::Run()
 
 		m_SceneManager.OnUpdate(CommonFunc::GetTickCount());
 
-		CommonFunc::Sleep(1);
+		ServiceBase::GetInstancePtr()->FixFrameNum(200);
 	}
 
 	return TRUE;

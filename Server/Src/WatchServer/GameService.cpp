@@ -128,7 +128,7 @@ BOOL CGameService::Run()
 	{
 		ServiceBase::GetInstancePtr()->Update();
 
-		CommonFunc::Sleep(1);
+        ServiceBase::GetInstancePtr()->FixFrameNum(30);
 	}
 
 	return TRUE;

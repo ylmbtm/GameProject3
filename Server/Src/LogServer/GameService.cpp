@@ -59,7 +59,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	m_LogMsgHandler.Init(0);
+	ERROR_RETURN_FALSE(m_LogMsgHandler.Init(0));
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
@@ -122,7 +122,7 @@ BOOL CGameService::Run()
 
 		m_LogMsgHandler.OnUpdate(CommonFunc::GetTickCount());
 
-		CommonFunc::Sleep(1);
+		ServiceBase::GetInstancePtr()->FixFrameNum(30);
 	}
 
 	return TRUE;

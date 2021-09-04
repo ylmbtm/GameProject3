@@ -228,7 +228,7 @@ BOOL ServiceBase::Update()
 	return TRUE;
 }
 
-BOOL ServiceBase::WaitOneFrame(UINT32 nFrams)
+BOOL ServiceBase::FixFrameNum(UINT32 nFrams)
 {
 	if (nFrams < 1)
 	{

@@ -98,7 +98,7 @@ BOOL CGameService::Run()
 
 		GiftCodeManager::GetInstancePtr()->Update();
 
-		CommonFunc::Sleep(1);
+		ServiceBase::GetInstancePtr()->FixFrameNum(200);
 	}
 
 	return TRUE;

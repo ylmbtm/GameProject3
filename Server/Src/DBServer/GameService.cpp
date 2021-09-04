@@ -156,6 +156,7 @@ BOOL CGameService::Uninit()
 
 	ServiceBase::GetInstancePtr()->StopNetwork();
 
+	m_DBMsgHandler.Uninit();
 	m_DBWriterManger.Uninit();
 
 	google::protobuf::ShutdownProtobufLibrary();
@@ -173,7 +174,7 @@ BOOL CGameService::Run()
 
 		m_DBWriterManger.Update();
 
-		CommonFunc::Sleep(1);
+		ServiceBase::GetInstancePtr()->FixFrameNum(200);
 	}
 
 	return TRUE;
