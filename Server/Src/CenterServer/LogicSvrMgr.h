@@ -25,11 +25,15 @@ public:
 
 	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strSvrName);
 
-	BOOL	UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID);
+	BOOL	UnregisterLogicServer(UINT32 dwServerID);
+
+	BOOL    OnCloseConnect(UINT32 dwConnID);
 
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 
 	BOOL	SendMsgProtoBuf(UINT32 dwServerID, UINT32 dwMsgID, const google::protobuf::Message& pdata);
+
+	BOOL    BroadMsgToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT32 nNoConnID = 0);
 
 	BOOL	SendMsgRawData(UINT32 dwServerID, UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
 

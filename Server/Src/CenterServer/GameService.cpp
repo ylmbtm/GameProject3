@@ -4,6 +4,7 @@
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_ID.pb.h"
 #include "WatcherClient.h"
+#include "LogicSvrMgr.h"
 
 CGameService::CGameService(void)
 {
@@ -38,6 +39,7 @@ BOOL CGameService::Init()
 
 	if (CommonFunc::IsAlreadyRun("CenterServer"))
 	{
+		CLog::GetInstancePtr()->LogError("CenterServer己经在运行!");
 		return FALSE;
 	}
 
@@ -45,6 +47,11 @@ BOOL CGameService::Init()
 
 
 	UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_port");
+	if (nPort <= 0)
+	{
+		CLog::GetInstancePtr()->LogError("配制文件center_svr_port配制错误!");
+		return FALSE;
+	}
 	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("center_svr_max_con");
 	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
 	{
@@ -52,7 +59,7 @@ BOOL CGameService::Init()
 		return FALSE;
 	}
 
-	m_CenterMsgHandler.Init(0);
+	ERROR_RETURN_FALSE(m_CenterMsgHandler.Init(0));
 	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 	return TRUE;
 }
@@ -68,6 +75,8 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
 BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 {
 	CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
+
+	LogicSvrMgr::GetInstancePtr()->OnCloseConnect(nConnID);
 
 	return TRUE;
 }
@@ -96,8 +105,16 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
+	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+
 	ServiceBase::GetInstancePtr()->StopNetwork();
+
+	m_CenterMsgHandler.Uninit();
+
 	google::protobuf::ShutdownProtobufLibrary();
+
+	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+
 	return TRUE;
 }
 

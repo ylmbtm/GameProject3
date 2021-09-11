@@ -45,7 +45,7 @@ BOOL LogicSvrMgr::RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::s
 	return TRUE;
 }
 
-BOOL LogicSvrMgr::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
+BOOL LogicSvrMgr::UnregisterLogicServer(UINT32 dwServerID)
 {
 	LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
 	if(pNode == NULL)
@@ -54,6 +54,23 @@ BOOL LogicSvrMgr::UnregisterLogicServer(UINT32 dwConnID, UINT32 dwServerID)
 	}
 
 	pNode->m_dwConnID = 0;
+
+	return TRUE;
+}
+
+BOOL LogicSvrMgr::OnCloseConnect(UINT32 dwConnID)
+{
+	for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); ++itor)
+	{
+		LogicServerNode* pNode = itor->second;
+		ERROR_CONTINUE_EX(pNode != NULL);
+
+		if (pNode->m_dwConnID == dwConnID)
+		{
+			pNode->m_dwConnID = 0;
+		}
+
+	}
 
 	return TRUE;
 }
@@ -83,6 +100,24 @@ LogicServerNode* LogicSvrMgr::GetLogicServerInfo(UINT32 dwServerID)
 BOOL LogicSvrMgr::SendMsgProtoBuf(UINT32 dwServerID, UINT32 dwMsgID, const google::protobuf::Message& pdata)
 {
 	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetLogicConnID(dwServerID), dwMsgID, 0, 0, pdata);
+}
+
+BOOL LogicSvrMgr::BroadMsgToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT32 nNoConnID)
+{
+	for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); ++itor)
+	{
+		LogicServerNode* pServerNode = itor->second;
+		ERROR_CONTINUE_EX(pServerNode != NULL);
+
+		if (pServerNode->m_dwConnID == nNoConnID)
+		{
+			continue;
+		}
+
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pServerNode->m_dwConnID, dwMsgID, 0, 0, pdata);
+	}
+
+	return TRUE;
 }
 
 BOOL LogicSvrMgr::SendMsgRawData(UINT32 dwServerID, UINT32 dwMsgID, const char* pdata, UINT32 dwLen)

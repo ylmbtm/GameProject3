@@ -43,11 +43,11 @@ BOOL CCenterMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 	SvrRegToSvrReq Req;
 	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
 	LogicSvrMgr::GetInstancePtr()->RegisterLogicServer(pPacket->m_dwConnID, Req.serverid(), Req.servername());
-
+	CLog::GetInstancePtr()->LogInfo("ServerID:%d Register Successed!", Req.serverid());
 
 	SvrRegToSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_LOGIN_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_CENTER_ACK, 0, 0, Ack);
 	return TRUE;
 }
 
