@@ -19,14 +19,12 @@ CDBConnection::~CDBConnection( void )
 BOOL CDBConnection::Init()
 {
 	mysql_library_init( 0, NULL, NULL );
-	mysql_thread_init();
 
 	return TRUE;
 }
 
 BOOL CDBConnection::Uninit()
 {
-	mysql_thread_end();
 	mysql_library_end();
 	return TRUE;
 }
@@ -141,22 +139,19 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 			m_nErrno = mysql_errno(m_pMySql);
 			m_strError = mysql_error(m_pMySql);
 
-			CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, StmtErrNo:%d, StmtErrStr:%s",
-			                                 m_nErrno, m_strError.c_str(),
-			                                 mysql_stmt_errno(pLastStmt),
-			                                 mysql_stmt_error(pLastStmt));
+            CLog::GetInstancePtr()->LogError("WriteDB1 Failed, ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 
 			if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONGLONG)
 			{
-				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+                CLog::GetInstancePtr()->LogError("WriteDB1 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 			}
 			else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
 			{
-				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+                CLog::GetInstancePtr()->LogError("WriteDB1 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 			}
 			else
 			{
-				CLog::GetInstancePtr()->LogError("ExecuteWrite1 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+                CLog::GetInstancePtr()->LogError("WriteDB1 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 			}
 
 			mysql_stmt_close(pLastStmt);
@@ -182,8 +177,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno(m_pMySql);
 		m_strError = mysql_error(m_pMySql);
-		CLog::GetInstancePtr()->LogError("ExecuteWrite2 Failed [mysql_stmt_init], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
-		CLog::GetInstancePtr()->LogError("ExecuteWrite2 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB2 Failed, ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB2 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		return FALSE;
 	}
 
@@ -193,8 +188,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error(m_pMySql);
 		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
-		CLog::GetInstancePtr()->LogError("ExecuteWrite3 Failed [mysql_stmt_prepare], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
-		CLog::GetInstancePtr()->LogError("ExecuteWrite3 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB3 Failed, ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB3 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		return FALSE;
 	}
 
@@ -207,8 +202,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error(m_pMySql);
 		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
-		CLog::GetInstancePtr()->LogError("ExecuteWrite4 Failed [mysql_stmt_param_count], ParamCount not equal ProcedureCount!");
-		CLog::GetInstancePtr()->LogError("ExecuteWrite4 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB4 Failed, ParamCount not equal ProcedureCount!");
+        CLog::GetInstancePtr()->LogError("WriteDB4 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		return FALSE;
 	}
 
@@ -216,8 +211,8 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 	{
 		m_nErrno = mysql_errno(m_pMySql);
 		m_strError = mysql_error(m_pMySql);
-		CLog::GetInstancePtr()->LogError("ExecuteWrite5 Failed [mysql_stmt_bind_param], ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
-		CLog::GetInstancePtr()->LogError("ExecuteWrite5 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB5 Failed, ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
+        CLog::GetInstancePtr()->LogError("WriteDB5 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		mysql_stmt_close(pMySqlStmt);
 		pMySqlStmt = NULL;
 		return FALSE;
@@ -229,22 +224,19 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
 		m_strError = mysql_error(m_pMySql);
 
 
-		CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed [mysql_stmt_execute], ErrorNo:%d, ErrorMsg:%s, StmtErrNo:%d, StmtErrStr:%s",
-		                                 m_nErrno, m_strError.c_str(),
-		                                 mysql_stmt_errno(pMySqlStmt),
-		                                 mysql_stmt_error(pMySqlStmt));
+        CLog::GetInstancePtr()->LogError("WriteDB6 Failed, ErrorNo:%d, ErrorMsg:%s", m_nErrno, m_strError.c_str());
 
 		if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONGLONG)
 		{
-			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+            CLog::GetInstancePtr()->LogError("WriteDB6 Failed key:%lld, Sql:[%s]", *(UINT64*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		}
 		else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
 		{
-			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.c_str());
+            CLog::GetInstancePtr()->LogError("WriteDB6 Failed key:%ld, Sql:[%s]", *(UINT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		}
 		else
 		{
-			CLog::GetInstancePtr()->LogError("ExecuteWrite6 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.c_str());
+            CLog::GetInstancePtr()->LogError("WriteDB6 Failed Sql:[%s]", pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
 		}
 
 
