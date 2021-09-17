@@ -49,7 +49,7 @@ BOOL CStoreModule::OnNewDay()
 
 VOID CStoreModule::RegisterMessageHanler()
 {
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_STORE_BUY_REQ, &CStoreModule::OnMsgStoreBuyReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_STORE_BUY_REQ, &CStoreModule::OnMsgStoreBuyReq, this);
 }
 
 BOOL CStoreModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)

@@ -187,7 +187,16 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	Ack.set_carrer(Req.carrer());
 	Ack.set_name(Req.name());
 
-	if (CSimpleManager::GetInstancePtr()->CheckNameExist(Req.name()))
+	std::string strName = Req.name();
+
+	if (!CommonConvert::IsTextUTF8(strName.c_str(), (UINT32)strName.size()))
+	{
+		Ack.set_retcode(MRC_ROLE_NAME_MUST_UTF8);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		return TRUE;
+	}
+
+	if (CSimpleManager::GetInstancePtr()->CheckNameExist(strName))
 	{
 		Ack.set_retcode(MRC_ROLE_NAME_EXIST);
 		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
@@ -506,7 +515,8 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 	RoleReconnectAck Ack;
 	if(pPlayer == NULL)
 	{
-		//重连失败，请重新登录
+		Ack.set_retcode(MRC_CANNOT_RECONNECT);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_RECONNECT_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 

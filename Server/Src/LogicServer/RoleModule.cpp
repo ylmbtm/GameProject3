@@ -3,6 +3,7 @@
 #include "../ServerData/ServerDefine.h"
 #include "../StaticData/StaticData.h"
 #include "DataPool.h"
+#include "SimpleManager.h"
 
 CRoleModule::CRoleModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
@@ -77,14 +78,16 @@ BOOL CRoleModule::OnLogin()
 	{
 		UpdateAction(i + 1);
 	}
-	
+
 	if (m_pRoleDataObject->m_uLogoffTime < m_pRoleDataObject->m_uLogonTime)
 	{
 		m_pRoleDataObject->m_uLogoffTime = m_pRoleDataObject->m_uLogonTime + 3;
+		CSimpleManager::GetInstancePtr()->SetLogoffTime(GetRoleID(), m_pRoleDataObject->m_uLogoffTime);
 	}
 
 	m_pRoleDataObject->m_uLogonTime = CommonFunc::GetCurrTime();
 	m_pRoleDataObject->Unlock();
+	CSimpleManager::GetInstancePtr()->SetLogonTime(GetRoleID(), m_pRoleDataObject->m_uLogonTime);
 	return TRUE;
 }
 
@@ -93,7 +96,9 @@ BOOL CRoleModule::OnLogout()
 	ERROR_RETURN_FALSE(m_pRoleDataObject != NULL);
 	m_pRoleDataObject->Lock();
 	m_pRoleDataObject->m_uLogoffTime = CommonFunc::GetCurrTime();
+	m_pRoleDataObject->m_nOnlineTime += m_pRoleDataObject->m_uLogoffTime - m_pRoleDataObject->m_uLogonTime;
 	m_pRoleDataObject->Unlock();
+	CSimpleManager::GetInstancePtr()->SetLogoffTime(GetRoleID(), m_pRoleDataObject->m_uLogoffTime);
 	return TRUE;
 }
 
@@ -126,7 +131,8 @@ BOOL CRoleModule::ReadFromDBLoginData( DBRoleLoginAck& Ack )
 	m_pRoleDataObject->m_uLogonTime = Ack.roledata().logontime();
 	m_pRoleDataObject->m_uLogoffTime = Ack.roledata().logofftime();
 	m_pRoleDataObject->m_nChannel = Ack.roledata().channel();
-	
+	m_pRoleDataObject->m_nOnlineTime = Ack.roledata().onlinetime();
+
 	if(m_pRoleDataObject->m_CityCopyID == 0)
 	{
 		StCarrerInfo* pInfo = CStaticData::GetInstancePtr()->GetCarrerInfo(m_pRoleDataObject->m_CarrerID);
@@ -441,6 +447,13 @@ UINT64 CRoleModule::GetLastLogonTime()
 	return m_pRoleDataObject->m_uLogonTime;
 }
 
+UINT64 CRoleModule::GetCreateTime()
+{
+	ERROR_RETURN_VALUE(m_pRoleDataObject != NULL, 0);
+
+	return m_pRoleDataObject->m_uCreateTime;
+}
+
 VOID CRoleModule::SetGroupMailTime(UINT64 uTime)
 {
 	m_pRoleDataObject->Lock();
@@ -453,3 +466,7 @@ UINT64 CRoleModule::GetGroupMailTime()
 	return m_pRoleDataObject->m_uGroupMailTime;
 }
 
+UINT32 CRoleModule::GetOnlineTime()
+{
+	return m_pRoleDataObject->m_nOnlineTime;
+}

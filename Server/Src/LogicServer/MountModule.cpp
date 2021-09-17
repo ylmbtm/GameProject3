@@ -102,8 +102,8 @@ BOOL CMountModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 
 VOID CMountModule::RegisterMessageHanler()
 {
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_MOUNT_REQ, &CMountModule::OnMsgSetupMountReq, this);
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_MOUNT_REQ, &CMountModule::OnMsgUnsetMountReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_SETUP_MOUNT_REQ, &CMountModule::OnMsgSetupMountReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_UNSET_MOUNT_REQ, &CMountModule::OnMsgUnsetMountReq, this);
 
 }
 

@@ -122,8 +122,8 @@ BOOL CPartnerModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[P
 
 VOID CPartnerModule::RegisterMessageHanler()
 {
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_PARTNER_REQ, &CPartnerModule::OnMsgSetupPartnerReq, this);
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_PARTNER_REQ, &CPartnerModule::OnMsgUnsetPartnerReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_SETUP_PARTNER_REQ, &CPartnerModule::OnMsgSetupPartnerReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_UNSET_PARTNER_REQ, &CPartnerModule::OnMsgUnsetPartnerReq, this);
 }
 
 BOOL CPartnerModule::ToTransferData(TransferDataItem* pTransItem)

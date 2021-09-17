@@ -53,6 +53,8 @@ public:
 	UINT64  GetLastLogoffTime();
 	BOOL    SetLastLogoffTime(UINT64 uTime);
 	UINT64  GetLastLogonTime();
+	UINT64  GetCreateTime();
+	UINT32  GetOnlineTime();
 
 	VOID    SetGroupMailTime(UINT64 uTime);
 	UINT64  GetGroupMailTime();

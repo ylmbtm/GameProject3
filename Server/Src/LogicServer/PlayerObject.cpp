@@ -65,7 +65,6 @@ BOOL CPlayerObject::Uninit()
 	m_dwCopySvrID       = 0;        //副本服务器的ID
 	m_IsOnline			= FALSE;    //是否在线
 	m_uRoomID           = 0;
-	m_NetMessagePump.ClearAll();
 	return TRUE;
 }
 

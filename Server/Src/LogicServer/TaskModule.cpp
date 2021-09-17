@@ -6,6 +6,7 @@
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
+#include "GameLogManager.h"
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
 	RegisterMessageHanler();
@@ -13,12 +14,10 @@ CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 
 CTaskModule::~CTaskModule()
 {
-
 }
 
 BOOL CTaskModule::OnCreate(UINT64 u64RoleID)
 {
-
 	return TRUE;
 }
 

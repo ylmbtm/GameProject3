@@ -299,8 +299,8 @@ BOOL CEquipModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PRO
 
 VOID CEquipModule::RegisterMessageHanler()
 {
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_EQUIP_REQ, &CEquipModule::OnMsgSetupEquipReq, this);
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_EQUIP_REQ, &CEquipModule::OnMsgUnsetEquipReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_SETUP_EQUIP_REQ, &CEquipModule::OnMsgSetupEquipReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_UNSET_EQUIP_REQ, &CEquipModule::OnMsgUnsetEquipReq, this);
 }
 
 

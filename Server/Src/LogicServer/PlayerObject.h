@@ -8,7 +8,7 @@
 #include "../ServerData/ServerStruct.h"
 #include "MsgHandlerManager.h"
 
-class CPlayerObject
+class CPlayerObject : public CHandlerManager
 {
 public:
 	CPlayerObject();
@@ -98,9 +98,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 public:
 	//网络消息泵
-	CHandlerManager m_NetMessagePump;
 
-public:
 	UINT64			m_u64ID;
 	UINT32			m_dwProxyConnID;
 	UINT32			m_dwClientConnID;

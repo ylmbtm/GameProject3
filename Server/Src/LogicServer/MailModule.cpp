@@ -4,9 +4,11 @@
 #include "GlobalDataMgr.h"
 #include "StaticData.h"
 #include "PlayerObject.h"
-#include "../Message/Msg_ID.pb.h"
 #include "MailManager.h"
 #include "RoleModule.h"
+#include "../Message/Msg_ID.pb.h"
+#include "../Message/Msg_RetCode.pb.h"
+#include "GameLogManager.h"
 
 CMailModule::CMailModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {

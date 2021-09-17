@@ -7,23 +7,23 @@
 
 class CSealManager
 {
-	CSealManager();
-	~CSealManager();
+    CSealManager();
+    ~CSealManager();
 public:
-	static CSealManager* GetInstancePtr();
+    static CSealManager* GetInstancePtr();
 
 public:
-	BOOL LoadData(CppMySQL3DB& tDBConnection);
+    BOOL LoadData(CppMySQL3DB& tDBConnection);
 
-	BOOL SealRole(UINT64 uRoleID, UINT64 uSealTime, UINT32 nSealAction);
+    BOOL SealRole(UINT64 uRoleID, UINT64 uSealTime, UINT32 nSealAction, UINT32 nSealReason);
 
-	BOOL UnSealRole(UINT64 uRoleID);
+    BOOL UnSealRole(UINT64 uRoleID);
 
-	BOOL IsSealRole(UINT64 uRoleID);
+    BOOL IsSealRole(UINT64 uRoleID, UINT32 nSealAction);
 
-	SealDataObject* GetSealData(UINT64 uRoleID);
+    SealDataObject* GetSealData(UINT64 uRoleID);
 public:
-	std::map<UINT64, SealDataObject*> m_mapSealData;
+    std::map<UINT64, SealDataObject*> m_mapSealData;
 };
 
 #endif //__SEAL_MANAGER_H__

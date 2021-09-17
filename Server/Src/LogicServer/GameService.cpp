@@ -232,7 +232,7 @@ BOOL CGameService::Run()
 
 		m_LogicMsgHandler.OnUpdate(CommonFunc::GetTickCount());
 
-		CommonFunc::Sleep(1);
+		ServiceBase::GetInstancePtr()->FixFrameNum(200);
 	}
 
 	return TRUE;
@@ -459,7 +459,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 		return TRUE;
 	}
 
-	if (pPlayer->m_NetMessagePump.FireMessage(pNetPacket->m_dwMsgID, pNetPacket))
+    if (pPlayer->FireMessage(pNetPacket->m_dwMsgID, pNetPacket))
 	{
 		return TRUE;
 	}

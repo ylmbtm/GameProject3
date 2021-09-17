@@ -329,6 +329,6 @@ BOOL CGemModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPE
 
 VOID CGemModule::RegisterMessageHanler()
 {
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_SETUP_GEM_REQ, &CGemModule::OnMsgSetupGemReq, this);
-	m_pOwnPlayer->m_NetMessagePump.RegisterMessageHandle(MSG_UNSET_GEM_REQ, &CGemModule::OnMsgUnsetGemReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_SETUP_GEM_REQ, &CGemModule::OnMsgSetupGemReq, this);
+    m_pOwnPlayer->RegisterMessageHandle(MSG_UNSET_GEM_REQ, &CGemModule::OnMsgUnsetGemReq, this);
 }

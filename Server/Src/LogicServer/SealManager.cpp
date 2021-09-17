@@ -15,103 +15,115 @@ CSealManager::CSealManager()
 
 CSealManager::~CSealManager()
 {
-	for (auto itor = m_mapSealData.begin(); itor != m_mapSealData.end(); ++itor)
-	{
-		SealDataObject* pObject = itor->second;
-		pObject->Release();
-	}
+    for (auto itor = m_mapSealData.begin(); itor != m_mapSealData.end(); ++itor)
+    {
+        SealDataObject* pObject = itor->second;
+        pObject->Release();
+    }
 
-	m_mapSealData.clear();
+    m_mapSealData.clear();
 }
 
 CSealManager* CSealManager::GetInstancePtr()
 {
-	static CSealManager _StaticMgr;
+    static CSealManager _StaticMgr;
 
-	return &_StaticMgr;
+    return &_StaticMgr;
 }
 
 BOOL CSealManager::LoadData(CppMySQL3DB& tDBConnection)
 {
-	CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM seal_role");
-	while (!QueryResult.eof())
-	{
-		SealDataObject* pSealDataObject = DataPool::CreateObject<SealDataObject>(ESD_SEAL_ROLE, FALSE);
-		pSealDataObject->m_uRoleID = QueryResult.getInt64Field("roleid");
-		pSealDataObject->m_uSealTime = QueryResult.getIntField("sealendtime");
-		pSealDataObject->m_nSealAction = QueryResult.getIntField("sealaction");
-		m_mapSealData.insert(std::make_pair(pSealDataObject->m_uRoleID, pSealDataObject));
-		QueryResult.nextRow();
-	}
+    CppMySQLQuery QueryResult = tDBConnection.querySQL("SELECT * FROM seal_role");
+    while (!QueryResult.eof())
+    {
+        SealDataObject* pSealDataObject = DataPool::CreateObject<SealDataObject>(ESD_SEAL_ROLE, FALSE);
+        pSealDataObject->m_uRoleID = QueryResult.getInt64Field("roleid");
+        pSealDataObject->m_uSealEndTime = QueryResult.getIntField("sealendtime");
+        pSealDataObject->m_uSealBeginlTime = QueryResult.getIntField("sealbegintime");
+        pSealDataObject->m_nSealAction = QueryResult.getIntField("sealaction");
+        pSealDataObject->m_nSealReason = QueryResult.getIntField("sealreason");
+        m_mapSealData.insert(std::make_pair(pSealDataObject->m_uRoleID, pSealDataObject));
+        QueryResult.nextRow();
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CSealManager::SealRole(UINT64 uRoleID, UINT64 uSealTime, UINT32 nSealAction)
+BOOL CSealManager::SealRole(UINT64 uRoleID, UINT64 uSealTime, UINT32 nSealAction, UINT32 nSealReason)
 {
-	SealDataObject* pSealData = GetSealData(uRoleID);
-	if (pSealData == NULL)
-	{
-		pSealData = DataPool::CreateObject<SealDataObject>(ESD_SEAL_ROLE, TRUE);
-		pSealData->Lock();
-		pSealData->m_uRoleID = uRoleID;
-		pSealData->m_uSealTime = CommonFunc::GetCurrTime() + uSealTime;
-		pSealData->m_nSealAction = nSealAction;
-		pSealData->Unlock();
-		m_mapSealData.insert(std::make_pair(pSealData->m_uRoleID, pSealData));
-	}
-	else
-	{
-		pSealData->Lock();
-		pSealData->m_uRoleID = uRoleID;
-		pSealData->m_uSealTime = CommonFunc::GetCurrTime() + uSealTime;
-		pSealData->m_nSealAction = nSealAction;
-		pSealData->Unlock();
-	}
+    SealDataObject* pSealData = GetSealData(uRoleID);
+    if (pSealData == NULL)
+    {
+        pSealData = DataPool::CreateObject<SealDataObject>(ESD_SEAL_ROLE, TRUE);
+        pSealData->Lock();
+        pSealData->m_uRoleID = uRoleID;
+        pSealData->m_uSealEndTime = CommonFunc::GetCurrTime() + uSealTime;
+        pSealData->m_uSealBeginlTime = CommonFunc::GetCurrTime();
+        pSealData->m_nSealAction = nSealAction;
+        pSealData->m_nSealReason = nSealReason;
+        pSealData->Unlock();
+        m_mapSealData.insert(std::make_pair(pSealData->m_uRoleID, pSealData));
+    }
+    else
+    {
+        pSealData->Lock();
+        pSealData->m_uRoleID = uRoleID;
+        pSealData->m_uSealEndTime = CommonFunc::GetCurrTime() + uSealTime;
+        pSealData->m_uSealBeginlTime = CommonFunc::GetCurrTime();
+        pSealData->m_nSealAction = nSealAction;
+        pSealData->m_nSealReason = nSealReason;
+        pSealData->Unlock();
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CSealManager::UnSealRole(UINT64 uRoleID)
 {
-	auto itor = m_mapSealData.find(uRoleID);
-	if (itor != m_mapSealData.end())
-	{
-		SealDataObject* pSealData = itor->second;
-		ERROR_RETURN_FALSE(pSealData != NULL);
+    auto itor = m_mapSealData.find(uRoleID);
+    if (itor != m_mapSealData.end())
+    {
+        SealDataObject* pSealData = itor->second;
+        if (pSealData != NULL)
+        {
+            pSealData->Destroy();
+        }
 
-		pSealData->Destroy();
+        m_mapSealData.erase(itor);
+    }
 
-		m_mapSealData.erase(itor);
-	}
-
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CSealManager::IsSealRole(UINT64 uRoleID)
+BOOL CSealManager::IsSealRole(UINT64 uRoleID, UINT32 nSealAction)
 {
-	SealDataObject* pSealObject = GetSealData(uRoleID);
-	if (pSealObject == NULL)
-	{
-		return FALSE;
-	}
+    SealDataObject* pSealObject = GetSealData(uRoleID);
+    if (pSealObject == NULL)
+    {
+        return FALSE;
+    }
 
-	if (CommonFunc::GetCurrTime() > pSealObject->m_uSealTime)
-	{
-		return FALSE;
-	}
+    if (pSealObject->m_nSealAction != nSealAction)
+    {
+        return FALSE;
+    }
 
-	return TRUE;
+    if (CommonFunc::GetCurrTime() > pSealObject->m_uSealEndTime)
+    {
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 SealDataObject* CSealManager::GetSealData(UINT64 uRoleID)
 {
-	auto itor = m_mapSealData.find(uRoleID);
-	if (itor != m_mapSealData.end())
-	{
-		return itor->second;
-	}
+    auto itor = m_mapSealData.find(uRoleID);
+    if (itor != m_mapSealData.end())
+    {
+        return itor->second;
+    }
 
-	return NULL;
+    return NULL;
 }
 

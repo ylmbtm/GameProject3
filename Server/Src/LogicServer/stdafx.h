@@ -10,7 +10,7 @@
 #define HAVE_RINT 1
 
 #include "ServerEngine.h"
-#include "../ServerData/ServerDefine.h"
+#include "ServerDefine.h"
 #endif
 
 // TODO: 在此处引用程序需要的其他头文件
