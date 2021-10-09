@@ -3,42 +3,40 @@
 #include "AccountMsgHandler.h"
 class CConnection;
 
-#define DB_THREAD_NUM 10
-
 class CGameService  : public IPacketDispatcher
 {
 private:
-	CGameService(void);
-	virtual ~CGameService(void);
+    CGameService(void);
+    virtual ~CGameService(void);
 
 public:
-	static CGameService* GetInstancePtr();
+    static CGameService* GetInstancePtr();
 
 public:
-	BOOL		Init();
+    BOOL        Init();
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		Run();
+    BOOL        Run();
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+    BOOL        OnNewConnect(UINT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+    BOOL        OnCloseConnect(UINT32 nConnID);
 
-	BOOL		OnSecondTimer();
+    BOOL        OnSecondTimer();
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
+    BOOL        DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL	    ConnectToLogServer();
+    BOOL        ConnectToLogServer();
 
-	UINT32		GetLogSvrConnID();
+    UINT32      GetLogSvrConnID();
 public:
-	UINT32					m_dwLogSvrConnID;
+    UINT32                  m_dwLogSvrConnID;
 
-	CAccountMsgHandler		m_AccountMsgHandler;
+    CAccountMsgHandler      m_AccountMsgHandler;
 public:
-	//*********************消息处理定义开始******************************
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义开始******************************
+    //*********************消息处理定义结束******************************
 };
 
 #endif

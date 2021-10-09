@@ -20,33 +20,33 @@ CAccountMsgHandler::~CAccountMsgHandler()
 
 BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
 {
-	if (!m_AccountManager.Init())
-	{
-		return FALSE;
-	}
+    if (!m_AccountManager.Init())
+    {
+        return FALSE;
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CAccountMsgHandler::Uninit()
 {
-	m_AccountManager.Uninit();
+    m_AccountManager.Uninit();
 
-	return TRUE;
+    return TRUE;
 }
 
 
 BOOL CAccountMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,	    OnMsgAccountRegReq);
-			PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,		OnMsgAccontLoginReq);
-			PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,		OnMsgSealAccountReq);
-			PROCESS_MESSAGE_ITEM(MSG_SET_LAST_SERVER_NTY,   OnMsgSetLastServerNty);
-	}
+    switch(pNetPacket->m_dwMsgID)
+    {
+            PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_REG_REQ,       OnMsgAccountRegReq);
+            PROCESS_MESSAGE_ITEM(MSG_ACCOUNT_LOGIN_REQ,     OnMsgAccontLoginReq);
+            PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_REQ,      OnMsgSealAccountReq);
+            PROCESS_MESSAGE_ITEM(MSG_SET_LAST_SERVER_NTY,   OnMsgSetLastServerNty);
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 
@@ -85,7 +85,7 @@ BOOL CAccountMsgHandler::OnMsgAccountRegReq(NetPacket* pPacket)
 	if(pAccount == NULL)
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
-		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_FAILED");
+        CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccountRegReq RetCode:MRC_UNKNOW_ERROR");
 	}
 	else
 	{
@@ -163,7 +163,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 	if (pAccObj == NULL)
 	{
 		Ack.set_retcode(MRC_UNKNOW_ERROR);
-		CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccontLoginReq RetCode:MRC_FAILED");
+        CLog::GetInstancePtr()->LogError("Error CAccountMsgHandler::OnMsgAccontLoginReq RetCode:MRC_UNKNOW_ERROR");
 	}
 	else
 	{
@@ -182,41 +182,41 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
 
 BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 {
-	SealAccountReq Req;
-	Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*) pPacket->m_pDataBuffer->GetBuffer();
-	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
+    SealAccountReq Req;
+    Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*) pPacket->m_pDataBuffer->GetBuffer();
+    ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 
-	SealAccountAck Ack;
-	UINT64 uAccountID = Req.accountid();
-	UINT32 dwLastSvrID = 0;
-	if (m_AccountManager.SealAccount(uAccountID, Req.accountname(), Req.channel(), Req.seal(), Req.sealtime(), dwLastSvrID))
-	{
-		Ack.set_retcode(MRC_SUCCESSED);
+    SealAccountAck Ack;
+    UINT64 uAccountID = Req.accountid();
+    UINT32 dwLastSvrID = 0;
+    if (m_AccountManager.SealAccount(uAccountID, Req.accountname(), Req.channel(), Req.seal(), Req.sealtime(), dwLastSvrID))
+    {
+        Ack.set_retcode(MRC_SUCCESSED);
 
-		if (Req.seal())
-		{
-			Ack.set_accountid(uAccountID);
-			Ack.set_serverid(dwLastSvrID);
-		}
-	}
-	else
-	{
-		Ack.set_retcode(MRC_UNKNOW_ERROR);
-	}
+        if (Req.seal())
+        {
+            Ack.set_accountid(uAccountID);
+            Ack.set_serverid(dwLastSvrID);
+        }
+    }
+    else
+    {
+        Ack.set_retcode(MRC_UNKNOW_ERROR);
+    }
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);
+    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_SEAL_ACCOUNT_ACK, 0, pHeader->dwUserData, Ack);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CAccountMsgHandler::OnMsgSetLastServerNty(NetPacket* pPacket)
 {
-	SetLastServerNty Nty;
-	Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+    SetLastServerNty Nty;
+    Nty.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-	m_AccountManager.SetLastServer(Nty.accountid(), Nty.serverid());
+    m_AccountManager.SetLastServer(Nty.accountid(), Nty.serverid());
 
-	return TRUE;
+    return TRUE;
 }

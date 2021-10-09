@@ -78,15 +78,15 @@ void CLog::LogWarn( char* lpszFormat, ... )
 
 	tm CurTime = CommonFunc::GetCurrTmTime();
 
-	CHAR szLog[512];
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][W] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+    CHAR szLog[1024] = {0};
+    snprintf(szLog, 1024, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][W] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 28, 512 - 28,  lpszFormat, argList);
+    vsnprintf(szLog + 28, 1024 - 28,  lpszFormat, argList);
 	va_end( argList );
 
-	strncat(szLog, "\n", 10);
+    strncat(szLog, "\n", 3);
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
@@ -111,16 +111,16 @@ void CLog::LogError( char* lpszFormat, ... )
 		return ;
 	}
 
-	CHAR szLog[512];
+    CHAR szLog[1024] = { 0 };
 	tm CurTime = CommonFunc::GetCurrTmTime();
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][E] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+    snprintf(szLog, 1024, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][E] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 28, 512 - 28, lpszFormat, argList);
+    vsnprintf(szLog + 28, 1024 - 28, lpszFormat, argList);
 	va_end( argList );
 
-	strncat(szLog, "\n", 10);
+    strncat(szLog, "\n", 3);
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);
@@ -145,17 +145,17 @@ void CLog::LogInfo( char* lpszFormat, ... )
 		return ;
 	}
 
-	CHAR szLog[512];
+    CHAR szLog[1024] = { 0 };
 
 	tm CurTime = CommonFunc::GetCurrTmTime();
-	snprintf(szLog, 512, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][I] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
+    snprintf(szLog, 1024, "[%02d-%02d-%02d %02d:%02d:%02d][%04x][I] ", CurTime.tm_year % 100, CurTime.tm_mon + 1, CurTime.tm_mday, CurTime.tm_hour, CurTime.tm_min, CurTime.tm_sec, 0xffff & CommonFunc::GetCurThreadID());
 
 	va_list argList;
 	va_start( argList, lpszFormat );
-	vsnprintf(szLog + 28, 512 - 28,  lpszFormat, argList);
+    vsnprintf(szLog + 28, 1024 - 28,  lpszFormat, argList);
 	va_end( argList );
 
-	strncat(szLog, "\n", 10);
+    strncat(szLog, "\n", 3);
 
 	m_WriteMutex.lock();
 	fputs(szLog, m_pLogFile);

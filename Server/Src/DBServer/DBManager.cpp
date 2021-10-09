@@ -22,6 +22,7 @@ BOOL CDBManager::Init()
 	if(!m_DBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("CDBManager::Init Error: Can not open mysql database! Reason:%s", m_DBConnection.GetErrorMsg());
+        CLog::GetInstancePtr()->LogError("CDBManager::Init Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
@@ -42,6 +43,11 @@ BOOL CDBManager::GetRoleList(UINT64 u64AccountID, RoleListAck& Ack)
 	snprintf(szSql, SQL_BUFF_LEN, "select * from player where accountid = %lld", u64AccountID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+    if (m_DBConnection.GetErrorNo() != 0)
+    {
+        CLog::GetInstancePtr()->LogError("CDBManager::GetRoleList Error :%s", m_DBConnection.GetErrorMsg());
+        return FALSE;
+    }
 
 	Ack.set_accountid(u64AccountID);
 
@@ -65,6 +71,11 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 	snprintf(szSql, SQL_BUFF_LEN, "select * from player where id = %lld", u64ID);
 
 	CppMySQLQuery  QueryRes = m_DBConnection.querySQL(szSql);
+    if (m_DBConnection.GetErrorNo() != 0)
+    {
+        CLog::GetInstancePtr()->LogError("CDBManager::GetRoleData Error :%s", m_DBConnection.GetErrorMsg());
+        return FALSE;
+    }
 
 	if (QueryRes.eof())
 	{
@@ -92,6 +103,7 @@ BOOL CDBManager::GetRoleData(UINT64 u64ID, DBRoleLoginAck& Ack)
 	pData->set_logofftime(QueryRes.getInt64Field("logofftime", 0));
 	pData->set_guildid(QueryRes.getInt64Field("guildid", 0));
 	pData->set_channel(QueryRes.getIntField("channel", 0));
+	pData->set_onlinetime(QueryRes.getIntField("onlinetime", 0));
 	return TRUE;
 }
 
