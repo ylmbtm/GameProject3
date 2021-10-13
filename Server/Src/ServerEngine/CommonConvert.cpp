@@ -274,6 +274,41 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
 	return TRUE;
 }
 
+BOOL CommonConvert::SpliteStringByBlank(std::string strSrc, std::vector<std::string>& vtStr)
+{
+    vtStr.clear();
+    BOOL bWordStart = FALSE;
+    std::string::size_type posStart;
+    std::string::size_type posCur = 0;
+    while (posCur < strSrc.size())
+    {
+        if (strSrc.at(posCur) == ' ' || strSrc.at(posCur) == '\t')
+        {
+            if (!bWordStart)
+            {
+                posCur += 1;
+                continue;
+            }
+            if (posCur > posStart)
+            {
+                vtStr.push_back(strSrc.substr(posStart, posCur - posStart));
+            }
+            bWordStart = FALSE;
+            posStart = 0;
+            posCur += 1;
+        }
+        else
+        {
+            if (!bWordStart)
+            {
+                posStart = posCur;
+                bWordStart = TRUE;
+            }
+            posCur += 1;
+        }
+    }
+    return TRUE;
+}
 BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat)
 {
 	const size_t nsize = newpat.size();
@@ -536,6 +571,82 @@ BOOL CommonConvert::IsTextUTF8(const char* str, UINT32 length)
 	return TRUE;
 }
 
+INT32 CommonConvert::GetValidUtf8Length(char* pStr, INT32 nLen)
+{
+    UINT32 nCurPos = 0;
+    BOOL bUtfStart = FALSE;
+    UINT32 nUtfLen = 0;
+    UINT32 nBkLen = 0;
+    for (int i = 0; i < nLen; i++)
+    {
+        UINT8 nCurChar = *(pStr + i);
+        if (!bUtfStart)
+        {
+            if ((nCurChar & 0x80) == 0)
+            {
+                nUtfLen = 0;
+                nCurPos += 1;
+            }
+            else if (nCurChar >= 0xFC && nCurChar <= 0xFD)
+            {
+                nBkLen = nUtfLen = 6;
+                bUtfStart = TRUE;
+                nUtfLen -= 1;
+            }
+            else if (nCurChar >= 0xF8)
+            {
+                nBkLen = nUtfLen = 5;
+                bUtfStart = TRUE;
+                nUtfLen -= 1;
+            }
+            else if (nCurChar >= 0xF0)
+            {
+                nBkLen = nUtfLen = 4;
+                bUtfStart = TRUE;
+                nUtfLen -= 1;
+            }
+            else if (nCurChar >= 0xE0)
+            {
+                nBkLen = nUtfLen = 3;
+                bUtfStart = TRUE;
+                nUtfLen -= 1;
+            }
+            else if (nCurChar >= 0xC0)
+            {
+                nBkLen = nUtfLen = 2;
+                bUtfStart = TRUE;
+                nUtfLen -= 1;
+            }
+            else
+            {
+                return nCurPos;
+            }
+        }
+        else
+        {
+            if ((nCurChar & 0xC0) != 0x80)
+            {
+                return nCurPos;
+            }
+            else
+            {
+                nUtfLen -= 1;
+                if (nUtfLen <= 0)
+                {
+                    bUtfStart = FALSE;
+                    nCurPos += nBkLen;
+                    nBkLen = nUtfLen = 0;
+                }
+            }
+        }
+    }
+    return nCurPos;
+}
+std::string CommonConvert::TruncateUtf8(char* pStr, INT32 nLen)
+{
+    INT32 nUtf8Len = GetValidUtf8Length(pStr, nLen);
+    return std::string(pStr, nUtf8Len);
+}
 
 UINT32 CommonConvert::VersionToInt(const std::string& strVersion )
 {

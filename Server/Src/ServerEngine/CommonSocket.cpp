@@ -133,7 +133,7 @@ void   CommonSocket::CloseSocket(SOCKET hSocket)
 	close(hSocket);
 #endif
 
-	hSocket = -1;
+    hSocket = INVALID_SOCKET;
 
 	return;
 }
@@ -158,16 +158,24 @@ std::string CommonSocket::GetLocalIP()
 	return std::string(szIp);
 }
 
-void   CommonSocket::ShutDownSend(SOCKET hSocket)
+void   CommonSocket::ShutdownSend(SOCKET hSocket)
 {
 	shutdown(hSocket, 1);
 }
 
-void   CommonSocket::ShutDownRecv(SOCKET hSocket)
+void   CommonSocket::ShutdownRecv(SOCKET hSocket)
 {
 	shutdown(hSocket, 0);
 }
 
+void CommonSocket::_ShutdownSocket(SOCKET hSocket)
+{
+#ifdef WIN32
+    return CommonSocket::CloseSocket(hSocket);
+#else
+    return CommonSocket::ShutdownSend(hSocket);
+#endif
+}
 
 SOCKET	CommonSocket::CreateSocket( int af, int type, int protocol)
 {

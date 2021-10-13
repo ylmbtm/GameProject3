@@ -5,65 +5,66 @@
 
 class CNetManager
 {
-	CNetManager(void);
+    CNetManager(void);
 
-	virtual ~CNetManager(void);
+    virtual ~CNetManager(void);
 public:
-	static CNetManager* GetInstancePtr()
-	{
-		static CNetManager NetManager;
+    static CNetManager* GetInstancePtr()
+    {
+        static CNetManager NetManager;
 
-		return &NetManager;
-	}
+        return &NetManager;
+    }
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr);
+    BOOL    Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr);
 
-	BOOL	Stop();
+    BOOL    Stop();
 
-	BOOL	SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+    BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
-public:
-	BOOL	InitNetwork();
+    BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
 
-	BOOL	UninitNetwork();
 
-	BOOL	StartNetListen(UINT16 nPortNum, std::string strIpAddr);
+    BOOL    InitNetwork();
 
-	BOOL	StopListen();
+    BOOL    UninitNetwork();
+
+    BOOL    StartNetListen(UINT16 nPortNum, std::string strIpAddr);
+
+    BOOL    StopListen();
 
 	//以下是完成端口部分
 public:
-	BOOL	CreateCompletePort();
+    BOOL    CreateCompletePort();
 
-	BOOL	DestroyCompletePort();
+    BOOL    DestroyCompletePort();
 
-	BOOL	CreateEventThread(UINT32 nNum);
+    BOOL    CreateEventThread(UINT32 nNum);
 
-	BOOL    CloseEventThread();
+    BOOL    CloseEventThread();
 
-	BOOL	WorkThread_ProcessEvent(UINT32 nParam);
+    BOOL    WorkThread_ProcessEvent(UINT32 nParam);
 
-	BOOL	WorkThread_Listen();
+    BOOL    WorkThread_Listen();
 
-	BOOL	EventDelete(CConnection* pConnection);
+    BOOL    EventDelete(CConnection* pConnection);
 
-	BOOL	PostSendOperation(CConnection* pConnection, BOOL bCheck = TRUE);
+    BOOL    PostSendOperation(CConnection* pConnection);
 
-	CConnection*	AssociateCompletePort(SOCKET hSocket, BOOL bConnect);
+    CConnection*    AssociateCompletePort(SOCKET hSocket, BOOL bConnect);
 
-	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
+    CConnection*    ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
-	CConnection*	ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+    CConnection*    ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
 
-	BOOL            WaitConnect();
+    BOOL            WaitConnect();
 public:
-	SOCKET				m_hListenSocket;
-	NetIoOperatorData	m_IoOverlapAccept;
-	SOCKET              m_hCurAcceptSocket;
-	HANDLE				m_hCompletePort;
-	CHAR                m_AddressBuf[128];
-	BOOL				m_bCloseEvent;		//是否关闭事件处理线程
+    SOCKET              m_hListenSocket;
+    NetIoOperatorData   m_IoOverlapAccept;
+    SOCKET              m_hCurAcceptSocket;
+    HANDLE              m_hCompletePort;
+    CHAR                m_AddressBuf[128];
+    BOOL                m_bCloseEvent;      //是否关闭事件处理线程
 
 	IDataHandler*		m_pBufferHandler;
 	std::vector<std::thread*> m_vtEventThread;

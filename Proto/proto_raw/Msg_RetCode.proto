@@ -43,14 +43,15 @@ enum MessageRetCode {
    MRC_SERVER_NO_NEW_ROLE    = 316;   //不允许创建新角色
    MRC_CANNOT_RECONNECT      = 317;     //不允许重连
    //不足的条件
-   MRC_NOT_ENOUGH_ACTOIN   = 200;    //行动力不足
-   MRC_NOT_ENOUGH_MONEY    = 201;    //货币不足
-   MRC_NOT_ENOUGH_ITEM     = 202;    //道具不足
-   MRC_NOT_ENOUGH_TIMES    = 203;    //次数不足
-   MRC_NOT_ENOUGH_LEVEL    = 204;    //等级不足
-   MRC_NOT_ENOUGH_VIPLV    = 205;    //vip等级不足
-   MRC_ERROR_SEAL_ROLE     = 206;   //角色己被封禁
-   MRC_NAME_ERROR_FMT      = 207;   //名字不符合要求
+   MRC_NOT_ENOUGH_ACTOIN     = 200;    //行动力不足
+   MRC_NOT_ENOUGH_MONEY      = 201;    //货币不足
+   MRC_NOT_ENOUGH_ITEM       = 202;    //道具不足
+   MRC_NOT_ENOUGH_TIMES      = 203;    //次数不足
+   MRC_NOT_ENOUGH_LEVEL      = 204;    //等级不足
+   MRC_NOT_ENOUGH_VIPLV      = 205;    //vip等级不足
+   MRC_ERROR_SEAL_ROLE       = 206;   //角色己被封禁
+   MRC_NAME_ERROR_FMT        = 207;   //名字不符合要求
+   MRC_REPEAT_LOGIN          = 208;   //重复登录
    
    //技能
    MRC_SKILL_CD_ERROR        = 401;    //技能未冷却    

@@ -22,7 +22,10 @@ CLoginMsgHandler::~CLoginMsgHandler()
 
 BOOL CLoginMsgHandler::Init()
 {
-	m_LogicSvrMgr.Init();
+	if (!m_LogicSvrMgr.Init())
+	{
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -74,13 +77,14 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
 	UINT32 nConnID = pPacket->m_dwConnID;
 	ERROR_RETURN_TRUE(nConnID != 0);
 
-	CheckVersionAck Ack;
-	Ack.set_retcode(MRC_SUCCESSED);
+    CheckVersionAck Ack;
+    Ack.set_retcode(MRC_SUCCESSED);
+    Ack.set_clientverion("1.0.1");
 	if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, pPacket->m_dwMsgID))
 	{
 		Ack.set_retcode(MRC_ACCOUNT_WRONG_VERSION);
 	}
-	Ack.set_clientverion("1.0.1");
+
 	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_CHECK_VERSION_ACK, 0, 0, Ack);
 	return TRUE;
 }
@@ -216,9 +220,9 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 	CLoginClientMgr::GetInstancePtr()->RemoveByConnID(nConnID);
 
 	LogicServerNode* pServerNode = m_LogicSvrMgr.GetLogicServerInfo(Req.serverid());
-	if (pServerNode == NULL || pServerNode->m_ServerStatus != ESS_SVR_ONLINE)
+	if (pServerNode == NULL)
 	{
-		CLog::GetInstancePtr()->LogError("选择服务器错误 服务器:%d, 不可用", Req.serverid());
+        CLog::GetInstancePtr()->LogError("选择服务器错误 无效的服务器ID:%d", Req.serverid());
 		SelectServerAck Ack;
 		Ack.set_serveraddr("0.0.0.0");
 		Ack.set_serverport(0);
@@ -227,9 +231,9 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
 		return TRUE;
 	}
 
-	if (pServerNode->m_ServerFlag == ESF_MAINTAIN)
-	{
-		CLog::GetInstancePtr()->LogError("服务器:%d 维护中", Req.serverid());
+    if (pServerNode->m_ServerFlag == ESF_MAINTAIN || pServerNode->m_ServerStatus != ESS_SVR_ONLINE)
+    {
+        CLog::GetInstancePtr()->LogError("服务器:%d 维护中 ServerFlag:%d", Req.serverid(), pServerNode->m_ServerFlag);
 		SelectServerAck Ack;
 		Ack.set_serveraddr("0.0.0.0");
 		Ack.set_serverport(0);
@@ -288,11 +292,11 @@ BOOL CLoginMsgHandler::OnMsgAccountLoginAck( NetPacket* pPacket )
 	UINT32 nConnID = pHeader->dwUserData;
 	ERROR_RETURN_TRUE(nConnID != 0);
 
-	LogicServerNode* pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.lastsvrid());
-	if(pNode == NULL)
-	{
-		pNode = m_LogicSvrMgr.GetSuggestServer(Ack.review(), Ack.channel(), 0);
-	}
+    LogicServerNode* pNode = m_LogicSvrMgr.GetLogicServerInfo(Ack.lastsvrid());
+    if(pNode == NULL)
+    {
+        pNode = m_LogicSvrMgr.GetSuggestServer(Ack.review(), Ack.channel(), Ack.ipaddr());
+    }
 
 	if(pNode == NULL)
 	{

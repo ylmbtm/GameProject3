@@ -37,9 +37,9 @@ enum MessageID {
 
     MSG_LOGIC_REGTO_CENTER_REQ       = 100019;
     MSG_LOGIC_REGTO_CENTER_ACK       = 100020;
-
+    
     MSG_LOG_DATA_NTF                 = 100021;
-
+    
     MSG_PHP_GM_COMMAND_REQ           = 100022;
     MSG_PHP_GM_COMMAND_ACK           = 100023;
 
@@ -69,6 +69,8 @@ enum MessageID {
     
     MSG_SEAL_ACCOUNT_NTY             = 100042;   //封账号通知
     
+    MSG_GAME_PARAM_REQ               = 100043;   //游戏参数请求
+    MSG_GAME_PARAM_ACK               = 100044;   //游戏参数请求返回
     MSG_NORMAL_MSGID_END             = 199999;
     
     //============================================================================================

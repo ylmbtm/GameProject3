@@ -29,6 +29,7 @@ BOOL CLogMsgHandler::Init(UINT32 dwReserved)
 	if(!bRet)
 	{
 		CLog::GetInstancePtr()->LogError("CLogMsgHandler::Init Error: Can not open mysql database! Reason:%s", m_DBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("CLogMsgHandler::Init Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
@@ -90,7 +91,7 @@ BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
 {
 	Log_BaseData* pData = (Log_BaseData*)pNetPacket->m_pDataBuffer->GetData();
-	CHAR szSql[1024] = {0};
+    CHAR szSql[4096] = {0};
 
 	switch (pData->m_LogType)
 	{

@@ -63,7 +63,7 @@ BOOL CNetManager::WorkThread_Listen()
 		{
 			pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
 
-			pConnection->SetConnectionOK(TRUE);
+            pConnection->SetConnectStatus(NET_ST_CONN);
 
 			m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -220,7 +220,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					//说明对方己经关闭
 					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 					{
-						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV2, 对方己经关闭连接，但可能我们这边更快, 连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+                        CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV2, 对方己经关闭连接，但可能我们这边更快, 连接己经被重用了。NewID:%d, OrgID:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 						break;
 					}
 					pConnection->Close();
@@ -229,11 +229,11 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				{
 					if(pConnection->GetConnectionID() != pIoPeratorData->dwConnID)
 					{
-						CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3，确实有数据, 但连接己经被重用了。nowid:%d, oldid:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
+                        CLog::GetInstancePtr()->LogError("触发了NET_MSG_RECV3，确实有数据, 但连接己经被重用了。NewID:%d, OrgID:%d", pConnection->GetConnectionID(), pIoPeratorData->dwConnID);
 						break;
 					}
 
-					if(pConnection->IsConnectionOK())
+                    if(pConnection->GetConnectStatus() == NET_ST_CONN || pConnection->GetConnectStatus() == NET_ST_WAIT)
 					{
 						if(!pConnection->HandleRecvEvent(dwNumOfByte))
 						{
@@ -242,7 +242,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					}
 					else
 					{
-						CLog::GetInstancePtr()->LogError("严重的错误, 没有连接上，却收到的数据!", pConnection);
+                        CLog::GetInstancePtr()->LogError("严重错误, 没有连接上，却收到的数据! ConnID:%d", pConnection->GetConnectionID());
 					}
 				}
 			}
@@ -301,7 +301,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 				if(bRetValue)
 				{
-					pConnection->SetConnectionOK(TRUE);
+                    pConnection->SetConnectStatus(NET_ST_CONN);
 					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
 					if(!pConnection->DoReceive())
@@ -311,7 +311,8 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				}
 				else
 				{
-					pConnection->SetConnectionOK(FALSE);
+                    pConnection->SetConnectStatus(NET_ST_INIT);
+
 					pConnection->Close();
 				}
 			}
@@ -342,7 +343,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 				{
 					pConnection->m_dwIpAddr = addrClient->sin_addr.s_addr;
 
-					pConnection->SetConnectionOK(TRUE);
+                    pConnection->SetConnectStatus(NET_ST_CONN);
 
 					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -442,7 +443,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 			if (errno != EINTR)
 			{
 				CLog::GetInstancePtr()->LogError("epoll_wait失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
-				return -1;
+                return FALSE;
 			}
 
 			continue;
@@ -469,13 +470,12 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 					}
 
 					CommonSocket::SetSocketBlock(hClientSocket, FALSE);
-					//CommonSocket::SetSocketNoDelay(hClientSocket);
 					CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
 					if (pConnection != NULL)
 					{
 						pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
 
-						pConnection->SetConnectionOK(TRUE);
+                        pConnection->SetConnectStatus(NET_ST_CONN);
 
 						m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 					}
@@ -488,122 +488,107 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
 
 				continue;
 			}
-			CConnection* pConnection = (CConnection*)vtEvents[i].data.ptr;
-			if (pConnection == NULL)
-			{
-				CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr------------!");
-				continue;
-			}
+            CConnection* pConnection = (CConnection*)vtEvents[i].data.ptr;
+            if (pConnection == NULL)
+            {
+                CLog::GetInstancePtr()->LogError("---Invalid pConnection Ptr--!");
+                continue;
+            }
 
-			if ((vtEvents[i].events & EPOLLERR) || (vtEvents[i].events & EPOLLHUP))
-			{
-				EventDelete(pConnection);
-				pConnection->Close();
-				continue;
-			}
+            int nError;
+            socklen_t len;
+            if (getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
+            {
+                CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------失败----!", nError);
+                continue;
+            }
 
-			int nError;
-			socklen_t len;
-			if (getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
-			{
-				CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------失败----!", nError);
-				continue;
-			}
+            if (nError != 0)
+            {
+                if (vtEvents[i].events & EPOLLIN)
+                {
+                    CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
+                }
 
-			if (nError != 0)
-			{
-				if (vtEvents[i].events & EPOLLIN)
-				{
-					CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
-				}
+                if (vtEvents[i].events & EPOLLOUT)
+                {
+                    CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
+                }
 
-				if (vtEvents[i].events & EPOLLOUT)
-				{
-					CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
-				}
+                continue;
+            }
 
-				continue;
-			}
+            UINT32 nNeedEvent = EPOLLIN;
 
-			if (vtEvents[i].events & EPOLLIN)
-			{
-				if (!pConnection->IsConnectionOK())
-				{
-					pConnection->SetConnectionOK(TRUE);
-					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
-				}
+            if (vtEvents[i].events & EPOLLIN)
+            {
+                if (pConnection->GetConnectStatus() == NET_ST_INIT)
+                {
+                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+                }
 
-				if (!pConnection->HandleRecvEvent(0))
-				{
-					//基本表明连接己断开，可以关闭连接了。
-					EventDelete(pConnection);
-					pConnection->Close();
-					continue;
-				}
-				else
-				{
-					struct epoll_event EpollEvent;
-					EpollEvent.data.ptr = pConnection;
-					EpollEvent.events = EPOLLIN | EPOLLET;
-					if(0 != epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent))
-					{
-						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
-					}
-				}
-			}
+                if (!pConnection->HandleRecvEvent(0))
+                {
+                    //基本表明连接己断开，可以关闭连接了。
+                    EventDelete(pConnection);
+                    pConnection->Close();
+                    continue;
+                }
+            }
 
-			if (vtEvents[i].events & EPOLLOUT)
-			{
-				if (!pConnection->IsConnectionOK())
-				{
-					pConnection->SetConnectionOK(TRUE);
-					m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
-				}
+            if (vtEvents[i].events & EPOLLOUT)
+            {
+                if (pConnection->GetConnectStatus() == NET_ST_INIT)
+                {
+                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+                }
 
                 pConnection->m_IsSending = TRUE;
                 UINT32 nRet = pConnection->DoSend();
                 pConnection->m_IsSending = FALSE;
-				if (nRet == E_SEND_ERROR)
-				{
-					EventDelete(pConnection);
-					pConnection->Close();
-				}
-				else if (nRet == E_SEND_UNDONE)
-				{
-                    struct epoll_event EpollEvent;
-                    EpollEvent.data.ptr = pConnection;
-                    EpollEvent.events = EPOLLOUT | EPOLLET | EPOLLIN;
-                    epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
-				}
-				else if (nRet == E_SEND_SUCCESS)
-				{
-					struct epoll_event EpollEvent;
-					EpollEvent.data.ptr = pConnection;
-					EpollEvent.events = EPOLLIN | EPOLLET;
-					if (0 != epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent))
-					{
-						CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
-					}
-				}
-			}
-		}
-	}
+                if (nRet == E_SEND_ERROR)
+                {
+                    EventDelete(pConnection);
+                    pConnection->Close();
+                    continue;
+                }
 
-	return TRUE;
+                if (nRet == E_SEND_UNDONE)
+                {
+                    nNeedEvent = nNeedEvent | EPOLLOUT;
+                }
+            }
+
+            if (nNeedEvent != 0)
+            {
+                struct epoll_event EpollEvent;
+                EpollEvent.data.ptr = pConnection;
+                EpollEvent.events = nNeedEvent;
+                if(0 != epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent))
+                {
+                    CLog::GetInstancePtr()->LogError("socket 设置事件失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
+                }
+            }
+        }
+    }
+
+    return TRUE;
 }
 
 
 BOOL CNetManager::EventDelete(CConnection* pConnection)
 {
-	struct epoll_event delEpv = { 0, { 0 } };
-	delEpv.data.ptr = pConnection;
-	if (-1 == epoll_ctl(m_hCompletePort, EPOLL_CTL_DEL, pConnection->GetSocket(), &delEpv))
-	{
+    struct epoll_event delEpv = { 0, { 0 } };
+    delEpv.data.ptr = pConnection;
+    if (-1 == epoll_ctl(m_hCompletePort, EPOLL_CTL_DEL, pConnection->GetSocket(), &delEpv))
+    {
         CLog::GetInstancePtr()->LogError("---EventDelete::epoll_ctl 失败 原因:%s!", CommonFunc::GetLastErrorStr(errno).c_str());
-		return FALSE;
-	}
+        return FALSE;
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 #endif
@@ -611,54 +596,55 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 
 BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr)
 {
-	ERROR_RETURN_FALSE(pBufferHandler != NULL);
+    ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
-	m_pBufferHandler = pBufferHandler;
+    m_pBufferHandler = pBufferHandler;
 
-	CConnectionMgr::GetInstancePtr()->InitConnectionList(nMaxConn);
+    CConnectionMgr::GetInstancePtr()->InitConnectionList(nMaxConn);
 
-	if(!InitNetwork())
-	{
-		CLog::GetInstancePtr()->LogError("初始化网络失败！！");
-		return FALSE;
-	}
+    if(!InitNetwork())
+    {
+        CLog::GetInstancePtr()->LogError("初始化网络失败！！");
+        return FALSE;
+    }
 
-	if(!CreateCompletePort())
-	{
-		CLog::GetInstancePtr()->LogError("创建完成端口或Epoll失败！！");
-		return FALSE;
-	}
+    if(!CreateCompletePort())
+    {
+        CLog::GetInstancePtr()->LogError("创建完成端口或Epoll失败！！");
+        return FALSE;
+    }
 
-	if(!CreateEventThread(0))
-	{
-		CLog::GetInstancePtr()->LogError("创建网络事件处理线程失败！！");
-		return FALSE;
-	}
+    if(!CreateEventThread(0))
+    {
+        CLog::GetInstancePtr()->LogError("创建网络事件处理线程失败！！");
+        return FALSE;
+    }
 
-	if(!StartNetListen(nPortNum, strIpAddr))
-	{
-		CLog::GetInstancePtr()->LogError("开启监听失败！！");
-		return FALSE;
-	}
+    if(!StartNetListen(nPortNum, strIpAddr))
+    {
+        CLog::GetInstancePtr()->LogError("开启监听失败！！");
+        return FALSE;
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CNetManager::InitNetwork()
 {
-	return CommonSocket::InitNetwork();
+    return CommonSocket::InitNetwork();
 }
 
 BOOL CNetManager::UninitNetwork()
 {
-	return CommonSocket::UninitNetwork();
+    return CommonSocket::UninitNetwork();
 }
 
 BOOL CNetManager::Stop()
 {
-	StopListen();
+    StopListen();
 
-	CConnectionMgr::GetInstancePtr()->CloseAllConnection();
+
+    CConnectionMgr::GetInstancePtr()->CloseAllConnection();
 
     CloseEventThread();
 
@@ -668,217 +654,217 @@ BOOL CNetManager::Stop()
 
     UninitNetwork();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CNetManager::StopListen()
 {
-	CommonSocket::CloseSocket(m_hListenSocket);
+    CommonSocket::CloseSocket(m_hListenSocket);
 
-	CommonSocket::CloseSocket(m_hCurAcceptSocket);
+    CommonSocket::CloseSocket(m_hCurAcceptSocket);
 
-	return TRUE;
+    return TRUE;
 }
 
 CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 {
-	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
-	if(hSocket == INVALID_SOCKET)
-	{
-		CommonSocket::CloseSocket(hSocket);
-		CLog::GetInstancePtr()->LogError("创建套接字失败!!");
-		return NULL;
-	}
+    SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
+    if(hSocket == INVALID_SOCKET)
+    {
+        CommonSocket::CloseSocket(hSocket);
+        CLog::GetInstancePtr()->LogError("创建套接字失败!!");
+        return NULL;
+    }
 
-	CommonSocket::SetSocketBlock(hSocket, TRUE);
+    CommonSocket::SetSocketBlock(hSocket, TRUE);
 
-	//CommonSocket::SetSocketNoDelay(hSocket);
+    //CommonSocket::SetSocketNoDelay(hSocket);
 
-	if(!CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort))
-	{
-		CommonSocket::CloseSocket(hSocket);
-		return NULL;
-	}
+    if(!CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort))
+    {
+        CommonSocket::CloseSocket(hSocket);
+        return NULL;
+    }
 
-	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
-	if(pConnection == NULL)
-	{
-		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
-		return NULL;
-	}
+    CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
+    if(pConnection == NULL)
+    {
+        CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
+        return NULL;
+    }
 
-	CommonSocket::SetSocketBlock(hSocket, FALSE);
+    CommonSocket::SetSocketBlock(hSocket, FALSE);
 
-	pConnection->SetConnectionOK(TRUE);
+    pConnection->SetConnectStatus(NET_ST_CONN);
 
-	m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
+    m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
-	if(!pConnection->DoReceive())
-	{
-		pConnection->Close();
-	}
+    if(!pConnection->DoReceive())
+    {
+        pConnection->Close();
+    }
 
-	return pConnection;
+    return pConnection;
 }
 
 CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 {
-	SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
-	if(hSocket == INVALID_SOCKET || hSocket == 0)
-	{
-		CommonSocket::CloseSocket(hSocket);
-		CLog::GetInstancePtr()->LogError("创建套接字失败!!");
-		return NULL;
-	}
+    SOCKET hSocket = CommonSocket::CreateSocket(AF_INET, SOCK_STREAM, 0);
+    if(hSocket == INVALID_SOCKET || hSocket == 0)
+    {
+        CommonSocket::CloseSocket(hSocket);
+        CLog::GetInstancePtr()->LogError("创建套接字失败!!");
+        return NULL;
+    }
 
-	CommonSocket::SetSocketBlock(hSocket, FALSE);
+    CommonSocket::SetSocketBlock(hSocket, FALSE);
 
-	//CommonSocket::SetSocketNoDelay(hSocket);
+    //CommonSocket::SetSocketNoDelay(hSocket);
 
 #ifdef WIN32
-	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
-	if (pConnection == NULL)
-	{
-		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
+    CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
+    if (pConnection == NULL)
+    {
+        CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	pConnection->m_IoOverlapRecv.Reset();
+    pConnection->m_IoOverlapRecv.Reset();
 
-	pConnection->m_IoOverlapRecv.dwOpType = NET_OP_CONNECT;
+    pConnection->m_IoOverlapRecv.dwOpType = NET_OP_CONNECT;
 
-	pConnection->m_IoOverlapRecv.dwConnID = pConnection->GetConnectionID();
+    pConnection->m_IoOverlapRecv.dwConnID = pConnection->GetConnectionID();
 
-	pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
+    pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
 
-	BOOL bRet = CommonSocket::ConnectSocketEx(hSocket, strIpAddr.c_str(), sPort, (LPOVERLAPPED)&pConnection->m_IoOverlapRecv);
+    BOOL bRet = CommonSocket::ConnectSocketEx(hSocket, strIpAddr.c_str(), sPort, (LPOVERLAPPED)&pConnection->m_IoOverlapRecv);
 
-	if(!bRet)
-	{
-		CLog::GetInstancePtr()->LogError("ConnectTo_Async 连接目标服务器失败,IP:%s--Port:%d!!", strIpAddr.c_str(), sPort);
-		pConnection->Close();
-	}
+    if(!bRet)
+    {
+        CLog::GetInstancePtr()->LogError("ConnectTo_Async 连接目标服务器失败,IP:%s--Port:%d!!", strIpAddr.c_str(), sPort);
+        pConnection->Close();
+    }
 
-	return pConnection;
+    return pConnection;
 #else
-	BOOL bRet = CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort);
-	if (!bRet)
-	{
-		CLog::GetInstancePtr()->LogError("ConnectTo_Async 连接失败,IP:%s,Port:%d!", strIpAddr.c_str(), sPort);
-		CommonSocket::CloseSocket(hSocket);
-		return NULL;
-	}
+    BOOL bRet = CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort);
+    if (!bRet)
+    {
+        CLog::GetInstancePtr()->LogError("ConnectTo_Async 连接失败,IP:%s,Port:%d!", strIpAddr.c_str(), sPort);
+        CommonSocket::CloseSocket(hSocket);
+        return NULL;
+    }
 
-	CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
-	if (pConnection == NULL)
-	{
-		CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
+    CConnection* pConnection = AssociateCompletePort(hSocket, TRUE);
+    if (pConnection == NULL)
+    {
+        CLog::GetInstancePtr()->LogError("邦定套接字到完成端口失败!!");
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	return pConnection;
+    return pConnection;
 #endif
 }
 
 BOOL CNetManager::WaitConnect()
 {
 #ifdef WIN32
-	if (NULL == CreateIoCompletionPort((HANDLE)m_hListenSocket, m_hCompletePort, (ULONG_PTR)NULL, 0))
-	{
-		CLog::GetInstancePtr()->LogError("WaitConnect邦定Listen套接字失败:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
-		return FALSE;
-	}
-	m_IoOverlapAccept.Reset();
-	m_IoOverlapAccept.dwOpType = NET_OP_ACCEPT;
-	m_hCurAcceptSocket = CommonSocket::CreateSocket();
-	return CommonSocket::AcceptSocketEx(m_hListenSocket, m_hCurAcceptSocket, (CHAR*)m_AddressBuf, (LPOVERLAPPED)&m_IoOverlapAccept);
+    if (NULL == CreateIoCompletionPort((HANDLE)m_hListenSocket, m_hCompletePort, (ULONG_PTR)NULL, 0))
+    {
+        CLog::GetInstancePtr()->LogError("WaitConnect邦定Listen套接字失败:%s!", CommonFunc::GetLastErrorStr(CommonSocket::GetSocketLastError()).c_str());
+        return FALSE;
+    }
+    m_IoOverlapAccept.Reset();
+    m_IoOverlapAccept.dwOpType = NET_OP_ACCEPT;
+    m_hCurAcceptSocket = CommonSocket::CreateSocket();
+    return CommonSocket::AcceptSocketEx(m_hListenSocket, m_hCurAcceptSocket, (CHAR*)m_AddressBuf, (LPOVERLAPPED)&m_IoOverlapAccept);
 #else
-	struct epoll_event epollev;
-	epollev.data.fd = m_hListenSocket;
-	epollev.events = EPOLLIN | EPOLLET;
-	return (-1 < epoll_ctl(m_hCompletePort, EPOLL_CTL_ADD, m_hListenSocket, &epollev));
+    struct epoll_event epollev;
+    epollev.data.fd = m_hListenSocket;
+    epollev.events = EPOLLIN | EPOLLET;
+    return (-1 < epoll_ctl(m_hCompletePort, EPOLL_CTL_ADD, m_hListenSocket, &epollev));
 #endif
 }
 
 BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)
 {
-	if (dwConnID <= 0)
-	{
-		return FALSE;
-	}
+    if (dwConnID <= 0)
+    {
+        return FALSE;
+    }
 
-	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
-	if(pConn == NULL)
-	{
-		//表示连接己经失败断开了，这个连接ID不可用了。
-		return FALSE;
-	}
+    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+    if(pConn == NULL)
+    {
+        //表示连接己经失败断开了，这个连接ID不可用了。
+        return FALSE;
+    }
 
-	if(!pConn->IsConnectionOK())
-	{
-		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, dwConnID:%d", dwMsgID, dwConnID);
-		return FALSE;
-	}
+    if(pConn->GetConnectStatus() != NET_ST_CONN)
+    {
+        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, dwConnID:%d", dwMsgID, dwConnID);
+        return FALSE;
+    }
 
-	IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
-	ERROR_RETURN_FALSE(pDataBuffer != NULL);
+    IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+    ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
-	PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
-	pHeader->CheckCode = CODE_VALUE;
-	pHeader->dwUserData = dwUserData;
-	pHeader->u64TargetID = u64TargetID;
-	pHeader->dwSize = dwLen + sizeof(PacketHeader);
-	pHeader->dwMsgID = dwMsgID;
-	pHeader->dwPacketNo = 1;
+    PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
+    pHeader->CheckCode = CODE_VALUE;
+    pHeader->dwUserData = dwUserData;
+    pHeader->u64TargetID = u64TargetID;
+    pHeader->dwSize = dwLen + sizeof(PacketHeader);
+    pHeader->dwMsgID = dwMsgID;
+    pHeader->dwPacketNo = 1;
 
-	memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+    memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
 
-	pDataBuffer->SetTotalLenth(pHeader->dwSize);
+    pDataBuffer->SetTotalLenth(pHeader->dwSize);
 
-	if (pConn->SendBuffer(pDataBuffer))
-	{
-		PostSendOperation(pConn);
-		return TRUE;
-	}
+    if (pConn->SendBuffer(pDataBuffer))
+    {
+        PostSendOperation(pConn);
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 BOOL CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
 {
-	ERROR_RETURN_FALSE(dwConnID != 0);
-	ERROR_RETURN_FALSE(pBuffer != 0);
-	CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
-	if(pConn == NULL)
-	{
-		//表示连接己经失败断开了，这个连接ID不可用了。
-		return FALSE;
-	}
+    ERROR_RETURN_FALSE(dwConnID != 0);
+    ERROR_RETURN_FALSE(pBuffer != 0);
+    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+    if(pConn == NULL)
+    {
+        //表示连接己经失败断开了，这个连接ID不可用了。
+        return FALSE;
+    }
 
-	if(!pConn->IsConnectionOK())
-	{
-		CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", dwConnID);
-		return FALSE;
-	}
+    if(pConn->GetConnectStatus() != NET_ST_CONN)
+    {
+        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", dwConnID);
+        return FALSE;
+    }
 
-	pBuffer->AddRef();
-	if (pConn->SendBuffer(pBuffer))
-	{
-		PostSendOperation(pConn);
-		return TRUE;
-	}
+    pBuffer->AddRef();
+    if (pConn->SendBuffer(pBuffer))
+    {
+        PostSendOperation(pConn);
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 BOOL CNetManager::CloseEventThread()
 {
-	m_bCloseEvent = TRUE;
+    m_bCloseEvent = TRUE;
 
-	for(std::vector<std::thread*>::iterator itor = m_vtEventThread.begin(); itor != m_vtEventThread.end(); ++itor)
-	{
+    for(std::vector<std::thread*>::iterator itor = m_vtEventThread.begin(); itor != m_vtEventThread.end(); ++itor)
+    {
         std::thread* pThread = *itor;
         if (pThread == NULL)
         {
@@ -890,29 +876,29 @@ BOOL CNetManager::CloseEventThread()
         delete pThread;
     }
 
-	m_vtEventThread.clear();
+    m_vtEventThread.clear();
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CNetManager::PostSendOperation(CConnection* pConnection, BOOL bCheck)
+BOOL CNetManager::PostSendOperation(CConnection* pConnection)
 {
-	ERROR_RETURN_FALSE(pConnection != NULL);
+    ERROR_RETURN_FALSE(pConnection != NULL);
 
-	if (!pConnection->m_IsSending || !bCheck)
-	{
+    if (!pConnection->m_IsSending)
+    {
 #ifdef WIN32
-		pConnection->m_IsSending = TRUE;
-		pConnection->m_IoOverLapPost.Reset();
-		pConnection->m_IoOverLapPost.dwOpType = NET_OP_POST;
-		pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
-		PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
+        pConnection->m_IsSending = TRUE;
+        pConnection->m_IoOverLapPost.Reset();
+        pConnection->m_IoOverLapPost.dwOpType = NET_OP_POST;
+        pConnection->m_IoOverLapPost.dwConnID = pConnection->GetConnectionID();
+        PostQueuedCompletionStatus(m_hCompletePort, pConnection->GetConnectionID(), (ULONG_PTR)pConnection, (LPOVERLAPPED)&pConnection->m_IoOverLapPost);
 #else
-		struct epoll_event EpollEvent;
-		EpollEvent.data.ptr = pConnection;
-		EpollEvent.events = EPOLLOUT | EPOLLET;
-		epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
+        struct epoll_event EpollEvent;
+        EpollEvent.data.ptr = pConnection;
+        EpollEvent.events = EPOLLOUT | EPOLLET | EPOLLIN;
+        epoll_ctl(m_hCompletePort, EPOLL_CTL_MOD, pConnection->GetSocket(), &EpollEvent);
 #endif
-	}
-	return TRUE;
+    }
+    return TRUE;
 }

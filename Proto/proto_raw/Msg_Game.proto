@@ -1,8 +1,9 @@
 ﻿syntax = "proto3";
+
 import "Msg_Base.proto";
 
 message GmStopServerReq {
-    uint32    Data        	= 1;
+    uint32    Data          = 1;
 }
 
 message GmStopServerAck {
@@ -33,8 +34,9 @@ message RoleDisconnectAck {
 }
 
 message RoleReconnectReq {
-    uint64    RoleID = 1;
+    uint64    RoleID    = 1;
     uint64    AccountID = 2;
+    uint32    LoginCode = 3;
 }
 
 message RoleReconnectAck {
@@ -472,3 +474,14 @@ message Msg_DbErrorCountNty{
     uint32  ErrorCount = 1;
 }
 
+message Msg_GameParamReq
+{
+    int32  Channel       =   1;      //渠道
+    string ClientVer    =   2;      //版本
+}
+
+message Msg_GameParamAck
+{
+    repeated string ParamKey   = 1;      //参数key
+    repeated string ParamValue = 2;     //参数值
+}

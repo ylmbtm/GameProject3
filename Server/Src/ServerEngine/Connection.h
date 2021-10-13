@@ -4,153 +4,164 @@
 #include "IBufferHandler.h"
 #include "ReaderWriterQueue.h"
 
-#define  NET_OP_RECV				1
-#define  NET_OP_SEND				2
-#define  NET_OP_CONNECT				3
-#define  NET_OP_ACCEPT				4
-#define  NET_OP_POST				5
+#define  NET_OP_RECV                1
+#define  NET_OP_SEND                2
+#define  NET_OP_CONNECT             3
+#define  NET_OP_ACCEPT              4
+#define  NET_OP_POST                5
 #define  NET_OP_UDP_RECV            6
 
 #define RECV_BUF_SIZE               8192
-#define MAX_BUFF_SIZE				32768
+#define MAX_BUFF_SIZE               32768
 
-#define E_SEND_SUCCESS				1
-#define E_SEND_UNDONE				2
-#define E_SEND_ERROR				3
+#define E_SEND_SUCCESS              1
+#define E_SEND_UNDONE               2
+#define E_SEND_ERROR                3
+
+#define NET_ST_INIT                 1
+#define NET_ST_CONN                 2
+#define NET_ST_WAIT                 3
 
 struct NetIoOperatorData
 {
 #ifdef WIN32
-	OVERLAPPED		Overlap;
+    OVERLAPPED      Overlap;
 #endif
-	UINT32			dwOpType;
-	UINT32			dwConnID;
+    UINT32          dwOpType;
+    UINT32          dwConnID;
 
-	IDataBuffer*	pDataBuffer;
+    IDataBuffer*    pDataBuffer;
 
-	void			Reset();
+    void            Reset();
 };
 
 class CConnection
 {
 public:
-	CConnection();
-	virtual ~CConnection();
+    CConnection();
+    virtual ~CConnection();
 
 public:
-	BOOL	HandleRecvEvent(UINT32 dwBytes);
+    BOOL    HandleRecvEvent(UINT32 dwBytes);
 
-	UINT32  GetConnectionID();
+    UINT32  GetConnectionID();
 
-	UINT64  GetConnectionData();
+    UINT64  GetConnectionData();
 
-	VOID    SetConnectionID(UINT32 dwConnID);
+    VOID    SetConnectionID(UINT32 dwConnID);
 
     VOID    SetConnectionData(UINT64 uData);
+
     BOOL    Shutdown();
 
-	BOOL	Close();
+    BOOL    Close();
 
-	BOOL	SetSocket(SOCKET hSocket);
+    BOOL    SetSocket(SOCKET hSocket);
 
-	SOCKET  GetSocket();
+    SOCKET  GetSocket();
 
-	BOOL	SetDataHandler(IDataHandler* pHandler);
+    BOOL    SetDataHandler(IDataHandler* pHandler);
 
-	BOOL	ExtractBuffer();
+    BOOL    ExtractBuffer();
 
-	BOOL	DoReceive();
+    BOOL    DoReceive();
 
-	BOOL	IsConnectionOK();
+    UINT32  GetConnectStatus();
 
-	BOOL	SetConnectionOK(BOOL bOk);
+    BOOL    SetConnectStatus(UINT32 dwConnStatus);
 
-	BOOL    Reset();
+    BOOL    Reset();
 
-	BOOL    SendBuffer(IDataBuffer*	pBuff);
+    BOOL    SendBuffer(IDataBuffer* pBuff);
 
-	BOOL    DoSend();
+    BOOL    DoSend();
 
     BOOL    CheckHeader(CHAR* pNetPacket);
 
     BOOL    UpdateCheckNo(CHAR* pNetPacket);
 
-	UINT32  GetIpAddr(BOOL bHost = TRUE);
+    UINT32  GetIpAddr(BOOL bHost = TRUE);
+
+    VOID    EnableCheck(BOOL bCheck);
 
 public:
-	SOCKET                      m_hSocket;
+    SOCKET                      m_hSocket;
 
-	BOOL                        m_bConnected;
-	BOOL                        m_bPacketNoCheck;
+    UINT32                       m_dwConnStatus;
 
-	NetIoOperatorData           m_IoOverlapRecv;
+    BOOL                        m_bNotified;
 
-	NetIoOperatorData			m_IoOverlapSend;
+    BOOL                        m_bPacketNoCheck;
 
-	NetIoOperatorData			m_IoOverLapPost;
+    NetIoOperatorData           m_IoOverlapRecv;
 
-	UINT32                      m_dwConnID;
+    NetIoOperatorData           m_IoOverlapSend;
+
+    NetIoOperatorData           m_IoOverLapPost;
+
+    UINT32                      m_dwConnID;
     UINT64                      m_uConnData;
 
-	IDataHandler*				m_pDataHandler;
+    IDataHandler*               m_pDataHandler;
 
-	UINT32						m_dwIpAddr;
+    UINT32                      m_dwIpAddr;
 
-	UINT32						m_dwDataLen;
-	CHAR						m_pRecvBuf[RECV_BUF_SIZE];
-	CHAR*						m_pBufPos;
+    UINT32                      m_dwDataLen;
+    CHAR                        m_pRecvBuf[RECV_BUF_SIZE];
+    CHAR*                       m_pBufPos;
 
-	IDataBuffer*				m_pCurRecvBuffer;
-	UINT32						m_nCurBufferSize;
-	UINT32						m_nCheckNo;
+    IDataBuffer*                m_pCurRecvBuffer;
+    UINT32                      m_nCurBufferSize;
+    UINT32                      m_nCheckNo;
 
-	volatile BOOL				m_IsSending;
+    volatile BOOL               m_IsSending;
 
-	CConnection*                m_pNext;
+    CConnection*                m_pNext;
 
-	UINT64						m_LastRecvTick;
+    UINT64                      m_LastRecvTick;
 
-	moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
+    moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 
-	//LINUX下专用， 用于发了一半的包
-	IDataBuffer*				m_pSendingBuffer;
-	UINT32						m_nSendingPos;
+    sockaddr                    m_UdpAddr;
+
+    //LINUX下专用， 用于发了一半的包
+    IDataBuffer*                m_pSendingBuffer;
+    UINT32                      m_nSendingPos;
 };
 
 
 class CConnectionMgr
 {
 private:
-	CConnectionMgr();
+    CConnectionMgr();
 
-	~CConnectionMgr();
-
-public:
-	static CConnectionMgr* GetInstancePtr();
+    ~CConnectionMgr();
 
 public:
-	BOOL            InitConnectionList(UINT32 nMaxCons);
+    static CConnectionMgr* GetInstancePtr();
 
-	CConnection*    CreateConnection();
+public:
+    BOOL            InitConnectionList(UINT32 nMaxCons);
 
+    CConnection*    CreateConnection();
 
     BOOL            DeleteConnection(UINT32 dwConnID);
 
-	CConnection*    GetConnectionByID(UINT32 dwConnID);
+    CConnection*    GetConnectionByID(UINT32 dwConnID);
 
-	///////////////////////////////////////////
-	BOOL		    CloseAllConnection();
+    ///////////////////////////////////////////
+    BOOL            CloseAllConnection();
 
-	BOOL		    DestroyAllConnection();
+    BOOL            DestroyAllConnection();
 
-	BOOL			CheckConntionAvalible();
+    BOOL            CheckConntionAvalible(INT32 nInterval);
 
 public:
 
-	CConnection*				m_pFreeConnRoot;
-	CConnection*				m_pFreeConnTail;
-	std::vector<CConnection*>	m_vtConnList;            //连接列表
-	std::mutex					m_ConnListMutex;
+    CConnection*                m_pFreeConnRoot;
+    CConnection*                m_pFreeConnTail;
+    std::vector<CConnection*>   m_vtConnList;            //连接列表
+    std::mutex                  m_ConnListMutex;
 };
 
 #endif

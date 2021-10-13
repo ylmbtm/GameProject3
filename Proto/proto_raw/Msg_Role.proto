@@ -45,7 +45,7 @@ message RoleDeleteAck {
 message RoleLoginReq {
     uint64    AccountID    = 1;
     uint64    RoleID       = 2;
-    int32     LoginCode    = 3;
+    int32     LangID       = 3; //语言ID
 }
 
 message RoleLogoutReq {

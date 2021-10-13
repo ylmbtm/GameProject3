@@ -18,24 +18,15 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		ConnectToWatchServer();
-
-	BOOL		SendWatchHeartBeat();
-
-	BOOL		SetWatchIndex(UINT32 nIndex);
-
 	BOOL        IsRun();
+
+	BOOL        RegExitSignal();
 
 	BOOL        StopServer();
 
-	UINT32					m_dwWatchSvrConnID;
-	UINT32					m_dwWatchIndex;
-	UINT64                  m_uLastHeartTime;
 	BOOL                    m_bRun;
 public:
 	//*********************消息处理定义开始******************************
-	BOOL OnMsgWatchHeartBeatAck(NetPacket* pNetPacket);
-	BOOL OnMsgGmStopServerReq(NetPacket* pNetPacket);
 	//*********************消息处理定义结束******************************
 };
 

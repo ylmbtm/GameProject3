@@ -21,15 +21,15 @@ enum ELogType
 struct Log_BaseData
 {
 	ELogType    m_LogType   = ELT_LOG_TYPE_NONE; //日志类型
-	UINT64		m_uID       = 0;	//角色ID或账号ID
-	UINT64 		m_uOpTime   = 0;  //日志发生时间
+	UINT64		m_uID       = 0;//角色ID或账号ID
+	UINT64 		m_uOpTime   = 0;//日志发生时间
 	UINT32      m_dwChannel = 0;//渠道
 	UINT32      m_dwAreaID  = 0; //区服ID
 
 	//以下两条仅角色日志有效
-	UINT32      m_nLeve     = 0;    //角色等级
+	UINT32      m_nLeve     = 0;//角色等级
 	UINT32      m_nVipLevel = 0;//角色VIP等级
-	UINT32      m_nAddWay   = 0;  //
+	UINT32      m_nAddWay   = 0;//
 };
 
 struct Log_AccountCreate : public Log_BaseData

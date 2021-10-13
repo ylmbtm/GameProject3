@@ -193,12 +193,22 @@ LogicServerNode* LogicSvrManager::GetSuggestServer(BOOL bReview, UINT32 dwChanne
 			continue;
 		}
 
-		if (pNode->m_ServerFlag != ESF_GOOD && pNode->m_ServerFlag != ESF_NONE)
+		if (!pNode->CheckChannel(dwChannel))
 		{
 			continue;
 		}
 
-		if (!pNode->CheckChannel(dwChannel))
+		if (pNode->m_ServerFlag >= ESF_BUSY && pNode->m_ServerFlag <= ESF_FULL)
+		{
+			if (pMaxAvalible == NULL)
+			{
+				pMaxAvalible = pNode;
+			}
+
+			continue;
+		}
+
+		if (pNode->m_ServerFlag != ESF_GOOD)
 		{
 			continue;
 		}
@@ -239,6 +249,7 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::ReloadServerList Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
@@ -310,6 +321,7 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		}
 		else
 		{
+			pNode->m_CheckChannelList.clear();
 			std::vector<std::string> vtValue;
 			CommonConvert::SpliteString(strCheckChannel, ";", vtValue);
 			for(int i = 0; i < vtValue.size(); i++)
@@ -329,11 +341,12 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
 		}
 		else
 		{
+			pNode->m_CheckIpList.clear();
 			std::vector<std::string> vtValue;
 			CommonConvert::SpliteString(strCheckIp,  ";", vtValue);
 			for(int i = 0; i < vtValue.size(); i++)
 			{
-				INT32 nTemp = CommonSocket::IpAddrStrToInt(vtValue[i].c_str());
+                UINT32 nTemp = CommonSocket::IpAddrStrToInt(vtValue[i].c_str());
 				if (nTemp > 0)
 				{
 					pNode->m_CheckIpList.insert(nTemp);
@@ -359,6 +372,7 @@ BOOL LogicSvrManager::SaveLogicServerThread()
 	if (!tDBConnection.open(strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str(), nPort))
 	{
 		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Can not open mysql database! Reason:%s", tDBConnection.GetErrorMsg());
+		CLog::GetInstancePtr()->LogError("LogicSvrManager::Init Error: Host:[%s]-User:[%s]-Pwd:[%s]-DBName:[%s]", strHost.c_str(), strUser.c_str(), strPwd.c_str(), strDb.c_str());
 		return FALSE;
 	}
 
