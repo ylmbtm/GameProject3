@@ -258,7 +258,7 @@ SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, INT32 rawblockSize, 
 
 SharedMemoryBase::~SharedMemoryBase()
 {
-    for (UINT32 r = 0; r < (UINT32)m_ShareMemoryPageMapping.size(); r++)
+    for (INT32 r = 0; r < (INT32)m_ShareMemoryPageMapping.size(); r++)
     {
         CommonFunc::ReleaseShareMemory(m_ShareMemoryPageMapping[r].m_pdata);
         CommonFunc::CloseShareMemory(m_ShareMemoryPageMapping[r].m_shm);

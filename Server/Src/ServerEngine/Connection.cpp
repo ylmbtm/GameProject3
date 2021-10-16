@@ -859,7 +859,6 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
 
         if(uCurTick > (pConnection->m_uLastRecvTick + nInterval * 1000))
         {
-            CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 连接超时进入WAIT状态 ConnID:%d", pConnection->GetConnectionID());
             pConnection->Shutdown();
         }
     }

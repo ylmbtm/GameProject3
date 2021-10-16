@@ -45,7 +45,7 @@ BOOL ServiceBase::OnDataHandle(IDataBuffer* pDataBuffer, UINT32 nConnID)
     return TRUE;
 }
 
-BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp)
+BOOL ServiceBase::StartNetwork(UINT16 nPortNum, INT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp)
 {
     ERROR_RETURN_FALSE(pDispather != NULL);
     ERROR_RETURN_FALSE(nPortNum > 0);

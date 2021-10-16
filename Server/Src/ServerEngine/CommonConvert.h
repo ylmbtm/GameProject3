@@ -46,7 +46,7 @@ std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FAL
 //
 // std::string Ansi_To_Uft8(std::string wstrValue);
 //
-BOOL IsTextUTF8(const char* str, UINT32 length);
+BOOL IsTextUTF8(const char* str, INT32 nLength);
 
 INT32 GetValidUtf8Length(char* pStr, INT32 nLen);
 std::string TruncateUtf8(char* pStr, INT32 nLen);
@@ -55,13 +55,13 @@ BOOL SpliteStringByBlank(std::string strSrc, std::vector<std::string>& vtStr);
 
 BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtStr);
 
-BOOL ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat);
+BOOL ReplaceString(std::string& strSrc, const std::string& pattern, const std::string& newpat);
 
 BOOL StringToVector(const char* pStrValue, INT32 IntVector[], INT32 nSize, char cDelim = ',');
 
 BOOL StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim = ',');
 
-UINT32 VersionToInt(const std::string& strVersion);
+INT32 VersionToInt(const std::string& strVersion);
 
 INT32 CountSymbol(char* pStr, char cSymbol);
 
