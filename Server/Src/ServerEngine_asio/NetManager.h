@@ -10,7 +10,6 @@
 #include "boost/asio/connect.hpp"
 #include "Connection.h"
 
-////////////////////////////////////////////////
 class CNetManager
 {
 	CNetManager(void);

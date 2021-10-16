@@ -9,51 +9,51 @@
 class ServiceBase : public IDataHandler//, public CEventFuncManager
 {
 protected:
-	ServiceBase(void);
-	virtual ~ServiceBase(void);
+    ServiceBase(void);
+    virtual ~ServiceBase(void);
 public:
-	static ServiceBase* GetInstancePtr();
+    static ServiceBase* GetInstancePtr();
 
-	BOOL            StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp = "");
+    BOOL            StartNetwork(UINT16 nPortNum, INT32 nMaxConn, IPacketDispatcher* pDispather, std::string strListenIp = "");
 
-	BOOL            StopNetwork();
+    BOOL            StopNetwork();
 
-	BOOL			OnDataHandle(IDataBuffer* pDataBuffer, UINT32 nConnID);
+    BOOL            OnDataHandle(IDataBuffer* pDataBuffer, UINT32 nConnID);
 
-	BOOL			OnCloseConnect(UINT32 nConnID);
+    BOOL            OnCloseConnect(UINT32 nConnID);
 
-	BOOL			OnNewConnect(UINT32 nConnID);
+    BOOL            OnNewConnect(UINT32 nConnID);
 
-	CConnection*	ConnectTo(std::string strIpAddr, UINT16 sPort);
+    CConnection*    ConnectTo(std::string strIpAddr, UINT16 sPort);
 
-	BOOL            CloseConnect(UINT32 nConnID);
+    BOOL            CloseConnect(UINT32 nConnID);
 
-	template<typename T>
-	BOOL			SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
+    template<typename T>
+    BOOL            SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
 
-	BOOL			SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
+    BOOL            SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
-	BOOL			SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen);
+    BOOL            SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen);
 
-	BOOL			SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer);
+    BOOL            SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer);
 
-	CConnection*	GetConnectionByID(UINT32 dwConnID);
+    CConnection*    GetConnectionByID(UINT32 dwConnID);
 
-	BOOL			Update();
+    BOOL            Update();
 
 protected:
-	IPacketDispatcher*					m_pPacketDispatcher;
+    IPacketDispatcher*                  m_pPacketDispatcher;
 
-	std::deque<NetPacket>*				m_pRecvDataQueue;
-	std::deque<NetPacket>*				m_pDispathQueue;
-	CSpinLock							m_QueueLock;
+    std::deque<NetPacket>*              m_pRecvDataQueue;
+    std::deque<NetPacket>*              m_pDispathQueue;
+    CSpinLock                           m_QueueLock;
 
-	//以下用于统计
-	UINT64								m_dwLastTick;
-	UINT32								m_dwRecvNum;
-	UINT32								m_dwSendNum;
-	UINT32								m_dwFps;
-	UINT32								m_dwLastMsgID;
+    //以下用于统计
+    UINT64                              m_uLastTick;
+    INT32                               m_nRecvNum;
+    INT32                               m_nSendNum;
+    INT32                               m_nFps;
+    INT32                               m_nLastMsgID;
 };
 
 

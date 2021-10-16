@@ -5,41 +5,41 @@
 
 class CNetManager
 {
-	CNetManager(void);
+    CNetManager(void);
 
-	virtual ~CNetManager(void);
+    virtual ~CNetManager(void);
 public:
-	static CNetManager* GetInstancePtr()
-	{
-		static CNetManager NetManager;
+    static CNetManager* GetInstancePtr()
+    {
+        static CNetManager NetManager;
 
-		return &NetManager;
-	}
+        return &NetManager;
+    }
 public:
-	BOOL	Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
+    BOOL    Start(UINT16 nPortNum,  INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
 
-	BOOL	Stop();
+    BOOL    Stop();
 
-	BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+    BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
+    BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
 
-	CConnection*	ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
+    CConnection*    ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
-	CConnection*	ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+    CConnection*    ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
 
-	void HandleConnect(CConnection* pConnection, INT32 dwStatus);
+    void HandleConnect(CConnection* pConnection, INT32 nStatus);
 
-	void HandleAccept(CConnection* pConnection, INT32 dwStatus);
+    void HandleAccept(CConnection* pConnection, INT32 nStatus);
 
-	BOOL PostSendOperation(CConnection* pConnection);
+    BOOL PostSendOperation(CConnection* pConnection);
 
-	void RunLoop();
+    void RunLoop();
 
-	uv_tcp_t						m_ListenSocket;
-	uv_loop_t*						m_pMainLoop;
-	uv_thread_t						m_LoopThreadID;
-	IDataHandler*					m_pBufferHandler;
+    uv_tcp_t                        m_ListenSocket;
+    uv_loop_t*                      m_pMainLoop;
+    uv_thread_t                     m_LoopThreadID;
+    IDataHandler*                   m_pBufferHandler;
 
 public:
 };

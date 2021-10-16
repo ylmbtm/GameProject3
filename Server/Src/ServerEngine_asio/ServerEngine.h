@@ -8,8 +8,6 @@
 #include <set>
 #include <algorithm>
 
-#include "CheckMacroDefine.h"
-
 #include "Platform.h"
 
 #include "ServiceBase.h"

@@ -3,50 +3,52 @@
 
 enum LogLevel
 {
-	Log_All,
-	Log_Error,
-	Log_Warn,
-	Log_Info,
-	Log_None
+    Log_HiInfo,
+    Log_Error,
+    Log_Warn,
+    Log_Info,
+    Log_None
 };
 
 
 class CLog
 {
 private:
-	CLog(void);
-	~CLog(void);
+    CLog(void);
+    ~CLog(void);
 
 public:
-	static CLog* GetInstancePtr();
+    static CLog* GetInstancePtr();
 
-	BOOL Start(std::string strPrefix, std::string strLogDir = "log");
+    BOOL Start(std::string strPrefix, std::string strLogDir = "log");
 
-	BOOL Close();
+    BOOL Close();
 
-	void LogWarn(char* lpszFormat, ...);
+    void LogHiInfo(char* lpszFormat, ...);
 
-	void LogError(char* lpszFormat, ...);
+    void LogWarn(char* lpszFormat, ...);
 
-	void LogInfo(char* lpszFormat, ...);
+    void LogError(char* lpszFormat, ...);
 
-	void SetLogLevel(int Level);
+    void LogInfo(char* lpszFormat, ...);
 
-	void SetTitle(char* lpszFormat, ...);
+    void SetLogLevel(int Level);
 
-	void CheckAndCreate();
+    void SetTitle(char* lpszFormat, ...);
+
+    void CheckAndCreate();
 
 protected:
-	std::mutex			m_WriteMutex;
+    std::mutex          m_WriteMutex;
 
-	INT32				m_LogCount;
+    INT32               m_LogCount;
 
-	FILE*				m_pLogFile;
+    FILE*               m_pLogFile;
 
-	INT32				m_LogLevel;
+    INT32               m_LogLevel;
 
-	std::string			m_strPrefix;
-	std::string			m_strLogDir;
+    std::string         m_strPrefix;
+    std::string         m_strLogDir;
 };
 
 #define LOG_FUNCTION_LINE  CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);
@@ -55,7 +57,7 @@ protected:
     if((P) == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-        return TRUE;	\
+        return TRUE;    \
     }
 
 
@@ -63,44 +65,45 @@ protected:
     if((P) == FALSE)\
     {\
         CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-        return FALSE;	\
+        return FALSE;   \
     }
 
 #define ERROR_RETURN_NULL(P) \
-	if((P) == FALSE)\
+    if((P) == FALSE)\
 {\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	return NULL;	\
+    CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    return NULL;    \
 }
 
 #define ERROR_RETURN_NONE(P) \
-	if((P) == FALSE)\
+    if((P) == FALSE)\
 {\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	return ;	\
+    CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    return ;    \
 }
 
 #define ERROR_RETURN_VALUE(P, V) \
-	if((P) == FALSE)\
+    if((P) == FALSE)\
 {\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
-	return V;	\
+    CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    return V;   \
 }
 
 #define ERROR_CONTINUE_EX(P) \
     if((P) == FALSE)\
 {\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
     continue; \
 }
 
 #define ERROR_TO_CONTINUE(P) \
     if((P) == FALSE)\
 {\
-	CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
+    CLog::GetInstancePtr()->LogError("Error : File:%s, Func: %s Line:%d", __FILE__ , __FUNCTION__, __LINE__);\
     continue; \
 }
 
 #define PARSE_FROM_PACKET(TYPE, VALUE)   TYPE VALUE; \
 ERROR_RETURN_TRUE(VALUE.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth()));
+
 #endif

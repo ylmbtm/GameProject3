@@ -27,8 +27,8 @@ struct NetIoOperatorData
 #ifdef WIN32
     OVERLAPPED      Overlap;
 #endif
-    UINT32          dwOpType;
-    UINT32          dwConnID;
+    INT32           nOpType;
+    INT32           nConnID;
 
     IDataBuffer*    pDataBuffer;
 
@@ -42,7 +42,7 @@ public:
     virtual ~CConnection();
 
 public:
-    BOOL    HandleRecvEvent(UINT32 dwBytes);
+    BOOL    HandleRecvEvent(INT32 nBytes);
 
     UINT32  GetConnectionID();
 
@@ -66,9 +66,9 @@ public:
 
     BOOL    DoReceive();
 
-    UINT32  GetConnectStatus();
+    INT32   GetConnectStatus();
 
-    BOOL    SetConnectStatus(UINT32 dwConnStatus);
+    BOOL    SetConnectStatus(INT32 nConnStatus);
 
     BOOL    Reset();
 
@@ -87,7 +87,7 @@ public:
 public:
     SOCKET                      m_hSocket;
 
-    UINT32                       m_dwConnStatus;
+    INT32                       m_nConnStatus;
 
     BOOL                        m_bNotified;
 
@@ -106,19 +106,19 @@ public:
 
     UINT32                      m_dwIpAddr;
 
-    UINT32                      m_dwDataLen;
+    INT32                       m_nDataLen;
     CHAR                        m_pRecvBuf[RECV_BUF_SIZE];
     CHAR*                       m_pBufPos;
 
     IDataBuffer*                m_pCurRecvBuffer;
-    UINT32                      m_nCurBufferSize;
+    INT32                       m_nCurBufferSize;
     UINT32                      m_nCheckNo;
 
     volatile BOOL               m_IsSending;
 
     CConnection*                m_pNext;
 
-    UINT64                      m_LastRecvTick;
+    UINT64                      m_uLastRecvTick;
 
     moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 
@@ -126,7 +126,7 @@ public:
 
     //LINUX下专用， 用于发了一半的包
     IDataBuffer*                m_pSendingBuffer;
-    UINT32                      m_nSendingPos;
+    INT32                       m_nSendingPos;
 };
 
 
@@ -141,7 +141,7 @@ public:
     static CConnectionMgr* GetInstancePtr();
 
 public:
-    BOOL            InitConnectionList(UINT32 nMaxCons);
+    BOOL            InitConnectionList(INT32 nMaxCons);
 
     CConnection*    CreateConnection();
 

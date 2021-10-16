@@ -59,11 +59,11 @@ BOOL ServiceBase::StartNetwork(UINT16 nPortNum, UINT32 nMaxConn, IPacketDispatch
         return FALSE;
     }
 
-    m_dwLastTick = 0;
-    m_dwRecvNum = 0;
-    m_dwFps = 0;
-    m_dwSendNum = 0;
-    m_dwLastMsgID = 0;
+    m_uLastTick = 0;
+    m_nRecvNum = 0;
+    m_nFps = 0;
+    m_nSendNum = 0;
+    m_nLastMsgID = 0;
     return TRUE;
 }
 
@@ -82,7 +82,7 @@ BOOL ServiceBase::SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targe
         return FALSE;
     }
 
-    m_dwSendNum++;
+    m_nSendNum++;
 
     return CNetManager::GetInstancePtr()->SendMessageData(dwConnID, dwMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
 }
@@ -100,7 +100,7 @@ BOOL ServiceBase::SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Tar
     ERROR_RETURN_FALSE(pdata.ByteSize() < 102400);
 
     pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
-    m_dwSendNum++;
+    m_nSendNum++;
     return CNetManager::GetInstancePtr()->SendMessageData(dwConnID, dwMsgID, u64TargetID, dwUserData, szBuff, pdata.GetCachedSize());
 }
 
@@ -111,7 +111,7 @@ BOOL ServiceBase::SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64Targ
         return FALSE;
     }
 
-    m_dwSendNum++;
+    m_nSendNum++;
 
     return CNetManager::GetInstancePtr()->SendMessageData(dwConnID, dwMsgID, u64TargetID, dwUserData, pdata, dwLen);
 }
@@ -123,7 +123,7 @@ BOOL ServiceBase::SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer)
         return FALSE;
     }
 
-    m_dwSendNum++;
+    m_nSendNum++;
     return CNetManager::GetInstancePtr()->SendMessageBuff(dwConnID, pDataBuffer);
 }
 
@@ -171,9 +171,9 @@ CConnection* ServiceBase::GetConnectionByID( UINT32 dwConnID )
 
 BOOL ServiceBase::Update()
 {
-    if (m_dwLastTick == 0)
+    if (m_uLastTick == 0)
     {
-        m_dwLastTick = CommonFunc::GetTickCount();
+        m_uLastTick = CommonFunc::GetTickCount();
     }
 
     m_QueueLock.Lock();
@@ -197,29 +197,29 @@ BOOL ServiceBase::Update()
             }
             else
             {
-                m_dwLastMsgID = item.m_dwMsgID;
+                m_nLastMsgID = item.m_dwMsgID;
                 m_pPacketDispatcher->DispatchPacket(&item);
 
                 item.m_pDataBuffer->Release();
 
-                m_dwRecvNum += 1;
+                m_nRecvNum += 1;
             }
         }
 
         m_pDispathQueue->clear();
     }
 
-    m_dwFps += 1;
+    m_nFps += 1;
 
-    if((CommonFunc::GetTickCount() - m_dwLastTick) > 1000)
+    if((CommonFunc::GetTickCount() - m_uLastTick) > 1000)
     {
         m_pPacketDispatcher->OnSecondTimer();
 
-        CLog::GetInstancePtr()->SetTitle("[AreaID:%d]-[FPS:%d]-[RecvPack:%d]--[SendPack:%d]", CConfigFile::GetInstancePtr()->GetIntValue("areaid"), m_dwFps, m_dwRecvNum, m_dwSendNum);
-        m_dwFps = 0;
-        m_dwRecvNum = 0;
-        m_dwSendNum = 0;
-        m_dwLastTick = CommonFunc::GetTickCount();
+        CLog::GetInstancePtr()->SetTitle("[AreaID:%d]-[FPS:%d]-[RecvPack:%d]--[SendPack:%d]", CConfigFile::GetInstancePtr()->GetIntValue("areaid"), m_nFps, m_nRecvNum, m_nSendNum);
+        m_nFps = 0;
+        m_nRecvNum = 0;
+        m_nSendNum = 0;
+        m_uLastTick = CommonFunc::GetTickCount();
     }
 
     TimerManager::GetInstancePtr()->UpdateTimer();
@@ -227,11 +227,11 @@ BOOL ServiceBase::Update()
     return TRUE;
 }
 
-BOOL ServiceBase::FixFrameNum(UINT32 nFrams)
+BOOL ServiceBase::FixFrameNum(INT32 nFrames)
 {
-    if (nFrams < 1)
+    if (nFrames < 1)
     {
-        nFrams = 1;
+        nFrames = 1;
     }
 
     static UINT64 uNextTick = CommonFunc::GetTickCount();
@@ -242,7 +242,7 @@ BOOL ServiceBase::FixFrameNum(UINT32 nFrams)
         CommonFunc::Sleep(uNextTick - uCurTick);
     }
 
-    uNextTick = uNextTick + 1000 / nFrams;
+    uNextTick = uNextTick + 1000 / nFrames;
 
     return TRUE;
 }

@@ -30,9 +30,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\ServerEngine\AstarFinder.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\ServerEngine\CommonConvert.cpp">
       <Filter>源文件</Filter>
     </ClCompile>

@@ -10,84 +10,84 @@
 class CConnection
 {
 public:
-	CConnection();
-	virtual ~CConnection();
+    CConnection();
+    virtual ~CConnection();
 
 public:
-	BOOL	HandleRecvEvent(UINT32 dwBytes);
+    BOOL    HandleRecvEvent(INT32 nBytes);
 
-	UINT32  GetConnectionID();
+    UINT32  GetConnectionID();
 
-	UINT64  GetConnectionData();
+    UINT64  GetConnectionData();
 
-	VOID    SetConnectionID(UINT32 dwConnID);
+    VOID    SetConnectionID(UINT32 dwConnID);
 
-	VOID	SetConnectionData(UINT64 dwData);
+    VOID    SetConnectionData(UINT64 dwData);
 
-	BOOL	Close();
+    BOOL    Close();
 
-	BOOL	SetSocket(SOCKET hSocket);
+    BOOL    SetSocket(SOCKET hSocket);
 
-	uv_tcp_t*  GetSocket();
+    uv_tcp_t*  GetSocket();
 
-	BOOL	SetDataHandler(IDataHandler* pHandler);
+    BOOL    SetDataHandler(IDataHandler* pHandler);
 
-	BOOL	ExtractBuffer();
+    BOOL    ExtractBuffer();
 
-	BOOL	DoReceive();
+    BOOL    DoReceive();
 
-	BOOL	IsConnectionOK();
+    BOOL    IsConnectionOK();
 
-	BOOL	SetConnectionOK(BOOL bOk);
+    BOOL    SetConnectionOK(BOOL bOk);
 
-	BOOL    Reset();
+    BOOL    Reset();
 
-	BOOL    SendBuffer(IDataBuffer*	pBuff);
+    BOOL    SendBuffer(IDataBuffer* pBuff);
 
-	BOOL    DoSend();
+    BOOL    DoSend();
 
-	void	HandReaddata(size_t len);
+    void    HandReaddata(size_t len);
 
-	void	HandWritedata(size_t len);
+    void    HandWritedata(size_t len);
 
-	BOOL	CheckHeader(CHAR* m_pPacket);
+    BOOL    CheckHeader(CHAR* m_pPacket);
 
-	UINT32  GetIpAddr(BOOL bHost = TRUE);
+    UINT32  GetIpAddr(BOOL bHost = TRUE);
 
-	VOID    EnableCheck(BOOL bCheck);
+    VOID    EnableCheck(BOOL bCheck);
 public:
-	uv_tcp_t					m_hSocket;
-	uv_connect_t				m_ConnectReq;
-	uv_write_t					m_WriteReq;
-	uv_shutdown_t				m_ShutdownReq;
-	uv_async_t					m_AsyncReq;
+    uv_tcp_t                    m_hSocket;
+    uv_connect_t                m_ConnectReq;
+    uv_write_t                  m_WriteReq;
+    uv_shutdown_t               m_ShutdownReq;
+    uv_async_t                  m_AsyncReq;
 
-	BOOL						m_bConnected;
+    BOOL                        m_bConnected;
 
-	UINT32                      m_dwConnID;
-	UINT64                      m_u64ConnData;
+    UINT32                      m_dwConnID;
+    UINT64                      m_uConnData;
 
-	IDataHandler*				m_pDataHandler;
+    IDataHandler*               m_pDataHandler;
 
-	UINT32						m_dwIpAddr;
+    UINT32                      m_dwIpAddr;
 
-	UINT32						m_dwDataLen;
-	CHAR						m_pRecvBuf[RECV_BUF_SIZE];
-	CHAR*						m_pBufPos;
+    INT32                       m_nDataLen;
+    CHAR                        m_pRecvBuf[RECV_BUF_SIZE];
+    CHAR*                       m_pBufPos;
 
-	IDataBuffer*				m_pCurRecvBuffer;
-	UINT32						m_nCurBufferSize;
-	UINT32						m_nCheckNo;
+    IDataBuffer*                m_pCurRecvBuffer;
+    INT32                       m_nCurBufferSize;
+    INT32                       m_nCheckNo;
 
-	volatile BOOL				m_IsSending;
+    volatile BOOL               m_IsSending;
 
-	CConnection*                m_pNext;
+    CConnection*                m_pNext;
 
-	UINT64						m_LastRecvTick;
+    UINT64                      m_uLastRecvTick;
 
-	moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
+    moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 
-	IDataBuffer*				m_pSendingBuffer;
+    IDataBuffer*                m_pSendingBuffer;
 
 
 };
@@ -96,37 +96,37 @@ public:
 class CConnectionMgr
 {
 private:
-	CConnectionMgr();
+    CConnectionMgr();
 
-	~CConnectionMgr();
-
-public:
-	static CConnectionMgr* GetInstancePtr();
+    ~CConnectionMgr();
 
 public:
-	BOOL            InitConnectionList(UINT32 nMaxCons);
+    static CConnectionMgr* GetInstancePtr();
 
-	CConnection*    CreateConnection();
+public:
+    BOOL            InitConnectionList(UINT32 nMaxCons);
 
-	BOOL		    DeleteConnection(CConnection* pConnection);
+    CConnection*    CreateConnection();
 
-	BOOL            DeleteConnection(UINT32 nConnID);
+    BOOL            DeleteConnection(CConnection* pConnection);
 
-	CConnection*    GetConnectionByID(UINT32 dwConnID);
+    BOOL            DeleteConnection(UINT32 nConnID);
 
-	///////////////////////////////////////////
-	BOOL		    CloseAllConnection();
+    CConnection*    GetConnectionByID(UINT32 dwConnID);
 
-	BOOL		    DestroyAllConnection();
+    ///////////////////////////////////////////
+    BOOL            CloseAllConnection();
 
-	BOOL			CheckConntionAvalible(INT32 nInterval);
+    BOOL            DestroyAllConnection();
+
+    BOOL            CheckConntionAvalible(INT32 nInterval);
 
 public:
 
-	CConnection*				m_pFreeConnRoot;
-	CConnection*				m_pFreeConnTail;
-	std::vector<CConnection*>	m_vtConnList;            //连接列表
-	std::mutex					m_ConnListMutex;
+    CConnection*                m_pFreeConnRoot;
+    CConnection*                m_pFreeConnTail;
+    std::vector<CConnection*>   m_vtConnList;            //连接列表
+    std::mutex                  m_ConnListMutex;
 };
 
 #endif

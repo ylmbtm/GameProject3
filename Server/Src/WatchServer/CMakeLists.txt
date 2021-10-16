@@ -13,7 +13,7 @@ FILE(GLOB PROTO "../Message/Msg_Base.pb.cc"
 				"../Message/Msg_Base.pb.h"
 				"../Message/Msg_Game.pb.cc"
 				"../Message/Msg_Game.pb.h"
-				"../Message/Msg_ID.pb.cc" 
+				"../Message/Msg_ID.pb.cc"
 				"../Message/Msg_ID.pb.h")
 
 

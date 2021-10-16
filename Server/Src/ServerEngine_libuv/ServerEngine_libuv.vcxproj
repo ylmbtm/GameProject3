@@ -88,7 +88,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ServerEngine\AstarFinder.cpp" />
     <ClCompile Include="..\ServerEngine\CommonConvert.cpp" />
     <ClCompile Include="..\ServerEngine\CommonFunc.cpp" />
     <ClCompile Include="..\ServerEngine\CommonMath.cpp" />

@@ -10,8 +10,8 @@ void NetIoOperatorData::Reset()
     memset(&Overlap, 0, sizeof(Overlap));
 #endif
 
-    dwOpType = 0;
-    dwConnID = 0;
+    nOpType = 0;
+    nConnID = 0;
 
     pDataBuffer = NULL;
 }
@@ -23,9 +23,9 @@ CConnection::CConnection()
 
     m_pDataHandler      = NULL;
 
-    m_dwDataLen         = 0;
+    m_nDataLen         = 0;
 
-    m_dwConnStatus       = NET_ST_INIT;
+    m_nConnStatus       = NET_ST_INIT;
 
     m_uConnData       = 0;
 
@@ -47,7 +47,7 @@ CConnection::CConnection()
 
     m_bPacketNoCheck    = FALSE;
 
-    m_LastRecvTick      = 0;
+    m_uLastRecvTick      = 0;
 }
 
 CConnection::~CConnection(void)
@@ -65,16 +65,16 @@ BOOL CConnection::DoReceive()
 {
     WSABUF  DataBuf;
 
-    DataBuf.len = RECV_BUF_SIZE - m_dwDataLen;
-    DataBuf.buf = m_pRecvBuf + m_dwDataLen;
+    DataBuf.len = RECV_BUF_SIZE - m_nDataLen;
+    DataBuf.buf = m_pRecvBuf + m_nDataLen;
 
-    DWORD dwRecvBytes = 0, dwFlags = 0;
+    DWORD nRecvBytes = 0, nFlags = 0;
 
     m_IoOverlapRecv.Reset();
-    m_IoOverlapRecv.dwOpType = NET_OP_RECV;
-    m_IoOverlapRecv.dwConnID = m_dwConnID;
+    m_IoOverlapRecv.nOpType = NET_OP_RECV;
+    m_IoOverlapRecv.nConnID = m_dwConnID;
 
-    int nRet = WSARecv(m_hSocket, &DataBuf, 1, &dwRecvBytes, &dwFlags, (LPOVERLAPPED)&m_IoOverlapRecv, NULL);
+    int nRet = WSARecv(m_hSocket, &DataBuf, 1, &nRecvBytes, &nFlags, (LPOVERLAPPED)&m_IoOverlapRecv, NULL);
     if(nRet != 0)
     {
         //对于WSARecv来说， 只要返回0,就表示没有错误发生。
@@ -99,7 +99,7 @@ BOOL CConnection::DoReceive()
 {
     while(TRUE)
     {
-        int nBytes = recv(m_hSocket, m_pRecvBuf + m_dwDataLen, RECV_BUF_SIZE - m_dwDataLen, 0);
+        int nBytes = recv(m_hSocket, m_pRecvBuf + m_nDataLen, RECV_BUF_SIZE - m_nDataLen, 0);
         if(nBytes < 0)
         {
             int nErr = CommonSocket::GetSocketLastError();
@@ -117,7 +117,7 @@ BOOL CConnection::DoReceive()
             return FALSE;
         }
 
-        m_dwDataLen += nBytes;
+        m_nDataLen += nBytes;
 
         if(!ExtractBuffer())
         {
@@ -144,7 +144,7 @@ void CConnection::SetConnectionID( UINT32 dwConnID )
 {
     ERROR_RETURN_NONE(dwConnID != 0);
 
-    ERROR_RETURN_NONE(m_dwConnStatus == NET_ST_INIT);
+    ERROR_RETURN_NONE(m_nConnStatus == NET_ST_INIT);
 
     m_dwConnID = dwConnID;
 
@@ -162,9 +162,9 @@ VOID CConnection::SetConnectionData( UINT64 uData )
 
 BOOL CConnection::Shutdown()
 {
-    m_dwConnStatus = NET_ST_WAIT;
+    m_nConnStatus = NET_ST_WAIT;
 
-    m_LastRecvTick = CommonFunc::GetTickCount();
+    m_uLastRecvTick = CommonFunc::GetTickCount();
 
     CommonSocket::_ShutdownSocket(m_hSocket);
 
@@ -175,7 +175,7 @@ BOOL CConnection::ExtractBuffer()
 {
     //在这方法里返回FALSE。
     //会在外面导致这个连接被关闭。
-    if (m_dwDataLen == 0)
+    if (m_nDataLen == 0)
     {
         return TRUE;
     }
@@ -184,32 +184,32 @@ BOOL CConnection::ExtractBuffer()
     {
         if(m_pCurRecvBuffer != NULL)
         {
-            if ((m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen ) < m_nCurBufferSize)
+            if ((m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen ) < m_nCurBufferSize)
             {
-                memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_dwDataLen);
+                memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_nDataLen);
                 m_pBufPos = m_pRecvBuf;
-                m_pCurRecvBuffer->SetTotalLenth(m_pCurRecvBuffer->GetTotalLenth() + m_dwDataLen);
-                m_dwDataLen = 0;
+                m_pCurRecvBuffer->SetTotalLenth(m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen);
+                m_nDataLen = 0;
                 break;
             }
             else
             {
                 memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth());
-                m_dwDataLen -= m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
+                m_nDataLen -= m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
                 m_pBufPos += m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
                 m_pCurRecvBuffer->SetTotalLenth(m_nCurBufferSize);
-                m_LastRecvTick = CommonFunc::GetTickCount();
+                m_uLastRecvTick = CommonFunc::GetTickCount();
                 UpdateCheckNo(m_pCurRecvBuffer->GetBuffer());
                 m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, GetConnectionID());
                 m_pCurRecvBuffer = NULL;
             }
         }
 
-        if(m_dwDataLen < sizeof(PacketHeader))
+        if(m_nDataLen < sizeof(PacketHeader))
         {
-            if (m_dwDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
+            if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
-                CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_dwDataLen:%d--ConnID:%d", m_dwDataLen, m_dwConnID);
+                CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_dwConnID);
                 return FALSE;
             }
 
@@ -221,49 +221,49 @@ BOOL CConnection::ExtractBuffer()
         //在这里对包头进行检查, 如果不合法就要返回FALSE;
         if (!CheckHeader(m_pBufPos))
         {
-			//return FALSE;
-		}
+            //return FALSE;
+        }
 
-        UINT32 dwPacketSize = pHeader->dwSize;
+        INT32 nPacketSize = pHeader->nSize;
 
         //////////////////////////////////////////////////////////////////////////
-        if((dwPacketSize > m_dwDataLen)  && (dwPacketSize < RECV_BUF_SIZE))
+        if((nPacketSize > m_nDataLen)  && (nPacketSize < RECV_BUF_SIZE))
         {
             break;
         }
 
-        if (dwPacketSize <= m_dwDataLen)
+        if (nPacketSize <= m_nDataLen)
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
+            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
 
-            memcpy(pDataBuffer->GetBuffer(), m_pBufPos, dwPacketSize);
+            memcpy(pDataBuffer->GetBuffer(), m_pBufPos, nPacketSize);
 
-            m_dwDataLen -= dwPacketSize;
+            m_nDataLen -= nPacketSize;
 
-            m_pBufPos += dwPacketSize;
+            m_pBufPos += nPacketSize;
 
-            pDataBuffer->SetTotalLenth(dwPacketSize);
+            pDataBuffer->SetTotalLenth(nPacketSize);
 
-            m_LastRecvTick = CommonFunc::GetTickCount();
+            m_uLastRecvTick = CommonFunc::GetTickCount();
             UpdateCheckNo(pDataBuffer->GetBuffer());
             m_pDataHandler->OnDataHandle(pDataBuffer, GetConnectionID());
         }
         else
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwPacketSize);
-            memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_dwDataLen);
+            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
+            memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_nDataLen);
 
-            pDataBuffer->SetTotalLenth(m_dwDataLen);
-            m_dwDataLen = 0;
+            pDataBuffer->SetTotalLenth(m_nDataLen);
+            m_nDataLen = 0;
             m_pBufPos = m_pRecvBuf;
             m_pCurRecvBuffer = pDataBuffer;
-            m_nCurBufferSize = dwPacketSize;
+            m_nCurBufferSize = nPacketSize;
         }
     }
 
-    if(m_dwDataLen > 0)
+    if(m_nDataLen > 0)
     {
-        memmove(m_pRecvBuf, m_pBufPos, m_dwDataLen);
+        memmove(m_pRecvBuf, m_pBufPos, m_nDataLen);
     }
 
     m_pBufPos = m_pRecvBuf;
@@ -277,7 +277,7 @@ BOOL CConnection::Close()
 
     m_hSocket           = INVALID_SOCKET;
 
-    m_dwDataLen         = 0;
+    m_nDataLen         = 0;
 
     m_IsSending         = FALSE;
 
@@ -287,15 +287,15 @@ BOOL CConnection::Close()
         m_pDataHandler->OnCloseConnect(GetConnectionID());
     }
 
-    m_dwConnStatus = NET_ST_INIT;
+    m_nConnStatus = NET_ST_INIT;
 
     return TRUE;
 }
 
-BOOL CConnection::HandleRecvEvent(UINT32 dwBytes)
+BOOL CConnection::HandleRecvEvent(INT32 nBytes)
 {
 #ifdef WIN32
-    m_dwDataLen += dwBytes;
+    m_nDataLen += nBytes;
 
     if(!ExtractBuffer())
     {
@@ -341,16 +341,16 @@ SOCKET CConnection::GetSocket()
     return m_hSocket;
 }
 
-UINT32 CConnection::GetConnectStatus()
+INT32 CConnection::GetConnectStatus()
 {
-    return m_dwConnStatus;
+    return m_nConnStatus;
 }
 
-BOOL CConnection::SetConnectStatus(UINT32 dwConnStatus)
+BOOL CConnection::SetConnectStatus(INT32 nConnStatus)
 {
-    m_dwConnStatus = dwConnStatus;
+    m_nConnStatus = nConnStatus;
 
-    m_LastRecvTick = CommonFunc::GetTickCount();
+    m_uLastRecvTick = CommonFunc::GetTickCount();
 
     return TRUE;
 }
@@ -360,11 +360,11 @@ BOOL CConnection::Reset()
 {
     m_hSocket = INVALID_SOCKET;
 
-    m_dwConnStatus = NET_ST_INIT;
+    m_nConnStatus = NET_ST_INIT;
 
     m_uConnData = 0;
 
-    m_dwDataLen = 0;
+    m_nDataLen = 0;
 
     m_dwIpAddr  = 0;
 
@@ -374,7 +374,7 @@ BOOL CConnection::Reset()
 
     m_bPacketNoCheck = FALSE;
 
-    m_LastRecvTick = 0;
+    m_uLastRecvTick = 0;
 
     memset(&m_UdpAddr, 0, sizeof(m_UdpAddr));
 
@@ -416,12 +416,12 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return FALSE;
     }
 
-    if (pHeader->dwSize > 1024 * 1024)
+    if (pHeader->nSize > 1024 * 1024)
     {
         return FALSE;
     }
 
-    if (pHeader->dwSize <= 0)
+    if (pHeader->nSize <= 0)
     {
         CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->dwMsgID:%d, roleid:%lld", pHeader->dwMsgID, pHeader->u64TargetID);
         return FALSE;
@@ -437,11 +437,11 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return TRUE;
     }
 
-    UINT32 dwPktChkNo = pHeader->dwPacketNo - (pHeader->dwMsgID ^ pHeader->dwSize);
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->dwMsgID ^ pHeader->nSize);
 
-    if (dwPktChkNo <= 0)
+    if (nPktChkNo <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("dwPktChkNo <= 0");
+        CLog::GetInstancePtr()->LogWarn("nPktChkNo <= 0");
         return FALSE;
     }
 
@@ -450,7 +450,7 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return TRUE;
     }
 
-    if(m_nCheckNo == dwPktChkNo)
+    if(m_nCheckNo == nPktChkNo)
     {
         return TRUE;
     }
@@ -462,11 +462,11 @@ BOOL CConnection::UpdateCheckNo(CHAR* pNetPacket)
 {
     PacketHeader* pHeader = (PacketHeader*)pNetPacket;
 
-    UINT32 dwPktChkNo = pHeader->dwPacketNo - (pHeader->dwMsgID ^ pHeader->dwSize);
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->dwMsgID ^ pHeader->nSize);
 
     if (m_nCheckNo == 0)
     {
-        m_nCheckNo = dwPktChkNo + 1;
+        m_nCheckNo = nPktChkNo + 1;
         return TRUE;
     }
 
@@ -558,22 +558,22 @@ BOOL CConnection::DoSend()
     DataBuf.len = pSendingBuffer->GetTotalLenth();
     DataBuf.buf = pSendingBuffer->GetBuffer();
     m_IoOverlapSend.Reset();
-    m_IoOverlapSend.dwOpType = NET_OP_SEND;
+    m_IoOverlapSend.nOpType = NET_OP_SEND;
     m_IoOverlapSend.pDataBuffer = pSendingBuffer;
-    m_IoOverlapSend.dwConnID = m_dwConnID;
+    m_IoOverlapSend.nConnID = m_dwConnID;
 
-    DWORD dwSendBytes = 0;
-    int nRet = WSASend(m_hSocket, &DataBuf, 1, &dwSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
+    DWORD nSendBytes = 0;
+    int nRet = WSASend(m_hSocket, &DataBuf, 1, &nSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
     if(nRet == 0) //发送成功
     {
-        //if(dwSendBytes < DataBuf.len)
+        //if(nSendBytes < DataBuf.len)
         //{
-        //  CLog::GetInstancePtr()->LogError("发送线程:直接发送数据成功send:%d--Len:%d!", dwSendBytes, DataBuf.len);
+        //  CLog::GetInstancePtr()->LogError("发送线程:直接发送数据成功send:%d--Len:%d!", nSendBytes, DataBuf.len);
         //}
     }
     else if( nRet == -1 ) //发送出错
     {
-        UINT32 errCode = CommonSocket::GetSocketLastError();
+        INT32 errCode = CommonSocket::GetSocketLastError();
         if(errCode != ERROR_IO_PENDING)
         {
             Close();
@@ -718,9 +718,9 @@ CConnection* CConnectionMgr::GetConnectionByID( UINT32 dwConnID )
 {
     ERROR_RETURN_NULL(dwConnID != 0);
 
-    UINT32 dwIndex = dwConnID % m_vtConnList.size();
+    INT32 nIndex = dwConnID % m_vtConnList.size();
 
-    CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
+    CConnection* pConnect = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
     if (pConnect->GetConnectionID() != dwConnID)
     {
@@ -743,9 +743,9 @@ BOOL CConnectionMgr::DeleteConnection(UINT32 dwConnID)
 {
     ERROR_RETURN_FALSE(dwConnID != 0);
 
-    UINT32 dwIndex = dwConnID % m_vtConnList.size();
+    INT32 nIndex = dwConnID % m_vtConnList.size();
 
-    CConnection* pConnection = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
+    CConnection* pConnection = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
     ERROR_RETURN_FALSE(pConnection->GetConnectionID() == dwConnID)
 
@@ -835,7 +835,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
             continue;
         }
 
-        if (pConnection->m_LastRecvTick <= 0)
+        if (pConnection->m_uLastRecvTick <= 0)
         {
             continue;
         }
@@ -848,7 +848,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
         //如果当前是等待关闭的状态
         if (pConnection->GetConnectStatus() == NET_ST_WAIT)
         {
-            if (uCurTick > (pConnection->m_LastRecvTick + 10 * 1000))
+            if (uCurTick > (pConnection->m_uLastRecvTick + 10 * 1000))
             {
                 CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible WAIT超时主动断开连接 ConnID:%d", pConnection->GetConnectionID());
                 pConnection->Close();
@@ -857,7 +857,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
             continue;
         }
 
-        if(uCurTick > (pConnection->m_LastRecvTick + nInterval * 1000))
+        if(uCurTick > (pConnection->m_uLastRecvTick + nInterval * 1000))
         {
             CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 连接超时进入WAIT状态 ConnID:%d", pConnection->GetConnectionID());
             pConnection->Shutdown();
@@ -867,13 +867,13 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
     return TRUE;
 }
 
-BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons)
+BOOL CConnectionMgr::InitConnectionList(INT32 nMaxCons)
 {
     ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
     ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
 
     m_vtConnList.assign(nMaxCons, NULL);
-    for(UINT32 i = 0; i < nMaxCons; i++)
+    for(INT32 i = 0; i < nMaxCons; i++)
     {
         CConnection* pConn = new CConnection();
 
