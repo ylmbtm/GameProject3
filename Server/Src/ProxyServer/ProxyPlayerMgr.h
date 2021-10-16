@@ -5,49 +5,49 @@
 class  CProxyPlayer
 {
 public:
-	CProxyPlayer();
+    CProxyPlayer();
 
-	~CProxyPlayer();
-
-public:
-	UINT32	GetGameSvrID();
-
-	VOID	SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
-
-	VOID	SetConnID(UINT32 dwConnID);
-
-	UINT64	GetCharID();
-
-	UINT32  GetConnID();
-
-	UINT32  GetCopyGuid();
+    ~CProxyPlayer();
 
 public:
-	UINT64	m_u64RoleID;
+    UINT32  GetGameSvrID();
 
-	UINT32	m_dwGameSvrID;
+    VOID    SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
 
-	UINT32  m_dwConnID;
+    VOID    SetConnID(INT32 nConnID);
 
-	UINT32  m_dwCopyGuid;
+    UINT64  GetCharID();
+
+    UINT32  GetConnID();
+
+    UINT32  GetCopyGuid();
+
+public:
+    UINT64  m_u64RoleID;
+
+    INT32   m_nGameSvrID;
+
+    INT32  m_nConnID;
+
+    UINT32  m_dwCopyGuid;
 };
 
 class CProxyPlayerMgr : public AVLTree<UINT64, CProxyPlayer>
 {
 private:
-	CProxyPlayerMgr(void);
-	~CProxyPlayerMgr(void);
+    CProxyPlayerMgr(void);
+    ~CProxyPlayerMgr(void);
 
 public:
-	static CProxyPlayerMgr* GetInstancePtr();
+    static CProxyPlayerMgr* GetInstancePtr();
 
-	CProxyPlayer*	GetByCharID(UINT64 u64RoleID);
+    CProxyPlayer*   GetByCharID(UINT64 u64RoleID);
 
-	CProxyPlayer*	CreateProxyPlayer(UINT64 u64RoleID);
+    CProxyPlayer*   CreateProxyPlayer(UINT64 u64RoleID);
 
-	BOOL			RemoveByCharID(UINT64 u64RoleID);
+    BOOL            RemoveByCharID(UINT64 u64RoleID);
 
-	CProxyPlayer*   GetByConnID(UINT32 dwConnID);
+    CProxyPlayer*   GetByConnID(INT32 nConnID);
 };
 
 #endif /*__PROXY_PLAYER_MGR_H__*/

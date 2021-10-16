@@ -310,7 +310,7 @@ BOOL CEquipModule::OnMsgSetupEquipReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nRetCode = DressEquip(Req.equipguid(), Req.bagguid());
+	INT32 nRetCode = DressEquip(Req.equipguid(), Req.bagguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
 		SetupEquipAck Ack;
@@ -327,7 +327,7 @@ BOOL CEquipModule::OnMsgUnsetEquipReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nRetCode = UnDressEquip(Req.equipguid());
+	INT32 nRetCode = UnDressEquip(Req.equipguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
 		UnsetEquipAck Ack;

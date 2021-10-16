@@ -18,7 +18,7 @@ CNetManager::~CNetManager(void)
     m_pBufferHandler = NULL;
 }
 
-BOOL CNetManager::CreateEventThread(UINT32 nNum )
+BOOL CNetManager::CreateEventThread(INT32 nNum )
 {
     if(nNum == 0)
     {
@@ -34,7 +34,7 @@ BOOL CNetManager::CreateEventThread(UINT32 nNum )
     nNum = 1;
 #endif
 
-    for(UINT32 i = 0; i < nNum; ++i)
+    for(INT32 i = 0; i < nNum; ++i)
     {
         std::thread* pThread = new std::thread(&CNetManager::WorkThread_ProcessEvent, this, nNum);
         m_vtEventThread.push_back(pThread);
@@ -158,7 +158,7 @@ BOOL CNetManager::DestroyCompletePort()
 
 
 #ifdef WIN32
-BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
+BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 {
     ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
 
@@ -431,7 +431,7 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
     return pConnection;
 }
 
-BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
+BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 {
     struct epoll_event vtEvents[512];
     int nFd = 0;
@@ -518,7 +518,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
                 continue;
             }
 
-            UINT32 nNeedEvent = EPOLLIN;
+            INT32 nNeedEvent = EPOLLIN;
 
             if (vtEvents[i].events & EPOLLIN)
             {
@@ -546,7 +546,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(UINT32 nParam)
                 }
 
                 pConnection->m_IsSending = TRUE;
-                UINT32 nRet = pConnection->DoSend();
+                INT32 nRet = pConnection->DoSend();
                 pConnection->m_IsSending = FALSE;
                 if (nRet == E_SEND_ERROR)
                 {
@@ -594,7 +594,7 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 #endif
 
 
-BOOL CNetManager::Start(UINT16 nPortNum, UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr)
+BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr)
 {
     ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
@@ -788,14 +788,14 @@ BOOL CNetManager::WaitConnect()
 #endif
 }
 
-BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)
+BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)
 {
-    if (dwConnID <= 0)
+    if (nConnID <= 0)
     {
         return FALSE;
     }
 
-    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(nConnID);
     if(pConn == NULL)
     {
         //表示连接己经失败断开了，这个连接ID不可用了。
@@ -804,7 +804,7 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64Ta
 
     if(pConn->GetConnectStatus() != NET_ST_CONN)
     {
-        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, dwConnID:%d", dwMsgID, dwConnID);
+        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, nConnID:%d", nMsgID, nConnID);
         return FALSE;
     }
 
@@ -816,7 +816,7 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64Ta
     pHeader->dwUserData = dwUserData;
     pHeader->u64TargetID = u64TargetID;
     pHeader->nSize = dwLen + sizeof(PacketHeader);
-    pHeader->dwMsgID = dwMsgID;
+    pHeader->nMsgID = nMsgID;
     pHeader->nPacketNo = 1;
 
     memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
@@ -832,11 +832,11 @@ BOOL CNetManager::SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64Ta
     return FALSE;
 }
 
-BOOL CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
+BOOL CNetManager::SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer)
 {
-    ERROR_RETURN_FALSE(dwConnID != 0);
+    ERROR_RETURN_FALSE(nConnID != 0);
     ERROR_RETURN_FALSE(pBuffer != 0);
-    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(dwConnID);
+    CConnection* pConn = CConnectionMgr::GetInstancePtr()->GetConnectionByID(nConnID);
     if(pConn == NULL)
     {
         //表示连接己经失败断开了，这个连接ID不可用了。
@@ -845,7 +845,7 @@ BOOL CNetManager::SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer)
 
     if(pConn->GetConnectStatus() != NET_ST_CONN)
     {
-        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", dwConnID);
+        CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", nConnID);
         return FALSE;
     }
 

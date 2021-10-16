@@ -22,7 +22,7 @@ public:
 
 	MemberDataObject* AddGuildMember(UINT64 uRoleID);
 
-	BOOL BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL BroadMessageToAll(INT32 nMsgID, const google::protobuf::Message& pdata);
 
 public:
 

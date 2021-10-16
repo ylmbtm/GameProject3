@@ -12,9 +12,9 @@
 
 CGameService::CGameService(void)
 {
-	m_dwLogicConnID		= 0;
-	m_dwProxyConnID		= 0;
-	m_dwServerID		= 0;
+    m_nLogicConnID      = 0;
+    m_nProxyConnID     = 0;
+    m_nServerID        = 0;
 }
 
 CGameService::~CGameService(void)
@@ -23,253 +23,253 @@ CGameService::~CGameService(void)
 
 CGameService* CGameService::GetInstancePtr()
 {
-	static CGameService _GameService;
+    static CGameService _GameService;
 
-	return &_GameService;
+    return &_GameService;
 }
 
 BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 {
-	CommonFunc::SetCurrentWorkDir("");
+    CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->Start("GameServer", "log"))
-	{
-		return FALSE;
-	}
+    if(!CLog::GetInstancePtr()->Start("GameServer", "log"))
+    {
+        return FALSE;
+    }
 
-	CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
+    CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
 
-	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
-	{
-		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
-		return FALSE;
-	}
+    if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
+    {
+        CLog::GetInstancePtr()->LogError("配制文件加载失败!");
+        return FALSE;
+    }
 
-	CHAR szSignName[128] = { 0 };
-	snprintf(szSignName, 128, "GameServer%d_%d", dwServerID, dwPort);
-	if (CommonFunc::IsAlreadyRun(szSignName))
-	{
-		return FALSE;
-	}
+    CHAR szSignName[128] = { 0 };
+    snprintf(szSignName, 128, "GameServer%d_%d", dwServerID, dwPort);
+    if (CommonFunc::IsAlreadyRun(szSignName))
+    {
+        return FALSE;
+    }
 
-	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("game_log_level"));
+    CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("game_log_level"));
 
-	m_dwServerID = dwServerID;
+    m_nServerID = dwServerID;
 
-	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn, this))
-	{
-		CLog::GetInstancePtr()->LogError("启动服务失败!");
-		return FALSE;
-	}
+    INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
+    if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn, this))
+    {
+        CLog::GetInstancePtr()->LogError("启动服务失败!");
+        return FALSE;
+    }
 
-	CStaticData::GetInstancePtr()->LoadConfigData("Config.db");
+    CStaticData::GetInstancePtr()->LoadConfigData("Config.db");
 
-	if(!m_SceneManager.Init(TRUE))
-	{
-		CLog::GetInstancePtr()->LogError("启动场景管理器失败!");
-		return FALSE;
-	}
+    if(!m_SceneManager.Init(TRUE))
+    {
+        CLog::GetInstancePtr()->LogError("启动场景管理器失败!");
+        return FALSE;
+    }
 
-	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
-	return TRUE;
+    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(UINT32 nConnID)
+BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
-	if(nConnID == m_dwLogicConnID)
-	{
-		RegisterToLogicSvr();
-		m_SceneManager.SendCityReport();
-		return TRUE;
-	}
+    if(nConnID == m_nLogicConnID)
+    {
+        RegisterToLogicSvr();
+        m_SceneManager.SendCityReport();
+        return TRUE;
+    }
 
-	if(nConnID == m_dwProxyConnID)
-	{
-		RegisterToProxySvr();
-		return TRUE;
-	}
+    if(nConnID == m_nProxyConnID)
+    {
+        RegisterToProxySvr();
+        return TRUE;
+    }
 
-	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
+    CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(UINT32 nConnID)
+BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
-	if(m_dwLogicConnID == nConnID)
-	{
-		m_dwLogicConnID = 0;
-	}
+    if(m_nLogicConnID == nConnID)
+    {
+        m_nLogicConnID = 0;
+    }
 
-	if(m_dwProxyConnID == nConnID)
-	{
-		m_dwProxyConnID = 0;
-	}
+    if(m_nProxyConnID == nConnID)
+    {
+        m_nProxyConnID = 0;
+    }
 
-	CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
+    CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::OnSecondTimer()
 {
-	ConnectToLogicSvr();
+    ConnectToLogicSvr();
 
-	ConnectToProxySvr();
+    ConnectToProxySvr();
 
-	CWatcherClient::GetInstancePtr()->OnSecondTimer();
+    CWatcherClient::GetInstancePtr()->OnSecondTimer();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
-	{
-			PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgRegToProxyAck)
-			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,    OnMsgWebCommandReq)
-	}
+    switch(pNetPacket->m_nMsgID)
+    {
+            PROCESS_MESSAGE_ITEM(MSG_GASVR_REGTO_PROXY_ACK, OnMsgRegToProxyAck)
+            PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,    OnMsgWebCommandReq)
+    }
 
-	if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
+    if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
+    {
+        return TRUE;
+    }
 
-	if (m_SceneManager.DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
+    if (m_SceneManager.DispatchPacket(pNetPacket))
+    {
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 BOOL CGameService::Uninit()
 {
-	ServiceBase::GetInstancePtr()->StopNetwork();
+    ServiceBase::GetInstancePtr()->StopNetwork();
 
-	m_SceneManager.Uninit();
+    m_SceneManager.Uninit();
 
-	google::protobuf::ShutdownProtobufLibrary();
+    google::protobuf::ShutdownProtobufLibrary();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::Run()
 {
-	while(CWatcherClient::GetInstancePtr()->IsRun())
-	{
-		ServiceBase::GetInstancePtr()->Update();
+    while(CWatcherClient::GetInstancePtr()->IsRun())
+    {
+        ServiceBase::GetInstancePtr()->Update();
 
-		m_SceneManager.OnUpdate(CommonFunc::GetTickCount());
+        m_SceneManager.OnUpdate(CommonFunc::GetTickCount());
 
-		ServiceBase::GetInstancePtr()->FixFrameNum(200);
-	}
+        ServiceBase::GetInstancePtr()->FixFrameNum(200);
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CGameService::SetLogicConnID( UINT32 dwConnID )
+BOOL CGameService::SetLogicConnID( INT32 nConnID )
 {
-	m_dwLogicConnID = dwConnID;
+    m_nLogicConnID = nConnID;
 
-	return TRUE;
+    return TRUE;
 }
 
 UINT32 CGameService::GetLogicConnID()
 {
-	return m_dwLogicConnID;
+    return m_nLogicConnID;
 }
 
 UINT32 CGameService::GetProxyConnID()
 {
-	return m_dwProxyConnID;
+    return m_nProxyConnID;
 }
 
 BOOL CGameService::ConnectToLogicSvr()
 {
-	if (m_dwLogicConnID != 0)
-	{
-		return TRUE;
-	}
-	UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
-	ERROR_RETURN_FALSE(nLogicPort > 0);
-	std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
-	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
-	ERROR_RETURN_FALSE(pConn != NULL);
-	m_dwLogicConnID = pConn->GetConnectionID();
+    if (m_nLogicConnID != 0)
+    {
+        return TRUE;
+    }
+    INT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
+    ERROR_RETURN_FALSE(nLogicPort > 0);
+    std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
+    CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
+    ERROR_RETURN_FALSE(pConn != NULL);
+    m_nLogicConnID = pConn->GetConnectionID();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::ConnectToProxySvr()
 {
-	if (m_dwProxyConnID != 0)
-	{
-		return TRUE;
-	}
-	UINT32 nProxyPort = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
-	ERROR_RETURN_FALSE(nProxyPort > 0);
-	std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
-	CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strProxyIp, nProxyPort);
-	ERROR_RETURN_FALSE(pConn != NULL);
-	m_dwProxyConnID = pConn->GetConnectionID();
-	return TRUE;
+    if (m_nProxyConnID != 0)
+    {
+        return TRUE;
+    }
+    INT32 nProxyPort = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
+    ERROR_RETURN_FALSE(nProxyPort > 0);
+    std::string strProxyIp = CConfigFile::GetInstancePtr()->GetStringValue("proxy_svr_ip");
+    CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strProxyIp, nProxyPort);
+    ERROR_RETURN_FALSE(pConn != NULL);
+    m_nProxyConnID = pConn->GetConnectionID();
+    return TRUE;
 }
 
 BOOL CGameService::RegisterToLogicSvr()
 {
-	SvrRegToSvrReq Req;
-	Req.set_serverid(m_dwServerID);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLogicConnID, MSG_GAME_REGTO_LOGIC_REQ, 0, 0, Req);
+    SvrRegToSvrReq Req;
+    Req.set_serverid(m_nServerID);
+    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nLogicConnID, MSG_GAME_REGTO_LOGIC_REQ, 0, 0, Req);
 }
 
 BOOL CGameService::RegisterToProxySvr()
 {
-	SvrRegToSvrReq Req;
-	Req.set_serverid(m_dwServerID);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, MSG_GASVR_REGTO_PROXY_REQ, 0, 0, Req);
+    SvrRegToSvrReq Req;
+    Req.set_serverid(m_nServerID);
+    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nProxyConnID, MSG_GASVR_REGTO_PROXY_REQ, 0, 0, Req);
 }
 
 UINT32 CGameService::GetServerID()
 {
-	return m_dwServerID;
+    return m_nServerID;
 }
 
 BOOL CGameService::OnMsgDefautReq(NetPacket* pNetPacket)
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::OnMsgRegToProxyAck(NetPacket* pNetPacket)
 {
-	SvrRegToSvrAck Ack;
+    SvrRegToSvrAck Ack;
 
-	Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    Ack.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {
-	CHAR szMsgBuf[1024] = { 0 };
-	strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    CHAR szMsgBuf[1024] = { 0 };
+    strncpy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
-	HttpParameter Params;
-	Params.ParseStringToMap(szMsgBuf);
-	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogInfo("Web Action :%s", strAction.c_str());
+    HttpParameter Params;
+    Params.ParseStringToMap(szMsgBuf);
+    std::string strAction = Params.GetStrValue("Action");
+    CLog::GetInstancePtr()->LogInfo("Web Action :%s", strAction.c_str());
 
-	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
-	switch (eWebAction)
-	{
-		case EWA_RELOAD_TABLE:
-		{
-			std::string strName = Params.GetStrValue("TableName");
-			CStaticData::GetInstancePtr()->ReloadConfigData(strName);
-		}
-		break;
-	}
+    EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
+    switch (eWebAction)
+    {
+        case EWA_RELOAD_TABLE:
+        {
+            std::string strName = Params.GetStrValue("TableName");
+            CStaticData::GetInstancePtr()->ReloadConfigData(strName);
+        }
+        break;
+    }
 
-	return TRUE;
+    return TRUE;
 }

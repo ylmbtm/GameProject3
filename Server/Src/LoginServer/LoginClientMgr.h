@@ -5,49 +5,49 @@
 
 enum EClientStatue
 {
-	ECS_NONE            = 0,   //未知
-	ECS_VER_CHECKED     = 1,   //己验证版本
-	ECS_PSD_CHECKED     = 2,   //账号密码验证通过
+    ECS_NONE            = 0,   //未知
+    ECS_VER_CHECKED     = 1,   //己验证版本
+    ECS_PSD_CHECKED     = 2,   //账号密码验证通过
 };
 
 class  CLoginClient
 {
 public:
-	CLoginClient();
+    CLoginClient();
 
-	~CLoginClient();
+    ~CLoginClient();
 
 public:
-	VOID	SetConnID(UINT32 dwConnID);
+    VOID    SetConnID(INT32 nConnID);
 
-	UINT32  GetConnID();
+    INT32   GetConnID();
 
-	EClientStatue GetClientStatue();
+    EClientStatue GetClientStatue();
 public:
 
-	UINT32          m_dwConnID;
+    INT32          m_nConnID;
 
-	EClientStatue  m_ClientStatue;
+    EClientStatue  m_ClientStatue;
 };
 
 class CLoginClientMgr : public AVLTree<UINT32, CLoginClient>
 {
 private:
-	CLoginClientMgr(void);
-	~CLoginClientMgr(void);
+    CLoginClientMgr(void);
+    ~CLoginClientMgr(void);
 
 public:
-	static CLoginClientMgr* GetInstancePtr();
+    static CLoginClientMgr* GetInstancePtr();
 
-	CLoginClient*	GetByConnID(UINT32 dwConnID);
+    CLoginClient*   GetByConnID(INT32 nConnID);
 
-	BOOL			RemoveByConnID(UINT32 dwConnID);
+    BOOL            RemoveByConnID(INT32 nConnID);
 
-	CLoginClient*   CreateLoginClient(UINT32 dwConnID);
+    CLoginClient*   CreateLoginClient(INT32 nConnID);
 
-	BOOL            CheckClientMessage(UINT32 dwConnID, UINT32 dwMsgID);
+    BOOL            CheckClientMessage(INT32 nConnID, INT32 nMsgID);
 
-	BOOL            OnCloseConnect(UINT32 dwConnID);
+    BOOL            OnCloseConnect(INT32 nConnID);
 };
 
 #endif /*__LOGIN_CLIENT_MGR_H__*/

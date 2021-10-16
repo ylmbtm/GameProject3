@@ -65,14 +65,14 @@ BOOL CGameService::Init()
 }
 
 
-BOOL CGameService::OnNewConnect(UINT32 nConnID)
+BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
 	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
 
 	return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(UINT32 nConnID)
+BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
 	CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
 

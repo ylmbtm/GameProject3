@@ -108,13 +108,13 @@ BOOL CWatcherClient::StopServer()
     return TRUE;
 }
 
-BOOL CWatcherClient::OnNewConnect(UINT32 nConnID)
+BOOL CWatcherClient::OnNewConnect(INT32 nConnID)
 {
 
     return TRUE;
 }
 
-BOOL CWatcherClient::OnCloseConnect(UINT32 nConnID)
+BOOL CWatcherClient::OnCloseConnect(INT32 nConnID)
 {
     return TRUE;
 }

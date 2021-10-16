@@ -29,7 +29,7 @@ BOOL CDBWriterManager::Init()
 		m_dwSaveTime = 30;
 	}
 
-	UINT32 nAreaID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
+	INT32 nAreaID = CConfigFile::GetInstancePtr()->GetIntValue("areaid");
 	ERROR_RETURN_FALSE(nAreaID > 0);
 
 	m_vtDataWriters.assign(ESD_END, NULL);
@@ -66,7 +66,7 @@ BOOL CDBWriterManager::Init()
 	}
 
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+	INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");
@@ -98,7 +98,7 @@ BOOL CDBWriterManager::Uninit()
 BOOL CDBWriterManager::WriteDataToDB()
 {
 	BOOL bHasWrite = FALSE;
-	UINT32 nErrorCount = 0;
+	INT32 nErrorCount = 0;
 	for (int i = ESD_BEGIN + 1; i < ESD_END; i++)
 	{
 		ERROR_TO_CONTINUE(m_vtDataWriters[i] != NULL);
@@ -123,7 +123,7 @@ BOOL CDBWriterManager::IsStop()
 
 BOOL CDBWriterManager::Update()
 {
-	static UINT32 nLastErrorCount = 0;
+	static INT32 nLastErrorCount = 0;
 
 	if (nLastErrorCount == m_nCurErrorCount)
 	{

@@ -224,7 +224,7 @@ BOOL CGemModule::OnMsgSetupGemReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nRetCode = DressGem(Req.gemguid(), Req.bagguid(), Req.targetpos());
+	INT32 nRetCode = DressGem(Req.gemguid(), Req.bagguid(), Req.targetpos());
 	if (nRetCode != MRC_SUCCESSED)
 	{
 		SetupGemAck Ack;
@@ -241,7 +241,7 @@ BOOL CGemModule::OnMsgUnsetGemReq(NetPacket* pNetPacket)
 	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	UINT32 nRetCode = UnDressGem(Req.gemguid());
+	INT32 nRetCode = UnDressGem(Req.gemguid());
 	if (nRetCode != MRC_SUCCESSED)
 	{
 		UnsetEquipAck Ack;

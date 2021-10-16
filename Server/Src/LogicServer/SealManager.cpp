@@ -49,7 +49,7 @@ BOOL CSealManager::LoadData(CppMySQL3DB& tDBConnection)
     return TRUE;
 }
 
-BOOL CSealManager::SealRole(UINT64 uRoleID, UINT64 uSealTime, UINT32 nSealAction, UINT32 nSealReason)
+BOOL CSealManager::SealRole(UINT64 uRoleID, UINT64 uSealTime, INT32 nSealAction, INT32 nSealReason)
 {
     SealDataObject* pSealData = GetSealData(uRoleID);
     if (pSealData == NULL)
@@ -95,7 +95,7 @@ BOOL CSealManager::UnSealRole(UINT64 uRoleID)
     return TRUE;
 }
 
-BOOL CSealManager::IsSealRole(UINT64 uRoleID, UINT32 nSealAction)
+BOOL CSealManager::IsSealRole(UINT64 uRoleID, INT32 nSealAction)
 {
     SealDataObject* pSealObject = GetSealData(uRoleID);
     if (pSealObject == NULL)

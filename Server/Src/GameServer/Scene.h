@@ -36,7 +36,7 @@ public:
 
 	BOOL            BroadNewObject(CSceneObject* pSceneObject);
 
-	BOOL            BroadMessage(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL            BroadMessage(INT32 nMsgID, const google::protobuf::Message& pdata);
 
 	BOOL            BroadRemoveObject(CSceneObject* pSceneObject);
 
@@ -127,7 +127,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//伤害效果
 	HitEffectNtf    m_HitEffectNtf;
-	BOOL            AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit, UINT32 nHitActionID, UINT32 nHitEffectID, FLOAT fHitDistance);
+	BOOL            AddHitEffect(UINT64 uAttackerID, UINT64 uTargetID, INT32 nHurtValue, BOOL bCritHit, INT32 nHitActionID, INT32 nHitEffectID, FLOAT fHitDistance);
 	BOOL            BroadHitEffect();
 
 	//////////////////////////////////////////////////////////////////////////

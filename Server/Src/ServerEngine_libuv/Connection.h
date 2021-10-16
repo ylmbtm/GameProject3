@@ -20,7 +20,7 @@ public:
 
     UINT64  GetConnectionData();
 
-    VOID    SetConnectionID(UINT32 dwConnID);
+    VOID    SetConnectionID(INT32 nConnID);
 
     VOID    SetConnectionData(UINT64 dwData);
 
@@ -64,7 +64,7 @@ public:
 
     BOOL                        m_bConnected;
 
-    UINT32                      m_dwConnID;
+    UINT32                      m_nConnID;
     UINT64                      m_uConnData;
 
     IDataHandler*               m_pDataHandler;
@@ -104,15 +104,15 @@ public:
     static CConnectionMgr* GetInstancePtr();
 
 public:
-    BOOL            InitConnectionList(UINT32 nMaxCons);
+    BOOL            InitConnectionList(INT32 nMaxCons);
 
     CConnection*    CreateConnection();
 
     BOOL            DeleteConnection(CConnection* pConnection);
 
-    BOOL            DeleteConnection(UINT32 nConnID);
+    BOOL            DeleteConnection(INT32 nConnID);
 
-    CConnection*    GetConnectionByID(UINT32 dwConnID);
+    CConnection*    GetConnectionByID(INT32 nConnID);
 
     ///////////////////////////////////////////
     BOOL            CloseAllConnection();

@@ -83,7 +83,7 @@ BOOL CPlayerManager::ReleasePlayer( UINT64 u64RoleID )
     return Delete(u64RoleID);
 }
 
-BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CPlayerManager::BroadMessageToAll(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
     char szBuff[10240] = { 0 };
     ERROR_RETURN_FALSE(pdata.ByteSize() < 10240);
@@ -91,7 +91,7 @@ BOOL CPlayerManager::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::M
 
     BroadMessageNotify Nty;
     Nty.set_msgdata(szBuff, pdata.ByteSize());
-    Nty.set_msgid(dwMsgID);
+    Nty.set_msgid(nMsgID);
 
     TNodeTypePtr pNode = MoveFirst();
     ERROR_RETURN_FALSE(pNode != NULL);

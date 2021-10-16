@@ -76,7 +76,7 @@ BOOL CDBMsgHandler::AddPacket(NetPacket* pNetPacket)
 
 BOOL CDBMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
+	switch(pNetPacket->m_nMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LIST_REQ,			OnMsgRoleListReq);
 			PROCESS_MESSAGE_ITEM(MSG_ROLE_LOGIN_REQ,		OnMsgRoleLoginReq);
@@ -101,7 +101,7 @@ BOOL CDBMsgHandler::OnMsgRoleListReq(NetPacket* pPacket)
 
 	RoleListAck Ack;
 	m_DBManager.GetRoleList(Req.accountid(), Ack);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID,  MSG_ROLE_LIST_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 }
 
 BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
@@ -119,7 +119,7 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 	{
 		Ack.set_retcode(MRC_INVALID_ROLEID);
 		Ack.set_roleid(Req.roleid());
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID, MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
@@ -136,7 +136,7 @@ BOOL CDBMsgHandler::OnMsgRoleLoginReq(NetPacket* pPacket)
 	m_DBManager.GetCounterData(Req.roleid(),	Ack);
 	m_DBManager.GetFriendData(Req.roleid(),		Ack);
 	m_DBManager.GetSkillData(Req.roleid(),		Ack);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID,  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID,  MSG_ROLE_LOGIN_ACK, pHeader->u64TargetID, pHeader->dwUserData, Ack);
 
 	return TRUE;
 }
@@ -165,7 +165,7 @@ BOOL CDBMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 
 	LogicRegToDbSvrAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_dwConnID, MSG_LOGIC_REGTO_DBSVR_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID, MSG_LOGIC_REGTO_DBSVR_ACK, 0, 0, Ack);
 
 	return TRUE;
 }

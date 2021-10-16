@@ -20,7 +20,7 @@ CAccountObjectMgr::~CAccountObjectMgr()
 BOOL CAccountObjectMgr::LoadCacheAccount()
 {
     std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
-    UINT32 nPort        = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
+    INT32 nPort        = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
     std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
     std::string strPwd  = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
     std::string strDb   = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
@@ -47,8 +47,8 @@ BOOL CAccountObjectMgr::LoadCacheAccount()
         pTempObject->m_strPassword    = QueryResult.getStringField("password");
         pTempObject->m_uCreateTime    = CommonFunc::DateStringToTime(QueryResult.getStringField("create_time"));
         pTempObject->m_uSealTime      = CommonFunc::DateStringToTime(QueryResult.getStringField("seal_end_time"));
-        pTempObject->m_dwLastSvrID[0] = QueryResult.getIntField("lastsvrid1");
-        pTempObject->m_dwLastSvrID[1] = QueryResult.getIntField("lastsvrid2");
+        pTempObject->m_nLastSvrID[0] = QueryResult.getIntField("lastsvrid1");
+        pTempObject->m_nLastSvrID[1] = QueryResult.getIntField("lastsvrid2");
         if(m_u64MaxID < (UINT64)QueryResult.getInt64Field("id"))
         {
             m_u64MaxID = (UINT64)QueryResult.getInt64Field("id");
@@ -67,7 +67,7 @@ CAccountObject* CAccountObjectMgr::GetAccountObjectByID( UINT64 AccountID )
     return GetByKey(AccountID);
 }
 
-CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strName, const std::string& strPwd, UINT32 dwChannel)
+CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strName, const std::string& strPwd, INT32 nChannel)
 {
     m_u64MaxID += 1;
 
@@ -77,7 +77,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strNam
     pObj->m_strName         = strName;
     pObj->m_strPassword     = strPwd;
     pObj->m_ID              = m_u64MaxID;
-    pObj->m_dwChannel       = dwChannel;
+    pObj->m_nChannel       = nChannel;
     pObj->m_nLoginCount     = 1;
     pObj->m_uCreateTime     = CommonFunc::GetCurrTime();
 
@@ -87,7 +87,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strNam
     }
     else
     {
-        m_mapNameObj.insert(std::make_pair(strName + CommonConvert::IntToString(dwChannel), pObj));
+        m_mapNameObj.insert(std::make_pair(strName + CommonConvert::IntToString(nChannel), pObj));
     }
 
     m_ArrChangedAccount.push(pObj);
@@ -100,12 +100,12 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
     return Delete(AccountID);
 }
 
-BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strName, UINT32 dwChannel, BOOL bSeal, UINT32 dwSealTime, UINT32& dwLastSvrID)
+BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strName, INT32 nChannel, BOOL bSeal, UINT32 dwSealTime, UINT32& dwLastSvrID)
 {
     CAccountObject* pAccObj = NULL;
     if (uAccountID == 0)
     {
-        pAccObj = GetAccountObject(strName, dwChannel);
+        pAccObj = GetAccountObject(strName, nChannel);
     }
     else
     {
@@ -122,7 +122,7 @@ BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strNa
     {
         pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + dwSealTime;
         uAccountID = pAccObj->m_ID;
-        dwLastSvrID = pAccObj->m_dwLastSvrID[0];
+        dwLastSvrID = pAccObj->m_nLastSvrID[0];
     }
     else
     {
@@ -141,26 +141,26 @@ BOOL CAccountObjectMgr::SetLastServer(UINT64 uAccountID, INT32 ServerID)
     CAccountObject* pAccObj = GetAccountObjectByID(uAccountID);
     ERROR_RETURN_FALSE(pAccObj != NULL);
 
-    if (pAccObj->m_dwLastSvrID[0] == ServerID)
+    if (pAccObj->m_nLastSvrID[0] == ServerID)
     {
         return TRUE;
     }
 
-    pAccObj->m_dwLastSvrID[1] = pAccObj->m_dwLastSvrID[0];
-    pAccObj->m_dwLastSvrID[0] = ServerID;
+    pAccObj->m_nLastSvrID[1] = pAccObj->m_nLastSvrID[0];
+    pAccObj->m_nLastSvrID[0] = ServerID;
     m_ArrChangedAccount.push(pAccObj);
 
     return TRUE;
 }
 
-CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 uAccountID, const CHAR* pStrName, UINT32 dwChannel)
+CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 uAccountID, const CHAR* pStrName, INT32 nChannel)
 {
     CAccountObject* pObj = InsertAlloc(uAccountID);
     ERROR_RETURN_NULL(pObj != NULL);
 
     pObj->m_strName     = pStrName;
     pObj->m_ID          = uAccountID;
-    pObj->m_dwChannel   = dwChannel;
+    pObj->m_nChannel   = nChannel;
 
     if (m_bCrossChannel)
     {
@@ -168,7 +168,7 @@ CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 uAccountID, const CHA
     }
     else
     {
-        m_mapNameObj.insert(std::make_pair(pObj->m_strName + CommonConvert::IntToString(dwChannel), pObj));
+        m_mapNameObj.insert(std::make_pair(pObj->m_strName + CommonConvert::IntToString(nChannel), pObj));
     }
 
     return pObj;
@@ -177,7 +177,7 @@ CAccountObject* CAccountObjectMgr::AddAccountObject(UINT64 uAccountID, const CHA
 BOOL CAccountObjectMgr::SaveAccountThread()
 {
     std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
-    UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
+    INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
     std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
     std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
     std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
@@ -219,7 +219,7 @@ BOOL CAccountObjectMgr::SaveAccountThread()
         while (m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
         {
             snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid1, lastsvrid2, channel, create_time, seal_end_time) values('%lld','%s','%s','%d','%d', '%d', '%s','%s')",
-                     pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_dwLastSvrID[0], pAccount->m_dwLastSvrID[1], pAccount->m_dwChannel, CommonFunc::TimeToString(pAccount->m_uCreateTime).c_str(), CommonFunc::TimeToString(pAccount->m_uSealTime).c_str());
+                     pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_nLastSvrID[0], pAccount->m_nLastSvrID[1], pAccount->m_nChannel, CommonFunc::TimeToString(pAccount->m_uCreateTime).c_str(), CommonFunc::TimeToString(pAccount->m_uSealTime).c_str());
 
             if (tDBConnection.execSQL(szSql) > 0)
             {
@@ -297,7 +297,7 @@ BOOL CAccountObjectMgr::CheckAccountName(const std::string& strName, bool bFromC
     return TRUE;
 }
 
-CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, UINT32 dwChannel )
+CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, INT32 nChannel )
 {
     if (m_bCrossChannel)
     {
@@ -309,7 +309,7 @@ CAccountObject* CAccountObjectMgr::GetAccountObject(const std::string& name, UIN
     }
     else
     {
-        auto itor = m_mapNameObj.find(name + CommonConvert::IntToString(dwChannel));
+        auto itor = m_mapNameObj.find(name + CommonConvert::IntToString(nChannel));
         if (itor != m_mapNameObj.end())
         {
             return itor->second;

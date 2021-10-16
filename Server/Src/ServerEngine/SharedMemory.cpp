@@ -200,7 +200,7 @@ void SharedMemoryBase::ImportOtherPage()
 *@param count  T的个数
 *@param noCreate 不允许创建
 */
-SharedMemoryBase::SharedMemoryBase(const UINT32& nModuleID, INT32 rawblockSize, INT32 nCountperPage, BOOL noCreate/*=false*/)
+SharedMemoryBase::SharedMemoryBase(INT32 nModuleID, INT32 rawblockSize, INT32 nCountperPage, BOOL noCreate)
     : m_rawblockSize(rawblockSize), m_nCountperPage(nCountperPage), m_nSpace(rawblockSize + sizeof(_SMBlock)), m_nModuleID(nModuleID)
 
 {

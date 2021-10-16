@@ -48,7 +48,7 @@ public:
 
     UINT64  GetConnectionData();
 
-    VOID    SetConnectionID(UINT32 dwConnID);
+    VOID    SetConnectionID(INT32 nConnID);
 
     VOID    SetConnectionData(UINT64 uData);
 
@@ -99,7 +99,7 @@ public:
 
     NetIoOperatorData           m_IoOverLapPost;
 
-    UINT32                      m_dwConnID;
+    INT32                       m_nConnID;
     UINT64                      m_uConnData;
 
     IDataHandler*               m_pDataHandler;
@@ -112,7 +112,7 @@ public:
 
     IDataBuffer*                m_pCurRecvBuffer;
     INT32                       m_nCurBufferSize;
-    UINT32                      m_nCheckNo;
+    INT32                       m_nCheckNo;
 
     volatile BOOL               m_IsSending;
 
@@ -145,9 +145,9 @@ public:
 
     CConnection*    CreateConnection();
 
-    BOOL            DeleteConnection(UINT32 dwConnID);
+    BOOL            DeleteConnection(INT32 nConnID);
 
-    CConnection*    GetConnectionByID(UINT32 dwConnID);
+    CConnection*    GetConnectionByID(INT32 nConnID);
 
     ///////////////////////////////////////////
     BOOL            CloseAllConnection();

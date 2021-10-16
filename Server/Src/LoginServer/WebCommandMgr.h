@@ -17,7 +17,7 @@ public:
 
 	BOOL   Uninit();
 
-	BOOL SendWebResult(UINT32 nConnID, EWebResult eResult);
+	BOOL SendWebResult(INT32 nConnID, EWebResult eResult);
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
@@ -26,8 +26,8 @@ public:
 
 public:
 	//*********************WebAction处理定义开始******************************
-	void OnGmSealAccount(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmServerChange(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmSealAccount(HttpParameter& hParams, INT32 nConnID);
+	void OnGmServerChange(HttpParameter& hParams, INT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 };
 #endif

@@ -5,7 +5,7 @@
 
 struct StMailItem
 {
-	StMailItem(UINT32 nID = 0, UINT32 nNum = 0)
+	StMailItem(INT32 nID = 0, INT32 nNum = 0)
 	{
 		m_nItemID = nID;
 		m_nItemNum = nNum;
@@ -21,7 +21,7 @@ struct GroupMailDataObject : public ShareObject
 		m_uGuid = 0;
 		m_uTime = 0;
 		m_dwMailType = 0;
-		m_dwChannel = 0;
+		m_nChannel = 0;
 		memset(m_szTitle, 0, sizeof(CHAR) * MAIL_TITLE_LEN);
 		memset(m_szContent, 0, sizeof(CHAR) * MAIL_CONTENT_LEN);
 		memset(m_Items, 0, sizeof(StMailItem) * MAIL_ITEM_COUNT);
@@ -33,7 +33,7 @@ struct GroupMailDataObject : public ShareObject
 	CHAR   m_szSender[ROLE_NAME_LEN];		//发送者名字
 	UINT64 m_uTime;							//邮件时间
 	UINT32 m_dwMailType;					//邮件类型
-	UINT32 m_dwChannel;						//目标渠道
+	UINT32 m_nChannel;						//目标渠道
 	StMailItem m_Items[MAIL_ITEM_COUNT];	//道具列表
 
 	BOOL Create(IDBInterface* pDB)
@@ -46,7 +46,7 @@ struct GroupMailDataObject : public ShareObject
 		csp.set_string(3, m_szSender, strlen(m_szSender));
 		csp.set_uint64(4, m_uTime);
 		csp.set_uint32(5, m_dwMailType);
-		csp.set_uint32(6, m_dwChannel);
+		csp.set_uint32(6, m_nChannel);
 		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
 		return pDB->Execute(&csp);
 	}
@@ -61,7 +61,7 @@ struct GroupMailDataObject : public ShareObject
 		csp.set_string(3, m_szSender, strlen(m_szSender));
 		csp.set_uint64(4, m_uTime);
 		csp.set_uint32(5, m_dwMailType);
-		csp.set_uint32(6, m_dwChannel);
+		csp.set_uint32(6, m_nChannel);
 		csp.set_tinyblob(7, m_Items, sizeof(StMailItem)*MAIL_ITEM_COUNT);
 		return pDB->Execute(&csp);
 	}

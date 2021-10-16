@@ -454,7 +454,7 @@ BOOL CStaticData::ReadAwardData(CppSQLite3Query& QueryData)
 			std::vector<std::string> vtRet;
 			CommonConvert::SpliteString(strFixDrop, ")(", vtRet);
 
-			UINT32 nCheckRatio = 0;
+			INT32 nCheckRatio = 0;
 
 			StDropItem item;
 			for(std::vector<std::string>::size_type i = 0; i < vtRet.size(); i++)

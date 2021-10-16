@@ -6,177 +6,177 @@
 #include "WatcherClient.h"
 CGameService::CGameService(void)
 {
-	m_dwLogicConnID = 0;
-	m_dwLogicProcessID = 0;
+    m_nLogicConnID = 0;
+    m_dwLogicProcessID = 0;
 }
 
 CGameService::~CGameService(void)
 {
-	m_dwLogicConnID = 0;
-	m_dwLogicProcessID = 0;
+    m_nLogicConnID = 0;
+    m_dwLogicProcessID = 0;
 }
 
 CGameService* CGameService::GetInstancePtr()
 {
-	static CGameService _GameService;
+    static CGameService _GameService;
 
-	return &_GameService;
+    return &_GameService;
 }
 
 BOOL CGameService::Init()
 {
-	CommonFunc::SetCurrentWorkDir("");
+    CommonFunc::SetCurrentWorkDir("");
 
-	if(!CLog::GetInstancePtr()->Start("DBServer", "log"))
-	{
-		return FALSE;
-	}
+    if(!CLog::GetInstancePtr()->Start("DBServer", "log"))
+    {
+        return FALSE;
+    }
 
-	CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-----------");
+    CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-----------");
 
-	if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
-	{
-		CLog::GetInstancePtr()->LogError("配制文件加载失败!");
-		return FALSE;
-	}
+    if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
+    {
+        CLog::GetInstancePtr()->LogError("配制文件加载失败!");
+        return FALSE;
+    }
 
-	if (CommonFunc::IsAlreadyRun("DBServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
-	{
-		CLog::GetInstancePtr()->LogError("DBServer己经在运行!");
-		return FALSE;
-	}
+    if (CommonFunc::IsAlreadyRun("DBServer" + CConfigFile::GetInstancePtr()->GetStringValue("areaid")))
+    {
+        CLog::GetInstancePtr()->LogError("DBServer己经在运行!");
+        return FALSE;
+    }
 
-	CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("db_log_level"));
+    CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("db_log_level"));
 
-	UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("db_svr_port");
-	if (nPort <= 0)
-	{
-		CLog::GetInstancePtr()->LogError("配制文件db_svr_port配制错误!");
-		return FALSE;
-	}
+    UINT16 nPort = CConfigFile::GetInstancePtr()->GetRealNetPort("db_svr_port");
+    if (nPort <= 0)
+    {
+        CLog::GetInstancePtr()->LogError("配制文件db_svr_port配制错误!");
+        return FALSE;
+    }
 
-	INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_max_con");
-	if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
-	{
-		CLog::GetInstancePtr()->LogError("启动服务失败!");
-		return FALSE;
-	}
+    INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_max_con");
+    if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
+    {
+        CLog::GetInstancePtr()->LogError("启动服务失败!");
+        return FALSE;
+    }
 
-	ERROR_RETURN_FALSE(m_DBMsgHandler.Init(0));
+    ERROR_RETURN_FALSE(m_DBMsgHandler.Init(0));
 
-	ERROR_RETURN_FALSE(m_DBWriterManger.Init());
+    ERROR_RETURN_FALSE(m_DBWriterManger.Init());
 
-	CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(UINT32 nConnID)
+BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
-	CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
+    CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
 
-	return TRUE;
+    return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(UINT32 nConnID)
+BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
-	CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
+    CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::OnSecondTimer()
 {
-	CWatcherClient::GetInstancePtr()->OnSecondTimer();
+    CWatcherClient::GetInstancePtr()->OnSecondTimer();
 
-	CheckLogicServer();
+    CheckLogicServer();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 {
-	if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
+    if (CWatcherClient::GetInstancePtr()->DispatchPacket(pNetPacket))
+    {
+        return TRUE;
+    }
 
-	if (m_DBMsgHandler.DispatchPacket(pNetPacket))
-	{
-		return TRUE;
-	}
+    if (m_DBMsgHandler.DispatchPacket(pNetPacket))
+    {
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
-BOOL CGameService::SetLogicConnID(UINT32 dwConnID)
+BOOL CGameService::SetLogicConnID(INT32 nConnID)
 {
-	m_dwLogicConnID = dwConnID;
+    m_nLogicConnID = nConnID;
 
-	return TRUE;
+    return TRUE;
 }
 
 UINT32 CGameService::GetLogicConnID()
 {
-	return m_dwLogicConnID;
+    return m_nLogicConnID;
 }
 
 BOOL CGameService::SetLogicProcessID(UINT32 dwProcesssID)
 {
-	m_dwLogicProcessID = dwProcesssID;
+    m_dwLogicProcessID = dwProcesssID;
 
-	return TRUE;
+    return TRUE;
 }
 
 UINT32 CGameService::GetLogicProcessID()
 {
-	return m_dwLogicProcessID;
+    return m_dwLogicProcessID;
 }
 
 BOOL CGameService::CheckLogicServer()
 {
-	if (m_dwLogicProcessID <= 0)
-	{
-		return TRUE;
-	}
+    if (m_dwLogicProcessID <= 0)
+    {
+        return TRUE;
+    }
 
-	if (CommonFunc::IsProcessExist(m_dwLogicProcessID))
-	{
-		return TRUE;
-	}
+    if (CommonFunc::IsProcessExist(m_dwLogicProcessID))
+    {
+        return TRUE;
+    }
 
-	CWatcherClient::GetInstancePtr()->StopServer();
+    CWatcherClient::GetInstancePtr()->StopServer();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::Uninit()
 {
-	CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
+    CLog::GetInstancePtr()->LogError("==========服务器开始关闭=======================");
 
-	ServiceBase::GetInstancePtr()->StopNetwork();
+    ServiceBase::GetInstancePtr()->StopNetwork();
 
-	m_DBMsgHandler.Uninit();
-	m_DBWriterManger.Uninit();
+    m_DBMsgHandler.Uninit();
+    m_DBWriterManger.Uninit();
 
-	google::protobuf::ShutdownProtobufLibrary();
+    google::protobuf::ShutdownProtobufLibrary();
 
-	CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
+    CLog::GetInstancePtr()->LogError("==========服务器关闭完成=======================");
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CGameService::Run()
 {
-	while (CWatcherClient::GetInstancePtr()->IsRun())
-	{
-		ServiceBase::GetInstancePtr()->Update();
+    while (CWatcherClient::GetInstancePtr()->IsRun())
+    {
+        ServiceBase::GetInstancePtr()->Update();
 
-		m_DBWriterManger.Update();
+        m_DBWriterManger.Update();
 
-		ServiceBase::GetInstancePtr()->FixFrameNum(200);
-	}
+        ServiceBase::GetInstancePtr()->FixFrameNum(200);
+    }
 
-	return TRUE;
+    return TRUE;
 }
 

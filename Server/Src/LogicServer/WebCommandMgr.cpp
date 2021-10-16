@@ -43,7 +43,7 @@ BOOL CWebCommandMgr::Uninit()
 	return TRUE;
 }
 
-BOOL CWebCommandMgr::SendWebResult(UINT32 nConnID, EWebResult eResult)
+BOOL CWebCommandMgr::SendWebResult(INT32 nConnID, EWebResult eResult)
 {
 	std::string strResult = CommonConvert::IntToString((INT64)eResult);
 
@@ -54,7 +54,7 @@ BOOL CWebCommandMgr::SendWebResult(UINT32 nConnID, EWebResult eResult)
 
 BOOL CWebCommandMgr::DispatchPacket(NetPacket* pNetPacket)
 {
-	if (MSG_PHP_GM_COMMAND_REQ == pNetPacket->m_dwMsgID)
+	if (MSG_PHP_GM_COMMAND_REQ == pNetPacket->m_nMsgID)
 	{
 		OnMsgGmCommandReq(pNetPacket);
 
@@ -97,43 +97,43 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 		case EWA_RELOAD_TABLE:
 		{
 			CGameSvrMgr::GetInstancePtr()->BroadMsgToAll(MSG_PHP_GM_COMMAND_REQ, szMsgBuf, pNetPacket->m_pDataBuffer->GetBodyLenth());
-			OnGmReloadTable(Params, pNetPacket->m_dwConnID);
+			OnGmReloadTable(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_SEAL_ROLE:
 		{
-			OnGmSealRole(Params, pNetPacket->m_dwConnID);
+			OnGmSealRole(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_SINGLE_MAIL:           //单发邮件
 		{
-			OnGmSingleMail(Params, pNetPacket->m_dwConnID);
+			OnGmSingleMail(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_GROUP_MAIL:           //群发邮件
 		{
-			OnGmGroupMail(Params, pNetPacket->m_dwConnID);
+			OnGmGroupMail(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_DELTE_MAIL:           //删除邮件
 		{
-			OnGmDeleteMail(Params, pNetPacket->m_dwConnID);
+			OnGmDeleteMail(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_GM_COMMAND:           //后台发的GM指令
 		{
-			OnGmCommand(Params, pNetPacket->m_dwConnID);
+			OnGmCommand(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		case EWA_PAY_CALLBACK:
 		{
-			SendWebResult(pNetPacket->m_dwConnID, EWR_SUCCESSED);
-			CPayManager::GetInstancePtr()->OnGmPayCallBack(Params, pNetPacket->m_dwConnID);
+			SendWebResult(pNetPacket->m_nConnID, EWR_SUCCESSED);
+			CPayManager::GetInstancePtr()->OnGmPayCallBack(Params, pNetPacket->m_nConnID);
 		}
 		break;
 		default:
 		{
-			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
+			SendWebResult(pNetPacket->m_nConnID, EWR_INVALID_ACT);
 		}
 		break;
 	}
@@ -141,7 +141,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	return TRUE;
 }
 
-void CWebCommandMgr::OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmReloadTable(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 
@@ -161,7 +161,7 @@ void CWebCommandMgr::OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmSealRole(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmSealRole(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 
@@ -185,7 +185,7 @@ void CWebCommandMgr::OnGmSealRole(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
@@ -243,7 +243,7 @@ void CWebCommandMgr::OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
@@ -288,12 +288,12 @@ void CWebCommandMgr::OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmDeleteMail(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmDeleteMail(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SendWebResult(nConnID, EWR_SUCCESSED);
 	UINT64 uRoleID = hParams.GetLongValue("roleid");
-	UINT32 nMailType = hParams.GetIntValue("mailtype");
+	INT32 nMailType = hParams.GetIntValue("mailtype");
 	UINT64 uMailGuid = hParams.GetLongValue("mailguid");
 
 	if (nMailType == 1) //群发邮件
@@ -315,7 +315,7 @@ void CWebCommandMgr::OnGmDeleteMail(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmCommand(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmCommand(HttpParameter& hParams, INT32 nConnID)
 {
 	std::string strRoleName = hParams.GetStrValue("role_name");
 

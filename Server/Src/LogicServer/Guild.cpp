@@ -98,7 +98,7 @@ MemberDataObject* CGuild::AddGuildMember(UINT64 uRoleID)
 	return pMemberObject;
 }
 
-BOOL CGuild::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CGuild::BroadMessageToAll(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
 	for (auto itor = m_mapMemberData.begin(); itor != m_mapMemberData.end(); itor++)
 	{
@@ -113,7 +113,7 @@ BOOL CGuild::BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& 
 			continue;
 		}
 
-		pPlayer->SendMsgProtoBuf(dwMsgID, pdata);
+		pPlayer->SendMsgProtoBuf(nMsgID, pdata);
 	}
 
 	return TRUE;

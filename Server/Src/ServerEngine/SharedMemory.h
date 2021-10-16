@@ -86,9 +86,9 @@ struct shareMemoryPage
 class SharedMemoryBase
 {
 public:
-    SharedMemoryBase(const UINT32& nModuleID, INT32 rawblockSize, INT32 nCountPerPage, BOOL noCreate = false);
+    SharedMemoryBase(INT32 nModuleID, INT32 rawblockSize, INT32 nCountPerPage, BOOL noCreate = false);
 
-    SharedMemoryBase(UINT32 rawblockSize, char* pdata, INT32 len);
+    SharedMemoryBase(INT32 rawblockSize, char* pdata, INT32 len);
 
     virtual ~SharedMemoryBase();
 protected:
@@ -178,7 +178,7 @@ template<typename T>
 class SharedMemory : public SharedMemoryBase
 {
 public:
-    SharedMemory(const UINT32& nModuleID, INT32 nCountPerPage, BOOL noCreate = false)
+    SharedMemory(INT32 nModuleID, INT32 nCountPerPage, BOOL noCreate = false)
         : SharedMemoryBase(nModuleID, sizeof(T), nCountPerPage, noCreate)
     {
 
@@ -227,13 +227,14 @@ public:
 template <typename T> class DataWriter : public DataWriterBase
 {
 public:
-    DataWriter(const UINT32& nModuleID, INT32 nCount)
+    DataWriter(INT32 nModuleID, INT32 nCount)
     {
         m_MemoryPool = NULL;
         m_nModuleID = nModuleID;
         m_nCount = nCount;
         m_nErrorCount = 0;
     }
+
     ~DataWriter()
     {
         delete m_MemoryPool;

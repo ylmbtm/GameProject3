@@ -39,9 +39,9 @@ public:
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+	BOOL		OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+	BOOL		OnCloseConnect(INT32 nConnID);
 
 	BOOL		OnSecondTimer();
 public:
@@ -52,14 +52,14 @@ public:
 
 public:
 	//*********************WebAction处理定义开始******************************
-	void OnGmServerStart(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmServerStop(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmServerUpdate(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmServerInfo(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmServerStart(HttpParameter& hParams, INT32 nConnID);
+	void OnGmServerStop(HttpParameter& hParams, INT32 nConnID);
+	void OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID);
+	void OnGmServerInfo(HttpParameter& hParams, INT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 
 protected:
-	BOOL CheckProcessStatus(UINT32 nIndex);
+	BOOL CheckProcessStatus(INT32 nIndex);
 
 	BOOL StartProcess(ServerProcessInfo& processData, INT32 nIndex);
 
@@ -83,7 +83,7 @@ protected:
 
 	BOOL CanStopServer();
 
-	BOOL SendWebResult(UINT32 nConnID, EWebResult eResult);
+	BOOL SendWebResult(INT32 nConnID, EWebResult eResult);
 
 private:
 

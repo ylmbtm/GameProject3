@@ -22,7 +22,7 @@ public:
 
     BOOL                ReleasePlayer(UINT64 u64RoleID);
 
-    BOOL                BroadMessageToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+    BOOL                BroadMessageToAll(INT32 nMsgID, const google::protobuf::Message& pdata);
 
     BOOL                ZeroTimer(INT32 nParam);
 

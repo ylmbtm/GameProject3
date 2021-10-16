@@ -25,18 +25,18 @@ struct CodeReqNode
 		m_uAccountID    = 0;   //账号ID
 		m_uRoleID       = 0;   //角色ID
 		m_dwAreaID      = 0;   //区服ID
-		m_dwChannel     = 0;   //渠道号
+		m_nChannel     = 0;   //渠道号
 		m_dwResult      = 0;
-		m_dwConnID      = 0;
+		m_nConnID      = 0;
 	}
 
 	std::string m_strCode;      //礼包码
 	UINT64      m_uAccountID;   //账号ID
 	UINT64      m_uRoleID;      //角色ID
 	UINT32      m_dwAreaID;     //区服ID
-	UINT32      m_dwChannel;    //渠道号
+	UINT32      m_nChannel;    //渠道号
 	UINT32      m_dwResult;     //返回码
-	UINT32      m_dwConnID;     //连接ID
+	UINT32      m_nConnID;     //连接ID
 	UINT32      m_dwItemID[GIFT_AWARD_ITEM_NUM] = { 0 };
 	UINT32      m_dwItemNum[GIFT_AWARD_ITEM_NUM] = { 0 };
 };

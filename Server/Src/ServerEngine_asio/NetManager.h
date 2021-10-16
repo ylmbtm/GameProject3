@@ -23,13 +23,13 @@ public:
 		return &NetManager;
 	}
 public:
-	BOOL    Start(UINT16 nPortNum,  UINT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
+	BOOL    Start(UINT16 nPortNum,  INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
 
 	BOOL    Stop();
 
-	BOOL    SendMessageData(UINT32 dwConnID,  UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+	BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
 
-	BOOL    SendMessageBuff(UINT32 dwConnID, IDataBuffer* pBuffer);
+	BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 
 	BOOL    WaitForConnect();
 

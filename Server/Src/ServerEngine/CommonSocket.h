@@ -51,9 +51,9 @@ BOOL        SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize);
 
 std::string GetRemoteIP(SOCKET hSocket);
 
-UINT32      HostToNet(UINT32 nValue);
+UINT32      HostToNet(INT32 nValue);
 
-UINT32      NetToHost(UINT32 nValue);
+UINT32      NetToHost(INT32 nValue);
 
 VOID        IgnoreSignal();
 

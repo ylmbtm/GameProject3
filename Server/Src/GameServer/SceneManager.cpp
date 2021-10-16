@@ -68,7 +68,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
 	PacketHeader* pPacketHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_FALSE(pPacketHeader != NULL);
 
-	switch(pNetPacket->m_dwMsgID)
+	switch(pNetPacket->m_nMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_CREATE_SCENE_REQ,   OnMsgCreateSceneReq);
 	}
@@ -76,7 +76,7 @@ BOOL CSceneManager::DispatchPacket(NetPacket* pNetPacket)
 	CScene* pScene = GetSceneByCopyGuid(pPacketHeader->dwUserData);
 	if (pScene == NULL)
 	{
-		CLog::GetInstancePtr()->LogError("Error : Invalid CopyGuid:%d, MessageID:%d", pPacketHeader->dwUserData, pNetPacket->m_dwMsgID);
+		CLog::GetInstancePtr()->LogError("Error : Invalid CopyGuid:%d, MessageID:%d", pPacketHeader->dwUserData, pNetPacket->m_nMsgID);
 		return TRUE;
 	}
 
@@ -187,7 +187,7 @@ BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 		Ack.set_retcode(MRC_SUCCESSED);
 	}
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_CREATE_SCENE_ACK, 0, 0, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_CREATE_SCENE_ACK, 0, 0, Ack);
 
 	return TRUE;
 }

@@ -5,56 +5,56 @@
 class CGameService : public IPacketDispatcher
 {
 private:
-	CGameService(void);
-	virtual ~CGameService(void);
+    CGameService(void);
+    virtual ~CGameService(void);
 
 public:
-	static CGameService* GetInstancePtr();
+    static CGameService* GetInstancePtr();
 
-	BOOL		Init(UINT32 dwServerID, UINT32 dwPort);
+    BOOL        Init(UINT32 dwServerID, UINT32 dwPort);
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		Run();
+    BOOL        Run();
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+    BOOL        OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+    BOOL        OnCloseConnect(INT32 nConnID);
 
-	BOOL		OnSecondTimer();
+    BOOL        OnSecondTimer();
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
+    BOOL        DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		SetLogicConnID(UINT32 dwConnID);
+    BOOL        SetLogicConnID(INT32 nConnID);
 
-	UINT32		GetLogicConnID();
+    UINT32      GetLogicConnID();
 
-	UINT32      GetProxyConnID();
+    UINT32      GetProxyConnID();
 
-	BOOL		ConnectToLogicSvr();
+    BOOL        ConnectToLogicSvr();
 
-	BOOL		ConnectToProxySvr();
+    BOOL        ConnectToProxySvr();
 
-	BOOL		ConnectToWatchServer();
+    BOOL        ConnectToWatchServer();
 
-	BOOL		RegisterToLogicSvr();
+    BOOL        RegisterToLogicSvr();
 
-	BOOL		RegisterToProxySvr();
+    BOOL        RegisterToProxySvr();
 
-	UINT32      GetServerID();
+    UINT32      GetServerID();
 
 protected:
-	CSceneManager		m_SceneManager;
+    CSceneManager       m_SceneManager;
 
-	UINT32				m_dwLogicConnID;
-	UINT32              m_dwProxyConnID;
-	UINT32				m_dwServerID;
+    INT32               m_nLogicConnID;
+    INT32               m_nProxyConnID;
+    INT32               m_nServerID;
 public:
-	//*********************消息处理定义开始******************************
-	BOOL OnMsgDefautReq(NetPacket* pNetPacket);
-	BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
-	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义开始******************************
+    BOOL OnMsgDefautReq(NetPacket* pNetPacket);
+    BOOL OnMsgRegToProxyAck(NetPacket* pNetPacket);
+    BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
+    //*********************消息处理定义结束******************************
 };
 
 #endif

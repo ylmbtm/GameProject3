@@ -89,7 +89,7 @@ CConnection::CConnection()
 
     m_uConnData        = 0;
 
-    m_dwConnID          = 0;
+    m_nConnID          = 0;
 
     m_pCurRecvBuffer    = NULL;
 
@@ -108,7 +108,7 @@ CConnection::~CConnection(void)
 {
     Reset();
 
-    m_dwConnID          = 0;
+    m_nConnID          = 0;
 
     m_pDataHandler      = NULL;
 }
@@ -122,7 +122,7 @@ BOOL CConnection::DoReceive()
 
 UINT32 CConnection::GetConnectionID()
 {
-    return m_dwConnID;
+    return m_nConnID;
 }
 
 UINT64 CConnection::GetConnectionData()
@@ -130,20 +130,20 @@ UINT64 CConnection::GetConnectionData()
     return m_uConnData;
 }
 
-void CConnection::SetConnectionID( UINT32 dwConnID )
+void CConnection::SetConnectionID( INT32 nConnID )
 {
-    ERROR_RETURN_NONE(dwConnID != 0);
+    ERROR_RETURN_NONE(nConnID != 0);
 
     ERROR_RETURN_NONE(!m_bConnected);
 
-    m_dwConnID = dwConnID;
+    m_nConnID = nConnID;
 
     return ;
 }
 
 VOID CConnection::SetConnectionData( UINT64 dwData )
 {
-    ERROR_RETURN_NONE(m_dwConnID != 0);
+    ERROR_RETURN_NONE(m_nConnID != 0);
 
     m_uConnData = dwData;
 
@@ -363,22 +363,22 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 
     if (pHeader->nSize <= 0)
     {
-        CLog::GetInstancePtr()->LogError("验证-失败 pHeader->nSize <= 0, pHeader->dwMsgID:%d", pHeader->nSize, pHeader->dwMsgID);
+        CLog::GetInstancePtr()->LogError("验证-失败 pHeader->nSize <= 0, pHeader->nMsgID:%d", pHeader->nSize, pHeader->nMsgID);
         return FALSE;
     }
 
-    if (pHeader->dwMsgID > 399999 || pHeader->dwMsgID == 0)
+    if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
     {
         return FALSE;
     }
 
     if(m_nCheckNo == 0)
     {
-        m_nCheckNo = pHeader->nPacketNo - (pHeader->dwMsgID ^ pHeader->nSize) + 1;
+        m_nCheckNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize) + 1;
         return TRUE;
     }
 
-    if(pHeader->nPacketNo == (pHeader->dwMsgID ^ pHeader->nSize) + m_nCheckNo)
+    if(pHeader->nPacketNo == (pHeader->nMsgID ^ pHeader->nSize) + m_nCheckNo)
     {
         m_nCheckNo += 1;
         return TRUE;
@@ -530,15 +530,15 @@ CConnection* CConnectionMgr::CreateConnection()
     return pTemp;
 }
 
-CConnection* CConnectionMgr::GetConnectionByID( UINT32 dwConnID )
+CConnection* CConnectionMgr::GetConnectionByID( INT32 nConnID )
 {
-    ERROR_RETURN_NULL(dwConnID != 0);
+    ERROR_RETURN_NULL(nConnID != 0);
 
-    UINT32 dwIndex = dwConnID % m_vtConnList.size();
+    UINT32 dwIndex = nConnID % m_vtConnList.size();
 
     CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
 
-    if (pConnect->GetConnectionID() != dwConnID)
+    if (pConnect->GetConnectionID() != nConnID)
     {
         return NULL;
     }
@@ -579,18 +579,18 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
     m_ConnListMutex.unlock();
 
-    UINT32 dwConnID = pConnection->GetConnectionID();
+    INT32 nConnID = pConnection->GetConnectionID();
 
     pConnection->Reset();
 
-    dwConnID += (UINT32)m_vtConnList.size();
+    nConnID += (UINT32)m_vtConnList.size();
 
-    pConnection->SetConnectionID(dwConnID);
+    pConnection->SetConnectionID(nConnID);
 
     return TRUE;
 }
 
-BOOL CConnectionMgr::DeleteConnection(UINT32 nConnID)
+BOOL CConnectionMgr::DeleteConnection(INT32 nConnID)
 {
     ERROR_RETURN_FALSE(nConnID != 0);
     CConnection* pConnection = GetConnectionByID(nConnID);
@@ -667,7 +667,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
     return TRUE;
 }
 
-BOOL CConnectionMgr::InitConnectionList(UINT32 nMaxCons)
+BOOL CConnectionMgr::InitConnectionList(INT32 nMaxCons)
 {
     ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
     ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);

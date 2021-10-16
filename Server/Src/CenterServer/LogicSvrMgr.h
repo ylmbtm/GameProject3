@@ -5,11 +5,11 @@ struct LogicServerNode
 {
 	LogicServerNode()
 	{
-		m_dwConnID = 0;
+		m_nConnID = 0;
 		m_dwServerID = 0;
 	}
 
-	UINT32		m_dwConnID;   //连接ID
+	UINT32		m_nConnID;   //连接ID
 	UINT32		m_dwServerID;
 	std::string m_strSvrName;
 };
@@ -23,19 +23,19 @@ public:
 public:
 	BOOL	Init();
 
-	BOOL	RegisterLogicServer(UINT32 dwConnID, UINT32 dwServerID, std::string strSvrName);
+	BOOL	RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, std::string strSvrName);
 
 	BOOL	UnregisterLogicServer(UINT32 dwServerID);
 
-	BOOL    OnCloseConnect(UINT32 dwConnID);
+	BOOL    OnCloseConnect(INT32 nConnID);
 
 	UINT32	GetLogicConnID(UINT32 dwServerID);
 
-	BOOL	SendMsgProtoBuf(UINT32 dwServerID, UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL	SendMsgProtoBuf(UINT32 dwServerID, INT32 nMsgID, const google::protobuf::Message& pdata);
 
-	BOOL    BroadMsgToAll(UINT32 dwMsgID, const google::protobuf::Message& pdata, UINT32 nNoConnID = 0);
+	BOOL    BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& pdata, INT32 nNoConnID = 0);
 
-	BOOL	SendMsgRawData(UINT32 dwServerID, UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+	BOOL	SendMsgRawData(UINT32 dwServerID, INT32 nMsgID, const char* pdata, UINT32 dwLen);
 
 	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
 public:

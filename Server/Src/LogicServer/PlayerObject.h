@@ -31,12 +31,12 @@ public:
 
 	BOOL		ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	BOOL		SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL		SendMsgProtoBuf(INT32 nMsgID, const google::protobuf::Message& pdata);
 
-	BOOL		SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen);
+	BOOL		SendMsgRawData(INT32 nMsgID, const char* pdata, UINT32 dwLen);
 
 	//向玩家所在的场景服发消息
-	BOOL		SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata);
+	BOOL		SendMsgToScene(INT32 nMsgID, const google::protobuf::Message& pdata);
 
 	BOOL		ToTransferData(TransferDataItem* pTransItem);
 

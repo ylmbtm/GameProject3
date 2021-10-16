@@ -19,9 +19,9 @@ public:
 
     BOOL        Run();
 
-    BOOL        OnNewConnect(UINT32 nConnID);
+    BOOL        OnNewConnect(INT32 nConnID);
 
-    BOOL        OnCloseConnect(UINT32 nConnID);
+    BOOL        OnCloseConnect(INT32 nConnID);
 
     BOOL        OnSecondTimer();
 
@@ -29,9 +29,9 @@ public:
 
     BOOL        ConnectToLogServer();
 
-    UINT32      GetLogSvrConnID();
+    INT32       GetLogSvrConnID();
 public:
-    UINT32                  m_dwLogSvrConnID;
+    INT32                   m_nLogSvrConnID;
 
     CAccountMsgHandler      m_AccountMsgHandler;
 public:

@@ -18,26 +18,26 @@ public:
 
     BOOL            StopNetwork();
 
-    BOOL            OnDataHandle(IDataBuffer* pDataBuffer, UINT32 nConnID);
+    BOOL            OnDataHandle(IDataBuffer* pDataBuffer, INT32 nConnID);
 
-    BOOL            OnCloseConnect(UINT32 nConnID);
+    BOOL            OnCloseConnect(INT32 nConnID);
 
-    BOOL            OnNewConnect(UINT32 nConnID);
+    BOOL            OnNewConnect(INT32 nConnID);
 
     CConnection*    ConnectTo(std::string strIpAddr, UINT16 sPort);
 
-    BOOL            CloseConnect(UINT32 nConnID);
+    BOOL            CloseConnect(INT32 nConnID);
 
     template<typename T>
-    BOOL            SendMsgStruct(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
+    BOOL            SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
 
-    BOOL            SendMsgProtoBuf(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
+    BOOL            SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
-    BOOL            SendMsgRawData(UINT32 dwConnID, UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen);
+    BOOL            SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen);
 
-    BOOL            SendMsgBuffer(UINT32 dwConnID, IDataBuffer* pDataBuffer);
+    BOOL            SendMsgBuffer(INT32 nConnID, IDataBuffer* pDataBuffer);
 
-    CConnection*    GetConnectionByID(UINT32 dwConnID);
+    CConnection*    GetConnectionByID(INT32 nConnID);
 
     BOOL            Update();
 

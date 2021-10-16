@@ -52,7 +52,7 @@ BOOL GiftCodeManager::Uninit()
 BOOL GiftCodeManager::ProceeGiftCodeThread()
 {
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
+	INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_user");
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_db_name");
@@ -99,7 +99,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
 			CHAR szSql[SQL_BUFF_LEN] = { 0 };
 			//////////////////////////////////////////////////////////////////////////
 #if 0
-			snprintf(szSql, SQL_BUFF_LEN, "call use_giftcode('%s',%d, %lld, %d, @retcode, @awardid)", pTmpNode->m_strCode.c_str(), pTmpNode->m_dwAreaID, pTmpNode->m_uRoleID, pTmpNode->m_dwChannel);
+			snprintf(szSql, SQL_BUFF_LEN, "call use_giftcode('%s',%d, %lld, %d, @retcode, @awardid)", pTmpNode->m_strCode.c_str(), pTmpNode->m_dwAreaID, pTmpNode->m_uRoleID, pTmpNode->m_nChannel);
 			tDBConnection.querySQL("call use_giftcode('%s',1, 12345, 1, @retcode, @awardid)");
 			CppMySQLQuery result = tDBConnection.querySQL("select @retcode, @awardid;");
 			INT32 nRetCode = result.getIntField("retcode");
@@ -139,7 +139,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
 				continue;
 			}
 
-			if (nChannel != pTmpNode->m_dwChannel && nChannel > 0)
+			if (nChannel != pTmpNode->m_nChannel && nChannel > 0)
 			{
 				pTmpNode->m_dwResult = MRC_GIFTCODE_WRONG_CHANNEL;
 				m_ArrFinishNode.push(pTmpNode);
@@ -331,7 +331,7 @@ BOOL GiftCodeManager::Update()
 			}
 		}
 
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pTmpNode->m_dwConnID, MSG_RECV_GIFTCODE_ACK, pTmpNode->m_uRoleID, 0, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pTmpNode->m_nConnID, MSG_RECV_GIFTCODE_ACK, pTmpNode->m_uRoleID, 0, Ack);
 
 		delete pTmpNode;
 	}
@@ -347,8 +347,8 @@ BOOL GiftCodeManager::OnMsgRecvGiftCodeReq(NetPacket* pNetPacket)
 
 	CodeReqNode* pNode = new CodeReqNode();
 	pNode->m_dwAreaID = Req.areaid();
-	pNode->m_dwChannel = Req.channel();
-	pNode->m_dwConnID = pNetPacket->m_dwConnID;
+	pNode->m_nChannel = Req.channel();
+	pNode->m_nConnID = pNetPacket->m_nConnID;
 	pNode->m_uAccountID = Req.accountid();
 	pNode->m_uRoleID = Req.roleid();
 	pNode->m_strCode = Req.giftcode();
@@ -359,7 +359,7 @@ BOOL GiftCodeManager::OnMsgRecvGiftCodeReq(NetPacket* pNetPacket)
 
 BOOL GiftCodeManager::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch (pNetPacket->m_dwMsgID)
+	switch (pNetPacket->m_nMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_RECV_GIFTCODE_REQ, OnMsgRecvGiftCodeReq);
 	}

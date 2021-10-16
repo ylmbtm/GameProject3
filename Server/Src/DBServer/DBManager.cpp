@@ -14,7 +14,7 @@ CDBManager::~CDBManager(void)
 BOOL CDBManager::Init()
 {
 	std::string strHost	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_ip");
-	UINT32 nPort		= CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
+	INT32 nPort		= CConfigFile::GetInstancePtr()->GetIntValue("mysql_game_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_user");
 	std::string strPwd	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_pwd");
 	std::string strDb	= CConfigFile::GetInstancePtr()->GetStringValue("mysql_game_svr_db_name");

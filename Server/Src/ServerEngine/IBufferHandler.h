@@ -28,32 +28,32 @@ public:
 
 struct IDataHandler
 {
-    virtual BOOL OnDataHandle( IDataBuffer* pDataBuffer, UINT32 nConnID) = 0;
-    virtual BOOL OnCloseConnect(UINT32 nConnID) = 0;
-    virtual BOOL OnNewConnect(UINT32 nConnID) = 0;
+    virtual BOOL OnDataHandle( IDataBuffer* pDataBuffer, INT32 nConnID) = 0;
+    virtual BOOL OnCloseConnect(INT32 nConnID) = 0;
+    virtual BOOL OnNewConnect(INT32 nConnID) = 0;
 };
 
 struct IPacketDispatcher
 {
     virtual BOOL DispatchPacket( NetPacket* pNetPacket) = 0;
-    virtual BOOL OnCloseConnect(UINT32 nConnID) = 0;
-    virtual BOOL OnNewConnect(UINT32 nConnID) = 0;
+    virtual BOOL OnCloseConnect(INT32 nConnID) = 0;
+    virtual BOOL OnNewConnect(INT32 nConnID) = 0;
     virtual BOOL OnSecondTimer() = 0;
 };
 
 struct NetPacket
 {
-    NetPacket(UINT32 dwConnID = 0, IDataBuffer* pBuffer = NULL, UINT32 dwMsgID = 0 )
+    NetPacket(INT32 nConnID = 0, IDataBuffer* pBuffer = NULL, INT32 nMsgID = 0 )
     {
-        m_dwConnID = dwConnID;
+        m_nConnID = nConnID;
 
         m_pDataBuffer = pBuffer;
 
-        m_dwMsgID = dwMsgID;
+        m_nMsgID = nMsgID;
     }
 
-    UINT32       m_dwMsgID;
-    UINT32       m_dwConnID;
+    INT32        m_nMsgID;
+    INT32        m_nConnID;
     IDataBuffer* m_pDataBuffer;
 };
 

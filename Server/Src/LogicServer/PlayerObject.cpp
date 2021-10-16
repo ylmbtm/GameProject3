@@ -205,39 +205,39 @@ BOOL CPlayerObject::DestroyAllModule()
 	return TRUE;
 }
 
-BOOL CPlayerObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CPlayerObject::SendMsgProtoBuf(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogWarn("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		CLog::GetInstancePtr()->LogWarn("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", nMsgID, m_u64ID);
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, nMsgID, GetRoleID(), m_dwClientConnID, pdata);
 }
 
-BOOL CPlayerObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
+BOOL CPlayerObject::SendMsgRawData(INT32 nMsgID, const char* pdata, UINT32 dwLen)
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d, RoleID:%ld", dwMsgID, m_u64ID);
+		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d, RoleID:%ld", nMsgID, m_u64ID);
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetRoleID(), m_dwClientConnID, pdata, dwLen);
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, nMsgID, GetRoleID(), m_dwClientConnID, pdata, dwLen);
 }
 
-BOOL CPlayerObject::SendMsgToScene(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CPlayerObject::SendMsgToScene(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
-	UINT32 dwConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID);
+	INT32 nConnID = CGameSvrMgr::GetInstancePtr()->GetConnIDBySvrID(m_dwCopySvrID);
 
-	if (dwConnID == 0)
+	if (nConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgToScene MessageID:%d, CopySvrID:%ld", dwMsgID, m_dwCopySvrID);
+		CLog::GetInstancePtr()->LogError("Error SendMsgToScene MessageID:%d, CopySvrID:%ld", nMsgID, m_dwCopySvrID);
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwConnID, dwMsgID, m_u64ID, m_dwCopyGuid, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nConnID, nMsgID, m_u64ID, m_dwCopyGuid, pdata);
 }
 
 UINT32 CPlayerObject::CheckCopyConditoin(UINT32 dwCopyID)

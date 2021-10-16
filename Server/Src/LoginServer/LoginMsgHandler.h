@@ -16,7 +16,7 @@ public:
 
 	BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL OnCloseConnect(UINT32 dwConnID);
+	BOOL OnCloseConnect(INT32 nConnID);
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgCheckVersionReq(NetPacket* pPacket);

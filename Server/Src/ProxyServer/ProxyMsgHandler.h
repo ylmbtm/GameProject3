@@ -16,19 +16,19 @@ public:
 
 	BOOL		DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+	BOOL		OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+	BOOL		OnCloseConnect(INT32 nConnID);
 public:
 	BOOL		RelayToGameServer(CProxyPlayer* pClientObj, IDataBuffer* pBuffer);
 
 	BOOL		RelayToLogicServer(IDataBuffer* pBuffer);
 
-	BOOL        RelayToConnect(UINT32 dwConnID, IDataBuffer* pBuffer);
+	BOOL        RelayToConnect(INT32 nConnID, IDataBuffer* pBuffer);
 
 	UINT32      GetGameSvrConnID(UINT32 dwSvrID);
 
-	BOOL		IsServerConnID(UINT32 dwConnID);
+	BOOL		IsServerConnID(INT32 nConnID);
 
 public:
 	//*********************消息处理定义开始******************************

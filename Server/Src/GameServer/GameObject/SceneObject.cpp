@@ -37,26 +37,26 @@ BOOL CSceneObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 	return TRUE;
 }
 
-BOOL CSceneObject::SendMsgProtoBuf(UINT32 dwMsgID, const google::protobuf::Message& pdata)
+BOOL CSceneObject::SendMsgProtoBuf(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf MessageID:%d", dwMsgID);
+		CLog::GetInstancePtr()->LogError("Error SendMsgProtoBuf MessageID:%d", nMsgID);
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, nMsgID, GetObjectGUID(), m_dwClientConnID, pdata);
 }
 
-BOOL CSceneObject::SendMsgRawData(UINT32 dwMsgID, const char* pdata, UINT32 dwLen)
+BOOL CSceneObject::SendMsgRawData(INT32 nMsgID, const char* pdata, UINT32 dwLen)
 {
 	if (m_dwProxyConnID == 0)
 	{
-		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d", dwMsgID);
+		CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d", nMsgID);
 		return FALSE;
 	}
 
-	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, dwMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
+	return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, nMsgID, GetObjectGUID(), m_dwClientConnID, pdata, dwLen);
 }
 
 BOOL CSceneObject::OnUpdate( UINT64 uTick )

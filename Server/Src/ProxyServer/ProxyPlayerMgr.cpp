@@ -3,10 +3,10 @@
 
 CProxyPlayer::CProxyPlayer()
 {
-	m_u64RoleID = 0;
-	m_dwGameSvrID = 0;
-	m_dwConnID = 0;
-	m_dwCopyGuid = 0;
+    m_u64RoleID = 0;
+    m_nGameSvrID = 0;
+    m_nConnID = 0;
+    m_dwCopyGuid = 0;
 }
 
 CProxyPlayer::~CProxyPlayer()
@@ -16,34 +16,34 @@ CProxyPlayer::~CProxyPlayer()
 
 UINT32 CProxyPlayer::GetGameSvrID()
 {
-	return m_dwGameSvrID;
+    return m_nGameSvrID;
 }
 
 UINT64 CProxyPlayer::GetCharID()
 {
-	return m_u64RoleID;
+    return m_u64RoleID;
 }
 
 UINT32 CProxyPlayer::GetConnID()
 {
-	return m_dwConnID;
+    return m_nConnID;
 }
 
 UINT32 CProxyPlayer::GetCopyGuid()
 {
-	return m_dwCopyGuid;
+    return m_dwCopyGuid;
 }
 
 VOID CProxyPlayer::SetGameSvrInfo( UINT32 dwSvrID, UINT32 dwCopyGuid )
 {
-	m_dwGameSvrID = dwSvrID;
-	m_dwCopyGuid = dwCopyGuid;
+    m_nGameSvrID = dwSvrID;
+    m_dwCopyGuid = dwCopyGuid;
 }
 
 
-VOID CProxyPlayer::SetConnID(UINT32 dwConnID)
+VOID CProxyPlayer::SetConnID(INT32 nConnID)
 {
-	m_dwConnID = dwConnID;
+    m_nConnID = nConnID;
 }
 
 CProxyPlayerMgr::CProxyPlayerMgr(void)
@@ -56,33 +56,33 @@ CProxyPlayerMgr::~CProxyPlayerMgr(void)
 
 CProxyPlayerMgr* CProxyPlayerMgr::GetInstancePtr()
 {
-	static CProxyPlayerMgr _StaicPlayerMgr;
+    static CProxyPlayerMgr _StaicPlayerMgr;
 
-	return &_StaicPlayerMgr;
+    return &_StaicPlayerMgr;
 }
 
 CProxyPlayer* CProxyPlayerMgr::GetByCharID(UINT64 u64RoleID)
 {
-	return GetByKey(u64RoleID);
+    return GetByKey(u64RoleID);
 }
 
 CProxyPlayer* CProxyPlayerMgr::CreateProxyPlayer(UINT64 u64RoleID)
 {
-	CProxyPlayer* pClientObj = InsertAlloc(u64RoleID);
-	ERROR_RETURN_NULL(pClientObj != NULL);
+    CProxyPlayer* pClientObj = InsertAlloc(u64RoleID);
+    ERROR_RETURN_NULL(pClientObj != NULL);
 
-	pClientObj->m_u64RoleID = u64RoleID;
+    pClientObj->m_u64RoleID = u64RoleID;
 
-	return pClientObj;
+    return pClientObj;
 }
 
 BOOL CProxyPlayerMgr::RemoveByCharID(UINT64 u64RoleID)
 {
-	return Delete(u64RoleID);
+    return Delete(u64RoleID);
 }
 
-CProxyPlayer* CProxyPlayerMgr::GetByConnID(UINT32 dwConnID)
+CProxyPlayer* CProxyPlayerMgr::GetByConnID(INT32 nConnID)
 {
-	return NULL;
+    return NULL;
 }
 

@@ -7,7 +7,7 @@
 
 CGameService::CGameService(void)
 {
-    m_dwLogSvrConnID    = 0;
+    m_nLogSvrConnID    = 0;
 }
 
 CGameService::~CGameService(void)
@@ -21,9 +21,9 @@ CGameService* CGameService::GetInstancePtr()
     return &_GameService;
 }
 
-UINT32 CGameService::GetLogSvrConnID()
+INT32 CGameService::GetLogSvrConnID()
 {
-    return m_dwLogSvrConnID;
+    return m_nLogSvrConnID;
 }
 
 BOOL CGameService::Init()
@@ -67,23 +67,23 @@ BOOL CGameService::Init()
 
     ERROR_RETURN_FALSE(m_AccountMsgHandler.Init(0));
 
-    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
 
     return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(UINT32 nConnID)
+BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
     CWatcherClient::GetInstancePtr()->OnNewConnect(nConnID);
 
     return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(UINT32 nConnID)
+BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
-    if (nConnID == m_dwLogSvrConnID)
+    if (nConnID == m_nLogSvrConnID)
     {
-        m_dwLogSvrConnID = 0;
+        m_nLogSvrConnID = 0;
     }
 
     CWatcherClient::GetInstancePtr()->OnCloseConnect(nConnID);
@@ -94,8 +94,6 @@ BOOL CGameService::OnCloseConnect(UINT32 nConnID)
 BOOL CGameService::OnSecondTimer()
 {
     ConnectToLogServer();
-
-    CWatcherClient::GetInstancePtr()->OnSecondTimer();
 
     return TRUE;
 }
@@ -144,15 +142,15 @@ BOOL CGameService::Run()
 
 BOOL CGameService::ConnectToLogServer()
 {
-    if (m_dwLogSvrConnID != 0)
+    if (m_nLogSvrConnID != 0)
     {
         return TRUE;
     }
-    UINT32 nLogPort = CConfigFile::GetInstancePtr()->GetRealNetPort("log_svr_port");
+    INT32 nLogPort = CConfigFile::GetInstancePtr()->GetRealNetPort("log_svr_port");
     ERROR_RETURN_FALSE(nLogPort > 0);
     std::string strStatIp = CConfigFile::GetInstancePtr()->GetStringValue("log_svr_ip");
     CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strStatIp, nLogPort);
     ERROR_RETURN_FALSE(pConnection != NULL);
-    m_dwLogSvrConnID = pConnection->GetConnectionID();
+    m_nLogSvrConnID = pConnection->GetConnectionID();
     return TRUE;
 }

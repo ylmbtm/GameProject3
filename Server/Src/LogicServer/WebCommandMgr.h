@@ -17,7 +17,7 @@ public:
 
 	BOOL   Uninit();
 
-	BOOL   SendWebResult(UINT32 nConnID, EWebResult eResult);
+	BOOL   SendWebResult(INT32 nConnID, EWebResult eResult);
 
 public:
 	//*********************消息处理定义开始******************************
@@ -26,12 +26,12 @@ public:
 
 public:
 	//*********************WebAction处理定义开始******************************
-	void OnGmReloadTable(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmSealRole(HttpParameter& hParams, UINT32 nConnID);
-	void OnGmSingleMail(HttpParameter& hParams, UINT32 nConnID); //单发邮件
-	void OnGmGroupMail(HttpParameter& hParams, UINT32 nConnID);  //群发邮件
-	void OnGmDeleteMail(HttpParameter& hParams, UINT32 nConnID); //删除邮件
-	void OnGmCommand(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmReloadTable(HttpParameter& hParams, INT32 nConnID);
+	void OnGmSealRole(HttpParameter& hParams, INT32 nConnID);
+	void OnGmSingleMail(HttpParameter& hParams, INT32 nConnID); //单发邮件
+	void OnGmGroupMail(HttpParameter& hParams, INT32 nConnID);  //群发邮件
+	void OnGmDeleteMail(HttpParameter& hParams, INT32 nConnID); //删除邮件
+	void OnGmCommand(HttpParameter& hParams, INT32 nConnID);
 	//*********************WebAction处理定义开始******************************
 
 };

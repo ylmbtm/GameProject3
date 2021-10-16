@@ -66,12 +66,12 @@ std::string CommonSocket::GetRemoteIP(SOCKET hSocket)
     return std::string(szIpBuffer);
 }
 
-UINT32 CommonSocket::HostToNet(UINT32 nValue)
+UINT32 CommonSocket::HostToNet(INT32 nValue)
 {
     return htonl(nValue);
 }
 
-UINT32 CommonSocket::NetToHost(UINT32 nValue)
+UINT32 CommonSocket::NetToHost(INT32 nValue)
 {
     return ntohl(nValue);
 }

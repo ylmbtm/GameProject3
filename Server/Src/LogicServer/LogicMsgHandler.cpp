@@ -91,7 +91,7 @@ BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 	Ack.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 	Ack.set_logincode(CLoginCodeManager::GetInstancePtr()->CreateLoginCode(Req.accountid()));
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_SELECT_SERVER_ACK, 0, pHeader->dwUserData, Ack);
 }
 
 BOOL CLogicMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
@@ -106,12 +106,12 @@ BOOL CLogicMsgHandler::OnMsgRoleListReq(NetPacket* pNetPacket)
 	{
 // 		RoleListAck Ack;
 // 		Ack.set_retcode(MRC_ILLEGAL_LOGIN_REQ);
-// 		return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
+// 		return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_LIST_ACK, 0, pHeader->dwUserData, Ack);
 
 		//还需要通知网关断开这个连结
 	}
 
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetDBConnID(),  MSG_ROLE_LIST_REQ, pNetPacket->m_nConnID, pHeader->dwUserData, Req);
 
 	return TRUE;
 }
@@ -192,14 +192,14 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	if (!CommonConvert::IsTextUTF8(strName.c_str(), (UINT32)strName.size()))
 	{
 		Ack.set_retcode(MRC_ROLE_NAME_MUST_UTF8);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
 	if (CSimpleManager::GetInstancePtr()->CheckNameExist(strName))
 	{
 		Ack.set_retcode(MRC_ROLE_NAME_EXIST);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
@@ -207,7 +207,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 	if (pCarrerInfo == NULL)
 	{
 		Ack.set_retcode(MRC_INVALID_CARRERID);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
@@ -227,7 +227,7 @@ BOOL CLogicMsgHandler::OnMsgRoleCreateReq(NetPacket* pNetPacket)
 
 	Ack.set_retcode(MRC_SUCCESSED);
 	Ack.set_roleid(u64RoleID);
-	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID,  MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
+	ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID,  MSG_ROLE_CREATE_ACK, 0, pHeader->dwUserData, Ack);
 
 	return TRUE;
 }
@@ -254,7 +254,7 @@ BOOL CLogicMsgHandler::OnMsgRoleDeleteReq(NetPacket* pNetPacket)
 
 	RoleDeleteAck Ack;
 	Ack.set_retcode(MRC_SUCCESSED);
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_DELETE_ACK, pHeader->u64TargetID, 0, Ack);
+	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_DELETE_ACK, pHeader->u64TargetID, 0, Ack);
 }
 
 BOOL CLogicMsgHandler::OnMsgRoleDeleteAck(NetPacket* pNetPacket)
@@ -275,14 +275,14 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 	{
 		RoleLoginAck Ack;
 		Ack.set_retcode(MRC_INVALID_ROLEID);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_LOGIN_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
 	CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(Req.roleid());
 	if(pPlayer == NULL)
 	{
-		CGameService::GetInstancePtr()->SendCmdToDBConnection(MSG_ROLE_LOGIN_REQ, pNetPacket->m_dwConnID, pHeader->dwUserData, Req);
+		CGameService::GetInstancePtr()->SendCmdToDBConnection(MSG_ROLE_LOGIN_REQ, pNetPacket->m_nConnID, pHeader->dwUserData, Req);
 		return TRUE;
 	}
 
@@ -306,7 +306,7 @@ BOOL CLogicMsgHandler::OnMsgRoleLoginReq(NetPacket* pNetPacket)
 		pPlayer->OnLogout();
 	}
 
-	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
+	pPlayer->SetConnectID(pNetPacket->m_nConnID, pHeader->dwUserData);
 	pPlayer->OnLogin();
 
 	return TRUE;
@@ -516,7 +516,7 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 	if(pPlayer == NULL)
 	{
 		Ack.set_retcode(MRC_CANNOT_RECONNECT);
-		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_dwConnID, MSG_ROLE_RECONNECT_ACK, 0, pHeader->dwUserData, Ack);
+		ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_ROLE_RECONNECT_ACK, 0, pHeader->dwUserData, Ack);
 		return TRUE;
 	}
 
@@ -531,7 +531,7 @@ BOOL CLogicMsgHandler::OnMsgReconnectReq( NetPacket* pNetPacket )
 
 	pPlayer->SetOnline(TRUE);
 
-	pPlayer->SetConnectID(pNetPacket->m_dwConnID, pHeader->dwUserData);
+	pPlayer->SetConnectID(pNetPacket->m_nConnID, pHeader->dwUserData);
 
 	pPlayer->ClearCopyStatus();
 

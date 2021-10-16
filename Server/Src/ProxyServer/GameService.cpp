@@ -71,7 +71,7 @@ BOOL CGameService::Init()
     return TRUE;
 }
 
-BOOL CGameService::OnNewConnect(UINT32 nConnID)
+BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
     if (nConnID == m_dwLogicConnID)
     {
@@ -85,13 +85,13 @@ BOOL CGameService::OnNewConnect(UINT32 nConnID)
     return TRUE;
 }
 
-BOOL CGameService::OnCloseConnect(UINT32 nConnID)
+BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
     if(nConnID == m_dwLogicConnID)
     {
         m_dwLogicConnID = 0;
-		CLog::GetInstancePtr()->LogError("CGameService::OnCloseConnect Disconnect From Logic Server.");
-		return TRUE;
+        CLog::GetInstancePtr()->LogError("CGameService::OnCloseConnect Disconnect From Logic Server.");
+        return TRUE;
     }
 
     m_ProxyMsgHandler.OnCloseConnect(nConnID);
@@ -136,7 +136,7 @@ BOOL CGameService::ConnectToLogicSvr()
     {
         return TRUE;
     }
-    UINT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
+    INT32 nLogicPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
     ERROR_RETURN_FALSE(nLogicPort > 0);
     std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
     CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);

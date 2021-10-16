@@ -36,7 +36,7 @@ BOOL CWebCommandMgr::Uninit()
 	return TRUE;
 }
 
-BOOL CWebCommandMgr::SendWebResult(UINT32 nConnID, EWebResult eResult)
+BOOL CWebCommandMgr::SendWebResult(INT32 nConnID, EWebResult eResult)
 {
 	std::string strResult = CommonConvert::IntToString((INT64)eResult);
 
@@ -47,7 +47,7 @@ BOOL CWebCommandMgr::SendWebResult(UINT32 nConnID, EWebResult eResult)
 
 BOOL CWebCommandMgr::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch (pNetPacket->m_dwMsgID)
+	switch (pNetPacket->m_nMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ, OnMsgGmCommandReq);
 	}
@@ -71,13 +71,13 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 	switch (eWebAction)
 	{
 		case EWA_SEAL_ACCOUNT:
-			OnGmSealAccount(Params, pNetPacket->m_dwConnID);
+			OnGmSealAccount(Params, pNetPacket->m_nConnID);
 			break;
 		case EWA_SERVER_CHNAGE:
-			OnGmServerChange(Params, pNetPacket->m_dwConnID);
+			OnGmServerChange(Params, pNetPacket->m_nConnID);
 			break;
 		default:
-			SendWebResult(pNetPacket->m_dwConnID, EWR_INVALID_ACT);
+			SendWebResult(pNetPacket->m_nConnID, EWR_INVALID_ACT);
 			break;
 	}
 
@@ -85,7 +85,7 @@ BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 }
 
 
-void CWebCommandMgr::OnGmSealAccount(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmSealAccount(HttpParameter& hParams, INT32 nConnID)
 {
 	ERROR_RETURN_NONE(nConnID != 0);
 	SealAccountReq Req;
@@ -98,7 +98,7 @@ void CWebCommandMgr::OnGmSealAccount(HttpParameter& hParams, UINT32 nConnID)
 	return;
 }
 
-void CWebCommandMgr::OnGmServerChange(HttpParameter& hParams, UINT32 nConnID)
+void CWebCommandMgr::OnGmServerChange(HttpParameter& hParams, INT32 nConnID)
 {
 	INT32 nSvrID = hParams.GetIntValue("serverid");
 	CGameService::GetInstancePtr()->m_LoginMsgHandler.m_LogicSvrMgr.ReloadServerList(nSvrID);

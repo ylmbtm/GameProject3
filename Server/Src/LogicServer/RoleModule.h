@@ -21,7 +21,7 @@ public:
 
 	BOOL    OnNewDay();
 
-	BOOL    InitBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, UINT32 dwChannel);
+	BOOL    InitBaseData(UINT64 u64RoleID, std::string Name, UINT32 dwCarrerID, UINT64 u64AccountID, INT32 nChannel);
 
 	BOOL    ReadFromDBLoginData(DBRoleLoginAck& Ack);
 

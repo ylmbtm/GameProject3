@@ -9,7 +9,7 @@
 #include "GameLogManager.h"
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-	RegisterMessageHanler();
+    RegisterMessageHanler();
 }
 
 CTaskModule::~CTaskModule()
@@ -18,70 +18,70 @@ CTaskModule::~CTaskModule()
 
 BOOL CTaskModule::OnCreate(UINT64 u64RoleID)
 {
-	return TRUE;
+    return TRUE;
 }
 
 
 BOOL CTaskModule::OnDestroy()
 {
-	for(auto itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
-	{
-		itor->second->Release();
-	}
+    for(auto itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
+    {
+        itor->second->Release();
+    }
 
-	m_mapTaskData.clear();
+    m_mapTaskData.clear();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CTaskModule::OnLogin()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CTaskModule::OnLogout()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CTaskModule::OnNewDay()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CTaskModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	const DBTaskData& TaskData = Ack.taskdata();
-	for(int i = 0; i < TaskData.tasklist_size(); i++)
-	{
-		const DBTaskItem& TaskItem = TaskData.tasklist(i);
-		TaskDataObject* pObject = DataPool::CreateObject<TaskDataObject>(ESD_TASK, FALSE);
-		pObject->m_nProgress = TaskItem.progress();
-		pObject->m_uRoleID = TaskItem.roleid();
-		pObject->m_uTaskID = TaskItem.taskid();
-		pObject->m_TaskStatus = TaskItem.status();
+    const DBTaskData& TaskData = Ack.taskdata();
+    for(int i = 0; i < TaskData.tasklist_size(); i++)
+    {
+        const DBTaskItem& TaskItem = TaskData.tasklist(i);
+        TaskDataObject* pObject = DataPool::CreateObject<TaskDataObject>(ESD_TASK, FALSE);
+        pObject->m_nProgress = TaskItem.progress();
+        pObject->m_uRoleID = TaskItem.roleid();
+        pObject->m_nTaskID = TaskItem.taskid();
+        pObject->m_nTaskStatus = TaskItem.status();
 
-		if(pObject->m_TaskStatus == ETS_COMMIT)
-		{
-			m_mapCommitTask.insert(std::make_pair(pObject->m_uTaskID, pObject));
-		}
-		else
-		{
-			m_mapTaskData.insert(std::make_pair(pObject->m_uTaskID, pObject));
-		}
-	}
-	return TRUE;
+        if(pObject->m_nTaskStatus == ETS_COMMIT)
+        {
+            m_mapCommitTask.insert(std::make_pair(pObject->m_nTaskID, pObject));
+        }
+        else
+        {
+            m_mapTaskData.insert(std::make_pair(pObject->m_nTaskID, pObject));
+        }
+    }
+    return TRUE;
 }
 
 BOOL CTaskModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
-	return TRUE;
+    return TRUE;
 }
 
 
 BOOL CTaskModule::CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue)
 {
-	return TRUE;
+    return TRUE;
 }
 
 VOID CTaskModule::RegisterMessageHanler()
@@ -90,69 +90,69 @@ VOID CTaskModule::RegisterMessageHanler()
 
 BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2)
 {
-	for(std::map<UINT32, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
-	{
-		TaskDataObject* pDataObj = itor->second;
+    for(std::map<UINT32, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
+    {
+        TaskDataObject* pDataObj = itor->second;
 
-		StTaskInfo* pInfo = CStaticData::GetInstancePtr()->GetTaskInfo(pDataObj->m_uTaskID);
-		ERROR_CONTINUE_EX(pInfo != NULL);
+        StTaskInfo* pInfo = CStaticData::GetInstancePtr()->GetTaskInfo(pDataObj->m_nTaskID);
+        ERROR_CONTINUE_EX(pInfo != NULL);
 
-		if(pInfo->TaskEvent != taskEvent)
-		{
-			continue;
-		}
+        if(pInfo->TaskEvent != taskEvent)
+        {
+            continue;
+        }
 
-		if(pDataObj->m_TaskStatus == TASK_FINISHED)
-		{
-			continue;
-		}
+        if(pDataObj->m_nTaskStatus == TASK_FINISHED)
+        {
+            continue;
+        }
 
-		if(pDataObj->m_nProgress >= pInfo->NeedCount)
-		{
+        if(pDataObj->m_nProgress >= pInfo->NeedCount)
+        {
 
-		}
-	}
+        }
+    }
 
 
-	return TRUE;
+    return TRUE;
 }
 
 TaskDataObject* CTaskModule::GetTaskByID(UINT32 dwTaskID)
 {
-	auto itor = m_mapTaskData.find(dwTaskID);
-	if(itor != m_mapTaskData.end())
-	{
-		return itor->second;
-	}
+    auto itor = m_mapTaskData.find(dwTaskID);
+    if(itor != m_mapTaskData.end())
+    {
+        return itor->second;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 BOOL CTaskModule::NotifyChange()
 {
-	if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
-	{
-		return TRUE;
-	}
+    if (m_setChange.size() <= 0 && m_setRemove.size() <= 0)
+    {
+        return TRUE;
+    }
 
-	TaskChangeNty Nty;
-	for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
-	{
-		TaskDataObject* pObject = GetTaskByID((UINT32) * itor);
-		ERROR_CONTINUE_EX(pObject != NULL);
+    TaskChangeNty Nty;
+    for(auto itor = m_setChange.begin(); itor != m_setChange.end(); itor++)
+    {
+        TaskDataObject* pObject = GetTaskByID((UINT32) * itor);
+        ERROR_CONTINUE_EX(pObject != NULL);
 
-		TaskItem* pItem = Nty.add_changelist();
-	}
+        TaskItem* pItem = Nty.add_changelist();
+    }
 
-	for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
-	{
-		Nty.add_removelist(*itor);
-	}
+    for(auto itor = m_setRemove.begin(); itor != m_setRemove.end(); itor++)
+    {
+        Nty.add_removelist(*itor);
+    }
 
-	m_pOwnPlayer->SendMsgProtoBuf(MSG_TASK_CHANGE_NTY, Nty);
+    m_pOwnPlayer->SendMsgProtoBuf(MSG_TASK_CHANGE_NTY, Nty);
 
-	m_setChange.clear();
-	m_setRemove.clear();
+    m_setChange.clear();
+    m_setRemove.clear();
 
-	return TRUE;
+    return TRUE;
 }

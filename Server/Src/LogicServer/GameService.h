@@ -17,15 +17,15 @@ public:
 
 	BOOL		Run();
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+	BOOL		OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+	BOOL		OnCloseConnect(INT32 nConnID);
 
 	BOOL		OnSecondTimer();
 
 	BOOL		DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL        SendCmdToDBConnection(UINT32 dwMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
+	BOOL        SendCmdToDBConnection(INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
 	BOOL	    ConnectToLogServer();
 

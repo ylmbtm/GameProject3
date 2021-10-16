@@ -10,9 +10,9 @@ private:
 public:
 	static CWatcherClient* GetInstancePtr();
 
-	BOOL		OnNewConnect(UINT32 nConnID);
+	BOOL		OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(UINT32 nConnID);
+	BOOL		OnCloseConnect(INT32 nConnID);
 
 	BOOL		OnSecondTimer();
 

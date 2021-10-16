@@ -21,7 +21,7 @@ CLogMsgHandler::~CLogMsgHandler()
 BOOL CLogMsgHandler::Init(UINT32 dwReserved)
 {
 	std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_ip");
-	UINT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_log_svr_port");
+	INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_log_svr_port");
 	std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_user");
 	std::string strPwd = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_pwd");
 	std::string strDb = CConfigFile::GetInstancePtr()->GetStringValue("mysql_log_svr_db_name");
@@ -80,7 +80,7 @@ BOOL CLogMsgHandler::OnUpdate(UINT64 uTick)
 
 BOOL CLogMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
-	switch(pNetPacket->m_dwMsgID)
+	switch(pNetPacket->m_nMsgID)
 	{
 			PROCESS_MESSAGE_ITEM(MSG_LOG_DATA_NTF,          OnMsgLogDataNtf)
 	}

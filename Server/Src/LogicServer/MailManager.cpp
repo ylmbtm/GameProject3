@@ -200,7 +200,7 @@ BOOL CMailManager::LoadGroupMailData(CppMySQL3DB& tDBConnection)
 	{
 		GroupMailDataObject* pGroupMail = DataPool::CreateObject<GroupMailDataObject>(ESD_GROUP_MAIL, FALSE);
 		pGroupMail->m_dwMailType = EMT_CUSTOM;					 //邮件类型
-		pGroupMail->m_dwChannel = QueryResult.getIntField("channel");
+		pGroupMail->m_nChannel = QueryResult.getIntField("channel");
 		pGroupMail->m_uGuid = QueryResult.getInt64Field("id");
 		pGroupMail->m_uTime = QueryResult.getInt64Field("mail_time");
 		CommonConvert::StrCopy(pGroupMail->m_szTitle, QueryResult.getStringField("title"),   MAIL_TITLE_LEN);

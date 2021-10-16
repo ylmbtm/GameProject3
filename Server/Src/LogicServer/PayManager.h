@@ -16,7 +16,7 @@ public:
 public:
 	BOOL LoadData(CppMySQL3DB& tDBConnection);
 
-	void OnGmPayCallBack(HttpParameter& hParams, UINT32 nConnID);
+	void OnGmPayCallBack(HttpParameter& hParams, INT32 nConnID);
 
 	VOID RegisterMessageHanler();
 

@@ -29,7 +29,7 @@ CConnection::CConnection()
 
     m_uConnData       = 0;
 
-    m_dwConnID          = 0;
+    m_nConnID          = 0;
 
     m_pCurRecvBuffer    = NULL;
 
@@ -54,7 +54,7 @@ CConnection::~CConnection(void)
 {
     Reset();
 
-    m_dwConnID          = 0;
+    m_nConnID          = 0;
 
     m_pDataHandler      = NULL;
 }
@@ -72,7 +72,7 @@ BOOL CConnection::DoReceive()
 
     m_IoOverlapRecv.Reset();
     m_IoOverlapRecv.nOpType = NET_OP_RECV;
-    m_IoOverlapRecv.nConnID = m_dwConnID;
+    m_IoOverlapRecv.nConnID = m_nConnID;
 
     int nRet = WSARecv(m_hSocket, &DataBuf, 1, &nRecvBytes, &nFlags, (LPOVERLAPPED)&m_IoOverlapRecv, NULL);
     if(nRet != 0)
@@ -132,7 +132,7 @@ BOOL CConnection::DoReceive()
 
 UINT32 CConnection::GetConnectionID()
 {
-    return m_dwConnID;
+    return m_nConnID;
 }
 
 UINT64 CConnection::GetConnectionData()
@@ -140,20 +140,20 @@ UINT64 CConnection::GetConnectionData()
     return m_uConnData;
 }
 
-void CConnection::SetConnectionID( UINT32 dwConnID )
+void CConnection::SetConnectionID( INT32 nConnID )
 {
-    ERROR_RETURN_NONE(dwConnID != 0);
+    ERROR_RETURN_NONE(nConnID != 0);
 
     ERROR_RETURN_NONE(m_nConnStatus == NET_ST_INIT);
 
-    m_dwConnID = dwConnID;
+    m_nConnID = nConnID;
 
     return ;
 }
 
 VOID CConnection::SetConnectionData( UINT64 uData )
 {
-    ERROR_RETURN_NONE(m_dwConnID != 0);
+    ERROR_RETURN_NONE(m_nConnID != 0);
 
     m_uConnData = uData;
 
@@ -209,7 +209,7 @@ BOOL CConnection::ExtractBuffer()
         {
             if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
-                CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_dwConnID);
+                CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
                 return FALSE;
             }
 
@@ -423,11 +423,11 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 
     if (pHeader->nSize <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->dwMsgID:%d, roleid:%lld", pHeader->dwMsgID, pHeader->u64TargetID);
+        CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
-    if (pHeader->dwMsgID > 399999 || pHeader->dwMsgID == 0)
+    if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
     {
         return FALSE;
     }
@@ -437,7 +437,7 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return TRUE;
     }
 
-    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->dwMsgID ^ pHeader->nSize);
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
 
     if (nPktChkNo <= 0)
     {
@@ -462,7 +462,7 @@ BOOL CConnection::UpdateCheckNo(CHAR* pNetPacket)
 {
     PacketHeader* pHeader = (PacketHeader*)pNetPacket;
 
-    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->dwMsgID ^ pHeader->nSize);
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
 
     if (m_nCheckNo == 0)
     {
@@ -560,7 +560,7 @@ BOOL CConnection::DoSend()
     m_IoOverlapSend.Reset();
     m_IoOverlapSend.nOpType = NET_OP_SEND;
     m_IoOverlapSend.pDataBuffer = pSendingBuffer;
-    m_IoOverlapSend.nConnID = m_dwConnID;
+    m_IoOverlapSend.nConnID = m_nConnID;
 
     DWORD nSendBytes = 0;
     int nRet = WSASend(m_hSocket, &DataBuf, 1, &nSendBytes, 0, (LPOVERLAPPED)&m_IoOverlapSend, NULL);
@@ -714,15 +714,15 @@ CConnection* CConnectionMgr::CreateConnection()
     return pTemp;
 }
 
-CConnection* CConnectionMgr::GetConnectionByID( UINT32 dwConnID )
+CConnection* CConnectionMgr::GetConnectionByID( INT32 nConnID )
 {
-    ERROR_RETURN_NULL(dwConnID != 0);
+    ERROR_RETURN_NULL(nConnID != 0);
 
-    INT32 nIndex = dwConnID % m_vtConnList.size();
+    INT32 nIndex = nConnID % m_vtConnList.size();
 
     CConnection* pConnect = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
-    if (pConnect->GetConnectionID() != dwConnID)
+    if (pConnect->GetConnectionID() != nConnID)
     {
         return NULL;
     }
@@ -739,15 +739,15 @@ CConnectionMgr* CConnectionMgr::GetInstancePtr()
 }
 
 
-BOOL CConnectionMgr::DeleteConnection(UINT32 dwConnID)
+BOOL CConnectionMgr::DeleteConnection(INT32 nConnID)
 {
-    ERROR_RETURN_FALSE(dwConnID != 0);
+    ERROR_RETURN_FALSE(nConnID != 0);
 
-    INT32 nIndex = dwConnID % m_vtConnList.size();
+    INT32 nIndex = nConnID % m_vtConnList.size();
 
     CConnection* pConnection = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
-    ERROR_RETURN_FALSE(pConnection->GetConnectionID() == dwConnID)
+    ERROR_RETURN_FALSE(pConnection->GetConnectionID() == nConnID)
 
     m_ConnListMutex.lock();
 
@@ -770,9 +770,9 @@ BOOL CConnectionMgr::DeleteConnection(UINT32 dwConnID)
 
     pConnection->Reset();
 
-    dwConnID += (UINT32)m_vtConnList.size();
+    nConnID += (UINT32)m_vtConnList.size();
 
-    pConnection->SetConnectionID(dwConnID);
+    pConnection->SetConnectionID(nConnID);
 
     return TRUE;
 }
