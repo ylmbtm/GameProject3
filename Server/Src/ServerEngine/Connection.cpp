@@ -130,7 +130,7 @@ BOOL CConnection::DoReceive()
 
 #endif
 
-UINT32 CConnection::GetConnectionID()
+INT32 CConnection::GetConnectionID()
 {
     return m_nConnID;
 }
@@ -770,7 +770,12 @@ BOOL CConnectionMgr::DeleteConnection(INT32 nConnID)
 
     pConnection->Reset();
 
-    nConnID += (UINT32)m_vtConnList.size();
+    nConnID += (INT32)m_vtConnList.size();
+
+    if (nConnID <= 0)
+    {
+        nConnID = nIndex + 1;
+    }
 
     pConnection->SetConnectionID(nConnID);
 

@@ -49,8 +49,11 @@ std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FAL
 BOOL IsTextUTF8(const char* str, INT32 nLength);
 
 INT32 GetValidUtf8Length(char* pStr, INT32 nLen);
+
 std::string TruncateUtf8(char* pStr, INT32 nLen);
+
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
+
 BOOL SpliteStringByBlank(std::string strSrc, std::vector<std::string>& vtStr);
 
 BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtStr);

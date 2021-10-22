@@ -3,10 +3,9 @@
 // 特定于项目的包含文件
 //
 
-
 #ifndef __STDAFX__
 #define __STDAFX__
-
+#define HAVE_RINT 1
 #include "ServerEngine.h"
 #include "../ServerData/ServerDefine.h"
 #endif

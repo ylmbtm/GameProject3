@@ -44,7 +44,7 @@ public:
 public:
     BOOL    HandleRecvEvent(INT32 nBytes);
 
-    UINT32  GetConnectionID();
+    INT32   GetConnectionID();
 
     UINT64  GetConnectionData();
 

@@ -7,10 +7,10 @@
 
 CPlayerManager::CPlayerManager()
 {
-    m_dwMaxCacheNum = CConfigFile::GetInstancePtr()->GetIntValue("max_cache_num");
-    if (m_dwMaxCacheNum <= 10)
+    m_nMaxCacheNum = CConfigFile::GetInstancePtr()->GetIntValue("max_cache_num");
+    if (m_nMaxCacheNum <= 10)
     {
-        m_dwMaxCacheNum = 3000;
+        m_nMaxCacheNum = 3000;
     }
     TimerManager::GetInstancePtr()->AddFixTimer(0, 1, &CPlayerManager::ZeroTimer, this);
 }
@@ -183,7 +183,7 @@ BOOL CPlayerManager::OnUpdate(UINT64 uTick)
         }
     }
 
-    if (uReleaseRoleID != 0 && GetCount() > m_dwMaxCacheNum)
+    if (uReleaseRoleID != 0 && GetCount() > m_nMaxCacheNum)
     {
         //当内存中的人数超过人，就清理一个离线时间最长的玩家
         ReleasePlayer(uReleaseRoleID);

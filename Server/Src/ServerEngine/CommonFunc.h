@@ -7,7 +7,7 @@
 
 namespace CommonFunc
 {
-UINT32          GetProcessorNum();
+INT32           GetProcessorNum();
 
 std::string     GetCurrentWorkDir();
 
@@ -18,6 +18,8 @@ std::string     GetCurrentExeDir();
 BOOL            CreateDir(std::string& strDir);
 
 BOOL            GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion);
+
+BOOL            GetSubDirNames(const char* pszDir, const char* pszBegin, std::vector<std::string>& vtDirList, BOOL bRecursion);
 
 BOOL            IsSameDay(UINT64 uTime);
 
@@ -41,6 +43,8 @@ UINT64          GetWeekBeginTime(UINT64 uTime = 0); //获取当周起点的秒�
 
 UINT64          GetMonthBeginTime(UINT64 uTime = 0);//获取当月起点的秒数
 
+UINT64          GetMonthRemainTime(UINT64 uTime = 0);   //获取当月剩余的秒数
+
 time_t          YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec);
 
 std::string     TimeToString(time_t tTime);
@@ -49,17 +53,17 @@ time_t          DateStringToTime(std::string strDate);
 
 UINT64          GetTickCount();
 
-UINT32          GetCurThreadID();
+INT32           GetCurThreadID();
 
-UINT32          GetCurProcessID();
+INT32           GetCurProcessID();
 
-VOID            Sleep(UINT32 dwMilliseconds);
+VOID            Sleep(INT32 nMilliseconds);
 
-UINT32          GetFreePhysMemory();
+INT32           GetFreePhysMemory();
 
 INT32           GetRandNum(INT32 nType);
 
-UINT32          GetLastError();
+INT32           GetLastError();
 
 std::string     GetLastErrorStr(INT32 nError);
 
@@ -67,25 +71,22 @@ std::string     GetLastErrorStr(INT32 nError);
 //
 // HANDLE       OpenShareMemory(std::string strName);
 
-HANDLE          CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize);
+HANDLE          CreateShareMemory(INT32 nModuleID, INT32 nPage, INT32 nSize);
 
-HANDLE          OpenShareMemory(UINT32 dwModuleID, INT32 nPage);
-
+HANDLE          OpenShareMemory(INT32 nModuleID, INT32 nPage);
 CHAR*           GetShareMemory(HANDLE hShm);
 
 BOOL            ReleaseShareMemory(CHAR* pMem);
 
 BOOL            CloseShareMemory(HANDLE hShm);
 
-BOOL            DbgTrace(char* format, ...);
+BOOL            KillProcess(INT32 nPid);
 
-BOOL            KillProcess(UINT64 dwPid);
+BOOL            IsProcessExist(INT32 nPid);
 
-BOOL            IsProcessExist(UINT64 dwPid);
+INT32           GetProcessID(const char* pszProcName);
 
-UINT32          GetProcessID(std::string strProcName);
-
-BOOL            CreateProcess(std::string strProcName, std::string strCommandLine);
+BOOL            StartProcess(const char* pszProcName, const char* pszCommandLine = NULL, const char*  pszWorkPath = NULL);
 
 BOOL            IsAlreadyRun(std::string strSignName);
 

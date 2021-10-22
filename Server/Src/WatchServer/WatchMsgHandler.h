@@ -7,89 +7,74 @@
 
 enum EProcessStatus
 {
-	EPS_Stop,       //停止状态
-	EPS_Stoping,    //正在停止中
-	EPS_Starting,   //启动中
-	EPS_Connected,  //己连接
-	EPS_Checking,   //检索中
+    EPS_Stop,       //停止状态
+    EPS_Start,      //启动状态
+    EPS_Checking,   //检测状态
 };
 
-struct ServerProcessInfo
+struct ProcessInfo
 {
-	UINT64			ProcessID;
-	UINT32			ConnID;
-	INT32			KillAll;
-	UINT64			LastHeartTick;
-	std::string		Params;
-	std::string		serverName;
-	std::string		BootUpParameter;
-	EProcessStatus	ProscessStatus;
+    INT64           ProcessID;
+    std::string     ProcessName;
+    EProcessStatus  ProscessStatus;
+};
+
+struct ServerInfo
+{
+    INT32           nAreaID = 0;
+    BOOL            bWatch = FALSE;
+    UINT64          uLastOpTime = 0; //上一次操作时间
+    std::vector<ProcessInfo> ProcessList;
 };
 
 class CWatchMsgHandler
 {
 public:
-	CWatchMsgHandler();
+    CWatchMsgHandler();
 
-	~CWatchMsgHandler();
+    ~CWatchMsgHandler();
 
-	BOOL		Init(UINT32 dwReserved);
+    BOOL        Init(INT32 nReserved);
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
+    BOOL        DispatchPacket( NetPacket* pNetPacket);
 
-	BOOL		OnNewConnect(INT32 nConnID);
+    BOOL        OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(INT32 nConnID);
+    BOOL        OnCloseConnect(INT32 nConnID);
 
-	BOOL		OnSecondTimer();
+    BOOL        OnSecondTimer();
+
+    BOOL        RegExitSignal();
+
+    BOOL        SendWebResult(INT32 nConnID, EWebResult eResult);
 public:
-	//*********************消息处理定义开始******************************
-	BOOL OnMsgServerHeartReq(NetPacket* pNetPacket);
-	BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义开始******************************
+    BOOL OnMsgWebCommandReq(NetPacket* pNetPacket);
+    //*********************消息处理定义结束******************************
 
 public:
-	//*********************WebAction处理定义开始******************************
-	void OnGmServerStart(HttpParameter& hParams, INT32 nConnID);
-	void OnGmServerStop(HttpParameter& hParams, INT32 nConnID);
-	void OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID);
-	void OnGmServerInfo(HttpParameter& hParams, INT32 nConnID);
-	//*********************WebAction处理定义开始******************************
+    //*********************WebAction处理定义开始******************************
+    void OnGmServerStart(HttpParameter& hParams, INT32 nConnID);
+    void OnGmServerStop(HttpParameter& hParams, INT32 nConnID);
+    void OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID);
+    void OnGmServerInfo(HttpParameter& hParams, INT32 nConnID);
+    //*********************WebAction处理定义开始******************************
 
 protected:
-	BOOL CheckProcessStatus(INT32 nIndex);
 
-	BOOL StartProcess(ServerProcessInfo& processData, INT32 nIndex);
+    BOOL InitServerList();
 
-	BOOL StartAllProcess();
+    BOOL CheckServerStatus(BOOL bFrist = FALSE);
 
-	BOOL KillProcess(ServerProcessInfo& processData);
+    ServerInfo* GetServerInfo(INT32 nAreaID);
 
-	BOOL KillProcessByMsg(ServerProcessInfo& processData);
+    std::map<INT32, ServerInfo> m_mapServer;
 
-	BOOL KillAllProcess();
+    std::string m_strRootPath;
 
-	BOOL LoadProcessList();
-
-	void PrintServerStatus();
-
-	BOOL GetStartWatch();
-
-	void SetStartWatch(BOOL bStart);
-
-	BOOL CanStartServer();
-
-	BOOL CanStopServer();
-
-	BOOL SendWebResult(INT32 nConnID, EWebResult eResult);
-
-private:
-
-	std::vector<ServerProcessInfo> m_vtProcess;
-
-	BOOL m_bStartWatch;
+    std::string m_strSvrName;
 };
 
 #endif //_WATCH_MSG_HANDLER_H_

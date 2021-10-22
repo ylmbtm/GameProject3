@@ -49,6 +49,46 @@ BOOL    CommonSocket::SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 n
     return TRUE;
 }
 
+BOOL CommonSocket::SetSocketTimeOut(SOCKET hSocket, INT32 nSendTime, INT32 nRecvTime)
+{
+    if (nSendTime > 0)
+    {
+#ifdef WIN32
+        if (0 != setsockopt(hSocket, SOL_SOCKET, SO_SNDTIMEO, (char*)&nSendTime, sizeof(INT32)))
+        {
+            return FALSE;
+        }
+#else
+        struct timeval timeout;
+        timeout.tv_sec = nSendTime;
+        timeout.tv_usec = 0;
+        if (0 != setsockopt(hSocket, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout)))
+        {
+            return FALSE;
+        }
+#endif
+    }
+
+    if (nRecvTime > 0)
+    {
+#ifdef WIN32
+        if (0 != setsockopt(hSocket, SOL_SOCKET, SO_RCVTIMEO, (char*)&nRecvTime, sizeof(INT32)))
+        {
+            return FALSE;
+        }
+#else
+        struct timeval timeout;
+        timeout.tv_sec = nRecvTime;
+        timeout.tv_usec = 0;
+        if (0 != setsockopt(hSocket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)))
+        {
+            return FALSE;
+        }
+#endif
+    }
+    return TRUE;
+}
+
 std::string CommonSocket::GetRemoteIP(SOCKET hSocket)
 {
     sockaddr_in     _sockAddr;

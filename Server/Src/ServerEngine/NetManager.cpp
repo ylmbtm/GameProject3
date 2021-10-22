@@ -162,15 +162,15 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 {
     ERROR_RETURN_FALSE(m_hCompletePort != INVALID_HANDLE_VALUE);
 
-    DWORD dwNumOfByte = 0;
+    DWORD nNumOfByte = 0;
     ULONG_PTR CompleteKey = 0;
     LPOVERLAPPED lpOverlapped = NULL;
-    DWORD dwWaitTime = 1000;
+    DWORD nWaitTime = 1000;
     BOOL  bRetValue = FALSE;
 
     while(!m_bCloseEvent)
     {
-        bRetValue = GetQueuedCompletionStatus(m_hCompletePort, &dwNumOfByte, &CompleteKey, &lpOverlapped, dwWaitTime);
+        bRetValue = GetQueuedCompletionStatus(m_hCompletePort, &nNumOfByte, &CompleteKey, &lpOverlapped, nWaitTime);
         if(!bRetValue)
         {
             if (lpOverlapped == NULL)
@@ -199,7 +199,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
             //else
             //{
             //  NetIoOperatorData* pIoPeratorData = (NetIoOperatorData*)lpOverlapped;
-            //  CLog::GetInstancePtr()->LogError(" GetQueuedCmpletionStatus Error: %d-%d-%s", pIoPeratorData->dwOpType, CommonFunc::GetLastError(), CommonFunc::GetLastErrorStr(CommonFunc::GetLastError()).c_str());
+            //  CLog::GetInstancePtr()->LogError(" GetQueuedCmpletionStatus Error: %d-%d-%s", pIoPeratorData->nOpType, CommonFunc::GetLastError(), CommonFunc::GetLastErrorStr(CommonFunc::GetLastError()).c_str());
             //}
         }
 
@@ -215,7 +215,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                     break;
                 }
 
-                if(dwNumOfByte == 0)
+                if(nNumOfByte == 0)
                 {
                     //说明对方己经关闭
                     if(pConnection->GetConnectionID() != pIoPeratorData->nConnID)
@@ -235,7 +235,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 
                     if(pConnection->GetConnectStatus() == NET_ST_CONN || pConnection->GetConnectStatus() == NET_ST_WAIT)
                     {
-                        if(!pConnection->HandleRecvEvent(dwNumOfByte))
+                        if(!pConnection->HandleRecvEvent(nNumOfByte))
                         {
                             pConnection->Close();
                         }
@@ -519,7 +519,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
             }
 
             INT32 nNeedEvent = EPOLLIN;
-
             if (vtEvents[i].events & EPOLLIN)
             {
                 if (pConnection->GetConnectStatus() == NET_ST_INIT)

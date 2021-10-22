@@ -8,11 +8,73 @@
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
 #include "WebActionDef.h"
+#include "CommonSocket.h"
 
+#ifdef WIN32
+static BOOL        ExitRoutine(INT32 nSignal)
+{
+    switch (nSignal)
+    {
+        case CTRL_C_EVENT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case CTRL_CLOSE_EVENT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case CTRL_LOGOFF_EVENT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case CTRL_SHUTDOWN_EVENT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        default:
+            break;
+    }
+
+    return TRUE;
+}
+#else
+
+static VOID        ExitRoutine(INT32 nSignal)
+{
+    switch (nSignal)
+    {
+        case SIGINT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case SIGQUIT:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case SIGKILL:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        case SIGTERM:
+        {
+            CGameService::GetInstancePtr()->Uninit();
+        }
+        break;
+        default:
+            break;
+    }
+}
+#endif;
 
 CWatchMsgHandler::CWatchMsgHandler()
 {
-    m_bStartWatch = true;
 }
 
 CWatchMsgHandler::~CWatchMsgHandler()
@@ -20,15 +82,18 @@ CWatchMsgHandler::~CWatchMsgHandler()
 
 }
 
-BOOL CWatchMsgHandler::Init(UINT32 dwReserved)
+BOOL CWatchMsgHandler::Init(INT32 nReserved)
 {
-    if (!LoadProcessList())
+    if (!RegExitSignal())
     {
-        CLog::GetInstancePtr()->LogError("Cannot find the processlist.xml!");
+        CLog::GetInstancePtr()->LogError("Cannot Register Exit Signal!");
         return FALSE;
     }
 
-    SetStartWatch(CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_statue"));
+    if (!InitServerList())
+    {
+        return FALSE;
+    }
 
     return TRUE;
 }
@@ -42,7 +107,6 @@ BOOL CWatchMsgHandler::DispatchPacket(NetPacket* pNetPacket)
 {
     switch (pNetPacket->m_nMsgID)
     {
-            PROCESS_MESSAGE_ITEMEX(MSG_WATCH_HEART_BEAT_REQ,    OnMsgServerHeartReq)
             PROCESS_MESSAGE_ITEM(MSG_PHP_GM_COMMAND_REQ,        OnMsgWebCommandReq)
     }
 
@@ -61,89 +125,29 @@ BOOL CWatchMsgHandler::OnCloseConnect(INT32 nConnID)
 
 BOOL CWatchMsgHandler::OnSecondTimer()
 {
-    if (!m_bStartWatch)
-    {
-        INT32 nCount = 0;
-        for (INT32 nIndex = 0; nIndex < m_vtProcess.size(); nIndex++)
-        {
-            ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
-            if (serverInfo.ProscessStatus == EPS_Connected)
-            {
-                nCount++;
-            }
-        }
-
-        CLog::GetInstancePtr()->LogInfo("----监视:%s， 总进程数:%d, 活跃进程数:%d---", m_bStartWatch ? "[开]" : "[关]", m_vtProcess.size(), nCount);
-
-        return TRUE;
-    }
-
-    for (INT32 nIndex = 0; nIndex < m_vtProcess.size(); nIndex++)
-    {
-        CheckProcessStatus(nIndex);
-    }
-
-    INT32 nCount = 0;
-    for (INT32 nIndex = 0; nIndex < m_vtProcess.size(); nIndex++)
-    {
-        ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
-        if (serverInfo.ProscessStatus == EPS_Connected)
-        {
-            nCount++;
-        }
-    }
-
-    CLog::GetInstancePtr()->LogInfo("----监视:%s， 总进程数:%d, 活跃进程数:%d---", m_bStartWatch ? "[开]" : "[关]", m_vtProcess.size(), nCount);
+    //std::string strValue = CommonSocket::HttpGet("192.168.2.185", 80, "/gameconsole/main/api/testhttpget", "");
 
     return TRUE;
 }
 
-BOOL CWatchMsgHandler::KillAllProcess()
+BOOL CWatchMsgHandler::RegExitSignal()
 {
-    for (INT32 i = 0; i < m_vtProcess.size(); i++)
-    {
-        ServerProcessInfo& serverData = m_vtProcess[i];
-        if (CommonFunc::KillProcess(serverData.ProcessID))
-        {
-            serverData.ProscessStatus = EPS_Stop;
-            serverData.LastHeartTick = CommonFunc::GetTickCount();
-            serverData.ProcessID = 0;
-            serverData.ConnID = 0;
-        }
-
-    }
+#ifdef _WIN32
+    return SetConsoleCtrlHandler((PHANDLER_ROUTINE)ExitRoutine, TRUE);
+#else
+    signal(SIGINT, ExitRoutine);
+    signal(SIGQUIT, ExitRoutine);
+    signal(SIGKILL, ExitRoutine);
+    signal(SIGTERM, ExitRoutine);
     return TRUE;
+#endif
 }
-
-BOOL CWatchMsgHandler::OnMsgServerHeartReq(NetPacket* pNetPacket)
-{
-    WatchHeartBeatReq Req;
-    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-    INT32 index = Req.data();
-    ERROR_RETURN_FALSE(index > 0);
-    ERROR_RETURN_FALSE(index <= m_vtProcess.size());
-
-    ServerProcessInfo& serverData = m_vtProcess[index - 1];
-    serverData.ProcessID = Req.processid();
-    serverData.LastHeartTick = CommonFunc::GetTickCount();
-
-    if (serverData.ProscessStatus == EPS_Starting || serverData.ProscessStatus == EPS_Checking)
-    {
-        serverData.ProscessStatus = EPS_Connected;
-    }
-
-    serverData.ConnID = pNetPacket->m_nConnID;
-
-    WatchHeartBeatAck Ack;
-    Ack.set_data(index);
-    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_WATCH_HEART_BEAT_ACK, 0, 0, Ack);
-    return TRUE;
-}
-
 
 BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 {
-    CHAR szMsgBuf[1024] = { 0 };
+    ERROR_RETURN_TRUE(pNetPacket->m_pDataBuffer->GetBodyLenth() < 10000);
+
+    CHAR szMsgBuf[10240] = { 0 };
     CommonConvert::StrCopy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth() + 1);
 
     HttpParameter Params;
@@ -176,35 +180,93 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
 
 void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, INT32 nConnID)
 {
-    if (CanStartServer())
-    {
-        StartAllProcess();
+    ERROR_RETURN_NONE(nConnID != 0);
 
-        SetStartWatch(TRUE);
+    INT32 nAreaID = hParams.GetIntValue("areaid");
+    ERROR_RETURN_NONE(nAreaID != 0);
+
+    CLog::GetInstancePtr()->LogInfo("OnGmServerStart Server:%d!", nAreaID);
+
+    ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
+    if (pSvrInfo == NULL)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
     }
+
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
+    }
+
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+
+    std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_start");
+
+    CommonFunc::StartProcess(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
 
 void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, INT32 nConnID)
 {
-    if (CanStopServer())
-    {
-        SetStartWatch(FALSE);
-        for (INT32 i = 0; i < m_vtProcess.size(); i++)
-        {
-            ServerProcessInfo& serverData = m_vtProcess[i];
+    ERROR_RETURN_NONE(nConnID != 0);
 
-            KillProcessByMsg(serverData);
-        }
+    INT32 nAreaID = hParams.GetIntValue("areaid");
+    ERROR_RETURN_NONE(nAreaID != 0);
+
+    CLog::GetInstancePtr()->LogInfo("OnGmServerStop Server:%d!", nAreaID);
+
+    ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
+    if (pSvrInfo == NULL)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
     }
+
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
+    }
+
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+
+    std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_stop");
+
+    CommonFunc::StartProcess(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
 
 void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
 {
-    system("start updatesvr.bat");
+    ERROR_RETURN_NONE(nConnID != 0);
+
+    INT32 nAreaID = hParams.GetIntValue("areaid");
+    ERROR_RETURN_NONE(nAreaID != 0);
+
+    CLog::GetInstancePtr()->LogInfo("OnGmServerUpdate Server:%d!", nAreaID);
+
+    ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
+    if (pSvrInfo == NULL)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
+    }
+
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    {
+        SendWebResult(nConnID, EWR_FAILURE);
+        return;
+    }
+
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+
+    std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_update");
+
+    CommonFunc::StartProcess(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -214,243 +276,106 @@ void CWatchMsgHandler::OnGmServerInfo(HttpParameter& hParams, INT32 nConnID)
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
 
-BOOL CWatchMsgHandler::StartAllProcess()
+BOOL CWatchMsgHandler::InitServerList()
 {
-    for (INT32 i = 0; i < m_vtProcess.size(); i++)
+    m_strRootPath = CConfigFile::GetInstancePtr()->GetStringValue("server_root_path");
+    m_strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("server_dir_name");
+
+    std::vector<std::string> vtProcess;
+    CommonConvert::SpliteString(CConfigFile::GetInstancePtr()->GetStringValue("process_list"), ' ', vtProcess);
+
+    std::vector< std::string> vtDirNames;
+    CommonFunc::GetSubDirNames(m_strRootPath.c_str(), m_strSvrName.c_str(), vtDirNames, FALSE);
+
+    for (INT32 i = 0; i < vtDirNames.size(); i++)
     {
-        StartProcess(m_vtProcess.at(i), i);
-    }
-
-    return TRUE;
-}
-
-BOOL CWatchMsgHandler::CheckProcessStatus(INT32 nIndex)
-{
-    UINT64 uCurrentTick = CommonFunc::GetTickCount();
-
-    ServerProcessInfo& serverInfo = m_vtProcess[nIndex];
-
-    switch (serverInfo.ProscessStatus)
-    {
-        case EPS_Stop:
-        {
-            StartProcess(serverInfo, nIndex);
-        }
-        break;
-        case EPS_Starting:
-        {
-            //如果响应超时，表示服务器己经停止响应或不存在
-            if (((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 3000))
-            {
-                //先杀死
-                KillProcess(serverInfo);
-            }
-        }
-        break;
-        case EPS_Connected:
-        {
-            //如果响应超时，表示服务器己经停止响应或不存在
-            if ((((uCurrentTick > serverInfo.LastHeartTick)) && (uCurrentTick - serverInfo.LastHeartTick > 6000)) || (!CommonFunc::IsProcessExist(serverInfo.ProcessID)))
-            {
-                //先杀死
-                KillProcess(serverInfo);
-            }
-        }
-        break;
-        case EPS_Checking:
-        {
-            if (serverInfo.LastHeartTick == 0)
-            {
-                serverInfo.LastHeartTick = uCurrentTick;
-            }
-
-            //如果3秒还没有连上我，就是表示不存在
-            if (uCurrentTick - serverInfo.LastHeartTick > 2000)
-            {
-                serverInfo.ProscessStatus = EPS_Stop;
-                serverInfo.LastHeartTick = uCurrentTick;
-            }
-        }
-        break;
-        case EPS_Stoping:
-        {
-            if ((uCurrentTick - serverInfo.LastHeartTick > 2000) || (!CommonFunc::IsProcessExist(serverInfo.ProcessID)))
-            {
-                serverInfo.ProscessStatus = EPS_Stop;
-                serverInfo.LastHeartTick = uCurrentTick;
-            }
-        }
-        break;
-        default:
-            break;
-    }
-
-    return TRUE;
-}
-
-BOOL CWatchMsgHandler::StartProcess(ServerProcessInfo& processData, INT32 nIndex)
-{
-    processData.ProscessStatus = EPS_Starting;
-
-    processData.LastHeartTick = CommonFunc::GetTickCount();
-
-    std::string strRunString = processData.Params;
-
-    strRunString += " windex=" + CommonConvert::IntToString(nIndex + 1);
-
-    if (!CommonFunc::CreateProcess(processData.serverName.c_str(), strRunString))
-    {
-        CLog::GetInstancePtr()->LogError("----重新启动失败 :%s 失败！！！！----", processData.BootUpParameter.c_str());
-    }
-
-    return TRUE;
-}
-
-BOOL CWatchMsgHandler::KillProcess(ServerProcessInfo& processData)
-{
-    if (processData.KillAll)
-    {
-        for (INT32 i = 0; i < m_vtProcess.size(); i++)
-        {
-            ServerProcessInfo& serverData = m_vtProcess[i];
-            if (CommonFunc::KillProcess(serverData.ProcessID) || serverData.ProcessID == 0)
-            {
-                serverData.ProscessStatus = EPS_Stoping;
-                serverData.LastHeartTick = CommonFunc::GetTickCount();
-                serverData.ProcessID = 0;
-                serverData.ConnID = 0;
-            }
-
-        }
-    }
-    else
-    {
-        if (CommonFunc::KillProcess(processData.ProcessID) || processData.ProcessID == 0)
-        {
-            processData.ProscessStatus = EPS_Stoping;
-            processData.LastHeartTick = CommonFunc::GetTickCount();
-            processData.ProcessID = 0;
-            processData.ConnID = 0;
-        }
-    }
-    return TRUE;
-}
-
-BOOL CWatchMsgHandler::KillProcessByMsg(ServerProcessInfo& processData)
-{
-    if (processData.ProscessStatus != EPS_Connected)
-    {
-        return FALSE;
-    }
-
-    GmStopServerReq Req;
-    ServiceBase::GetInstancePtr()->SendMsgProtoBuf(processData.ConnID, MSG_GM_SHUTDOWN_SVR_REQ, 0, 0, Req);
-    processData.ProscessStatus = EPS_Stoping;
-    processData.LastHeartTick = CommonFunc::GetTickCount();
-    processData.ProcessID = 0;
-    processData.ConnID = 0;
-
-    return TRUE;
-}
-
-BOOL CWatchMsgHandler::LoadProcessList()
-{
-    std::string strPath = "ProcessList.xml";
-    FILE* pFile = fopen(strPath.c_str(), "rb");
-    ERROR_RETURN_FALSE(pFile != NULL);
-    char buff[2048] = { 0 };
-    fseek(pFile, 0, SEEK_END);
-    INT32 nSize = ftell(pFile);
-    rewind(pFile);
-    fread(buff, nSize, 1, pFile);
-    fclose(pFile);
-    buff[nSize + 1] = 0;
-
-    rapidxml::xml_document<char>* pXMLDoc = new rapidxml::xml_document<char>();
-
-    pXMLDoc->parse<0>(buff);
-
-    rapidxml::xml_node<char>* pNode = pXMLDoc->first_node("Root");
-
-    for (auto pObjectNode = pNode->first_node("Process"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("Process"))
-    {
-        ServerProcessInfo ServerData;
-        ServerData.serverName = std::string(pObjectNode->first_attribute("Name")->value());
-        if (ServerData.serverName == "")
+        INT32 nAreaID = CommonConvert::StringToInt(vtDirNames.at(i).substr(m_strSvrName.size()).c_str());
+        if (nAreaID <= 0)
         {
             continue;
         }
 
-        ServerData.Params = std::string(pObjectNode->first_attribute("Params")->value());
-        ServerData.BootUpParameter = "start " + ServerData.serverName + " " + ServerData.Params;
-        ServerData.KillAll = CommonConvert::StringToInt(pObjectNode->first_attribute("KillAll")->value());
-        ServerData.ProcessID = 0;
-        ServerData.ProscessStatus = EPS_Checking;
-        ServerData.ConnID = 0;
-        ServerData.LastHeartTick = 0;
-        m_vtProcess.push_back(ServerData);
+        ServerInfo svrInfo;
+
+        svrInfo.bWatch = FALSE;
+        svrInfo.nAreaID = nAreaID;
+        svrInfo.uLastOpTime = 0;
+
+        for (int j = 0; j < vtProcess.size(); j++)
+        {
+            ProcessInfo proInfo;
+            proInfo.ProcessID = 0;
+            proInfo.ProcessName = vtProcess.at(j);
+            CommonConvert::ReplaceString(proInfo.ProcessName, "@", CommonConvert::IntToString(nAreaID));
+            proInfo.ProscessStatus = EPS_Stop;
+            svrInfo.ProcessList.push_back(proInfo);
+        }
+
+        m_mapServer.insert(std::make_pair(nAreaID, svrInfo));
     }
 
     return TRUE;
 }
 
-
-void CWatchMsgHandler::PrintServerStatus()
+BOOL CWatchMsgHandler::CheckServerStatus(BOOL bFrist)
 {
-    INT32 connCount = 0;
-    INT32 waitStartCount = 0;
-    for (auto iter : m_vtProcess)
+    for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); ++itor)
     {
-        switch (iter.ProscessStatus)
+        ServerInfo& svrInfo = itor->second;
+
+        if (svrInfo.bWatch == FALSE && !bFrist)
         {
-            case EPS_Connected:
-                connCount++;
-                break;
+            continue;
+        }
+
+        for (int i = 0; i < svrInfo.ProcessList.size(); i++)
+        {
+            ProcessInfo& proInfo = svrInfo.ProcessList.at(i);
+
+            if (CommonFunc::IsProcessExist(proInfo.ProcessID))
+            {
+                continue;
+            }
+
+            proInfo.ProcessID = CommonFunc::GetProcessID(proInfo.ProcessName.c_str());
+            if (proInfo.ProcessID == 0)
+            {
+                if (bFrist || svrInfo.bWatch == FALSE)
+                {
+                    continue;
+                }
+
+                //表示进程己经挂了
+
+                //
+
+            }
+            else
+            {
+                svrInfo.bWatch = TRUE;
+            }
         }
     }
 
-    CLog::GetInstancePtr()->SetTitle(" 进程总数：%d  连接成功数：%d  等待启动数：%d", m_vtProcess.size(), connCount, waitStartCount);
-}
-
-BOOL CWatchMsgHandler::GetStartWatch()
-{
-    return m_bStartWatch;
-}
-
-void CWatchMsgHandler::SetStartWatch(BOOL bStart)
-{
-    m_bStartWatch = bStart;
-}
-
-BOOL CWatchMsgHandler::CanStartServer()
-{
-    for (auto it : m_vtProcess)
-    {
-        if (it.ProscessStatus == EPS_Connected)
-        {
-            return FALSE;
-        }
-    }
     return TRUE;
 }
 
-BOOL CWatchMsgHandler::CanStopServer()
+ServerInfo* CWatchMsgHandler::GetServerInfo(INT32 nAreaID)
 {
-    for (auto it : m_vtProcess)
+    auto itor = m_mapServer.find(nAreaID);
+    if (itor == m_mapServer.end())
     {
-        if (it.ProscessStatus != EPS_Connected || it.ProcessID == 0)
-        {
-            return FALSE;
-        }
+        return NULL;
     }
-    return TRUE;
+
+    return &itor->second;
 }
 
 BOOL CWatchMsgHandler::SendWebResult(INT32 nConnID, EWebResult eResult)
 {
     std::string strResult = CommonConvert::IntToString((INT64)eResult);
 
-    ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (UINT32)strResult.size());
+    ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (INT32)strResult.size());
 
     return TRUE;
 }

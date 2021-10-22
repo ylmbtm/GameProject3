@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "CommonFunc.h"
 
-UINT32 CommonFunc::GetProcessorNum()
+INT32 CommonFunc::GetProcessorNum()
 {
-    UINT32 dwNum = 0;
+    INT32 nNum = 0;
 #ifdef WIN32
     SYSTEM_INFO sysInfo;
     GetSystemInfo(&sysInfo);
-    dwNum = sysInfo.dwNumberOfProcessors;
+    nNum = sysInfo.dwNumberOfProcessors;
 #else
-    dwNum = sysconf(_SC_NPROCESSORS_CONF);
+    nNum = sysconf(_SC_NPROCESSORS_CONF);
 #endif
 
-    return dwNum;
+    return nNum;
 }
 
 std::string CommonFunc::GetCurrentWorkDir()
@@ -87,6 +87,7 @@ UINT64 CommonFunc::GetDayBeginTime(UINT64 uTime)
     {
         uTime = GetCurrTime();
     }
+
     time_t t = (time_t)uTime;
     tm* t_tm = localtime(&t);
     t_tm->tm_hour = 0;
@@ -108,13 +109,13 @@ UINT64 CommonFunc::GetWeekBeginTime(UINT64 uTime)
     return (UINT64)t - (t_tm->tm_wday == 0 ? 6 : t_tm->tm_wday - 1) * 86400 - t_tm->tm_hour * 3600 - t_tm->tm_min * 60 - t_tm->tm_sec;
 }
 
-
 UINT64 CommonFunc::GetMonthBeginTime(UINT64 uTime)
 {
     if (uTime == 0)
     {
         uTime = GetCurrTime();
     }
+
     time_t t = (time_t)uTime;
     tm* t_tm = localtime(&t);
     tm newtm;
@@ -126,6 +127,36 @@ UINT64 CommonFunc::GetMonthBeginTime(UINT64 uTime)
     newtm.tm_sec = 0;
 
     return mktime(&newtm);
+}
+
+UINT64 CommonFunc::GetMonthRemainTime(UINT64 uTime)
+{
+    if (uTime == 0)
+    {
+        uTime = GetCurrTime();
+    }
+
+    time_t t = (time_t)uTime;
+    tm* t_tm = localtime(&t);
+
+    tm newtm;
+    newtm.tm_mday = 1;
+    newtm.tm_hour = 0;
+    newtm.tm_min = 0;
+    newtm.tm_sec = 0;
+
+    if (t_tm->tm_mon == 11)
+    {
+        newtm.tm_year = t_tm->tm_year + 1;
+        newtm.tm_mon = 0;
+    }
+    else
+    {
+        newtm.tm_year = t_tm->tm_year;
+        newtm.tm_mon = t_tm->tm_mon + 1;
+    }
+
+    return mktime(&newtm) - t;
 }
 
 time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
@@ -289,11 +320,121 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
         lstat(tFileInfo->d_name, &statbuf);
         if((S_IFDIR & statbuf.st_mode) && bRecursion)
         {
-            GetDirFiles(tFileInfo->d_name, pszFileType, vtFileList, bRecursion);
+            char   szSub[1024] = { 0 };
+            strcpy(szSub, pszDir);
+            if (szSub[strlen(szSub) - 1] != '\\' || szSub[strlen(szSub) - 1] != '/')
+            {
+                strcat(szSub, "/");
+            }
+            strcat(szSub, tFileInfo->d_name);
+            GetDirFiles(szSub, pszFileType, vtFileList, bRecursion);
         }
         else
         {
             vtFileList.push_back(std::string(szTem) + std::string(tFileInfo->d_name));
+        }
+    }
+
+    closedir(pDirInfo);
+#endif
+    return TRUE;
+}
+
+BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::vector<std::string>& vtDirList, BOOL bRecursion)
+{
+    if (pszDir == NULL)
+    {
+        return FALSE;
+    }
+
+    char   szTem[1024] = { 0 };
+    char   szDir[1024] = { 0 };
+    strcpy(szTem, pszDir);
+    if (szTem[strlen(szTem) - 1] != '\\' || szTem[strlen(szTem) - 1] != '/')
+    {
+        strcat(szTem, "/*.*");
+    }
+
+    strcpy(szDir, szTem);
+
+#ifdef WIN32
+    struct _finddata_t  tFileInfo = { 0 };
+    long long hFile = _findfirst(szDir, &tFileInfo);
+    if (hFile == -1)
+    {
+        return FALSE;
+    }
+
+    do
+    {
+        if (strcmp(tFileInfo.name, ".") == 0 || strcmp(tFileInfo.name, "..") == 0)
+        {
+            continue;
+        }
+
+        if (tFileInfo.attrib   &  _A_SUBDIR)
+        {
+            std::string strDirName = tFileInfo.name;
+
+            if (strDirName.substr(0, strlen(pszBegin)) == std::string(pszBegin))
+            {
+                vtDirList.push_back(strDirName);
+            }
+
+            if ( bRecursion)
+            {
+                char   szSub[1024] = { 0 };
+                strcpy(szSub, pszDir);
+                if (szSub[strlen(szSub) - 1] != '\\' || szSub[strlen(szSub) - 1] != '/')
+                {
+                    strcat(szSub, "/");
+                }
+                strcat(szSub, tFileInfo.name);
+                GetSubDirNames(szSub, pszBegin, vtDirList, bRecursion);
+            }
+        }
+    }
+    while (_findnext(hFile, &tFileInfo) == 0);
+    _findclose(hFile);
+
+#else
+
+    DIR* pDirInfo;
+    struct dirent* tFileInfo;
+    struct stat statbuf;
+    if ((pDirInfo = opendir(pszDir)) == NULL)
+    {
+        return FALSE;
+    }
+
+    while ((tFileInfo = readdir(pDirInfo)) != NULL)
+    {
+        if (strcmp(".", tFileInfo->d_name) == 0 || strcmp("..", tFileInfo->d_name) == 0)
+        {
+            continue;
+        }
+
+        lstat(tFileInfo->d_name, &statbuf);
+
+        if (S_IFDIR & statbuf.st_mode)
+        {
+            std::string strDirName = tFileInfo->d_name;
+            if (strDirName.substr(0, strlen(pszBegin)) == std::string(pszBegin))
+            {
+                vtDirList.push_back(strDirName);
+            }
+
+            if (bRecursion)
+            {
+                char   szSub[1024] = { 0 };
+                strcpy(szSub, pszDir);
+                if (szSub[strlen(szSub) - 1] != '\\' || szSub[strlen(szSub) - 1] != '/')
+                {
+                    strcat(szSub, "/");
+                }
+                strcat(szSub, tFileInfo->d_name);
+                GetSubDirNames(szSub, pszBegin, vtDirList, bRecursion);
+            }
         }
     }
 
@@ -368,45 +509,45 @@ INT32 CommonFunc::DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest)
 #endif
 }
 
-UINT32 CommonFunc::GetCurThreadID()
+INT32 CommonFunc::GetCurThreadID()
 {
-    UINT32 dwThreadID = 0;
+    INT32 nThreadID = 0;
 #ifdef WIN32
-    dwThreadID = ::GetCurrentThreadId();
+    nThreadID = ::GetCurrentThreadId();
 #else
-    dwThreadID = (UINT32)pthread_self();
+    nThreadID = (INT32)pthread_self();
 #endif
-    return dwThreadID;
+    return nThreadID;
 }
 
-UINT32 CommonFunc::GetCurProcessID()
+INT32 CommonFunc::GetCurProcessID()
 {
-    UINT32 dwProcessID = 0;
+    INT32 nProcessID = 0;
 #ifdef WIN32
-    dwProcessID = ::GetCurrentProcessId();
+    nProcessID = ::GetCurrentProcessId();
 #else
-    dwProcessID = (UINT32)getpid();
+    nProcessID = (INT32)getpid();
 #endif
-    return dwProcessID;
+    return nProcessID;
 }
 
 
-VOID CommonFunc::Sleep(UINT32 dwMilliseconds)
+VOID CommonFunc::Sleep(INT32 nMilliseconds)
 {
 #ifdef WIN32
-    ::Sleep(dwMilliseconds);
+    ::Sleep(nMilliseconds);
 #else
     struct timespec req;
-    req.tv_sec = dwMilliseconds / 1000;
-    req.tv_nsec = dwMilliseconds % 1000 * 1000000;
+    req.tv_sec = nMilliseconds / 1000;
+    req.tv_nsec = nMilliseconds % 1000 * 1000000;
     nanosleep(&req, NULL);
 #endif
     return;
 }
 
-UINT32 CommonFunc::GetFreePhysMemory()
+INT32 CommonFunc::GetFreePhysMemory()
 {
-    UINT32 dwFreeSize = 0;
+    INT32 nFreeSize = 0;
 #ifdef WIN32
     MEMORYSTATUSEX statex;
 
@@ -414,16 +555,16 @@ UINT32 CommonFunc::GetFreePhysMemory()
 
     GlobalMemoryStatusEx (&statex);
 
-    dwFreeSize = (UINT32)(statex.ullAvailPhys / 1024 / 1024);
+    nFreeSize = (INT32)(statex.ullAvailPhys / 1024 / 1024);
 #else
-    UINT32 dwPageSize;
-    UINT32 dwFreePages;
-    dwPageSize = sysconf (_SC_PAGESIZE) / 1024;
-    dwFreePages = sysconf (_SC_AVPHYS_PAGES) / 1024;
-    dwFreeSize = dwFreePages * dwPageSize;
+    INT32 nPageSize;
+    INT32 nFreePages;
+    nPageSize = sysconf (_SC_PAGESIZE) / 1024;
+    nFreePages = sysconf (_SC_AVPHYS_PAGES) / 1024;
+    nFreeSize = nFreePages * nPageSize;
 #endif
 
-    return dwFreeSize;
+    return nFreeSize;
 }
 
 INT32 CommonFunc::GetRandNum(INT32 nType)
@@ -440,7 +581,7 @@ INT32 CommonFunc::GetRandNum(INT32 nType)
     if(bInit == FALSE)
     {
         bInit = TRUE;
-        INT32  nTempIndex;
+        INT32 nTempIndex;
         INT32 nTemp;
         for(int j = 0; j < 10000; j++ )
         {
@@ -462,7 +603,7 @@ INT32 CommonFunc::GetRandNum(INT32 nType)
     return  vtGlobalRankValue[(nRandIndex[nType]++) % 10000];
 }
 
-UINT32 CommonFunc::GetLastError()
+INT32 CommonFunc::GetLastError()
 {
 #ifdef WIN32
     return ::GetLastError();
@@ -490,12 +631,12 @@ std::string CommonFunc::GetLastErrorStr(INT32 nError)
 }
 
 //s:8m:8:p:16
-HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize)
+HANDLE CommonFunc::CreateShareMemory(INT32 nModuleID, INT32 nPage, INT32 nSize)
 {
     HANDLE hShare = NULL;
 #ifdef WIN32
     CHAR szMemName[128] = {0};
-    snprintf(szMemName, 128, "SM_%d", (dwModuleID << 16) | nPage);
+    snprintf(szMemName, 128, "SM_%d", (nModuleID << 16) | nPage);
     hShare = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, nSize, szMemName);
     if (hShare != NULL)
     {
@@ -506,7 +647,7 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
         }
     }
 #else
-    hShare = shmget((dwModuleID << 16) | nPage, nSize, 0666 | IPC_CREAT | IPC_EXCL);
+    hShare = shmget((nModuleID << 16) | nPage, nSize, 0666 | IPC_CREAT | IPC_EXCL);
     if (hShare == -1)
     {
         hShare = NULL;
@@ -541,15 +682,15 @@ HANDLE CommonFunc::CreateShareMemory(UINT32 dwModuleID, INT32 nPage, INT32 nSize
 // }
 
 //s:10m:6:p:16
-HANDLE CommonFunc::OpenShareMemory(UINT32 dwModuleID, INT32 nPage)
+HANDLE CommonFunc::OpenShareMemory(INT32 nModuleID, INT32 nPage)
 {
     HANDLE hShare = NULL;
 #ifdef WIN32
     CHAR szMemName[128] = {0};
-    snprintf(szMemName, 128, "SM_%d", dwModuleID << 16 | nPage);
+    snprintf(szMemName, 128, "SM_%d", nModuleID << 16 | nPage);
     hShare = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, szMemName);
 #else
-    hShare = shmget(dwModuleID << 16 | nPage, 0, 0);
+    hShare = shmget(nModuleID << 16 | nPage, 0, 0);
     if (hShare == -1)
     {
         return NULL;
@@ -603,30 +744,17 @@ BOOL CommonFunc::CloseShareMemory(HANDLE hShm)
 #endif
 }
 
-BOOL CommonFunc::DbgTrace(char* format, ...)
-{
-#if (defined WIN32) && (defined _DEBUG)
-    char szLog[1024] = { 0 };
-    va_list argptr;
-    va_start(argptr, format);
-    vsnprintf(szLog, 1023, format, argptr);
-    va_end(argptr);
-    OutputDebugString(szLog);
-#endif
 
-    return TRUE;
-}
-
-BOOL CommonFunc::KillProcess(UINT64 dwPid)
+BOOL CommonFunc::KillProcess(INT32 nPid)
 {
 #ifdef WIN32
     HANDLE hPrc;
-    if (0 == dwPid)
+    if (0 == nPid)
     {
         return FALSE;
     }
 
-    hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)dwPid);
+    hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)nPid);
     if (hPrc == NULL)
     {
         return TRUE;
@@ -643,28 +771,36 @@ BOOL CommonFunc::KillProcess(UINT64 dwPid)
     }
     CloseHandle(hPrc);
 #else
-    kill(dwPid, SIGKILL);
+    kill(nPid, SIGKILL);
 #endif
     return TRUE;
 }
 
-BOOL CommonFunc::IsProcessExist(UINT64 dwPid)
+BOOL CommonFunc::IsProcessExist(INT32 nPid)
 {
 #ifdef WIN32
     HANDLE hPrc;
-    if (0 == dwPid)
+    if (0 == nPid)
     {
         return FALSE;
     }
 
-    hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)dwPid);
+    DWORD nExitCode = 0;
+    hPrc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)nPid);
     if (hPrc == NULL)
+    {
+        return FALSE;
+    }
+
+    //! 进程关闭后, 句柄不一定为空, 需要获取进程退出码进一步判断
+    GetExitCodeProcess(hPrc, &nExitCode);
+    if (nExitCode != STILL_ACTIVE)
     {
         return FALSE;
     }
     CloseHandle(hPrc);
 #else
-    if (kill(dwPid, 0) < 0)
+    if (kill(nPid, 0) < 0)
     {
         return FALSE;
     }
@@ -677,19 +813,19 @@ BOOL CommonFunc::IsProcessExist(UINT64 dwPid)
     return TRUE;
 }
 
-UINT32 CommonFunc::GetProcessID(std::string strProcName)
+INT32 CommonFunc::GetProcessID(const char* pszProcName)
 {
 #ifdef WIN32
-    UINT32 dwProcID = 0;
+    INT32 nProcID = 0;
     HANDLE Snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     PROCESSENTRY32 stProcessEntry;
     stProcessEntry.dwSize = sizeof(PROCESSENTRY32);
     BOOL bRet = Process32First(Snapshot, &stProcessEntry);
     while (bRet)
     {
-        if(stricmp(strProcName.c_str(), stProcessEntry.szExeFile) == 0)
+        if(stricmp(pszProcName, stProcessEntry.szExeFile) == 0)
         {
-            dwProcID = stProcessEntry.th32ProcessID;
+            nProcID = stProcessEntry.th32ProcessID;
             break;
         }
 
@@ -698,13 +834,28 @@ UINT32 CommonFunc::GetProcessID(std::string strProcName)
 
     CloseHandle(Snapshot);
 
-    return dwProcID;
+    return nProcID;
 #else
-    return 0;
+    FILE* fp;
+    char buf[100];
+    char cmd[200] = { '\0' };
+    pid_t pid = 0;
+    sprintf(cmd, "pidof %s", pszProcName);
+
+    if ((fp = popen(cmd, "r")) != NULL)
+    {
+        if (fgets(buf, 255, fp) != NULL)
+        {
+            pid = atoi(buf);
+        }
+    }
+
+    pclose(fp);
+    return pid;
 #endif
 }
 
-BOOL CommonFunc::CreateProcess(std::string strProcName, std::string strCommandLine)
+BOOL CommonFunc::StartProcess(const char* pszProcName, const char* pszCommandLine, const char*  pszWorkPath)
 {
 #ifdef WIN32
     STARTUPINFO stStartUpInfo;
@@ -714,13 +865,12 @@ BOOL CommonFunc::CreateProcess(std::string strProcName, std::string strCommandLi
     PROCESS_INFORMATION stProcessInfo;
     memset(&stProcessInfo, 0, sizeof(stProcessInfo));
 
-    if (!CreateProcess(strProcName.c_str(), (LPSTR)strCommandLine.c_str(), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &stStartUpInfo, &stProcessInfo))
+    if (!CreateProcess(pszProcName, (LPSTR)pszCommandLine, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, pszWorkPath, &stStartUpInfo, &stProcessInfo))
     {
         return FALSE;
     }
 #else
-    std::string strExe = "./" + strProcName;
-    if (execl(strExe.c_str(), strProcName.c_str(), strCommandLine.c_str(), (char*)0) < 0)
+    if (execl(pszProcName, pszProcName, pszCommandLine, (char*)0) < 0)
     {
         return FALSE;
     }

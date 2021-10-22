@@ -33,6 +33,7 @@ gitee地址: https://gitee.com/ylmbtm/GameProject3
 
 交流QQ群 : 871115813
 公众号:![public1](https://github.com/ylmbtm/resource/blob/master/20210818175029.png)
+![public1](https://wx1.sinaimg.cn/mw2000/002dp2Ulgy1gvofyue87sj6065065wf602.jpg)
 
 
 #### 体验客户端效果(群文件中有全部客户端代码及资源)

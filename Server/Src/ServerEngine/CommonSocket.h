@@ -49,6 +49,8 @@ std::string IpAddrIntToStr(UINT32 dwIpAddr);
 
 BOOL        SetSocketBuffSize(SOCKET hSocket, INT32 nRecvSize, INT32 nSendSize);
 
+BOOL        SetSocketTimeOut(SOCKET hSocket, INT32 nSendTime, INT32 nRecvTime);
+
 std::string GetRemoteIP(SOCKET hSocket);
 
 UINT32      HostToNet(INT32 nValue);
