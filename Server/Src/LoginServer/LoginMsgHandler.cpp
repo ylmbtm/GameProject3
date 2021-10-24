@@ -74,8 +74,7 @@ BOOL CLoginMsgHandler::OnMsgCheckVersionReq(NetPacket* pPacket)
     Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
     PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
 
-    INT32 nConnID = pPacket->m_nConnID;
-    ERROR_RETURN_TRUE(nConnID != 0);
+    ERROR_RETURN_TRUE(pPacket->m_nConnID != 0);
 
     CheckVersionAck Ack;
     Ack.set_retcode(MRC_SUCCESSED);
@@ -210,7 +209,7 @@ BOOL CLoginMsgHandler::OnMsgSelectServerReq(NetPacket* pPacket)
     INT32 nConnID = pPacket->m_nConnID;
     ERROR_RETURN_TRUE(nConnID != 0);
     ERROR_RETURN_TRUE(Req.serverid() != 0);
-
+    ERROR_RETURN_TRUE(Req.accountid() > 0);
     if (!CLoginClientMgr::GetInstancePtr()->CheckClientMessage(nConnID, pPacket->m_nMsgID))
     {
         CLog::GetInstancePtr()->LogError("非法的消息请求SelectServer!!!");

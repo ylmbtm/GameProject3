@@ -58,13 +58,14 @@ BOOL CWebCommandMgr::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CWebCommandMgr::OnMsgGmCommandReq(NetPacket* pNetPacket)
 {
-	CHAR szMsgBuf[1024] = { 0 };
+    ERROR_RETURN_TRUE(pNetPacket->m_pDataBuffer->GetBodyLenth() < 2000);
+    CHAR szMsgBuf[2048] = { 0 };
 	CommonConvert::StrCopy(szMsgBuf, pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth() + 1);
 
 	HttpParameter Params;
 	Params.ParseStringToMap(szMsgBuf);
 	std::string strAction = Params.GetStrValue("Action");
-	CLog::GetInstancePtr()->LogInfo("Web Action :%s,  Params:%s", strAction.c_str(), szMsgBuf);
+    CLog::GetInstancePtr()->LogHiInfo("Web Action :%s,  Params:%s", strAction.c_str(), szMsgBuf);
 
 	EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
 

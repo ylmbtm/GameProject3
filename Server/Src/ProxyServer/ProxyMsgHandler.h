@@ -6,46 +6,46 @@ class  CProxyPlayer;
 class CProxyMsgHandler
 {
 public:
-	CProxyMsgHandler();
+    CProxyMsgHandler();
 
-	~CProxyMsgHandler();
+    ~CProxyMsgHandler();
 
-	BOOL		Init(UINT32 dwReserved);
+    BOOL        Init(UINT32 dwReserved);
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		DispatchPacket(NetPacket* pNetPacket);
+    BOOL        DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL		OnNewConnect(INT32 nConnID);
+    BOOL        OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(INT32 nConnID);
+    BOOL        OnCloseConnect(INT32 nConnID);
 public:
-	BOOL		RelayToGameServer(CProxyPlayer* pClientObj, IDataBuffer* pBuffer);
+    BOOL        RelayToGameServer(CProxyPlayer* pClientObj, IDataBuffer* pBuffer);
 
-	BOOL		RelayToLogicServer(IDataBuffer* pBuffer);
+    BOOL        RelayToLogicServer(IDataBuffer* pBuffer);
 
-	BOOL        RelayToConnect(INT32 nConnID, IDataBuffer* pBuffer);
+    BOOL        RelayToConnect(INT32 nConnID, IDataBuffer* pBuffer);
 
-	UINT32      GetGameSvrConnID(UINT32 dwSvrID);
+    INT32       GetGameSvrConnID(INT32 nSvrID);
 
-	BOOL		IsServerConnID(INT32 nConnID);
+    BOOL        IsServerConnID(INT32 nConnID);
 
 public:
-	//*********************消息处理定义开始******************************
-	BOOL		OnMsgGameSvrRegister(NetPacket* pPacket);
-	BOOL		OnMsgNotifyIntoSceneNtf(NetPacket* pPacket);
-	BOOL		OnMsgEnterSceneReq(NetPacket* pPacket);
-	BOOL		OnMsgBroadMessageNty(NetPacket* pPacket);
-	BOOL		OnMsgRoleLoginAck(NetPacket* pPacket);
-	BOOL		OnMsgRoleLogoutReq(NetPacket* pPacket);
-	BOOL		OnMsgKickoutNty(NetPacket* pPacket);
-	BOOL		OnMsgRemoveConnectNty(NetPacket* pPacket);
-	BOOL		OnMsgRelayToLogic(NetPacket* pPacket);
-	BOOL		OnMsgReconnectReq(NetPacket* pPacket);
-	BOOL		OnMsgReconnectAck(NetPacket* pPacket);
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义开始******************************
+    BOOL        OnMsgGameSvrRegister(NetPacket* pPacket);
+    BOOL        OnMsgNotifyIntoSceneNtf(NetPacket* pPacket);
+    BOOL        OnMsgEnterSceneReq(NetPacket* pPacket);
+    BOOL        OnMsgBroadMessageNty(NetPacket* pPacket);
+    BOOL        OnMsgRoleLoginAck(NetPacket* pPacket);
+    BOOL        OnMsgRoleLogoutReq(NetPacket* pPacket);
+    BOOL        OnMsgKickoutNty(NetPacket* pPacket);
+    BOOL        OnMsgRemoveConnectNty(NetPacket* pPacket);
+    BOOL        OnMsgRelayToLogic(NetPacket* pPacket);
+    BOOL        OnMsgReconnectReq(NetPacket* pPacket);
+    BOOL        OnMsgReconnectAck(NetPacket* pPacket);
+    //*********************消息处理定义结束******************************
 public:
-	std::map<UINT32, UINT32> m_mapSvrIDtoConnID;
+    std::map<INT32, INT32> m_mapSvrIDtoConnID;
 
 };
 

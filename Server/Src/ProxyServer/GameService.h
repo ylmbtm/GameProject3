@@ -34,7 +34,7 @@ public:
     //处理普通的网络连接
     CProxyMsgHandler    m_ProxyMsgHandler;
 
-    UINT32              m_dwLogicConnID;
+    INT32               m_nLogicConnID;
     BOOL                m_bLogicConnect;
 public:
     //*********************消息处理定义开始******************************

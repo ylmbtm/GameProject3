@@ -69,7 +69,7 @@ BOOL CGameService::Init()
 
     ERROR_RETURN_FALSE(GiftCodeManager::GetInstancePtr()->Init());
 
-    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
 
     return TRUE;
 }

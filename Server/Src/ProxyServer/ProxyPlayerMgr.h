@@ -10,26 +10,26 @@ public:
     ~CProxyPlayer();
 
 public:
-    UINT32  GetGameSvrID();
+    INT32   GetGameSvrID();
 
-    VOID    SetGameSvrInfo(UINT32 dwSvrID, UINT32 dwCopyGuid);
+    VOID    SetGameSvrInfo(INT32 nSvrID, INT32 nCopyGuid);
 
     VOID    SetConnID(INT32 nConnID);
 
-    UINT64  GetCharID();
+    UINT64  GetRoleID();
 
-    UINT32  GetConnID();
+    INT32   GetConnID();
 
-    UINT32  GetCopyGuid();
+    INT32   GetCopyGuid();
 
 public:
-    UINT64  m_u64RoleID;
+    UINT64  m_uRoleID;
 
     INT32   m_nGameSvrID;
 
-    INT32  m_nConnID;
+    INT32   m_nConnID;
 
-    UINT32  m_dwCopyGuid;
+    INT32   m_nCopyGuid;
 };
 
 class CProxyPlayerMgr : public AVLTree<UINT64, CProxyPlayer>
@@ -41,11 +41,11 @@ private:
 public:
     static CProxyPlayerMgr* GetInstancePtr();
 
-    CProxyPlayer*   GetByCharID(UINT64 u64RoleID);
+    CProxyPlayer*   GetByRoleID(UINT64 uRoleID);
 
-    CProxyPlayer*   CreateProxyPlayer(UINT64 u64RoleID);
+    CProxyPlayer*   CreateProxyPlayer(UINT64 uRoleID);
 
-    BOOL            RemoveByCharID(UINT64 u64RoleID);
+    BOOL            RemoveByRoleID(UINT64 uRoleID);
 
     CProxyPlayer*   GetByConnID(INT32 nConnID);
 };

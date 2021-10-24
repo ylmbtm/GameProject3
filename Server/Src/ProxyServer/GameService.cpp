@@ -7,13 +7,13 @@
 #include "WatcherClient.h"
 CGameService::CGameService(void)
 {
-    m_dwLogicConnID     = 0;
+    m_nLogicConnID     = 0;
     m_bLogicConnect = FALSE;
 }
 
 CGameService::~CGameService(void)
 {
-    m_dwLogicConnID = 0;
+    m_nLogicConnID = 0;
     m_bLogicConnect = FALSE;
 }
 
@@ -66,14 +66,14 @@ BOOL CGameService::Init()
     //开启包序号检查
     ERROR_RETURN_FALSE(m_ProxyMsgHandler.Init(0));
 
-    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
 
     return TRUE;
 }
 
 BOOL CGameService::OnNewConnect(INT32 nConnID)
 {
-    if (nConnID == m_dwLogicConnID)
+    if (nConnID == m_nLogicConnID)
     {
         m_bLogicConnect = TRUE;
     }
@@ -87,9 +87,9 @@ BOOL CGameService::OnNewConnect(INT32 nConnID)
 
 BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
-    if(nConnID == m_dwLogicConnID)
+    if(nConnID == m_nLogicConnID)
     {
-        m_dwLogicConnID = 0;
+        m_nLogicConnID = 0;
         CLog::GetInstancePtr()->LogError("CGameService::OnCloseConnect Disconnect From Logic Server.");
         return TRUE;
     }
@@ -105,7 +105,7 @@ BOOL CGameService::OnSecondTimer()
 {
     ConnectToLogicSvr();
 
-    CWatcherClient::GetInstancePtr()->OnSecondTimer();
+
 
     return TRUE;
 }
@@ -127,12 +127,12 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 UINT32 CGameService::GetLogicConnID()
 {
-    return m_dwLogicConnID;
+    return m_nLogicConnID;
 }
 
 BOOL CGameService::ConnectToLogicSvr()
 {
-    if (m_dwLogicConnID != 0)
+    if (m_nLogicConnID != 0)
     {
         return TRUE;
     }
@@ -141,7 +141,7 @@ BOOL CGameService::ConnectToLogicSvr()
     std::string strLogicIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
     CConnection* pConn = ServiceBase::GetInstancePtr()->ConnectTo(strLogicIp, nLogicPort);
     ERROR_RETURN_FALSE(pConn != NULL);
-    m_dwLogicConnID = pConn->GetConnectionID();
+    m_nLogicConnID = pConn->GetConnectionID();
     pConn->SetConnectionData(1);
     return TRUE;
 }

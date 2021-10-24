@@ -3,10 +3,10 @@
 
 CProxyPlayer::CProxyPlayer()
 {
-    m_u64RoleID = 0;
+    m_uRoleID = 0;
     m_nGameSvrID = 0;
     m_nConnID = 0;
-    m_dwCopyGuid = 0;
+    m_nCopyGuid = 0;
 }
 
 CProxyPlayer::~CProxyPlayer()
@@ -14,30 +14,30 @@ CProxyPlayer::~CProxyPlayer()
 
 }
 
-UINT32 CProxyPlayer::GetGameSvrID()
+INT32 CProxyPlayer::GetGameSvrID()
 {
     return m_nGameSvrID;
 }
 
-UINT64 CProxyPlayer::GetCharID()
+UINT64 CProxyPlayer::GetRoleID()
 {
-    return m_u64RoleID;
+    return m_uRoleID;
 }
 
-UINT32 CProxyPlayer::GetConnID()
+INT32 CProxyPlayer::GetConnID()
 {
     return m_nConnID;
 }
 
-UINT32 CProxyPlayer::GetCopyGuid()
+INT32 CProxyPlayer::GetCopyGuid()
 {
-    return m_dwCopyGuid;
+    return m_nCopyGuid;
 }
 
-VOID CProxyPlayer::SetGameSvrInfo( UINT32 dwSvrID, UINT32 dwCopyGuid )
+VOID CProxyPlayer::SetGameSvrInfo(INT32 nSvrID, INT32 nCopyGuid)
 {
-    m_nGameSvrID = dwSvrID;
-    m_dwCopyGuid = dwCopyGuid;
+    m_nGameSvrID = nSvrID;
+    m_nCopyGuid = nCopyGuid;
 }
 
 
@@ -61,24 +61,24 @@ CProxyPlayerMgr* CProxyPlayerMgr::GetInstancePtr()
     return &_StaicPlayerMgr;
 }
 
-CProxyPlayer* CProxyPlayerMgr::GetByCharID(UINT64 u64RoleID)
+CProxyPlayer* CProxyPlayerMgr::GetByRoleID(UINT64 uRoleID)
 {
-    return GetByKey(u64RoleID);
+    return GetByKey(uRoleID);
 }
 
-CProxyPlayer* CProxyPlayerMgr::CreateProxyPlayer(UINT64 u64RoleID)
+CProxyPlayer* CProxyPlayerMgr::CreateProxyPlayer(UINT64 uRoleID)
 {
-    CProxyPlayer* pClientObj = InsertAlloc(u64RoleID);
+    CProxyPlayer* pClientObj = InsertAlloc(uRoleID);
     ERROR_RETURN_NULL(pClientObj != NULL);
 
-    pClientObj->m_u64RoleID = u64RoleID;
+    pClientObj->m_uRoleID = uRoleID;
 
     return pClientObj;
 }
 
-BOOL CProxyPlayerMgr::RemoveByCharID(UINT64 u64RoleID)
+BOOL CProxyPlayerMgr::RemoveByRoleID(UINT64 uRoleID)
 {
-    return Delete(u64RoleID);
+    return Delete(uRoleID);
 }
 
 CProxyPlayer* CProxyPlayerMgr::GetByConnID(INT32 nConnID)
