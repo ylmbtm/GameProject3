@@ -20,7 +20,7 @@ public:
 
     BOOL    Stop();
 
-    BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+    BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, INT32 nLen);
 
     BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 

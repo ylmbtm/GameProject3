@@ -141,11 +141,11 @@ void CConnection::SetConnectionID( INT32 nConnID )
     return ;
 }
 
-VOID CConnection::SetConnectionData( UINT64 dwData )
+VOID CConnection::SetConnectionData( UINT64 uData )
 {
     ERROR_RETURN_NONE(m_nConnID != 0);
 
-    m_uConnData = dwData;
+    m_uConnData = uData;
 
     return ;
 }
@@ -477,7 +477,7 @@ BOOL CConnection::DoSend()
 
 void CConnection::HandReaddata(size_t len)
 {
-    HandleRecvEvent((UINT32)len);
+    HandleRecvEvent((INT32)len);
 }
 
 
@@ -534,9 +534,9 @@ CConnection* CConnectionMgr::GetConnectionByID( INT32 nConnID )
 {
     ERROR_RETURN_NULL(nConnID != 0);
 
-    UINT32 dwIndex = nConnID % m_vtConnList.size();
+    INT32 nIndex = nConnID % m_vtConnList.size();
 
-    CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
+    CConnection* pConnect = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
     if (pConnect->GetConnectionID() != nConnID)
     {
@@ -583,7 +583,7 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
     pConnection->Reset();
 
-    nConnID += (UINT32)m_vtConnList.size();
+    nConnID += (INT32)m_vtConnList.size();
 
     pConnection->SetConnectionID(nConnID);
 
@@ -673,7 +673,7 @@ BOOL CConnectionMgr::InitConnectionList(INT32 nMaxCons)
     ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
 
     m_vtConnList.assign(nMaxCons, NULL);
-    for(UINT32 i = 0; i < nMaxCons; i++)
+    for(INT32 i = 0; i < nMaxCons; i++)
     {
         CConnection* pConn = new CConnection();
 

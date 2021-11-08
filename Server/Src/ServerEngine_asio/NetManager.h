@@ -12,43 +12,44 @@
 
 class CNetManager
 {
-	CNetManager(void);
+    CNetManager(void);
 
-	virtual ~CNetManager(void);
+    virtual ~CNetManager(void);
 public:
-	static CNetManager* GetInstancePtr()
-	{
-		static CNetManager NetManager;
+    static CNetManager* GetInstancePtr()
+    {
+        static CNetManager NetManager;
 
-		return &NetManager;
-	}
+        return &NetManager;
+    }
 public:
-	BOOL    Start(UINT16 nPortNum,  INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
+    BOOL    Start(UINT16 nPortNum,  INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp);
 
-	BOOL    Stop();
+    BOOL    Stop();
 
-	BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen);
+    BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, INT32 nLen);
 
-	BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
+    BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 
-	BOOL    WaitForConnect();
+
+    BOOL    WaitForConnect();
 
 public:
 
-	CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+    CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
 
-	CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
+    CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
-	void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
+    void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
 
-	void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);
+    void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);
 
-	BOOL PostSendOperation(CConnection* pConnection);
+    BOOL PostSendOperation(CConnection* pConnection);
 
-	boost::asio::ip::tcp::acceptor* m_pAcceptor;
-	boost::asio::io_service         m_IoService;
-	boost::thread*                  m_pWorkThread;
-	IDataHandler*					m_pBufferHandler;
+    boost::asio::ip::tcp::acceptor* m_pAcceptor;
+    boost::asio::io_service         m_IoService;
+    boost::thread*                  m_pWorkThread;
+    IDataHandler*                   m_pBufferHandler;
 };
 
 #endif

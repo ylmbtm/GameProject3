@@ -303,7 +303,6 @@ BOOL CProxyMsgHandler::OnMsgKickoutNty(NetPacket* pPacket)
     if (pConn != NULL)
     {
         pConn->SetConnectionData(0);
-        //ServiceBase::GetInstancePtr()->CloseConnect(pPacketHeader->dwUserData);
     }
 
     return TRUE;

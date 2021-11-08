@@ -16,23 +16,11 @@ static BOOL        ExitRoutine(INT32 nSignal)
     switch (nSignal)
     {
         case CTRL_C_EVENT:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case CTRL_CLOSE_EVENT:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case CTRL_LOGOFF_EVENT:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case CTRL_SHUTDOWN_EVENT:
         {
-            CGameService::GetInstancePtr()->Uninit();
+            CGameService::GetInstancePtr()->m_bIsRun = FALSE;
         }
         break;
         default:
@@ -48,23 +36,11 @@ static VOID        ExitRoutine(INT32 nSignal)
     switch (nSignal)
     {
         case SIGINT:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case SIGQUIT:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case SIGKILL:
-        {
-            CGameService::GetInstancePtr()->Uninit();
-        }
-        break;
         case SIGTERM:
         {
-            CGameService::GetInstancePtr()->Uninit();
+            CGameService::GetInstancePtr()->m_bIsRun = FALSE;
         }
         break;
         default:
@@ -94,6 +70,13 @@ BOOL CWatchMsgHandler::Init(INT32 nReserved)
     {
         return FALSE;
     }
+
+    if (!LoadCloudParam())
+    {
+        return FALSE;
+    }
+
+    TimerManager::GetInstancePtr()->AddDiffTimer(10, 1, &CWatchMsgHandler::ReportStatusTimer, this);
 
     return TRUE;
 }
@@ -153,7 +136,7 @@ BOOL CWatchMsgHandler::OnMsgWebCommandReq(NetPacket* pNetPacket)
     HttpParameter Params;
     Params.ParseStringToMap(szMsgBuf);
     std::string strAction = Params.GetStrValue("Action");
-    CLog::GetInstancePtr()->LogInfo("Web Action :%s", strAction.c_str());
+    CLog::GetInstancePtr()->LogHiInfo("Web Action :%s", strAction.c_str());
 
     EWebAction eWebAction = (EWebAction)CommonConvert::StringToInt(strAction.c_str());
     switch (eWebAction)
@@ -185,7 +168,7 @@ void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, INT32 nConnID)
     INT32 nAreaID = hParams.GetIntValue("areaid");
     ERROR_RETURN_NONE(nAreaID != 0);
 
-    CLog::GetInstancePtr()->LogInfo("OnGmServerStart Server:%d!", nAreaID);
+    CLog::GetInstancePtr()->LogHiInfo("OnGmServerStart Server:%d!", nAreaID);
 
     ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
     if (pSvrInfo == NULL)
@@ -194,7 +177,7 @@ void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 10)
     {
         SendWebResult(nConnID, EWR_FAILURE);
         return;
@@ -204,7 +187,7 @@ void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, INT32 nConnID)
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_start");
 
-    CommonFunc::StartProcess(strExe.c_str());
+    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -216,7 +199,7 @@ void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, INT32 nConnID)
     INT32 nAreaID = hParams.GetIntValue("areaid");
     ERROR_RETURN_NONE(nAreaID != 0);
 
-    CLog::GetInstancePtr()->LogInfo("OnGmServerStop Server:%d!", nAreaID);
+    CLog::GetInstancePtr()->LogHiInfo("OnGmServerStop Server:%d!", nAreaID);
 
     ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
     if (pSvrInfo == NULL)
@@ -225,7 +208,7 @@ void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 10)
     {
         SendWebResult(nConnID, EWR_FAILURE);
         return;
@@ -235,7 +218,7 @@ void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, INT32 nConnID)
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_stop");
 
-    CommonFunc::StartProcess(strExe.c_str());
+    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -247,7 +230,7 @@ void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
     INT32 nAreaID = hParams.GetIntValue("areaid");
     ERROR_RETURN_NONE(nAreaID != 0);
 
-    CLog::GetInstancePtr()->LogInfo("OnGmServerUpdate Server:%d!", nAreaID);
+    CLog::GetInstancePtr()->LogHiInfo("OnGmServerUpdate Server:%d!", nAreaID);
 
     ServerInfo* pSvrInfo = GetServerInfo(nAreaID);
     if (pSvrInfo == NULL)
@@ -256,7 +239,7 @@ void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 5)
+    if ((CommonFunc::GetCurrTime() - pSvrInfo->uLastOpTime) < 10)
     {
         SendWebResult(nConnID, EWR_FAILURE);
         return;
@@ -266,7 +249,7 @@ void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_update");
 
-    CommonFunc::StartProcess(strExe.c_str());
+    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -280,6 +263,10 @@ BOOL CWatchMsgHandler::InitServerList()
 {
     m_strRootPath = CConfigFile::GetInstancePtr()->GetStringValue("server_root_path");
     m_strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("server_dir_name");
+    m_strGmSvrIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
+
+    m_strInnerIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
+    m_strOuterIp = CConfigFile::GetInstancePtr()->GetStringValue("login_svr_ip");
 
     std::vector<std::string> vtProcess;
     CommonConvert::SpliteString(CConfigFile::GetInstancePtr()->GetStringValue("process_list"), ' ', vtProcess);
@@ -296,7 +283,6 @@ BOOL CWatchMsgHandler::InitServerList()
         }
 
         ServerInfo svrInfo;
-
         svrInfo.bWatch = FALSE;
         svrInfo.nAreaID = nAreaID;
         svrInfo.uLastOpTime = 0;

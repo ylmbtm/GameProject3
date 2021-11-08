@@ -5,28 +5,29 @@
 class CGameService : public IPacketDispatcher
 {
 private:
-	CGameService(void);
-	virtual ~CGameService(void);
+    CGameService(void);
+    virtual ~CGameService(void);
 
 public:
-	static CGameService* GetInstancePtr();
+    static CGameService* GetInstancePtr();
 
-	BOOL		Init();
+    BOOL        Init();
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		Run();
+    BOOL        Run();
 
-	BOOL		OnNewConnect(INT32 nConnID);
+    BOOL        OnNewConnect(INT32 nConnID);
 
-	BOOL		OnCloseConnect(INT32 nConnID);
+    BOOL        OnCloseConnect(INT32 nConnID);
 
-	BOOL		OnSecondTimer();
+    BOOL        OnSecondTimer();
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
-public:
+    BOOL        DispatchPacket( NetPacket* pNetPacket);
 
-	CWatchMsgHandler		m_WatchMsgHandler;
+    CWatchMsgHandler        m_WatchMsgHandler;
+
+    BOOL                    m_bIsRun;
 };
 
 #endif

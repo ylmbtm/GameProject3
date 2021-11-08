@@ -3,12 +3,12 @@
 
 CGameService::CGameService(void)
 {
-
+    m_bIsRun = TRUE;
 }
 
 CGameService::~CGameService(void)
 {
-
+    m_bIsRun = FALSE;
 }
 
 CGameService* CGameService::GetInstancePtr()
@@ -43,7 +43,7 @@ BOOL CGameService::Init()
     CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("watch_log_level"));
 
     UINT16 nPort = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_port");
-    INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_max_con");
+    INT32 nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("watch_svr_max_con");
     std::string strListenIp = CConfigFile::GetInstancePtr()->GetStringValue("watch_svr_ip");
     if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this, strListenIp))
     {
@@ -107,7 +107,7 @@ BOOL CGameService::Uninit()
 
 BOOL CGameService::Run()
 {
-    while (TRUE)
+    while (m_bIsRun)
     {
         ServiceBase::GetInstancePtr()->Update();
 

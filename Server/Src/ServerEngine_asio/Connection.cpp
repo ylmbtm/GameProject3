@@ -13,13 +13,13 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 {
     m_pDataHandler      = NULL;
 
-    m_nDataLen         = 0;
+    m_nDataLen          = 0;
 
     m_bConnected        = FALSE;
 
-    m_uConnData        = 0;
+    m_uConnData         = 0;
 
-    m_nConnID          = 0;
+    m_nConnID           = 0;
 
     m_pCurRecvBuffer    = NULL;
 
@@ -43,9 +43,9 @@ CConnection::~CConnection(void)
 
 BOOL CConnection::DoReceive()
 {
-    //boost::asio::async_read(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    //boost::asio::async_read(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_nDataLen,CONST_BUFF_SIZE - m_nDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-    //boost::asio::async_read_some(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_dwDataLen,CONST_BUFF_SIZE - m_dwDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    //boost::asio::async_read_some(m_hSocket, boost::asio::buffer(m_pRecvBuf + m_nDataLen,CONST_BUFF_SIZE - m_nDataLen), boost::bind(&CConnection::handReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
     m_hSocket.async_read_some(boost::asio::buffer(m_pRecvBuf + m_nDataLen, RECV_BUF_SIZE - m_nDataLen), boost::bind(&CConnection::HandReaddata, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
@@ -73,11 +73,11 @@ void CConnection::SetConnectionID( INT32 nConnID )
     return ;
 }
 
-VOID CConnection::SetConnectionData( UINT64 dwData )
+VOID CConnection::SetConnectionData( UINT64 uData )
 {
     ERROR_RETURN_NONE(m_nConnID != 0);
 
-    m_uConnData = dwData;
+    m_uConnData = uData;
 
     return ;
 }
@@ -406,7 +406,7 @@ void CConnection::HandReaddata(const boost::system::error_code& error, size_t le
 {
     if (!error)
     {
-        if (HandleRecvEvent((UINT32)len))
+        if (HandleRecvEvent((INT32)len))
         {
             return;
         }
@@ -479,9 +479,9 @@ CConnection* CConnectionMgr::GetConnectionByID( INT32 nConnID )
 {
     ERROR_RETURN_NULL(nConnID != 0);
 
-    UINT32 dwIndex = nConnID % m_vtConnList.size();
+    INT32 nIndex = nConnID % m_vtConnList.size();
 
-    CConnection* pConnect = m_vtConnList.at(dwIndex == 0 ? (m_vtConnList.size() - 1) : (dwIndex - 1));
+    CConnection* pConnect = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
 
     if (pConnect->GetConnectionID() != nConnID)
     {
@@ -528,7 +528,12 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
 
     pConnection->Reset();
 
-    nConnID += (UINT32)m_vtConnList.size();
+    nConnID += (INT32)m_vtConnList.size();
+    
+    if (nConnID <= 0)
+    {
+        nConnID = nIndex + 1;
+    }
 
     pConnection->SetConnectionID(nConnID);
 
@@ -567,6 +572,10 @@ BOOL CConnectionMgr::DestroyAllConnection()
     for(size_t i = 0; i < m_vtConnList.size(); i++)
     {
         pConn = m_vtConnList.at(i);
+        if (pConn == NULL)
+        {
+            continue;
+        }
         if (pConn->IsConnectionOK())
         {
             pConn->Close();
@@ -582,7 +591,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
 {
     return TRUE;
-    UINT64 curTick = CommonFunc::GetTickCount();
+    UINT64 uCurTick = CommonFunc::GetTickCount();
 
     for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
     {
@@ -602,7 +611,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
             continue;
         }
 
-        if(curTick > (pConnection->m_LastRecvTick + nInterval * 1000))
+        if(uCurTick > (pConnection->m_LastRecvTick + nInterval * 1000))
         {
             CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 超时主动断开连接 ConnID:%d", pConnection->GetConnectionID());
             pConnection->Close();
@@ -617,7 +626,7 @@ BOOL CConnectionMgr::InitConnectionList(INT32 nMaxCons, boost::asio::io_service&
     ERROR_RETURN_FALSE(m_pFreeConnTail == NULL);
 
     m_vtConnList.assign(nMaxCons, NULL);
-    for(UINT32 i = 0; i < nMaxCons; i++)
+    for(INT32 i = 0; i < nMaxCons; i++)
     {
         CConnection* pConn = new CConnection(ioservice);
 

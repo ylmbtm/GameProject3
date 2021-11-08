@@ -22,7 +22,7 @@ public:
 
     VOID    SetConnectionID(INT32 nConnID);
 
-    VOID    SetConnectionData(UINT64 dwData);
+    VOID    SetConnectionData(UINT64 uData);
 
     BOOL    Close();
 
@@ -64,7 +64,7 @@ public:
 
     BOOL                        m_bConnected;
 
-    UINT32                      m_nConnID;
+    INT32                       m_nConnID;
     UINT64                      m_uConnData;
 
     IDataHandler*               m_pDataHandler;

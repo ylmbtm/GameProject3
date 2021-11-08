@@ -10,7 +10,6 @@
 
 void _Run_Loop(void* arg)
 {
-
     CNetManager* pNetManager = (CNetManager*)arg;
 
     pNetManager->RunLoop();
@@ -256,18 +255,18 @@ BOOL CNetManager::SendMessageData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetI
         return FALSE;
     }
 
-    IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+    IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nLen + sizeof(PacketHeader));
     ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
     PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
     pHeader->CheckCode = CODE_VALUE;
     pHeader->dwUserData = dwUserData;
     pHeader->u64TargetID = u64TargetID;
-    pHeader->nSize = dwLen + sizeof(PacketHeader);
+    pHeader->nSize = nLen + sizeof(PacketHeader);
     pHeader->nMsgID = nMsgID;
     pHeader->nPacketNo = 1;
 
-    memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+    memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, nLen);
 
     pDataBuffer->SetTotalLenth(pHeader->nSize);
 

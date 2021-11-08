@@ -26,7 +26,7 @@ public:
 
     VOID    SetConnectionID(INT32 nConnID);
 
-    VOID    SetConnectionData(UINT64 dwData);
+    VOID    SetConnectionData(UINT64 uData);
 
     BOOL    Close();
 
@@ -66,7 +66,7 @@ public:
 
 
     BOOL                        m_bPacketNoCheck;
-    UINT32                      m_nConnID;
+    INT32                       m_nConnID;
     UINT64                      m_uConnData;
 
     IDataHandler*               m_pDataHandler;
@@ -76,8 +76,8 @@ public:
     CHAR*                       m_pBufPos;
 
     IDataBuffer*                m_pCurRecvBuffer;
-    UINT32                      m_nCurBufferSize;
-    UINT32                      m_nCheckNo;
+    INT32                       m_nCurBufferSize;
+    INT32                       m_nCheckNo;
 
     volatile BOOL               m_IsSending;
 
