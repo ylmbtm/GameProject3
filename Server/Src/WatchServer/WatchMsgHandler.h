@@ -46,6 +46,8 @@ public:
 
     BOOL        OnSecondTimer();
 
+    BOOL        ReportStatusTimer(INT32 key);
+
     BOOL        RegExitSignal();
 
     BOOL        SendWebResult(INT32 nConnID, EWebResult eResult);
@@ -66,6 +68,8 @@ protected:
 
     BOOL InitServerList();
 
+    BOOL LoadCloudParam();
+
     BOOL CheckServerStatus(BOOL bFrist = FALSE);
 
     ServerInfo* GetServerInfo(INT32 nAreaID);
@@ -73,6 +77,10 @@ protected:
     std::map<INT32, ServerInfo> m_mapServer;
 
     std::string m_strRootPath;
+    std::string m_strOuterIp;
+    std::string m_strInnerIp;
+    std::string m_strGmSvrIp;
+    INT32       m_nCloudID;
 
     std::string m_strSvrName;
 };

@@ -89,8 +89,8 @@ public:
     INT32  m_nData;
     TimeEvent* m_pPrev; //前一节点
     TimeEvent* m_pNext; //后一节点
-    INT32   m_nType;   //事件类型,1 绝对时间定时器,2 相对时间定时器
-    INT32   m_nRepeateTimes;
+    INT32  m_nType;   //事件类型,1 绝对时间定时器,2 相对时间定时器
+    INT32  m_nRepeateTimes;
     CTimerSlotBase* m_pTimerFuncSlot;
 };
 
@@ -116,7 +116,10 @@ public:
         {
             pNewEvent = m_pFreeHead;
             m_pFreeHead = m_pFreeHead->m_pNext;
-            m_pFreeHead->m_pPrev = NULL;
+            if (m_pFreeHead != NULL)
+            {
+                m_pFreeHead->m_pPrev = NULL;
+            }
         }
 
         pNewEvent->m_pNext = NULL;

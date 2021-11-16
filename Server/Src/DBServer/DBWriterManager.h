@@ -25,30 +25,30 @@ class CDBWriterManager
 {
 
 public:
-	CDBWriterManager();
-	~CDBWriterManager();
+    CDBWriterManager();
+    ~CDBWriterManager();
 
 public:
-	BOOL Init();
+    BOOL Init();
 
-	BOOL Uninit();
+    BOOL Uninit();
 
-	BOOL WriteDataToDB();
+    BOOL WriteDataToDB();
 
-	BOOL IsStop();
+    BOOL IsStop();
 
-	BOOL Update();
+    BOOL Update();
 
-	void DBWriteThread();
+    void DBWriteThread();
 public:
-	std::vector<DataWriterBase*> m_vtDataWriters;
+    std::vector<DataWriterBase*> m_vtDataWriters;
 
-	BOOL			m_Stop;
-	std::thread*	m_pWorkThread;
-	CDBConnection   m_DBConnection;
-	UINT32          m_nCurErrorCount;
-	UINT32          m_dwSaveTime;
-	UINT32          m_dwSharePageSize;
+    BOOL            m_Stop;
+    std::thread*    m_pWorkThread;
+    CDBConnection   m_DBConnection;
+    INT32           m_nErrorCount;
+    INT32           m_nSaveTime;
+    INT32           m_nSharePageSize;
 };
 
 #endif //_DB_WRITER_MANAGER_H_

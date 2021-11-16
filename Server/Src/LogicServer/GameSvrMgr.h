@@ -38,16 +38,16 @@ struct CWaitItem
     CWaitItem()
     {
         memset(uID, 0, sizeof(uID));
-        memset(dwCamp, 0, sizeof(dwCamp));
+        memset(nCamp, 0, sizeof(nCamp));
     }
     ~CWaitItem()
     {
         memset(uID, 0, sizeof(uID));
-        memset(dwCamp, 0, sizeof(dwCamp));
+        memset(nCamp, 0, sizeof(nCamp));
     }
 
     UINT64 uID[10] = {0};
-    UINT32 dwCamp[10] = {0};
+    INT32 nCamp[10] = {0};
 };
 
 class CWaitCopyList : public AVLTree<UINT64, CWaitItem>
@@ -72,9 +72,9 @@ public:
 
     BOOL        Uninit();
 
-    BOOL        TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType);
+    BOOL        TakeCopyRequest(UINT64 uID, INT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType);
 
-    BOOL        TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum, UINT32 dwCopyID, UINT32 dwCopyType);
+    BOOL        TakeCopyRequest(UINT64 uID[], INT32 dwCamp[], INT32 nNum, UINT32 dwCopyID, UINT32 dwCopyType);
 
     UINT32      GetConnIDBySvrID(UINT32 dwServerID);
 
@@ -98,9 +98,9 @@ private:
 
     BOOL        GetMainCityInfo(UINT32 dwCopyID, UINT32& dwServerID, UINT32& nConnID, UINT32& dwCopyGuid);
 
-    BOOL        AddWaitItem(UINT64 u64ID, UINT32 dwCamp);
+    BOOL        AddWaitItem(UINT64 u64ID, INT32 dwCamp);
 
-    BOOL        AddWaitItem(UINT64 uKey, UINT64 uID[], UINT32 dwCamp[], INT32 nNum);
+    BOOL        AddWaitItem(UINT64 uKey, UINT64 uID[], INT32 dwCamp[], INT32 nNum);
 
     BOOL        CreateScene(UINT32 dwCopyID, UINT64 CreateParam, UINT32 dwPlayerNum, UINT32 dwCopyType);
 

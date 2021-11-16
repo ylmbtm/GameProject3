@@ -254,6 +254,7 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
     {
         return TRUE;
     }
+
     std::string::iterator subStart, subEnd;
     subStart = strSrc.begin();
     while (true)
@@ -280,6 +281,7 @@ BOOL CommonConvert::SpliteStringByBlank(std::string strSrc, std::vector<std::str
     BOOL bWordStart = FALSE;
     std::string::size_type posStart;
     std::string::size_type posCur = 0;
+
     while (posCur < strSrc.size())
     {
         if (strSrc.at(posCur) == ' ' || strSrc.at(posCur) == '\t')
@@ -289,10 +291,12 @@ BOOL CommonConvert::SpliteStringByBlank(std::string strSrc, std::vector<std::str
                 posCur += 1;
                 continue;
             }
+
             if (posCur > posStart)
             {
                 vtStr.push_back(strSrc.substr(posStart, posCur - posStart));
             }
+
             bWordStart = FALSE;
             posStart = 0;
             posCur += 1;
@@ -307,8 +311,10 @@ BOOL CommonConvert::SpliteStringByBlank(std::string strSrc, std::vector<std::str
             posCur += 1;
         }
     }
+
     return TRUE;
 }
+
 BOOL CommonConvert::ReplaceString(std::string& str, const std::string& pattern, const std::string& newpat)
 {
     const size_t nsize = newpat.size();

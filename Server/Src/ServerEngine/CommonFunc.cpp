@@ -317,7 +317,10 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
             continue;
         }
 
-        lstat(tFileInfo->d_name, &statbuf);
+        char szTempDir[1024] = {0};
+        strcpy(szTempDir, pszDir);
+        strcat(szTempDir, tFileInfo->d_name);
+        lstat(szTempDir, &statbuf);
         if((S_IFDIR & statbuf.st_mode) && bRecursion)
         {
             char   szSub[1024] = { 0 };
@@ -353,6 +356,10 @@ BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::v
     if (szTem[strlen(szTem) - 1] != '\\' || szTem[strlen(szTem) - 1] != '/')
     {
         strcat(szTem, "/*.*");
+    }
+    else
+    {
+    strcat(szTem, "*.*");
     }
 
     strcpy(szDir, szTem);
@@ -414,9 +421,11 @@ BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::v
             continue;
         }
 
-        lstat(tFileInfo->d_name, &statbuf);
-
-        if (S_IFDIR & statbuf.st_mode)
+        char szTempDir[1024] = {0};
+        strcpy(szTempDir, pszDir);
+        strcat(szTempDir, tFileInfo->d_name);
+        lstat(szTempDir, &statbuf);
+        if (S_ISDIR(statbuf.st_mode))
         {
             std::string strDirName = tFileInfo->d_name;
             if (strDirName.substr(0, strlen(pszBegin)) == std::string(pszBegin))
@@ -870,9 +879,21 @@ BOOL CommonFunc::StartProcess(const char* pszProcName, const char* pszCommandLin
         return FALSE;
     }
 #else
-    if (execl(pszProcName, pszProcName, pszCommandLine, (char*)0) < 0)
+    const char* pDot = strrchr(pszProcName, '.');
+    if (pDot == NULL)
     {
-        return FALSE;
+        const char* p = strrchr(pszProcName, '/');
+        if (execl(pszProcName, p + 1, pszCommandLine, (char*)0) < 0)
+        {
+            return FALSE;
+        }
+    }
+    else if(strcmp(pDot, ".sh") == 0)
+    {
+        if (execl("/bin/sh", "sh", pszProcName, (char*)0) < 0)
+        {
+            return FALSE;
+        }
     }
 
 #endif

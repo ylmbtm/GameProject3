@@ -41,7 +41,7 @@ BOOL CGameSvrMgr::Uninit()
     return TRUE;
 }
 
-BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType)
+BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID, INT32 dwCamp, UINT32 dwCopyID, UINT32 dwCopyType)
 {
     ERROR_RETURN_FALSE(uID > 0);
 
@@ -52,7 +52,7 @@ BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID, UINT32 dwCamp, UINT32 dwCopyID, UI
     return TRUE;
 }
 
-BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID[], UINT32 dwCamp[], INT32 nNum,  UINT32 dwCopyID, UINT32 dwCopyType)
+BOOL CGameSvrMgr::TakeCopyRequest(UINT64 uID[], INT32 dwCamp[], INT32 nNum,  UINT32 dwCopyID, UINT32 dwCopyType)
 {
     ERROR_RETURN_FALSE(nNum > 0);
     ERROR_RETURN_FALSE(nNum < 11);
@@ -214,19 +214,19 @@ BOOL CGameSvrMgr::GetMainCityInfo(UINT32 dwCopyID, UINT32& dwServerID, UINT32& n
 }
 
 
-BOOL CGameSvrMgr::AddWaitItem(UINT64 u64ID, UINT32 dwCamp)
+BOOL CGameSvrMgr::AddWaitItem(UINT64 u64ID, INT32 dwCamp)
 {
     ERROR_RETURN_FALSE(u64ID > 0);
 
     CWaitItem* pItem = m_WaitCopyList.InsertAlloc(u64ID);
     ERROR_RETURN_FALSE(pItem != NULL);
     pItem->uID[0] = u64ID;
-    pItem->dwCamp[0] = dwCamp;
+    pItem->nCamp[0] = dwCamp;
 
     return TRUE;
 }
 
-BOOL CGameSvrMgr::AddWaitItem(UINT64 uKey, UINT64 uID[], UINT32 dwCamp[], INT32 nNum)
+BOOL CGameSvrMgr::AddWaitItem(UINT64 uKey, UINT64 uID[], INT32 dwCamp[], INT32 nNum)
 {
     CWaitItem* pItem = m_WaitCopyList.InsertAlloc(uKey);
     ERROR_RETURN_FALSE(pItem != NULL);
@@ -234,7 +234,7 @@ BOOL CGameSvrMgr::AddWaitItem(UINT64 uKey, UINT64 uID[], UINT32 dwCamp[], INT32 
     for (int i = 0; i < nNum; i++)
     {
         pItem->uID[i] = uID[i];
-        pItem->dwCamp[i] = dwCamp[i];
+        pItem->nCamp[i] = dwCamp[i];
     }
 
     return TRUE;
@@ -314,7 +314,7 @@ BOOL CGameSvrMgr::OnMsgCreateSceneAck(NetPacket* pNetPacket)
         ERROR_RETURN_FALSE(pPlayer->m_dwCopyID != Ack.copyid());
         ERROR_RETURN_FALSE(pPlayer->m_dwCopyGuid != Ack.copyguid());
         TransferDataItem* pItem = Req.add_transdatas();
-        pItem->set_camp(pWaitItem->dwCamp[i]);
+        pItem->set_camp(pWaitItem->nCamp[i]);
         ERROR_RETURN_FALSE(pPlayer->ToTransferData(pItem));
 
         if (pPlayer->m_bMainCity)

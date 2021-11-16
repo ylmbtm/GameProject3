@@ -9,8 +9,8 @@ struct CRoomItem
 {
     CRoomItem()
     {
-        memset(m_uID, 0, sizeof(m_uID));
-        memset(m_dwCamp, 0, sizeof(m_dwCamp));
+        memset(m_uRoleID, 0, sizeof(m_uRoleID));
+        memset(m_nCamp, 0, sizeof(m_nCamp));
         m_dwCopyID = 0;
         m_uRoomID = 0;
         m_nCount = 0;
@@ -18,8 +18,8 @@ struct CRoomItem
 
     ~CRoomItem()
     {
-        memset(m_uID, 0, sizeof(m_uID));
-        memset(m_dwCamp, 0, sizeof(m_dwCamp));
+        memset(m_uRoleID, 0, sizeof(m_uRoleID));
+        memset(m_nCamp, 0, sizeof(m_nCamp));
         m_dwCopyID = 0;
         m_uRoomID = 0;
         m_nCount = 0;
@@ -39,7 +39,7 @@ struct CRoomItem
     {
         for (int i = 0; i < m_nCount; i++)
         {
-            if (m_uID[i] == uRoleID)
+            if (m_uRoleID[i] == uRoleID)
             {
                 return i;
             }
@@ -55,8 +55,8 @@ struct CRoomItem
             return FALSE;
         }
 
-        m_uID[m_nCount] = uRoleID;
-        m_dwCamp[m_nCount] = dwCamp;
+        m_uRoleID[m_nCount] = uRoleID;
+        m_nCamp[m_nCount] = dwCamp;
         m_nCount += 1;
         return TRUE;
     }
@@ -65,19 +65,19 @@ struct CRoomItem
     {
         for (int i = 0; i < m_nCount; i++)
         {
-            if (m_uID[i] == uRoleID)
+            if (m_uRoleID[i] == uRoleID)
             {
                 for (int j = i; j < m_nCount; j++)
                 {
-                    m_uID[j] = m_uID[j + 1];
-                    m_dwCamp[j] = m_dwCamp[j + 1];
+                    m_uRoleID[j] = m_uRoleID[j + 1];
+                    m_nCamp[j] = m_nCamp[j + 1];
                 }
             }
         }
 
-        m_uID[m_nCount - 1] = 0;
+        m_uRoleID[m_nCount - 1] = 0;
 
-        m_dwCamp[m_nCount - 1] = 0;
+        m_nCamp[m_nCount - 1] = 0;
 
         m_nCount -= 1;
 
@@ -85,8 +85,8 @@ struct CRoomItem
     }
 
     UINT64 m_uRoomID = 0;
-    UINT64 m_uID[10] = {0};
-    UINT32 m_dwCamp[10] = {0};
+    UINT64 m_uRoleID[10] = {0};
+    INT32  m_nCamp[10] = {0};
     INT32  m_nCount = 0;
     UINT32 m_dwCopyID = 0;
     UINT32 m_dwCopyType = 0;

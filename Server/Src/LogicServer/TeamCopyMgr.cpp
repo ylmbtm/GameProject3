@@ -237,12 +237,12 @@ BOOL CTeamCopyMgr::OnMsgStartBattle(NetPacket* pNetPacket)
     CRoomItem* pItem = m_WaitRoomList.GetRoomItem(Req.roomid());
     ERROR_RETURN_TRUE(pItem != NULL);
 
-    CGameSvrMgr::GetInstancePtr()->TakeCopyRequest(pItem->m_uID, pItem->m_dwCamp, pItem->m_nCount, pItem->m_dwCopyID, pItem->m_dwCopyType);
+    CGameSvrMgr::GetInstancePtr()->TakeCopyRequest(pItem->m_uRoleID, pItem->m_nCamp, pItem->m_nCount, pItem->m_dwCopyID, pItem->m_dwCopyType);
 
 
     for (int i = 0; i < pItem->GetCount(); i++)
     {
-        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pItem->m_uID[i]);
+        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pItem->m_uRoleID[i]);
         ERROR_CONTINUE_EX(pPlayer != NULL);
 
         pPlayer->SetRoomID(0);
@@ -316,7 +316,7 @@ BOOL CRoomList::NotifyRoomChange(CRoomItem* pRoomItem)
     Msg_BroadRoomNotify Nty;
     for (int i = 0; i < pRoomItem->GetCount(); i++)
     {
-        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pRoomItem->m_uID[i]);
+        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pRoomItem->m_uRoleID[i]);
 
         Msg_RoomPlayerInfo* pPlayerInfo = Nty.add_playerlist();
 
@@ -345,7 +345,7 @@ BOOL CRoomList::NotifyRoomChange(CRoomItem* pRoomItem)
 
     for (int i = 0; i < pRoomItem->GetCount(); i++)
     {
-        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pRoomItem->m_uID[i]);
+        CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pRoomItem->m_uRoleID[i]);
 
         pPlayer->SendMsgProtoBuf(MSG_BROAD_ROOM_NOTIFY, Nty);
     }

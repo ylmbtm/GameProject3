@@ -214,7 +214,7 @@ BOOL CSimpleManager::CheckNameFormat(std::string strName)
 		return FALSE;
 	}
 
-	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)"\'\" \\"))
+	if (CommonConvert::HasSymbol(strName.c_str(), (const char*)",;\'\" \\%%\r\n"))
 	{
 		return FALSE;
 	}

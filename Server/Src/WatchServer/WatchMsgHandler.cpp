@@ -8,6 +8,8 @@
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
 #include "WebActionDef.h"
+#include "DBInterface/CppMysql.h"
+#include "TimerManager.h"
 #include "CommonSocket.h"
 
 #ifdef WIN32
@@ -76,7 +78,7 @@ BOOL CWatchMsgHandler::Init(INT32 nReserved)
         return FALSE;
     }
 
-    TimerManager::GetInstancePtr()->AddDiffTimer(10, 1, &CWatchMsgHandler::ReportStatusTimer, this);
+    TimerManager::GetInstancePtr()->AddDiffTimer(60, 1, &CWatchMsgHandler::ReportStatusTimer, this);
 
     return TRUE;
 }
@@ -107,6 +109,11 @@ BOOL CWatchMsgHandler::OnCloseConnect(INT32 nConnID)
 }
 
 BOOL CWatchMsgHandler::OnSecondTimer()
+{
+    return TRUE;
+}
+
+BOOL CWatchMsgHandler::ReportStatusTimer(INT32 key)
 {
     //std::string strValue = CommonSocket::HttpGet("192.168.2.185", 80, "/gameconsole/main/api/testhttpget", "");
 
@@ -183,11 +190,11 @@ void CWatchMsgHandler::OnGmServerStart(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '/';
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_start");
 
-    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
+    system(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -214,11 +221,11 @@ void CWatchMsgHandler::OnGmServerStop(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '/';
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_stop");
 
-    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
+    system(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -245,11 +252,11 @@ void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
-    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '\\';
+    std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '/';
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_update");
 
-    CommonFunc::StartProcess(strExe.c_str(), NULL, strWorkPath.c_str());
+    system(strExe.c_str());
 
     SendWebResult(nConnID, EWR_SUCCESSED);
 }
@@ -273,6 +280,11 @@ BOOL CWatchMsgHandler::InitServerList()
 
     std::vector< std::string> vtDirNames;
     CommonFunc::GetSubDirNames(m_strRootPath.c_str(), m_strSvrName.c_str(), vtDirNames, FALSE);
+
+    for (int i = 0; i < vtDirNames.size(); i++)
+    {
+        CLog::GetInstancePtr()->LogHiInfo("Server Directory[%d]：%s", i, vtDirNames.at(i).c_str());
+    }
 
     for (INT32 i = 0; i < vtDirNames.size(); i++)
     {
@@ -300,6 +312,11 @@ BOOL CWatchMsgHandler::InitServerList()
         m_mapServer.insert(std::make_pair(nAreaID, svrInfo));
     }
 
+    return TRUE;
+}
+
+BOOL CWatchMsgHandler::LoadCloudParam()
+{
     return TRUE;
 }
 

@@ -106,7 +106,15 @@ int CppMySQLQuery::fieldIndex(const char* szField)
     while ( i < _field_count )
     {
         _field = mysql_fetch_field( m_MysqlRes );
-        if ( _field != NULL && strcmp(_field->name, szField) == 0 )//找到
+        if (_field == NULL)
+        {
+            return -1;
+        }
+#ifdef WIN32
+        if (stricmp(_field->name, szField) == 0 )//找到
+#else
+        if (strcasecmp(_field->name, szField) == 0)//找到
+#endif
         {
             return i;
         }
@@ -233,8 +241,11 @@ INT64 CppMySQLQuery::getInt64Field(int nField, INT64 nNullValue /*= 0*/)
     {
         return nNullValue;
     }
-
-    return CommonConvert::StringToInt64(_row[nField]);
+#ifdef WIN32
+    return _atoi64(_row[nField]);
+#else
+    return atoll(_row[nField]);
+#endif
 }
 
 INT64 CppMySQLQuery::getInt64Field(const char* szField, INT64 nNullValue /*= 0*/)
@@ -255,7 +266,11 @@ INT64 CppMySQLQuery::getInt64Field(const char* szField, INT64 nNullValue /*= 0*/
         return nNullValue;
     }
 
-    return CommonConvert::StringToInt64(filed);
+#ifdef WIN32
+    return _atoi64(filed);
+#else
+    return atoll(filed);
+#endif
 }
 
 double CppMySQLQuery::getFloatField(int nField, double fNullValue/*=0.0*/)
@@ -472,8 +487,23 @@ CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
         m_strError = mysql_error(m_pMySqlDB);
         if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
         {
-            reconnect();
+            if (!reconnect())
+            {
+                return m_dbQuery;
+            }
+
             nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
+            if (nRet != 0)
+            {
+                m_nErrNo = mysql_errno(m_pMySqlDB);
+                m_strError = mysql_error(m_pMySqlDB);
+            }
+            else
+            {
+                m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
+            }
+
+            return m_dbQuery;
         }
     }
     else
@@ -718,7 +748,7 @@ bool CppMySQL3DB::changeCurDB(const char* name)
     return false;
 }
 
-INT64 CppMySQL3DB::getAutoIncrementID(const char* szTableName, const char* szDBName)
+INT64 CppMySQL3DB::GetAutoIncrementID(const char* szTableName, const char* szDBName)
 {
     if ((szTableName == NULL) || (szDBName == NULL))
     {
@@ -749,7 +779,7 @@ INT64 CppMySQL3DB::getAutoIncrementID(const char* szTableName, const char* szDBN
     return tQuery.getInt64Field(0);
 }
 
-bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName)
+bool CppMySQL3DB::SetAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName)
 {
     if ((szTableName == NULL) || (szDBName == NULL))
     {
@@ -767,7 +797,7 @@ bool CppMySQL3DB::setAutoIncrementID(INT64 nId, const char* szTableName, const c
     return false;
 }
 
-int CppMySQL3DB::execSQLWithReconnect(const char* sql)
+int CppMySQL3DB::ExecSQLWithReconnect(const char* sql)
 {
     int nRet = execSQL(sql);
     if (nRet >= 0)

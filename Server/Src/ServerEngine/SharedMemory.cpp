@@ -83,11 +83,11 @@ TTTTTTTTTTTTTTTTTTTTTTHHHHHHHHHHHHHHHHHHHHH
 
 BOOL SharedMemoryBase::NewPage()
 {
-    unsigned int size = m_nCountperPage * (m_nSpace);
+    unsigned int nSize = m_nCountperPage * (m_nSpace);
 
     shareMemoryPage newpage;
 
-    newpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, m_nPageCount, size);
+    newpage.m_shm = CommonFunc::CreateShareMemory(m_nModuleID, m_nPageCount, nSize);
     if(newpage.m_shm == NULL)
     {
         return FALSE;
@@ -263,7 +263,10 @@ SharedMemoryBase::~SharedMemoryBase()
         CommonFunc::ReleaseShareMemory(m_ShareMemoryPageMapping[r].m_pdata);
         CommonFunc::CloseShareMemory(m_ShareMemoryPageMapping[r].m_shm);
         m_ShareMemoryPageMapping[r].m_shm = INVALID_HANDLE_VALUE;
+        m_ShareMemoryPageMapping[r].m_pdata = NULL;
     }
+
+    m_ShareMemoryPageMapping.clear();
 }
 
 const INT32 SharedMemoryBase::GetCount() const

@@ -125,7 +125,7 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
     return FALSE;
 }
 
-UINT32 CGameService::GetLogicConnID()
+INT32 CGameService::GetLogicConnID()
 {
     return m_nLogicConnID;
 }

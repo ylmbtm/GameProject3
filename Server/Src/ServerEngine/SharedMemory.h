@@ -257,7 +257,7 @@ public:
         }
         if (m_MemoryPool == NULL)
         {
-            return false;
+            return FALSE;
         }
 
         if (m_MemoryPool->IsFirstCreated())
@@ -265,7 +265,7 @@ public:
             ///共享内存还没创建
             delete m_MemoryPool;
             m_MemoryPool = NULL;
-            return false;
+            return FALSE;
         }
 
         m_nErrorCount = 0;
@@ -282,7 +282,7 @@ public:
             {
                 continue;
             }
-            if (pBlock->m_bUse == false)
+            if (pBlock->m_bUse == FALSE)
             {
                 continue;
             }
@@ -334,7 +334,7 @@ public:
                     m_nErrorCount++;
                     continue;
                 }
-                pBlock->m_bNewBlock = false;
+                pBlock->m_bNewBlock = FALSE;
                 pBlock->m_afterTime = time(0);
                 hasOprate = true;
                 nCreateCount++;
@@ -346,7 +346,7 @@ public:
             lastMotifyTime = pdata->getLastMotifyTime();
             beforeTime = pBlock->m_beforeTime;
             afterTime = pBlock->m_afterTime;
-            BOOL bNeedSave = false;
+            BOOL bNeedSave = FALSE;
             if (afterTime >= beforeTime)
             {
                 if (lastMotifyTime > beforeTime)

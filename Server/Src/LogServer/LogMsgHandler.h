@@ -9,7 +9,7 @@ public:
 
 	~CLogMsgHandler();
 
-	BOOL		Init(UINT32 dwReserved);
+	BOOL		Init(INT32 nReserved);
 
 	BOOL		Uninit();
 

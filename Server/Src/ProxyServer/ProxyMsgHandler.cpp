@@ -345,6 +345,7 @@ BOOL CProxyMsgHandler::OnMsgReconnectReq(NetPacket* pPacket)
         {
             CLog::GetInstancePtr()->LogError("OnMsgReconnectReq RoleID:%lld, OrgConnID:%d, NewConnID:%d", pPacketHeader->u64TargetID, pPlayer->GetConnID(), pPacket->m_nConnID);
             pConn->SetConnectionData(0);
+            pConn->Shutdown();
         }
         else
         {
