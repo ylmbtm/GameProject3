@@ -646,11 +646,14 @@ INT32 CommonConvert::GetValidUtf8Length(char* pStr, INT32 nLen)
             }
         }
     }
+
     return nCurPos;
 }
+
 std::string CommonConvert::TruncateUtf8(char* pStr, INT32 nLen)
 {
     INT32 nUtf8Len = GetValidUtf8Length(pStr, nLen);
+
     return std::string(pStr, nUtf8Len);
 }
 
@@ -721,6 +724,7 @@ BOOL CommonConvert::StringTrim(std::string& strValue)
     return TRUE;
 }
 
+/*      nLen的大小必须小于等于pszDest的大小                      */
 BOOL CommonConvert::StrCopy(char* pszDest, const char* pszSrc, INT32 nLen)
 {
     if (pszDest == NULL || pszSrc == NULL)
@@ -733,11 +737,48 @@ BOOL CommonConvert::StrCopy(char* pszDest, const char* pszSrc, INT32 nLen)
         return FALSE;
     }
 
-    strncpy(pszDest, pszSrc, nLen - 1);
+    INT32 nSrcLen = (INT32)strlen(pszSrc);
 
-    if (strlen(pszSrc) >= nLen)
+    INT32 nCpyLen = 0;
+    if ((nLen - 1) > nSrcLen)
     {
-        return FALSE;
+        nCpyLen = nSrcLen;
+    }
+    else
+    {
+        nCpyLen = nLen - 1;
+    }
+
+    //这个方法并不会自动加上终止符
+    strncpy(pszDest, pszSrc, nCpyLen);
+    pszDest[nCpyLen] = '\0';
+
+    return TRUE;
+}
+
+BOOL CommonConvert::EscapeString(char* pszDest, INT32 nLen)
+{
+    for (int i = 0; i < nLen; i++)
+    {
+        if (pszDest[i] == '\'')
+        {
+            pszDest[i] = ' ';
+        }
+
+        if (pszDest[i] == '\\')
+        {
+            pszDest[i] = ' ';
+        }
+
+        if (pszDest[i] == '\"')
+        {
+            pszDest[i] = ' ';
+        }
+
+        if (pszDest[i] == '\0')
+        {
+            break;
+        }
     }
 
     return TRUE;

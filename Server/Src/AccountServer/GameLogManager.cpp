@@ -23,7 +23,7 @@ CGameLogManager* CGameLogManager::GetInstancePtr()
 BOOL CGameLogManager::LogAccountCreate(UINT64 uAccountID, std::string strAccountName, const AccountLog& Log)
 {
     Log_AccountCreate log;
-    log.m_uID = uAccountID;
+    log.m_uAccountID = uAccountID;
     log.m_nChannel = Log.channel();
     log.m_dwIpAddr = Log.ipaddr();
     log.m_uOpTime = CommonFunc::GetCurrTime();
@@ -42,7 +42,7 @@ BOOL CGameLogManager::LogAccountCreate(UINT64 uAccountID, std::string strAccount
 BOOL CGameLogManager::LogAccountLogin(UINT64 uAccountID, std::string strAccountName, const AccountLog& Log)
 {
     Log_AccountLogin log;
-    log.m_uID = uAccountID;
+    log.m_uAccountID = uAccountID;
     log.m_nChannel = Log.channel();
     log.m_dwIpAddr = Log.ipaddr();
     log.m_uOpTime = CommonFunc::GetCurrTime();

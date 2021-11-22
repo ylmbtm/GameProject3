@@ -10,6 +10,7 @@ message RoleItem {
 message RoleListReq {
     uint64   AccountID    = 1;
     int32    LoginCode    = 2;
+    uint32   ServerID     = 3;
 }
 
 message RoleListAck {

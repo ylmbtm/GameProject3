@@ -32,56 +32,56 @@ CLogicMsgHandler::~CLogicMsgHandler()
 
 }
 
-BOOL CLogicMsgHandler::Init(UINT32 dwReserved)
+BOOL CLogicMsgHandler::Init(INT32 nReserved)
 {
-	RegisterMessageHanler();
+    RegisterMessageHanler();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CLogicMsgHandler::Uninit()
 {
-	CPlayerManager::GetInstancePtr()->ReleaseAll();
+    CPlayerManager::GetInstancePtr()->ReleaseAll();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CLogicMsgHandler::OnUpdate(UINT64 uTick)
 {
-	CPlayerManager::GetInstancePtr()->OnUpdate(uTick);
+    CPlayerManager::GetInstancePtr()->OnUpdate(uTick);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CLogicMsgHandler::OnSecondTimer()
 {
-	return TRUE;
+    return TRUE;
 }
 
 VOID CLogicMsgHandler::RegisterMessageHanler()
 {
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SELECT_SERVER_REQ, &CLogicMsgHandler::OnMsgSelectServerReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_REQ, &CLogicMsgHandler::OnMsgRoleListReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_ACK, &CLogicMsgHandler::OnMsgRoleListAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_CREATE_REQ, &CLogicMsgHandler::OnMsgRoleCreateReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_DELETE_REQ, &CLogicMsgHandler::OnMsgRoleDeleteReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_REQ, &CLogicMsgHandler::OnMsgRoleLoginReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_ACK, &CLogicMsgHandler::OnMsgRoleLoginAck, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGOUT_REQ, &CLogicMsgHandler::OnMsgRoleLogoutReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DISCONNECT_NTY, &CLogicMsgHandler::OnMsgRoleDisconnect, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ABORT_SCENE_NTF, &CLogicMsgHandler::OnMsgAbortSceneNtf, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_MAIN_COPY_REQ, &CLogicMsgHandler::OnMsgMainCopyReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BACK_TO_CITY_REQ, &CLogicMsgHandler::OnMsgBackToCityReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
-	CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SEAL_ACCOUNT_NTY, &CLogicMsgHandler::OnMsgSealAccountNtf, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SELECT_SERVER_REQ, &CLogicMsgHandler::OnMsgSelectServerReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_REQ, &CLogicMsgHandler::OnMsgRoleListReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LIST_ACK, &CLogicMsgHandler::OnMsgRoleListAck, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_CREATE_REQ, &CLogicMsgHandler::OnMsgRoleCreateReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_DELETE_REQ, &CLogicMsgHandler::OnMsgRoleDeleteReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_REQ, &CLogicMsgHandler::OnMsgRoleLoginReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGIN_ACK, &CLogicMsgHandler::OnMsgRoleLoginAck, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_LOGOUT_REQ, &CLogicMsgHandler::OnMsgRoleLogoutReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_DISCONNECT_NTY, &CLogicMsgHandler::OnMsgRoleDisconnect, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ABORT_SCENE_NTF, &CLogicMsgHandler::OnMsgAbortSceneNtf, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_MAIN_COPY_REQ, &CLogicMsgHandler::OnMsgMainCopyReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_BACK_TO_CITY_REQ, &CLogicMsgHandler::OnMsgBackToCityReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_CHAT_MESSAGE_REQ, &CLogicMsgHandler::OnMsgChatMessageReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_ROLE_RECONNECT_REQ, &CLogicMsgHandler::OnMsgReconnectReq, this);
+    CMsgHandlerManager::GetInstancePtr()->RegisterMessageHandle(MSG_SEAL_ACCOUNT_NTY, &CLogicMsgHandler::OnMsgSealAccountNtf, this);
 }
 
 BOOL CLogicMsgHandler::OnMsgSelectServerReq(NetPacket* pNetPacket)
 {
-	SelectServerReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    SelectServerReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 	ERROR_RETURN_TRUE(pHeader->dwUserData != 0);
 	ERROR_RETURN_TRUE(Req.accountid() != 0);
 

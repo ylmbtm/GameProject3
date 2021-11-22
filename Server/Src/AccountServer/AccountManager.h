@@ -32,7 +32,7 @@ public:
 
     BOOL                ReleaseAccountObject(UINT64 m_u64AccountID);
 
-    BOOL                SealAccount(UINT64& uAccountID, const std::string& strName, INT32 nChannel, BOOL bSeal, UINT32 dwSealTime, UINT32& dwLastSvrID);
+    BOOL                SealAccount(UINT64& uAccountID, const std::string& strName, INT32 nChannel, BOOL bSeal, INT32 nSealTime, INT32& nLastSvrID);
 
     BOOL                SetLastServer(UINT64 uAccountID, INT32 ServerID);
 

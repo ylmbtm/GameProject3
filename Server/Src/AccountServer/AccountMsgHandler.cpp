@@ -18,7 +18,7 @@ CAccountMsgHandler::~CAccountMsgHandler()
 
 }
 
-BOOL CAccountMsgHandler::Init(UINT32 dwReserved)
+BOOL CAccountMsgHandler::Init(INT32 nReserved)
 {
     if (!m_AccountManager.Init())
     {
@@ -189,15 +189,15 @@ BOOL CAccountMsgHandler::OnMsgSealAccountReq(NetPacket* pPacket)
 
     SealAccountAck Ack;
     UINT64 uAccountID = Req.accountid();
-    UINT32 dwLastSvrID = 0;
-    if (m_AccountManager.SealAccount(uAccountID, Req.accountname(), Req.channel(), Req.seal(), Req.sealtime(), dwLastSvrID))
+    INT32 nLastSvrID = 0;
+    if (m_AccountManager.SealAccount(uAccountID, Req.accountname(), Req.channel(), Req.seal(), Req.sealtime(), nLastSvrID))
     {
         Ack.set_retcode(MRC_SUCCESSED);
 
         if (Req.seal())
         {
             Ack.set_accountid(uAccountID);
-            Ack.set_serverid(dwLastSvrID);
+            Ack.set_serverid(nLastSvrID);
         }
     }
     else

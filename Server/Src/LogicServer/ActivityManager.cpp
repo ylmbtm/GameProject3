@@ -5,7 +5,7 @@
 #include "GlobalDataMgr.h"
 #include "TimerManager.h"
 #include "../StaticData/StaticStruct.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 
 CActivityManager::CActivityManager()
 {
@@ -19,23 +19,23 @@ CActivityManager::~CActivityManager()
 
 CActivityManager* CActivityManager::GetInstancePtr()
 {
-	static CActivityManager _StaticMgr;
+    static CActivityManager _StaticMgr;
 
-	return &_StaticMgr;
+    return &_StaticMgr;
 }
 
 BOOL CActivityManager::Init()
 {
 
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CActivityManager::LoadData(CppMySQL3DB& tDBConnection)
 {
 
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CActivityManager::OnSecondTimer()

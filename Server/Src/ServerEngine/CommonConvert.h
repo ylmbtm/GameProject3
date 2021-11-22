@@ -74,6 +74,7 @@ BOOL StringTrim(std::string& strValue);
 
 BOOL StrCopy(char* pszDest, const char* pszSrc, INT32 nLen);
 
+BOOL EscapeString(char* pszDest, INT32 nLen);
 }
 
 

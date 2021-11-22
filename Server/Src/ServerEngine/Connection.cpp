@@ -429,6 +429,7 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 
     if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
     {
+        CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
     }
 
@@ -830,6 +831,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
 
 BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
 {
+    return TRUE;
     UINT64 uCurTick = CommonFunc::GetTickCount();
 
     for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)

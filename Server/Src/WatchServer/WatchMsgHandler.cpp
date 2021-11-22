@@ -4,7 +4,6 @@
 #include "GameService.h"
 #include "PacketHeader.h"
 #include "../Message/Msg_ID.pb.h"
-#include "RapidXml.h"
 #include "../Message/Msg_Game.pb.h"
 #include "HttpParameter.h"
 #include "WebActionDef.h"

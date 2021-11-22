@@ -26,13 +26,13 @@ BOOL CGameLogManager::LogRoleCreate(CPlayerObject* pPlayer)
 {
     ERROR_RETURN_FALSE(pPlayer != NULL);
     Log_RoleCreate log;
-    log.m_uID = pPlayer->GetRoleID();
+    log.m_uRoleID = pPlayer->GetRoleID();
     log.m_uAccountID = pPlayer->GetAccountID();
     CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
     log.m_nAreaID = CGameService::GetInstancePtr()->GetServerID();
     log.m_uOpTime = CommonFunc::GetCurrTime();
     log.m_nChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
-    log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
+    log.m_nLevel = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
     log.m_nVipLevel = (UINT32)(pPlayer->GetProperty(ERP_VIPLEVEL));
     WriteGameLog(log);
 
@@ -44,13 +44,13 @@ BOOL CGameLogManager::LogRoleLogin(CPlayerObject* pPlayer)
     ERROR_RETURN_FALSE(pPlayer != NULL);
     Log_RoleLogin log;
 
-    log.m_uID = pPlayer->GetRoleID();
+    log.m_uRoleID = pPlayer->GetRoleID();
     log.m_uAccountID = pPlayer->GetAccountID();
     CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
     log.m_nAreaID = CGameService::GetInstancePtr()->GetServerID();
     log.m_uOpTime = CommonFunc::GetCurrTime();
     log.m_nChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
-    log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
+    log.m_nLevel = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
     log.m_nVipLevel = (UINT32)(pPlayer->GetProperty(ERP_VIPLEVEL));
 
     WriteGameLog(log);
@@ -63,13 +63,13 @@ BOOL CGameLogManager::LogRoleLogout(CPlayerObject* pPlayer)
     ERROR_RETURN_FALSE(pPlayer != NULL);
     Log_RoleLogout log;
 
-    log.m_uID = pPlayer->GetRoleID();
+    log.m_uRoleID = pPlayer->GetRoleID();
     log.m_uAccountID = pPlayer->GetAccountID();
     CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
     log.m_nAreaID = CGameService::GetInstancePtr()->GetServerID();
     log.m_uOpTime = CommonFunc::GetCurrTime();
     log.m_nChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
-    log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
+    log.m_nLevel = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
     log.m_nVipLevel = (UINT32)(pPlayer->GetProperty(ERP_VIPLEVEL));
 
     WriteGameLog(log);
@@ -88,11 +88,11 @@ BOOL CGameLogManager::LogRoleChat(CPlayerObject* pPlayer, INT32 nChatChl, std::s
 {
     ERROR_RETURN_FALSE(pPlayer != NULL);
     Log_RoleChat log;
-    log.m_uID = pPlayer->GetRoleID();
+    log.m_uRoleID = pPlayer->GetRoleID();
     log.m_nAreaID = CGameService::GetInstancePtr()->GetServerID();
     log.m_uOpTime = CommonFunc::GetCurrTime();
     log.m_nChannel = (UINT32)(pPlayer->GetProperty(ERP_CHANNEL));
-    log.m_nLeve = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
+    log.m_nLevel = (UINT32)(pPlayer->GetProperty(ERP_LEVEL));
     log.m_nVipLevel = (UINT32)(pPlayer->GetProperty(ERP_VIPLEVEL));
     log.m_nChatChl = nChatChl;
     CommonConvert::StrCopy(log.m_szText, strContent.c_str(), 256);

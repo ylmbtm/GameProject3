@@ -117,10 +117,8 @@ protected:
     typedef std::map<INT32, _SMBlock*> mapFreeSMBlock;
     mapFreeSMBlock                 m_mapFreeSMBlock;///所有空闲的块信息
 private:
-
     ///创建一个新页
     BOOL NewPage();
-
     /**
     * @brief        初始化数据区域
     * @details      数据清0，并设置保护区域
@@ -129,7 +127,6 @@ private:
     * @remarks
     */
     void InitPage(shareMemoryPage& rPage);
-
 
 public:
     ///数据库服务器不需要初始化map,逻辑服务器才需要,所以分开

@@ -20,7 +20,7 @@ CAccountObjectMgr::~CAccountObjectMgr()
 BOOL CAccountObjectMgr::LoadCacheAccount()
 {
     std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_ip");
-    INT32 nPort        = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
+    INT32 nPort         = CConfigFile::GetInstancePtr()->GetIntValue("mysql_acc_svr_port");
     std::string strUser = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_user");
     std::string strPwd  = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_pwd");
     std::string strDb   = CConfigFile::GetInstancePtr()->GetStringValue("mysql_acc_svr_db_name");
@@ -100,7 +100,7 @@ BOOL CAccountObjectMgr::ReleaseAccountObject(UINT64 AccountID )
     return Delete(AccountID);
 }
 
-BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strName, INT32 nChannel, BOOL bSeal, UINT32 dwSealTime, UINT32& dwLastSvrID)
+BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strName, INT32 nChannel, BOOL bSeal, INT32 nSealTime, INT32& nLastSvrID)
 {
     CAccountObject* pAccObj = NULL;
     if (uAccountID == 0)
@@ -120,9 +120,9 @@ BOOL CAccountObjectMgr::SealAccount(UINT64& uAccountID, const std::string& strNa
 
     if (bSeal)
     {
-        pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + dwSealTime;
+        pAccObj->m_uSealTime = CommonFunc::GetCurrTime() + nSealTime;
         uAccountID = pAccObj->m_ID;
-        dwLastSvrID = pAccObj->m_nLastSvrID[0];
+        nLastSvrID = pAccObj->m_nLastSvrID[0];
     }
     else
     {

@@ -23,10 +23,10 @@ message AccountLog
 }  
 
 message AccountRegReq {
-    string   AccountName = 1;
-    string   Password    = 2;
-    int32    Channel     = 3;
-    AccountLog RegLog    = 4;
+    string     AccountName = 1; //账号名
+    string     Password    = 2; //密码
+    int32      Channel     = 3; //渠道
+    AccountLog RegLog      = 4; //客户端信息
 }
 
 message AccountRegAck {
@@ -35,12 +35,12 @@ message AccountRegAck {
 }
 
 message AccountLoginReq {
-    string    AccountName    = 1;
-    string    Password       = 2;
-    int32     Channel        = 3;
-    bool      FromChannel    = 4;
-    bool      Review         = 5; 
-    AccountLog LoginLog      = 6;
+    string     AccountName    = 1; //账号名
+    string     Password       = 2; //密码
+    int32      Channel        = 3; //渠道
+    bool       FromChannel    = 4; //来自渠道
+    bool       Review         = 5; //是否评审
+    AccountLog LoginLog      = 6; //登录日志
 }
 
 message AccountLoginAck {

@@ -1,9 +1,8 @@
 ﻿syntax = "proto3";
-
 import "Msg_Base.proto";
 
 message GmStopServerReq {
-    uint32    Data          = 1;
+    uint32    Data        	= 1;
 }
 
 message GmStopServerAck {
@@ -26,7 +25,6 @@ message SvrRegToSvrAck {
 message RoleDisconnectReq {
     uint64    AccountID    = 1;
     uint64    RoleID       = 2;
-    int32     LoginCode    = 3;
 }
 
 message RoleDisconnectAck {
@@ -274,7 +272,6 @@ message LogicRegToLoginReq {
     string   SvrInnerIp    = 3;
     int32    ServerPort    = 4;
     int32    HttpPort      = 5;
-    int32    WatchPort     = 6;
 }
 
 message LogicRegToLoginAck {
@@ -307,17 +304,6 @@ message LogicUpdateInfoReq {
 message LogicUpdateInfoAck {
     uint32    RetCode       = 1;
     uint64    SvrOpenTime   = 2; //开服时间
-}
-
-message WatchHeartBeatReq {
-    uint32    Data = 1;
-    uint64    ProcessID    = 2;
-}
-
-message WatchHeartBeatAck {
-    uint32    RetCode     = 1;
-    uint32    Data        = 2;
-    uint64    ProcessID   = 3;
 }
 
 message SetupEquipReq {

@@ -21,13 +21,14 @@ enum ELogType
 struct Log_BaseData
 {
     ELogType    m_LogType   = ELT_LOG_TYPE_NONE; //日志类型
-    UINT64      m_uID       = 0;//角色ID或账号ID
+    UINT64      m_uAccountID = 0;
+    UINT64      m_uRoleID   = 0;//角色ID或账号ID
     UINT64      m_uOpTime   = 0;//日志发生时间
-    INT32       m_nChannel = 0;//渠道
-    INT32       m_nAreaID  = 0; //区服ID
+    INT32       m_nChannel  = 0;//渠道
+    INT32       m_nAreaID   = 0; //区服ID
 
     //以下两条仅角色日志有效
-    UINT32      m_nLeve     = 0;//角色等级
+    UINT32      m_nLevel     = 0;//角色等级
     UINT32      m_nVipLevel = 0;//角色VIP等级
     UINT32      m_nAddWay   = 0;//
 };
@@ -50,7 +51,7 @@ struct Log_AccountCreate : public Log_BaseData
     BOOL GetLogSql(char* pBuff)
     {
         snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s','%s','%s', '%s', '%s')",
-                 m_uID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
+                 m_uAccountID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
         return TRUE;
     }
 };
@@ -73,14 +74,13 @@ struct Log_AccountLogin : public Log_BaseData
     {
 
         snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s', '%s')",
-                 m_uID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
+                 m_uAccountID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
         return TRUE;
     }
 };
 
 struct Log_RoleCreate : public Log_BaseData
 {
-    UINT64 m_uAccountID = 0;
     CHAR   m_szRoleName[64] = { 0 };
     CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
@@ -92,14 +92,13 @@ struct Log_RoleCreate : public Log_BaseData
     BOOL GetLogSql(char* pBuff)
     {
         snprintf(pBuff, 2048, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s','%s', '%s')",
-                 m_uID, m_uAccountID, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
+                 m_uRoleID, m_uAccountID, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
         return TRUE;
     }
 };
 
 struct Log_RoleLogin : public Log_BaseData
 {
-    UINT64 m_uAccountID = 0;
     CHAR   m_szRoleName[64] = { 0 };
     CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
@@ -111,14 +110,13 @@ struct Log_RoleLogin : public Log_BaseData
     BOOL GetLogSql(char* pBuff)
     {
         snprintf(pBuff, 2048, "insert into role_login(roleid, accountid, areaid, channel, level, viplevel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %d, %d, '%s', '%s', '%s')",
-                 m_uID, m_uAccountID, m_nAreaID, m_nChannel, m_nLeve, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
+                 m_uRoleID, m_uAccountID, m_nAreaID, m_nChannel, m_nLevel, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
         return TRUE;
     }
 };
 
 struct Log_RoleLogout : public Log_BaseData
 {
-    UINT64 m_uAccountID = 0;
     CHAR   m_szRoleName[64] = { 0 };
     CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
@@ -130,7 +128,7 @@ struct Log_RoleLogout : public Log_BaseData
     BOOL GetLogSql(char* pBuff)
     {
         snprintf(pBuff, 2048, "insert into role_logout(roleid, accountid, areaid, channel, level, viplevel, optime, rolename, idfa) values(%lld, %lld, %d, %d, %d, %d, '%s', '%s', '%s')",
-                 m_uID, m_uAccountID, m_nAreaID, m_nChannel, m_nLeve, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
+                 m_uRoleID, m_uAccountID, m_nAreaID, m_nChannel, m_nLevel, m_nVipLevel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
         return TRUE;
     }
 };
@@ -203,11 +201,10 @@ struct Log_RoleChat : public Log_BaseData
 
     BOOL GetLogSql(char* pBuff)
     {
-        //CHAR szTemp[512] = { 0 };
-        //mysql_escape_string(szTemp, m_szText, strlen(m_szText));
+        CommonConvert::EscapeString(m_szText, 256);
 
         snprintf(pBuff, 2048, "insert into role_chat(roleid,rolename, areaid, channel, optime, level, viplevel, chatchl, text, targetid, targetvip, targetname) values(%lld, '%s', %d ,%d, '%s', %d, %d,%d, '%s', %lld, %ld, '%s')",
-                 m_uID, m_szSrcName, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_nLeve, m_nVipLevel, m_nChatChl, m_szText, m_uTargetID, m_nTargetVip, m_szTargetName);
+                 m_uRoleID, m_szSrcName, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_nLevel, m_nVipLevel, m_nChatChl, m_szText, m_uTargetID, m_nTargetVip, m_szTargetName);
         return TRUE;
     }
 };
