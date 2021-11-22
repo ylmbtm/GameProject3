@@ -1,69 +1,69 @@
 ﻿syntax = "proto3";
+
 enum MessageRetCode {
-   //系统保留
-   MRC_SUCCESSED        = 0;    //成功
-   MRC_UNKNOW_ERROR     = 1;    //未知错误
-   MRC_DISCONNECT       = 2;    //连接断开
+    //系统保留
+    MRC_SUCCESSED        = 0;    //成功
+    MRC_UNKNOW_ERROR     = 1;    //未知错误
+    MRC_DISCONNECT       = 2;    //连接断开
+    
+     //无效的
+    MRC_INVALID_ACCNAME   = 100;    //无效的账名
+    MRC_INVALID_ACCID     = 101;    //无效的账号ID
+    MRC_INVALID_PASSWORD  = 102;    //无效的密码
+    MRC_INVALID_NAME      = 103;    //无效的名字
+    MRC_INVALID_ROLEID    = 104;    //无效的角色ID
+    MRC_INVALID_ITEMID    = 105;    //无效的物品ID
+    MRC_INVALID_COPYID    = 106;    //无效的副本ID
+    MRC_INVALID_PETID     = 107;    //无效的宠物ID
+    MRC_INVALID_PARTNERID = 108;    //无效的伙伴ID
+    MRC_INVALID_EQUIP_ID  = 109;    //无效的装备ID
+    MRC_INVALID_CARRERID  = 110;    //无效的职业ID
+    MRC_INVALID_SKILL_ID  = 111;    //无效的技能ID
+    MRC_INVALID_TARGET_ID = 112;    //无效的目标ID
+    MRC_INVALID_SERVER_ID = 113;    //无效的服务器ID
+    MRC_INVALID_GIFT_CODE = 114;    //无效的礼包码
    
+       //不足的条件
+    MRC_NOT_ENOUGH_ACTOIN     = 200;    //行动力不足
+    MRC_NOT_ENOUGH_MONEY      = 201;    //货币不足
+    MRC_NOT_ENOUGH_ITEM       = 202;    //道具不足
+    MRC_NOT_ENOUGH_TIMES      = 203;    //次数不足
+    MRC_NOT_ENOUGH_LEVEL      = 204;    //等级不足
+    MRC_NOT_ENOUGH_VIPLV      = 205;    //vip等级不足
+    MRC_ERROR_SEAL_ROLE       = 206;   //角色己被封禁
+    MRC_NAME_ERROR_FMT        = 207;   //名字不符合要求
+    MRC_REPEAT_LOGIN          = 208;   //重复登录
    
+    //其它
+    MRC_ACCOUNT_NAME_EXIST     = 300;    //账号名己存在
+    MRC_ACCOUNT_NAME_NOT_EXIST = 301;    //账号名不存在
+    MRC_ACCOUNT_NAME_ERR_FMT   = 302;    //账号名不符合要求
+    MRC_ROLE_NAME_EXIST        = 303;    //角色名己存在
+    MRC_ACCOUNT_SEALED         = 304;    //账号被封禁
+    MRC_ACCOUNT_WRONG_VERSION  = 305;    //客户端版本号不正确
+    MRC_ACCOUNT_WRONG_PASSWORD = 306;    //客户端版本号不正确
+    MRC_ROLE_NAME_MUST_UTF8    = 308;   //名字必须是utf8编码
+    MRC_ROLE_SEALED            = 309;   //角色己被封
+    MRC_ROLE_DELETED           = 310;   //角色被删除
+    MRC_ILLEGAL_LOGIN_REQ      = 311;    //非法的登陆请求
+    MRC_KICKOUT_BY_OTHER      = 312;    //被其它人挤出
+    MRC_SERVER_NOT_OPENTIME   = 313;   //还没有到开服时间
+    MRC_SERVER_NOT_AVAILABLE  = 314;   //服务器不可用
+    MRC_SERVER_MAINTAIN       = 315;   //服务器维护中
+    MRC_SERVER_NO_NEW_ROLE    = 316;   //不允许创建新角色
+    MRC_CANNOT_RECONNECT      = 317;     //不允许重连
 
-   //无效的。。。。。。
-   MRC_INVALID_ACCNAME   = 100;    //无效的账名
-   MRC_INVALID_ACCID     = 101;    //无效的账号ID
-   MRC_INVALID_PASSWORD  = 102;    //无效的密码
-   MRC_INVALID_NAME      = 103;    //无效的名字
-   MRC_INVALID_ROLEID    = 104;    //无效的角色ID
-   MRC_INVALID_ITEMID    = 105;    //无效的物品ID
-   MRC_INVALID_COPYID    = 106;    //无效的副本ID
-   MRC_INVALID_PETID     = 107;    //无效的宠物ID
-   MRC_INVALID_PARTNERID = 108;    //无效的伙伴ID
-   MRC_INVALID_EQUIP_ID  = 109;    //无效的装备ID
-   MRC_INVALID_CARRERID  = 110;    //无效的职业ID
-   MRC_INVALID_SKILL_ID  = 111;    //无效的技能ID
-   MRC_INVALID_TARGET_ID = 112;    //无效的目标ID
-   MRC_INVALID_SERVER_ID = 113;    //无效的服务器ID
-   MRC_INVALID_GIFT_CODE = 114;    //无效的礼包码
-
-     //其它
-   MRC_ACCOUNT_NAME_EXIST    = 300;    //账号名己存在
-   MRC_ACCOUNT_NAME_NOT_EXIST= 301;    //账号名不存在
-   MRC_ACCOUNT_NAME_FMT_ERR  = 302;    //账号名不符合要求
-   MRC_ACCOUNT_SEALED        = 304;    //账号被封禁
-   MRC_ACCOUNT_WRONG_VERSION = 305;    //客户端版本号不正确
-   MRC_ACCOUNT_WRONG_PASSWORD= 306;    //客户端版本号不正确
-   MRC_ROLE_NAME_EXIST       = 307;    //角色名己存在
-   MRC_ROLE_NAME_MUST_UTF8   = 308;   //名字必须是utf8编码
-   MRC_ROLE_SEALED           = 309;   //角色己被封
-   MRC_ROLE_DELETED          = 310;   //角色被删除
-   MRC_ILLEGAL_LOGIN_REQ     = 311;    //非法的登陆请求
-   MRC_KICKOUT_BY_OTHER      = 312;    //被其它人挤出
-   MRC_SERVER_NOT_OPENTIME   = 313;   //还没有到开服时间
-   MRC_SERVER_NOT_AVAILABLE  = 314;   //服务器不可用
-   MRC_SERVER_MAINTAIN       = 315;   //服务器维护中
-   MRC_SERVER_NO_NEW_ROLE    = 316;   //不允许创建新角色
-   MRC_CANNOT_RECONNECT      = 317;     //不允许重连
-   //不足的条件
-   MRC_NOT_ENOUGH_ACTOIN     = 200;    //行动力不足
-   MRC_NOT_ENOUGH_MONEY      = 201;    //货币不足
-   MRC_NOT_ENOUGH_ITEM       = 202;    //道具不足
-   MRC_NOT_ENOUGH_TIMES      = 203;    //次数不足
-   MRC_NOT_ENOUGH_LEVEL      = 204;    //等级不足
-   MRC_NOT_ENOUGH_VIPLV      = 205;    //vip等级不足
-   MRC_ERROR_SEAL_ROLE       = 206;   //角色己被封禁
-   MRC_NAME_ERROR_FMT        = 207;   //名字不符合要求
-   MRC_REPEAT_LOGIN          = 208;   //重复登录
-   
-   //技能
-   MRC_SKILL_CD_ERROR        = 401;    //技能未冷却    
-   MRC_SKILL_DEAD_OBJ        = 402;    //对象己经死亡
-   MRC_DUPLICATED_ORDER_ID   = 403;   //重复创建订单
-   
-      //礼包码
-   MRC_GIFTCODE_AREADY_USED   = 500;    //礼包码己使用
-   MRC_GIFTCODE_INVALIDE_CODE = 501;    //无效的礼包码
-   MRC_GIFTCODE_UNASSIGNED    = 502;    //礼包码未分配
-   MRC_GIFTCODE_WRONG_CHANNEL = 503;    //错误的渠道
-   MRC_GIFTCODE_WRONG_AREA    = 504;    //错误的区服
-   MRC_GIFTCODE_NO_MORE       = 505;    //己被领完了
+    //技能
+    MRC_SKILL_CD_ERROR        = 401;    //技能未冷却    
+    MRC_SKILL_DEAD_OBJ        = 402;    //对象己经死亡
+    MRC_DUPLICATED_ORDER_ID   = 403;   //重复创建订单
+    
+       //礼包码
+    MRC_GIFTCODE_AREADY_USED   = 500;    //礼包码己使用
+    MRC_GIFTCODE_INVALIDE_CODE = 501;    //无效的礼包码
+    MRC_GIFTCODE_UNASSIGNED    = 502;    //礼包码未分配
+    MRC_GIFTCODE_WRONG_CHANNEL = 503;    //错误的渠道
+    MRC_GIFTCODE_WRONG_AREA    = 504;    //错误的区服
+    MRC_GIFTCODE_NO_MORE       = 505;    //己被领完了
 }
 
