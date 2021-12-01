@@ -137,7 +137,7 @@ BOOL CLogMsgHandler::OnMsgLogDataNtf(NetPacket* pNetPacket)
             break;
     }
 
-    if (m_DBConnection.ExecSQLWithReconnect(szSql) <= 0)
+    if (m_DBConnection.execSQL(szSql) <= 0)
     {
         CLog::GetInstancePtr()->LogError("CLogMsgHandler::OnLogDataNtf m_LogType :%d, Error :%s", pData->m_LogType,  m_DBConnection.GetErrorMsg());
         CLog::GetInstancePtr()->LogError(szSql);

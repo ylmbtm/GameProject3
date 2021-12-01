@@ -82,10 +82,10 @@ public:
 
     /* 处理返回多行的查询，返回影响的行数 */
     //返回引用是因为在CppMySQLQuery的赋值构造函数中要把成员变量_mysql_res置为空
-    CppMySQLQuery& querySQL(const char* sql);
+    CppMySQLQuery& querySQL(const char* sql, bool recon = true);
 
     /* 执行非返回结果查询 */
-    int execSQL(const char* sql);
+    int execSQL(const char* sql, bool recon = true);
 
     /* 测试mysql服务器是否存活 */
     bool ping();
@@ -143,9 +143,6 @@ public:
     INT64 GetAutoIncrementID(const char* szTableName, const char* szDBName);
 
     bool  SetAutoIncrementID(INT64 nId, const char* szTableName, const char* szDBName);
-
-    /* 执行非返回结果查询 */
-    int ExecSQLWithReconnect(const char* sql);
 
 private:
     CppMySQL3DB(const CppMySQL3DB& db);

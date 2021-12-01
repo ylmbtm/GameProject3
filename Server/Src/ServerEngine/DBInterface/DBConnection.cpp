@@ -146,7 +146,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
             }
             else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
             {
-                CLog::GetInstancePtr()->LogError("WriteDB1 Failed key:%ld, Sql:[%s]", *(INT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
+                CLog::GetInstancePtr()->LogError("WriteDB1 Failed key:%ld, Sql:[%s]", *(INT32 *)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
             }
             else
             {
@@ -231,7 +231,7 @@ BOOL CDBConnection::Execute(CDBStoredProcedure* pDBStoredProcedure)
         }
         else if (pDBStoredProcedure->m_pMybind[0].buffer_type == MYSQL_TYPE_LONG)
         {
-            CLog::GetInstancePtr()->LogError("WriteDB6 Failed key:%ld, Sql:[%s]", *(INT32*)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
+            CLog::GetInstancePtr()->LogError("WriteDB6 Failed key:%ld, Sql:[%s]", *(INT32 *)pDBStoredProcedure->m_pMybind[0].buffer, pDBStoredProcedure->m_strSql.substr(0, 100).c_str());
         }
         else
         {

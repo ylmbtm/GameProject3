@@ -477,44 +477,48 @@ MYSQL* CppMySQL3DB::getMysql()
 }
 
 /* 处理返回多行的查询，返回影响的行数 */
-CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql)
+CppMySQLQuery& CppMySQL3DB::querySQL(const char* sql, bool recon)
 {
     m_nErrNo = 0;
     int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
-    if (nRet != 0)
-    {
-        m_nErrNo = mysql_errno(m_pMySqlDB);
-        m_strError = mysql_error(m_pMySqlDB);
-        if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
-        {
-            if (!reconnect())
-            {
-                return m_dbQuery;
-            }
-
-            nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
-            if (nRet != 0)
-            {
-                m_nErrNo = mysql_errno(m_pMySqlDB);
-                m_strError = mysql_error(m_pMySqlDB);
-            }
-            else
-            {
-                m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
-            }
-
-            return m_dbQuery;
-        }
-    }
-    else
+    if (nRet == 0)
     {
         m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
+        return m_dbQuery;
     }
+
+    m_nErrNo = mysql_errno(m_pMySqlDB);
+    m_strError = mysql_error(m_pMySqlDB);
+
+    if (!recon)
+    {
+        return m_dbQuery;
+    }
+
+    if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
+    {
+        if (!reconnect())
+        {
+            return m_dbQuery;
+        }
+
+        nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
+        if (nRet != 0)
+        {
+            m_nErrNo = mysql_errno(m_pMySqlDB);
+            m_strError = mysql_error(m_pMySqlDB);
+        }
+        else
+        {
+            m_dbQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
+        }
+    }
+
     return m_dbQuery;
 }
 
 /* 执行非返回结果查询 */
-int CppMySQL3DB::execSQL(const char* sql)
+int CppMySQL3DB::execSQL(const char* sql, bool recon)
 {
     m_nErrNo = 0;
     int nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
@@ -526,21 +530,33 @@ int CppMySQL3DB::execSQL(const char* sql)
 
     m_nErrNo = mysql_errno(m_pMySqlDB);
     m_strError = mysql_error(m_pMySqlDB);
-    if (m_nErrNo == CR_SERVER_GONE_ERROR || m_nErrNo == CR_SERVER_LOST)
-    {
-        reconnect();
-        nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
-        if (0 == nRet)
-        {
-            //得到受影响的行数
-            return (int)mysql_affected_rows(m_pMySqlDB);
-        }
 
-        m_nErrNo = mysql_errno(m_pMySqlDB);
-        m_strError = mysql_error(m_pMySqlDB);
+    //不需要重连
+    if (!recon)
+    {
+        return -1;
     }
 
-    return -1;
+    if (m_nErrNo != CR_SERVER_GONE_ERROR && m_nErrNo != CR_SERVER_LOST)
+    {
+        return -1;
+    }
+
+    if (!reconnect())
+    {
+        return -1;
+    }
+
+    nRet = mysql_real_query(m_pMySqlDB, sql, (unsigned long)strlen(sql));
+    if (0 != nRet)
+    {
+        m_nErrNo = mysql_errno(m_pMySqlDB);
+        m_strError = mysql_error(m_pMySqlDB);
+        return -1;
+    }
+
+    //得到受影响的行数
+    return (int)mysql_affected_rows(m_pMySqlDB);
 }
 
 /* 测试mysql服务器是否存活 */
@@ -601,6 +617,8 @@ bool CppMySQL3DB::reconnect()
 
     if (0 != mysql_set_character_set(m_pMySqlDB, m_strCharSet.c_str()))
     {
+        m_nErrNo = mysql_errno(m_pMySqlDB);
+        m_strError = mysql_error(m_pMySqlDB);
         close();
         return false;
     }
@@ -609,6 +627,8 @@ bool CppMySQL3DB::reconnect()
     //0表示成功，非0值表示出现错误。
     if (mysql_select_db(m_pMySqlDB, m_strDB.c_str()) != 0)
     {
+        m_nErrNo = mysql_errno(m_pMySqlDB);
+        m_strError = mysql_error(m_pMySqlDB);
         close();
         return false;
     }
@@ -652,10 +672,14 @@ bool CppMySQL3DB::commit()
 /* 主要功能:回滚事务 */
 bool CppMySQL3DB::rollback()
 {
+    m_nErrNo = 0;
     if(!mysql_real_query(m_pMySqlDB, "ROLLBACK", (unsigned long)strlen("ROLLBACK") ) )
     {
         return true;
     }
+
+    m_nErrNo = mysql_errno(m_pMySqlDB);
+    m_strError = mysql_error(m_pMySqlDB);
 
     return false;
 }
@@ -709,12 +733,16 @@ const char*   CppMySQL3DB::getCharacterSetName()
 /* 建立新数据库 */
 int CppMySQL3DB::createDB(const char* name)
 {
-    char temp[1024];
+    m_nErrNo = 0;
+    char temp[1024] = {};
     snprintf(temp, 1024, "CREATE DATABASE %s", name);
     if(!mysql_real_query( m_pMySqlDB, temp, (unsigned long)strlen(temp)) )
     {
         return 0;
     }
+
+    m_nErrNo = mysql_errno(m_pMySqlDB);
+    m_strError = mysql_error(m_pMySqlDB);
 
     return -1;
 }
@@ -722,13 +750,16 @@ int CppMySQL3DB::createDB(const char* name)
 /* 删除制定的数据库*/
 int CppMySQL3DB::dropDB(const char*  name)
 {
+    m_nErrNo = 0;
     char temp[1024];
-
     snprintf(temp, 1024, "DROP DATABASE %s", name);
     if(!mysql_real_query( m_pMySqlDB, temp, (unsigned long)strlen(temp)) )
     {
         return 0;
     }
+
+    m_nErrNo = mysql_errno(m_pMySqlDB);
+    m_strError = mysql_error(m_pMySqlDB);
 
     return -1;
 }
@@ -755,26 +786,20 @@ INT64 CppMySQL3DB::GetAutoIncrementID(const char* szTableName, const char* szDBN
         return 0;
     }
 
+    m_nErrNo = 0;
     char strSql[1024];
     snprintf(strSql, 1024, "SELECT auto_increment FROM information_schema.tables where table_schema=\"%s\" and table_name=\"%s\"", szDBName, szTableName);
 
     CppMySQLQuery tQuery;
-
     int nRet = mysql_real_query(m_pMySqlDB, strSql, (unsigned long)strlen(strSql));
     if (nRet != 0)
     {
-        int nError = mysql_errno(m_pMySqlDB);
-        if (nError == CR_SERVER_GONE_ERROR || nError == CR_SERVER_LOST)
-        {
-            reconnect();
-            nRet = mysql_real_query(m_pMySqlDB, strSql, (unsigned long)strlen(strSql));
-        }
+        m_nErrNo = mysql_errno(m_pMySqlDB);
+        m_strError = mysql_error(m_pMySqlDB);
+        return -1;
     }
 
-    if (0 == nRet)
-    {
-        tQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
-    }
+    tQuery.m_MysqlRes = mysql_store_result(m_pMySqlDB);
 
     return tQuery.getInt64Field(0);
 }
@@ -783,9 +808,10 @@ bool CppMySQL3DB::SetAutoIncrementID(INT64 nId, const char* szTableName, const c
 {
     if ((szTableName == NULL) || (szDBName == NULL))
     {
-        return 0;
+        return false;
     }
 
+    m_nErrNo = 0;
     char strSql[1024];
     snprintf(strSql, 1024, "alter table %s.%s AUTO_INCREMENT=%lld;", szDBName, szTableName, nId);
 
@@ -794,37 +820,8 @@ bool CppMySQL3DB::SetAutoIncrementID(INT64 nId, const char* szTableName, const c
         return true;
     }
 
+    m_nErrNo = mysql_errno(m_pMySqlDB);
+    m_strError = mysql_error(m_pMySqlDB);
+
     return false;
-}
-
-int CppMySQL3DB::ExecSQLWithReconnect(const char* sql)
-{
-    int nRet = execSQL(sql);
-    if (nRet >= 0)
-    {
-        return nRet;
-    }
-
-    if (ping())
-    {
-        return execSQL(sql);
-    }
-
-    static int nCount = 0;
-
-    while (nCount < 3)
-    {
-        reconnect();
-
-        if (ping())
-        {
-            return execSQL(sql);
-        }
-
-        nCount++;
-
-        CommonFunc::Sleep(1000);
-    }
-
-    return -1;
 }

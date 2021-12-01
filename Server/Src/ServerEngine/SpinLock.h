@@ -4,56 +4,54 @@
 
 class CSpinLock
 {
-	std::atomic_flag m_flag = ATOMIC_FLAG_INIT;
+    std::atomic_flag m_flag = ATOMIC_FLAG_INIT;
 public:
-	CSpinLock()
-	{
-		
-	};
+    CSpinLock()
+    {
 
-	~CSpinLock()
-	{
-	};
+    };
 
-	void Lock()
-	{
-		for (unsigned k = 0; TryLock(); ++k)
-		{
-			if (k % 1024 == 0)
-			{
-				CommonFunc::Sleep(1);
-			}
-		}
+    ~CSpinLock()
+    {
+    };
 
-		return ;
-	}
+    void Lock()
+    {
+        for (unsigned k = 0; TryLock(); ++k)
+        {
+            if (k % 1024 == 0)
+            {
+                CommonFunc::Sleep(1);
+            }
+        }
 
-	bool TryLockTimes(unsigned nTimes)
-	{
-		for (unsigned k = 0; TryLock(); ++k)
-		{
-			if (k >= nTimes)
-			{
-				return false;
-			}
-		}
+        return ;
+    }
 
-		return true;
-	}
+    bool TryLockTimes(unsigned nTimes)
+    {
+        for (unsigned k = 0; TryLock(); ++k)
+        {
+            if (k >= nTimes)
+            {
+                return false;
+            }
+        }
 
-	bool TryLock()
-	{
-		bool bRet = m_flag.test_and_set(/*std::memory_order_acquire*/);
+        return true;
+    }
 
-		return bRet;
-	}
+    bool TryLock()
+    {
+        return m_flag.test_and_set(/*std::memory_order_acquire*/);
+    }
 
-	void Unlock()
-	{
-		m_flag.clear(/*std::memory_order_release*/);
-	
-		return ;
-	}
+    void Unlock()
+    {
+        m_flag.clear(/*std::memory_order_release*/);
+
+        return ;
+    }
 
 };
 
