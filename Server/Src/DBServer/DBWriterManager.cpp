@@ -177,7 +177,7 @@ void CDBWriterManager::DBWriteThread()
 
         CommonFunc::Sleep(60000); //休息10秒
     }
-
+    m_DBConnection.Close();
     m_DBConnection.Uninit();
 
     return ;

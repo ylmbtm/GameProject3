@@ -17,7 +17,7 @@ CDBMsgHandler::~CDBMsgHandler()
 
 }
 
-BOOL CDBMsgHandler::Init(UINT32 dwReserved)
+BOOL CDBMsgHandler::Init(INT32 nReserved)
 {
 	ERROR_RETURN_FALSE(m_DBManager.Init());
 

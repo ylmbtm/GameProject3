@@ -84,7 +84,7 @@ BOOL SceneLogicBase::ReadBornFromXml(rapidxml::xml_node<char>* pNode)
 	auto pBornListNode = pNode->first_node("MapBorns");
 	ERROR_RETURN_FALSE(pBornListNode != NULL);
 
-	UINT32 dwCamp = 0;
+	INT32 nCamp = 0;
 	CPoint3D pt;
 	for (auto pBornNode = pBornListNode->first_node("DTBorn"); pBornNode != NULL; pBornNode = pBornNode->next_sibling("DTBorn"))
 	{
@@ -92,7 +92,7 @@ BOOL SceneLogicBase::ReadBornFromXml(rapidxml::xml_node<char>* pNode)
 		{
 			if (strcmp(pAttr->name(), "ID") == 0)
 			{
-				dwCamp = CommonConvert::StringToInt(pAttr->value());
+				nCamp = CommonConvert::StringToInt(pAttr->value());
 			}
 			else if (strcmp(pAttr->name(), "Pos") == 0)
 			{
@@ -100,13 +100,13 @@ BOOL SceneLogicBase::ReadBornFromXml(rapidxml::xml_node<char>* pNode)
 			}
 		}
 
-		if (dwCamp >= m_vtBornPos.size())
+		if (nCamp >= m_vtBornPos.size())
 		{
-			m_vtBornPos.resize(dwCamp + 1, pt);
+			m_vtBornPos.resize(nCamp + 1, pt);
 		}
 		else
 		{
-			m_vtBornPos[dwCamp] = pt;
+			m_vtBornPos[nCamp] = pt;
 		}
 	}
 

@@ -4,20 +4,20 @@
 class CCenterMsgHandler
 {
 public:
-	CCenterMsgHandler();
+    CCenterMsgHandler();
 
-	~CCenterMsgHandler();
+    ~CCenterMsgHandler();
 
-	BOOL		Init(UINT32 dwReserved);
+    BOOL        Init(INT32 nReserved);
 
-	BOOL		Uninit();
+    BOOL        Uninit();
 
-	BOOL		DispatchPacket( NetPacket* pNetPacket);
+    BOOL        DispatchPacket( NetPacket* pNetPacket);
 
 public:
-	//*********************消息处理定义开始******************************
-	BOOL		OnMsgLogicSvrRegReq(NetPacket* pPacket);
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义开始******************************
+    BOOL        OnMsgLogicSvrRegReq(NetPacket* pPacket);
+    //*********************消息处理定义结束******************************
 };
 
 #endif //_CENTER_MSG_HANDLER_H_

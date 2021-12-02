@@ -1,6 +1,7 @@
 ﻿#ifndef _DB_WRITER_MANAGER_H_
 #define _DB_WRITER_MANAGER_H_
 
+#include "DBInterface/DBConnection.h"
 #include "GlobalData.h"
 #include "BagData.h"
 #include "CopyData.h"
@@ -19,7 +20,6 @@
 #include "SkillData.h"
 #include "PayData.h"
 #include "SealData.h"
-#include "DBInterface/DBConnection.h"
 
 class CDBWriterManager
 {

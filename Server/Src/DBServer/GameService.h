@@ -4,8 +4,6 @@
 #include "DBWriterManager.h"
 class CConnection;
 
-#define DB_THREAD_NUM 10
-
 class CGameService  : public IPacketDispatcher
 {
 private:
@@ -32,11 +30,11 @@ public:
 
     BOOL        SetLogicConnID(INT32 nConnID);
 
-    UINT32      GetLogicConnID();
+    INT32       GetLogicConnID();
 
-    BOOL        SetLogicProcessID(UINT32 dwProcesssID);
+    BOOL        SetLogicProcessID(INT32 nProcesssID);
 
-    UINT32      GetLogicProcessID();
+    INT32       GetLogicProcessID();
 
     BOOL        CheckLogicServer();
 
@@ -47,7 +45,7 @@ public:
 
     INT32               m_nLogicConnID;
 
-    UINT32              m_dwLogicProcessID;
+    INT32               m_nLogicProcessID;
 public:
     //*********************消息处理定义开始******************************
     //*********************消息处理定义结束******************************

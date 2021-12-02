@@ -315,14 +315,12 @@ BOOL CGameService::RegisterToLoginSvr()
     std::string strSvrName = CConfigFile::GetInstancePtr()->GetStringValue("areaname");
     UINT32 dwPort  = CConfigFile::GetInstancePtr()->GetRealNetPort("proxy_svr_port");
     UINT32 dwHttpPort = CConfigFile::GetInstancePtr()->GetRealNetPort("logic_svr_port");
-    UINT32 dwWatchPort = CConfigFile::GetInstancePtr()->GetRealNetPort("watch_svr_port");
     std::string strIp = CConfigFile::GetInstancePtr()->GetStringValue("logic_svr_ip");
     Req.set_serverid(dwServerID);
     Req.set_serverport(dwPort);
     Req.set_svrinnerip(strIp);
     Req.set_servername(strSvrName);
     Req.set_httpport(dwHttpPort);
-    Req.set_watchport(dwWatchPort);
     return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwLoginConnID, MSG_LOGIC_REGTO_LOGIN_REQ, 0, 0, Req);
 }
 

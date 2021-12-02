@@ -97,7 +97,7 @@ BOOL CGameLogManager::LogRoleChat(CPlayerObject* pPlayer, INT32 nChatChl, std::s
     log.m_nChatChl = nChatChl;
     CommonConvert::StrCopy(log.m_szText, strContent.c_str(), 256);
     CommonConvert::StrCopy(log.m_szTargetName, strTargetName.c_str(), sizeof(log.m_szTargetName));
-    CommonConvert::StrCopy(log.m_szSrcName, pPlayer->GetName(), sizeof(log.m_szSrcName));
+    CommonConvert::StrCopy(log.m_szRoleName, pPlayer->GetName(), sizeof(log.m_szRoleName));
 
     log.m_uTargetID = uTargetID;
     WriteGameLog(log);

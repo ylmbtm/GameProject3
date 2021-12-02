@@ -7,13 +7,13 @@
 CGameService::CGameService(void)
 {
     m_nLogicConnID = 0;
-    m_dwLogicProcessID = 0;
+    m_nLogicProcessID = 0;
 }
 
 CGameService::~CGameService(void)
 {
     m_nLogicConnID = 0;
-    m_dwLogicProcessID = 0;
+    m_nLogicProcessID = 0;
 }
 
 CGameService* CGameService::GetInstancePtr()
@@ -55,8 +55,8 @@ BOOL CGameService::Init()
         return FALSE;
     }
 
-    INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_max_con");
-    if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
+    INT32 nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("db_svr_max_con");
+    if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this, "127.0.0.1"))
     {
         CLog::GetInstancePtr()->LogError("启动服务失败!");
         return FALSE;
@@ -66,7 +66,7 @@ BOOL CGameService::Init()
 
     ERROR_RETURN_FALSE(m_DBWriterManger.Init());
 
-    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
 
     return TRUE;
 }
@@ -87,8 +87,6 @@ BOOL CGameService::OnCloseConnect(INT32 nConnID)
 
 BOOL CGameService::OnSecondTimer()
 {
-    CWatcherClient::GetInstancePtr()->OnSecondTimer();
-
     CheckLogicServer();
 
     return TRUE;
@@ -116,31 +114,31 @@ BOOL CGameService::SetLogicConnID(INT32 nConnID)
     return TRUE;
 }
 
-UINT32 CGameService::GetLogicConnID()
+INT32 CGameService::GetLogicConnID()
 {
     return m_nLogicConnID;
 }
 
-BOOL CGameService::SetLogicProcessID(UINT32 dwProcesssID)
+BOOL CGameService::SetLogicProcessID(INT32 nProcesssID)
 {
-    m_dwLogicProcessID = dwProcesssID;
+    m_nLogicProcessID = nProcesssID;
 
     return TRUE;
 }
 
-UINT32 CGameService::GetLogicProcessID()
+INT32 CGameService::GetLogicProcessID()
 {
-    return m_dwLogicProcessID;
+    return m_nLogicProcessID;
 }
 
 BOOL CGameService::CheckLogicServer()
 {
-    if (m_dwLogicProcessID <= 0)
+    if (m_nLogicProcessID <= 0)
     {
         return TRUE;
     }
 
-    if (CommonFunc::IsProcessExist(m_dwLogicProcessID))
+    if (CommonFunc::IsProcessExist(m_nLogicProcessID))
     {
         return TRUE;
     }
@@ -157,6 +155,7 @@ BOOL CGameService::Uninit()
     ServiceBase::GetInstancePtr()->StopNetwork();
 
     m_DBMsgHandler.Uninit();
+
     m_DBWriterManger.Uninit();
 
     google::protobuf::ShutdownProtobufLibrary();

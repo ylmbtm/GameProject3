@@ -16,7 +16,7 @@ public:
 
 	BOOL OnUpdate( UINT64 uTick );
 
-	BOOL Init(UINT32 dwReserved);
+	BOOL Init(INT32 nReserved);
 
 	BOOL Run();
 

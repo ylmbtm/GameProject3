@@ -21,12 +21,13 @@ enum ELogType
 struct Log_BaseData
 {
     ELogType    m_LogType   = ELT_LOG_TYPE_NONE; //日志类型
-    UINT64      m_uAccountID = 0;
-    UINT64      m_uRoleID   = 0;//角色ID或账号ID
-    UINT64      m_uOpTime   = 0;//日志发生时间
-    INT32       m_nChannel  = 0;//渠道
-    INT32       m_nAreaID   = 0; //区服ID
-
+    UINT64      m_uAccountID = 0; //账号ID
+    UINT64      m_uRoleID    = 0; //角色ID
+    UINT64      m_uOpTime    = 0; //日志发生时间
+    INT32       m_nChannel   = 0; //渠道
+    INT32       m_nAreaID    = 0; //区服ID
+    CHAR        m_szIdfa[64] = { 0 };  //客户端idfa
+    CHAR        m_szRoleName[64] = { 0 };
     //以下两条仅角色日志有效
     UINT32      m_nLevel     = 0;//角色等级
     UINT32      m_nVipLevel = 0;//角色VIP等级
@@ -37,7 +38,6 @@ struct Log_AccountCreate : public Log_BaseData
 {
     UINT32      m_dwVersion     = 0;   //客户端版本号
     UINT32      m_dwIpAddr      = 0;    //登录IP
-    CHAR        m_szIdfa[64]    = { 0 };  //客户端idfa
     CHAR        m_szImei[64]    = { 0 };  //手机的MEI
     CHAR        m_szModel[64]   = { 0 }; //手机的机型
     CHAR        m_szUuid[64]    = { 0 };  //手机的uuid;
@@ -60,7 +60,6 @@ struct Log_AccountLogin : public Log_BaseData
 {
     UINT32      m_dwVersion = 0;  //客户端版本号
     UINT32      m_dwIpAddr = 0;   //登录IP
-    CHAR        m_szIdfa[64] = { 0 }; //客户端idfa
     CHAR        m_szImei[64] = { 0 }; //手机的MEI
     CHAR        m_szModel[64] = { 0 };//手机的机型
     CHAR        m_szUuid[64] = { 0 }; //手机的uuid;
@@ -81,9 +80,6 @@ struct Log_AccountLogin : public Log_BaseData
 
 struct Log_RoleCreate : public Log_BaseData
 {
-    CHAR   m_szRoleName[64] = { 0 };
-    CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
-
     Log_RoleCreate()
     {
         m_LogType = ELT_ROLE_CREATE;
@@ -99,8 +95,6 @@ struct Log_RoleCreate : public Log_BaseData
 
 struct Log_RoleLogin : public Log_BaseData
 {
-    CHAR   m_szRoleName[64] = { 0 };
-    CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
 
     Log_RoleLogin()
     {
@@ -117,9 +111,7 @@ struct Log_RoleLogin : public Log_BaseData
 
 struct Log_RoleLogout : public Log_BaseData
 {
-    CHAR   m_szRoleName[64] = { 0 };
-    CHAR   m_szIdfa[64] = { 0 }; //客户端idfa
-
+    UINT64 m_uLastTime = 0;
     Log_RoleLogout()
     {
         m_LogType = ELT_ROLE_LOGOUT;
@@ -188,7 +180,6 @@ struct Log_RoleGold : public Log_BaseData
 struct Log_RoleChat : public Log_BaseData
 {
     CHAR   m_szText[256] = { 0 };
-    CHAR   m_szSrcName[64] = { 0 };
     CHAR   m_szTargetName[64] = { 0 };
     UINT64 m_uTargetID = 0;
     UINT32 m_nTargetVip = 0;
@@ -204,7 +195,7 @@ struct Log_RoleChat : public Log_BaseData
         CommonConvert::EscapeString(m_szText, 256);
 
         snprintf(pBuff, 2048, "insert into role_chat(roleid,rolename, areaid, channel, optime, level, viplevel, chatchl, text, targetid, targetvip, targetname) values(%lld, '%s', %d ,%d, '%s', %d, %d,%d, '%s', %lld, %ld, '%s')",
-                 m_uRoleID, m_szSrcName, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_nLevel, m_nVipLevel, m_nChatChl, m_szText, m_uTargetID, m_nTargetVip, m_szTargetName);
+                 m_uRoleID, m_szRoleName, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_nLevel, m_nVipLevel, m_nChatChl, m_szText, m_uTargetID, m_nTargetVip, m_szTargetName);
         return TRUE;
     }
 };
