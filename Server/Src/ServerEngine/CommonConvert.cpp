@@ -369,6 +369,47 @@ BOOL CommonConvert::StringToVector(const char* pStrValue, INT32 IntVector[], INT
     return TRUE;
 }
 
+BOOL CommonConvert::StringToVector(const char* pStrValue, std::vector<INT32>& vtInt, char cDelim /*= ','*/)
+{
+    if (pStrValue == NULL)
+    {
+        return FALSE;
+    }
+
+    if (strlen(pStrValue) > 1024)
+    {
+        return FALSE;
+    }
+
+    char szBuf[1024] = { 0 };
+    strncpy(szBuf, pStrValue, 1024);
+
+    char* pBeginPos = szBuf;
+    char* pEndPos = strchr(pBeginPos, cDelim);
+
+    if (pBeginPos == pEndPos)
+    {
+        pBeginPos += 1;
+        pEndPos = strchr(pBeginPos, cDelim);
+    }
+
+    while (pEndPos != NULL)
+    {
+        INT32 nValue = StringToInt(pBeginPos);
+        vtInt.push_back(nValue);
+        pBeginPos = pEndPos + 1;
+        pEndPos = strchr(pBeginPos, cDelim);
+    }
+
+    if (*pBeginPos != 0)
+    {
+        INT32 nValue = StringToInt(pBeginPos);
+        vtInt.push_back(nValue);
+    }
+
+    return TRUE;
+}
+
 BOOL CommonConvert::StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim /*= ','*/)
 {
     if (pStrValue == NULL)
@@ -782,4 +823,34 @@ BOOL CommonConvert::EscapeString(char* pszDest, INT32 nLen)
     }
 
     return TRUE;
+}
+
+BYTE CommonConvert::FromHex(const BYTE& x)
+{
+    return isdigit(x) ? x - '0' : x - 'A' + 10;
+}
+
+std::string CommonConvert::UrlDecode(const std::string& strIn)
+{
+    std::string strOut;
+    for (size_t ix = 0; ix < strIn.size(); ix++)
+    {
+        BYTE ch = 0;
+        if (strIn[ix] == '%')
+        {
+            ch = (FromHex(strIn[ix + 1]) << 4);
+            ch |= FromHex(strIn[ix + 2]);
+            ix += 2;
+        }
+        else if (strIn[ix] == '+')
+        {
+            ch = ' ';
+        }
+        else
+        {
+            ch = strIn[ix];
+        }
+        strOut += (char)ch;
+    }
+    return strOut;
 }

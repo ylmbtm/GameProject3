@@ -60,6 +60,8 @@ BOOL SpliteString(std::string strSrc, char cDelim, std::vector<std::string>& vtS
 
 BOOL ReplaceString(std::string& strSrc, const std::string& pattern, const std::string& newpat);
 
+BOOL StringToVector(const char* pStrValue, std::vector<INT32>& vtInt, char cDelim = ',');
+
 BOOL StringToVector(const char* pStrValue, INT32 IntVector[], INT32 nSize, char cDelim = ',');
 
 BOOL StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, char cDelim = ',');
@@ -75,6 +77,11 @@ BOOL StringTrim(std::string& strValue);
 BOOL StrCopy(char* pszDest, const char* pszSrc, INT32 nLen);
 
 BOOL EscapeString(char* pszDest, INT32 nLen);
+
+BYTE FromHex(const BYTE& x);
+
+std::string UrlDecode(const std::string& strIn);
+
 }
 
 

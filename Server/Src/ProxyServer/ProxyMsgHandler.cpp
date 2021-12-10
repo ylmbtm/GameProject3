@@ -19,7 +19,7 @@ CProxyMsgHandler::~CProxyMsgHandler()
 
 }
 
-BOOL CProxyMsgHandler::Init(UINT32 dwReserved)
+BOOL CProxyMsgHandler::Init(INT32 nReserved)
 {
     return TRUE;
 }

@@ -33,7 +33,7 @@ public:
 
     BOOL    StopListen();
 
-	//以下是完成端口部分
+    //以下是完成端口部分
 public:
     BOOL    CreateCompletePort();
 
@@ -66,8 +66,8 @@ public:
     CHAR                m_AddressBuf[128];
     BOOL                m_bCloseEvent;      //是否关闭事件处理线程
 
-	IDataHandler*		m_pBufferHandler;
-	std::vector<std::thread*> m_vtEventThread;
+    IDataHandler*       m_pBufferHandler;
+    std::vector<std::thread*> m_vtEventThread;
 
 };
 

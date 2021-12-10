@@ -359,7 +359,7 @@ BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::v
     }
     else
     {
-    strcat(szTem, "*.*");
+        strcat(szTem, "*.*");
     }
 
     strcpy(szDir, szTem);

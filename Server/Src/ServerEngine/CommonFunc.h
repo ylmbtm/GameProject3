@@ -74,6 +74,7 @@ std::string     GetLastErrorStr(INT32 nError);
 HANDLE          CreateShareMemory(INT32 nModuleID, INT32 nPage, INT32 nSize);
 
 HANDLE          OpenShareMemory(INT32 nModuleID, INT32 nPage);
+
 CHAR*           GetShareMemory(HANDLE hShm);
 
 BOOL            ReleaseShareMemory(CHAR* pMem);

@@ -135,7 +135,7 @@ BOOL CAccountMsgHandler::OnMsgAccontLoginReq(NetPacket* pPacket)
         }
         else if(Req.password() != pAccObj->m_strPassword)
         {
-            Ack.set_retcode(MRC_ACCOUNT_WRONG_PASSWORD);
+            Ack.set_retcode(MRC_INVALID_PASSWORD);
             Ack.set_lastsvrid(0);
             Ack.set_accountid(0);
         }

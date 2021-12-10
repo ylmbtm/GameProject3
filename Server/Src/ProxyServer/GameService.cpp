@@ -105,8 +105,6 @@ BOOL CGameService::OnSecondTimer()
 {
     ConnectToLogicSvr();
 
-
-
     return TRUE;
 }
 

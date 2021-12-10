@@ -98,6 +98,7 @@ enum EShareData
 
 enum EAddWay
 {
+    ADD_GMCOMMAND       = 1,        //gm命令
 	Add_ = 1,
 	Cost_
 };
