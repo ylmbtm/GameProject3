@@ -3,51 +3,64 @@
 #include "CommonSocket.h"
 
 
-LogicSvrMgr::LogicSvrMgr(void)
+CLogicSvrMgr::CLogicSvrMgr(void)
 {
 }
 
 
-LogicSvrMgr::~LogicSvrMgr(void)
+CLogicSvrMgr::~CLogicSvrMgr(void)
 {
 }
 
-LogicSvrMgr* LogicSvrMgr::GetInstancePtr()
+CLogicSvrMgr* CLogicSvrMgr::GetInstancePtr()
 {
-    static LogicSvrMgr _StaticMgr;
+    static CLogicSvrMgr _StaticMgr;
 
     return &_StaticMgr;
 }
 
-BOOL LogicSvrMgr::Init()
+BOOL CLogicSvrMgr::Init()
 {
+    return TRUE;
+}
+
+BOOL CLogicSvrMgr::Uninit()
+{
+    for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); itor++)
+    {
+        LogicServerNode* pTempNode = itor->second;
+
+        delete pTempNode;
+    }
+
+    m_mapServer.clear();
 
     return TRUE;
 }
 
-BOOL LogicSvrMgr::RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, std::string strSvrName)
+BOOL CLogicSvrMgr::RegisterLogicServer(INT32 nConnID, INT32 nServerID, std::string strSvrName)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         LogicServerNode* pTempNode = new LogicServerNode();
-        pTempNode->m_dwServerID = dwServerID;
+        pTempNode->m_nServerID = nServerID;
         pTempNode->m_nConnID   = nConnID;
         pTempNode->m_strSvrName = strSvrName;
-        m_mapServer.insert(std::make_pair(dwServerID, pTempNode));
+        m_mapServer.insert(std::make_pair(nServerID, pTempNode));
         return TRUE;
     }
 
     pNode->m_nConnID = nConnID;
-    pNode->m_dwServerID = dwServerID;
+    pNode->m_nServerID = nServerID;
     pNode->m_strSvrName = strSvrName;
 
     return TRUE;
 }
 
-BOOL LogicSvrMgr::UnregisterLogicServer(UINT32 dwServerID)
+BOOL CLogicSvrMgr::UnregisterLogicServer(INT32 nServerID)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         return TRUE;
@@ -58,7 +71,7 @@ BOOL LogicSvrMgr::UnregisterLogicServer(UINT32 dwServerID)
     return TRUE;
 }
 
-BOOL LogicSvrMgr::OnCloseConnect(INT32 nConnID)
+BOOL CLogicSvrMgr::OnCloseConnect(INT32 nConnID)
 {
     for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); ++itor)
     {
@@ -68,6 +81,8 @@ BOOL LogicSvrMgr::OnCloseConnect(INT32 nConnID)
         if (pNode->m_nConnID == nConnID)
         {
             pNode->m_nConnID = 0;
+
+            CLog::GetInstancePtr()->LogError("Lost Connect To Server:[%d] !", pNode->m_nServerID);
         }
 
     }
@@ -75,9 +90,9 @@ BOOL LogicSvrMgr::OnCloseConnect(INT32 nConnID)
     return TRUE;
 }
 
-UINT32 LogicSvrMgr::GetLogicConnID(UINT32 dwServerID)
+INT32 CLogicSvrMgr::GetLogicConnID(INT32 nServerID)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         return 0;
@@ -86,9 +101,9 @@ UINT32 LogicSvrMgr::GetLogicConnID(UINT32 dwServerID)
     return pNode->m_nConnID;
 }
 
-LogicServerNode* LogicSvrMgr::GetLogicServerInfo(UINT32 dwServerID)
+LogicServerNode* CLogicSvrMgr::GetLogicServerInfo(INT32 nServerID)
 {
-    auto itor = m_mapServer.find(dwServerID);
+    auto itor = m_mapServer.find(nServerID);
     if(itor != m_mapServer.end())
     {
         return itor->second;
@@ -97,12 +112,12 @@ LogicServerNode* LogicSvrMgr::GetLogicServerInfo(UINT32 dwServerID)
     return NULL;
 }
 
-BOOL LogicSvrMgr::SendMsgProtoBuf(UINT32 dwServerID, INT32 nMsgID, const google::protobuf::Message& pdata)
+BOOL CLogicSvrMgr::SendMsgProtoBuf(INT32 nServerID, INT32 nMsgID, const google::protobuf::Message& pdata, UINT64 uTargetID, UINT32 userData)
 {
-    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetLogicConnID(dwServerID), nMsgID, 0, 0, pdata);
+    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(GetLogicConnID(nServerID), nMsgID, uTargetID, userData, pdata);
 }
 
-BOOL LogicSvrMgr::BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& pdata, INT32 nNoConnID)
+BOOL CLogicSvrMgr::BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& pdata, INT32 nNoConnID)
 {
     for (auto itor = m_mapServer.begin(); itor != m_mapServer.end(); ++itor)
     {
@@ -120,7 +135,7 @@ BOOL LogicSvrMgr::BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& p
     return TRUE;
 }
 
-BOOL LogicSvrMgr::SendMsgRawData(UINT32 dwServerID, INT32 nMsgID, const char* pdata, UINT32 dwLen)
+BOOL CLogicSvrMgr::SendMsgRawData(INT32 nServerID, INT32 nMsgID, const char* pdata, INT32 nLen)
 {
-    return ServiceBase::GetInstancePtr()->SendMsgRawData(GetLogicConnID(dwServerID), nMsgID, 0, 0, pdata, dwLen);
+    return ServiceBase::GetInstancePtr()->SendMsgRawData(GetLogicConnID(nServerID), nMsgID, 0, 0, pdata, nLen);
 }

@@ -3,44 +3,46 @@
 
 struct LogicServerNode
 {
-	LogicServerNode()
-	{
-		m_nConnID = 0;
-		m_dwServerID = 0;
-	}
+    LogicServerNode()
+    {
+        m_nConnID = 0;
+        m_nServerID = 0;
+    }
 
-	UINT32		m_nConnID;   //连接ID
-	UINT32		m_dwServerID;
-	std::string m_strSvrName;
+    INT32       m_nConnID;   //连接ID
+    INT32       m_nServerID;
+    std::string m_strSvrName;
 };
 
-class LogicSvrMgr
+class CLogicSvrMgr
 {
-	LogicSvrMgr(void);
-	~LogicSvrMgr(void);
+    CLogicSvrMgr(void);
+    ~CLogicSvrMgr(void);
 public:
-	static LogicSvrMgr* GetInstancePtr();
+    static CLogicSvrMgr* GetInstancePtr();
 public:
-	BOOL	Init();
+    BOOL    Init();
 
-	BOOL	RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, std::string strSvrName);
+    BOOL    Uninit();
 
-	BOOL	UnregisterLogicServer(UINT32 dwServerID);
+    BOOL    RegisterLogicServer(INT32 nConnID, INT32 nServerID, std::string strSvrName);
 
-	BOOL    OnCloseConnect(INT32 nConnID);
+    BOOL    UnregisterLogicServer(INT32 nServerID);
 
-	UINT32	GetLogicConnID(UINT32 dwServerID);
+    BOOL    OnCloseConnect(INT32 nConnID);
 
-	BOOL	SendMsgProtoBuf(UINT32 dwServerID, INT32 nMsgID, const google::protobuf::Message& pdata);
+    INT32   GetLogicConnID(INT32 nServerID);
 
-	BOOL    BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& pdata, INT32 nNoConnID = 0);
+    BOOL    SendMsgProtoBuf(INT32 nServerID, INT32 nMsgID, const google::protobuf::Message& pdata, UINT64 uTargetID = 0, UINT32 userData = 0);
 
-	BOOL	SendMsgRawData(UINT32 dwServerID, INT32 nMsgID, const char* pdata, UINT32 dwLen);
+    BOOL    BroadMsgToAll(INT32 nMsgID, const google::protobuf::Message& pdata, INT32 nNoConnID = 0);
 
-	LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
+    BOOL    SendMsgRawData(INT32 nServerID, INT32 nMsgID, const char* pdata, INT32 nLen);
+
+    LogicServerNode* GetLogicServerInfo(INT32 nServerID);
 public:
 
-	std::map<UINT32, LogicServerNode*> m_mapServer;
+    std::map<INT32, LogicServerNode*> m_mapServer;
 };
 
 #endif //_LOGIC_SEVER_MANAGERH_CENTER_

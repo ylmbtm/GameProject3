@@ -66,7 +66,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
     }
 
     //先把礼包奖励全部加载出来
-    std::map<UINT32, AwardNode> mapAwardList;
+    std::map<INT32, AwardNode> mapAwardList;
 
     CodeReqNode* pTmpNode;
 
@@ -99,7 +99,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             CHAR szSql[SQL_BUFF_LEN] = { 0 };
             //////////////////////////////////////////////////////////////////////////
 #if 0
-            snprintf(szSql, SQL_BUFF_LEN, "call use_giftcode('%s',%d, %lld, %d, @retcode, @awardid)", pTmpNode->m_strCode.c_str(), pTmpNode->m_dwAreaID, pTmpNode->m_uRoleID, pTmpNode->m_nChannel);
+            snprintf(szSql, SQL_BUFF_LEN, "call use_giftcode('%s',%d, %lld, %d, @retcode, @awardid)", pTmpNode->m_strCode.c_str(), pTmpNode->m_nAreaID, pTmpNode->m_uRoleID, pTmpNode->m_nChannel);
             tDBConnection.querySQL("call use_giftcode('%s',1, 12345, 1, @retcode, @awardid)");
             CppMySQLQuery result = tDBConnection.querySQL("select @retcode, @awardid;");
             INT32 nRetCode = result.getIntField("retcode");
@@ -110,7 +110,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             if (CommonConvert::HasSymbol(pTmpNode->m_strCode.c_str(), (const char*)"\'\" \\\r\n%%"))
             {
                 CLog::GetInstancePtr()->LogError("GiftCodeManager::Invalid Gift Code :%s", pTmpNode->m_strCode.c_str());
-                pTmpNode->m_dwResult = MRC_GIFTCODE_INVALIDE_CODE;
+                pTmpNode->m_nResult = MRC_GIFTCODE_INVALIDE_CODE;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
@@ -121,14 +121,14 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             if (tDBConnection.GetErrorNo() != 0)
             {
                 CLog::GetInstancePtr()->LogError("GiftCodeManager::get gift code failure Error :%s", tDBConnection.GetErrorMsg());
-                pTmpNode->m_dwResult = MRC_GIFTCODE_INVALIDE_CODE;
+                pTmpNode->m_nResult = MRC_GIFTCODE_INVALIDE_CODE;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
 
             if (codeResult.eof())
             {
-                pTmpNode->m_dwResult = MRC_GIFTCODE_INVALIDE_CODE;
+                pTmpNode->m_nResult = MRC_GIFTCODE_INVALIDE_CODE;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
@@ -143,21 +143,21 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             INT32 nAwardID = codeResult.getIntField("awardid");
             if (nAssign <= 0)
             {
-                pTmpNode->m_dwResult = MRC_GIFTCODE_UNASSIGNED;
+                pTmpNode->m_nResult = MRC_GIFTCODE_UNASSIGNED;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
 
             if (nChannel != pTmpNode->m_nChannel && nChannel > 0)
             {
-                pTmpNode->m_dwResult = MRC_GIFTCODE_WRONG_CHANNEL;
+                pTmpNode->m_nResult = MRC_GIFTCODE_WRONG_CHANNEL;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
 
-            if (nAreaID != pTmpNode->m_dwAreaID && nAreaID > 0)
+            if (nAreaID != pTmpNode->m_nAreaID && nAreaID > 0)
             {
-                pTmpNode->m_dwResult = MRC_GIFTCODE_WRONG_AREA;
+                pTmpNode->m_nResult = MRC_GIFTCODE_WRONG_AREA;
                 m_ArrFinishNode.push(pTmpNode);
                 continue;
             }
@@ -166,7 +166,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             {
                 if (uRoleID > 0)
                 {
-                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    pTmpNode->m_nResult = MRC_GIFTCODE_AREADY_USED;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -174,7 +174,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set roleid=%lld, usenum = 1 where giftcode ='%s'", pTmpNode->m_uRoleID, pTmpNode->m_strCode.c_str());
                 if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -183,7 +183,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             {
                 if (nUseNum >= nTotalNum)
                 {
-                    pTmpNode->m_dwResult = MRC_GIFTCODE_NO_MORE;
+                    pTmpNode->m_nResult = MRC_GIFTCODE_NO_MORE;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -192,23 +192,23 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 CppMySQLQuery usedResult = tDBConnection.querySQL(szSql);
                 if (tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
 
                 if (usedResult.numRow() > 0)
                 {
-                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    pTmpNode->m_nResult = MRC_GIFTCODE_AREADY_USED;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
 
-                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_dwAreaID,
+                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_nAreaID,
                          pTmpNode->m_strCode.c_str(), CommonFunc::GetCurrTime(), nAwardID);
                 if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -216,7 +216,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set usenum = usenum +1 where giftcode ='%s'", pTmpNode->m_strCode.c_str());
                 if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -225,7 +225,7 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
             {
                 if (uRoleID > 0)
                 {
-                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    pTmpNode->m_nResult = MRC_GIFTCODE_AREADY_USED;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -234,23 +234,23 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 CppMySQLQuery usedResult = tDBConnection.querySQL(szSql);
                 if (tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
 
                 if (usedResult.numRow() > 0)
                 {
-                    pTmpNode->m_dwResult = MRC_GIFTCODE_AREADY_USED;
+                    pTmpNode->m_nResult = MRC_GIFTCODE_AREADY_USED;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
 
-                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_dwAreaID,
+                snprintf(szSql, SQL_BUFF_LEN, "insert into giftcode_used(roleid, accountid,areaid, giftcode, usetime, awardid) values(%lld, %lld, %d, '%s', %lld, %d)", pTmpNode->m_uRoleID, pTmpNode->m_uAccountID, pTmpNode->m_nAreaID,
                          pTmpNode->m_strCode.c_str(), CommonFunc::GetCurrTime(), nAwardID);
                 if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
@@ -258,14 +258,14 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 snprintf(szSql, SQL_BUFF_LEN, "update giftcode_base set roleid=%lld, usenum = 1 where giftcode ='%s'", pTmpNode->m_uRoleID, pTmpNode->m_strCode.c_str());
                 if (tDBConnection.execSQL(szSql) <= 0 || tDBConnection.GetErrorNo() != 0)
                 {
-                    pTmpNode->m_dwResult = MRC_UNKNOW_ERROR;
+                    pTmpNode->m_nResult = MRC_UNKNOW_ERROR;
                     m_ArrFinishNode.push(pTmpNode);
                     continue;
                 }
             }
 #endif
 
-            std::map<UINT32, AwardNode>::iterator itor = mapAwardList.find(nAwardID);
+            std::map<INT32, AwardNode>::iterator itor = mapAwardList.find(nAwardID);
             if (itor == mapAwardList.end())
             {
                 AwardNode tAwardNode;
@@ -274,8 +274,8 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 CppMySQLQuery awardResult = tDBConnection.querySQL(szSql);
                 while (!awardResult.eof())
                 {
-                    tAwardNode.m_dwItemID[nIndex] = awardResult.getIntField("objectid");
-                    tAwardNode.m_dwItemNum[nIndex] = awardResult.getIntField("objectnum");
+                    tAwardNode.m_nItemID[nIndex] = awardResult.getIntField("objectid");
+                    tAwardNode.m_nItemNum[nIndex] = awardResult.getIntField("objectnum");
                     nIndex++;
                     if (nIndex >= GIFT_AWARD_ITEM_NUM)
                     {
@@ -287,8 +287,8 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 mapAwardList.insert(std::make_pair(nAwardID, tAwardNode));
                 for (int i = 0; i < GIFT_AWARD_ITEM_NUM; i++)
                 {
-                    pTmpNode->m_dwItemID[i] = tAwardNode.m_dwItemID[i];
-                    pTmpNode->m_dwItemNum[i] = tAwardNode.m_dwItemNum[i];
+                    pTmpNode->m_nItemID[i] = tAwardNode.m_nItemID[i];
+                    pTmpNode->m_nItemNum[i] = tAwardNode.m_nItemNum[i];
                 }
             }
             else
@@ -296,12 +296,12 @@ BOOL GiftCodeManager::ProceeGiftCodeThread()
                 AwardNode& tAwardNode = itor->second;
                 for (int i = 0; i < GIFT_AWARD_ITEM_NUM; i++)
                 {
-                    pTmpNode->m_dwItemID[i] = tAwardNode.m_dwItemID[i];
-                    pTmpNode->m_dwItemNum[i] = tAwardNode.m_dwItemNum[i];
+                    pTmpNode->m_nItemID[i] = tAwardNode.m_nItemID[i];
+                    pTmpNode->m_nItemNum[i] = tAwardNode.m_nItemNum[i];
                 }
             }
 
-            pTmpNode->m_dwResult = MRC_SUCCESSED;
+            pTmpNode->m_nResult = MRC_SUCCESSED;
 
             m_ArrFinishNode.push(pTmpNode);
         }
@@ -325,17 +325,17 @@ BOOL GiftCodeManager::Update()
         }
 
         Msg_GiftCodeAck Ack;
-        Ack.set_retcode(pTmpNode->m_dwResult);
+        Ack.set_retcode(pTmpNode->m_nResult);
         Ack.set_roleid(pTmpNode->m_uRoleID);
-        if (pTmpNode->m_dwResult == MRC_SUCCESSED)
+        if (pTmpNode->m_nResult == MRC_SUCCESSED)
         {
             for (int i = 0; i < 5; i++)
             {
-                if (pTmpNode->m_dwItemID[i] != 0)
+                if (pTmpNode->m_nItemID[i] != 0)
                 {
                     ItemData* pData = Ack.add_items();
-                    pData->set_itemid(pTmpNode->m_dwItemID[i]);
-                    pData->set_itemnum(pTmpNode->m_dwItemNum[i]);
+                    pData->set_itemid(pTmpNode->m_nItemID[i]);
+                    pData->set_itemnum(pTmpNode->m_nItemNum[i]);
                 }
             }
         }
@@ -355,7 +355,7 @@ BOOL GiftCodeManager::OnMsgRecvGiftCodeReq(NetPacket* pNetPacket)
     Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
     CodeReqNode* pNode = new CodeReqNode();
-    pNode->m_dwAreaID = Req.areaid();
+    pNode->m_nAreaID = Req.areaid();
     pNode->m_nChannel = Req.channel();
     pNode->m_nConnID = pNetPacket->m_nConnID;
     pNode->m_uAccountID = Req.accountid();

@@ -43,7 +43,7 @@ BOOL CCenterMsgHandler::OnMsgLogicSvrRegReq(NetPacket* pPacket)
 {
     SvrRegToSvrReq Req;
     Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
-    LogicSvrMgr::GetInstancePtr()->RegisterLogicServer(pPacket->m_nConnID, Req.serverid(), Req.servername());
+    CLogicSvrMgr::GetInstancePtr()->RegisterLogicServer(pPacket->m_nConnID, Req.serverid(), Req.servername());
     CLog::GetInstancePtr()->LogInfo("ServerID:%d Register Successed!", Req.serverid());
 
     SvrRegToSvrAck Ack;

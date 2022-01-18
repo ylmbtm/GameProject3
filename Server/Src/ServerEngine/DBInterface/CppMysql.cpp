@@ -594,6 +594,7 @@ bool CppMySQL3DB::reboot()
 
 bool CppMySQL3DB::reconnect()
 {
+    m_nErrNo = 0;
     if (m_pMySqlDB != NULL && ping())
     {
         return true;
