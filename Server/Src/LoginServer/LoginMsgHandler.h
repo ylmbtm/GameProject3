@@ -6,17 +6,18 @@
 class CLoginMsgHandler
 {
 public:
-	CLoginMsgHandler();
+    CLoginMsgHandler();
 
-	~CLoginMsgHandler();
+    ~CLoginMsgHandler();
 
-	BOOL Init();
+    BOOL Init();
 
-	BOOL Uninit();
+    BOOL Uninit();
 
-	BOOL DispatchPacket(NetPacket* pNetPacket);
+    BOOL DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL OnCloseConnect(INT32 nConnID);
+    BOOL OnCloseConnect(INT32 nConnID);
+
 public:
 	//*********************消息处理定义开始******************************
 	BOOL OnMsgCheckVersionReq(NetPacket* pPacket);
@@ -32,6 +33,7 @@ public:
 	BOOL OnMsgLogicUpdateReq(NetPacket* pPacket);
 	BOOL OnMsgSelectServerAck(NetPacket* pPacket);
 	BOOL OnMsgSealAccountAck(NetPacket* pPacket);
+    BOOL OnMsgGameParamReq(NetPacket* pPacket);
 	//*********************消息处理定义结束******************************
 
 public:

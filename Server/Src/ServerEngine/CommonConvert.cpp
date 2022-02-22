@@ -1,45 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CommonConvert.h"
 
-INT32 CommonConvert::StringToInt(char* pStr)
-{
-    if(pStr == NULL)
-    {
-        return 0;
-    }
-
-    return atoi(pStr);
-}
-
-INT64 CommonConvert::StringToInt64(char* pStr)
-{
-    if(pStr == NULL)
-    {
-        return 0;
-    }
-
-#ifdef WIN32
-    return _atoi64(pStr);
-#else
-    return atoll(pStr);
-#endif
-}
-
-INT64 CommonConvert::StringToInt64(const char* pStr)
-{
-    if(pStr == NULL)
-    {
-        return 0;
-    }
-
-
-#ifdef WIN32
-    return _atoi64(pStr);
-#else
-    return atoll(pStr);
-#endif
-}
-
 INT32 CommonConvert::StringToInt(const char* pStr)
 {
     if(pStr == NULL)
@@ -50,7 +11,21 @@ INT32 CommonConvert::StringToInt(const char* pStr)
     return atoi(pStr);
 }
 
-FLOAT  CommonConvert::StringToFloat(char* pStr)
+INT64 CommonConvert::StringToInt64(const char* pStr)
+{
+    if(pStr == NULL)
+    {
+        return 0;
+    }
+
+#ifdef WIN32
+    return _atoi64(pStr);
+#else
+    return atoll(pStr);
+#endif
+}
+
+FLOAT  CommonConvert::StringToFloat(const char* pStr)
 {
     if(pStr == NULL)
     {
@@ -77,16 +52,6 @@ std::string CommonConvert::DoubleToString(DOUBLE dValue)
     snprintf(szValue, 64, "%f", dValue);
 
     return std::string(szValue);
-}
-
-FLOAT  CommonConvert::StringToFloat(const char* pStr)
-{
-    if(pStr == NULL)
-    {
-        return 0;
-    }
-
-    return (FLOAT)atof(pStr);
 }
 
 std::string CommonConvert::IntToString(INT32 nValue)
@@ -125,7 +90,7 @@ std::string CommonConvert::IntToString(UINT64 uValue)
     return std::string(szValue);
 }
 
-BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
+BOOL CommonConvert::StringToPos(const char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
 {
     if(pStr == NULL)
     {
@@ -164,7 +129,7 @@ BOOL CommonConvert::StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z)
     return TRUE;
 }
 
-BOOL CommonConvert::StringToBox(char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom)
+BOOL CommonConvert::StringToBox(const char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom)
 {
     if (pStr == NULL)
     {
@@ -705,7 +670,7 @@ INT32 CommonConvert::VersionToInt(const std::string& strVersion )
     return nValue[0] * 1000000 + nValue[1] * 1000 + nValue[2];
 }
 
-INT32 CommonConvert::CountSymbol(char* pStr, char cSymbol )
+INT32 CommonConvert::CountSymbol(const char* pStr, char cSymbol )
 {
     if(pStr == NULL)
     {
@@ -714,7 +679,7 @@ INT32 CommonConvert::CountSymbol(char* pStr, char cSymbol )
 
     INT32 nCount = 0;
 
-    char* pTemp = pStr;
+    const char* pTemp = pStr;
     while(*pTemp != '\0')
     {
         if(*pTemp == cSymbol)

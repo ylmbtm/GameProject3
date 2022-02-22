@@ -30,7 +30,7 @@ public:
     EClientStatue  m_ClientStatue;
 };
 
-class CLoginClientMgr : public AVLTree<UINT32, CLoginClient>
+class CLoginClientMgr : public AVLTree<INT32, CLoginClient>
 {
 private:
     CLoginClientMgr(void);

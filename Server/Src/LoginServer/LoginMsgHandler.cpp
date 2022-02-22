@@ -55,6 +55,7 @@ BOOL CLoginMsgHandler::DispatchPacket(NetPacket* pNetPacket)
             PROCESS_MESSAGE_ITEMEX(MSG_LOGIC_UPDATE_REQ,    OnMsgLogicUpdateReq);
             PROCESS_MESSAGE_ITEM(MSG_SELECT_SERVER_ACK,     OnMsgSelectServerAck);
             PROCESS_MESSAGE_ITEM(MSG_SEAL_ACCOUNT_ACK,      OnMsgSealAccountAck);
+            PROCESS_MESSAGE_ITEM(MSG_GAME_PARAM_REQ,        OnMsgGameParamReq);
 
     }
 
@@ -134,7 +135,7 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
 
     CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_nConnID);
     ERROR_RETURN_TRUE(pConn != NULL);
-    UINT32 dwIpAddr = pConn->GetIpAddr();
+    INT32 nIpAddr = pConn->GetIpAddr();
 
     ClientServerListAck Ack;
 
@@ -159,7 +160,7 @@ BOOL CLoginMsgHandler::OnMsgServerListReq(NetPacket* pPacket)
                 continue;
             }
 
-            if (!pTempNode->CheckIP(dwIpAddr))
+            if (!pTempNode->CheckIP(nIpAddr))
             {
                 //需要检测IP
                 continue;
@@ -404,9 +405,31 @@ BOOL CLoginMsgHandler::OnMsgSealAccountAck(NetPacket* pPacket)
     {
         SealAccountNtf Ntf;
         Ntf.set_accountid(Ack.accountid());
-        UINT32 dwLogicConnID = m_LogicSvrMgr.GetLogicConnID(Ack.serverid());
-        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(dwLogicConnID, MSG_SEAL_ACCOUNT_NTY, 0, 0, Ntf);
+        INT32 nLogicConnID = m_LogicSvrMgr.GetLogicConnID(Ack.serverid());
+        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(nLogicConnID, MSG_SEAL_ACCOUNT_NTY, 0, 0, Ntf);
     }
+
+    return TRUE;
+}
+
+BOOL CLoginMsgHandler::OnMsgGameParamReq(NetPacket* pPacket)
+{
+    Msg_GameParamReq Req;
+    Req.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pPacket->m_pDataBuffer->GetBuffer();
+
+    Msg_GameParamAck Ack;
+    for (INT32 i = 0; i < m_LogicSvrMgr.m_vtGameParam.size(); i++)
+    {
+        GameParamNode& tNode = m_LogicSvrMgr.m_vtGameParam.at(i);
+        if (tNode.m_nChannel == 0 || tNode.m_nChannel == Req.channel())
+        {
+            Ack.add_paramkey(tNode.m_strParamKey);
+            Ack.add_paramvalue(tNode.m_strParamValue);
+        }
+    }
+
+    ERROR_RETURN_TRUE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID, MSG_GAME_PARAM_ACK, 0, 0, Ack));
 
     return TRUE;
 }

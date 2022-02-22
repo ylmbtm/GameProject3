@@ -6,7 +6,7 @@
 
 enum ESealReason
 {
-    ESR_GM_OPER = 1,     //通过GM后台封禁
+    ESR_GM_OPER    = 1,  //通过GM后台封禁
     ESR_CHANGE_MSG = 2,  //协议MD5验证失败
 };
 
@@ -28,10 +28,10 @@ struct SealDataObject : public ShareObject
     }
 
     UINT64  m_uRoleID;
-    UINT32   m_nSealAction;
+    INT32   m_nSealAction;
     UINT64  m_uSealEndTime;
     UINT64  m_uSealBeginlTime;
-    UINT32   m_nSealReason;
+    INT32   m_nSealReason;
 
     BOOL Create(IDBInterface* pDB)
     {

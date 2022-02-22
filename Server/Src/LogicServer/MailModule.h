@@ -8,44 +8,44 @@ struct MailDataObject;
 class CMailModule  : public CModuleBase
 {
 public:
-	CMailModule(CPlayerObject* pOwner);
+    CMailModule(CPlayerObject* pOwner);
 
-	~CMailModule();
+    ~CMailModule();
 
 public:
-	BOOL OnCreate(UINT64 u64RoleID);
+    BOOL OnCreate(UINT64 u64RoleID);
 
-	BOOL OnDestroy();
+    BOOL OnDestroy();
 
-	BOOL OnLogin();
+    BOOL OnLogin();
 
-	BOOL OnLogout();
+    BOOL OnLogout();
 
-	BOOL OnNewDay();
+    BOOL OnNewDay();
 
-	BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
+    BOOL ReadFromDBLoginData(DBRoleLoginAck& Ack);
 
-	BOOL SaveToClientLoginData(RoleLoginAck& Ack);
+    BOOL SaveToClientLoginData(RoleLoginAck& Ack);
 
-	BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
+    BOOL CalcFightValue(INT32 nValue[PROPERTY_NUM], INT32 nPercent[PROPERTY_NUM], INT32& FightValue);
 
-	VOID RegisterMessageHanler();
+    VOID RegisterMessageHanler();
 public:
-	BOOL AddMail(MailDataObject* pMail);
+    BOOL AddMail(MailDataObject* pMail);
 
-	BOOL DeleteMail(UINT64 uGuid);
+    BOOL DeleteMail(UINT64 uGuid);
 
-	BOOL DeleteMailByGroupID(UINT64 uGuid);
+    BOOL DeleteMailByGroupID(UINT64 uGuid);
 
-	BOOL AddMail(EMailType eMailType, std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems);
+    BOOL AddMail(EMailType eMailType, std::string& strSender, std::string& strTitle, std::string& strContent, std::vector<StMailItem>& vtItems);
 
-	MailDataObject* GetMailByGuid(UINT64 uGuid);
+    MailDataObject* GetMailByGuid(UINT64 uGuid);
 
-	BOOL ReceiveGroupMail(GroupMailDataObject* pGroupMail);
+    BOOL ReceiveGroupMail(GroupMailDataObject* pGroupMail);
 
-	BOOL NotifyChange();
+    BOOL NotifyChange();
 public:
-	std::map<UINT64, MailDataObject*> m_mapMailData;
+    std::map<UINT64, MailDataObject*> m_mapMailData;
 };
 
 #endif //__MAIL_MODULE_H__

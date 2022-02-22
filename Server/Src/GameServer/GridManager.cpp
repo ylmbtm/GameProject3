@@ -237,9 +237,9 @@ BOOL CGridManager::GetSurroundingGrids( INT32 nIndex, INT32 sGridsp[10])
 	return TRUE;
 }
 
-BOOL CGridManager::IsObjectExist(CMapObject* pMapObject, INT32 dwIndex)
+BOOL CGridManager::IsObjectExist(CMapObject* pMapObject, INT32 nIndex)
 {
-	CGrid* pGrid = GetGridByIndex(dwIndex);
+	CGrid* pGrid = GetGridByIndex(nIndex);
 
 	ERROR_RETURN_FALSE(pGrid != NULL);
 

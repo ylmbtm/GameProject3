@@ -6,28 +6,28 @@
 
 class CWebCommandMgr
 {
-	CWebCommandMgr();
-	~CWebCommandMgr();
+    CWebCommandMgr();
+    ~CWebCommandMgr();
 public:
-	static CWebCommandMgr* GetInstancePtr();
+    static CWebCommandMgr* GetInstancePtr();
 
-	BOOL   DispatchPacket(NetPacket* pNetPacket);
+    BOOL   DispatchPacket(NetPacket* pNetPacket);
 
-	BOOL   Init();
+    BOOL   Init();
 
-	BOOL   Uninit();
+    BOOL   Uninit();
 
-	BOOL SendWebResult(INT32 nConnID, EWebResult eResult);
+    BOOL SendWebResult(INT32 nConnID, EWebResult eResult);
 public:
-	//*********************消息处理定义开始******************************
-	BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
+    //*********************消息处理定义开始******************************
+    BOOL OnMsgGmCommandReq(NetPacket* pNetPacket);
 
-	//*********************消息处理定义结束******************************
+    //*********************消息处理定义结束******************************
 
 public:
-	//*********************WebAction处理定义开始******************************
-	void OnGmSealAccount(HttpParameter& hParams, INT32 nConnID);
-	void OnGmServerChange(HttpParameter& hParams, INT32 nConnID);
-	//*********************WebAction处理定义开始******************************
+    //*********************WebAction处理定义开始******************************
+    void OnGmSealAccount(HttpParameter& hParams, INT32 nConnID);
+    void OnGmServerChange(HttpParameter& hParams, INT32 nConnID);
+    //*********************WebAction处理定义开始******************************
 };
 #endif

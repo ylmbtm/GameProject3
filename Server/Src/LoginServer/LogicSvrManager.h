@@ -56,6 +56,7 @@ struct LogicServerNode
         m_nCacheNum    = 0;    //当前缓存人数
         m_uSvrOpenTime  = 0;
         m_nErrorCnt    = 0;
+        m_nFileVer     = 0;
         m_eChangeStatus = EUS_NONE;
         m_ServerStatus  = ESS_SVR_OFFLINE;
     }
@@ -70,8 +71,8 @@ struct LogicServerNode
     INT32       m_nServerID;   //服务器ID
     INT32       m_nPort;       //游戏端口号
     INT32       m_nHttpPort;   //http端口
-    UINT32      m_ServerFlag;   //服务器标记
-    UINT32      m_CornerMark;   //服务器角标
+    INT32       m_ServerFlag;   //服务器标记
+    INT32       m_CornerMark;   //服务器角标
     INT32       m_nMinVersion; //最小可见版本
     INT32       m_nMaxVersion; //最大可见版本
     UINT64      m_uSvrOpenTime; //开服时间
@@ -79,8 +80,9 @@ struct LogicServerNode
     std::string m_strOuterAddr; //服务器的外网地址
     std::string m_strInnerAddr; //服务器的内网地址
     UINT64      m_uLastUpdate;  //服务器最后更新时间
-    std::set<UINT32> m_CheckIpList;   //过滤的IP地址
-    std::set<INT32>  m_CheckChannelList; //可以看见的渠道
+    std::set<INT32> m_CheckIpList;   //IP白名单
+    std::set<INT32>  m_CheckChannelList; //渠道白名单
+    std::set<UINT64>  m_CheckAccountList; //账号白名单
     EServerStatus    m_ServerStatus;   //服务器状态
 
     INT32       m_nMaxOnline;   //最大在线人数
@@ -88,12 +90,20 @@ struct LogicServerNode
     INT32       m_nTotalNum;    //总注册人数
     INT32       m_nCacheNum;    //当前缓存人数
     INT32       m_nErrorCnt;    //数据库写失败次数
+    INT32       m_nFileVer;     //服务器文件版本
 
     EUpdateStatus       m_eChangeStatus;
 
 };
 
-class LogicSvrManager : public std::map<UINT32, LogicServerNode*>
+struct GameParamNode
+{
+    INT32 m_nChannel;  //渠道
+    std::string m_strParamKey;//
+    std::string m_strParamValue; //实际服务器ID
+};
+
+class LogicSvrManager : public std::map<INT32, LogicServerNode*>
 {
 public:
     LogicSvrManager(void);
@@ -104,21 +114,21 @@ public:
 
     BOOL    Uninit();
 
-    BOOL    RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, const std::string& strSvrName, const std::string& strInnderIp);
+    BOOL    RegisterLogicServer(INT32 nConnID, INT32 nServerID, INT32 nPort, INT32 nHttpPort, const std::string& strSvrName, const std::string& strInnderIp);
 
-    BOOL    UnregisterLogicServer(INT32 nConnID, UINT32 dwServerID);
+    BOOL    UnregisterLogicServer(INT32 nConnID, INT32 nServerID);
 
-    BOOL    UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, UINT32 dwErrorCount, const std::string& strSvrName);
+    BOOL    UpdateLogicServerInfo(INT32 nServerID, INT32 nMaxOnline, INT32 nCurOnline, INT32 nTotal, INT32 nCacheNum, INT32 nStatus, INT32 nErrorCount, const std::string& strSvrName);
 
-    BOOL    ReloadServerList(UINT32 dwServerID = 0);
+    BOOL    ReloadServerList(INT32 nServerID = 0);
 
     BOOL    SaveLogicServerThread();
 
-    UINT32  GetLogicConnID(UINT32 dwServerID);
+    INT32   GetLogicConnID(INT32 nServerID);
 
     LogicServerNode* GetSuggestServer(BOOL bReview, INT32 nChannel, UINT32 dwIpaddr);
 
-    LogicServerNode* GetLogicServerInfo(UINT32 dwServerID);
+    LogicServerNode* GetLogicServerInfo(INT32 nServerID);
 
     BOOL    OnCloseConnect(INT32 nConnID);
 
@@ -127,6 +137,7 @@ public:
     std::thread*        m_pThread;
 
     ArrayLockFreeQueue<LogicServerNode*, 1024>      m_ArrChangedNode;
+    std::vector<GameParamNode>  m_vtGameParam;
 };
 
 #endif //_LOGIC_SEVER_MANAGERH_

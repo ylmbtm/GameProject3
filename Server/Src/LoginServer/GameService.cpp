@@ -10,7 +10,7 @@
 #include "GiftCodeManager.h"
 CGameService::CGameService(void)
 {
-    m_dwAccountConnID   = 0;
+    m_nAccountConnID   = 0;
 }
 
 CGameService::~CGameService(void)
@@ -56,7 +56,7 @@ BOOL CGameService::Init()
         return FALSE;
     }
 
-    INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_max_con");
+    INT32 nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("login_svr_max_con");
     if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
     {
         CLog::GetInstancePtr()->LogError("启动服务失败!");
@@ -107,14 +107,14 @@ BOOL CGameService::Run()
 
 BOOL CGameService::SendCmdToAccountConnection(INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
 {
-    ERROR_RETURN_FALSE(m_dwAccountConnID != 0);
-    ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwAccountConnID, nMsgID, u64TargetID, dwUserData, pdata));
+    ERROR_RETURN_FALSE(m_nAccountConnID != 0);
+    ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nAccountConnID, nMsgID, u64TargetID, dwUserData, pdata));
     return TRUE;
 }
 
 BOOL CGameService::ConnectToAccountSvr()
 {
-    if (m_dwAccountConnID != 0)
+    if (m_nAccountConnID != 0)
     {
         return TRUE;
     }
@@ -123,7 +123,7 @@ BOOL CGameService::ConnectToAccountSvr()
     std::string strAccountIp = CConfigFile::GetInstancePtr()->GetStringValue("account_svr_ip");
     CConnection* pConnection = ServiceBase::GetInstancePtr()->ConnectTo(strAccountIp, nAccountPort);
     ERROR_RETURN_FALSE(pConnection != NULL);
-    m_dwAccountConnID = pConnection->GetConnectionID();
+    m_nAccountConnID = pConnection->GetConnectionID();
     pConnection->SetConnectionData(1);
     return TRUE;
 }
@@ -137,9 +137,9 @@ BOOL CGameService::OnNewConnect(INT32 nConnID)
 
 BOOL CGameService::OnCloseConnect(INT32 nConnID)
 {
-    if(nConnID == m_dwAccountConnID)
+    if(nConnID == m_nAccountConnID)
     {
-        m_dwAccountConnID = 0;
+        m_nAccountConnID = 0;
         CLog::GetInstancePtr()->LogError("CGameService::OnCloseConnect Disconnect From Account Server.");
     }
 

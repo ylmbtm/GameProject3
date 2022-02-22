@@ -12,7 +12,7 @@
 
 CGameService::CGameService(void)
 {
-    m_nLogicConnID      = 0;
+    m_nLogicConnID     = 0;
     m_nProxyConnID     = 0;
     m_nServerID        = 0;
 }

@@ -495,29 +495,6 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                 continue;
             }
 
-            int nError;
-            socklen_t len;
-            if (getsockopt(pConnection->GetSocket(), SOL_SOCKET, SO_ERROR, (char*)&nError, &len) < 0)
-            {
-                CLog::GetInstancePtr()->LogError("-------getsockopt Error:%d--------失败----!", nError);
-                continue;
-            }
-
-            if (nError != 0)
-            {
-                if (vtEvents[i].events & EPOLLIN)
-                {
-                    CLog::GetInstancePtr()->LogError("-------EPOLLIN---------失败---!");
-                }
-
-                if (vtEvents[i].events & EPOLLOUT)
-                {
-                    CLog::GetInstancePtr()->LogError("-------EPOLLOUT----失败-------!");
-                }
-
-                continue;
-            }
-
             INT32 nNeedEvent = EPOLLIN;
             if (vtEvents[i].events & EPOLLIN)
             {

@@ -32,7 +32,7 @@ public:
     BOOL        ConnectToAccountSvr();
 public:
     CLoginMsgHandler    m_LoginMsgHandler;
-    UINT32              m_dwAccountConnID;
+    INT32               m_nAccountConnID;
 
 public:
     //*********************消息处理定义开始******************************

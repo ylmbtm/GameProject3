@@ -29,9 +29,9 @@ struct Log_BaseData
     CHAR        m_szIdfa[64] = { 0 };  //客户端idfa
     CHAR        m_szRoleName[64] = { 0 };
     //以下两条仅角色日志有效
-    UINT32      m_nLevel     = 0;//角色等级
-    UINT32      m_nVipLevel = 0;//角色VIP等级
-    UINT32      m_nAddWay   = 0;//
+    INT32       m_nLevel     = 0;//角色等级
+    INT32       m_nVipLevel  = 0;//角色VIP等级
+    INT32       m_nAddWay    = 0;//
 };
 
 struct Log_AccountCreate : public Log_BaseData
@@ -95,7 +95,7 @@ struct Log_RoleCreate : public Log_BaseData
 
 struct Log_RoleLogin : public Log_BaseData
 {
-
+    INT32  m_nIpAddr = 0;   //登录IP
     Log_RoleLogin()
     {
         m_LogType = ELT_ROLE_LOGIN;
@@ -199,12 +199,11 @@ struct Log_RoleChat : public Log_BaseData
         return TRUE;
     }
 };
-//金币获取(游戏币)
+
+//等级变化日志
 struct Log_RoleLevel : public Log_BaseData
 {
-    UINT64 m_uPreValue;
-    UINT64 m_uAfterValue;
-
+    UINT32 m_uPreValue = 0;
     Log_RoleLevel()
     {
         m_LogType = ELT_ROLE_LEVEL;

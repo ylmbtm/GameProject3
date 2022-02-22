@@ -12,7 +12,7 @@
 
 CStoreModule::CStoreModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
-	RegisterMessageHanler();
+    RegisterMessageHanler();
 }
 
 CStoreModule::~CStoreModule()
@@ -23,28 +23,28 @@ CStoreModule::~CStoreModule()
 BOOL CStoreModule::OnCreate(UINT64 u64RoleID)
 {
 
-	return TRUE;
+    return TRUE;
 }
 
 
 BOOL CStoreModule::OnDestroy()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::OnLogin()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::OnLogout()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::OnNewDay()
 {
-	return TRUE;
+    return TRUE;
 }
 
 VOID CStoreModule::RegisterMessageHanler()
@@ -54,33 +54,33 @@ VOID CStoreModule::RegisterMessageHanler()
 
 BOOL CStoreModule::ReadFromDBLoginData(DBRoleLoginAck& Ack)
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::SaveToClientLoginData(RoleLoginAck& Ack)
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::NotifyChange()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CStoreModule::OnMsgStoreBuyReq(NetPacket* pNetPacket)
 {
-	StoreBuyReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    StoreBuyReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	StStoreItemInfo* pInfo = CStaticData::GetInstancePtr()->GetStoreItemInfo(Req.storeid());
-	ERROR_RETURN_TRUE(pInfo != NULL);
+    StStoreItemInfo* pInfo = CStaticData::GetInstancePtr()->GetStoreItemInfo(Req.storeid());
+    ERROR_RETURN_TRUE(pInfo != NULL);
 
-	CBagModule* pMoudule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
-	ERROR_RETURN_TRUE(pMoudule != NULL);
+    CBagModule* pMoudule = (CBagModule*)m_pOwnPlayer->GetModuleByType(MT_BAG);
+    ERROR_RETURN_TRUE(pMoudule != NULL);
 
-	pMoudule->AddItem(pInfo->ItemID, 1);
+    pMoudule->AddItem(pInfo->ItemID, 1);
 
-	return TRUE;
+    return TRUE;
 }
 

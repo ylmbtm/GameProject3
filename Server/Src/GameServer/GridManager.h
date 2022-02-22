@@ -39,7 +39,7 @@ public:
 	BOOL		GetSurroundingGrids(INT32 nIndex, INT32 sGridsp[10]);
 
 	//以下是用来测试的方法
-	BOOL		IsObjectExist(CMapObject* pMapObject, INT32 dwIndex);
+	BOOL		IsObjectExist(CMapObject* pMapObject, INT32 nIndex);
 
 public:
 

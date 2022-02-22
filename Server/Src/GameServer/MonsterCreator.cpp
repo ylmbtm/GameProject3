@@ -66,14 +66,14 @@ BOOL MonsterCreator::OnUpdate(UINT64 uTick)
 	return TRUE;
 }
 
-BOOL MonsterCreator::GenMonsterWave(INT32 dwWaveIndex)
+BOOL MonsterCreator::GenMonsterWave(INT32 nWaveIndex)
 {
-	if(dwWaveIndex >= (INT32)m_MonsterVaveList.size())
+	if(nWaveIndex >= (INT32)m_MonsterVaveList.size())
 	{
 		return FALSE;
 	}
 
-	MonsterWave& Wave = m_MonsterVaveList.at(dwWaveIndex);
+	MonsterWave& Wave = m_MonsterVaveList.at(nWaveIndex);
 
 	for( std::vector<MonsterData>::iterator itor = Wave.m_vtMonsterList.begin(); itor != Wave.m_vtMonsterList.end(); itor++)
 	{

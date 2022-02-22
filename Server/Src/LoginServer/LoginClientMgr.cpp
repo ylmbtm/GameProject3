@@ -9,7 +9,6 @@ CLoginClient::CLoginClient()
 
 CLoginClient::~CLoginClient()
 {
-
 }
 
 INT32 CLoginClient::GetConnID()

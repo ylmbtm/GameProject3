@@ -53,37 +53,37 @@ BOOL LogicSvrManager::Uninit()
     return TRUE;
 }
 
-BOOL LogicSvrManager::RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, UINT32 dwPort, UINT32 dwHttpPort, const std::string& strSvrName, const std::string& strInnderIp)
+BOOL LogicSvrManager::RegisterLogicServer(INT32 nConnID, INT32 nServerID, INT32 nPort, INT32 nHttpPort, const std::string& strSvrName, const std::string& strInnderIp)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         pNode = new LogicServerNode();
-        pNode->m_nServerID = dwServerID;
+        pNode->m_nServerID = nServerID;
         pNode->m_nConnID   = nConnID;
-        pNode->m_nPort     = dwPort;
-        pNode->m_nHttpPort = dwHttpPort;
+        pNode->m_nPort     = nPort;
+        pNode->m_nHttpPort = nHttpPort;
         pNode->m_strSvrName = strSvrName;
         pNode->m_strInnerAddr = strInnderIp;
         pNode->m_uSvrOpenTime = CommonFunc::GetCurrTime();
         pNode->m_eChangeStatus = EUS_NEW_REG;
         pNode->m_ServerStatus = ESS_SVR_ONLINE;
-        insert(std::make_pair(dwServerID, pNode));
+        insert(std::make_pair(nServerID, pNode));
         m_ArrChangedNode.push(pNode);
     }
     else
     {
         pNode->m_nConnID = nConnID;
-        if ((pNode->m_nPort != dwPort) ||
-                (pNode->m_nHttpPort != dwHttpPort) ||
+        if ((pNode->m_nPort != nPort) ||
+                (pNode->m_nHttpPort != nHttpPort) ||
                 (pNode->m_ServerStatus != ESS_SVR_ONLINE) ||
                 (pNode->m_strSvrName != strSvrName))
         {
-            pNode->m_nServerID = dwServerID;
+            pNode->m_nServerID = nServerID;
             pNode->m_strSvrName = strSvrName;
             pNode->m_strInnerAddr = strInnderIp;
-            pNode->m_nPort = dwPort;
-            pNode->m_nHttpPort = dwHttpPort;
+            pNode->m_nPort = nPort;
+            pNode->m_nHttpPort = nHttpPort;
             pNode->m_eChangeStatus = EUS_RE_REG;
             pNode->m_ServerStatus = ESS_SVR_ONLINE;
             m_ArrChangedNode.push(pNode);
@@ -93,9 +93,9 @@ BOOL LogicSvrManager::RegisterLogicServer(INT32 nConnID, UINT32 dwServerID, UINT
     return TRUE;
 }
 
-BOOL LogicSvrManager::UnregisterLogicServer(INT32 nConnID, UINT32 dwServerID)
+BOOL LogicSvrManager::UnregisterLogicServer(INT32 nConnID, INT32 nServerID)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         return TRUE;
@@ -106,18 +106,18 @@ BOOL LogicSvrManager::UnregisterLogicServer(INT32 nConnID, UINT32 dwServerID)
     return TRUE;
 }
 
-BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnline, UINT32 dwCurOnline, UINT32 dwTotal, UINT32 dwCacheNum, UINT32 dwStatus, UINT32 dwErrorCount, const std::string& strSvrName)
+BOOL LogicSvrManager::UpdateLogicServerInfo(INT32 nServerID, INT32 nMaxOnline, INT32 nCurOnline, INT32 nTotal, INT32 nCacheNum, INT32 nStatus, INT32 nErrorCount, const std::string& strSvrName)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     ERROR_RETURN_FALSE(pNode != NULL);
 
-    if ((pNode->m_nMaxOnline != dwMaxOnline) || (pNode->m_nCurOnline != dwCurOnline) || (pNode->m_nTotalNum != dwTotal) || (pNode->m_nCacheNum != dwCacheNum) || (pNode->m_nErrorCnt != dwErrorCount))
+    if ((pNode->m_nMaxOnline != nMaxOnline) || (pNode->m_nCurOnline != nCurOnline) || (pNode->m_nTotalNum != nTotal) || (pNode->m_nCacheNum != nCacheNum) || (pNode->m_nErrorCnt != nErrorCount))
     {
-        pNode->m_nMaxOnline = dwMaxOnline;
-        pNode->m_nCurOnline = dwCurOnline;
-        pNode->m_nTotalNum  = dwTotal;
-        pNode->m_nCacheNum  = dwCacheNum;
-        pNode->m_nErrorCnt = dwErrorCount;
+        pNode->m_nMaxOnline = nMaxOnline;
+        pNode->m_nCurOnline = nCurOnline;
+        pNode->m_nTotalNum  = nTotal;
+        pNode->m_nCacheNum  = nCacheNum;
+        pNode->m_nErrorCnt  = nErrorCount;
         pNode->m_ServerStatus = ESS_SVR_ONLINE;
         if (pNode->m_eChangeStatus == EUS_NONE)
         {
@@ -129,9 +129,9 @@ BOOL LogicSvrManager::UpdateLogicServerInfo(UINT32 dwServerID, UINT32 dwMaxOnlin
     return TRUE;
 }
 
-UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
+INT32 LogicSvrManager::GetLogicConnID(INT32 nServerID)
 {
-    LogicServerNode* pNode = GetLogicServerInfo(dwServerID);
+    LogicServerNode* pNode = GetLogicServerInfo(nServerID);
     if(pNode == NULL)
     {
         return 0;
@@ -141,9 +141,9 @@ UINT32 LogicSvrManager::GetLogicConnID(UINT32 dwServerID)
 }
 
 
-LogicServerNode* LogicSvrManager::GetLogicServerInfo(UINT32 dwServerID)
+LogicServerNode* LogicSvrManager::GetLogicServerInfo(INT32 nServerID)
 {
-    auto itor = find(dwServerID);
+    auto itor = find(nServerID);
     if(itor != end())
     {
         return itor->second;
@@ -234,7 +234,7 @@ LogicServerNode* LogicSvrManager::GetSuggestServer(BOOL bReview, INT32 nChannel,
     return pMaxAvalible;
 }
 
-BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
+BOOL LogicSvrManager::ReloadServerList(INT32 nServerID)
 {
     std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
     INT32 nPort = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");
@@ -251,26 +251,26 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
     }
 
     CHAR szSql[SQL_BUFF_LEN] = { 0 };
-    if (dwServerID == 0)
+    if (nServerID == 0)
     {
         snprintf(szSql, SQL_BUFF_LEN, "select * from server_list");
     }
     else
     {
-        snprintf(szSql, SQL_BUFF_LEN, "select * from server_list where id = %d", dwServerID);
+        snprintf(szSql, SQL_BUFF_LEN, "select * from server_list where id = %d", nServerID);
     }
 
     CppMySQLQuery QueryResult = tDBConnection.querySQL(szSql);
     while(!QueryResult.eof())
     {
-        UINT32 dwSvrID = QueryResult.getIntField("id");
-        LogicServerNode* pNode = GetLogicServerInfo(dwSvrID);
+        INT32 nSvrID = QueryResult.getIntField("id");
+        LogicServerNode* pNode = GetLogicServerInfo(nSvrID);
         if(pNode == NULL)
         {
             pNode = new LogicServerNode();
-            pNode->m_nServerID = dwSvrID;
+            pNode->m_nServerID = nSvrID;
             pNode->m_ServerStatus = ESS_SVR_OFFLINE;
-            insert(std::make_pair(dwSvrID, pNode));
+            insert(std::make_pair(nSvrID, pNode));
         }
         pNode->m_strSvrName = QueryResult.getStringField("name");
         pNode->m_ServerFlag = QueryResult.getIntField("svr_flag");
@@ -281,13 +281,13 @@ BOOL LogicSvrManager::ReloadServerList(UINT32 dwServerID)
         pNode->m_uSvrOpenTime = QueryResult.getInt64Field("opentime");
         if (pNode->m_strOuterAddr.empty() || pNode->m_strOuterAddr == "*")
         {
-            CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d need a domain name or outer ip address!", dwSvrID);
+            CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d need a domain name or outer ip address!", nSvrID);
             return FALSE;
         }
 
         if (pNode->m_strInnerAddr.empty() || pNode->m_strInnerAddr == "*")
         {
-            CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d has no inner ip address!", dwSvrID);
+            CLog::GetInstancePtr()->LogError("ReloadServerList Failed, Serverid:%d has no inner ip address!", nSvrID);
             return FALSE;
         }
 
@@ -404,7 +404,7 @@ BOOL LogicSvrManager::SaveLogicServerThread()
             if (pTempNode->m_eChangeStatus == EUS_NEW_REG)
             {
                 snprintf(szSql, SQL_BUFF_LEN, "insert into server_list(id, name, outer_ip,inner_ip, port,http_port,svr_flag, corner_mark,opentime,min_version, max_version, check_chan, check_ip) values(%d, '%s', '%s','%s', %d, %d, %d, %d, %lld,'%s','%s','%s','%s');",
-                         pTempNode->m_nServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_nPort, pTempNode->m_nHttpPort,  pTempNode->m_ServerFlag, pTempNode->m_CornerMark, pTempNode->m_uSvrOpenTime, "1.0.0", "9.0.0", "*", "*");
+                         pTempNode->m_nServerID, pTempNode->m_strSvrName.c_str(), "127.0.0.1", pTempNode->m_strInnerAddr.c_str(), pTempNode->m_nPort, pTempNode->m_nHttpPort, pTempNode->m_ServerFlag, pTempNode->m_CornerMark, pTempNode->m_uSvrOpenTime, "1.0.0", "9.0.0", "*", "*");
                 if (tDBConnection.execSQL(szSql) < 0)
                 {
                     CLog::GetInstancePtr()->LogError("LogicSvrManager::SaveLogicServerInfo Error :%s", tDBConnection.GetErrorMsg());
@@ -423,7 +423,7 @@ BOOL LogicSvrManager::SaveLogicServerThread()
             if (pTempNode->m_eChangeStatus == EUS_RE_REG)
             {
                 snprintf(szSql, SQL_BUFF_LEN, "update server_list set name = '%s', port = %d ,http_port = %d, inner_ip ='%s' where id = %d;",
-                         pTempNode->m_strSvrName.c_str(), pTempNode->m_nPort, pTempNode->m_nHttpPort,  pTempNode->m_strInnerAddr.c_str(),  pTempNode->m_nServerID);
+                         pTempNode->m_strSvrName.c_str(), pTempNode->m_nPort, pTempNode->m_nHttpPort, pTempNode->m_strInnerAddr.c_str(),  pTempNode->m_nServerID);
                 if (tDBConnection.execSQL(szSql) < 0)
                 {
                     CLog::GetInstancePtr()->LogError("LogicSvrManager::RegisterLogicServer Error :%s", tDBConnection.GetErrorMsg());

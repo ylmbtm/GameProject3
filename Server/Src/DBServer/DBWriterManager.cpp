@@ -169,10 +169,21 @@ void CDBWriterManager::DBWriteThread()
             }
         }
 
-        BOOL bHasWrite = WriteDataToDB();
-        if (!bHasWrite && IsStop())
+        if (IsStop())
         {
-            break;
+            CLog::GetInstancePtr()->LogError("开始退出将所有己修改的数据写入数据库.....");
+            BOOL bHasWrite = WriteDataToDB();
+            if (!bHasWrite)
+            {
+                CLog::GetInstancePtr()->LogError("所有己修改的数据己写入数据库.");
+                break;
+            }
+
+            continue;
+        }
+        else
+        {
+            WriteDataToDB();
         }
 
         CommonFunc::Sleep(60000); //休息10秒

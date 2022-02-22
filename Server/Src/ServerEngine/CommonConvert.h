@@ -3,15 +3,9 @@
 
 namespace CommonConvert
 {
-INT32 StringToInt(char* pStr);
-
 INT32 StringToInt(const char* pStr);
 
-INT64 StringToInt64(char* pStr);
-
 INT64 StringToInt64(const char* pStr);
-
-FLOAT StringToFloat(char* pStr);
 
 FLOAT StringToFloat(const char* pStr);
 
@@ -27,12 +21,11 @@ std::string IntToString(UINT64 nValue);
 
 std::string IntToString(INT64 nValue);
 
-BOOL  StringToPos(char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
-
-BOOL  StringToBox(char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom);
-
-//浮点到字符串， nPrecision 保留的最大小数的位数， bRound 是否四舍五入
 std::string FloatToString(FLOAT fValue, INT32 nPrecision = -1, BOOL bRound = FALSE);
+
+BOOL  StringToPos(const char* pStr, FLOAT& x, FLOAT& y, FLOAT& z);
+
+BOOL  StringToBox(const char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT& bottom);
 
 // std::wstring Utf8_To_Unicode(std::string strValue);
 //
@@ -68,7 +61,7 @@ BOOL StringToVector(const char* pStrValue, FLOAT FloatVector[], INT32 nSize, cha
 
 INT32 VersionToInt(const std::string& strVersion);
 
-INT32 CountSymbol(char* pStr, char cSymbol);
+INT32 CountSymbol(const char* pStr, char cSymbol);
 
 BOOL HasSymbol(const char* pStr, const char* pszSymbol);
 
@@ -81,7 +74,6 @@ BOOL EscapeString(char* pszDest, INT32 nLen);
 BYTE FromHex(const BYTE& x);
 
 std::string UrlDecode(const std::string& strIn);
-
 }
 
 
