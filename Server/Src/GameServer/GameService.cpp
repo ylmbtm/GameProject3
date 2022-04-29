@@ -28,7 +28,7 @@ CGameService* CGameService::GetInstancePtr()
     return &_GameService;
 }
 
-BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
+BOOL CGameService::Init(INT32 nServerID, INT32 nPort)
 {
     CommonFunc::SetCurrentWorkDir("");
 
@@ -37,7 +37,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
         return FALSE;
     }
 
-    CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-ServerID:%d--Port:%d--------", dwServerID, dwPort);
+    CLog::GetInstancePtr()->LogInfo("---------服务器开始启动-ServerID:%d--Port:%d--------", nServerID, nPort);
 
     if(!CConfigFile::GetInstancePtr()->Load("servercfg.ini"))
     {
@@ -46,7 +46,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
     }
 
     CHAR szSignName[128] = { 0 };
-    snprintf(szSignName, 128, "GameServer%d_%d", dwServerID, dwPort);
+    snprintf(szSignName, 128, "GameServer%d_%d", nServerID, nPort);
     if (CommonFunc::IsAlreadyRun(szSignName))
     {
         return FALSE;
@@ -54,10 +54,10 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
 
     CLog::GetInstancePtr()->SetLogLevel(CConfigFile::GetInstancePtr()->GetIntValue("game_log_level"));
 
-    m_nServerID = dwServerID;
+    m_nServerID = nServerID;
 
     INT32  nMaxConn = CConfigFile::GetInstancePtr()->GetIntValue("game_svr_max_con");
-    if(!ServiceBase::GetInstancePtr()->StartNetwork(dwPort, nMaxConn, this))
+    if(!ServiceBase::GetInstancePtr()->StartNetwork(nPort, nMaxConn, this))
     {
         CLog::GetInstancePtr()->LogError("启动服务失败!");
         return FALSE;
@@ -71,7 +71,7 @@ BOOL CGameService::Init(UINT32 dwServerID, UINT32 dwPort)
         return FALSE;
     }
 
-    CLog::GetInstancePtr()->LogError("---------服务器启动成功!--------");
+    CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
     return TRUE;
 }
 
@@ -146,18 +146,22 @@ BOOL CGameService::DispatchPacket(NetPacket* pNetPacket)
 
 BOOL CGameService::Uninit()
 {
+    CLog::GetInstancePtr()->LogHiInfo("==========服务器开始关闭=======================");
+
     ServiceBase::GetInstancePtr()->StopNetwork();
 
     m_SceneManager.Uninit();
 
     google::protobuf::ShutdownProtobufLibrary();
 
+    CLog::GetInstancePtr()->LogHiInfo("==========服务器关闭完成=======================");
+
     return TRUE;
 }
 
 BOOL CGameService::Run()
 {
-    while(CWatcherClient::GetInstancePtr()->IsRun())
+    while (CWatcherClient::GetInstancePtr()->IsRun())
     {
         ServiceBase::GetInstancePtr()->Update();
 

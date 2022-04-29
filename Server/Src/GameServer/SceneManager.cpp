@@ -15,34 +15,34 @@ CSceneManager::CSceneManager()
 
 CSceneManager::~CSceneManager()
 {
-	SceneMap::iterator itor = m_mapSceneList.begin();
-	for(; itor != m_mapSceneList.end(); ++itor)
-	{
-		CScene* pScene = itor->second;
-		if(pScene != NULL)
-		{
-			pScene->Uninit();
-			delete pScene;
-			pScene = NULL;
-		}
-	}
+    SceneMap::iterator itor = m_mapSceneList.begin();
+    for(; itor != m_mapSceneList.end(); ++itor)
+    {
+        CScene* pScene = itor->second;
+        if(pScene != NULL)
+        {
+            pScene->Uninit();
+            delete pScene;
+            pScene = NULL;
+        }
+    }
 }
 
 BOOL CSceneManager::Init(BOOL bMainLand)
 {
-	m_MaxCopyBaseID = CGameService::GetInstancePtr()->GetServerID() << 24;
+    m_MaxCopyBaseID = CGameService::GetInstancePtr()->GetServerID() << 24;
 
-	if(bMainLand)
-	{
-		ERROR_RETURN_FALSE(LoadMainScene());
-	}
+    if(bMainLand)
+    {
+        ERROR_RETURN_FALSE(LoadMainScene());
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CSceneManager::Uninit()
 {
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CSceneManager::CreateScene(UINT32 dwCopyID, UINT32 dwCopyGuid, UINT32 dwCopyType, UINT32 dwPlayerNum, UINT64 uCreateKey)
@@ -101,73 +101,73 @@ CScene* CSceneManager::GetSceneByCopyGuid( UINT32 dwCopyGuid )
 
 BOOL CSceneManager::OnUpdate( UINT64 uTick )
 {
-	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
-	{
-		CScene* pScene = itor->second;
+    for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end();)
+    {
+        CScene* pScene = itor->second;
 
-		if((pScene->GetLastTick() < uTick) && ( uTick - pScene->GetLastTick() < FPS_TIME_TICK))
-		{
-			itor++;
-			continue;
-		}
+        if((pScene->GetLastTick() < uTick) && ( uTick - pScene->GetLastTick() < FPS_TIME_TICK))
+        {
+            itor++;
+            continue;
+        }
 
-		pScene->OnUpdate(uTick);
+        pScene->OnUpdate(uTick);
 
-		pScene->SetLastTick(uTick);
+        pScene->SetLastTick(uTick);
 
-		if(pScene->IsFinished())
-		{
-			pScene->Uninit();
-			delete pScene;
-			itor = m_mapSceneList.erase(itor);
-		}
-		else
-		{
-			itor++;
-		}
-	}
+        if(pScene->IsFinished())
+        {
+            pScene->Uninit();
+            delete pScene;
+            itor = m_mapSceneList.erase(itor);
+        }
+        else
+        {
+            itor++;
+        }
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 UINT32 CSceneManager::MakeCopyGUID()
 {
-	m_MaxCopyBaseID += 1;
+    m_MaxCopyBaseID += 1;
 
-	return m_MaxCopyBaseID;
+    return m_MaxCopyBaseID;
 }
 
 BOOL CSceneManager::SendCityReport()
 {
-	CopyReportReq Req;
+    CopyReportReq Req;
 
-	Req.set_serverid(CGameService::GetInstancePtr()->GetServerID());
+    Req.set_serverid(CGameService::GetInstancePtr()->GetServerID());
 
-	for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); itor++)
-	{
-		CScene* pScene = itor->second;
-		ERROR_RETURN_FALSE(pScene != NULL);
+    for(SceneMap::iterator itor = m_mapSceneList.begin(); itor != m_mapSceneList.end(); itor++)
+    {
+        CScene* pScene = itor->second;
+        ERROR_RETURN_FALSE(pScene != NULL);
 
-		if(pScene->GetCopyType() == CPT_CITY)
-		{
-			CopyInsItem* pItem = Req.add_copylist();
-			pItem->set_copyguid(pScene->GetCopyGuid());
-			pItem->set_copyid(pScene->GetCopyID());
-			pItem->set_copytype(pScene->GetCopyType());
-		}
-	}
+        if(pScene->GetCopyType() == CPT_CITY)
+        {
+            CopyInsItem* pItem = Req.add_copylist();
+            pItem->set_copyguid(pScene->GetCopyGuid());
+            pItem->set_copyid(pScene->GetCopyID());
+            pItem->set_copytype(pScene->GetCopyType());
+        }
+    }
 
-	return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
+    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(CGameService::GetInstancePtr()->GetLogicConnID(), MSG_COPYINFO_REPORT_REQ, 0, 0, Req);
 }
 
 BOOL CSceneManager::OnMsgCreateSceneReq(NetPacket* pNetPacket)
 {
-	CreateNewSceneReq Req;
-	Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
-	PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
+    CreateNewSceneReq Req;
+    Req.ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket->m_pDataBuffer->GetBuffer();
 
-	ERROR_RETURN_TRUE(Req.copyid() != 0);
-	ERROR_RETURN_TRUE(Req.createparam() != 0);
+    ERROR_RETURN_TRUE(Req.copyid() != 0);
+    ERROR_RETURN_TRUE(Req.createparam() != 0);
 
 	UINT32 dwNewCopyGuid = MakeCopyGUID();
 

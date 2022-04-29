@@ -11,7 +11,7 @@ private:
 public:
     static CGameService* GetInstancePtr();
 
-    BOOL        Init(UINT32 dwServerID, UINT32 dwPort);
+    BOOL        Init(INT32 nServerID, INT32 nPort);
 
     BOOL        Uninit();
 

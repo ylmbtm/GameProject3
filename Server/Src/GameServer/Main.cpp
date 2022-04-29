@@ -9,31 +9,31 @@
 
 int main(int argc, char* argv[])
 {
-	CCommandLine cmdLine(argc, argv);
+    CCommandLine cmdLine(argc, argv);
 
-	UINT32 dwSvrID = cmdLine.GetIntValue("id");
-	UINT32 dwPort = cmdLine.GetIntValue("port");
+    INT32 nSvrID = cmdLine.GetIntValue("id");
+    INT32 nPort = cmdLine.GetIntValue("port");
 
-	if((dwSvrID == 0) || (dwPort == 0))
-	{
-		printf("Error Invalid ServerID:%d or Invalid Port:%d!!!", dwSvrID, dwPort);
-		getchar();
-		return 0;
-	}
+    if((nSvrID == 0) || (nPort == 0))
+    {
+        printf("Error Invalid ServerID:%d or Invalid Port:%d!!!", nSvrID, nPort);
+        getchar();
+        return 0;
+    }
 
-	SetCrashReport("GameServer");
+    SetCrashReport("GameServer");
 
-	if (!CGameService::GetInstancePtr()->Init(dwSvrID, dwPort))
-	{
-		return 0;
-	}
+    if (!CGameService::GetInstancePtr()->Init(nSvrID, nPort))
+    {
+        return 0;
+    }
 
-	CGameService::GetInstancePtr()->Run();
+    CGameService::GetInstancePtr()->Run();
 
-	CGameService::GetInstancePtr()->Uninit();
+    CGameService::GetInstancePtr()->Uninit();
 
-	UnSetCrashReport();
+    UnSetCrashReport();
 
-	return 0;
+    return 0;
 }
 

@@ -433,11 +433,11 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
 
 BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 {
-    struct epoll_event vtEvents[512];
+    struct epoll_event vtEvents[1024];
     int nFd = 0;
     while (!m_bCloseEvent)
     {
-        nFd = epoll_wait(m_hCompletePort, vtEvents, 512, 500);
+        nFd = epoll_wait(m_hCompletePort, vtEvents, 1024, 500);
         if (nFd == -1)
         {
             if (errno != EINTR)
@@ -453,15 +453,15 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
         {
             if (vtEvents[i].data.fd == m_hListenSocket)
             {
-                sockaddr_in Con_Addr;
-                socklen_t nLen = sizeof(Con_Addr);
+                sockaddr_in client_addr;
+                socklen_t nLen = sizeof(client_addr);
+                memset(&client_addr, 0, sizeof(client_addr));
                 while (TRUE)
                 {
-                    memset(&Con_Addr, 0, sizeof(Con_Addr));
-                    SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&Con_Addr, &nLen);
+                    SOCKET hClientSocket = accept(m_hListenSocket, (sockaddr*)&client_addr, &nLen);
                     if (hClientSocket == INVALID_SOCKET)
                     {
-                        if (errno != EAGAIN && errno != EINTR)
+                        if (errno != EAGAIN && errno != EINTR )
                         {
                             CLog::GetInstancePtr()->LogError("接受新连接失败 原因:%s", CommonFunc::GetLastErrorStr(errno).c_str());
                         }
