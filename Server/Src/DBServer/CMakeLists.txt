@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
 project(DBServer)
 SET(PROJECT_ROOT_PATH ".")
-add_definitions(-std=c++11)
-add_definitions(-w)
-include_directories(./ ../ServerEngine ../ServerEngine/DBInterface ../../Common/protobuf/src ../ServerData ../../Common/Mysql ../Message ../PublicData ../WatcherClient)
+include_directories(./ ../ServerEngine ../ServerEngine/DBInterface ../ServerData ../../Common/Mysql ../../Common/protobuf/src ../Message ../PublicData ../WatcherClient)
 link_directories(../../Common/lib /usr/lib64/mysql)
 
 
@@ -41,25 +39,26 @@ source_group(WatcherClient FILES ${WATCHER_CLIENT} )
 
 # Target
 add_executable(DBServer
-    ${PROTO}	
-	${WATCHER_CLIENT}	
-	${HEADER_CODE_FILE}	
-	${SOURCE_CODE_FILE}	
+    ${PROTO}    
+    ${WATCHER_CLIENT}   
+    ${HEADER_CODE_FILE} 
+    ${SOURCE_CODE_FILE} 
 )
 
 
 
 if(MSVC)
-	target_link_libraries(DBServer ServerEngine protobuf libmysql ws2_32)
-	ADD_DEFINITIONS(-D_CONSOLE -D_CRT_SECURE_NO_WARNINGS)
+    target_link_libraries(DBServer ServerEngine protobuf libmysql ws2_32)
+    ADD_DEFINITIONS(-D_CONSOLE -D_CRT_SECURE_NO_WARNINGS)
 else()
-	target_link_libraries(DBServer ServerEngine protobuf mysqlclient pthread )
-	ADD_DEFINITIONS(-D_CONSOLE -D_CRT_SECURE_NO_WARNINGS)
+    target_link_libraries(DBServer ServerEngine protobuf mysqlclient pthread )
+    ADD_DEFINITIONS(-D_CONSOLE -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -std=c++11")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -pthread -std=c++11")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -std=c++11")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -pthread -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -O3 -std=c++11")
 endif()
 
