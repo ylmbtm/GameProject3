@@ -52,7 +52,7 @@ BOOL CConnection::DoReceive()
     return TRUE;
 }
 
-UINT32 CConnection::GetConnectionID()
+INT32 CConnection::GetConnectionID()
 {
     return m_nConnID;
 }
@@ -181,6 +181,7 @@ BOOL CConnection::Close()
     m_hSocket.shutdown(boost::asio::socket_base::shutdown_send);
     m_hSocket.close();
     m_nDataLen         = 0;
+
     m_IsSending         = FALSE;
     if(m_pDataHandler != NULL)
     {
@@ -292,12 +293,13 @@ BOOL CConnection::CheckHeader(CHAR* m_pPacket)
 
     if (pHeader->nSize <= 0)
     {
-        CLog::GetInstancePtr()->LogError("验证-失败 pHeader->nSize <= 0, pHeader->nMsgID:%d", pHeader->nSize, pHeader->nMsgID);
+        CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
     if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
     {
+        CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
     }
 
@@ -500,9 +502,15 @@ CConnectionMgr* CConnectionMgr::GetInstancePtr()
 }
 
 
-BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
+BOOL CConnectionMgr::DeleteConnection(INT32 nConnID)
 {
-    ERROR_RETURN_FALSE(pConnection != NULL);
+    ERROR_RETURN_FALSE(nConnID != 0);
+
+    INT32 nIndex = nConnID % m_vtConnList.size();
+
+    CConnection* pConnection = m_vtConnList.at(nIndex == 0 ? (m_vtConnList.size() - 1) : (nIndex - 1));
+
+    ERROR_RETURN_FALSE(pConnection->GetConnectionID() == nConnID)
 
     m_ConnListMutex.lock();
 
@@ -519,17 +527,14 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
         m_pFreeConnTail = pConnection;
 
         m_pFreeConnTail->m_pNext = NULL;
-
     }
 
     m_ConnListMutex.unlock();
 
-    INT32 nConnID = pConnection->GetConnectionID();
-
     pConnection->Reset();
 
     nConnID += (INT32)m_vtConnList.size();
-    
+
     if (nConnID <= 0)
     {
         nConnID = nIndex + 1;
@@ -538,15 +543,6 @@ BOOL CConnectionMgr::DeleteConnection(CConnection* pConnection)
     pConnection->SetConnectionID(nConnID);
 
     return TRUE;
-}
-
-BOOL CConnectionMgr::DeleteConnection(INT32 nConnID)
-{
-    ERROR_RETURN_FALSE(nConnID != 0);
-    CConnection* pConnection = GetConnectionByID(nConnID);
-    ERROR_RETURN_FALSE(pConnection != NULL);
-
-    return DeleteConnection(pConnection);
 }
 
 BOOL CConnectionMgr::CloseAllConnection()

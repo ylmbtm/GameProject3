@@ -77,7 +77,7 @@ CAccountObject* CAccountObjectMgr::CreateAccountObject(const std::string& strNam
     pObj->m_strName         = strName;
     pObj->m_strPassword     = strPwd;
     pObj->m_ID              = m_u64MaxID;
-    pObj->m_nChannel       = nChannel;
+    pObj->m_nChannel        = nChannel;
     pObj->m_nLoginCount     = 1;
     pObj->m_uCreateTime     = CommonFunc::GetCurrTime();
 
@@ -143,6 +143,8 @@ BOOL CAccountObjectMgr::SetLastServer(UINT64 uAccountID, INT32 ServerID)
 
     if (pAccObj->m_nLastSvrID[0] == ServerID)
     {
+        pAccObj->m_nLoginCount += 1;
+        m_ArrChangedAccount.push(pAccObj);
         return TRUE;
     }
 
@@ -218,8 +220,8 @@ BOOL CAccountObjectMgr::SaveAccountThread()
 
         while (m_ArrChangedAccount.pop(pAccount) && (pAccount != NULL))
         {
-            snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid1, lastsvrid2, channel, create_time, seal_end_time) values('%lld','%s','%s','%d','%d', '%d', '%s','%s')",
-                     pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_nLastSvrID[0], pAccount->m_nLastSvrID[1], pAccount->m_nChannel, CommonFunc::TimeToString(pAccount->m_uCreateTime).c_str(), CommonFunc::TimeToString(pAccount->m_uSealTime).c_str());
+            snprintf(szSql, SQL_BUFF_LEN, "replace into account(id, name, password, lastsvrid1, lastsvrid2, channel, create_time, seal_end_time, logincount) values('%lld','%s','%s','%d','%d', '%d', '%s','%s',%d)",
+                     pAccount->m_ID, pAccount->m_strName.c_str(), pAccount->m_strPassword.c_str(), pAccount->m_nLastSvrID[0], pAccount->m_nLastSvrID[1], pAccount->m_nChannel, CommonFunc::TimeToString(pAccount->m_uCreateTime).c_str(), CommonFunc::TimeToString(pAccount->m_uSealTime).c_str(), pAccount->m_nLoginCount);
 
             if (tDBConnection.execSQL(szSql) > 0)
             {

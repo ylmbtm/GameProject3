@@ -106,8 +106,6 @@ public:
 
     CConnection*    CreateConnection();
 
-    BOOL            DeleteConnection(CConnection* pConnection);
-
     BOOL            DeleteConnection(INT32 nConnID);
 
     CConnection*    GetConnectionByID(INT32 nConnID);

@@ -130,6 +130,59 @@ VOID CommonSocket::IgnoreSignal()
 #endif
 }
 
+std::string CommonSocket::HttpGet(std::string strHost, INT32 nPort, std::string strPath, std::string strContent)
+{
+    CHAR szReq[20480] = { 0 };
+    sprintf(szReq, "GET %s?%s HTTP/1.0\r\nHost: %s\r\nUser-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3\r\n\r\n",
+            strPath.c_str(), strContent.c_str(), strHost.c_str());
+
+    SOCKET hSocket = CreateSocket();
+    if (hSocket == INVALID_SOCKET)
+    {
+        return "Create Socket Failed!";
+    }
+
+    if (!SetSocketTimeOut(hSocket, 2, 5))
+    {
+        CloseSocket(hSocket);
+        return "Set Socket Time out Value Failed!";
+    }
+
+    if (!ConnectSocket(hSocket, strHost.c_str(), nPort))
+    {
+        CloseSocket(hSocket);
+        return "Connect Socket Failed!";
+    }
+
+    send(hSocket, szReq, strlen(szReq), 0);
+
+    CHAR szRecvBuff[10240] = { 0 };
+
+    //循环接收
+    INT32 nDataLen = 0;
+    INT32 nBytes;
+    while (nBytes = recv(hSocket, szRecvBuff + nDataLen, 10240 - nDataLen, 0))
+    {
+        nDataLen += nBytes;
+        if (nDataLen >= 10240)
+        {
+            break;
+        }
+    }
+
+    CloseSocket(hSocket);
+
+    std::string strRet = szRecvBuff;
+
+    size_t  nPos = strRet.find("\r\n\r\n");
+    if (nPos == std::string::npos)
+    {
+        return "";
+    }
+
+    return strRet.substr(nPos + 4);
+}
+
 BOOL    CommonSocket::SetSocketNoDelay(SOCKET hSocket)
 {
     int bOn = 1;
@@ -299,7 +352,10 @@ UINT32  CommonSocket::IpAddrStrToInt(CHAR* pszIpAddr)
 {
     sockaddr_in SvrAddr;
 
-    inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr);
+    if (inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr) <= 0)
+    {
+        return 0;
+    }
 
     return SvrAddr.sin_addr.s_addr;
 }
@@ -308,7 +364,10 @@ UINT32  CommonSocket::IpAddrStrToInt(const CHAR* pszIpAddr)
 {
     sockaddr_in SvrAddr;
 
-    inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr);
+    if (inet_pton(AF_INET, pszIpAddr, &SvrAddr.sin_addr) <= 0)
+    {
+        return 0;
+    }
 
     return SvrAddr.sin_addr.s_addr;
 }

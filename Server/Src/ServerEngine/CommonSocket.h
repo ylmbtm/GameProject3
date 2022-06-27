@@ -59,6 +59,8 @@ UINT32      NetToHost(INT32 nValue);
 
 VOID        IgnoreSignal();
 
+std::string HttpGet(std::string strHost, INT32 nPort, std::string strPath, std::string strContent);
+
 #ifdef WIN32
 BOOL        ConnectSocketEx(SOCKET hSocket, const char* pAddr, short sPort, LPOVERLAPPED lpOverlapped);
 
