@@ -6,8 +6,7 @@
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Msg_RetCode.pb.h"
 #include "../Message/Msg_Game.pb.h"
-
-
+#include "../Message/Msg_LoginCltData.pb.h"
 
 CProxyMsgHandler::CProxyMsgHandler()
 {
@@ -201,6 +200,11 @@ BOOL CProxyMsgHandler::OnMsgGameSvrRegister(NetPacket* pPacket)
     Ack.set_retcode(MRC_SUCCESSED);
     ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID, MSG_GASVR_REGTO_PROXY_ACK, 0, 0, Ack);
 
+    CConnection* pConn = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacket->m_nConnID);
+    ERROR_RETURN_FALSE(pConn != NULL);
+
+    pConn->SetConnectionData(1);
+
     return TRUE;
 }
 
@@ -259,7 +263,9 @@ BOOL CProxyMsgHandler::OnMsgRoleLoginAck(NetPacket* pPacket)
     CConnection* pConnection = ServiceBase::GetInstancePtr()->GetConnectionByID(pPacketHeader->dwUserData);
     ERROR_RETURN_TRUE(pConnection != NULL);
 
-    if (pPacketHeader->u64TargetID == 0)
+    RoleLoginAck Ack;
+    Ack.ParsePartialFromArray(pPacket->m_pDataBuffer->GetData(), pPacket->m_pDataBuffer->GetBodyLenth());
+    if (Ack.retcode() != MRC_SUCCESSED)
     {
         RelayToConnect(pPacketHeader->dwUserData, pPacket->m_pDataBuffer);
         return TRUE;
@@ -355,6 +361,13 @@ BOOL CProxyMsgHandler::OnMsgReconnectReq(NetPacket* pPacket)
 
     pPacketHeader->dwUserData = pPacket->m_nConnID;
 
+    if (!CGameService::GetInstancePtr()->m_bLogicConnect)
+    {
+        RoleReconnectAck Ack;
+        Ack.set_retcode(MRC_CANNOT_RECONNECT); //内存己经没有玩家必须要重登
+        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pPacket->m_nConnID, MSG_ROLE_RECONNECT_ACK, 0, 0, Ack);
+        return TRUE;
+    }
     RelayToLogicServer(pPacket->m_pDataBuffer);
 
     return TRUE;

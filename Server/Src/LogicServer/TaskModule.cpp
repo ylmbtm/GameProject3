@@ -2,11 +2,12 @@
 #include "TaskModule.h"
 #include "DataPool.h"
 #include "GlobalDataMgr.h"
-#include "../StaticData/StaticData.h"
+#include "StaticData.h"
 #include "PlayerObject.h"
 #include "../Message/Msg_ID.pb.h"
 #include "../Message/Game_Define.pb.h"
 #include "GameLogManager.h"
+
 CTaskModule::CTaskModule(CPlayerObject* pOwner): CModuleBase(pOwner)
 {
     RegisterMessageHanler();
@@ -16,7 +17,7 @@ CTaskModule::~CTaskModule()
 {
 }
 
-BOOL CTaskModule::OnCreate(UINT64 u64RoleID)
+BOOL CTaskModule::OnCreate(UINT64 uRoleID)
 {
     return TRUE;
 }
@@ -88,21 +89,23 @@ VOID CTaskModule::RegisterMessageHanler()
 {
 }
 
-BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwParam2)
+BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, INT32 nParam1, INT32 nParam2)
 {
     for(std::map<UINT32, TaskDataObject*>::iterator itor = m_mapTaskData.begin(); itor != m_mapTaskData.end(); itor++)
     {
         TaskDataObject* pDataObj = itor->second;
-
-        StTaskInfo* pInfo = CStaticData::GetInstancePtr()->GetTaskInfo(pDataObj->m_nTaskID);
-        ERROR_CONTINUE_EX(pInfo != NULL);
-
-        if(pInfo->TaskEvent != taskEvent)
+        if ((pDataObj->m_nTaskStatus == ETS_FINISH) || (pDataObj->m_nTaskStatus == ETS_COMMIT))
         {
             continue;
         }
 
-        if(pDataObj->m_nTaskStatus == TASK_FINISHED)
+        StTaskInfo* pInfo = CStaticData::GetInstancePtr()->GetTaskInfo(pDataObj->m_nTaskID);
+        if (pInfo == NULL)
+        {
+            continue;
+        }
+
+        if(pInfo->TaskEvent != taskEvent)
         {
             continue;
         }
@@ -112,7 +115,6 @@ BOOL CTaskModule::OnTaskEvent(ETaskEvent taskEvent, UINT32 dwParam1, UINT32 dwPa
 
         }
     }
-
 
     return TRUE;
 }

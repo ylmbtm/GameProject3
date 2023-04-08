@@ -42,8 +42,8 @@ CPlayerObject::~CPlayerObject()
 BOOL CPlayerObject::Init(UINT64 u64ID)
 {
     m_uRoleID             = u64ID;
-    m_dwProxyConnID     = 0;
-    m_dwClientConnID    = 0;
+    m_nProxyConnID     = 0;
+    m_nClientConnID    = 0;
     m_dwCopyGuid        = 0;      //当前的副本ID
     m_dwCopyID          = 0;        //当前的副本类型
     m_dwCopySvrID       = 0;        //副本服务器的ID
@@ -58,8 +58,8 @@ BOOL CPlayerObject::Uninit()
 {
     DestroyAllModule();
     m_uRoleID             = 0;      //角色ID
-    m_dwProxyConnID     = 0;        //网关服的连接ID
-    m_dwClientConnID    = 0;        //客户端的连接ID
+    m_nProxyConnID     = 0;        //网关服的连接ID
+    m_nClientConnID    = 0;        //客户端的连接ID
     m_dwCopyGuid        = 0;        //当前的副本ID
     m_dwCopyID          = 0;        //当前的副本类型
     m_dwCopySvrID       = 0;        //副本服务器的ID
@@ -207,24 +207,24 @@ BOOL CPlayerObject::DestroyAllModule()
 
 BOOL CPlayerObject::SendMsgProtoBuf(INT32 nMsgID, const google::protobuf::Message& pdata)
 {
-    if (m_dwProxyConnID == 0)
+    if (m_nProxyConnID == 0)
     {
         CLog::GetInstancePtr()->LogWarn("Error SendMsgProtoBuf Failed m_dwProxyConnID==0 MessageID:%d, RoleID:%ld", nMsgID, m_uRoleID);
         return FALSE;
     }
 
-    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_dwProxyConnID, nMsgID, GetRoleID(), m_dwClientConnID, pdata);
+    return ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nProxyConnID, nMsgID, GetRoleID(), m_nClientConnID, pdata);
 }
 
 BOOL CPlayerObject::SendMsgRawData(INT32 nMsgID, const char* pdata, UINT32 dwLen)
 {
-    if (m_dwProxyConnID == 0)
+    if (m_nProxyConnID == 0)
     {
         CLog::GetInstancePtr()->LogError("Error SendMsgRawData MessageID:%d, RoleID:%ld", nMsgID, m_uRoleID);
         return FALSE;
     }
 
-    return ServiceBase::GetInstancePtr()->SendMsgRawData(m_dwProxyConnID, nMsgID, GetRoleID(), m_dwClientConnID, pdata, dwLen);
+    return ServiceBase::GetInstancePtr()->SendMsgRawData(m_nProxyConnID, nMsgID, GetRoleID(), m_nClientConnID, pdata, dwLen);
 }
 
 BOOL CPlayerObject::SendMsgToScene(INT32 nMsgID, const google::protobuf::Message& pdata)
@@ -294,8 +294,8 @@ BOOL CPlayerObject::SendLeaveScene(UINT32 dwCopyGuid, UINT32 dwSvrID)
 
 BOOL CPlayerObject::SetConnectID(UINT32 dwProxyID, UINT32 dwClientID)
 {
-    m_dwProxyConnID = dwProxyID;
-    m_dwClientConnID = dwClientID;
+    m_nProxyConnID = dwProxyID;
+    m_nClientConnID = dwClientID;
 
     return TRUE;
 }
@@ -496,7 +496,7 @@ BOOL CPlayerObject::NotifyTaskEvent(UINT32 dwEventID, UINT32 dwParam1, UINT32 dw
 
 BOOL CPlayerObject::IsOnline()
 {
-    if (m_IsOnline && m_dwProxyConnID == 0)
+    if (m_IsOnline && m_nProxyConnID == 0)
     {
         return FALSE;
     }

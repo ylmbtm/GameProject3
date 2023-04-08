@@ -231,7 +231,7 @@ UINT64 CSimpleManager::GetGuildID( UINT64 u64ID )
 
 UINT32 CSimpleManager::GetTotalCount()
 {
-	return (UINT32)m_mapID2Simple.size();
+	return (INT32)m_mapID2Simple.size();
 }
 
 BOOL CSimpleManager::GetRoleIDsByAccountID(UINT64 uAccountID, std::vector<UINT64>& vtRoleIDs)

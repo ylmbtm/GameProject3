@@ -9,21 +9,21 @@
 
 int main(int argc, char* argv[])
 {
-	SetCrashReport("LogicServer");
+    SetCrashReport("LogicServer");
 
-	CCommandLine cmdLine(argc, argv);
+    CCommandLine cmdLine(argc, argv);
 
-	if (!CGameService::GetInstancePtr()->Init())
-	{
-		return 0;
-	}
+    if (!CGameService::GetInstancePtr()->Init())
+    {
+        return 0;
+    }
 
-	CGameService::GetInstancePtr()->Run();
+    CGameService::GetInstancePtr()->Run();
 
-	CGameService::GetInstancePtr()->Uninit();
+    CGameService::GetInstancePtr()->Uninit();
 
-	UnSetCrashReport();
+    UnSetCrashReport();
 
-	return 0;
+    return 0;
 }
 

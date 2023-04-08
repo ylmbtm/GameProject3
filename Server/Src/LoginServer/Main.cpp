@@ -4,14 +4,11 @@
 #include "stdafx.h"
 #include "GameService.h"
 #include "CrashReport.h"
-#include "CommandLine.h"
 #include "WatcherClient.h"
 
 int main(int argc, char* argv[])
 {
 	SetCrashReport("LoginServer");
-
-	CCommandLine cmdLine(argc, argv);
 
 	if (CGameService::GetInstancePtr()->Init())
 	{

@@ -46,6 +46,7 @@ BOOL CPayManager::LoadData(CppMySQL3DB& tDBConnection)
         pPayDataObject->m_nProductID = QueryResult.getIntField("productid");
         pPayDataObject->m_nBuyID = QueryResult.getIntField("buyid");
         CommonConvert::StrCopy(pPayDataObject->m_szOrderID, QueryResult.getStringField("orderid"), PAY_ORDERID_LEN);
+        CommonConvert::StrCopy(pPayDataObject->m_szThirdID, QueryResult.getStringField("thirdid"), PAY_ORDERID_LEN);
         m_mapPayData.insert(std::make_pair(pPayDataObject->m_szOrderID, pPayDataObject));
         QueryResult.nextRow();
     }
@@ -120,7 +121,7 @@ BOOL CPayManager::ProcessPlayerLogin(UINT64 uRoleID)
         PayDataObject* pPayData = itor->second;
         ERROR_CONTINUE_EX(pPayData != NULL);
 
-        if (pPayData->m_nStatus == 2)
+        if (pPayData->m_nStatus == EOS_DONE)
         {
             continue;
         }
@@ -141,21 +142,33 @@ BOOL CPayManager::OnMsgCreatePayRecord(NetPacket* pNetPacket)
     CreatePaymentReq* pReq = new CreatePaymentReq;
     pReq->ParsePartialFromArray(pNetPacket->m_pDataBuffer->GetData(), pNetPacket->m_pDataBuffer->GetBodyLenth());
 
+    CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pReq->roleid());
+    ERROR_RETURN_TRUE(pPlayer != NULL);
+
+    ERROR_RETURN_TRUE(pReq->roleid() > 0);
+    ERROR_RETURN_TRUE(pReq->serverid() > 0);
+
+    if (pReq->productid() <= 0)
+    {
+        CreatePaymentAck Ack;
+        Ack.set_retcode(MRC_DUPLICATED_ORDER_ID);
+        Ack.set_orderid(pReq->orderid());
+        pPlayer->SendMsgProtoBuf(MSG_CREATE_PAYMENT_ACK, Ack);
+        CLog::GetInstancePtr()->LogError("CPayManager::OnMsgCreatePayRecord Error! Invalid Product ID");
+        return TRUE;
+    }
     if (m_setCreatedOrder.find(pReq->orderid()) != m_setCreatedOrder.end())
     {
         CreatePaymentAck Ack;
         Ack.set_retcode(MRC_DUPLICATED_ORDER_ID);
         Ack.set_orderid(pReq->orderid());
-        ServiceBase::GetInstancePtr()->SendMsgProtoBuf(pNetPacket->m_nConnID, MSG_CREATE_PAYMENT_ACK, 0, 0, Ack);
+        pPlayer->SendMsgProtoBuf(MSG_CREATE_PAYMENT_ACK, Ack);
         CLog::GetInstancePtr()->LogError("CPayManager::OnMsgCreatePayRecord Error! Duplicated strOrderID:%s", pReq->orderid().c_str());
         return TRUE;
     }
 
-    CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pReq->roleid());
-    ERROR_RETURN_TRUE(pPlayer != NULL);
-
     pReq->set_proxyid(pNetPacket->m_nConnID);
-    pReq->set_clientid(pPlayer->m_dwClientConnID);
+    pReq->set_clientid(pPlayer->m_nClientConnID);
     std::thread tThread(&CPayManager::WritePayRecordThread, this, pReq);
     tThread.detach();
 
@@ -168,12 +181,14 @@ void CPayManager::OnGmPayCallBack(HttpParameter& hParams, INT32 nConnID)
     INT32 nProductID = hParams.GetIntValue("productid");  //充值档位
     INT32 nChannel = hParams.GetIntValue("channel");
     std::string strOrderID = hParams.GetStrValue("orderid");
+    std::string strThirdID = hParams.GetStrValue("thirdid");
     UINT64 uFinishTime = hParams.GetLongValue("finishtime");
     FLOAT fMoney = hParams.GetFloatValue("money");
-    UINT32 buyid = hParams.GetIntValue("buyid");
+    INT32 buyid = hParams.GetIntValue("buyid");
 
-    //回调里有几个信息是必须的
-    //角色id, 档位id， 渠道， 订单id,  实际充值钱数， 充值类型， 购买的商品id
+    //通知支付服己经收到支付通知，己成功加入等待发货队列，支付服的任务己经完成
+    std::string strResult = CommonConvert::IntToString((INT64)0);
+    ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (INT32)strResult.size());
 
     //避免重复通知
     if (GetPayOrderByID(strOrderID) != NULL)
@@ -186,18 +201,15 @@ void CPayManager::OnGmPayCallBack(HttpParameter& hParams, INT32 nConnID)
     pPayDataObject->Lock();
     pPayDataObject->m_uRoleID = uRoleID;
     pPayDataObject->m_nChannel = nChannel;
-    pPayDataObject->m_nStatus = 1; //待发货
+    pPayDataObject->m_nStatus = EOS_WAIT; //待发货
     pPayDataObject->m_fMoney = fMoney;
     pPayDataObject->m_uFinishTime = uFinishTime;
     pPayDataObject->m_nProductID = nProductID;
     pPayDataObject->m_nBuyID = buyid;
     CommonConvert::StrCopy(pPayDataObject->m_szOrderID, strOrderID.c_str(), PAY_ORDERID_LEN);
+    CommonConvert::StrCopy(pPayDataObject->m_szThirdID, strThirdID.c_str(), PAY_ORDERID_LEN);
     pPayDataObject->Unlock();
     m_mapPayData.insert(std::make_pair(strOrderID, pPayDataObject));
-
-    //通知支付服己经收到支付通知，己成功加入等待发货队列，支付服的任务己经完成
-    std::string strResult = CommonConvert::IntToString((INT64)0);
-    ServiceBase::GetInstancePtr()->SendMsgRawData(nConnID, MSG_PHP_GM_COMMAND_ACK, 0, 0, strResult.c_str(), (UINT32)strResult.size());
 
     ProcessSussessPayOrder(pPayDataObject);
 
@@ -206,5 +218,17 @@ void CPayManager::OnGmPayCallBack(HttpParameter& hParams, INT32 nConnID)
 
 BOOL CPayManager::ProcessSussessPayOrder(PayDataObject* pOrderData)
 {
+    ERROR_RETURN_FALSE(pOrderData != NULL);
+    CPlayerObject* pPlayer = CPlayerManager::GetInstancePtr()->GetPlayer(pOrderData->m_uRoleID);
+    if (pPlayer == NULL)
+    {
+        CLog::GetInstancePtr()->LogError("CPayManager::OnGmPayCallBack Error! Invalid uRoleID:%lld", pOrderData->m_uRoleID);
+        return FALSE;
+    }
+    pOrderData->Lock();
+    pOrderData->m_uSendTime = CommonFunc::GetCurrTime();
+    pOrderData->m_nStatus = EOS_DONE; //已发货
+    pOrderData->Unlock();
+
     return TRUE;
 }

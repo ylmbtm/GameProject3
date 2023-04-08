@@ -100,8 +100,8 @@ public:
     //网络消息泵
 
     UINT64          m_uRoleID;
-    UINT32          m_dwProxyConnID;
-    UINT32          m_dwClientConnID;
+    INT32           m_nProxyConnID;
+    INT32           m_nClientConnID;
     BOOL            m_IsOnline;
     std::vector<CModuleBase*> m_MoudleList;
 

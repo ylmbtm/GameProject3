@@ -205,11 +205,11 @@ BOOL CConnection::ExtractBuffer()
             }
         }
 
-        if(m_nDataLen < sizeof(PacketHeader))
+        if (m_nDataLen < sizeof(PacketHeader))
         {
             if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
-                CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
+                //CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
                 return FALSE;
             }
 
@@ -221,20 +221,20 @@ BOOL CConnection::ExtractBuffer()
         //在这里对包头进行检查, 如果不合法就要返回FALSE;
         if (!CheckHeader(m_pBufPos))
         {
-            //return FALSE;
+            return FALSE;
         }
 
         INT32 nPacketSize = pHeader->nSize;
 
         //////////////////////////////////////////////////////////////////////////
-        if((nPacketSize > m_nDataLen)  && (nPacketSize < RECV_BUF_SIZE))
+        if ((nPacketSize > m_nDataLen) && (nPacketSize < RECV_BUF_SIZE))
         {
             break;
         }
 
         if (nPacketSize <= m_nDataLen)
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
+            IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
 
             memcpy(pDataBuffer->GetBuffer(), m_pBufPos, nPacketSize);
 
@@ -250,7 +250,7 @@ BOOL CConnection::ExtractBuffer()
         }
         else
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
+            IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
             memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_nDataLen);
 
             pDataBuffer->SetTotalLenth(m_nDataLen);
@@ -261,7 +261,7 @@ BOOL CConnection::ExtractBuffer()
         }
     }
 
-    if(m_nDataLen > 0)
+    if (m_nDataLen > 0)
     {
         memmove(m_pRecvBuf, m_pBufPos, m_nDataLen);
     }
@@ -416,18 +416,13 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return FALSE;
     }
 
-    if (pHeader->nSize > 1024 * 1024)
-    {
-        return FALSE;
-    }
-
-    if (pHeader->nSize <= 0)
+    if ((pHeader->nSize > 1024 * 1024) || (pHeader->nSize <= 0))
     {
         CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
-    if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
+    if (pHeader->nMsgID > 399999 || pHeader->nMsgID <= 0)
     {
         CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
@@ -627,12 +622,10 @@ BOOL CConnection::DoSend()
             m_nSendingPos += nRet;
             return E_SEND_UNDONE;
         }
-        else
-        {
-            m_pSendingBuffer->Release();
-            m_pSendingBuffer = NULL;
-            m_nSendingPos = 0;
-        }
+
+        m_pSendingBuffer->Release();
+        m_pSendingBuffer = NULL;
+        m_nSendingPos = 0;
     }
 
     IDataBuffer* pBuffer = NULL;
@@ -667,6 +660,7 @@ BOOL CConnection::DoSend()
         }
 
         pBuffer->Release();
+        pBuffer = NULL;
     }
 
     return E_SEND_SUCCESS;

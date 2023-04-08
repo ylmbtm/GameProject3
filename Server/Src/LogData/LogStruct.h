@@ -36,8 +36,8 @@ struct Log_BaseData
 
 struct Log_AccountCreate : public Log_BaseData
 {
-    UINT32      m_dwVersion     = 0;   //客户端版本号
-    UINT32      m_dwIpAddr      = 0;    //登录IP
+    INT32       m_dwVersion      = 0;   //客户端版本号
+    INT32       m_dwIpAddr       = 0;    //登录IP
     CHAR        m_szImei[64]    = { 0 };  //手机的MEI
     CHAR        m_szModel[64]   = { 0 }; //手机的机型
     CHAR        m_szUuid[64]    = { 0 };  //手机的uuid;
@@ -50,7 +50,7 @@ struct Log_AccountCreate : public Log_BaseData
 
     BOOL GetLogSql(char* pBuff)
     {
-        snprintf(pBuff, 2048, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s','%s','%s', '%s', '%s')",
+        snprintf(pBuff, 4096, "insert into account_create(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s','%s','%s', '%s', '%s')",
                  m_uAccountID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
         return TRUE;
     }
@@ -58,8 +58,8 @@ struct Log_AccountCreate : public Log_BaseData
 
 struct Log_AccountLogin : public Log_BaseData
 {
-    UINT32      m_dwVersion = 0;  //客户端版本号
-    UINT32      m_dwIpAddr = 0;   //登录IP
+    INT32       m_dwVersion = 0;  //客户端版本号
+    INT32       m_dwIpAddr = 0;   //登录IP
     CHAR        m_szImei[64] = { 0 }; //手机的MEI
     CHAR        m_szModel[64] = { 0 };//手机的机型
     CHAR        m_szUuid[64] = { 0 }; //手机的uuid;
@@ -72,7 +72,7 @@ struct Log_AccountLogin : public Log_BaseData
     BOOL GetLogSql(char* pBuff)
     {
 
-        snprintf(pBuff, 2048, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s', '%s')",
+        snprintf(pBuff, 4096, "insert into account_login(accountid, channel, version, optime, ip, uuid, idfa, imei, imodel, openid) values(%lld, %u, %d, '%s', '%s','%s', '%s','%s', '%s', '%s')",
                  m_uAccountID, m_nChannel, m_dwVersion, CommonFunc::TimeToString(m_uOpTime).c_str(), CommonSocket::IpAddrIntToStr(m_dwIpAddr).c_str(), m_szUuid, m_szIdfa, m_szImei, m_szModel, m_szOpenID);
         return TRUE;
     }
@@ -87,7 +87,7 @@ struct Log_RoleCreate : public Log_BaseData
 
     BOOL GetLogSql(char* pBuff)
     {
-        snprintf(pBuff, 2048, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s','%s', '%s')",
+        snprintf(pBuff, 4096, "insert into role_create(roleid, accountid, areaid, channel, optime, rolename, idfa) values(%lld, %lld, %d, %d, '%s','%s', '%s')",
                  m_uRoleID, m_uAccountID, m_nAreaID, m_nChannel, CommonFunc::TimeToString(m_uOpTime).c_str(), m_szRoleName, m_szIdfa);
         return TRUE;
     }

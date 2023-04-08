@@ -108,11 +108,11 @@ BOOL CPlayerManager::BroadMessageToAll(INT32 nMsgID, const google::protobuf::Mes
             continue;
         }
 
-        Nty.add_connid(pTempObj->m_dwClientConnID);
+        Nty.add_connid(pTempObj->m_nClientConnID);
 
-        if(pTempObj->m_dwProxyConnID != 0)
+        if(pTempObj->m_nProxyConnID != 0)
         {
-            dwProxyID = pTempObj->m_dwProxyConnID;
+            dwProxyID = pTempObj->m_nProxyConnID;
         }
     }
 
