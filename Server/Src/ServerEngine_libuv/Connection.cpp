@@ -194,7 +194,7 @@ BOOL CConnection::ExtractBuffer()
         //在这里对包头进行检查, 如果不合法就要返回FALSE;
         if (!CheckHeader(m_pBufPos))
         {
-            return FALSE;
+            //return FALSE;
         }
 
         INT32 nPacketSize = pHeader->nSize;

@@ -724,8 +724,8 @@ BOOL CommonConvert::StringTrim(std::string& strValue)
 {
     if(!strValue.empty())
     {
-        strValue.erase(0, strValue.find_first_not_of((" \n\r\t")));
-        strValue.erase(strValue.find_last_not_of((" \n\r\t")) + 1);
+        strValue.erase(0, strValue.find_first_not_of((" \n\r\t\v\f")));
+        strValue.erase(strValue.find_last_not_of((" \n\r\t\v\f")) + 1);
     }
     return TRUE;
 }

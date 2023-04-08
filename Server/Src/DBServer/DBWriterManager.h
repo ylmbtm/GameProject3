@@ -23,7 +23,6 @@
 
 class CDBWriterManager
 {
-
 public:
     CDBWriterManager();
     ~CDBWriterManager();

@@ -4,21 +4,20 @@
 #include "stdafx.h"
 #include "GameService.h"
 #include "CrashReport.h"
-#include "CommandLine.h"
 
 int main(int argc, char* argv[])
 {
-	SetCrashReport("WatchServer");
+    SetCrashReport("WatchServer");
 
-	if (CGameService::GetInstancePtr()->Init())
-	{
-		CGameService::GetInstancePtr()->Run();
-	}
+    if (CGameService::GetInstancePtr()->Init())
+    {
+        CGameService::GetInstancePtr()->Run();
+    }
 
-	CGameService::GetInstancePtr()->Uninit();
+    CGameService::GetInstancePtr()->Uninit();
 
-	UnSetCrashReport();
+    UnSetCrashReport();
 
-	return 0;
+    return 0;
 }
 

@@ -63,6 +63,8 @@ BOOL CGameService::Init()
 
     ERROR_RETURN_FALSE(m_CenterMsgHandler.Init(0));
 
+    //AsyncMySQLDB::GetInstancePtr()->Init();
+
     CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
     return TRUE;
 }

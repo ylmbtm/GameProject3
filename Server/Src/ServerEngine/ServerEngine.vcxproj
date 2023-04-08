@@ -99,6 +99,7 @@
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="CommonMath.cpp" />
     <ClCompile Include="CommonSocket.cpp" />
+    <ClCompile Include="CommonTime.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="CrashReport.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="CommonConvert.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="CommonSocket.h" />
+    <ClInclude Include="CommonTime.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="CrashReport.h" />

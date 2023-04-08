@@ -1,6 +1,6 @@
 ﻿#ifndef _TIMER_MANAGER__
 #define _TIMER_MANAGER__
-#include "CommonFunc.h"
+#include "CommonTime.h"
 class CTimerSlotBase
 {
 public:
@@ -74,8 +74,8 @@ public:
         m_uFireTime     = 0;
         m_nSec          = 0;
         m_nData         = 0;
-        m_pNext          = NULL;
-        m_pPrev          = NULL;
+        m_pNext         = NULL;
+        m_pPrev         = NULL;
         m_nRepeateTimes = 0x0FFFFFFF;
         if(m_pTimerFuncSlot != NULL)
         {

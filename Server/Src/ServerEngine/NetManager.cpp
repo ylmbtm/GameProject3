@@ -376,7 +376,7 @@ CConnection* CNetManager::AssociateCompletePort( SOCKET hSocket, BOOL bConnect)
     if (pConnection == NULL)
     {
         CommonSocket::CloseSocket(hSocket);
-        return FALSE;
+        return NULL;
     }
     pConnection->SetSocket(hSocket);
     pConnection->SetDataHandler(m_pBufferHandler);

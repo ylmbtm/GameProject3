@@ -93,6 +93,9 @@
     <ClCompile Include="Md5.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="CommonTime.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -192,6 +195,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Md5.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonTime.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

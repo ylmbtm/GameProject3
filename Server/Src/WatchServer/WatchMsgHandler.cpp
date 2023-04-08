@@ -251,13 +251,13 @@ void CWatchMsgHandler::OnGmServerUpdate(HttpParameter& hParams, INT32 nConnID)
         return;
     }
 
+    SendWebResult(nConnID, EWR_SUCCESSED);
+
     std::string strWorkPath = m_strRootPath + m_strSvrName + CommonConvert::IntToString(nAreaID) + '/';
 
     std::string strExe = strWorkPath + CConfigFile::GetInstancePtr()->GetStringValue("server_update");
 
     system(strExe.c_str());
-
-    SendWebResult(nConnID, EWR_SUCCESSED);
 }
 
 void CWatchMsgHandler::OnGmServerInfo(HttpParameter& hParams, INT32 nConnID)

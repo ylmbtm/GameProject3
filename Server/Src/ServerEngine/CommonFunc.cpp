@@ -57,175 +57,6 @@ BOOL CommonFunc::SetCurrentWorkDir(std::string strPath)
     return TRUE;
 }
 
-UINT64 CommonFunc::GetCurrTime()
-{
-    time_t t = time(0);
-
-    return (UINT64)t;
-}
-
-UINT64 CommonFunc::GetCurMsTime()
-{
-    auto time_now = std::chrono::system_clock::now();
-    auto duration_in_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_now.time_since_epoch());
-    return duration_in_ms.count();
-}
-
-tm CommonFunc::GetCurrTmTime()
-{
-    time_t t = (time_t)GetCurrTime();
-
-    struct tm _tm_time;
-    _tm_time = *localtime(&t);
-
-    return _tm_time;
-}
-
-UINT64 CommonFunc::GetDayBeginTime(UINT64 uTime)
-{
-    if (uTime == 0)
-    {
-        uTime = GetCurrTime();
-    }
-
-    time_t t = (time_t)uTime;
-    tm* t_tm = localtime(&t);
-    t_tm->tm_hour = 0;
-    t_tm->tm_min = 0;
-    t_tm->tm_sec = 0;
-    t = mktime(t_tm);
-    return (UINT64)t;
-}
-
-UINT64 CommonFunc::GetWeekBeginTime(UINT64 uTime)
-{
-    if (uTime == 0)
-    {
-        uTime = GetCurrTime();
-    }
-
-    time_t t = (time_t)uTime;
-    tm* t_tm = localtime(&t);
-    return (UINT64)t - (t_tm->tm_wday == 0 ? 6 : t_tm->tm_wday - 1) * 86400 - t_tm->tm_hour * 3600 - t_tm->tm_min * 60 - t_tm->tm_sec;
-}
-
-UINT64 CommonFunc::GetMonthBeginTime(UINT64 uTime)
-{
-    if (uTime == 0)
-    {
-        uTime = GetCurrTime();
-    }
-
-    time_t t = (time_t)uTime;
-    tm* t_tm = localtime(&t);
-    tm newtm;
-    newtm.tm_year = t_tm->tm_year;
-    newtm.tm_mon = t_tm->tm_mon;
-    newtm.tm_mday = 1;
-    newtm.tm_hour = 0;
-    newtm.tm_min = 0;
-    newtm.tm_sec = 0;
-
-    return mktime(&newtm);
-}
-
-UINT64 CommonFunc::GetMonthRemainTime(UINT64 uTime)
-{
-    if (uTime == 0)
-    {
-        uTime = GetCurrTime();
-    }
-
-    time_t t = (time_t)uTime;
-    tm* t_tm = localtime(&t);
-
-    tm newtm;
-    newtm.tm_mday = 1;
-    newtm.tm_hour = 0;
-    newtm.tm_min = 0;
-    newtm.tm_sec = 0;
-
-    if (t_tm->tm_mon == 11)
-    {
-        newtm.tm_year = t_tm->tm_year + 1;
-        newtm.tm_mon = 0;
-    }
-    else
-    {
-        newtm.tm_year = t_tm->tm_year;
-        newtm.tm_mon = t_tm->tm_mon + 1;
-    }
-
-    return mktime(&newtm) - t;
-}
-
-time_t CommonFunc::YearTimeToSec(INT32 nYear, INT32 nMonth, INT32 nDay, INT32 nHour, INT32 nMin, INT32 nSec)
-{
-    time_t t = (time_t)GetCurrTime();
-    tm* t_tm = localtime(&t);
-
-    tm newtm;
-    newtm.tm_year = (nYear < 0) ? t_tm->tm_year : nYear - 1900;
-    newtm.tm_mon = (nMonth < 0) ? t_tm->tm_mon : nMonth - 1;
-    newtm.tm_mday = (nDay < 0) ? t_tm->tm_mday : nDay;
-    newtm.tm_hour = (nHour < 0) ? t_tm->tm_hour : nHour;
-    newtm.tm_min = (nMin < 0) ? t_tm->tm_min : nMin;
-    newtm.tm_sec = (nSec < 0) ? t_tm->tm_sec : nSec;
-    return mktime(&newtm);;
-}
-
-std::string CommonFunc::TimeToString(time_t tTime)
-{
-    tm* t_tm = localtime(&tTime);
-    if (t_tm == NULL)
-    {
-        return "";
-    }
-
-    char szTime[128] = { 0 };
-    strftime(szTime, 128, "%Y-%m-%d %H:%M:%S", t_tm);
-    return std::string(szTime);
-}
-
-time_t CommonFunc::DateStringToTime(std::string strDate)
-{
-    if (strDate.size() < 14)
-    {
-        return 0;
-    }
-
-    INT32 nYear;
-    INT32 nMonth;
-    INT32 nDay;
-    INT32 nHour;
-    INT32 nMinute;
-    INT32 nSecond;
-
-    INT32 nRet = sscanf(strDate.c_str(), "%4d-%2d-%2d %2d:%2d:%2d", &nYear, &nMonth, &nDay, &nHour, &nMinute, &nSecond);
-    if (nRet < 6)
-    {
-        return 0;
-    }
-
-    return YearTimeToSec(nYear, nMonth, nDay, nHour, nMinute, nSecond);
-}
-
-UINT64 CommonFunc::GetTickCount()
-{
-#ifdef WIN32
-    return ::GetTickCount64();
-#else
-    UINT64 uTickCount = 0;
-    struct timespec on;
-    if(0 == clock_gettime(CLOCK_MONOTONIC, &on) )
-    {
-        uTickCount = on.tv_sec * 1000 + on.tv_nsec / 1000000;
-    }
-
-    return uTickCount;
-#endif
-}
-
 BOOL CommonFunc::CreateDir( std::string& strDir )
 {
     int nRet = 0;
@@ -250,7 +81,7 @@ BOOL CommonFunc::CreateDir( std::string& strDir )
 
 BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<std::string>& vtFileList, BOOL bRecursion)
 {
-    if (pszDir == NULL || pszFileType == NULL)
+    if (pszDir == NULL || pszFileType == NULL || NULL == strrchr(pszFileType, '.'))
     {
         return FALSE;
     }
@@ -258,15 +89,14 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
     char   szTem[1024] = { 0 };
     char   szDir[1024] = { 0 };
     strcpy(szTem, pszDir);
-    if (szTem[strlen(szTem) - 1] != '\\' || szTem[strlen(szTem) - 1] != '/')
+    if (szTem[strlen(szTem) - 1] != '\\' && szTem[strlen(szTem) - 1] != '/')
     {
         strcat(szTem, "/");
     }
 
     strcpy(szDir, szTem);
-    strcat(szDir, pszFileType);
-
 #ifdef WIN32
+    strcat(szDir, "*.*");
     struct _finddata_t  tFileInfo = { 0 };
     long long hFile = _findfirst(szDir, &tFileInfo);
     if (hFile == -1)
@@ -294,6 +124,15 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
         }
         else
         {
+            if (strcmp(pszFileType, "*.*") != 0)
+            {
+                char* szSuffix = strrchr(tFileInfo.name, '.');
+                if (szSuffix == NULL || strcmp(szSuffix, pszFileType + 1) != 0)
+                {
+                    continue;
+                }
+            }
+
             vtFileList.push_back(std::string(szTem) + std::string(tFileInfo.name));
         }
     }
@@ -334,6 +173,14 @@ BOOL CommonFunc::GetDirFiles(const char* pszDir, char* pszFileType, std::vector<
         }
         else
         {
+            if (strcmp(pszFileType, "*.*") != 0)
+            {
+                char* szSuffix = strrchr(tFileInfo->d_name, '.');
+                if (szSuffix == NULL || strcmp(szSuffix, pszFileType + 1) != 0)
+                {
+                    continue;
+                }
+            }
             vtFileList.push_back(std::string(szTem) + std::string(tFileInfo->d_name));
         }
     }
@@ -353,18 +200,16 @@ BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::v
     char   szTem[1024] = { 0 };
     char   szDir[1024] = { 0 };
     strcpy(szTem, pszDir);
-    if (szTem[strlen(szTem) - 1] != '\\' || szTem[strlen(szTem) - 1] != '/')
+    if (szTem[strlen(szTem) - 1] != '\\' && szTem[strlen(szTem) - 1] != '/')
     {
-        strcat(szTem, "/*.*");
+        strcat(szTem, "/");
     }
-    else
-    {
-        strcat(szTem, "*.*");
-    }
+
 
     strcpy(szDir, szTem);
 
 #ifdef WIN32
+    strcat(szDir, "*.*");
     struct _finddata_t  tFileInfo = { 0 };
     long long hFile = _findfirst(szDir, &tFileInfo);
     if (hFile == -1)
@@ -450,72 +295,6 @@ BOOL CommonFunc::GetSubDirNames(const char* pszDir, const char* pszBegin, std::v
     closedir(pDirInfo);
 #endif
     return TRUE;
-}
-
-BOOL CommonFunc::IsSameDay(UINT64 uTime)
-{
-#ifdef WIN32
-    return ((uTime - _timezone) / 86400) == ((GetCurrTime() - _timezone) / 86400);
-#else
-    return ((uTime - timezone) / 86400) == ((GetCurrTime() - timezone) / 86400);
-#endif
-
-}
-
-BOOL CommonFunc::IsSameWeek(UINT64 uTime)
-{
-    time_t t = GetCurrTime();
-    tm t_tmSrc = *localtime(&t);
-    UINT64 SrcWeekBegin = (UINT64)t - (t_tmSrc.tm_wday == 0 ? 6 : t_tmSrc.tm_wday - 1) * 86400 - t_tmSrc.tm_hour * 3600 - t_tmSrc.tm_min * 60 - t_tmSrc.tm_sec;
-
-    t = uTime;
-    tm t_tmDest = *localtime(&t);
-    UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
-
-    return (SrcWeekBegin - SrcWeekDest) / (86400 * 7) <= 0;
-}
-
-BOOL CommonFunc::IsSameMonth(UINT64 uTime)
-{
-    time_t t = uTime;
-    tm t_tmSrc = *localtime(&t);
-
-    time_t t_mon = GetCurrTime();
-    tm t_tmDest = *localtime(&t_mon);
-
-    return (t_tmSrc.tm_mon == t_tmDest.tm_mon);
-}
-
-INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
-{
-    time_t t = uTimeSrc;
-    tm t_tmSrc = *localtime(&t);
-    UINT64 SrcWeekBegin = (UINT64)t - (t_tmSrc.tm_wday == 0 ? 6 : t_tmSrc.tm_wday - 1) * 86400 - t_tmSrc.tm_hour * 3600 - t_tmSrc.tm_min * 60 - t_tmSrc.tm_sec;
-
-    t = uTimeDest;
-    tm t_tmDest = *localtime(&t);
-    UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
-
-    return uTimeSrc > uTimeDest ? (INT32)((SrcWeekBegin - SrcWeekDest) / (86400 * 7)) : (INT32)((SrcWeekDest - SrcWeekBegin) / (86400 * 7));
-}
-
-INT32 CommonFunc::DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest)
-{
-#ifdef WIN32
-    if (uTimeSrc > uTimeDest)
-    {
-        return (INT32)((uTimeSrc - _timezone) / 86400 - (uTimeDest - _timezone) / 86400);
-    }
-
-    return (INT32)((uTimeDest - _timezone) / 86400 - (uTimeSrc - _timezone) / 86400);
-#else
-    if (uTimeSrc > uTimeDest)
-    {
-        return (INT32)((uTimeSrc - timezone) / 86400 - (uTimeDest - timezone) / 86400);
-    }
-
-    return (INT32)((uTimeDest - timezone) / 86400 - (uTimeSrc - timezone) / 86400);
-#endif
 }
 
 INT32 CommonFunc::GetCurThreadID()

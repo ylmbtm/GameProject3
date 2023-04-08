@@ -15,7 +15,7 @@ public:
     {
         m_nDataLen      = 0;
         m_nBufSize      = SIZE;
-        m_nRefCount    = 0;
+        m_nRefCount     = 0;
         m_pPrev         = NULL;
         m_pNext         = NULL;
         m_pManager      = NULL;

@@ -66,6 +66,7 @@ BOOL TimerManager::DelTimer(INT32 nSec, INT32 nData)
         m_pFreeHead->m_pPrev = pDelEvent;
     }
 
+    pDelEvent->m_pNext = m_pFreeHead;
     m_pFreeHead = pDelEvent;
 
     pDelEvent->Reset();
