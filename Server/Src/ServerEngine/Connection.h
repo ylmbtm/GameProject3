@@ -18,9 +18,14 @@
 #define E_SEND_UNDONE               2
 #define E_SEND_ERROR                3
 
-#define NET_ST_INIT                 1
-#define NET_ST_CONN                 2
-#define NET_ST_WAIT                 3
+enum ENetStatus
+{
+    ENS_INIT       = 1,
+    ENS_CONNECTING = 2,
+    ENS_CONNECTED  = 3,
+    ENS_CLOSEING   = 4,
+    ENS_CLOSED     = 5
+};
 
 struct NetIoOperatorData
 {
@@ -66,9 +71,9 @@ public:
 
     BOOL    DoReceive();
 
-    INT32   GetConnectStatus();
+    ENetStatus GetConnectStatus();
 
-    BOOL    SetConnectStatus(INT32 nConnStatus);
+    BOOL    SetConnectStatus(ENetStatus eConnStatus);
 
     BOOL    Reset();
 
@@ -87,7 +92,7 @@ public:
 public:
     SOCKET                      m_hSocket;
 
-    INT32                       m_nConnStatus;
+    ENetStatus                  m_eConnStatus;
 
     BOOL                        m_bNotified;
 

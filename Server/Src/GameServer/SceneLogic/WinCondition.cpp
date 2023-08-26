@@ -25,10 +25,10 @@ VOID CWinCondition::SetConditionType(EWinCondition type)
 
 BOOL CWinCondition::SetDestination(FLOAT left, FLOAT top, FLOAT right, FLOAT bottom)
 {
-	m_DestRect.m_Left = left;
-	m_DestRect.m_Top = top;
-	m_DestRect.m_Right = right;
-	m_DestRect.m_Bottom = bottom;
+	m_DestRect.m_fLeft = left;
+	m_DestRect.m_fTop = top;
+	m_DestRect.m_fRight = right;
+	m_DestRect.m_fBottom = bottom;
 
 	return TRUE;
 }

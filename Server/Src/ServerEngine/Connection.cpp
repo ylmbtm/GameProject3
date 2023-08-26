@@ -25,7 +25,7 @@ CConnection::CConnection()
 
     m_nDataLen         = 0;
 
-    m_nConnStatus       = NET_ST_INIT;
+    m_eConnStatus       = ENS_INIT;
 
     m_uConnData       = 0;
 
@@ -144,7 +144,7 @@ void CConnection::SetConnectionID( INT32 nConnID )
 {
     ERROR_RETURN_NONE(nConnID != 0);
 
-    ERROR_RETURN_NONE(m_nConnStatus == NET_ST_INIT);
+    ERROR_RETURN_NONE(m_eConnStatus == ENS_INIT);
 
     m_nConnID = nConnID;
 
@@ -162,7 +162,7 @@ VOID CConnection::SetConnectionData( UINT64 uData )
 
 BOOL CConnection::Shutdown()
 {
-    m_nConnStatus = NET_ST_WAIT;
+    m_eConnStatus = ENS_CLOSEING;
 
     m_uLastRecvTick = CommonFunc::GetTickCount();
 
@@ -180,11 +180,11 @@ BOOL CConnection::ExtractBuffer()
         return TRUE;
     }
 
-    while(TRUE)
+    while (TRUE)
     {
-        if(m_pCurRecvBuffer != NULL)
+        if (m_pCurRecvBuffer != NULL)
         {
-            if ((m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen ) < m_nCurBufferSize)
+            if ((m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen) < m_nCurBufferSize)
             {
                 memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_nDataLen);
                 m_pBufPos = m_pRecvBuf;
@@ -209,7 +209,7 @@ BOOL CConnection::ExtractBuffer()
         {
             if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
-                //CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
+                CLog::GetInstancePtr()->LogInfo("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
                 return FALSE;
             }
 
@@ -221,7 +221,7 @@ BOOL CConnection::ExtractBuffer()
         //在这里对包头进行检查, 如果不合法就要返回FALSE;
         if (!CheckHeader(m_pBufPos))
         {
-            return FALSE;
+            //return FALSE;
         }
 
         INT32 nPacketSize = pHeader->nSize;
@@ -287,7 +287,8 @@ BOOL CConnection::Close()
         m_pDataHandler->OnCloseConnect(GetConnectionID());
     }
 
-    m_nConnStatus = NET_ST_INIT;
+    m_eConnStatus = ENS_INIT;
+
 
     return TRUE;
 }
@@ -341,14 +342,14 @@ SOCKET CConnection::GetSocket()
     return m_hSocket;
 }
 
-INT32 CConnection::GetConnectStatus()
+ENetStatus CConnection::GetConnectStatus()
 {
-    return m_nConnStatus;
+    return m_eConnStatus;
 }
 
-BOOL CConnection::SetConnectStatus(INT32 nConnStatus)
+BOOL CConnection::SetConnectStatus(ENetStatus eConnStatus)
 {
-    m_nConnStatus = nConnStatus;
+    m_eConnStatus = eConnStatus;
 
     m_uLastRecvTick = CommonFunc::GetTickCount();
 
@@ -360,7 +361,7 @@ BOOL CConnection::Reset()
 {
     m_hSocket = INVALID_SOCKET;
 
-    m_nConnStatus = NET_ST_INIT;
+    m_eConnStatus = ENS_INIT;
 
     m_uConnData = 0;
 
@@ -405,26 +406,22 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 
 BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 {
-    /*
-    1.首先验证包的验证吗
-    2.包的长度
-    3.包的序号
-    */
-    PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket;
     if (pHeader->CheckCode != CODE_VALUE)
     {
+        CLog::GetInstancePtr()->LogInfo("验证-失败 pHeader->CheckCode error");
         return FALSE;
     }
 
     if ((pHeader->nSize > 1024 * 1024) || (pHeader->nSize <= 0))
     {
-        CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
+        CLog::GetInstancePtr()->LogInfo("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
     if (pHeader->nMsgID > 399999 || pHeader->nMsgID <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
+        CLog::GetInstancePtr()->LogInfo("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
     }
 
@@ -437,7 +434,7 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 
     if (nPktChkNo <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("nPktChkNo <= 0");
+        CLog::GetInstancePtr()->LogInfo("nPktChkNo <= 0");
         return FALSE;
     }
 
@@ -450,6 +447,8 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
     {
         return TRUE;
     }
+
+    CLog::GetInstancePtr()->LogInfo("验证-失败 m_nCheckNo:%d, nPktChkNo:%ld", m_nCheckNo, nPktChkNo);
 
     return FALSE;
 }
@@ -572,6 +571,8 @@ BOOL CConnection::DoSend()
         INT32 errCode = CommonSocket::GetSocketLastError();
         if(errCode != ERROR_IO_PENDING)
         {
+            pSendingBuffer->Release();
+            pSendingBuffer = NULL;
             Close();
             CLog::GetInstancePtr()->LogError("发送线程:发送失败, 连接关闭原因:%s!", CommonFunc::GetLastErrorStr(errCode).c_str());
         }
@@ -705,7 +706,7 @@ CConnection* CConnectionMgr::CreateConnection()
     m_ConnListMutex.unlock();
     ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
     ERROR_RETURN_NULL(pTemp->GetSocket() == INVALID_SOCKET);
-    ERROR_RETURN_NULL(pTemp->GetConnectStatus() == NET_ST_INIT);
+    ERROR_RETURN_NULL(pTemp->GetConnectStatus() == ENS_INIT);
     return pTemp;
 }
 
@@ -783,7 +784,7 @@ BOOL CConnectionMgr::CloseAllConnection()
     for(size_t i = 0; i < m_vtConnList.size(); i++)
     {
         pConn = m_vtConnList.at(i);
-        if (pConn->GetConnectStatus() != NET_ST_CONN)
+        if (pConn->GetConnectStatus() != ENS_CONNECTED)
         {
             continue;
         }
@@ -810,7 +811,7 @@ BOOL CConnectionMgr::DestroyAllConnection()
             continue;
         }
 
-        if (pConn->GetConnectStatus() != NET_ST_INIT && pConn->m_hSocket != INVALID_SOCKET)
+        if (pConn->GetConnectStatus() != ENS_INIT && pConn->m_hSocket != INVALID_SOCKET)
         {
             pConn->Close();
         }
@@ -831,7 +832,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
     for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
     {
         CConnection* pConnection = m_vtConnList.at(i);
-        if(pConnection->GetConnectStatus() == NET_ST_INIT)
+        if(pConnection->GetConnectStatus() == ENS_INIT)
         {
             continue;
         }
@@ -847,7 +848,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
         }
 
         //如果当前是等待关闭的状态
-        if (pConnection->GetConnectStatus() == NET_ST_WAIT)
+        if (pConnection->GetConnectStatus() == ENS_CLOSEING)
         {
             if (uCurTick > (pConnection->m_uLastRecvTick + 10 * 1000))
             {

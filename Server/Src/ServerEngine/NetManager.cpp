@@ -63,7 +63,7 @@ BOOL CNetManager::WorkThread_Listen()
         {
             pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
 
-            pConnection->SetConnectStatus(NET_ST_CONN);
+            pConnection->SetConnectStatus(ENS_CONNECTED);
 
             m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -233,7 +233,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                         break;
                     }
 
-                    if(pConnection->GetConnectStatus() == NET_ST_CONN || pConnection->GetConnectStatus() == NET_ST_WAIT)
+                    if(pConnection->GetConnectStatus() == ENS_CONNECTED || pConnection->GetConnectStatus() == ENS_CLOSEING)
                     {
                         if(!pConnection->HandleRecvEvent(nNumOfByte))
                         {
@@ -242,7 +242,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                     }
                     else
                     {
-                        CLog::GetInstancePtr()->LogError("严重错误, 没有连接上，却收到的数据! ConnID:%d", pConnection->GetConnectionID());
+                        CLog::GetInstancePtr()->LogError("严重错误, 没有连接上，却收到的数据! ConnID:%d, ConnectStatus:%d", pConnection->GetConnectionID(), pConnection->GetConnectStatus());
                     }
                 }
             }
@@ -301,7 +301,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 
                 if(bRetValue)
                 {
-                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    pConnection->SetConnectStatus(ENS_CONNECTED);
                     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
                     if(!pConnection->DoReceive())
@@ -311,7 +311,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                 }
                 else
                 {
-                    pConnection->SetConnectStatus(NET_ST_INIT);
+                    pConnection->SetConnectStatus(ENS_INIT);
 
                     pConnection->Close();
                 }
@@ -337,13 +337,12 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                 }
 
                 CommonSocket::SetSocketBlock(m_hCurAcceptSocket, FALSE);
-                //CommonSocket::SetSocketNoDelay(m_hCurAcceptSocket);
                 CConnection* pConnection = AssociateCompletePort(m_hCurAcceptSocket, FALSE);
                 if (pConnection != NULL)
                 {
                     pConnection->m_dwIpAddr = addrClient->sin_addr.s_addr;
 
-                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    pConnection->SetConnectStatus(ENS_CONNECTED);
 
                     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -475,7 +474,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                     {
                         pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
 
-                        pConnection->SetConnectStatus(NET_ST_CONN);
+                        pConnection->SetConnectStatus(ENS_CONNECTED);
 
                         m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
                     }
@@ -498,9 +497,9 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
             INT32 nNeedEvent = EPOLLIN;
             if (vtEvents[i].events & EPOLLIN)
             {
-                if (pConnection->GetConnectStatus() == NET_ST_INIT)
+                if (pConnection->GetConnectStatus() == ENS_INIT)
                 {
-                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    pConnection->SetConnectStatus(ENS_CONNECTED);
                     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
                 }
 
@@ -515,9 +514,9 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
 
             if (vtEvents[i].events & EPOLLOUT)
             {
-                if (pConnection->GetConnectStatus() == NET_ST_INIT)
+                if (pConnection->GetConnectStatus() == ENS_INIT)
                 {
-                    pConnection->SetConnectStatus(NET_ST_CONN);
+                    pConnection->SetConnectStatus(ENS_CONNECTED);
                     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
                 }
 
@@ -671,7 +670,7 @@ CConnection* CNetManager::ConnectTo_Sync( std::string strIpAddr, UINT16 sPort )
 
     CommonSocket::SetSocketBlock(hSocket, FALSE);
 
-    pConnection->SetConnectStatus(NET_ST_CONN);
+    pConnection->SetConnectStatus(ENS_CONNECTED);
 
     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
@@ -778,7 +777,7 @@ BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64Target
         return FALSE;
     }
 
-    if(pConn->GetConnectStatus() != NET_ST_CONN)
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, nConnID:%d", nMsgID, nConnID);
         return FALSE;
@@ -819,7 +818,7 @@ BOOL CNetManager::SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer)
         return FALSE;
     }
 
-    if(pConn->GetConnectStatus() != NET_ST_CONN)
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", nConnID);
         return FALSE;

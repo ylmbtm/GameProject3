@@ -275,7 +275,7 @@ SOCKET  CommonSocket::CreateSocket( int af, int type, int protocol)
 #ifdef WIN32
     return WSASocket(af, type, protocol, NULL, 0, WSA_FLAG_OVERLAPPED);
 #else
-    return socket(af, type, protocol);
+    return socket(af, type | SOCK_CLOEXEC, protocol);
 #endif
 }
 

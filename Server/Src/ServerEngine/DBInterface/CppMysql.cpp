@@ -111,7 +111,7 @@ int CppMySQLQuery::fieldIndex(const char* szField)
             return -1;
         }
 #ifdef WIN32
-        if (stricmp(_field->name, szField) == 0 )//找到
+        if (_stricmp(_field->name, szField) == 0 )//找到
 #else
         if (strcasecmp(_field->name, szField) == 0)//找到
 #endif
@@ -395,7 +395,7 @@ CppMySQL3DB::~CppMySQL3DB()
 }
 
 bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, const char* db,
-                       unsigned int port, const char* charSetName, unsigned long client_flag /*= 0*/)
+                       unsigned int port, const char* charSetName)
 {
     m_pMySqlDB = mysql_init(NULL);
     if( NULL == m_pMySqlDB )
@@ -412,7 +412,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
     //}
 
     //如果连接失败，返回NULL。对于成功的连接，返回值与第1个参数的值相同。
-    if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, client_flag) )
+    if ( NULL == mysql_real_connect( m_pMySqlDB, host, user, passwd, db, port, NULL, 0) )
     {
         m_nErrNo = mysql_errno(m_pMySqlDB);
         m_strError = mysql_error(m_pMySqlDB);
@@ -451,7 +451,7 @@ bool CppMySQL3DB::open(const char* host, const char* user, const char* passwd, c
     return true;
 }
 
-bool CppMySQL3DB::setOpenParam(const char* host, const char* user, const char* passwd, const char* db, unsigned int port, const char* charSetName /*= "utf8"*/, unsigned long client_flag /*= 0*/)
+bool CppMySQL3DB::setOpenParam(const char* host, const char* user, const char* passwd, const char* db, unsigned int port, const char* charSetName)
 {
     m_strHost = host;
     m_strUser = user;

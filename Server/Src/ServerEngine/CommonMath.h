@@ -7,17 +7,17 @@
 #define RAD_TO_DEG  57.2957805f
 
 
-// float Q_rsqrt( float number )
+// FLOAT Q_rsqrt( FLOAT number )
 // {
 //  long i;
-//  float x2, y;
-//  const float threehalfs = 1.5F;
+//  FLOAT x2, y;
+//  const FLOAT threehalfs = 1.5F;
 //
 //  x2 = number * 0.5F;
 //  y  = number;
-//  i  = * ( long* ) &y;                        // evil floating point bit level hacking
+//  i  = * ( long* ) &y;                        // evil FLOATing point bit level hacking
 //  i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
-//  y  = * ( float* ) &i;
+//  y  = * ( FLOAT* ) &i;
 //  y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
 // //   y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 //  return y;
@@ -26,15 +26,15 @@
 class Vector2D
 {
 public:
-    Vector2D(float _x = 0.0f, float _y = 0.0f );
+    Vector2D(FLOAT _x = 0.0f, FLOAT _y = 0.0f );
 
-    Vector2D&  operator *=(float v);
+    Vector2D&  operator *=(FLOAT v);
 
-    Vector2D& operator /=(float v);
+    Vector2D& operator /=(FLOAT v);
 
-    Vector2D& operator -=(float v);
+    Vector2D& operator -=(FLOAT v);
 
-    Vector2D& operator +=(float v);
+    Vector2D& operator +=(FLOAT v);
 
     Vector2D& operator +=(const  Vector2D& v);
 
@@ -44,25 +44,25 @@ public:
 
     Vector2D operator - (const Vector2D& v) const;
 
-    float Length() const;
+    FLOAT Length() const;
 
-    float SquaredLength() const;
+    FLOAT SquaredLength() const;
 
-    float Distance(Vector2D pos);
+    FLOAT Distance(Vector2D pos);
 
-    float Normalized();
+    FLOAT Normalized();
 
     //求到线段的距离
     FLOAT DistanceToSegment(Vector2D pt1, Vector2D pt2);
 
     //求弧度范围: 0-π
-    float AngleBetween(const Vector2D dest);
+    FLOAT AngleBetween(const Vector2D dest);
 
     //向量转弧度范围: 0-2π
-    float ToRadiansAngle();
+    FLOAT ToRadiansAngle();
 
     //向量转角度范围: 0-360
-    float ToDegreesAngle();
+    FLOAT ToDegreesAngle();
 
     Vector2D Rotate(Vector2D A, FLOAT radianAngle);
 
@@ -79,15 +79,42 @@ typedef Vector2D CPoint2D;
 class Rect2D
 {
 public:
-
-
-    Rect2D(float _left, float _top, float _right, float _bottom);
+    Rect2D(FLOAT fLeft, FLOAT fTop, FLOAT fRight, FLOAT fBottom);
 
     Rect2D();
 
-    bool PtInRect(CPoint2D pt);
+    VOID Init(FLOAT fLeft, FLOAT fTop, FLOAT fRight, FLOAT fBottom);
 
-    FLOAT m_Left, m_Top, m_Bottom, m_Right;
+    BOOL Contains(CPoint2D pt);
+
+    BOOL Contains(Rect2D rcArea);
+
+    BOOL Intersects(Rect2D rcArea);
+
+    VOID Reset();
+
+
+    FLOAT m_fLeft = 0, m_fTop = 0, m_fBottom = 0, m_fRight = 0;
+};
+
+class Circle2D
+{
+public:
+    Circle2D(FLOAT fX, FLOAT fY, FLOAT fRadius);
+
+    Circle2D(CPoint2D pt, FLOAT fRadius);
+
+    VOID Init(FLOAT fX, FLOAT fY, FLOAT fRadius);
+
+    BOOL Contains(CPoint2D pt);
+
+    BOOL Intersects(Rect2D rcArea);
+
+    VOID Reset();
+
+
+    CPoint2D m_CenterPos;
+    FLOAT    m_fRadius;
 };
 
 
@@ -96,7 +123,7 @@ class  Vector3D
 public:
     Vector3D();
 
-    Vector3D(float x1, float y1, float z1);
+    Vector3D(FLOAT x1, FLOAT y1, FLOAT z1);
 
     Vector3D(const Vector3D& v);
 
@@ -114,11 +141,11 @@ public:
 
     Vector3D operator*(const Vector3D& v);
 
-    Vector3D operator+(float f);
+    Vector3D operator+(FLOAT f);
 
-    Vector3D operator-(float f);
+    Vector3D operator-(FLOAT f);
 
-    Vector3D operator*(float f);
+    Vector3D operator*(FLOAT f);
 
     Vector3D& operator += (const Vector3D& v);
 
@@ -128,35 +155,35 @@ public:
 
     Vector3D& operator /= (const Vector3D& rhs);
 
-    Vector3D& operator += (float f);
+    Vector3D& operator += (FLOAT f);
 
-    Vector3D& operator -= (float f);
+    Vector3D& operator -= (FLOAT f);
 
-    Vector3D& operator *= (float f);
+    Vector3D& operator *= (FLOAT f);
 
     bool operator == (const Vector3D& rkVector) const;
 
     bool operator != (const Vector3D& rkVector) const;
 
     //点集
-    float DotProduct(const Vector3D& v);
+    FLOAT DotProduct(const Vector3D& v);
 
-    float Length();
+    FLOAT Length();
 
     void Reset();
 
-    float SquaredLength() const;
+    FLOAT SquaredLength() const;
 
-    float Normalize();
+    FLOAT Normalize();
 
     Vector3D CrossProduct(const Vector3D& v);
 
-    float AngleBetween(Vector3D dest);
+    FLOAT AngleBetween(Vector3D dest);
 
-    float Distance2D(Vector3D pos);
+    FLOAT Distance2D(Vector3D pos);
 
     //求弧度范围: 0-π
-    float AngleBetween2D(Vector3D& dest);
+    FLOAT AngleBetween2D(Vector3D& dest);
 
     Vector2D Rotate(Vector2D A, FLOAT radianAngle);
 

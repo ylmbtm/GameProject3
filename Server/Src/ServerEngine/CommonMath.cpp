@@ -165,29 +165,52 @@ Vector2D& Vector2D::operator*=(float v)
     return *this;
 }
 
-Rect2D::Rect2D(float _left, float _top, float _right, float _bottom)
+Rect2D::Rect2D(float fLeft, float fTop, float fRight, float fBottom)
 {
-    m_Left = _left;
-    m_Top = _top;
-    m_Bottom = _bottom;
-    m_Right = _right;
+    m_fLeft = fLeft;
+    m_fTop = fTop;
+    m_fBottom = fBottom;
+    m_fRight = fRight;
 }
 
 Rect2D::Rect2D()
 {
-    m_Left = 0;
-    m_Top = 0;
-    m_Bottom = 0;
-    m_Right = 0;
+    m_fLeft = 0;
+    m_fTop = 0;
+    m_fBottom = 0;
+    m_fRight = 0;
 }
 
-bool Rect2D::PtInRect(CPoint2D pt)
+VOID Rect2D::Init(FLOAT fLeft, FLOAT fTop, FLOAT fRight, FLOAT fBottom)
 {
-    if (pt.m_x >= m_Left && pt.m_y >= m_Top && pt.m_x <= m_Right && pt.m_y <= m_Bottom)
-    {
-        return true;
-    }
-    return false;
+    m_fLeft = fLeft;
+    m_fTop = fTop;
+    m_fBottom = fBottom;
+    m_fRight = fRight;
+    return ;
+}
+
+BOOL Rect2D::Contains(CPoint2D pt)
+{
+    return  (pt.m_x >= m_fLeft && pt.m_y >= m_fTop && pt.m_x <= m_fRight && pt.m_y <= m_fBottom);
+}
+
+BOOL Rect2D::Contains(Rect2D rcArea)
+{
+    return (m_fLeft <= rcArea.m_fLeft && m_fBottom <= rcArea.m_fBottom && rcArea.m_fRight <= m_fRight && rcArea.m_fTop <= m_fTop);
+}
+
+BOOL Rect2D::Intersects(Rect2D rcArea)
+{
+    return !(m_fRight < rcArea.m_fLeft || rcArea.m_fRight < m_fLeft || m_fTop < rcArea.m_fBottom || rcArea.m_fTop < m_fBottom);
+}
+
+VOID Rect2D::Reset()
+{
+    m_fLeft = 0;
+    m_fTop = 0;
+    m_fBottom = 0;
+    m_fRight = 0;
 }
 
 Vector3D::Vector3D() : m_x(0), m_y(0), m_z(0)
@@ -495,4 +518,41 @@ FLOAT CommonMath::Clamp(const FLOAT fValue, const FLOAT fMin, const FLOAT fMax)
 BOOL CommonMath::IsInCircle(Vector3D tTarPos, FLOAT fTarRadius, Vector3D tCirclePos, FLOAT fCircleRadius)
 {
     return tTarPos.Distance2D(tCirclePos) < fCircleRadius + fTarRadius;
+}
+
+Circle2D::Circle2D(FLOAT fX, FLOAT fY, FLOAT fRadius)
+{
+    m_CenterPos.m_x = fX;
+    m_CenterPos.m_y = fY;
+    m_fRadius = fRadius;
+}
+
+Circle2D::Circle2D(CPoint2D pt, FLOAT fRadius)
+{
+    m_CenterPos = pt;
+    m_fRadius = fRadius;
+}
+
+VOID Circle2D::Init(FLOAT fX, FLOAT fY, FLOAT fRadius)
+{
+    m_CenterPos.m_x = fX;
+    m_CenterPos.m_y = fY;
+    m_fRadius = fRadius;
+}
+
+BOOL Circle2D::Contains(CPoint2D pt)
+{
+    return pt.Distance(pt) < m_fRadius;
+}
+
+BOOL Circle2D::Intersects(Rect2D rcArea)
+{
+    return TRUE;
+}
+
+VOID Circle2D::Reset()
+{
+    m_CenterPos.m_x = 0;
+    m_CenterPos.m_y = 0;
+    m_fRadius = 0;
 }

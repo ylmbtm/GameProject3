@@ -6,8 +6,8 @@
 
 SceneLogicBase::SceneLogicBase(CScene* pScene)
 {
-	m_pScene = pScene;
-	m_vtBornPos.reserve(10);
+    m_pScene = pScene;
+    m_vtBornPos.reserve(10);
 }
 
 SceneLogicBase::~SceneLogicBase()
@@ -137,8 +137,8 @@ BOOL SceneLogicBase::ReadConditionFromXml(rapidxml::xml_node<char>* pNode)
 		case EWC_DESTINATION:
 		{
 			Rect2D tRc;
-			CommonConvert::StringToBox(pCondtionNode->first_attribute("DestBox")->value(), tRc.m_Left, tRc.m_Top, tRc.m_Right, tRc.m_Bottom);
-			m_BattleCondition.SetDestination(tRc.m_Left, tRc.m_Top, tRc.m_Right, tRc.m_Bottom);
+			CommonConvert::StringToBox(pCondtionNode->first_attribute("DestBox")->value(), tRc.m_fLeft, tRc.m_fTop, tRc.m_fRight, tRc.m_fBottom);
+			m_BattleCondition.SetDestination(tRc.m_fLeft, tRc.m_fTop, tRc.m_fRight, tRc.m_fBottom);
 		}
 		break;
 		case EWC_NPC_ALIVE:

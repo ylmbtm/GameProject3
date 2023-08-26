@@ -27,7 +27,7 @@ BOOL MonsterCreator::ReadFromXml(rapidxml::xml_node<char>* pNode)
 
 		pValue = pWaveNode->first_attribute("TriggerBox")->value();
 		ERROR_CONTINUE_EX(pValue != NULL);
-		CommonConvert::StringToBox(pValue, Wave.m_TriggerBox.m_Left, Wave.m_TriggerBox.m_Top, Wave.m_TriggerBox.m_Right, Wave.m_TriggerBox.m_Bottom);
+		CommonConvert::StringToBox(pValue, Wave.m_TriggerBox.m_fLeft, Wave.m_TriggerBox.m_fTop, Wave.m_TriggerBox.m_fRight, Wave.m_TriggerBox.m_fBottom);
 		for(auto pObjectNode = pWaveNode->first_node("DTMonster"); pObjectNode != NULL; pObjectNode = pObjectNode->next_sibling("DTMonster"))
 		{
 			MonsterData Monster;
@@ -127,7 +127,7 @@ BOOL MonsterCreator::OnPlayerMove(FLOAT x, FLOAT z)
 			continue;
 		}
 
-		if (Wave.m_TriggerBox.PtInRect(CPoint2D(x, z)))
+		if (Wave.m_TriggerBox.Contains(CPoint2D(x, z)))
 		{
 			GenMonsterWave(i);
 		}
