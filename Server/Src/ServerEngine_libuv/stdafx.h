@@ -19,6 +19,7 @@
 #include "Platform.h"
 #include "Log.h"
 #include "CommonFunc.h"
+#include "CommonTime.h"
 #include "CommonConvert.h"
 #include "uv.h"
 #include "SpinLock.h"

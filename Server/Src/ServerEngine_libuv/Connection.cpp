@@ -314,7 +314,7 @@ BOOL CConnection::Reset()
 
     m_nDataLen = 0;
 
-    m_dwIpAddr  = 0;
+    m_nIpAddr  = 0;
 
     m_pBufPos   = m_pRecvBuf;
 
@@ -343,58 +343,58 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
     return m_SendBuffList.enqueue(pBuff);
 }
 
-BOOL CConnection::CheckHeader(CHAR* m_pPacket)
+BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 {
-    /*
-    1.首先验证包的验证吗
-    2.包的长度
-    3.包的序号
-    */
-    PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket;
     if (pHeader->CheckCode != CODE_VALUE)
     {
+        CLog::GetInstancePtr()->LogInfo("验证-失败 pHeader->CheckCode error");
         return FALSE;
     }
 
-    if (pHeader->nSize > 1024 * 1024)
+    if ((pHeader->nSize > 1024 * 1024) || (pHeader->nSize <= 0))
     {
+        CLog::GetInstancePtr()->LogInfo("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
-    if (pHeader->nSize <= 0)
+    if (pHeader->nMsgID > 399999 || pHeader->nMsgID <= 0)
     {
-        CLog::GetInstancePtr()->LogError("验证-失败 pHeader->nSize <= 0, pHeader->nMsgID:%d", pHeader->nSize, pHeader->nMsgID);
+        CLog::GetInstancePtr()->LogInfo("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
     }
 
-    if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
+
+    if (nPktChkNo <= 0)
     {
+        CLog::GetInstancePtr()->LogInfo("nPktChkNo <= 0");
         return FALSE;
     }
 
     if(m_nCheckNo == 0)
     {
-        m_nCheckNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize) + 1;
         return TRUE;
     }
 
-    if(pHeader->nPacketNo == (pHeader->nMsgID ^ pHeader->nSize) + m_nCheckNo)
+    if(m_nCheckNo == nPktChkNo)
     {
-        m_nCheckNo += 1;
         return TRUE;
     }
+
+    CLog::GetInstancePtr()->LogInfo("验证-失败 m_nCheckNo:%d, nPktChkNo:%ld", m_nCheckNo, nPktChkNo);
 
     return FALSE;
 }
 
-UINT32 CConnection::GetIpAddr(BOOL bHost)
+INT32 CConnection::GetIpAddr(BOOL bHost)
 {
     if (bHost)
     {
-        return m_dwIpAddr;
+        return m_nIpAddr;
     }
 
-    return CommonSocket::HostToNet(m_dwIpAddr);
+    return CommonSocket::HostToNet(m_nIpAddr);
 }
 
 BOOL CConnection::DoSend()

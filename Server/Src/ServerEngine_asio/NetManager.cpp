@@ -19,7 +19,7 @@ CNetManager::~CNetManager(void)
     m_pBufferHandler = NULL;
 }
 
-BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp)
+BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string strListenIp)
 {
     ERROR_RETURN_FALSE(pBufferHandler != NULL);
 

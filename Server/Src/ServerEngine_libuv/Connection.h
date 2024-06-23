@@ -52,7 +52,7 @@ public:
 
     BOOL    CheckHeader(CHAR* m_pPacket);
 
-    UINT32  GetIpAddr(BOOL bHost = TRUE);
+    INT32   GetIpAddr(BOOL bHost = TRUE);
 
     VOID    EnableCheck(BOOL bCheck);
 public:
@@ -69,7 +69,7 @@ public:
 
     IDataHandler*               m_pDataHandler;
 
-    UINT32                      m_dwIpAddr;
+    INT32                       m_nIpAddr;
 
     INT32                       m_nDataLen;
     CHAR                        m_pRecvBuf[RECV_BUF_SIZE];

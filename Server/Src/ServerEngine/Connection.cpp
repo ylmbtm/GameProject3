@@ -367,7 +367,7 @@ BOOL CConnection::Reset()
 
     m_nDataLen = 0;
 
-    m_dwIpAddr  = 0;
+    m_nIpAddr  = 0;
 
     m_pBufPos   = m_pRecvBuf;
 
@@ -474,10 +474,10 @@ UINT32 CConnection::GetIpAddr(BOOL bHost)
 {
     if (bHost)
     {
-        return m_dwIpAddr;
+        return m_nIpAddr;
     }
 
-    return CommonSocket::HostToNet(m_dwIpAddr);
+    return CommonSocket::HostToNet(m_nIpAddr);
 }
 
 VOID CConnection::EnableCheck(BOOL bCheck)

@@ -33,7 +33,7 @@ public:
 
     BOOL            SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
 
-    BOOL            SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, UINT32 dwLen);
+    BOOL            SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, INT32 nLen);
 
     BOOL            SendMsgBuffer(INT32 nConnID, IDataBuffer* pDataBuffer);
 

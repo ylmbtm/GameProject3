@@ -183,7 +183,7 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 nStatus)
 
         uv_tcp_getpeername(pConnection->GetSocket(), (sockaddr*)&ClientAddr, &namelen);
 
-        pConnection->m_dwIpAddr = ClientAddr.sin_addr.s_addr;
+        pConnection->m_nIpAddr = ClientAddr.sin_addr.s_addr;
 
         pConnection->SetDataHandler(m_pBufferHandler);
 
@@ -235,7 +235,7 @@ BOOL    CNetManager::SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer)
 }
 
 
-BOOL CNetManager::SendMessageData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, UINT32 dwLen)
+BOOL CNetManager::SendMessageData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pData, INT32 nLen)
 {
     if (nConnID <= 0)
     {

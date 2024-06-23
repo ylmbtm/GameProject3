@@ -8,7 +8,7 @@
 
 struct PacketHeader
 {
-    UINT32   CheckCode;
+    INT32   CheckCode;
     INT32    nMsgID;
     INT32    nSize;
     INT32    nPacketNo;    //生成序号 = nMsgID^nSize+index(每个包自动增长索引); 还原序号 = pHeader->dwPacketNo - pHeader->nMsgID^pHeader->nSize;

@@ -88,11 +88,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ServerEngine\AstarFinder.cpp" />
     <ClCompile Include="..\ServerEngine\CommonConvert.cpp" />
     <ClCompile Include="..\ServerEngine\CommonFunc.cpp" />
     <ClCompile Include="..\ServerEngine\CommonMath.cpp" />
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp" />
+    <ClCompile Include="..\ServerEngine\CommonTime.cpp" />
     <ClCompile Include="..\ServerEngine\ConfigFile.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="..\ServerEngine\CrashReport.cpp" />
@@ -120,6 +120,7 @@
     <ClInclude Include="..\ServerEngine\CommonFunc.h" />
     <ClInclude Include="..\ServerEngine\CommonMath.h" />
     <ClInclude Include="..\ServerEngine\CommonSocket.h" />
+    <ClInclude Include="..\ServerEngine\CommonTime.h" />
     <ClInclude Include="..\ServerEngine\ConfigFile.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="..\ServerEngine\CrashReport.h" />

@@ -30,6 +30,8 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
     m_IsSending         = FALSE;
 
     m_pSendingBuffer    = NULL;
+    
+    m_uLastRecvTick      = 0;
 }
 
 CConnection::~CConnection(void)
@@ -92,11 +94,11 @@ BOOL CConnection::ExtractBuffer()
         return TRUE;
     }
 
-    while(TRUE)
+    while (TRUE)
     {
-        if(m_pCurRecvBuffer != NULL)
+        if (m_pCurRecvBuffer != NULL)
         {
-            if ((m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen ) < m_nCurBufferSize)
+            if ((m_pCurRecvBuffer->GetTotalLenth() + m_nDataLen) < m_nCurBufferSize)
             {
                 memcpy(m_pCurRecvBuffer->GetBuffer() + m_pCurRecvBuffer->GetTotalLenth(), m_pBufPos, m_nDataLen);
                 m_pBufPos = m_pRecvBuf;
@@ -110,13 +112,14 @@ BOOL CConnection::ExtractBuffer()
                 m_nDataLen -= m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
                 m_pBufPos += m_nCurBufferSize - m_pCurRecvBuffer->GetTotalLenth();
                 m_pCurRecvBuffer->SetTotalLenth(m_nCurBufferSize);
-                m_LastRecvTick = CommonFunc::GetTickCount();
+                m_uLastRecvTick = CommonFunc::GetTickCount();
+                UpdateCheckNo(m_pCurRecvBuffer->GetBuffer());
                 m_pDataHandler->OnDataHandle(m_pCurRecvBuffer, GetConnectionID());
                 m_pCurRecvBuffer = NULL;
             }
         }
 
-        if(m_nDataLen < sizeof(PacketHeader))
+        if (m_nDataLen < sizeof(PacketHeader))
         {
             break;
         }
@@ -132,14 +135,14 @@ BOOL CConnection::ExtractBuffer()
         INT32 nPacketSize = pHeader->nSize;
 
         //////////////////////////////////////////////////////////////////////////
-        if((nPacketSize > m_nDataLen)  && (nPacketSize < RECV_BUF_SIZE))
+        if ((nPacketSize > m_nDataLen) && (nPacketSize < RECV_BUF_SIZE))
         {
             break;
         }
 
         if (nPacketSize <= m_nDataLen)
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
+            IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
 
             memcpy(pDataBuffer->GetBuffer(), m_pBufPos, nPacketSize);
 
@@ -149,12 +152,13 @@ BOOL CConnection::ExtractBuffer()
 
             pDataBuffer->SetTotalLenth(nPacketSize);
 
-            m_LastRecvTick = CommonFunc::GetTickCount();
+            m_uLastRecvTick = CommonFunc::GetTickCount();
+            UpdateCheckNo(pDataBuffer->GetBuffer());
             m_pDataHandler->OnDataHandle(pDataBuffer, GetConnectionID());
         }
         else
         {
-            IDataBuffer* pDataBuffer =  CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
+            IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nPacketSize);
             memcpy(pDataBuffer->GetBuffer(), m_pBufPos, m_nDataLen);
 
             pDataBuffer->SetTotalLenth(m_nDataLen);
@@ -165,7 +169,7 @@ BOOL CConnection::ExtractBuffer()
         }
     }
 
-    if(m_nDataLen > 0)
+    if (m_nDataLen > 0)
     {
         memmove(m_pRecvBuf, m_pBufPos, m_nDataLen);
     }
@@ -205,7 +209,7 @@ BOOL CConnection::HandleRecvEvent(INT32 nBytes)
         return FALSE;
     }
 
-    m_LastRecvTick = CommonFunc::GetTickCount();
+    m_uLastRecvTick = CommonFunc::GetTickCount();
     return TRUE;
 }
 
@@ -233,7 +237,7 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 {
     m_bConnected = bOk;
 
-    m_LastRecvTick = CommonFunc::GetTickCount();
+    m_uLastRecvTick = CommonFunc::GetTickCount();
 
     return TRUE;
 }
@@ -273,52 +277,48 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
     return m_SendBuffList.enqueue(pBuff);
 }
 
-BOOL CConnection::CheckHeader(CHAR* m_pPacket)
+BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 {
-    /*
-    1.首先验证包的验证吗
-    2.包的长度
-    3.包的序号
-    */
     PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
     if (pHeader->CheckCode != CODE_VALUE)
     {
         return FALSE;
     }
 
-    if (pHeader->nSize > 1024 * 1024)
-    {
-        return FALSE;
-    }
-
-    if (pHeader->nSize <= 0)
+    if ((pHeader->nSize > 1024 * 1024) || (pHeader->nSize <= 0))
     {
         CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
-    if (pHeader->nMsgID > 399999 || pHeader->nMsgID == 0)
+    if (pHeader->nMsgID > 399999 || pHeader->nMsgID <= 0)
     {
         CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
     }
 
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
+
+    if (nPktChkNo <= 0)
+    {
+        CLog::GetInstancePtr()->LogWarn("nPktChkNo <= 0");
+        return FALSE;
+    }
+
     if(m_nCheckNo == 0)
     {
-        m_nCheckNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize) + 1;
         return TRUE;
     }
 
-    if(pHeader->nPacketNo == (pHeader->nMsgID ^ pHeader->nSize) + m_nCheckNo)
+    if(m_nCheckNo == nPktChkNo)
     {
-        m_nCheckNo += 1;
         return TRUE;
     }
 
     return FALSE;
 }
 
-UINT32 CConnection::GetIpAddr(BOOL bHost)
+INT32 CConnection::GetIpAddr(BOOL bHost)
 {
     if (bHost)
     {
@@ -597,17 +597,17 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
             continue;
         }
 
+        if (pConnection->m_uLastRecvTick <= 0)
+        {
+            continue;
+        }
+
         if (pConnection->GetConnectionData() == 1)
         {
             continue;
         }
 
-        if (pConnection->m_LastRecvTick <= 0)
-        {
-            continue;
-        }
-
-        if(uCurTick > (pConnection->m_LastRecvTick + nInterval * 1000))
+        if(uCurTick > (pConnection->m_uLastRecvTick + nInterval * 1000))
         {
             CLog::GetInstancePtr()->LogError("CConnectionMgr::CheckConntionAvalible 超时主动断开连接 ConnID:%d", pConnection->GetConnectionID());
             pConnection->Close();

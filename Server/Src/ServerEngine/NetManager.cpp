@@ -61,7 +61,7 @@ BOOL CNetManager::WorkThread_Listen()
         CConnection* pConnection = AssociateCompletePort(hClientSocket, FALSE);
         if(pConnection != NULL)
         {
-            pConnection->m_dwIpAddr = Con_Addr.sin_addr.s_addr;
+            pConnection->m_nIpAddr = Con_Addr.sin_addr.s_addr;
 
             pConnection->SetConnectStatus(ENS_CONNECTED);
 
@@ -340,7 +340,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                 CConnection* pConnection = AssociateCompletePort(m_hCurAcceptSocket, FALSE);
                 if (pConnection != NULL)
                 {
-                    pConnection->m_dwIpAddr = addrClient->sin_addr.s_addr;
+                    pConnection->m_nIpAddr = addrClient->sin_addr.s_addr;
 
                     pConnection->SetConnectStatus(ENS_CONNECTED);
 
@@ -569,7 +569,7 @@ BOOL CNetManager::EventDelete(CConnection* pConnection)
 #endif
 
 
-BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string strIpAddr)
+BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string strListenIp)
 {
     ERROR_RETURN_FALSE(pBufferHandler != NULL);
 
@@ -595,7 +595,7 @@ BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHa
         return FALSE;
     }
 
-    if(!StartNetListen(nPortNum, strIpAddr))
+    if(!StartNetListen(nPortNum, strListenIp))
     {
         CLog::GetInstancePtr()->LogError("开启监听失败！！");
         return FALSE;
@@ -711,7 +711,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
     pConnection->m_IoOverlapRecv.nConnID = pConnection->GetConnectionID();
 
-    pConnection->m_dwIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
+    pConnection->m_nIpAddr = CommonSocket::IpAddrStrToInt((CHAR*)strIpAddr.c_str());
 
     BOOL bRet = CommonSocket::ConnectSocketEx(hSocket, strIpAddr.c_str(), sPort, (LPOVERLAPPED)&pConnection->m_IoOverlapRecv);
 
@@ -763,7 +763,7 @@ BOOL CNetManager::WaitConnect()
 #endif
 }
 
-BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, UINT32 dwLen)
+BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, INT32 nLen)
 {
     if (nConnID <= 0)
     {
@@ -783,18 +783,18 @@ BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64Target
         return FALSE;
     }
 
-    IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(dwLen + sizeof(PacketHeader));
+    IDataBuffer* pDataBuffer = CBufferAllocator::GetInstancePtr()->AllocDataBuff(nLen + sizeof(PacketHeader));
     ERROR_RETURN_FALSE(pDataBuffer != NULL);
 
     PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
     pHeader->CheckCode = CODE_VALUE;
     pHeader->dwUserData = dwUserData;
     pHeader->u64TargetID = u64TargetID;
-    pHeader->nSize = dwLen + sizeof(PacketHeader);
+    pHeader->nSize = nLen + sizeof(PacketHeader);
     pHeader->nMsgID = nMsgID;
     pHeader->nPacketNo = 1;
 
-    memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, dwLen);
+    memcpy(pDataBuffer->GetBuffer() + sizeof(PacketHeader), pData, nLen);
 
     pDataBuffer->SetTotalLenth(pHeader->nSize);
 

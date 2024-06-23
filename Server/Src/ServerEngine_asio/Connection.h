@@ -20,7 +20,7 @@ public:
 public:
     BOOL    HandleRecvEvent(INT32 nBytes);
 
-    UINT32  GetConnectionID();
+    INT32   GetConnectionID();
 
     UINT64  GetConnectionData();
 
@@ -54,9 +54,11 @@ public:
 
     void    HandWritedata(const boost::system::error_code& error, size_t len);
 
-    BOOL    CheckHeader(CHAR* m_pPacket);
+    BOOL    CheckHeader(CHAR* pNetPacket);
 
-    UINT32  GetIpAddr(BOOL bHost = TRUE);
+    BOOL    UpdateCheckNo(CHAR* pNetPacket);
+
+    INT32   GetIpAddr(BOOL bHost = TRUE);
 
     VOID    EnableCheck(BOOL bCheck);
 public:
@@ -83,7 +85,7 @@ public:
 
     CConnection*                m_pNext;
 
-    UINT64                      m_LastRecvTick;
+    UINT64                      m_uLastRecvTick;
 
     moodycamel::ReaderWriterQueue< IDataBuffer*> m_SendBuffList;
 

@@ -275,19 +275,20 @@ INT32 CommonFunc::DiffWeeks(UINT64 uTimeSrc, UINT64 uTimeDest)
 
 INT32 CommonFunc::DiffDays(UINT64 uTimeSrc, UINT64 uTimeDest)
 {
-#ifdef WIN32
     if (uTimeSrc > uTimeDest)
     {
-        return (INT32)((uTimeSrc - _timezone) / 86400 - (uTimeDest - _timezone) / 86400);
+        std::swap(uTimeSrc, uTimeDest);
     }
 
+    tm tm1 = *localtime(&(time_t)uTimeSrc);
+    tm tm2 = *localtime(&(time_t)uTimeDest);
+
+    uTimeSrc = tm1.tm_isdst > 0 ? uTimeSrc = uTimeSrc - 3600 : uTimeSrc;
+    uTimeDest = tm2.tm_isdst > 0 ? uTimeDest = uTimeDest + 3600 : uTimeDest;
+
+#ifdef WIN32
     return (INT32)((uTimeDest - _timezone) / 86400 - (uTimeSrc - _timezone) / 86400);
 #else
-    if (uTimeSrc > uTimeDest)
-    {
-        return (INT32)((uTimeSrc - timezone) / 86400 - (uTimeDest - timezone) / 86400);
-    }
-
     return (INT32)((uTimeDest - timezone) / 86400 - (uTimeSrc - timezone) / 86400);
 #endif
 }
