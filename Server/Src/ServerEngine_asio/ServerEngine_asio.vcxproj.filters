@@ -78,6 +78,12 @@
     <ClCompile Include="..\ServerEngine\CommonTime.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\ServerEngine\Md5.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ServerEngine\HttpParameter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Connection.h">
@@ -160,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="..\ServerEngine\CommonTime.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\Md5.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ServerEngine\HttpParameter.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

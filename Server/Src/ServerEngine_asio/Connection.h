@@ -10,6 +10,14 @@
 
 #define RECV_BUF_SIZE               8192
 
+enum ENetStatus
+{
+    ENS_INIT       = 1,
+    ENS_CONNECTING = 2,
+    ENS_CONNECTED  = 3,
+    ENS_CLOSEING   = 4,
+    ENS_CLOSED     = 5
+};
 
 class CConnection
 {
@@ -40,9 +48,9 @@ public:
 
     BOOL    DoReceive();
 
-    BOOL    IsConnectionOK();
+    ENetStatus GetConnectStatus();
 
-    BOOL    SetConnectionOK(BOOL bOk);
+    BOOL    SetConnectStatus(ENetStatus eConnStatus);
 
     BOOL    Reset();
 
@@ -64,7 +72,7 @@ public:
 public:
     boost::asio::ip::tcp::socket m_hSocket;
 
-    BOOL                        m_bConnected;
+    ENetStatus                  m_eConnStatus;
 
 
     BOOL                        m_bPacketNoCheck;

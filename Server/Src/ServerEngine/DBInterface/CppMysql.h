@@ -27,6 +27,7 @@ public:
 
     //0...n-1列
     const char* fieldName(int nCol);
+    int fieldType(int nCol);
 
     int seekRow(int offerset);
     int getIntField(int nField, int nNullValue = 0);

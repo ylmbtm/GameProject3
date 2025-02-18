@@ -28,6 +28,10 @@ public:
 
     BOOL            CloseConnect(INT32 nConnID);
 
+    BOOL            EnableCheck(BOOL bCheck);
+
+    BOOL            SetHeartInterval(INT32 nInterval);
+
     template<typename T>
     BOOL            SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
 
@@ -41,12 +45,16 @@ public:
 
     BOOL            Update();
 
+    BOOL            FixFrameNum(INT32 nFrames);
+
 protected:
     IPacketDispatcher*                  m_pPacketDispatcher;
 
     std::deque<NetPacket>*              m_pRecvDataQueue;
     std::deque<NetPacket>*              m_pDispathQueue;
     CSpinLock                           m_QueueLock;
+    INT32                               m_nHeartInterval;
+    INT32                               m_nHeartTime;
 
     //以下用于统计
     UINT64                              m_uLastTick;

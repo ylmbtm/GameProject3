@@ -34,6 +34,9 @@ public:
 
     BOOL    WaitForConnect();
 
+
+    BOOL    EnableCheck(BOOL bCheck);
+
 public:
 
     CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
@@ -49,6 +52,9 @@ public:
     boost::asio::ip::tcp::acceptor* m_pAcceptor;
     boost::asio::io_service         m_IoService;
     boost::thread*                  m_pWorkThread;
+
+    //包序号检测
+    BOOL                m_bPacketNoCheck;
     IDataHandler*                   m_pBufferHandler;
 };
 

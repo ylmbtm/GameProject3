@@ -12,11 +12,13 @@
 CNetManager::CNetManager(void)
 {
     m_pBufferHandler    = NULL;
+    m_bPacketNoCheck    = FALSE;
 }
 
 CNetManager::~CNetManager(void)
 {
     m_pBufferHandler = NULL;
+    m_bPacketNoCheck = FALSE;
 }
 
 BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string strListenIp)
@@ -117,6 +119,8 @@ void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::e
 {
     if (!e)
     {
+        pConnection->SetConnectStatus(ENS_CONNECTED);
+
         m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
         pConnection->DoReceive();
@@ -129,10 +133,19 @@ void CNetManager::HandleConnect(CConnection* pConnection, const boost::system::e
     return ;
 }
 
+BOOL CNetManager::EnableCheck(BOOL bCheck)
+{
+    m_bPacketNoCheck = bCheck;
+
+    return TRUE;
+}
+
 void CNetManager::HandleAccept(CConnection* pConnection, const boost::system::error_code& e)
 {
     if (!e)
     {
+        pConnection->SetConnectStatus(ENS_CONNECTED);
+
         m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
         pConnection->DoReceive();
@@ -158,7 +171,8 @@ BOOL    CNetManager::SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer)
         //表示连接己经失败断开了，这个连接ID不可用了。
         return FALSE;
     }
-    if (!pConn->IsConnectionOK())
+
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", nConnID);
         return FALSE;
@@ -189,7 +203,7 @@ BOOL CNetManager::SendMessageData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetI
         return FALSE;
     }
 
-    if (!pConn->IsConnectionOK())
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, nConnID:%d", nMsgID, nConnID);
         return FALSE;

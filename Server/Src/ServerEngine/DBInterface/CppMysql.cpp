@@ -143,6 +143,24 @@ const char* CppMySQLQuery::fieldName(int nCol)
     return  NULL;
 }
 
+int CppMySQLQuery::fieldType(int nCol)
+{
+    if (m_MysqlRes == NULL)
+    {
+        return 0;
+    }
+
+    mysql_field_seek(m_MysqlRes, nCol);
+
+    _field = mysql_fetch_field(m_MysqlRes);
+    if (_field != NULL)
+    {
+        return _field->type;
+    }
+
+    return  0;
+}
+
 int CppMySQLQuery::getIntField(int nField, int nNullValue/*=0*/)
 {
     if ( NULL == m_MysqlRes )

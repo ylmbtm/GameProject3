@@ -15,7 +15,7 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 
     m_nDataLen          = 0;
 
-    m_bConnected        = FALSE;
+    m_eConnStatus       = ENS_INIT;
 
     m_uConnData         = 0;
 
@@ -30,7 +30,7 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
     m_IsSending         = FALSE;
 
     m_pSendingBuffer    = NULL;
-    
+
     m_uLastRecvTick      = 0;
 }
 
@@ -68,7 +68,7 @@ void CConnection::SetConnectionID( INT32 nConnID )
 {
     ERROR_RETURN_NONE(nConnID != 0);
 
-    ERROR_RETURN_NONE(!m_bConnected);
+    ERROR_RETURN_NONE(m_eConnStatus == ENS_INIT);
 
     m_nConnID = nConnID;
 
@@ -121,6 +121,10 @@ BOOL CConnection::ExtractBuffer()
 
         if (m_nDataLen < sizeof(PacketHeader))
         {
+            if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
+            {
+            }
+
             break;
         }
 
@@ -129,6 +133,7 @@ BOOL CConnection::ExtractBuffer()
         //在这里对包头进行检查, 如果不合法就要返回FALSE;
         if (!CheckHeader(m_pBufPos))
         {
+            CLog::GetInstancePtr()->LogInfo("验证Header失败!ConnID:%d, RoleID:%lld", m_nConnID, pHeader->u64TargetID);
             return FALSE;
         }
 
@@ -181,9 +186,10 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-    m_hSocket.shutdown(boost::asio::socket_base::shutdown_receive);
-    m_hSocket.shutdown(boost::asio::socket_base::shutdown_send);
-    m_hSocket.close();
+    boost::system::error_code ec;
+
+    m_hSocket.shutdown(boost::asio::socket_base::shutdown_both, ec);
+    m_hSocket.close(ec);
     m_nDataLen         = 0;
 
     m_IsSending         = FALSE;
@@ -191,7 +197,9 @@ BOOL CConnection::Close()
     {
         m_pDataHandler->OnCloseConnect(GetConnectionID());
     }
-    m_bConnected = FALSE;
+
+    m_eConnStatus = ENS_INIT;
+
     return TRUE;
 }
 
@@ -210,6 +218,7 @@ BOOL CConnection::HandleRecvEvent(INT32 nBytes)
     }
 
     m_uLastRecvTick = CommonFunc::GetTickCount();
+
     return TRUE;
 }
 
@@ -228,14 +237,14 @@ boost::asio::ip::tcp::socket& CConnection::GetSocket()
     return m_hSocket;
 }
 
-BOOL CConnection::IsConnectionOK()
+ENetStatus CConnection::GetConnectStatus()
 {
-    return m_bConnected && m_hSocket.is_open();
+    return m_eConnStatus;
 }
 
-BOOL CConnection::SetConnectionOK( BOOL bOk )
+BOOL CConnection::SetConnectStatus(ENetStatus eConnStatus)
 {
-    m_bConnected = bOk;
+    m_eConnStatus = eConnStatus;
 
     m_uLastRecvTick = CommonFunc::GetTickCount();
 
@@ -244,7 +253,7 @@ BOOL CConnection::SetConnectionOK( BOOL bOk )
 
 BOOL CConnection::Reset()
 {
-    m_bConnected = FALSE;
+    m_eConnStatus = ENS_INIT;
 
     m_uConnData = 0;
 
@@ -279,29 +288,35 @@ BOOL CConnection::SendBuffer(IDataBuffer* pBuff)
 
 BOOL CConnection::CheckHeader(CHAR* pNetPacket)
 {
-    PacketHeader* pHeader = (PacketHeader*)m_pBufPos;
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket;
     if (pHeader->CheckCode != CODE_VALUE)
     {
+        CLog::GetInstancePtr()->LogInfo("验证-失败 pHeader->CheckCode error");
         return FALSE;
     }
 
     if ((pHeader->nSize > 1024 * 1024) || (pHeader->nSize <= 0))
     {
-        CLog::GetInstancePtr()->LogWarn("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
+        CLog::GetInstancePtr()->LogInfo("验证-失败 packetsize < 0, pHeader->nMsgID:%d, roleid:%lld", pHeader->nMsgID, pHeader->u64TargetID);
         return FALSE;
     }
 
     if (pHeader->nMsgID > 399999 || pHeader->nMsgID <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
+        CLog::GetInstancePtr()->LogInfo("验证-失败 Invalid MessageID roleid:%lld", pHeader->u64TargetID);
         return FALSE;
+    }
+
+    if (!m_bPacketNoCheck)
+    {
+        return TRUE;
     }
 
     INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
 
     if (nPktChkNo <= 0)
     {
-        CLog::GetInstancePtr()->LogWarn("nPktChkNo <= 0");
+        CLog::GetInstancePtr()->LogInfo("nPktChkNo <= 0");
         return FALSE;
     }
 
@@ -315,7 +330,26 @@ BOOL CConnection::CheckHeader(CHAR* pNetPacket)
         return TRUE;
     }
 
+    CLog::GetInstancePtr()->LogInfo("验证-失败 m_nCheckNo:%d, nPktChkNo:%ld", m_nCheckNo, nPktChkNo);
+
     return FALSE;
+}
+
+BOOL CConnection::UpdateCheckNo(CHAR* pNetPacket)
+{
+    PacketHeader* pHeader = (PacketHeader*)pNetPacket;
+
+    INT32 nPktChkNo = pHeader->nPacketNo - (pHeader->nMsgID ^ pHeader->nSize);
+
+    if (m_nCheckNo == 0)
+    {
+        m_nCheckNo = nPktChkNo + 1;
+        return TRUE;
+    }
+
+    m_nCheckNo += 1;
+
+    return TRUE;
 }
 
 INT32 CConnection::GetIpAddr(BOOL bHost)
@@ -473,7 +507,7 @@ CConnection* CConnectionMgr::CreateConnection()
     m_ConnListMutex.unlock();
     ERROR_RETURN_NULL(pTemp->GetConnectionID() != 0);
     ERROR_RETURN_NULL(pTemp->m_hSocket.is_open() == FALSE);
-    ERROR_RETURN_NULL(pTemp->IsConnectionOK() == FALSE);
+    ERROR_RETURN_NULL(pTemp->GetConnectStatus() == ENS_INIT);
     return pTemp;
 }
 
@@ -551,7 +585,12 @@ BOOL CConnectionMgr::CloseAllConnection()
     for(size_t i = 0; i < m_vtConnList.size(); i++)
     {
         pConn = m_vtConnList.at(i);
-        if (!pConn->IsConnectionOK())
+        if (pConn->GetConnectStatus() != ENS_CONNECTED)
+        {
+            continue;
+        }
+
+        if (!pConn->m_hSocket.is_open())
         {
             continue;
         }
@@ -572,7 +611,8 @@ BOOL CConnectionMgr::DestroyAllConnection()
         {
             continue;
         }
-        if (pConn->IsConnectionOK())
+
+        if (pConn->GetConnectStatus() != ENS_INIT || pConn->m_hSocket.is_open())
         {
             pConn->Close();
         }
@@ -592,7 +632,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
     for(std::vector<CConnection*>::size_type i = 0; i < m_vtConnList.size(); i++)
     {
         CConnection* pConnection = m_vtConnList.at(i);
-        if(!pConnection->IsConnectionOK())
+        if(pConnection->GetConnectStatus() == ENS_INIT)
         {
             continue;
         }
@@ -616,6 +656,7 @@ BOOL CConnectionMgr::CheckConntionAvalible(INT32 nInterval)
 
     return TRUE;
 }
+
 BOOL CConnectionMgr::InitConnectionList(INT32 nMaxCons, boost::asio::io_service& ioservice)
 {
     ERROR_RETURN_FALSE(m_pFreeConnRoot == NULL);
