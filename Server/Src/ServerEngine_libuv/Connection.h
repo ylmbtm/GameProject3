@@ -6,6 +6,14 @@
 
 #define RECV_BUF_SIZE               8192
 
+enum ENetStatus
+{
+    ENS_INIT       = 1,
+    ENS_CONNECTING = 2,
+    ENS_CONNECTED  = 3,
+    ENS_CLOSEING   = 4,
+    ENS_CLOSED     = 5
+};
 
 class CConnection
 {
@@ -16,7 +24,7 @@ public:
 public:
     BOOL    HandleRecvEvent(INT32 nBytes);
 
-    UINT32  GetConnectionID();
+    INT32   GetConnectionID();
 
     UINT64  GetConnectionData();
 
@@ -36,9 +44,9 @@ public:
 
     BOOL    DoReceive();
 
-    BOOL    IsConnectionOK();
+    ENetStatus GetConnectStatus();
 
-    BOOL    SetConnectionOK(BOOL bOk);
+    BOOL    SetConnectStatus(ENetStatus eConnStatus);
 
     BOOL    Reset();
 
@@ -50,7 +58,9 @@ public:
 
     void    HandWritedata(size_t len);
 
-    BOOL    CheckHeader(CHAR* m_pPacket);
+    BOOL    CheckHeader(CHAR* pNetPacket);
+
+    BOOL    UpdateCheckNo(CHAR* pNetPacket);
 
     INT32   GetIpAddr(BOOL bHost = TRUE);
 
@@ -62,7 +72,9 @@ public:
     uv_shutdown_t               m_ShutdownReq;
     uv_async_t                  m_AsyncReq;
 
-    BOOL                        m_bConnected;
+    ENetStatus                  m_eConnStatus;
+
+    BOOL                        m_bPacketNoCheck;
 
     INT32                       m_nConnID;
     UINT64                      m_uConnData;

@@ -37,8 +37,8 @@ BOOL  StringToBox(const char* pStr, FLOAT& left, FLOAT& top, FLOAT& right, FLOAT
 //
 // std::string Utf8_To_Ansi(std::string strValue);
 //
-// std::string Ansi_To_Uft8(std::string wstrValue);
-//
+std::string Ansi_To_Uft8(std::string strValue);
+
 BOOL IsTextUTF8(const char* str, INT32 nLength);
 
 INT32 GetValidUtf8Length(char* pStr, INT32 nLen);
@@ -46,6 +46,8 @@ INT32 GetValidUtf8Length(char* pStr, INT32 nLen);
 std::string TruncateUtf8(char* pStr, INT32 nLen);
 
 BOOL SpliteString(std::string strSrc,  std::string strDelim, std::vector<std::string>& vtStr);
+
+BOOL SpliteStringByMuti(std::string strSrc, std::string strDelim, std::vector<std::string>& vtStr);
 
 BOOL SpliteStringByBlank(std::string strSrc, std::vector<std::string>& vtStr);
 

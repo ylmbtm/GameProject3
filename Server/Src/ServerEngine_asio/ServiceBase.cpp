@@ -3,9 +3,10 @@
 #include "ServiceBase.h"
 #include "NetManager.h"
 #include "Connection.h"
+#include "TimerManager.h"
 #include "PacketHeader.h"
 #include "Log.h"
-#include "TimerManager.h"
+
 #define NEW_CONNECTION 1
 #define CLOSE_CONNECTION 2
 
@@ -235,6 +236,12 @@ BOOL ServiceBase::Update()
         m_nRecvNum = 0;
         m_nSendNum = 0;
         m_uLastTick = CommonFunc::GetTickCount();
+        m_nHeartTime++;
+        if (m_nHeartInterval > 0 && m_nHeartTime >= 30)
+        {
+            CConnectionMgr::GetInstancePtr()->CheckConntionAvalible(m_nHeartInterval);
+            m_nHeartTime = 0;
+        }
     }
 
     TimerManager::GetInstancePtr()->UpdateTimer();

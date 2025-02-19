@@ -240,6 +240,37 @@ BOOL CommonConvert::SpliteString(std::string strSrc, std::string strDelim, std::
     return TRUE;
 }
 
+BOOL CommonConvert::SpliteStringByMuti(std::string strSrc, std::string strDelim, std::vector<std::string>& vtStr)
+{
+    INT32 posStart = -1;
+
+    for (INT32 i = 0; i < strSrc.size(); i++)
+    {
+        if (strDelim.find(strSrc.at(i)) != std::string::npos)
+        {
+            if (posStart < 0)
+            {
+                continue;
+            }
+
+            vtStr.emplace_back(std::string(strSrc, posStart, i - posStart));
+            posStart = -1;
+        }
+        else if (posStart < 0)
+        {
+            posStart = i;
+        }
+    }
+
+    if (posStart >= 0 && posStart < (INT32)strSrc.size())
+    {
+        vtStr.emplace_back(std::string(strSrc, posStart, strSrc.size() - posStart));
+    }
+
+    return TRUE;
+}
+
+
 BOOL CommonConvert::SpliteStringByBlank(std::string strSrc, std::vector<std::string>& vtStr)
 {
     vtStr.clear();
@@ -504,7 +535,7 @@ std::string CommonConvert::Utf8_To_Ansi( std::string strSrc )
 
 #endif
 }
-
+*/
 std::string CommonConvert::Ansi_To_Uft8( std::string strSrc )
 {
     wchar_t wBuff[102400] = {0};
@@ -517,7 +548,7 @@ std::string CommonConvert::Ansi_To_Uft8( std::string strSrc )
 #else
 #endif
 }
-*/
+
 
 BOOL CommonConvert::IsTextUTF8(const char* str, INT32 nLength)
 {

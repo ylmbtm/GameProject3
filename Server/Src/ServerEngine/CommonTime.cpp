@@ -239,9 +239,9 @@ BOOL CommonFunc::IsSameWeek(UINT64 uTime)
 
     t = uTime;
     tm t_tmDest = *localtime(&t);
-    UINT64 SrcWeekDest = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
+    UINT64 DestWeekBegin = (UINT64)t - (t_tmDest.tm_wday == 0 ? 6 : t_tmDest.tm_wday - 1) * 86400 - t_tmDest.tm_hour * 3600 - t_tmDest.tm_min * 60 - t_tmDest.tm_sec;
 
-    return (SrcWeekBegin - SrcWeekDest) / (86400 * 7) <= 0;
+    return SrcWeekBegin == DestWeekBegin;
 }
 
 BOOL CommonFunc::IsSameMonth(UINT64 uTime, UINT64 sTime)

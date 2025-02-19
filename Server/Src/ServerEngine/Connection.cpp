@@ -23,13 +23,13 @@ CConnection::CConnection()
 
     m_pDataHandler      = NULL;
 
-    m_nDataLen         = 0;
+    m_nDataLen          = 0;
 
     m_eConnStatus       = ENS_INIT;
 
-    m_uConnData       = 0;
+    m_uConnData         = 0;
 
-    m_nConnID          = 0;
+    m_nConnID           = 0;
 
     m_pCurRecvBuffer    = NULL;
 
@@ -54,9 +54,11 @@ CConnection::~CConnection(void)
 {
     Reset();
 
-    m_nConnID          = 0;
+    m_nConnID         = 0;
 
-    m_pDataHandler      = NULL;
+    m_pDataHandler    = NULL;
+
+    m_bPacketNoCheck  = FALSE;
 }
 
 #ifdef WIN32
@@ -289,7 +291,6 @@ BOOL CConnection::Close()
 
     m_eConnStatus = ENS_INIT;
 
-
     return TRUE;
 }
 
@@ -355,7 +356,6 @@ BOOL CConnection::SetConnectStatus(ENetStatus eConnStatus)
 
     return TRUE;
 }
-
 
 BOOL CConnection::Reset()
 {

@@ -97,6 +97,7 @@
     <ClCompile Include="..\ServerEngine\CommonSocket.cpp" />
     <ClCompile Include="..\ServerEngine\CommonTime.cpp" />
     <ClCompile Include="..\ServerEngine\ConfigFile.cpp" />
+    <ClCompile Include="..\ServerEngine\Md5.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="..\ServerEngine\CrashReport.cpp" />
     <ClCompile Include="..\ServerEngine\DataBuffer.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="..\ServerEngine\CommonSocket.h" />
     <ClInclude Include="..\ServerEngine\CommonTime.h" />
     <ClInclude Include="..\ServerEngine\ConfigFile.h" />
+    <ClInclude Include="..\ServerEngine\Md5.h" />
     <ClInclude Include="Connection.h" />
     <ClInclude Include="..\ServerEngine\CrashReport.h" />
     <ClInclude Include="..\ServerEngine\DataBuffer.h" />

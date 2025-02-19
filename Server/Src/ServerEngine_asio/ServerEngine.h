@@ -16,6 +16,7 @@
 #include "CommonTime.h"
 #include "CommonConvert.h"
 #include "CommandDef.h"
+#include "SharedMemory.h"
 #include "SpinLock.h"
 #include "ServiceBase.h"
 

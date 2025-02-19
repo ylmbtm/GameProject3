@@ -2,17 +2,19 @@
 #include "SpinLock.h"
 #include "ServiceBase.h"
 #include "NetManager.h"
-#include "CommandDef.h"
 #include "Connection.h"
+#include "TimerManager.h"
 #include "PacketHeader.h"
-#include "../ServerEngine/Log.h"
-#include "../ServerEngine/TimerManager.h"
+#include "Log.h"
+
 #define NEW_CONNECTION 1
 #define CLOSE_CONNECTION 2
 
 ServiceBase::ServiceBase(void)
 {
     m_pPacketDispatcher = NULL;
+    m_nHeartInterval = 0;
+    m_nHeartTime     = 0;
     m_pRecvDataQueue = new std::deque<NetPacket>();
     m_pDispathQueue = new std::deque<NetPacket>();
 }
@@ -24,6 +26,9 @@ ServiceBase::~ServiceBase(void)
 
     m_pRecvDataQueue = NULL;
     m_pDispathQueue = NULL;
+
+    m_nHeartInterval = 0;
+    m_nHeartTime     = 0;
 }
 
 ServiceBase* ServiceBase::GetInstancePtr()
@@ -94,9 +99,9 @@ BOOL ServiceBase::SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetI
         return FALSE;
     }
 
-    char szBuff[102400] = {0};
+    char szBuff[204800] = {0};
 
-    ERROR_RETURN_FALSE(pdata.ByteSize() < 102400);
+    ERROR_RETURN_FALSE(pdata.ByteSize() < 204800);
 
     pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
     m_nSendNum++;
@@ -144,6 +149,19 @@ BOOL ServiceBase::CloseConnect(INT32 nConnID)
     return TRUE;
 }
 
+
+BOOL ServiceBase::EnableCheck(BOOL bCheck)
+{
+    return CNetManager::GetInstancePtr()->EnableCheck(bCheck);
+}
+
+BOOL ServiceBase::SetHeartInterval(INT32 nInterval)
+{
+    m_nHeartInterval = nInterval;
+
+    return TRUE;
+}
+
 BOOL ServiceBase::OnCloseConnect(INT32 nConnID)
 {
     ERROR_RETURN_FALSE(nConnID != 0);
@@ -161,7 +179,6 @@ BOOL ServiceBase::OnNewConnect(INT32 nConnID)
     m_QueueLock.Unlock();
     return TRUE;
 }
-
 
 CConnection* ServiceBase::GetConnectionByID( INT32 nConnID )
 {
@@ -214,14 +231,40 @@ BOOL ServiceBase::Update()
     {
         m_pPacketDispatcher->OnSecondTimer();
 
-        CLog::GetInstancePtr()->SetTitle("[FPS:%d]-[RecvPack:%d]--[SendPack:%d]", m_nFps, m_nRecvNum, m_nSendNum);
+        CLog::GetInstancePtr()->SetTitle("[AreaID:%d]-[FPS:%d]-[RecvPack:%d]--[SendPack:%d]", CConfigFile::GetInstancePtr()->GetIntValue("areaid"), m_nFps, m_nRecvNum, m_nSendNum);
         m_nFps = 0;
         m_nRecvNum = 0;
         m_nSendNum = 0;
         m_uLastTick = CommonFunc::GetTickCount();
+        m_nHeartTime++;
+        if (m_nHeartInterval > 0 && m_nHeartTime >= 30)
+        {
+            CConnectionMgr::GetInstancePtr()->CheckConntionAvalible(m_nHeartInterval);
+            m_nHeartTime = 0;
+        }
     }
 
     TimerManager::GetInstancePtr()->UpdateTimer();
+
+    return TRUE;
+}
+
+BOOL ServiceBase::FixFrameNum(INT32 nFrames)
+{
+    if (nFrames < 1)
+    {
+        nFrames = 1;
+    }
+
+    static UINT64 uNextTick = CommonFunc::GetTickCount();
+    UINT64 uCurTick = CommonFunc::GetTickCount();
+
+    if (uNextTick > uCurTick)
+    {
+        CommonFunc::Sleep(uNextTick - uCurTick);
+    }
+
+    uNextTick = uNextTick + 1000 / nFrames;
 
     return TRUE;
 }

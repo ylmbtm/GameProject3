@@ -31,6 +31,8 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 
     m_pSendingBuffer    = NULL;
 
+    m_bPacketNoCheck    = FALSE;
+
     m_uLastRecvTick      = 0;
 }
 
@@ -38,9 +40,11 @@ CConnection::~CConnection(void)
 {
     Reset();
 
-    m_nConnID          = 0;
+    m_nConnID         = 0;
 
-    m_pDataHandler      = NULL;
+    m_pDataHandler    = NULL;
+
+    m_bPacketNoCheck  = FALSE;
 }
 
 BOOL CConnection::DoReceive()
@@ -123,6 +127,7 @@ BOOL CConnection::ExtractBuffer()
         {
             if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
+                //CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
             }
 
             break;

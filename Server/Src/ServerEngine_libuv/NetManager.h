@@ -24,10 +24,12 @@ public:
 
     BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 
-    CConnection*    ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
-    CConnection*    ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+    BOOL    EnableCheck(BOOL bCheck);
 
+    CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+
+    CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
     void HandleConnect(CConnection* pConnection, INT32 nStatus);
 
     void HandleAccept(CConnection* pConnection, INT32 nStatus);
@@ -39,6 +41,7 @@ public:
     uv_tcp_t                        m_ListenSocket;
     uv_loop_t*                      m_pMainLoop;
     uv_thread_t                     m_LoopThreadID;
+    BOOL                            m_bPacketNoCheck;
     IDataHandler*                   m_pBufferHandler;
 
 public:

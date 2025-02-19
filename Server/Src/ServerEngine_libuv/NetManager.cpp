@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "NetManager.h"
 #include "Connection.h"
-#include "CommandDef.h"
 #include "../ServerEngine/CommonConvert.h"
 #include "Log.h"
 #include "PacketHeader.h"
@@ -75,10 +74,12 @@ void On_RecvConnection(uv_stream_t* pServer, int status)
 CNetManager::CNetManager(void)
 {
     m_pBufferHandler    = NULL;
+    m_bPacketNoCheck = FALSE;
 }
 
 CNetManager::~CNetManager(void)
 {
+    m_bPacketNoCheck = FALSE;
 }
 
 BOOL CNetManager::Start(UINT16 nPortNum, INT32 nMaxConn, IDataHandler* pBufferHandler, std::string& strListenIp)
@@ -166,6 +167,8 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
 
 void CNetManager::HandleConnect(CConnection* pConnection, INT32 nStatus)
 {
+    pConnection->SetConnectStatus(ENS_CONNECTED);
+
     m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
     pConnection->DoReceive();
@@ -186,7 +189,7 @@ void CNetManager::HandleAccept(CConnection* pConnection, INT32 nStatus)
         pConnection->m_nIpAddr = ClientAddr.sin_addr.s_addr;
 
         pConnection->SetDataHandler(m_pBufferHandler);
-
+        pConnection->SetConnectStatus(ENS_CONNECTED);
         m_pBufferHandler->OnNewConnect(pConnection->GetConnectionID());
 
         pConnection->DoReceive();
@@ -218,7 +221,8 @@ BOOL    CNetManager::SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer)
         //表示连接己经失败断开了，这个连接ID不可用了。
         return FALSE;
     }
-    if (!pConn->IsConnectionOK())
+
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageBuff FAILED, 连接己断开, ConnID:%d", nConnID);
         return FALSE;
@@ -249,7 +253,7 @@ BOOL CNetManager::SendMessageData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetI
         return FALSE;
     }
 
-    if (!pConn->IsConnectionOK())
+    if(pConn->GetConnectStatus() != ENS_CONNECTED)
     {
         CLog::GetInstancePtr()->LogError("CNetManager::SendMessageData FAILED, 连接己断开, MsgID:%d, nConnID:%d", nMsgID, nConnID);
         return FALSE;
