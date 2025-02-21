@@ -24,7 +24,14 @@ public:
 
     BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 
+    CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
+    CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
+
+    BOOL    EnableCheck(BOOL bCheck);
+
+    //以下是完成端口部分
+public:
     BOOL    InitNetwork();
 
     BOOL    UninitNetwork();
@@ -33,8 +40,6 @@ public:
 
     BOOL    StopListen();
 
-    //以下是完成端口部分
-public:
     BOOL    CreateCompletePort();
 
     BOOL    DestroyCompletePort();
@@ -53,11 +58,7 @@ public:
 
     CConnection*    AssociateCompletePort(SOCKET hSocket, BOOL bConnect);
 
-    CConnection*    ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
-
-    CConnection*    ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
-
-    BOOL            WaitConnect();
+    BOOL            WaitForConnect();
 public:
     SOCKET              m_hListenSocket;
     NetIoOperatorData   m_IoOverlapAccept;
@@ -65,6 +66,9 @@ public:
     HANDLE              m_hCompletePort;
     CHAR                m_AddressBuf[128];
     BOOL                m_bCloseEvent;      //是否关闭事件处理线程
+
+    //包序号检测
+    BOOL                m_bPacketNoCheck;
 
     IDataHandler*       m_pBufferHandler;
     std::vector<std::thread*> m_vtEventThread;
