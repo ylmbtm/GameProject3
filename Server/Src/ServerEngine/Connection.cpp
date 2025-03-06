@@ -642,12 +642,14 @@ BOOL CConnection::DoSend()
         {
             if (errno != EAGAIN)
             {
-                m_pSendingBuffer->Release();
-                m_pSendingBuffer = NULL;
-                m_nSendingPos = 0;
+                pBuffer->Release();
+                pBuffer = NULL;
                 CLog::GetInstancePtr()->LogWarn("发送线程:发送失败, 连接关闭原因2:%s!", CommonFunc::GetLastErrorStr(errno).c_str());
                 return E_SEND_ERROR;
             }
+
+            m_pSendingBuffer = pBuffer;
+            m_nSendingPos = 0;
 
             return E_SEND_SUCCESS;
         }

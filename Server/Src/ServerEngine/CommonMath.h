@@ -6,7 +6,6 @@
 #define DEG_TO_RAD  0.0174533f
 #define RAD_TO_DEG  57.2957805f
 
-
 // FLOAT Q_rsqrt( FLOAT number )
 // {
 //  long i;
@@ -93,7 +92,6 @@ public:
 
     VOID Reset();
 
-
     FLOAT m_fLeft = 0, m_fTop = 0, m_fBottom = 0, m_fRight = 0;
 };
 
@@ -111,7 +109,6 @@ public:
     BOOL Intersects(Rect2D rcArea);
 
     VOID Reset();
-
 
     CPoint2D m_CenterPos;
     FLOAT    m_fRadius;

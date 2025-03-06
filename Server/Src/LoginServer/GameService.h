@@ -27,7 +27,7 @@ public:
 
     BOOL        DispatchPacket( NetPacket* pNetPacket);
 
-    BOOL        SendCmdToAccountConnection(INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
+    BOOL        SendCmdToAccountConnection(INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const google::protobuf::Message& pdata);
 
     BOOL        ConnectToAccountSvr();
 public:

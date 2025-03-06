@@ -69,7 +69,6 @@ BOOL CPayManager::Update()
 VOID CPayManager::WritePayRecordThread(CreatePaymentReq* pReq)
 {
     ERROR_RETURN_NONE(pReq != NULL);
-
     std::unique_ptr<CreatePaymentReq> pCreatePayment(pReq); //用来自动释放内存
     std::string strHost = CConfigFile::GetInstancePtr()->GetStringValue("mysql_gm_svr_ip");
     INT32 nPort        = CConfigFile::GetInstancePtr()->GetIntValue("mysql_gm_svr_port");

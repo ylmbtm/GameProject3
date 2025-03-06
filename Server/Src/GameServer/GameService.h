@@ -35,8 +35,6 @@ public:
 
     BOOL        ConnectToProxySvr();
 
-    BOOL        ConnectToWatchServer();
-
     BOOL        RegisterToLogicSvr();
 
     BOOL        RegisterToProxySvr();

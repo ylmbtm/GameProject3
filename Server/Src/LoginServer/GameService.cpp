@@ -63,6 +63,9 @@ BOOL CGameService::Init()
         return FALSE;
     }
 
+    INT32 nIntervalTime = CConfigFile::GetInstancePtr()->GetIntValue("heart_interval_time");
+    ServiceBase::GetInstancePtr()->SetHeartInterval(nIntervalTime);
+
     ERROR_RETURN_FALSE(CWebCommandMgr::GetInstancePtr()->Init());
 
     ERROR_RETURN_FALSE(m_LoginMsgHandler.Init());
@@ -105,10 +108,10 @@ BOOL CGameService::Run()
 }
 
 
-BOOL CGameService::SendCmdToAccountConnection(INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
+BOOL CGameService::SendCmdToAccountConnection(INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const google::protobuf::Message& pdata)
 {
     ERROR_RETURN_FALSE(m_nAccountConnID != 0);
-    ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nAccountConnID, nMsgID, u64TargetID, dwUserData, pdata));
+    ERROR_RETURN_FALSE(ServiceBase::GetInstancePtr()->SendMsgProtoBuf(m_nAccountConnID, nMsgID, u64TargetID, nUserData, pdata));
     return TRUE;
 }
 

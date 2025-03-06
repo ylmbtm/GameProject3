@@ -64,7 +64,14 @@ BOOL CGameService::Init()
     }
 
     //开启包序号检查
+    ServiceBase::GetInstancePtr()->EnableCheck(FALSE);
+
+    INT32  nIntervalTime = CConfigFile::GetInstancePtr()->GetIntValue("heart_interval_time");
+    ServiceBase::GetInstancePtr()->SetHeartInterval(nIntervalTime);
+
     ERROR_RETURN_FALSE(m_ProxyMsgHandler.Init(0));
+
+    CLog::GetInstancePtr()->LogHiInfo("LogLevel:%d - ListenPort:%d - PackNoCheck:%s -- MaxIdleTime:%d", CConfigFile::GetInstancePtr()->GetIntValue("proxy_log_level"), nPort, "off", nIntervalTime);
 
     CLog::GetInstancePtr()->LogHiInfo("---------服务器启动成功!--------");
 
