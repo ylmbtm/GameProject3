@@ -27,28 +27,25 @@ public:
 
     BOOL    Stop();
 
-    BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, INT32 nLen);
+    BOOL    SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData,  const char* pData, INT32 nLen);
 
     BOOL    SendMessageBuff(INT32 nConnID, IDataBuffer* pBuffer);
 
+    CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
 
-    BOOL    WaitForConnect();
-
+    CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
 
     BOOL    EnableCheck(BOOL bCheck);
 
 public:
-
-    CConnection* ConnectTo_Async(std::string strIpAddr, UINT16 sPort);
-
-    CConnection* ConnectTo_Sync(std::string strIpAddr, UINT16 sPort);
-
     void HandleConnect(CConnection* pConnection, const boost::system::error_code& e);
 
     void HandleAccept(CConnection* pConnection, const boost::system::error_code& e);
 
     BOOL PostSendOperation(CConnection* pConnection);
 
+    BOOL WaitForConnect();
+public:
     boost::asio::ip::tcp::acceptor* m_pAcceptor;
     boost::asio::io_service         m_IoService;
     boost::thread*                  m_pWorkThread;

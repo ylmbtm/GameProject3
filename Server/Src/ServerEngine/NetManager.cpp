@@ -773,7 +773,7 @@ BOOL CNetManager::WaitForConnect()
 #endif
 }
 
-BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData,  const char* pData, INT32 nLen)
+BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData,  const char* pData, INT32 nLen)
 {
     if (nConnID <= 0)
     {
@@ -798,7 +798,7 @@ BOOL CNetManager::SendMessageData(INT32 nConnID,  INT32 nMsgID, UINT64 u64Target
 
     PacketHeader* pHeader = (PacketHeader*)pDataBuffer->GetBuffer();
     pHeader->CheckCode = CODE_VALUE;
-    pHeader->dwUserData = dwUserData;
+    pHeader->dwUserData = nUserData;
     pHeader->u64TargetID = u64TargetID;
     pHeader->nSize = nLen + sizeof(PacketHeader);
     pHeader->nMsgID = nMsgID;
