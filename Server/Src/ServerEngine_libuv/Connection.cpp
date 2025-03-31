@@ -7,7 +7,6 @@
 
 void On_AllocBuff(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
 {
-
     CConnection* pConnection = (CConnection*)uv_handle_get_data(handle);
 
     buf->base = pConnection->m_pRecvBuf + pConnection->m_nDataLen;
@@ -35,14 +34,15 @@ void On_ReadData(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 void On_WriteData(uv_write_t* req, int status)
 {
     CConnection* pConnection = (CConnection*)req->data;
-
     ERROR_RETURN_NONE(pConnection != NULL);
-
-    pConnection->DoSend();
+    ERROR_RETURN_NONE(pConnection->m_pSendingBuffer != NULL);
+    pConnection->m_pSendingBuffer->Release();
+    pConnection->m_pSendingBuffer = NULL;
 
     if (status == 0)
     {
         //成功
+        pConnection->DoSend();
     }
     else
     {
@@ -73,7 +73,6 @@ void On_Shutdown(uv_shutdown_t* req, int status)
 void On_Close(uv_handle_t* handle)
 {
     CConnection* pConnection = (CConnection*)handle->data;
-
     ERROR_RETURN_NONE(pConnection != NULL);
 
     return;
@@ -103,7 +102,11 @@ CConnection::CConnection()
 
     m_hSocket.data      = (void*)this;
 
+    m_bNotified         = FALSE;
+
     m_bPacketNoCheck    = FALSE;
+
+    m_uLastRecvTick      = 0;
 }
 
 CConnection::~CConnection(void)
@@ -189,8 +192,14 @@ BOOL CConnection::ExtractBuffer()
             }
         }
 
-        if(m_nDataLen < sizeof(PacketHeader))
+        if (m_nDataLen < sizeof(PacketHeader))
         {
+            if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
+            {
+                //CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
+                //return FALSE;
+            }
+
             break;
         }
 
@@ -251,15 +260,17 @@ BOOL CConnection::ExtractBuffer()
 
 BOOL CConnection::Close()
 {
-    m_ShutdownReq.data = (void*)this;
-    uv_read_stop((uv_stream_t*)&m_hSocket);
-    uv_shutdown(&m_ShutdownReq, (uv_stream_t*)&m_hSocket, On_Shutdown);
+    //m_ShutdownReq.data = (void*)this;
+    //uv_read_stop((uv_stream_t*)&m_hSocket);
+    //uv_shutdown(&m_ShutdownReq, (uv_stream_t*)&m_hSocket, On_Shutdown);
     uv_close((uv_handle_t*)&m_hSocket, On_Close);
     m_nDataLen         = 0;
 
     m_IsSending         = FALSE;
-    if(m_pDataHandler != NULL)
+
+    if(m_pDataHandler != NULL && !m_bNotified)
     {
+        m_bNotified = TRUE;
         m_pDataHandler->OnCloseConnect(GetConnectionID());
     }
 
@@ -283,6 +294,7 @@ BOOL CConnection::HandleRecvEvent(INT32 nBytes)
     //}
 
     m_uLastRecvTick = CommonFunc::GetTickCount();
+
     return TRUE;
 }
 
@@ -317,6 +329,8 @@ BOOL CConnection::SetConnectStatus(ENetStatus eConnStatus)
 
 BOOL CConnection::Reset()
 {
+    m_hSocket.data      = (void*)this;
+
     m_eConnStatus = ENS_INIT;
 
     m_uConnData = 0;
@@ -326,6 +340,12 @@ BOOL CConnection::Reset()
     m_nIpAddr  = 0;
 
     m_pBufPos   = m_pRecvBuf;
+
+    m_bNotified = FALSE;
+
+    m_bPacketNoCheck = FALSE;
+
+    m_uLastRecvTick = 0;
 
     if(m_pCurRecvBuffer != NULL)
     {
@@ -342,6 +362,12 @@ BOOL CConnection::Reset()
     while(m_SendBuffList.try_dequeue(pBuff))
     {
         pBuff->Release();
+    }
+
+    if (m_pSendingBuffer != NULL)
+    {
+        m_pSendingBuffer->Release();
+        m_pSendingBuffer = NULL;
     }
 
     return TRUE;
@@ -420,6 +446,7 @@ BOOL CConnection::UpdateCheckNo(CHAR* pNetPacket)
 
 INT32 CConnection::GetIpAddr(BOOL bHost)
 {
+
     if (bHost)
     {
         return m_nIpAddr;
@@ -436,12 +463,6 @@ VOID CConnection::EnableCheck(BOOL bCheck)
 BOOL CConnection::DoSend()
 {
     m_IsSending = TRUE;
-
-    if (m_pSendingBuffer != NULL)
-    {
-        m_pSendingBuffer->Release();
-        m_pSendingBuffer = NULL;
-    }
 
     IDataBuffer* pFirstBuff = NULL;
     int nSendSize = 0;
@@ -505,7 +526,12 @@ BOOL CConnection::DoSend()
 
     uv_handle_set_data((uv_handle_t*)&m_WriteReq, (void*)this);
     uv_buf_t buf = uv_buf_init(m_pSendingBuffer->GetBuffer(), m_pSendingBuffer->GetBufferSize());
-    uv_write(&m_WriteReq, (uv_stream_t*)&m_hSocket, &buf, 1, On_WriteData);
+    int ret = uv_write(&m_WriteReq, (uv_stream_t*)&m_hSocket, &buf, 1, On_WriteData);
+    if (ret != 0)
+    {
+        m_pSendingBuffer->Release();
+        m_pSendingBuffer = NULL;
+    }
 
     return TRUE;
 }

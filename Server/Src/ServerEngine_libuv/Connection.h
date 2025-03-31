@@ -74,6 +74,8 @@ public:
 
     ENetStatus                  m_eConnStatus;
 
+    BOOL                        m_bNotified;
+
     BOOL                        m_bPacketNoCheck;
 
     INT32                       m_nConnID;
@@ -119,8 +121,6 @@ public:
     BOOL            InitConnectionList(INT32 nMaxCons);
 
     CConnection*    CreateConnection();
-
-    BOOL            DeleteConnection(CConnection* pConnection);
 
     BOOL            DeleteConnection(INT32 nConnID);
 

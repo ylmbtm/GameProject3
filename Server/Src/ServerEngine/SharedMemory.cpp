@@ -1,4 +1,10 @@
-﻿#include "stdafx.h"
+﻿+﻿/****************************************************
++文件：SharedMemory.cpp
++作者：ylmbtm@163.com
++日期：2025/03/27 11:19:18
++功能：共享内存管理
++*****************************************************/
+#include "stdafx.h"
 #include "SharedMemory.h"
 
 ShareObject::ShareObject()

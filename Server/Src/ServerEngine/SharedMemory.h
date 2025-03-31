@@ -109,10 +109,8 @@ protected:
     typedef  std::map<INT32, _SMBlock*>    mapSMBlock;
     mapSMBlock                     m_mapSMBlock;///所有数据块头信息
 
-
     typedef std::map<void*, _SMBlock*>  mapUsedSMBlock;
     mapUsedSMBlock                 m_mapUsedSMBlock;    ///所有使用了块的数据信息
-
 
     typedef std::map<INT32, _SMBlock*> mapFreeSMBlock;
     mapFreeSMBlock                 m_mapFreeSMBlock;///所有空闲的块信息

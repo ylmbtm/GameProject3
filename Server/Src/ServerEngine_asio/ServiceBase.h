@@ -33,11 +33,11 @@ public:
     BOOL            SetHeartInterval(INT32 nInterval);
 
     template<typename T>
-    BOOL            SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data);
+    BOOL            SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, T& Data);
 
-    BOOL            SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata);
+    BOOL            SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const google::protobuf::Message& pdata);
 
-    BOOL            SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, INT32 nLen);
+    BOOL            SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const char* pdata, INT32 nLen);
 
     BOOL            SendMsgBuffer(INT32 nConnID, IDataBuffer* pDataBuffer);
 

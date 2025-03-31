@@ -78,7 +78,7 @@ BOOL ServiceBase::StopNetwork()
 }
 
 template<typename T>
-BOOL ServiceBase::SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, T& Data)
+BOOL ServiceBase::SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, T& Data)
 {
     if (nConnID <= 0)
     {
@@ -87,10 +87,10 @@ BOOL ServiceBase::SendMsgStruct(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID,
 
     m_nSendNum++;
 
-    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, dwUserData, &Data, sizeof(T));
+    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, nUserData, &Data, sizeof(T));
 }
 
-BOOL ServiceBase::SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const google::protobuf::Message& pdata)
+BOOL ServiceBase::SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const google::protobuf::Message& pdata)
 {
     if (nConnID <= 0)
     {
@@ -104,10 +104,10 @@ BOOL ServiceBase::SendMsgProtoBuf(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetI
 
     pdata.SerializePartialToArray(szBuff, pdata.GetCachedSize());
     m_nSendNum++;
-    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, dwUserData, szBuff, pdata.GetCachedSize());
+    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, nUserData, szBuff, pdata.GetCachedSize());
 }
 
-BOOL ServiceBase::SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, UINT32 dwUserData, const char* pdata, INT32 nLen)
+BOOL ServiceBase::SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID, INT32 nUserData, const char* pdata, INT32 nLen)
 {
     if (nConnID <= 0)
     {
@@ -116,7 +116,7 @@ BOOL ServiceBase::SendMsgRawData(INT32 nConnID, INT32 nMsgID, UINT64 u64TargetID
 
     m_nSendNum++;
 
-    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, dwUserData, pdata, nLen);
+    return CNetManager::GetInstancePtr()->SendMessageData(nConnID, nMsgID, u64TargetID, nUserData, pdata, nLen);
 }
 
 BOOL ServiceBase::SendMsgBuffer(INT32 nConnID, IDataBuffer* pDataBuffer)

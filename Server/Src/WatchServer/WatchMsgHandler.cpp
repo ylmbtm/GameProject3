@@ -114,7 +114,13 @@ BOOL CWatchMsgHandler::OnSecondTimer()
 
 BOOL CWatchMsgHandler::ReportStatusTimer(INT32 key)
 {
-    //std::string strValue = CommonSocket::HttpGet("192.168.2.185", 80, "/gameconsole/main/api/testhttpget", "");
+    HttpParameter httpParm;
+
+    httpParm.SetKeyValue("cloudid", m_nCloudID);
+
+    std::string strValue = CommonSocket::HttpGet(m_strGmSvrIp, 80, "/gameconsole/main/api/cloudreport", httpParm.GetResultString());
+
+    CLog::GetInstancePtr()->LogError("%s", strValue.c_str());
 
     return TRUE;
 }

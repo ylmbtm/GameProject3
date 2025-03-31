@@ -171,7 +171,7 @@ struct StSkillInfo
 
 struct StSkillEventInfo
 {
-    UINT32      nSkillID;                      //技能ID
+    UINT32      nSkillID;                       //技能ID
     UINT64      uDuration;                      //技能持续总时间
     UINT32      dwCastType;                     //目标选择方式
     std::vector<StSkillEvent> vtEvents;         //技能事件列表

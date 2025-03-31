@@ -74,6 +74,7 @@ public:
 
     ENetStatus                  m_eConnStatus;
 
+    BOOL                        m_bNotified;
 
     BOOL                        m_bPacketNoCheck;
     INT32                       m_nConnID;

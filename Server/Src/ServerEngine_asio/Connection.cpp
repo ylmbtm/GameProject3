@@ -31,6 +31,8 @@ CConnection::CConnection(boost::asio::io_service& ioservice): m_hSocket(ioservic
 
     m_pSendingBuffer    = NULL;
 
+    m_bNotified         = FALSE;
+
     m_bPacketNoCheck    = FALSE;
 
     m_uLastRecvTick      = 0;
@@ -128,6 +130,7 @@ BOOL CConnection::ExtractBuffer()
             if (m_nDataLen >= 1 && *(BYTE*)m_pBufPos != 0x88)
             {
                 //CLog::GetInstancePtr()->LogWarn("验证首字节失改!, m_nDataLen:%d--ConnID:%d", m_nDataLen, m_nConnID);
+                //return FALSE;
             }
 
             break;
@@ -198,8 +201,10 @@ BOOL CConnection::Close()
     m_nDataLen         = 0;
 
     m_IsSending         = FALSE;
-    if(m_pDataHandler != NULL)
+
+    if(m_pDataHandler != NULL && !m_bNotified)
     {
+        m_bNotified = TRUE;
         m_pDataHandler->OnCloseConnect(GetConnectionID());
     }
 
@@ -266,12 +271,17 @@ BOOL CConnection::Reset()
 
     m_pBufPos   = m_pRecvBuf;
 
+    m_bNotified = FALSE;
+
+    m_bPacketNoCheck = FALSE;
+
+    m_uLastRecvTick = 0;
+
     if(m_pCurRecvBuffer != NULL)
     {
         m_pCurRecvBuffer->Release();
         m_pCurRecvBuffer = NULL;
     }
-
 
     m_nCheckNo = 0;
 
@@ -281,6 +291,12 @@ BOOL CConnection::Reset()
     while(m_SendBuffList.try_dequeue(pBuff))
     {
         pBuff->Release();
+    }
+
+    if (m_pSendingBuffer != NULL)
+    {
+        m_pSendingBuffer->Release();
+        m_pSendingBuffer = NULL;
     }
 
     return TRUE;

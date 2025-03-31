@@ -396,6 +396,12 @@ BOOL CConnection::Reset()
         pBuff->Release();
     }
 
+    if (m_pSendingBuffer != NULL)
+    {
+        m_pSendingBuffer->Release();
+        m_pSendingBuffer = NULL;
+    }
+
     return TRUE;
 }
 
