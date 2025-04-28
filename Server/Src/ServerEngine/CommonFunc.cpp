@@ -12,6 +12,8 @@ INT32 CommonFunc::GetProcessorNum()
     nNum = sysconf(_SC_NPROCESSORS_CONF);
 #endif
 
+    //return std::thread::hardware_concurrency();
+
     return nNum;
 }
 
@@ -66,12 +68,7 @@ BOOL CommonFunc::CreateDir( std::string& strDir )
     nRet = mkdir(strDir.c_str(), S_IRWXU);
 #endif
 
-    if(nRet == 0)
-    {
-        return TRUE;
-    }
-
-    if(errno == EEXIST)
+    if(nRet == 0 || errno == EEXIST)
     {
         return TRUE;
     }

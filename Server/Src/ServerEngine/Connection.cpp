@@ -105,7 +105,7 @@ BOOL CConnection::DoReceive()
         if(nBytes < 0)
         {
             int nErr = CommonSocket::GetSocketLastError();
-            if( nErr == EAGAIN)
+            if( nErr == EAGAIN || errno == EWOULDBLOCK)
             {
                 return TRUE;
             }
@@ -611,7 +611,7 @@ BOOL CConnection::DoSend()
         INT32 nRet = send(m_hSocket, m_pSendingBuffer->GetBuffer() + m_nSendingPos, nDataLen, 0);
         if (nRet < 0)
         {
-            if (errno != EAGAIN)
+            if (errno != EAGAIN && errno != EWOULDBLOCK)
             {
                 m_pSendingBuffer->Release();
                 m_pSendingBuffer = NULL;
@@ -620,7 +620,7 @@ BOOL CConnection::DoSend()
                 return E_SEND_ERROR;
             }
 
-            return E_SEND_SUCCESS;
+            return E_SEND_UNDONE;
         }
 
         if (nRet < nDataLen)
@@ -646,7 +646,7 @@ BOOL CConnection::DoSend()
         INT32 nRet = send(m_hSocket, pBuffer->GetBuffer(), pBuffer->GetTotalLenth(), 0);
         if (nRet < 0)
         {
-            if (errno != EAGAIN)
+            if (errno != EAGAIN && errno != EWOULDBLOCK)
             {
                 pBuffer->Release();
                 pBuffer = NULL;
@@ -657,7 +657,7 @@ BOOL CConnection::DoSend()
             m_pSendingBuffer = pBuffer;
             m_nSendingPos = 0;
 
-            return E_SEND_SUCCESS;
+            return E_SEND_UNDONE;
         }
 
         if (nRet < pBuffer->GetTotalLenth())

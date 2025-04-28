@@ -497,7 +497,7 @@ BOOL CNetManager::WorkThread_ProcessEvent(INT32 nParam)
                 continue;
             }
 
-            INT32 nNeedEvent = EPOLLIN;
+            INT32 nNeedEvent = EPOLLIN | EPOLLET;
             if (vtEvents[i].events & EPOLLIN)
             {
                 if (pConnection->GetConnectStatus() == ENS_INIT)
@@ -731,7 +731,7 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
         pConnection->Close();
     }
 
-    return pConnection;
+    pConnection->SetConnectStatus(ENS_CONNECTING);
 #else
     BOOL bRet = CommonSocket::ConnectSocket(hSocket, strIpAddr.c_str(), sPort);
     if (!bRet)
@@ -749,8 +749,9 @@ CConnection* CNetManager::ConnectTo_Async( std::string strIpAddr, UINT16 sPort )
         return NULL;
     }
 
-    return pConnection;
 #endif
+
+    return pConnection;
 }
 
 BOOL CNetManager::WaitForConnect()
