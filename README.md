@@ -44,3 +44,45 @@ gitee地址: https://gitee.com/ylmbtm/GameProject3
 ![login4](https://github.com/ylmbtm/resource/blob/master/04.png)
 
 
+
+Game Engine Frame
+
+Cross-platform multi-process game server framework , the network layer using SocketApi, Boost Asio, Libuv three ways to implement , respectively. 
+The network layer is implemented using SocketApi, Boost Asio, and Libuv. The framework uses shared memory, lock-free queues, object pools, and memory pools to improve server performance.
+
+There is also a constantly improving Demo client, the game contains a large number of complete resources, mounts, pets, partners, equipment, which can be mounted and worn, and can enter the copy of the battle, multiplayer gameplay has also been realized.
+Demo Client Address: https://github.com/ylmbtm/DemoClient
+
+#### Server Deployment Startup Instructions
+#### 1.Compilation
+•Windows: Open the solution in Visual Studio 2017 or later and compile directly.
+•Linux: Execute the buildall.sh script to compile.
+#### 2. Install MySQL
+Install MySQL on the machine, version 5.7 recommended. Post-installation, to avoid configuration file changes, create a user 'root' with the password '123456' (as configured by default). Then locate the db_create.sql file in the project and run this file in the database to create the tables.
+#### 3. Start the Server
+After completing the steps above, there is a StartServer.bat file in the \Server directory. Run this batch file and follow the prompts.
+
+#### Server Role Descriptions
+•Login Server (LoginServer): Manages player login connections and login request processing.
+•Account Server (AccountServer): Manages account login verification, new account creation, and account data storage in the database.
+•Center Server (CenterServer): Facilitates cross-server activities and requirements for cross-server combat.
+•Logic Server (LogicServer): Manages player character logic data and general logic functions.
+•Game Server (GameServer): Handles player movement synchronization, skills, buffs, and other combat functions.
+•Database Server (DBServer): Acts as a proxy between the logic server and MySQL database, managing periodic data writes to the database.
+•Proxy Server (ProxyServer): Functions as a mediator between clients, logic servers, and battlefield servers, primarily responsible for message forwarding.
+•Log Server (LogServer): Primarily responsible for writing operation logs from the logic server to the MySQL database.
+•Watch Server (WatchServer): Manages commands from the WEB backend, controlling the server.
+
+#### Documentation and Tutorials
+1. Binaryhobart(450282550) provided a video tutorial on how to build the gitee [tutorialaddress]
+(https://www.bilibili.com/video/BV1k5411s7Vf?from=search& seid=3304544258866101487)
+gitee address: https://gitee.com/ylmbtm/GameProject3
+QQ group : 962315897
+Public number:! [public1] (https://github.com/ylmbtm/resource/blob/master/20210818175029.png)
+! [public1] (https://wx1.sinaimg.cn/mw2000/002dp2Ulgy1gvofyue87sj6065065wf602.jpg)
+
+#### Experience the client effect (group file has all the client code and resources)
+! [login1](https://github.com/ylmbtm/resource/blob/master/01.png)
+! [login2](https://github.com/ylmbtm/resource/blob/master/02.png)
+! [login3](https://github.com/ylmbtm/resource/blob/master/03.png)
+! [login4](https://github.com/ylmbtm/resource/blob/master/04.png)
